@@ -88,7 +88,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     FcStDataModel fcStDataModel;
     String photourl, typeDate;
     int firststatus;
-    boolean IsEdit = true;
+    int IsEdit = 1;//是否可编辑，1可编辑，2不可编辑
     private ImageFileSelector imageFileSelector;
     String uri, photoname;
     int isExistP=0;//0没有图片1网络图片2文件图片
@@ -140,7 +140,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             public void onSuccess(String file) {
                 filest = file;
                 isExistP = 2;
-                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
+                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel
+                        ,filest,photoname,isExistP,firststatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i=0; i<groupCount; i++)
@@ -162,7 +163,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 file = new File(files.get(0));
                 filest = file.toString();
                 isExistP = 2;
-                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
+                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel
+                        ,filest,photoname,isExistP,firststatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i=0; i<groupCount; i++)
@@ -241,6 +243,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                             Intent intent1 = new Intent(WriteFCActivity.this, PreViewPicActivity.class);
                             intent1.putExtra("images", filest);
                             intent1.putExtra("photoname", photoname);
+                            intent1.putExtra("IsEdit", IsEdit);
                             startActivityForResult(intent1,GET_PRE);
                         }
 
@@ -261,60 +264,58 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 return i==0||i==1||i==2?true:false;
             }
         });
-        exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                switch (i)
-                {
-                    case 0:
-                        switch (i1)
-                        {
-                            case 0:
-                                if ("1".equals(gender)) {
-                                    show_information("初始体重", 600, 100, 50, 9, 0, 0, 0);
-                                }
-                                else {
-                                    show_information("初始体重", 600, 150, 50, 9, 0, 0, 0);
-                                }
-                                break;
-                            case 1:
-                                show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
-                                break;
-                            case 2:
-                                show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
-                                break;
+        if (IsEdit==1) {
+            exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                    switch (i) {
+                        case 0:
+                            switch (i1) {
+                                case 0:
+                                    if ("1".equals(gender)) {
+                                        show_information("初始体重", 600, 100, 50, 9, 0, 0, 0);
+                                    } else {
+                                        show_information("初始体重", 600, 150, 50, 9, 0, 0, 0);
+                                    }
+                                    break;
+                                case 1:
+                                    show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    break;
+                                case 2:
+                                    show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    break;
 
-                        }
-                        break;
-                    case 3:
-                        switch (i1)
-                        {
-                            case 0:
-                                show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
-                                break;
-                            case 1:
-                                show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
-                                break;
-                            case 2:
-                                show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
-                                break;
-                            case 3:
-                                show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
-                                break;
-                            case 4:
-                                show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
-                                break;
-                            case 5:
-                                show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
-                                break;
+                            }
+                            break;
+                        case 3:
+                            switch (i1) {
+                                case 0:
+                                    show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                                    break;
+                                case 1:
+                                    show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                                    break;
+                                case 2:
+                                    show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                                    break;
+                                case 3:
+                                    show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                                    break;
+                                case 4:
+                                    show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                                    break;
+                                case 5:
+                                    show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
+                                    break;
 
-                        }
-                        break;
+                            }
+                            break;
+                    }
+
+                    return false;
                 }
-
-                return false;
-            }
-        });
+            });
+        }
 
     }
 
@@ -387,12 +388,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.ll_retestWrite_neizhi:
                 show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                 break;
-            case R.id.im_retestwrite_showphoto:
-                Intent intent1 = new Intent(this, PreViewPicActivity.class);
-                intent1.putExtra("images", filest);
-                intent1.putExtra("photoname", photoname);
-                startActivity(intent1);
-                break;
+
         }
 
     }
@@ -410,7 +406,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             else {
                 isExistP=2;
             }
-            adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
+            adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus,IsEdit);
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
             for (int i=0; i<groupCount; i++)
@@ -689,7 +685,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             default:
                 tv_right.setVisibility(View.INVISIBLE);
-                IsEdit = false;
+                IsEdit = 2;
                 doGetDataService("3");
                 break;
         }
@@ -745,7 +741,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     photoname = fcStDataModel.getImg();
                 }
                 gender = fcStDataModel.getGender();
-                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus);
+                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,
+                        isExistP,firststatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i=0; i<groupCount; i++)

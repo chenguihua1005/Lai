@@ -69,7 +69,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     MultipartTypedOutput multipartTypedOutput;
     int resetstatus, resetdatestatus;
     private ProgressDialog progressDialog;
-    boolean IsEdit = true;
+    int IsEdit = 1;
     String filest, photoname;
     File file;
     private ImageFileSelector imageFileSelector;
@@ -101,7 +101,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 filest = file;
                 isExistP = 2;
                 isExistP = 2;
-                adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname, isExistP, resetstatus);
+                adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname,
+                        isExistP, resetstatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -122,7 +123,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 file = new File(files.get(0));
                 filest = file.toString();
                 isExistP = 2;
-                adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname, isExistP, resetstatus);
+                adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray,
+                        fcStDataModel, filest, photoname, isExistP, resetstatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -176,12 +178,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                     case 3:
                         tv_right.setVisibility(View.INVISIBLE);
                         fl_right.setEnabled(false);
-                        IsEdit = false;
+                        IsEdit = 2;
                         doGetDataService("2");
                         break;
                     default:
                         tv_right.setVisibility(View.INVISIBLE);
-                        IsEdit = false;
+                        IsEdit = 2;
                         doGetDataService("2");
                         break;
                 }
@@ -194,7 +196,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         break;
                     case 3:
                         tv_right.setVisibility(View.INVISIBLE);
-                        IsEdit = false;
+                        IsEdit = 2;
                         fl_right.setEnabled(false);
                         doGetDataService("2");
                         break;
@@ -258,6 +260,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                             Intent intent1 = new Intent(FcStuActivity.this, PreViewPicActivity.class);
                             intent1.putExtra("images", filest);
                             intent1.putExtra("photoname", photoname);
+                            intent1.putExtra("IsEdit", IsEdit);
                             startActivityForResult(intent1, GET_PREVIEW);
                         }
 
@@ -276,61 +279,60 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 return i == 0 || i == 1 || i == 2 ? true : false;
             }
         });
-        exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                switch (i) {
-                    case 0:
-                        switch (i1) {
-                            case 0:
+        if (IsEdit==1) {
+            exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                    switch (i) {
+                        case 0:
+                            switch (i1) {
+                                case 0:
+                                    break;
+                                case 1:
+                                    if ("1".equals(gender)) {
+                                        show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
+                                    } else {
+                                        show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
+                                    }
+                                    break;
+                                case 2:
+                                    show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    break;
+                                case 3:
+                                    show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    break;
 
+                            }
+                            break;
+                        case 3:
+                            switch (i1) {
+                                case 0:
+                                    show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
+                                    break;
+                                case 1:
+                                    show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
+                                    break;
+                                case 2:
+                                    show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
+                                    break;
+                                case 3:
+                                    show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
+                                    break;
+                                case 4:
+                                    show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
+                                    break;
+                                case 5:
+                                    show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
+                                    break;
 
-                                break;
-                            case 1:
-                                if ("1".equals(gender)) {
-                                    show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
-                                } else {
-                                    show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
-                                }
-                                break;
-                            case 2:
-                                show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
-                                break;
-                            case 3:
-                                show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
-                                break;
+                            }
+                            break;
+                    }
 
-                        }
-                        break;
-                    case 3:
-                        switch (i1) {
-                            case 0:
-                                show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
-                                break;
-                            case 1:
-                                show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
-                                break;
-                            case 2:
-                                show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
-                                break;
-                            case 3:
-                                show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
-                                break;
-                            case 4:
-                                show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
-                                break;
-                            case 5:
-                                show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
-                                break;
-
-                        }
-                        break;
+                    return false;
                 }
-
-                return false;
-            }
-        });
-
+            });
+        }
 
     }
 
@@ -457,7 +459,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                     photoname = fcStDataModel.getImg();
                 }
 
-                adapter = new MyExpandableListAdapter(this, this, childArray, fcStDataModel, filest, photoname, isExistP, resetstatus);
+                adapter = new MyExpandableListAdapter(this, this, childArray, fcStDataModel, filest, photoname, isExistP,
+                        resetstatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -503,7 +506,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             } else {
                 isExistP = 2;
             }
-            adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname, isExistP, resetstatus);
+            adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname,
+                    isExistP, resetstatus,IsEdit);
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
             for (int i = 0; i < groupCount; i++) {

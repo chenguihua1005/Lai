@@ -31,15 +31,14 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     Context context;
     Activity activity;
     String filest,images;
-    int isWhatePic,firststatus;
+    int isWhatePic,firststatus,IsEdit;
     private String[] groupArray = new String[] {"group1","group2","group3","group4"};
-//    private List<String> groupArray;
     private List<List<String>> childArray;
     private FcStDataModel fcStDataModel;
 
 
     public MyExpandableListAdapter(Activity activity,Context context,List<List<String>>childArray,FcStDataModel fcStDataModel,String filest,String images,int
-            isWhatePic,int firststatus  )
+            isWhatePic,int firststatus,int IsEdit  )
     {
         this.activity=activity;
         this.context=context;
@@ -49,6 +48,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
         this.images=images;
         this.isWhatePic=isWhatePic;
         this.firststatus=firststatus;
+        this.IsEdit=IsEdit;
 
     }
 
@@ -115,12 +115,12 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder.tv_write_nick= (TextView) view.findViewById(R.id.tv_write_nick);
             holder.iv_write_head= (ImageView) view.findViewById(R.id.iv_write_head);
             holder.im_state= (ImageView) view.findViewById(R.id.im_state);
+            holder.im_right5= (ImageView) view.findViewById(R.id.im_right5);
             holder.tv_retest_write_weekth= (TextView) view.findViewById(R.id.tv_retest_write_weekth);
             view.setTag(holder);
         }else{
             holder = (GroupHolder)view.getTag();
         }
-
         switch (groupPosition)
         {
             case 0:
@@ -144,7 +144,6 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 }
                 else {
                     holder.tv_retest_write_weekth.setText("(第"+fcStDataModel.getWeekNum()+"周)");
-
                 }
                 switch (firststatus)
                 {
@@ -162,13 +161,16 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                         );
                         break;
                 }
-
                 break;
             case 1:
                 holder.group2.setVisibility(View.VISIBLE);
                 holder.group1.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
+                if (IsEdit!=1)
+                {
+                    holder.im_right5.setVisibility(View.INVISIBLE);
+                }
                 switch (isWhatePic)
                 {
                     case 0:
@@ -188,7 +190,6 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                         break;
                 }
                 break;
-
             case 2:
                 holder.group2.setVisibility(View.GONE);
                 holder.group1.setVisibility(View.GONE);
@@ -206,7 +207,6 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 }else{
                     holder.arrow.setBackgroundResource(R.drawable.arrow_down_icon);
                 }
-//                holder.groupName.setText(groupArray.get(groupPosition));
                 break;
         }
 
@@ -229,8 +229,10 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
         }else{
             holder = (ChildHolder)view.getTag();
         }
-
-        holder.im_aciton.setBackgroundResource(R.drawable.action_right);
+        if (IsEdit==1)
+        {
+            holder.im_aciton.setBackgroundResource(R.drawable.action_right);
+        }
         switch (groupPosition)
         {
             case 0:
@@ -363,7 +365,8 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     class GroupHolder{
         public TextView groupName,tv_retest_write_weekth;
         public TextView tv_takepho_guide,tv_write_nick;
-        public ImageView arrow,im_pic_icon,im_pic,iv_write_head,im_state;
+        public ImageView arrow,im_pic_icon,im_pic,iv_write_head,
+                im_state,im_right5;
         public LinearLayout group1;
         public LinearLayout group2;
         public LinearLayout group3;

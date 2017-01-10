@@ -45,12 +45,18 @@ public class PreViewPicActivity extends BaseActivity{
             ImageView im_left;
     File file;
     String images,photoname;
+    int IsEdit;
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static final int CAMERA_PREMISSION = 100;
     @Override
     protected void initViews() {
         tv_title.setText("1/1");
+        IsEdit=getIntent().getIntExtra("IsEdit",0);
+        if (IsEdit!=1)
+        {
+            im_takepic.setVisibility(View.GONE);
+        }
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         int px = DisplayUtil.dip2px(this, 300);
         //*************************
