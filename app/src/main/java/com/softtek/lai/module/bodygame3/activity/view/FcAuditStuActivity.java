@@ -224,10 +224,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             tv_write_class.setText("所属班级："+measuredDetailsModel.getClassName());
             tv_write_nick.setText(measuredDetailsModel.getUserName());
             tv_write_phone.setText(measuredDetailsModel.getMobile());
-            if (IsAudit==0)
-            {
                 tv_title.setText("复测审核"+"(第"+measuredDetailsModel.getWeekNum()+"周)");
-            }
             if (!TextUtils.isEmpty(measuredDetailsModel.getStartDate())) {
                 String[] stardate = measuredDetailsModel.getStartDate().split("-");
                 String[] stardate1 = stardate[2].split(" ");
