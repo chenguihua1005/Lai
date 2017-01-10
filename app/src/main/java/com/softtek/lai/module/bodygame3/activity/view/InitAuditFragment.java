@@ -53,6 +53,7 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     private int ChuAudit = 1;
     EasyAdapter<MemberListModel> adapter;
     int IsAudit=0;//0未审核
+    int Auditnum=0;
     private List<MemberListModel> memberListModels = new ArrayList<>();
     public static Fragment getInstance(String classId) {
         InitAuditFragment fragment=new InitAuditFragment();
@@ -176,7 +177,6 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
     //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//        memberListModels.clear();
         doGetData(UserInfoModel.getInstance().getUserId(),classid,++pageIndex,10);
     }
     //获取审核列表数据
@@ -189,9 +189,15 @@ public class InitAuditFragment extends LazyBaseFragment implements View.OnClickL
                 switch (status)
                 {
                     case 200:
-                        memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
-                        adapter.notifyDataSetChanged();
+                        if(listResponseData.getData().size()!=0) {
+                            Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
+                            InitAuditListActivity fcAuditListActivity = (InitAuditListActivity) getActivity();
+                            fcAuditListActivity.updates(Auditnum);
+                            memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
+                            adapter.notifyDataSetChanged();
+                        }
                         break;
+
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;

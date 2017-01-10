@@ -58,6 +58,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     Long userid;
     private int FCAudit=1;
     private int IsAudit=0;
+    int Auditnum=0;
     private static String classid;
     private static String typedata;
     private static int resetdatestatus=1;
@@ -179,11 +180,12 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-            memberListModels.clear();
-            pageIndex = 1;
-            doGetData();
+        memberListModels.clear();
+        pageIndex = 1;
+        doGetData();
+
     }
-    //下拉加载
+    //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         ++pageIndex;
@@ -196,13 +198,15 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
                 int status=listResponseData.getStatus();
-
                 try {
                     switch (status)
                     {
                         case 200:
                             if(listResponseData.getData().size()!=0)
                             {
+                                Auditnum=Integer.parseInt(listResponseData.getData().get(0).getCount());
+                                FcAuditListActivity fcAuditListActivity=(FcAuditListActivity)getActivity();
+                                fcAuditListActivity.updates(Auditnum);
                                 memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
                                 adapter.notifyDataSetChanged();
                             }

@@ -122,6 +122,15 @@ public class InitAuditListActivity extends BaseActivity{
         TabLayout.Tab tab2=tab.getTabAt(1);
         tab2.setText(tabtitle[1]);
     }
+    public  void updates(int Auditnu){
+        Auditnum=Auditnu;
+        tabtitle[0] = "未审核(" + Auditnum+ ")";
+        tabtitle[1] = "已审核(" + Auditednum+ ")";
+        TabLayout.Tab tab1=tab.getTabAt(0);
+        tab1.setText(tabtitle[0]);
+        TabLayout.Tab tab2=tab.getTabAt(1);
+        tab2.setText(tabtitle[1]);
+    }
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK
