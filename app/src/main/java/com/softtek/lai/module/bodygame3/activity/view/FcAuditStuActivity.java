@@ -82,8 +82,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     TextView tv_retestWrite_doleg;
     @InjectView(R.id.im_retestwrite_showphoto)
     ImageView im_retestwrite_showphoto;
-    @InjectView(R.id.im_delete)
-    ImageView im_delete;
     @InjectView(R.id.ll_retestWrite_nowweight)
     RelativeLayout ll_retestWrite_nowweight;
     @InjectView(R.id.ll_retestWrite_tizhi)
@@ -123,9 +121,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     private int IsAudit = 0;
     String gender = "0";
-    int resetdatestatus=1;
-
-
+    int resetdatestatus=1;//复测状态
     Long accountId;
     String acmId, classId;
     String filest,photoname;
@@ -163,7 +159,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         }
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
-        im_delete.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
@@ -224,7 +219,15 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             tv_write_class.setText("所属班级："+measuredDetailsModel.getClassName());
             tv_write_nick.setText(measuredDetailsModel.getUserName());
             tv_write_phone.setText(measuredDetailsModel.getMobile());
-                tv_title.setText("复测审核"+"(第"+measuredDetailsModel.getWeekNum()+"周)");
+            FormData formData=new FormData();
+            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(measuredDetailsModel.getWeekNum()))))
+            {
+                tv_title.setText("复测审核");
+
+            }
+            else {
+                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(measuredDetailsModel.getWeekNum())) + "周)");
+            }
             if (!TextUtils.isEmpty(measuredDetailsModel.getStartDate())) {
                 String[] stardate = measuredDetailsModel.getStartDate().split("-");
                 String[] stardate1 = stardate[2].split(" ");
@@ -304,11 +307,6 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                         show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                     }
                 }
-                break;
-            case R.id.im_delete:
-                im_retestwrite_showphoto.setVisibility(View.GONE);
-                im_delete.setVisibility(View.GONE);
-                filest = "";
                 break;
             case R.id.ll_retestWrite_crium:
                 if (IsAudit!=1) {

@@ -364,8 +364,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:paddingRight="3dp"
-                    android:text=""
+                    android:text="%"
                     android:textColor="#333333"
+                    android:visibility="invisible"
                     android:textSize="16sp" />
             </RelativeLayout>
 
