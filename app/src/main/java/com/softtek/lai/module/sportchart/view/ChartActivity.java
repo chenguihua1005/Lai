@@ -44,6 +44,7 @@ import com.softtek.lai.module.sportchart.presenter.PhotoManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.softtek.lai.widgets.chart.BrokenLine;
 import com.softtek.lai.widgets.chart.Entry;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
@@ -765,7 +766,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     dates.set(6, entry);
                 }
             }
-            chart.setDate(days, dates, maxStep);
+            chart.setDate(days, dates, maxStep, BrokenLine.INTEGER);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,9 +20,12 @@ import java.util.List;
 
 public class BrokenLine extends View{
 
-    private static int offset;
+    public static final int NORMAL=0;
+    public static final int INTEGER=1;
 
+    private static int offset;
     private DataLine dataLine;
+    private int format;
 
     private float maxYAxis;//y轴的最大值
     int[] xPoint;//x轴点的坐标数组
@@ -31,6 +34,7 @@ public class BrokenLine extends View{
     private Paint aTextPaint;//折线图标注画笔
     private Paint linePaint;//折线图线条画笔
     private Paint bgPaint;//折线图背景颜色
+
 
     public BrokenLine(Context context) {
         super(context);
@@ -144,7 +148,14 @@ public class BrokenLine extends View{
                     //画圆点
                     canvas.drawCircle(x, y,5,bgPaint);
                     //标数字
-                    canvas.drawText(String.valueOf(entry.getVal()),x,y-10,aTextPaint);
+                    String value;
+                    if(format==0){
+                        value=String.valueOf(entry.getVal());
+                    }else {
+                        int entryVal= (int) entry.getVal();
+                        value=String.valueOf(entryVal);
+                    }
+                    canvas.drawText(value,x,y-10,aTextPaint);
                 }
                 Entry endEntry=yAxis.get(yAxis.size()-1);
                 path.lineTo(xPoint[endEntry.getIndex()],chartHeight);
@@ -182,9 +193,16 @@ public class BrokenLine extends View{
     }
 
     public void setData(DataLine dataLine){
+        this.format=NORMAL;
         this.dataLine=dataLine;
         postInvalidate();
     }
+    public void setData(DataLine dataLine,int format){
+        this.format=format;
+        this.dataLine=dataLine;
+        postInvalidate();
+    }
+
 
     public void setxTextSize(float xTextSize) {
         textPaint.setTextSize(xTextSize);
