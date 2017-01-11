@@ -297,12 +297,7 @@ public class InitDataAuditActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //身体围度值传递
-        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-            Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
-            measuredDetailsModel=(MeasuredDetailsModel) data.getSerializableExtra("retestWrite");
-            Log.i("新学员录入围度:retestWrite"+measuredDetailsModel);
-        }
+
 
 
     }

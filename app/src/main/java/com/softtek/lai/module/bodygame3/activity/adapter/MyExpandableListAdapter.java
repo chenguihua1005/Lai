@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
+import com.softtek.lai.module.bodygame3.activity.view.FormData;
+import com.softtek.lai.module.health.view.DateForm;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -143,7 +145,14 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                     holder.tv_retest_write_weekth.setVisibility(View.GONE);
                 }
                 else {
-                    holder.tv_retest_write_weekth.setText("(第"+fcStDataModel.getWeekNum()+"周)");
+                    FormData formData=new FormData();
+                    if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(fcStDataModel.getWeekNum()))))
+                    {
+                        holder.tv_retest_write_weekth.setVisibility(View.GONE);
+                    }
+                    else {
+                        holder.tv_retest_write_weekth.setText("(第" + formData.formdata(Integer.parseInt(fcStDataModel.getWeekNum())) + "周)");
+                    }
                 }
                 switch (firststatus)
                 {
@@ -248,7 +257,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                             break;
                         case 2:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
-                            holder.tv_danwei.setText("");
+                            holder.tv_danwei.setText("    ");
                             break;
                     }
                 }
@@ -268,7 +277,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                             break;
                         case 3:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
-                            holder.tv_danwei.setText("");
+                            holder.tv_danwei.setText("    ");
                             break;
                     }
                 }
