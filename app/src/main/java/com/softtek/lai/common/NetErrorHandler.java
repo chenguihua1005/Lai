@@ -124,7 +124,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     LaiApplication.getInstance().startActivity(intent);
                                                 }
                                             }).setCancelable(false).create();
-                                    builder.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                    builder.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                     builder.show();
 
                                 }
@@ -144,7 +144,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
-                                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog.show();
                                 break;
                             case 4002:
@@ -162,7 +162,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
-                                dialog1.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                dialog1.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog1.show();
                                 break;
                             case 4003:
@@ -189,7 +189,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 });
                                             }
                                         }).setCancelable(false).create();
-                                dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                                dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog2.show();
                                 break;
                             default:

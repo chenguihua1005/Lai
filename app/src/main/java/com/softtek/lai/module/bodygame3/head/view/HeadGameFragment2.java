@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +44,12 @@ import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.head.model.TuijianModel;
 import com.softtek.lai.module.bodygame3.head.model.ZhaopianModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.MyRelative;
@@ -136,6 +137,8 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
 
+    public static final String SAVE_CLASS_DIR="save_class_dir";
+    public static final String SAVE_CLASS="save_class";
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -156,7 +159,6 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
     protected void initViews() {
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-
 
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
@@ -209,7 +211,11 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
 
     @Override
     protected void initDatas() {
-        classId_first= SharedPreferenceService.getInstance().get("default_classId","");
+        SaveClassModel temp= (SaveClassModel) ACache.get(getContext(),SAVE_CLASS_DIR).getAsObject(SAVE_CLASS);
+        if(temp!=null){
+            classId_first=temp.classId;
+            EventBus.getDefault().post(temp);
+        }
         viewPager.setOffscreenPageLimit(4);
         viewPager.setPageMargin(10);
 
@@ -336,7 +342,6 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classId_first = classModels.get(i).getClassId();
-                SharedPreferenceService.getInstance().put("default_classId",classId_first);
                 classnum = classModels.get(i).getClassWeek();
                 saveclassModel = new SaveclassModel();
                 saveclassModel.setClassName(classModels.get(i).getClassName());
@@ -346,14 +351,12 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                 saveclassModel.setClassRole(classModels.get(i).getClassRole());
                 page=1;
                 classinfo(classId_first, classnum);
+                SaveClassModel saveClassModel=new SaveClassModel();
+                saveClassModel.classId=classId_first;
+                saveClassModel.classWeek=classnum;
+                ACache.get(getContext(),SAVE_CLASS_DIR).put(SAVE_CLASS,saveClassModel);
+                EventBus.getDefault().post(saveClassModel);
 
-            }
-        });
-
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("fdfdff", "ScrollX=====" + viewPager.getScrollX());
             }
         });
 
@@ -364,14 +367,6 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
             }
         });
         onPullDownToRefresh(null);
-//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if(ptrlv!=null){
-//                    ptrlv.setRefreshing();
-//                }
-//            }
-//        },300);
         EventBus.getDefault().register(this);
     }
 
@@ -563,7 +558,11 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
 
                     @Override
                     public void failure(RetrofitError error) {
-                        ptrlv.onRefreshComplete();
+                        try {
+                            ptrlv.onRefreshComplete();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         super.failure(error);
                     }
                 });
@@ -680,7 +679,7 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
         gethasemail();
     }
 
-    private void getallfirst(String classId) {
+    private void getallfirst(final String classId) {
         service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10,classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
@@ -697,7 +696,6 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                         if (classinfoModel.getClassInfoList() != null && !classinfoModel.getClassInfoList().isEmpty()) {
                             classModels.addAll(classinfoModel.getClassInfoList());
                             classId_first = classModels.get(0).getClassId();
-                            SharedPreferenceService.getInstance().put("default_classId",classId_first);
                             tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
                                 @Override
                                 public void convert(ViewHolder holder, ClassModel data, int position) {
@@ -746,6 +744,17 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                                     }
                                 }
                             });
+                            SaveClassModel saveClassModel= (SaveClassModel) ACache.get(getContext(),SAVE_CLASS_DIR).getAsObject(SAVE_CLASS);
+                            if(saveClassModel!=null){
+                                for (int i=0,j=classModels.size();i<j;i++){
+                                    ClassModel model=classModels.get(i);
+                                    if(model.getClassId().equals(saveClassModel.classId)){
+                                        tv_title.setSelected(i);
+                                        classId_first = saveClassModel.classId;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                         //荣誉榜
                         if (classinfoModel.getHonor() != null) {

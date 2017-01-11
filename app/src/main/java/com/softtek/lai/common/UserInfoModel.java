@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment2;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
 import com.softtek.lai.premission.Role;
@@ -33,11 +34,13 @@ public class UserInfoModel {
     private UserModel user;
     private String token=null;
     private ACache aCache;
+    private ACache classCache;
     private Role role;
     private boolean isVr=true;
 
     private UserInfoModel(Context context){
         aCache=ACache.get(context,Constants.USER_ACACHE_DATA_DIR);
+        classCache=ACache.get(context, HeadGameFragment2.SAVE_CLASS_DIR);
         token=SharedPreferenceService.getInstance().get(Constants.TOKEN, "");
         //载入权限数据
         role=loadingRole(context);
@@ -79,9 +82,9 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put("token", "");
         SharedPreferenceService.getInstance().put(Constants.USER, "");
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
-        SharedPreferenceService.getInstance().put("default_classId", "");
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
+        classCache.remove(HeadGameFragment2.SAVE_CLASS);
         JpushSet set = new JpushSet(LaiApplication.getInstance());
         set.setAlias("");
         MobclickAgent.onProfileSignOff();

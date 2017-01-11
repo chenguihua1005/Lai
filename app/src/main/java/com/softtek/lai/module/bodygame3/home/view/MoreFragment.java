@@ -17,6 +17,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -82,19 +83,21 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     private int classCount=0;
     private ClassModel model;
     private List<ClassModel> classModels=new ArrayList<>();
+    private String classId;
     @Override
     protected void lazyLoad() {
         refresh.setRefreshing(true);
         onRefresh();
+        isSelector=false;
     }
 
     @Override
     protected void onVisible() {
-        String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
-        if(!classModels.isEmpty()){
+        if(!classModels.isEmpty()&&isSelector){
             for (ClassModel classModel:classModels){
                 if(classModel.getClassId().equals(classId)){
                     model=classModel;
+                    isPrepared=false;
                     break;
                 }
             }
@@ -225,6 +228,13 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
          }
     }
 
+    private  boolean isSelector;
+    @Subscribe
+    public void classSelect(SaveClassModel saveClassModel) {
+        isSelector=true;
+        classId=saveClassModel.classId;
+    }
+
     @Override
     public void onRefresh() {
         ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -247,7 +257,6 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                                             bundle.putParcelable("classModel",model);
                                         }else {
                                             //第一次没有班级的情况默认选取首页选择的班级
-                                            String classId= SharedPreferenceService.getInstance().get("default_classId","-1");
                                             for (ClassModel classModel:listResponseData.getData()){
                                                 if(classModel.getClassId().equals(classId)){
                                                     model=classModel;

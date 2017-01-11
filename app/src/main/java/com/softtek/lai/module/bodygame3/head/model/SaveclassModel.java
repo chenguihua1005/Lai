@@ -1,10 +1,12 @@
 package com.softtek.lai.module.bodygame3.head.model;
 
+import java.io.Serializable;
+
 /**
  * Created by shelly.xu on 12/19/2016.
  */
 
-public class SaveclassModel {
+public class SaveclassModel{
     private String ClassId;
     private String ClassName;
     private String ClassCode;

@@ -41,6 +41,7 @@ import com.softtek.lai.module.bodygame3.activity.view.InputView;
 import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
+import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.utils.DateUtil;
@@ -67,7 +68,6 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -130,16 +130,15 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void lazyLoad() {
+        isSelector=false;
         pull.setRefreshing(true);
         onRefresh();
     }
 
     @Override
     protected void onVisible() {
-        String classId = SharedPreferenceService.getInstance().get("default_classId", "-1");
-        if (!classId.equals("-1") && !classId.equals(classid)) {
+        if (isSelector) {
             isPrepared = false;
-            classid = classId;
         }
         super.onVisible();
     }
@@ -148,7 +147,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     protected void initViews() {
         saveclassModel = new SaveclassModel();
         saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-        classid = SharedPreferenceService.getInstance().get("default_classId", "");
         //显示创建活动按钮只要是Sp顾问
         if (String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())) {
             fl_right.setVisibility(View.VISIBLE);
@@ -929,6 +927,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         if (updateFuce.getClassId().equals(classid)) {
             lazyLoad();
         }
+    }
+    private  boolean isSelector;
+    @Subscribe
+    public void classSelect(SaveClassModel saveClassModel) {
+        isSelector=true;
+        classid=saveClassModel.classId;
     }
 
     static class BtnTag {
