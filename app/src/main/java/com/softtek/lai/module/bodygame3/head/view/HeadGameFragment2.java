@@ -751,9 +751,14 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                                     if(model.getClassId().equals(saveClassModel.classId)){
                                         tv_title.setSelected(i);
                                         classId_first = saveClassModel.classId;
+                                        EventBus.getDefault().post(saveClassModel);
                                         break;
                                     }
                                 }
+                            }else {
+                                saveClassModel=new SaveClassModel();
+                                saveClassModel.classId=classId_first;
+                                EventBus.getDefault().post(saveClassModel);
                             }
                         }
                         //荣誉榜
