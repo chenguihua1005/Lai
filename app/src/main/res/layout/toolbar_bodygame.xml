@@ -39,8 +39,8 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
-        android:drawablePadding="5dp"
-        android:textSize="20sp"
+        android:drawablePadding="2dp"
+        android:textSize="18sp"
         android:textColor="@color/white"
         android:layout_height="wrap_content" />
 
@@ -49,8 +49,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:drawablePadding="5dp"
-        android:textSize="20sp"
+        android:drawablePadding="2dp"
+        android:textSize="18sp"
         android:maxLines="1"
         android:ellipsize="end"
         android:maxEms="10"
