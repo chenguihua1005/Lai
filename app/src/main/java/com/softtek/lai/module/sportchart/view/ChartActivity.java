@@ -695,7 +695,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                         .placeholder(R.drawable.default_icon_rect).fit().error(R.drawable.default_icon_rect).into(iv_perpage_banner);
             }
             if (!TextUtils.isEmpty(result.getPhoto())) {
-                Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).centerCrop().placeholder(R.drawable.default_icon_rect)
+                Picasso.with(this).load(AddressManager.get("photoHost") + result.getPhoto()).centerCrop().placeholder(R.drawable.img_default)
                         .fit().error(R.drawable.img_default).into(im_sport_personhead);
             }
             if (result.getUsername().equals(UserInfoModel.getInstance().getUser().getNickname())) {

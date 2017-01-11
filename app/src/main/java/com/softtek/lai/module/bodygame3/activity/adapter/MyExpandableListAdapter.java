@@ -131,7 +131,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 holder.tv_write_nick.setText(fcStDataModel.getUserName());
                 if (!TextUtils.isEmpty(fcStDataModel.getPhoto()))
                 {
-                    Picasso.with(context).load(AddressManager.get("photoHost")).placeholder(R.drawable.img_default).centerCrop()
+                    Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getPhoto()).placeholder(R.drawable.img_default).centerCrop()
                             .fit().into(holder.iv_write_head);
                 }
                 else {

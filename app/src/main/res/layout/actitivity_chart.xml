@@ -5,7 +5,9 @@
     android:id="@+id/Re_pers_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    >
+
 
 
 
@@ -35,9 +37,9 @@
                 <ImageView
                     android:id="@+id/iv_perpage_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="215dp"
                     android:scaleType="centerCrop"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|top"
                     />
                 <ImageView
                     android:id="@+id/im_cam"
@@ -227,20 +229,23 @@
     <RelativeLayout
         android:id="@+id/rel_sy"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
+        android:fitsSystemWindows="true"
         android:background="@drawable/img_sy"
         >
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:fitsSystemWindows="true">
         <RelativeLayout
             android:id="@+id/rl_color"
             android:background="@color/colorPrimaryDark"
             android:alpha="0"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            />
         <LinearLayout
             android:id="@+id/ll_left"
             android:layout_width="50dp"
@@ -298,4 +303,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
 </RelativeLayout>
