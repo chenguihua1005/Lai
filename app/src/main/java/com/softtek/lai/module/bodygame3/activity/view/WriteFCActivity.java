@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -830,6 +831,18 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
         return super.dispatchTouchEvent(ev);
     }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_PREMISSION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    imageFileSelector.takePhoto(this);
+                }
+                break;
+
+        }
+    }
+
 
 
 }

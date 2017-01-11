@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +26,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -61,7 +63,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     FuceSevice fuceSevice;
     FcStDataModel fcStDataModel;
     String gender = "0";
-    String classId, typeDate;
+    String classId, typeDate;//接口参数，从上一个页面获取
     private Long userId;
     private static final int GET_PREVIEW = 1;//查看大图
     private CharSequence[] items = {"拍照", "从相册选择照片"};
@@ -102,7 +104,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 isExistP = 2;
                 isExistP = 2;
                 adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname,
-                        isExistP, resetstatus,IsEdit);
+                        isExistP, resetstatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -124,7 +126,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 filest = file.toString();
                 isExistP = 2;
                 adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray,
-                        fcStDataModel, filest, photoname, isExistP, resetstatus,IsEdit);
+                        fcStDataModel, filest, photoname, isExistP, resetstatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -279,7 +281,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 return i == 0 || i == 1 || i == 2 ? true : false;
             }
         });
-        if (IsEdit==1) {
+        if (IsEdit == 1) {
             exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
@@ -362,7 +364,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 break;
             //初始体重
             case R.id.ll_retestWrite_chu_weight:
-
                 break;
             case R.id.ll_retestWrite_nowweight:
                 if (gender.equals("1")) {
@@ -460,7 +461,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 }
 
                 adapter = new MyExpandableListAdapter(this, this, childArray, fcStDataModel, filest, photoname, isExistP,
-                        resetstatus,IsEdit);
+                        resetstatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -507,7 +508,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 isExistP = 2;
             }
             adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname,
-                    isExistP, resetstatus,IsEdit);
+                    isExistP, resetstatus, IsEdit);
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
             for (int i = 0; i < groupCount; i++) {
@@ -701,4 +702,18 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             }
         }).create().show();
     }
+
+    //权限
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_PREMISSION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    imageFileSelector.takePhoto(this);
+                }
+                break;
+
+        }
+    }
+
 }
