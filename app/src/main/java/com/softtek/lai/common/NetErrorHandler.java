@@ -7,13 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.WindowManager;
 
 import com.github.snowdream.android.util.Log;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.softtek.lai.LaiApplication;
-import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -35,6 +33,7 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
+ *
  * Created by Zilla on 22/1/16.
  */
 public class NetErrorHandler implements IApiErrorHandler {
@@ -112,7 +111,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                     });
                                 }
                                 if (builder == null || !builder.isShowing()) {
-                                    builder = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                    builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                             .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                                             .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                                 @Override
@@ -124,13 +123,13 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     LaiApplication.getInstance().startActivity(intent);
                                                 }
                                             }).setCancelable(false).create();
-                                    builder.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+                                    //builder.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                     builder.show();
 
                                 }
                                 break;
                             case 4001:
-                                AlertDialog dialog = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                AlertDialog dialog = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您已被管理员移出跑团, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -144,11 +143,11 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
-                                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+                                //dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog.show();
                                 break;
                             case 4002:
-                                AlertDialog dialog1 = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                AlertDialog dialog1 = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您所在跑团已被管理员删除, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -162,11 +161,11 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
-                                dialog1.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+                                //dialog1.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog1.show();
                                 break;
                             case 4003:
-                                AlertDialog dialog2 = new AlertDialog.Builder(LaiApplication.getInstance(), R.style.AlertDialogTheme)
+                                AlertDialog dialog2 = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您已被管理员移动到新的跑团, 请重新点击莱运动以更新跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -189,7 +188,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 });
                                             }
                                         }).setCancelable(false).create();
-                                dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+                                //dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog2.show();
                                 break;
                             default:
