@@ -70,6 +70,8 @@ public class LoverMemberAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(model.getPhoto())) {
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 Picasso.with(context).load(path + model.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.head_img);
+            } else {
+                Picasso.with(context).load(R.drawable.img_default).into(holder.head_img);
             }
 
             holder.name.setText(model.getUserName());
