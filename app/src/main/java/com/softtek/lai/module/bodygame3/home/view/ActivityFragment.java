@@ -275,8 +275,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         int day = date.getCalendar().get(Calendar.DATE);
         //根据点击的日期查询该天的活动列表
 //        dateStr = year + "-" + month + "-" + day;
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        dateStr=sdf.format(date.getDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dateStr = sdf.format(date.getDate());
         saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
         ll_task.removeAllViews();
@@ -680,16 +680,19 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     }
                                                 } else if (activitydataModel.getRetestStatus() == 1) {//已过去的复测日
-                                                    ll_fuce.setEnabled(false);
+
                                                     tag.status = FUCE_FINISH;//复测日状态
                                                     tag.date = saveclassModel.getDates();
                                                     if (activitydataModel.getIsRetest() == 1) {
+                                                        ll_fuce.setEnabled(false);
                                                         reset_time.setText("未复测");
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     } else if (activitydataModel.getIsRetest() == 2) {
+                                                        ll_fuce.setEnabled(false);
                                                         reset_time.setText("待审核");
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     } else if (activitydataModel.getIsRetest() == 3) {
+                                                        ll_fuce.setEnabled(true);
                                                         reset_time.setText("已审核");
                                                         tag.resetstatus = activitydataModel.getIsRetest();
                                                     }
