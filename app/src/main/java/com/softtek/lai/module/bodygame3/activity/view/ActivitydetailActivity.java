@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
@@ -42,6 +43,9 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+
+    @InjectView(R.id.scroll_view)
+    ScrollView scroll_view;
     @InjectView(R.id.detail_view)
     GridView detail_view;//已报名的小伙伴
     @InjectView(R.id.detail_activity_name)
@@ -66,6 +70,9 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
     TextView no_partner;
     @InjectView(R.id.end_tv)
     Button end_tv;
+
+    @InjectView(R.id.tv_delete)
+    TextView tv_delete;
 
     private List<UseredModel> useredModels = new ArrayList<>();
     EasyAdapter<UseredModel> adapter;
@@ -136,81 +143,88 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void success(ResponseData<ActdetailModel> actdetailModelResponseData, Response response) {
                         try {
-                            if (actdetailModelResponseData.getData() != null) {
-                                ActdetailModel actdetailModel = actdetailModelResponseData.getData();
-                                if (classrole == Constants.HEADCOACH) {
-                                    if (actdetailModel.getSign()) {
-                                        if (actdetailModel.getEnd()) {
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        } else {
-                                            end_tv.setVisibility(View.GONE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.VISIBLE);
-                                            exit_lin.setVisibility(View.VISIBLE);
-                                        }
+                            if (200 == actdetailModelResponseData.getStatus()) {
+                                scroll_view.setVisibility(View.VISIBLE);
+                                tv_delete.setVisibility(View.GONE);
+                                if (actdetailModelResponseData.getData() != null) {
+                                    ActdetailModel actdetailModel = actdetailModelResponseData.getData();
+                                    if (classrole == Constants.HEADCOACH) {
+                                        if (actdetailModel.getSign()) {
+                                            if (actdetailModel.getEnd()) {
+                                                end_tv.setVisibility(View.VISIBLE);
+                                                signup_activity.setVisibility(View.GONE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            } else {
+                                                end_tv.setVisibility(View.GONE);
+                                                signup_activity.setVisibility(View.GONE);
+                                                delete_activity.setVisibility(View.VISIBLE);
+                                                exit_lin.setVisibility(View.VISIBLE);
+                                            }
 
-                                    } else {
-                                        if (actdetailModel.getEnd()) {
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
                                         } else {
-                                            end_tv.setVisibility(View.GONE);
-                                            signup_activity.setVisibility(View.VISIBLE);
-                                            delete_activity.setVisibility(View.VISIBLE);
-                                            exit_lin.setVisibility(View.GONE);
+                                            if (actdetailModel.getEnd()) {
+                                                end_tv.setVisibility(View.VISIBLE);
+                                                signup_activity.setVisibility(View.GONE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            } else {
+                                                end_tv.setVisibility(View.GONE);
+                                                signup_activity.setVisibility(View.VISIBLE);
+                                                delete_activity.setVisibility(View.VISIBLE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    } else {
+                                        if (actdetailModel.getSign()) {
+                                            if (actdetailModel.getEnd()) {
+                                                end_tv.setVisibility(View.VISIBLE);
+                                                signup_activity.setVisibility(View.GONE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            } else {
+                                                end_tv.setVisibility(View.GONE);
+                                                signup_activity.setVisibility(View.GONE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.VISIBLE);
+                                            }
+
+                                        } else {
+                                            if (actdetailModel.getEnd()) {
+                                                end_tv.setVisibility(View.VISIBLE);
+                                                signup_activity.setVisibility(View.GONE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            } else {
+                                                end_tv.setVisibility(View.GONE);
+                                                signup_activity.setVisibility(View.VISIBLE);
+                                                delete_activity.setVisibility(View.GONE);
+                                                exit_lin.setVisibility(View.GONE);
+                                            }
+
                                         }
                                     }
-                                } else {
-                                    if (actdetailModel.getSign()) {
-                                        if (actdetailModel.getEnd()) {
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        } else {
-                                            end_tv.setVisibility(View.GONE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.VISIBLE);
-                                        }
 
+                                    detail_activity_name.setText(actdetailModel.getTitle());
+                                    detail_activity_time.setText(actdetailModel.getStartTime());
+                                    detail_activity_mark.setText(actdetailModel.getContent());
+                                    useredModels.clear();
+                                    if (actdetailModel.getUsers() != null && !actdetailModel.getUsers().isEmpty()) {
+                                        detail_view.setVisibility(View.VISIBLE);
+                                        no_partner.setVisibility(View.GONE);
+                                        useredModels.addAll(actdetailModel.getUsers());
+                                        count_sign.setText("(" + useredModels.size() + ")");
+                                        adapter.notifyDataSetChanged();
                                     } else {
-                                        if (actdetailModel.getEnd()) {
-                                            end_tv.setVisibility(View.VISIBLE);
-                                            signup_activity.setVisibility(View.GONE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        } else {
-                                            end_tv.setVisibility(View.GONE);
-                                            signup_activity.setVisibility(View.VISIBLE);
-                                            delete_activity.setVisibility(View.GONE);
-                                            exit_lin.setVisibility(View.GONE);
-                                        }
-
+                                        count_sign.setText("(" + 0 + ")");
+                                        detail_view.setVisibility(View.GONE);
+                                        no_partner.setVisibility(View.VISIBLE);
                                     }
-                                }
 
-                                detail_activity_name.setText(actdetailModel.getTitle());
-                                detail_activity_time.setText(actdetailModel.getStartTime());
-                                detail_activity_mark.setText(actdetailModel.getContent());
-                                useredModels.clear();
-                                if (actdetailModel.getUsers() != null && !actdetailModel.getUsers().isEmpty()) {
-                                    detail_view.setVisibility(View.VISIBLE);
-                                    no_partner.setVisibility(View.GONE);
-                                    useredModels.addAll(actdetailModel.getUsers());
-                                    count_sign.setText("(" + useredModels.size() + ")");
-                                    adapter.notifyDataSetChanged();
-                                } else {
-                                    count_sign.setText("(" + 0 + ")");
-                                    detail_view.setVisibility(View.GONE);
-                                    no_partner.setVisibility(View.VISIBLE);
                                 }
-
+                            } else if (100 == actdetailModelResponseData.getStatus()) {
+                                scroll_view.setVisibility(View.GONE);
+                                tv_delete.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
