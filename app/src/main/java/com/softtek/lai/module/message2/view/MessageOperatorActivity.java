@@ -265,6 +265,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
+                                        dialogDissmiss();
                                         if(responseData.getStatus()!=200){
                                             return;
                                         }
@@ -274,7 +275,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                         deleteIndex.clear();
                                         cb_all.setChecked(false);
                                         adapter.notifyDataSetChanged();
-                                        dialogDissmiss();
+
 
 
                                     }

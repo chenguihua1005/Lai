@@ -21,7 +21,6 @@ import android.widget.TimePicker;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -31,7 +30,6 @@ import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomDialog;
 import com.squareup.picasso.Picasso;
 
@@ -160,30 +158,27 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(addMarkIntent, 002);
                 break;
             case R.id.fl_right:
-                dialogShow("正在提交。。。");
+
                 String title = tv_activity_name.getText().toString().trim();
                 String startime = tv_activity_time.getText().toString().trim();
                 String mark = tv_activity_mark.getText().toString().trim();
                 if (TextUtils.isEmpty(title)) {
-                    dialogDissmiss();
                     Util.toastMsg("请输入活动标题");
                     return;
                 }
                 if (classActivityId <= 0) {
-                    dialogDissmiss();
                     Util.toastMsg("请输入活动类型");
                     return;
                 }
                 if (TextUtils.isEmpty(startime)) {
-                    dialogDissmiss();
                     Util.toastMsg("请选择集合时间");
                     return;
                 }
                 if (TextUtils.isEmpty(mark)) {
-                    dialogDissmiss();
                     Util.toastMsg("请输入活动说明");
                     return;
                 }
+                dialogShow("正在提交。。。");
                 activityModel.setAccountId(UserInfoModel.getInstance().getUserId());
                 activityModel.setClassId(classid);
                 activityModel.setClassActivityId(classActivityId);

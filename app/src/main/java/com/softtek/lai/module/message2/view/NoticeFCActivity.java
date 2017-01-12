@@ -238,6 +238,7 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
+                                        dialogDissmiss();
                                         if (responseData.getStatus() != 200) {
                                             return;
                                         }
@@ -247,7 +248,7 @@ public class NoticeFCActivity extends BaseActivity implements View.OnClickListen
                                         deleteIndex.clear();
                                         cb_all.setChecked(false);
                                         adapter.notifyDataSetChanged();
-                                        dialogDissmiss();
+
 
 
                                     }

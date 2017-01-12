@@ -227,6 +227,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                                 new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
+                                        dialogDissmiss();
                                         if(responseData.getStatus()!=200){
                                             return;
                                         }
@@ -236,7 +237,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                                         deleteIndex.clear();
                                         cb_all.setChecked(false);
                                         adapter.notifyDataSetChanged();
-                                        dialogDissmiss();
+
 
 
                                     }
