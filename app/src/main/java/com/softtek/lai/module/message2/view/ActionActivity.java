@@ -30,6 +30,7 @@ import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -231,8 +232,13 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                                         if(responseData.getStatus()!=200){
                                             return;
                                         }
-                                        for(int i=0,j=deleteIndex.size();i<j;i++){
-                                            operatList.remove(deleteIndex.get(i).intValue());
+                                        Iterator<ActionNoticeModel> iterator=operatList.iterator();
+                                        while (iterator.hasNext()){
+                                            ActionNoticeModel model=iterator.next();
+                                            if(model.isSelected){
+                                                iterator.remove();
+                                            }
+
                                         }
                                         deleteIndex.clear();
                                         cb_all.setChecked(false);
@@ -250,7 +256,7 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                                 });
 
                 break;
-            case R.id.lin_select:
+            case R.id.ll_select:
                 if (isSelsetAll) {
                     isSelsetAll = false;
                     cb_all.setChecked(false);

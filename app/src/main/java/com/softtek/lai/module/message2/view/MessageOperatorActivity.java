@@ -29,6 +29,7 @@ import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -269,8 +270,13 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                         if(responseData.getStatus()!=200){
                                             return;
                                         }
-                                        for(int i=0,j=deleteIndex.size();i<j;i++){
-                                            operatList.remove(deleteIndex.get(i).intValue());
+                                        Iterator<OperateMsgModel> iterator=operatList.iterator();
+                                        while (iterator.hasNext()){
+                                            OperateMsgModel model=iterator.next();
+                                            if(model.isSelected()){
+                                                iterator.remove();
+                                            }
+
                                         }
                                         deleteIndex.clear();
                                         cb_all.setChecked(false);

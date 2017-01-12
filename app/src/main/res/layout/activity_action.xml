@@ -33,6 +33,7 @@
                 android:drawableLeft="@drawable/history_data_item_checkbox"
                 android:drawablePadding="10dp"
                 android:text="全选"
+                android:clickable="false"
                 android:textColor="#333333"
                 android:textSize="18sp" />
 
