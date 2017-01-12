@@ -203,7 +203,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         childArray.add(1,child2);
         childArray.add(2,child2);
         childArray.add(3,child3);
-        exlisview_body = (ExpandableListView) findViewById(R.id.exlisview_body);
         exlisview_body.setGroupIndicator(null);
         exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
