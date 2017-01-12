@@ -183,7 +183,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:padding="1dp"
-                    android:text="初始体重(必填):"
+                    android:text="初始体重(必填)"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
@@ -238,7 +238,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:padding="1dp"
-                    android:text="当前体重（必填）:"
+                    android:text="当前体重（必填）"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
@@ -293,7 +293,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:padding="1dp"
-                    android:text="体脂（必填）："
+                    android:text="体脂（必填）"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
@@ -343,7 +343,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:padding="1dp"
-                    android:text="内脂（必填）："
+                    android:text="内脂（必填）"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
@@ -394,7 +394,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:padding="1dp"
-                    android:text="胸围："
+                    android:text="胸围"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
@@ -443,7 +443,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:padding="1dp"
-                    android:text="腰围："
+                    android:text="腰围"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
@@ -493,7 +493,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:padding="1dp"
-                    android:text="臀围："
+                    android:text="臀围"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
