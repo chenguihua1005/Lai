@@ -26,7 +26,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.sportchart.view.ChartActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -244,7 +243,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                                                 //允许弹出提示
                                                 requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
                                             } else {
                                                 //不允许弹出提示
                                                 requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
@@ -362,26 +360,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             case R.id.ll_left:
                 finish();
                 break;
-            //初始体重
-            case R.id.ll_retestWrite_chu_weight:
-                break;
-            case R.id.ll_retestWrite_nowweight:
-                if (gender.equals("1")) {
-                    show_information("当前体重（斤）", 600, 100, 50, 9, 0, 0, 1);
-                } else {
-                    show_information("当前体重（斤）", 600, 150, 50, 9, 0, 0, 1);
-                }
-                break;
-            case R.id.ll_retestWrite_tizhi:
-                show_information("体脂（%）", 50, 25, 1, 9, 0, 0, 2);
-                break;
-            case R.id.ll_retestWrite_neizhi:
-                show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
-                break;
-
-            case R.id.tv_takepho_guide:
-                startActivity(new Intent(this, GuideActivity.class));
-                break;
             case R.id.fl_right:
                 if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
                     String message = "当前体重为必填项，请选择";
@@ -477,6 +455,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     void doSetPostData() {
+        progressDialog.setMessage("正在提交数据，请等待");
+        progressDialog.show();
         multipartTypedOutput.addPart("accountId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
         multipartTypedOutput.addPart("classId", new TypedString(classId));
         if (isExistP == 2) {

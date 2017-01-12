@@ -300,12 +300,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                     }
                     ll_chart.setVisibility(View.VISIBLE);
-//                    if ("4".equals(memberInfoModel.getClassRole())) {
                         if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
                             titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
                             fl_right.setVisibility(View.VISIBLE);
                         }
-//                    }
 
                 } else {
                     im_guanzhu.setVisibility(View.VISIBLE);

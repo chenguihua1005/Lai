@@ -334,62 +334,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_right:
                     validateLife.validate();
                 break;
-            //拍照事件
-            case R.id.im_retestwrite_takephoto:
-                SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
-                boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (isFirstRun) {
-                    Intent intent1 = new Intent(this, GuideActivity.class);
-                    startActivityForResult(intent1, BODY);
-                    Log.d("debug", "第一次运行");
-                    editor.putBoolean("isFirstRun", false);
-                    editor.commit();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.M)
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                //拍照
-                                if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                        //允许弹出提示
-                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                    } else {
-                                        //不允许弹出提示
-                                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                    }
-                                } else {
-                                    imageFileSelector.takePhoto(WriteFCActivity.this);
-                                }
-                            } else if (which == 1) {
-                                //照片
-                                imageFileSelector.selectMutilImage(WriteFCActivity.this, 1);
-                            }
-                        }
-                    }).create().show();
-
-                    Log.d("debug", "不是第一次运行");
-                }
-                break;
-            case R.id.ll_retestWrite_chu_weight:
-                if (gender.equals("1")) {
-                    show_information("初始体重（斤）", 600, 100, 50, 9, 0, 0, 0);
-                } else {
-                    show_information("初始体重（斤）", 600, 150, 50, 9, 0, 0, 0);
-                }
-                break;
-            case R.id.ll_retestWrite_tizhi:
-                show_information("体脂（%）", 50, 25, 1, 9, 0, 0, 2);
-                break;
-            case R.id.ll_retestWrite_neizhi:
-                show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
-                break;
-
         }
 
     }
@@ -627,21 +571,21 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         //验证成功
         if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight())?"":fcStDataModel.getWeight()))
         {
-            String message = "体重为必填";
+            String message = "初始体重为必填项，请选择";
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
         }
         else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical())?"":fcStDataModel.getPysical()))
         {
-            String message = "体脂为必填";
+            String message = "体脂为必填项，请选择";
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
         }
         else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat())?"":fcStDataModel.getFat()))
         {
-            String message = "内脂为必填";
+            String message = "内脂为必填项，请选择";
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
@@ -651,16 +595,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
-
-
-
         } else {
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();
             doSetPostData();
-
         }
-
     }
 
     @Override
@@ -671,7 +610,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 .setMessage(message)
                 .create().show();
     }
-
     /*
         * 获取初始基本数据
         * */
@@ -690,10 +628,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 doGetDataService("3");
                 break;
         }
-
-
     }
-
     private void doGetDataService(String type) {
         service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
@@ -715,26 +650,19 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
-
-    private static int READ_WRITER = 0X10;
-
     /*
     * 获取数据值
     * */
     void doSetData() {
         if (fcStDataModel != null) {
             try {
-
                 final String url = AddressManager.get("photoHost");
-
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
                     photourl = fcStDataModel.getImgThumbnail();
-                    Log.i("看看图片地址是什么" + photourl);
                     uri = fcStDataModel.getImgThumbnail();
                     isExistP = 1;
                 } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
                     photourl = fcStDataModel.getImgThumbnail();
-                    Log.i("看看图片地址是什么" + photourl);
                     uri = fcStDataModel.getImgThumbnail();
                     isExistP = 1;
                 }
@@ -776,7 +704,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "" : fcStDataModel.getUpArmGirth().toString()));//上臂围
         multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth().toString()));//大腿围
         multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth().toString()));//小腿围
-        Log.i("上传数据" + multipartTypedOutput.getPartCount());
         doPostInitData();
     }
 
@@ -804,18 +731,15 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
                 progressDialog.dismiss();
-
             }
         });
     }
-
 
     /**
      * 点击屏幕隐藏软键盘
@@ -825,7 +749,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
-
                 SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
             }
         }
@@ -839,10 +762,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     imageFileSelector.takePhoto(this);
                 }
                 break;
-
         }
     }
-
-
-
 }
