@@ -191,6 +191,13 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         if (StringUtils.isNotEmpty(endUrl)) {
             Picasso.with(this).load(basePath + endUrl).into(civ);
         }
+
+        if (StringUtils.isNotEmpty(endUrl)) {
+//            Picasso.with(getContext()).load(basePath + endUrl).into(civ);
+            Picasso.with(this).load(basePath + endUrl).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ);
+        } else {
+            Picasso.with(this).load(R.drawable.img_default).into(civ);
+        }
     }
 
     private void setImage2(ImageView iv, String flag) {

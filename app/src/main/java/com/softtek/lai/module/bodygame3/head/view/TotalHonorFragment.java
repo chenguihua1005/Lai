@@ -251,7 +251,10 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private void setImage(CircleImageView civ, String endUrl) {
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(endUrl)) {
-            Picasso.with(getContext()).load(basePath + endUrl).into(civ);
+//            Picasso.with(getContext()).load(basePath + endUrl).into(civ);
+            Picasso.with(getContext()).load(basePath + endUrl).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ);
+        }else {
+            Picasso.with(getContext()).load(R.drawable.img_default).into(civ);
         }
     }
 
