@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -68,8 +69,6 @@ public class PreViewPicActivity extends BaseActivity{
             public void onSuccess(String file) {
                 images=file+"";
                 Picasso.with(PreViewPicActivity.this).load(new File(file)).fit().placeholder(R.drawable.default_icon_square).into(im_show_pic);
-
-
             }
 
             @Override
@@ -77,7 +76,6 @@ public class PreViewPicActivity extends BaseActivity{
                 file = new File(files.get(0));
                 images=file+"";
                 Picasso.with(PreViewPicActivity.this).load(file).fit().placeholder(R.drawable.default_icon_square).centerCrop().into(im_show_pic);
-
             }
 
             @Override
@@ -146,7 +144,18 @@ public class PreViewPicActivity extends BaseActivity{
         }
 
     }
+    //权限
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_PREMISSION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    imageFileSelector.takePhoto(this);
+                }
+                break;
 
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
