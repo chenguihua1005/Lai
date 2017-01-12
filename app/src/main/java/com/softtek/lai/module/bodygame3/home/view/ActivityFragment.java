@@ -123,6 +123,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private String dateStr;
     private int classrole;
     private ClassModel classModel;
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public ActivityFragment() {
 
@@ -130,7 +131,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void lazyLoad() {
-        isSelector=false;
+        isSelector = false;
         pull.setRefreshing(true);
         onRefresh();
     }
@@ -258,13 +259,24 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         EventBus.getDefault().unregister(this);
     }
 
+
+//    String newTime = year
+//    　　+ "-"+ ((monthOfYear + 1) < 10 "0"
+//            　　+ (monthOfYear + 1)
+//            　　: (monthOfYear + 1))
+//            　　+ "-"
+//            　　+ (dayOfMonth < 10 "0" + dayOfMonth
+//    　　: dayOfMonth);
+
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         int year = date.getCalendar().get(Calendar.YEAR);
         int month = date.getCalendar().get(Calendar.MONTH) + 1;
         int day = date.getCalendar().get(Calendar.DATE);
         //根据点击的日期查询该天的活动列表
-        dateStr = year + "-" + month + "-" + day;
+//        dateStr = year + "-" + month + "-" + day;
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        dateStr=sdf.format(date.getDate());
         saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
         ll_task.removeAllViews();
@@ -478,13 +490,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 //                lazyLoad();
                 if (classrole == Constants.STUDENT) {
                     int IsInitW = data.getExtras().getInt("IsInitW");
-                    com.github.snowdream.android.util.Log.i("IsInitW"+IsInitW);
+                    com.github.snowdream.android.util.Log.i("IsInitW" + IsInitW);
 
                     if (IsInitW == 1) {
                         tv_chustatus.setText("待审核");
-                        if(ll_chuDate.getTag()!=null){
-                            BtnTag tag= (BtnTag) ll_chuDate.getTag();
-                            tag.isfirst=2;
+                        if (ll_chuDate.getTag() != null) {
+                            BtnTag tag = (BtnTag) ll_chuDate.getTag();
+                            tag.isfirst = 2;
                             ll_chuDate.setTag(tag);
                         }
 //                        BtnTag tag = new BtnTag();
@@ -503,13 +515,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 com.github.snowdream.android.util.Log.i("复测更新。。。。。。。。。。。。。。");
                 if (classrole == Constants.STUDENT) {
                     int IsFcSt = data.getExtras().getInt("IsFcSt");
-                   if (IsFcSt == 1) {
-                      reset_time.setText("待审核");
-                     if(ll_fuce.getTag()!=null){
-                         BtnTag tag= (BtnTag) ll_fuce.getTag();
-                         tag.resetstatus=2;
-                         ll_fuce.setTag(tag);
-                     }
+                    if (IsFcSt == 1) {
+                        reset_time.setText("待审核");
+                        if (ll_fuce.getTag() != null) {
+                            BtnTag tag = (BtnTag) ll_fuce.getTag();
+                            tag.resetstatus = 2;
+                            ll_fuce.setTag(tag);
+                        }
                     }
                 } else {
                     int numbers = data.getExtras().getInt("Auditnum");
@@ -928,11 +940,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             lazyLoad();
         }
     }
-    private  boolean isSelector;
+
+    private boolean isSelector;
+
     @Subscribe
     public void classSelect(SaveClassModel saveClassModel) {
-        isSelector=true;
-        classid=saveClassModel.classId;
+        isSelector = true;
+        classid = saveClassModel.classId;
     }
 
     static class BtnTag {
