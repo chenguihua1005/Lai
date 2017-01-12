@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_jump"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center">
 
-        <RelativeLayout
+        <com.softtek.lai.widgets.CircleImageView
+            android:id="@+id/civ_member"
             android:layout_width="40dp"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:src="@drawable/img_default" />
 
-            <com.softtek.lai.widgets.CircleImageView
-                android:id="@+id/civ_member"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/img_default" />
-
-            <ImageView
-                android:id="@+id/iv_identity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_member_name"
+        <ImageView
+            android:id="@+id/iv_identity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:textColor="#333333"
-            android:textSize="12sp" />
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_member_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="12sp" />
+</LinearLayout>

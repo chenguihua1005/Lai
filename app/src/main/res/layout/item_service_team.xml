@@ -36,10 +36,6 @@
         android:layout_height="0.8dp"
         android:background="#e1e1e1" />
 
-    <!--<com.softtek.lai.widgets.meetmehorizontallistview.HorizontalListView
-        android:id="@+id/hlv_service_member"
-        android:layout_width="match_parent"
-        android:layout_height="78dp" />-->
 
     <RelativeLayout
         android:id="@+id/rl_support_team"
@@ -48,14 +44,16 @@
         android:clipChildren="false">
 
 
-        <com.softtek.lai.widgets.meetmehorizontallistview.SupportTeamViewPager
-            android:id="@+id/vp_support_team"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
-            android:layout_marginTop="10dp"
-            android:clipChildren="false" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_support_team"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="10dp"
+                android:clipChildren="false" />
+
 
         <ImageView
             android:id="@+id/btn_previous"

@@ -23,7 +23,6 @@ import com.softtek.lai.module.bodygame3.more.model.ServiceTeam;
 import com.softtek.lai.module.bodygame3.more.net.StudentService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
-import com.softtek.lai.widgets.meetmehorizontallistview.SupportTeamViewPager;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -89,28 +88,41 @@ public class SupportTeamActivity extends BaseActivity {
             @Override
             public void success(ResponseData<ServiceTeam> serviceTeamResponseData, Response response) {
                 //暂时没判断异常的情况
-                int status = serviceTeamResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        ServiceTeam serviceTeam = serviceTeamResponseData.getData();
-                        Log.e(TAG, "获取数据 = " + serviceTeamResponseData.getData().toString());
-                        serviceModelList.clear();
-                        serviceModelList.addAll(serviceTeam.getServices());
-                        if (serviceTeamAdapter == null) {
-                            //listview  null？
-                            View headView = View.inflate(SupportTeamActivity.this, R.layout.head_support_team, null);
-                            lv_service_team.addHeaderView(headView);
-                            newAdapter();
-                            lv_service_team.setAdapter(serviceTeamAdapter);
-                        } else {
-                            serviceTeamAdapter.notifyDataSetChanged();
-                        }
-                        //顶部的头像和名字
-                        setImage(civ_head_image, serviceTeam.getCoachImg());
-                        tv_head_coach_name.setText(serviceTeam.getCoachName());
-                        break;
-                    default:
-                        break;
+                try {
+                    int status = serviceTeamResponseData.getStatus();
+                    switch (status) {
+                        case 200:
+                            final ServiceTeam serviceTeam = serviceTeamResponseData.getData();
+                            Log.e(TAG, "获取数据 = " + serviceTeamResponseData.getData().toString());
+                            serviceModelList.clear();
+                            serviceModelList.addAll(serviceTeam.getServices());
+                            if (serviceTeamAdapter == null) {
+                                //listview  null？
+                                View headView = View.inflate(SupportTeamActivity.this, R.layout.head_support_team, null);
+                                lv_service_team.addHeaderView(headView);
+                                newAdapter();
+                                lv_service_team.setAdapter(serviceTeamAdapter);
+                            } else {
+                                serviceTeamAdapter.notifyDataSetChanged();
+                            }
+                            //顶部的头像和名字
+                            setImage(civ_head_image, serviceTeam.getCoachImg());
+                            tv_head_coach_name.setText(serviceTeam.getCoachName());
+                            civ_head_image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
+                                    intent.putExtra("ClassId", classId);
+                                    intent.putExtra("AccountId", serviceTeam.getCoachId());
+                                    startActivity(intent);
+                                }
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -138,13 +150,15 @@ public class SupportTeamActivity extends BaseActivity {
 //                waiterList.clear();
 //                waiterList.addAll(serviceModel.getWaiters());
                 viewPager(holder, serviceModel.getWaiters());
+
             }
         };
     }
 
     private void viewPager(ViewHolder holder, final List<ServiceTeam.Waiter> waiterList) {
 
-        final SupportTeamViewPager vp_test = holder.getView(R.id.vp_support_team);
+        final ViewPager vp_test = holder.getView(R.id.vp_support_team);
+
         vp_test.setAdapter(new SupportTeamVPAdapter(waiterList));
         //设置viewpager可以显示的item的数量和viewpager的大小
         vp_test.setOffscreenPageLimit(4);
@@ -165,9 +179,7 @@ public class SupportTeamActivity extends BaseActivity {
         btn_p.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentPosition = vp_test.getCurrentPosition();
-//                currentPosition = currentPosition == 0 ? currentPosition : currentPosition - 4;
-//                vp_test.setCurrentItem(currentPosition);
+                int currentPosition = vp_test.getCurrentItem();/*.getCurrentPosition();*/
                 if (currentPosition != 0) {
                     vp_test.setCurrentItem(currentPosition - 4);
                 }
@@ -177,10 +189,8 @@ public class SupportTeamActivity extends BaseActivity {
         btn_n.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentPosition = vp_test.getCurrentPosition();
+                int currentPosition = vp_test.getCurrentItem();
                 //currentPosition是索引，所以用waiterList.size()-1
-//                currentPosition = currentPosition == waiterList.size() - 1 ? currentPosition : currentPosition + 4;
-//                vp_test.setCurrentItem(currentPosition);
                 if (currentPosition != waiterList.size() - 1) {
                     vp_test.setCurrentItem(currentPosition + 4);
                 }
@@ -215,6 +225,16 @@ public class SupportTeamActivity extends BaseActivity {
             //成员头像
             CircleImageView civ_member = (CircleImageView) view.findViewById(R.id.civ_member);
             setImage(civ_member, waiter.getWaiterImg());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Long waiterAccount = waiter.getWaiterAccount();
+                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
+                    intent.putExtra("ClassId", classId);
+                    intent.putExtra("AccountId", waiterAccount);
+                    startActivity(intent);
+                }
+            });
             //成员名
             TextView tv_member_name = (TextView) view.findViewById(R.id.tv_member_name);
             tv_member_name.setText(waiter.getWaiterName());
@@ -235,17 +255,6 @@ public class SupportTeamActivity extends BaseActivity {
             params.height = px;
             view.setLayoutParams(params);
             container.addView(view);
-            //跳转到。。
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Long waiterAccount = waiter.getWaiterAccount();
-                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
-                    intent.putExtra("ClassId", classId);
-                    intent.putExtra("AccountId", waiterAccount);
-                    startActivity(intent);
-                }
-            });
             return view;
         }
 
@@ -271,6 +280,7 @@ public class SupportTeamActivity extends BaseActivity {
         if (StringUtils.isNotEmpty(endUrl)) {
             Picasso.with(SupportTeamActivity.this).load(basePath + endUrl).placeholder(R.drawable.img_default).into(civ);
         }
+
     }
 
     @OnClick({R.id.ll_left})

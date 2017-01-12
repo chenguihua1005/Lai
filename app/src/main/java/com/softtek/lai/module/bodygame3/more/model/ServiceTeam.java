@@ -10,6 +10,7 @@ public class ServiceTeam {
 
     private String CoachName;   //总教练名称
     private String CoachImg;    //总教练头像
+    private long CoachId;
     private List<ServiceModel> Services;
 
     public class ServiceModel {
@@ -135,5 +136,11 @@ public class ServiceTeam {
         Services = services;
     }
 
+    public long getCoachId() {
+        return CoachId;
+    }
 
+    public void setCoachId(long coachId) {
+        CoachId = coachId;
+    }
 }
