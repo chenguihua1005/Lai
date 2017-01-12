@@ -146,7 +146,7 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 }
                 else {
                     FormData formData=new FormData();
-                    if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(fcStDataModel.getWeekNum()))))
+                    if (TextUtils.isEmpty(TextUtils.isEmpty(fcStDataModel.getWeekNum())?"":formData.formdata(Integer.parseInt(fcStDataModel.getWeekNum()))))
                     {
                         holder.tv_retest_write_weekth.setVisibility(View.GONE);
                     }
