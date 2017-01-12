@@ -4,11 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.view.ExamineActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.message2.view.MessageConfirmActivity;
@@ -59,7 +62,12 @@ public class JpushReceiver extends BroadcastReceiver {
 
             }else{
                 String extra=bundle.getString(JPushInterface.EXTRA_EXTRA);
-                if(!extra.isEmpty()){
+                String token= UserInfoModel.getInstance(context).getToken();
+                if(TextUtils.isEmpty(token)){
+                    Intent i = new Intent(context, LoginActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(i);
+                }else if(!extra.isEmpty()){
                     try {
                         JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
                         //拿到通知类型
