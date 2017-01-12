@@ -146,12 +146,12 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 }
                 else {
                     FormData formData=new FormData();
-                    if (TextUtils.isEmpty(TextUtils.isEmpty(fcStDataModel.getWeekNum())?"":formData.formdata(Integer.parseInt(fcStDataModel.getWeekNum()))))
+                    if (TextUtils.isEmpty(formData.formdata(fcStDataModel.getWeekNum())))
                     {
                         holder.tv_retest_write_weekth.setVisibility(View.GONE);
                     }
                     else {
-                        holder.tv_retest_write_weekth.setText("(第" + formData.formdata(Integer.parseInt(fcStDataModel.getWeekNum())) + "周)");
+                        holder.tv_retest_write_weekth.setText("(第" + formData.formdata(fcStDataModel.getWeekNum()) + "周)");
                     }
                 }
                 switch (firststatus)

@@ -14,7 +14,7 @@ public class FcStDataModel implements Serializable {
     private String ClassName;//班级名
     private String StartDate;//开班日期
     private String EndDate;//结束日期
-    private String WeekNum;//第几周
+    private int WeekNum;//第几周
     private String MeasureDate;//复测日期
     private String InitWeight;//初始体重
     private String Weight;//现在体重
@@ -40,7 +40,7 @@ public class FcStDataModel implements Serializable {
                 ", ClassName='" + ClassName + '\'' +
                 ", StartDate='" + StartDate + '\'' +
                 ", EndDate='" + EndDate + '\'' +
-                ", WeekNum='" + WeekNum + '\'' +
+                ", WeekNum=" + WeekNum +
                 ", MeasureDate='" + MeasureDate + '\'' +
                 ", InitWeight='" + InitWeight + '\'' +
                 ", Weight='" + Weight + '\'' +
@@ -120,14 +120,6 @@ public class FcStDataModel implements Serializable {
 
     public void setEndDate(String endDate) {
         EndDate = endDate;
-    }
-
-    public String getWeekNum() {
-        return WeekNum;
-    }
-
-    public void setWeekNum(String weekNum) {
-        WeekNum = weekNum;
     }
 
     public String getMeasureDate() {
@@ -232,5 +224,12 @@ public class FcStDataModel implements Serializable {
 
     public void setImgThumbnail(String imgThumbnail) {
         ImgThumbnail = imgThumbnail;
+    }
+    public int getWeekNum() {
+        return WeekNum;
+    }
+
+    public void setWeekNum(int weekNum) {
+        WeekNum = weekNum;
     }
 }
