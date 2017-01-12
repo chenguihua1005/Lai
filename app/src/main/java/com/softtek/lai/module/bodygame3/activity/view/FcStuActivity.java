@@ -49,7 +49,7 @@ import zilla.libcore.util.Util;
 public class FcStuActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.exlisview_body)
     ExpandableListView exlisview_body;
-
+    //标题栏
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.tv_right)
@@ -61,7 +61,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
 
     FuceSevice fuceSevice;
     FcStDataModel fcStDataModel;
-    String gender = "0";
+    String gender = "0";//性别
     String classId, typeDate;//接口参数，从上一个页面获取
     private Long userId;
     private static final int GET_PREVIEW = 1;//查看大图
@@ -70,7 +70,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     MultipartTypedOutput multipartTypedOutput;
     int resetstatus, resetdatestatus;
     private ProgressDialog progressDialog;
-    int IsEdit = 1;
+    int IsEdit = 1;//是否可编辑，1可编辑，2不可编辑
     String filest, photoname;
     File file;
     private ImageFileSelector imageFileSelector;
@@ -169,7 +169,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     //复测状态：1：未复测 2：未审核 3：已复测resetstatus
     private void doData() {
         switch (resetdatestatus) {
-            case 1:
+            case 1://过去复测日，只能查看
                 switch (resetstatus) {
                     //未复测、未审核
                     case 1:
@@ -177,19 +177,18 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         Util.toastMsg("非当天复测日未复测数据或数据未审核不可查看");
                         break;
                     case 3:
-                        tv_right.setVisibility(View.INVISIBLE);
-                        fl_right.setEnabled(false);
+                        fl_right.setVisibility(View.INVISIBLE);
                         IsEdit = 2;
                         doGetDataService("2");
                         break;
                     default:
-                        tv_right.setVisibility(View.INVISIBLE);
+                        fl_right.setVisibility(View.INVISIBLE);
                         IsEdit = 2;
                         doGetDataService("2");
                         break;
                 }
                 break;
-            case 2:
+            case 2://当天复测日
                 switch (resetstatus) {
                     case 1:
                     case 2:
@@ -223,7 +222,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         childArray.add(1, child2);
         childArray.add(2, child2);
         childArray.add(3, child3);
-        exlisview_body = (ExpandableListView) findViewById(R.id.exlisview_body);
         exlisview_body.setGroupIndicator(null);
         exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
