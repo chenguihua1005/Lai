@@ -377,7 +377,6 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
 
     //是否有消息
     private void gethasemail() {
-
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
             public void success(ResponseData<NewsModel> responseData, Response response) {
@@ -422,7 +421,6 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                             e.printStackTrace();
                         }
                     }
-
                     @Override
                     public void failure(RetrofitError error) {
                         page--;
@@ -531,7 +529,6 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                                         Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
                                         iv_imagevideo2.setVisibility(View.GONE);
                                     }
-
                                 }
                                 //照片墙
                                 if (classinfoModel.getPhotoWall() != null) {

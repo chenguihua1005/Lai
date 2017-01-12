@@ -165,18 +165,22 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 String startime = tv_activity_time.getText().toString().trim();
                 String mark = tv_activity_mark.getText().toString().trim();
                 if (TextUtils.isEmpty(title)) {
+                    dialogDissmiss();
                     Util.toastMsg("请输入活动标题");
                     return;
                 }
                 if (classActivityId <= 0) {
+                    dialogDissmiss();
                     Util.toastMsg("请输入活动类型");
                     return;
                 }
                 if (TextUtils.isEmpty(startime)) {
+                    dialogDissmiss();
                     Util.toastMsg("请选择集合时间");
                     return;
                 }
                 if (TextUtils.isEmpty(mark)) {
+                    dialogDissmiss();
                     Util.toastMsg("请输入活动说明");
                     return;
                 }
