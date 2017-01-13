@@ -149,6 +149,11 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
             tv_first_time.setText(show.getClassStart());
             int role = show.getClassRole();
             tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
+            if (role==4){
+                rl_aixin.setVisibility(View.VISIBLE);
+            }else {
+                rl_aixin.setVisibility(View.GONE);
+            }
             tv_group_name.setText(show.getCGName());
 
             if (show.getMsgStatus() == 0) {

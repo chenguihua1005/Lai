@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.widgets.SimpleButton;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -57,7 +58,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     protected void initDatas() {
         fragments.add(new HomeFragment());
         fragments.add(new HealthyFragment());
-        fragments.add(new HealthyRecordFragment());
+        fragments.add(new HealthyRecordFragment());//健康记录
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
