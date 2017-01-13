@@ -19,14 +19,13 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
-import com.softtek.lai.module.community.view.RecommendHealthyFragment;
+import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -58,7 +57,7 @@ public class HealthyFragment extends LazyBaseFragment {
 
     @Override
     protected void lazyLoad() {
-        fragments.add(new RecommendHealthyFragment());
+        fragments.add(new DynamicFragment());
         fragments.add(new MineHealthyFragment());
         adapter=new CommunityAdapter(getChildFragmentManager(),fragments);
         tab_content.setAdapter(adapter);
@@ -165,7 +164,7 @@ public class HealthyFragment extends LazyBaseFragment {
                 tab_content.setCurrentItem(0);
                 int size=fragments.size();
                 if(size>=1){
-                    ((RecommendHealthyFragment)fragments.get(0)).updateList();
+                    ((DynamicFragment)fragments.get(0)).updateList();
                 }
 
             }

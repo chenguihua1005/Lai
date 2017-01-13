@@ -44,7 +44,7 @@
                 app:normalBitmap="@drawable/rehealthy"
                 app:pitchBitmap="@drawable/healthy"
                 app:wx_alpha="true"
-                app:text="@string/healthy"/>
+                app:text="健康圈"/>
 
         <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_healthy_record"
@@ -54,7 +54,7 @@
                 app:normalBitmap="@drawable/hrecord"
                 app:pitchBitmap="@drawable/rehrecord"
                 app:wx_alpha="true"
-                app:text="@string/healthyRecord"/>
+                app:text="动态"/>
 
         <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_mine"
