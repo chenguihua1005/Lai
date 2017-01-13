@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -267,11 +268,28 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             //发表留言内容
             if (item.getIsHasTheme() == 1) {
                 String content = item.getContent();
-//                String theme = content.substring(0,7);
-                SpannableString ss = new SpannableString(content);
-                ss.setSpan(new ForegroundColorSpan(0xFFFFA200), 0, 7, SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
-                mContent.setText(ss);
-//                mContent.append(content.substring(7,content.length()));
+                SpannableStringBuilder builder = new SpannableStringBuilder(content);
+                String theme = "#" + item.getThemeName() + "#";
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(0xFFFFA202);
+                //先把
+                int from = 0;
+                int lastIndex = content.lastIndexOf("#");
+                do {
+                    int firstIndex = content.indexOf("#", from);
+                    int nextIndex = firstIndex + item.getThemeName().length() + 1;
+                    if (nextIndex <= lastIndex) {
+                        String sub = content.substring(firstIndex, nextIndex + 1);
+                        if (sub.equals(theme)) {
+                            builder.setSpan(colorSpan, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }
+                    }
+                    from = nextIndex;
+                } while (from < lastIndex);
+                mContent.setText(builder);
+//                SpannableString ss = new SpannableString(content);
+//                ss.setSpan(new ForegroundColorSpan(0xFFFFA200), 0, 7, SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
+//                mContent.setText(ss);
+
             } else {
                 mContent.setText(item.getContent());
             }
@@ -367,13 +385,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                         @Override
                         public void onClick(View v) {
                             popupWindow.dismiss();
-                            hasZaned = true;
-                            mZan.setClickable(false);
-                            String name = "," + UserInfoModel.getInstance().getUser().getNickname();
-                            if (item.getPraiseNameList().isEmpty()) {
-                                name = name.substring(1, name.length());
-                            }
-                            mZanName.append(name);
                             try {
                                 service.postZan(UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
@@ -382,16 +393,28 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                         new RequestCallback<ResponseData>() {
                                             @Override
                                             public void success(ResponseData responseData, Response response) {
-
+                                                if (responseData.getStatus() == 200) {
+                                                    hasZaned = true;
+                                                    mZan.setClickable(false);
+                                                    String name = "," + UserInfoModel.getInstance().getUser().getNickname();
+                                                    if (item.getPraiseNameList().isEmpty()) {
+                                                        name = name.substring(1, name.length());
+                                                    }
+                                                    mZanName.append(name);
+                                                }else {
+                                                    hasZaned = false;
+                                                    mZan.setClickable(true);
+                                                }
                                             }
 
                                             @Override
                                             public void failure(RetrofitError error) {
                                                 hasZaned = false;
-                                                if (item.getPraiseNameList().isEmpty()) {
-                                                    mZanLayout.setVisibility(View.GONE);
-                                                    mZanName.setText("");
-                                                }
+                                                mZan.setClickable(true);
+//                                                if (item.getPraiseNameList().isEmpty()) {
+//                                                    mZanLayout.setVisibility(View.GONE);
+//                                                    mZanName.setText("");
+//                                                }
                                                 super.failure(error);
                                             }
                                         });
