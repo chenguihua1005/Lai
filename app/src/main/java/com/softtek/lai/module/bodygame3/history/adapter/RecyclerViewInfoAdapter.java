@@ -397,7 +397,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                                     hasZaned = true;
                                                     mZan.setClickable(false);
                                                     String name = "," + UserInfoModel.getInstance().getUser().getNickname();
-                                                    if (item.getPraiseNameList().isEmpty()) {
+                                                    if (model.getPraiseNameList().isEmpty()) {
                                                         name = name.substring(1, name.length());
                                                     }
                                                     mZanName.append(name);

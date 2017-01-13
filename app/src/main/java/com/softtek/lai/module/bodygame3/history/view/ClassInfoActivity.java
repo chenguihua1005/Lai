@@ -463,7 +463,7 @@ public class ClassInfoActivity extends BaseActivity {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
             mLossFat.setText(list.get(0).getUserName());
-            mLossFatValue.setText("减重" + list.get(0).getLoss() + "%");
+            mLossFatValue.setText("减重比" + list.get(0).getLoss() + "%");
         }
         if (list.size() > 1) {
             Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto())
