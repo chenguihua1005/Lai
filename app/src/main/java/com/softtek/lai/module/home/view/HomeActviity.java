@@ -7,12 +7,11 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.softtek.lai.module.community.view.DynamicFragment;
-import com.softtek.lai.widgets.SimpleButton;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -94,11 +93,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 //        }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -131,6 +125,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     protected void onSaveInstanceState(Bundle outState) {
         //super.onSaveInstanceState(outState);
     }
+
 
     private void setChildProgress(int position, float progress) {
         switch (position) {
