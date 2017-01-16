@@ -55,15 +55,6 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Override
     protected void lazyLoad() {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null){
-                    ptrlv.setRefreshing();
-                }
-            }
-        }, 400);
-        //测试啦
         pageIndex=1;
         community.getRecommendDynamic(accountId,1);
     }
