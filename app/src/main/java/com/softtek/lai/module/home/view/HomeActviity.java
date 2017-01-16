@@ -91,6 +91,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 //            finish();
 //            return;
 //        }
+        //测试更新
     }
 
 
