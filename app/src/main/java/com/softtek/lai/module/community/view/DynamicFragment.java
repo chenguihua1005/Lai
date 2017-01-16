@@ -63,6 +63,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 }
             }
         }, 400);
+        //测试啦
         pageIndex=1;
         community.getRecommendDynamic(accountId,1);
     }
