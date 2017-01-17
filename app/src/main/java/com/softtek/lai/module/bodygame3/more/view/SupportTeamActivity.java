@@ -279,6 +279,8 @@ public class SupportTeamActivity extends BaseActivity {
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(endUrl)) {
             Picasso.with(SupportTeamActivity.this).load(basePath + endUrl).placeholder(R.drawable.img_default).into(civ);
+        } else {
+            Picasso.with(SupportTeamActivity.this).load(R.drawable.img_default).into(civ);
         }
 
     }
