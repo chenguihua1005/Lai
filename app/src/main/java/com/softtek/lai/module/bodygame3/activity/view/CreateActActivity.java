@@ -294,10 +294,16 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getacttype(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<ActtypeModel>>>() {
             @Override
             public void success(ResponseData<List<ActtypeModel>> listResponseData, Response response) {
-                if (listResponseData.getData() != null && !listResponseData.getData().isEmpty()) {
-                    acttypeModels.addAll(listResponseData.getData());
-                    adapter.notifyDataSetChanged();
+                if (200 == listResponseData.getStatus()) {
+                    if (listResponseData.getData() != null && !listResponseData.getData().isEmpty()) {
+                        acttypeModels.clear();
+                        acttypeModels.addAll(listResponseData.getData());
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+                    Util.toastMsg(listResponseData.getStatus());
                 }
+
             }
         });
     }

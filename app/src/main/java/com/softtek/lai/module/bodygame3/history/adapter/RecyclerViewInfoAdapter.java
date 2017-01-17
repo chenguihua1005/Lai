@@ -32,6 +32,7 @@ import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
@@ -44,6 +45,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.util.Util;
 
 
 public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -170,11 +172,13 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             //用户名
             mUsername.setText(item.getUserName());
 //            关注
-//            if (isMyselfFocus) {
-//                mIsFocus.setVisibility(View.INVISIBLE);
-//            } else if (isFocus) {
-//                mIsFocus.setChecked(true);
-//            }
+            if (isMyselfFocus) {
+                mIsFocus.setVisibility(View.INVISIBLE);
+            } else if (isFocus) {
+                mIsFocus.setVisibility(View.VISIBLE);
+                mIsFocus.setChecked(true);
+            }
+            mIsFocus.setClickable(false);
 //            mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //                @Override
 //                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -242,22 +246,23 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 //            });
 
             //日期
-            long[] days = DateUtil.getInstance().getDaysForNow(item.getCreatedate());
-            String time;
-            if (days[0] == 0) {//今天
-                if (days[3] < 60) {//小于1分钟
-                    time = "刚刚";
-                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                    time = days[2] + "分钟前";
-                } else {//大于一小时
-                    time = days[1] + "小时前";
-                }
-            } else if (days[0] == 1) {//昨天
-                time = "昨天";
-            } else {
-                time = days[0] + "天前";
-            }
-            mDate.setText(time);
+//            long[] days = DateUtil.getInstance().getDaysForNow(item.getCreatedate());
+//            String time;
+//            if (days[0] == 0) {//今天
+//                if (days[3] < 60) {//小于1分钟
+//                    time = "刚刚";
+//                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
+//                    time = days[2] + "分钟前";
+//                } else {//大于一小时
+//                    time = days[1] + "小时前";
+//                }
+//            } else if (days[0] == 1) {//昨天
+//                time = "昨天";
+//            } else {
+//                time = days[0] + "天前";
+//            }
+//            mDate.setText(time);
+            mDate.setText(item.getCreatedate());
 
             //发表留言内容
             if (item.getIsHasTheme() == 1) {
@@ -319,6 +324,10 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             //评论
             if (!item.getPhotoWallCommendsList().isEmpty()) {
                 mCommentLayout.removeAllViews();
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMarginStart(DisplayUtil.dip2px(mContext, 8));
                 for (int i = 0; i < item.getPhotoWallCommendsList().size(); i++) {
                     TextView commendText = new TextView(mContext);
                     String commendsName = item.getPhotoWallCommendsList().get(i).getCommentUserName();
@@ -327,6 +336,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                     commendText.setText(ss);
                     String commendsContent = item.getPhotoWallCommendsList().get(i).getCommnets();
                     commendText.append(commendsContent);
+                    commendText.setLayoutParams(lp);
                     mCommentLayout.addView(commendText);
                 }
             }

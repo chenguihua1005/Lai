@@ -19,6 +19,16 @@ public class MemberInfoModel {
     private String IntroducerId;//爱心学员id
     private String IsFocus;//是否关注（true关注，false未关注）
     private String IsFriend;//是否为好友（1.是）
+    private String AFriendId;//好友关系id
+
+    public String getAFriendId() {
+        return AFriendId;
+    }
+
+    public void setAFriendId(String AFriendId) {
+        this.AFriendId = AFriendId;
+    }
+
     private String TotalLossWeight;//总减重
     private List<NewsTopFourModel> NewsTopFour;//动态图片列表
     private String InitWeight;//初始体重
