@@ -275,7 +275,6 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_dismissclass:
                 //解散班级
-                Log.i(TAG, "token = " + UserInfoModel.getInstance().getToken() + "  = " + classModel.getClassId());
                 dissolutionHxGroup();
 
                 break;
@@ -307,7 +306,9 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                                         //跳转到群聊列表
 
                                         Intent intent = new Intent(ClassDetailActivity.this, GroupsActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
+
                                         finish();
                                     }
                                 });
