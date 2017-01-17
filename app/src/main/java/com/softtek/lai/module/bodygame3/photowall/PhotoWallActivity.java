@@ -290,34 +290,30 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                             .into(civ_header_image);
                 }
                 TextView tv_content = holder.getView(R.id.tv_content);
-                //SpannableStringBuilder builder= (SpannableStringBuilder) tv_content.getTag();
-                //if(builder==null){
-                    String content=data.getContent();
-                    SpannableStringBuilder builder=new SpannableStringBuilder(content);
-                    if(data.getIsHasTheme()==1){
-                        /**
-                         * 0  1 2 3 4 5   6 7  8  9 10
-                         * 哈哈哈哈 # 金 彩 踢 馆 赛 #
-                         */
-                        String theme="#"+data.getThemeName()+"#";
-                        ForegroundColorSpan colorSpan=new ForegroundColorSpan(0xFFFFA202);
-                        //先把
-                        int from=0;
-                        int lastIndex=content.lastIndexOf("#");
-                        do {
-                            int firstIndex=content.indexOf("#",from);
-                            int nextIndex=firstIndex+data.getThemeName().length()+1;
-                            if(nextIndex<=lastIndex){
-                                String sub=content.substring(firstIndex,nextIndex+1);
-                                if(sub.equals(theme)){
-                                    builder.setSpan(colorSpan,firstIndex,nextIndex+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                                }
+                String content=data.getContent();
+                SpannableStringBuilder builder=new SpannableStringBuilder(content);
+                if(data.getIsHasTheme()==1){
+                    /**
+                     * 0  1 2 3 4 5   6 7  8  9 10
+                     * 哈哈哈哈 # 金 彩 踢 馆 赛 #
+                     */
+                    String theme="#"+data.getThemeName()+"#";
+                    ForegroundColorSpan colorSpan=new ForegroundColorSpan(0xFFFFA202);
+                    //先把
+                    int from=0;
+                    int lastIndex=content.lastIndexOf("#");
+                    do {
+                        int firstIndex=content.indexOf("#",from);
+                        int nextIndex=firstIndex+data.getThemeName().length()+1;
+                        if(nextIndex<=lastIndex){
+                            String sub=content.substring(firstIndex,nextIndex+1);
+                            if(sub.equals(theme)){
+                                builder.setSpan(colorSpan,firstIndex,nextIndex+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             }
-                            from=nextIndex;
-                        }while (from<lastIndex);
-                    }
-                   // tv_content.setTag(builder);
-                //}
+                        }
+                        from=nextIndex;
+                    }while (from<lastIndex);
+                }
                 tv_content.setText(builder);//正文
                 final CheckBox cb_focus = holder.getView(R.id.cb_focus);
                 boolean isMine=Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId();
@@ -376,8 +372,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     });
                 }
                 TextView tv_date = holder.getView(R.id.tv_date);
-                //String time= (String) tv_date.getTag();
-                //if(time==null){
                 String time="";
                     long[] days= DateUtil.getInstance().getDaysForNow(data.getCreatedate());
                     if(days[0]==0){//今天
@@ -393,8 +387,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                     }else {
                         time=days[0]+"天前";
                     }
-                    //tv_date.setTag(time);
-                //}
                 tv_date.setText(time);//日期
                 LinearLayout ll_dianzan = holder.getView(R.id.ll_dianzan);
                 TextView tv_zan_name = holder.getView(R.id.tv_zan_name);

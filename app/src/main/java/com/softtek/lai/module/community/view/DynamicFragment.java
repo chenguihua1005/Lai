@@ -3,6 +3,8 @@ package com.softtek.lai.module.community.view;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.FloatingActionButton;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
@@ -61,14 +63,15 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     @InjectView(R.id.empty)
     FrameLayout empty;
 
-//    @InjectView(R.id.fab_sender)
-//    FloatingActionButton fab_sender;
+    @InjectView(R.id.fab_sender)
+    FloatingActionButton fab_sender;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
     private List<HealthyCommunityModel> communityModels=new ArrayList<>();
     int pageIndex=1;
     int totalPage=0;
+    boolean isShow;
 
     private static final int OPEN_SENDER_REQUEST=2;
     @Override
@@ -94,15 +97,42 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-        ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
+        isShow=true;
+        ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
+            int y;
+            int delay;
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                    Log.i("滑动的距离="+view.getScrollY());
-            }
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        y= (int) event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        int currentY= (int) event.getRawY();
+                        delay=y-currentY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Log.i("滑动距离="+delay);
+                        if(delay<-50){
+                            //上啦
+                            if(isShow){
+                                isShow=false;
+                                fab_sender.hide();
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                            }
 
+
+                        }else if(delay>50){
+                            //下拉
+                            if(!isShow){
+                                isShow=true;
+                                fab_sender.show();
+                            }
+                        }
+                        break;
+
+                }
+                return false;
             }
         });
     }
