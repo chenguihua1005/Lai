@@ -46,7 +46,8 @@
                 android:background="@drawable/cb_guanzhu_bg"
                 android:button="@null"
                 android:checked="false"
-                android:gravity="center" />
+                android:gravity="center"
+                android:visibility="gone"/>
         </LinearLayout>
 
 
@@ -102,7 +103,6 @@
                 android:textColor="@color/textview_blue"
                 android:textSize="13sp"
                 android:visibility="gone" />
-            iv_pop_img
 
             <ImageView
                 android:id="@+id/iv_pop_img"
@@ -110,7 +110,8 @@
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/operator" />
+                android:src="@drawable/operator"
+                android:visibility="gone"/>
 
             <!--<ImageView-->
                 <!--android:id="@+id/iv_pop_img"-->

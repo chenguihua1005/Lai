@@ -166,7 +166,7 @@ public class ClassInfoActivity extends BaseActivity {
                 new RecyclerViewInfoAdapter.CommentListener() {
                     @Override
                     public void onCommentClick(final CommentEvent event) {
-                        doComment(event);
+//                        doComment(event);
                     }
                 },
                 this,
