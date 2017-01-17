@@ -30,7 +30,7 @@
             app:pressedTranslationZ="2dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="80dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/ic_camera"/>
 </RelativeLayout>

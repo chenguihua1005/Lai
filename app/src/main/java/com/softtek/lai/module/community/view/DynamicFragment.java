@@ -99,34 +99,36 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         isShow=true;
         ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
-            int y;
+            int y=-100;
             int delay;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
-                        y= (int) event.getRawY();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         int currentY= (int) event.getRawY();
-                        delay=y-currentY;
+                        if(y==-100){
+                            y=currentY;
+                        }
+                        delay=currentY-y;
+                        Log.i("currentY="+currentY+";y="+y);
                         break;
                     case MotionEvent.ACTION_UP:
+                        y=-100;
                         Log.i("滑动距离="+delay);
-                        if(delay<-50){
-                            //上啦
+                        if(delay>50){
+                            //下滑显示
+                            if(!isShow){
+                                isShow=true;
+                                fab_sender.show();
+                            }
+                        }else if(delay<-50){
+                            //上滑隐藏
                             if(isShow){
                                 isShow=false;
                                 fab_sender.hide();
 
-                            }
-
-
-                        }else if(delay>50){
-                            //下拉
-                            if(!isShow){
-                                isShow=true;
-                                fab_sender.show();
                             }
                         }
                         break;
@@ -135,6 +137,38 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 return false;
             }
         });
+//        ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            int lastVisibleItemPosition;//标记上次的显示位置
+//            boolean isFirst=true;//标记第一次进入，因为第一次进来lastVisibleItemPosition默认为0，
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                if(!isFirst){
+//                    isFirst=false;
+//                    if(firstVisibleItem>lastVisibleItemPosition){
+//                        //执行向上滑动时要做的逻辑
+//                        //上滑隐藏
+//                        if(isShow){
+//                            isShow=false;
+//                            fab_sender.hide();
+//
+//                        }
+//                    }else {
+//                        //下滑
+//                        //下滑显示
+//                        if(!isShow){
+//                            isShow=true;
+//                            fab_sender.show();
+//                        }
+//                    }
+//                    lastVisibleItemPosition=firstVisibleItem;//记录当前条目
+//                }
+//            }
+//        });
     }
     long accountId=0;
     @Override

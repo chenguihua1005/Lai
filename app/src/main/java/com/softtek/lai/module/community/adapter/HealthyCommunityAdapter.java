@@ -34,6 +34,7 @@ import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -44,6 +45,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -62,13 +64,15 @@ public class HealthyCommunityAdapter extends BaseAdapter {
     private List<HealthyCommunityModel> lossWeightStoryModels;
     private CommunityService service;
     private static final int LIST_JUMP = 1;
-
+    String path = AddressManager.get("photoHost");
+    int px;
 
     public HealthyCommunityAdapter(Fragment fragment, Context context, List<HealthyCommunityModel> lossWeightStoryModels) {
         this.fragment = fragment;
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+        px= DisplayUtil.dip2px(context,45);
     }
 
     @Override
@@ -181,7 +185,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             });
         }
         //删除按钮
-        //如果不是自己的or是减重日志
+        //如果不是自己的
         holder.cb_zan.setText(model.getPraiseNum());
         if ( !isMine|| "1".equals(model.getMinetype())) {
             holder.tv_delete.setVisibility(View.GONE);//隐藏删除按钮
@@ -277,8 +281,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 
         }
         //加载图片
-        String path = AddressManager.get("photoHost");
-        Picasso.with(context).load(path + model.getPhoto()).fit()
+        Picasso.with(context).load(path + model.getPhoto()).resize(px,px).centerCrop()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
         holder.civ_header_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,10 +294,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             }
         });
         String[] imgs = model.getImgCollection().split(",");
-        final ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < imgs.length; i++) {
-            list.add(imgs[i]);
-        }
+        final ArrayList<String> list =new ArrayList<>(Arrays.asList(imgs));
         holder.photos.setAdapter(new PhotosAdapter(list, context));
         holder.photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
