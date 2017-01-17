@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame3.history.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,13 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -34,14 +31,11 @@ import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,63 +170,63 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             //用户名
             mUsername.setText(item.getUserName());
 //            关注
-            if (isMyselfFocus) {
-                mIsFocus.setVisibility(View.INVISIBLE);
-            } else if (isFocus) {
-                mIsFocus.setChecked(true);
-            }
-            mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (!mIsFocus.isChecked()) {
-                        try {
-                            service.doCancleFocusAccount(
-                                    UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-                                    item.getAccountid(),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            if (responseData.getStatus() != 200) {
-                                                mIsFocus.setChecked(true);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            super.failure(error);
-                                        }
-                                    });
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            service.doFocusAccount(
-                                    UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-//                                    Long.parseLong(item.getAccountid()),
-                                    (item.getAccountid()),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            if (responseData.getStatus() != 200) {
-                                                mIsFocus.setChecked(false);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            super.failure(error);
-                                        }
-                                    }
-                            );
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
+//            if (isMyselfFocus) {
+//                mIsFocus.setVisibility(View.INVISIBLE);
+//            } else if (isFocus) {
+//                mIsFocus.setChecked(true);
+//            }
+//            mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                    if (!mIsFocus.isChecked()) {
+//                        try {
+//                            service.doCancleFocusAccount(
+//                                    UserInfoModel.getInstance().getToken(),
+//                                    UserInfoModel.getInstance().getUserId(),
+//                                    item.getAccountid(),
+//                                    new RequestCallback<ResponseData>() {
+//                                        @Override
+//                                        public void success(ResponseData responseData, Response response) {
+//                                            if (responseData.getStatus() != 200) {
+//                                                mIsFocus.setChecked(true);
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void failure(RetrofitError error) {
+//                                            super.failure(error);
+//                                        }
+//                                    });
+//                        } catch (NumberFormatException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        try {
+//                            service.doFocusAccount(
+//                                    UserInfoModel.getInstance().getToken(),
+//                                    UserInfoModel.getInstance().getUserId(),
+////                                    Long.parseLong(item.getAccountid()),
+//                                    (item.getAccountid()),
+//                                    new RequestCallback<ResponseData>() {
+//                                        @Override
+//                                        public void success(ResponseData responseData, Response response) {
+//                                            if (responseData.getStatus() != 200) {
+//                                                mIsFocus.setChecked(false);
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void failure(RetrofitError error) {
+//                                            super.failure(error);
+//                                        }
+//                                    }
+//                            );
+//                        } catch (NumberFormatException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
 
             //用户头像
             if (!TextUtils.isEmpty(item.getUserThPhoto())) {
@@ -240,12 +234,12 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                         .placeholder(R.drawable.img_default).into(mHeaderImg);
             }
             //3个按钮
-            mPopImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    initPopupWindow(v, mPopView, item);
-                }
-            });
+//            mPopImg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    initPopupWindow(v, mPopView, item);
+//                }
+//            });
 
             //日期
             long[] days = DateUtil.getInstance().getDaysForNow(item.getCreatedate());
