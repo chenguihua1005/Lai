@@ -6,8 +6,10 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
@@ -45,6 +47,11 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_mine_healthy)
 public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener{
 
+    @InjectView(R.id.iv_left)
+    ImageView iv_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
     @InjectView(R.id.lin_is_vr)
@@ -80,6 +87,8 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Override
     protected void initViews() {
+        tv_title.setText("关注");
+        iv_left.setVisibility(View.INVISIBLE);
         EventBus.getDefault().register(this);
         but_login.setOnClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);

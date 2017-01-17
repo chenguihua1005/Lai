@@ -41,8 +41,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                app:normalBitmap="@drawable/rehealthy"
-                app:pitchBitmap="@drawable/healthy"
+                app:normalBitmap="@drawable/ic_dynamic"
+                app:pitchBitmap="@drawable/ic_redynamic"
                 app:wx_alpha="true"
                 app:text="动态"/>
 
@@ -51,8 +51,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                app:normalBitmap="@drawable/hrecord"
-                app:pitchBitmap="@drawable/rehrecord"
+                app:normalBitmap="@drawable/ic_focus"
+                app:pitchBitmap="@drawable/ic_refocus"
                 app:wx_alpha="true"
                 app:text="关注"/>
 
@@ -61,8 +61,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                app:normalBitmap="@drawable/remine"
-                app:pitchBitmap="@drawable/mine"
+                app:normalBitmap="@drawable/ic_mine"
+                app:pitchBitmap="@drawable/ic_remine"
                 app:wx_alpha="true"
                 app:text="@string/mine"/>
 

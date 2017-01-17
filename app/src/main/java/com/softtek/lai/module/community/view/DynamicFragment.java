@@ -3,9 +3,14 @@ package com.softtek.lai.module.community.view;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -27,11 +32,13 @@ import com.softtek.lai.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -42,10 +49,20 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_recommend_healthy)
 public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,RecommentHealthyManager.RecommentHealthyManagerCallback{
 
+    @InjectView(R.id.iv_left)
+    ImageView iv_left;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
     @InjectView(R.id.empty)
     FrameLayout empty;
+
+//    @InjectView(R.id.fab_sender)
+//    FloatingActionButton fab_sender;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -53,6 +70,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     int pageIndex=1;
     int totalPage=0;
 
+    private static final int OPEN_SENDER_REQUEST=2;
     @Override
     protected void lazyLoad() {
         pageIndex=1;
@@ -61,6 +79,9 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Override
     protected void initViews() {
+        tv_title.setText("动态");
+        iv_left.setVisibility(View.INVISIBLE);
+        tv_right.setText("更多话题");
         EventBus.getDefault().register(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
@@ -73,10 +94,22 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+        ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    Log.i("滑动的距离="+view.getScrollY());
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
     }
     long accountId=0;
     @Override
     protected void initDatas() {
+
         community=new RecommentHealthyManager(this);
         UserModel user= UserInfoModel.getInstance().getUser();
         String token=UserInfoModel.getInstance().getToken();
@@ -94,6 +127,16 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+    }
+
+    @OnClick(R.id.fab_sender)
+    public void sendDynamicClick(View view){
+        Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+        startActivityForResult(intent,OPEN_SENDER_REQUEST);
+    }
+    @OnClick(R.id.fl_right)
+    public void moreTopicClick(View view){
+
     }
 
     @Subscribe
@@ -213,6 +256,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     communityModels.get(position).setPraiseNum(model.getPraiseNum());
                     adapter.notifyDataSetChanged();
                 }
+            } else if(requestCode==OPEN_SENDER_REQUEST){
+                updateList();
             }
         }
     }

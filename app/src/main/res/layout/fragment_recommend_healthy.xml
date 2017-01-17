@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+        <include layout="@layout/toolbar"/>
         <include layout="@layout/empty_message"
             android:visibility="gone"/>
 
@@ -11,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/ptrlv"
+            android:layout_below="@id/toolbar"
             android:divider="#00ececec"
             android:dividerHeight="1dp"
             android:listSelector="@android:color/transparent"
@@ -19,4 +20,17 @@
             app:ptrAnimationStyle="flip"
             app:ptrShowIndicator="false"
             android:animateLayoutChanges="true"/>
-</FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="#F3AD34"
+            app:elevation="4dp"
+            android:scaleType="center"
+            app:pressedTranslationZ="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="120dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_camera"/>
+</RelativeLayout>
