@@ -281,23 +281,23 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
                     Picasso.with(getParent()).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
-                if (!TextUtils.isEmpty(memberInfoModel.getUserName())) {
-                    tv_stuname.setText(memberInfoModel.getUserName());//用户名
-                }
+                //用户名
+                tv_stuname.setText(memberInfoModel.getUserName());
+                //用户id环信id用户名
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
-                tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
-                tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
-                {
-
+                {   //是本人可编辑个性签名
                     tv_personlityName.setEnabled(true);
-                    //个性签名
+                    //个性签名已存在现实个性签名内容并隐藏图标
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
                         tv_personlityName.setCompoundDrawables(null, null, null, null);
-
+                        tv_personlityName.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
                     ll_chart.setVisibility(View.VISIBLE);
                     if (!"4".equals(memberInfoModel.getClassRole()))
@@ -314,6 +314,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     }
 
                 } else {
+                    tv_personlityName.setVisibility(View.VISIBLE);
                     im_guanzhu.setVisibility(View.VISIBLE);
                     //个性签名
                     tv_personlityName.setCompoundDrawables(null, null, null, null);//去除个性签名文本图标
@@ -361,12 +362,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                 doGetPhotoView();//展示图片
                 if ("4".equals(memberInfoModel.getClassRole())) {
+                    tv_angle.setVisibility(View.VISIBLE);
+                    tv_love.setVisibility(View.VISIBLE);
+                    tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                    tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                     ll_weigh.setVisibility(View.VISIBLE);
                     if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
                         String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
                         tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
                     } else {
-//                        DecimalFormat df = new DecimalFormat("0.0");//.00就表示保留后两位数
 
                         tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
