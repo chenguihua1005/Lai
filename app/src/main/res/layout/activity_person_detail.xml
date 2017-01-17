@@ -60,7 +60,7 @@
                             android:drawableLeft="@drawable/person_naixi"
                             android:drawablePadding="5dp"
                             android:textSize="10sp"
-                            android:visibility="gone"/>
+                            />
 
                         <TextView
                             android:id="@+id/tv_love"
