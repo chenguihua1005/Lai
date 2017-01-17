@@ -43,7 +43,7 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_mine_healthy)
-public class MineHealthyFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener{
+public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener{
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;

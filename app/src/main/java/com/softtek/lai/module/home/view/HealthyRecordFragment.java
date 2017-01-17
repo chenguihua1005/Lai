@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,9 +25,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.historydate.view.HistoryDataActivity;
-import com.softtek.lai.module.home.presenter.HealthyRecordManager;
-import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.home.model.LaichModel;
+import com.softtek.lai.module.home.presenter.HealthyRecordManager;
 import com.softtek.lai.utils.DateUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -72,12 +70,8 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
     @InjectView(R.id.tv_healthdate)
     TextView tv_healthdate;
 
-    @InjectView(R.id.lin_is_vr)
-    LinearLayout lin_is_vr;
-    @InjectView(R.id.ll)
-    LinearLayout ll;
-    @InjectView(R.id.but_login)
-    Button but_login;
+
+
     @InjectView(R.id.tv_health_weight)
     TextView tv_health_weight;
     @InjectView(R.id.tv_health_Pysical)
@@ -105,14 +99,6 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
 
     @Override
     protected void lazyLoad() {
-        if (StringUtils.isEmpty(UserInfoModel.getInstance().getToken())) {
-            lin_is_vr.setVisibility(View.VISIBLE);
-            ll.setVisibility(View.GONE);
-            fl_right.setVisibility(View.INVISIBLE);
-
-        } else {
-            lin_is_vr.setVisibility(View.GONE);
-            ll.setVisibility(View.VISIBLE);
             fl_right.setVisibility(View.VISIBLE);
             fl_right.setOnClickListener(this);
             //获取健康记录
@@ -126,8 +112,6 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
                     }
                 }
             }, 300);
-
-        }
     }
 
     @Override
@@ -143,7 +127,7 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
         tv_leg.setOnClickListener(this);
         tv_shin.setOnClickListener(this);
         tv_healthhistoty.setOnClickListener(this);
-        but_login.setOnClickListener(this);
+
         iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.healthedit));
         healthy_refresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         healthy_refresh.setOnRefreshListener(this);
@@ -225,12 +209,6 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
                 break;
             case R.id.tv_healthhistoty:
                 startActivityForResult(new Intent(getContext(), HistoryDataActivity.class), 2);
-                break;
-            case R.id.but_login:
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
                 break;
         }
     }

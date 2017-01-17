@@ -10,6 +10,8 @@ import android.view.View;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.community.view.DynamicFragment;
+import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
@@ -56,8 +58,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
         fragments.add(new HomeFragment());
-        fragments.add(new HealthyFragment());
-        fragments.add(new HealthyRecordFragment());//健康记录
+//        fragments.add(new HealthyFragment());
+        fragments.add(new DynamicFragment());
+//        fragments.add(new HealthyRecordFragment());//健康记录
+        fragments.add(new FocusFragment());//关注
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

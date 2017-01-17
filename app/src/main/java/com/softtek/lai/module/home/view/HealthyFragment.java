@@ -24,7 +24,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityAdapter;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
-import com.softtek.lai.module.community.view.MineHealthyFragment;
+import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
@@ -58,7 +58,7 @@ public class HealthyFragment extends LazyBaseFragment {
     @Override
     protected void lazyLoad() {
         fragments.add(new DynamicFragment());
-        fragments.add(new MineHealthyFragment());
+        fragments.add(new FocusFragment());
         adapter=new CommunityAdapter(getChildFragmentManager(),fragments);
         tab_content.setAdapter(adapter);
         tab.setupWithViewPager(tab_content);
