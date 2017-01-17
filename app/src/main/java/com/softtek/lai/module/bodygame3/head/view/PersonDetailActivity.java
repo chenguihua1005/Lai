@@ -123,6 +123,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     Button btn_addguy;//加好友
     @InjectView(R.id.tv_no_dy)
     TextView tv_no_dy;
+    @InjectView(R.id.ll_news)
+    LinearLayout ll_news;
 
     @InjectView(R.id.im_guanzhu)
     CheckBox im_guanzhu;
@@ -144,21 +146,27 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initViews() {
-        tv_dynamic.setOnClickListener(this);
+//        tv_dynamic.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         ll_chart.setOnClickListener(this);
         tv_chart.setOnClickListener(this);
         im_guanzhu.setOnClickListener(this);
+        ll_news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent personal = new Intent(PersonDetailActivity.this, PersionalActivity.class);
+                personal.putExtra("personalId", AccountId + "");
+                personal.putExtra("personalName", memberInfoModel.getUserName());
+                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+                startActivityForResult(personal, PERSONDY);
+            }
+        });
         tv_title.setText("个人详情");
         fl_right.setVisibility(View.INVISIBLE);
 
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         titlePopup.setItemOnClickListener(this);
-
-        //给标题栏弹窗添加子类
-//        titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
-//        titlePopup.setItemOnClickListener(this);
 
     }
 
@@ -178,6 +186,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             }
         };
         hlist_dy.setAdapter(easyAdapter);
+        //暂且隐藏点击图片查看大图功能
         hlist_dy.setOnItemClickListener(this);
 
         userid = UserInfoModel.getInstance().getUserId();
@@ -431,13 +440,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 startActivityForResult(intent1, GET_Sian);
                 break;
-            case R.id.tv_dynamic:
-                Intent personal = new Intent(this, PersionalActivity.class);
-                personal.putExtra("personalId", AccountId + "");
-                personal.putExtra("personalName", memberInfoModel.getUserName());
-                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
-                startActivityForResult(personal, PERSONDY);
-                break;
+//            case R.id.tv_dynamic:
+//                Intent personal = new Intent(this, PersionalActivity.class);
+//                personal.putExtra("personalId", AccountId + "");
+//                personal.putExtra("personalName", memberInfoModel.getUserName());
+//                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+//                startActivityForResult(personal, PERSONDY);
+//                break;
             case R.id.tv_chart:
                 Intent graph = new Intent(this, GraphActivity.class);
                 graph.putExtra("accountId", AccountId);
@@ -720,11 +729,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("点击进入。。。。。");
-        Intent intent1 = new Intent(this, PictureMoreActivity.class);
-        intent1.putExtra("images", images);
-        intent1.putExtra("position", i);
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-        ActivityCompat.startActivity(this, intent1, optionsCompat.toBundle());
+        Intent personal = new Intent(PersonDetailActivity.this, PersionalActivity.class);
+        personal.putExtra("personalId", AccountId + "");
+        personal.putExtra("personalName", memberInfoModel.getUserName());
+        personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+        startActivityForResult(personal, PERSONDY);
+//        Intent intent1 = new Intent(this, PictureMoreActivity.class);
+//        intent1.putExtra("images", images);
+//        intent1.putExtra("position", i);
+//        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
+//        ActivityCompat.startActivity(this, intent1, optionsCompat.toBundle());
     }
 }
