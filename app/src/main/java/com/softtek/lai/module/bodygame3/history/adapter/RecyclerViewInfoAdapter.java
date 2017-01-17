@@ -246,22 +246,23 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 //            });
 
             //日期
-            long[] days = DateUtil.getInstance().getDaysForNow(item.getCreatedate());
-            String time;
-            if (days[0] == 0) {//今天
-                if (days[3] < 60) {//小于1分钟
-                    time = "刚刚";
-                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                    time = days[2] + "分钟前";
-                } else {//大于一小时
-                    time = days[1] + "小时前";
-                }
-            } else if (days[0] == 1) {//昨天
-                time = "昨天";
-            } else {
-                time = days[0] + "天前";
-            }
-            mDate.setText(time);
+//            long[] days = DateUtil.getInstance().getDaysForNow(item.getCreatedate());
+//            String time;
+//            if (days[0] == 0) {//今天
+//                if (days[3] < 60) {//小于1分钟
+//                    time = "刚刚";
+//                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
+//                    time = days[2] + "分钟前";
+//                } else {//大于一小时
+//                    time = days[1] + "小时前";
+//                }
+//            } else if (days[0] == 1) {//昨天
+//                time = "昨天";
+//            } else {
+//                time = days[0] + "天前";
+//            }
+//            mDate.setText(time);
+            mDate.setText(item.getCreatedate());
 
             //发表留言内容
             if (item.getIsHasTheme() == 1) {
