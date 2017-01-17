@@ -30,7 +30,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="lee"
                 android:textColor="#424242"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -46,7 +45,8 @@
                 android:background="@drawable/cb_guanzhu_bg"
                 android:button="@null"
                 android:checked="false"
-                android:gravity="center" />
+                android:gravity="center"
+                android:visibility="gone"/>
         </LinearLayout>
 
 
@@ -85,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:text="2015年02月14日"
                 android:textColor="#cbcbcb"
                 android:textSize="12sp" />
 
@@ -102,7 +101,6 @@
                 android:textColor="@color/textview_blue"
                 android:textSize="13sp"
                 android:visibility="gone" />
-            iv_pop_img
 
             <ImageView
                 android:id="@+id/iv_pop_img"
@@ -110,7 +108,8 @@
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/operator" />
+                android:src="@drawable/operator"
+                android:visibility="gone"/>
 
             <!--<ImageView-->
                 <!--android:id="@+id/iv_pop_img"-->
@@ -148,9 +147,9 @@
             android:padding="4dp">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginEnd="4dp"
                 android:src="@drawable/zan_grey"
                 android:layout_marginStart="4dp"/>
 

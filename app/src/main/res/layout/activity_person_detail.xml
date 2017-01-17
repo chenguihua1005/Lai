@@ -43,7 +43,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
-                        android:text="会飞的猫"
                         android:textSize="14sp" />
 
                     <LinearLayout
@@ -60,7 +59,8 @@
                             android:textColor="#999999"
                             android:drawableLeft="@drawable/person_naixi"
                             android:drawablePadding="5dp"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            />
 
                         <TextView
                             android:id="@+id/tv_love"
@@ -71,7 +71,8 @@
                             android:drawableLeft="@drawable/person_aixin"
                             android:drawablePadding="5dp"
                             android:textColor="#999999"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            android:visibility="gone"/>
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_personlityName"
@@ -84,7 +85,9 @@
                         android:enabled="false"
                         android:text="点击编辑签名"
                         android:textColor="#999999"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        />
 
                 </LinearLayout>
 
