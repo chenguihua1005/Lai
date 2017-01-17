@@ -472,7 +472,7 @@ public class ClassInfoActivity extends BaseActivity {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(mUserSetImg_2);
             mLossWeight.setText(list.get(1).getUserName());
-            mLossWeightValue.setText("减脂" + list.get(1).getLoss() + "%");
+            mLossWeightValue.setText("减脂比" + list.get(1).getLoss() + "%");
         }
     }
 

@@ -149,9 +149,9 @@
             android:padding="4dp">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginEnd="4dp"
                 android:src="@drawable/zan_grey"
                 android:layout_marginStart="4dp"/>
 
