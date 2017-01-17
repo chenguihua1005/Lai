@@ -2,8 +2,6 @@ package com.softtek.lai.module.bodygame3.history.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -37,8 +35,6 @@ import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -46,13 +42,9 @@ import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.RetrofitError;
@@ -166,7 +158,7 @@ public class ClassInfoActivity extends BaseActivity {
                 new RecyclerViewInfoAdapter.CommentListener() {
                     @Override
                     public void onCommentClick(final CommentEvent event) {
-                        doComment(event);
+//                        doComment(event);
                     }
                 },
                 this,
