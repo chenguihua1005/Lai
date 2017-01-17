@@ -19,15 +19,14 @@ import java.util.Map;
 import zilla.libcore.file.AddressManager;
 
 
-
 public class ContactExpandableAdapter extends BaseExpandableListAdapter {
 
-    private Map<String,List<ChatContactModel>> datas;
+    private Map<String, List<ChatContactModel>> datas;
     private List<String> groups;
     private Context context;
 
     public ContactExpandableAdapter(Context context, Map<String, List<ChatContactModel>> datas, List<String> groups) {
-        this.context=context;
+        this.context = context;
         this.datas = datas;
         this.groups = groups;
     }
@@ -77,38 +76,36 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
     //  获得父项显示的view
     @Override
     public View getGroupView(int parentPos, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null){
-            view=LayoutInflater.from(context).inflate(R.layout.expandable_parent_contact_item,viewGroup,false);
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_contact_item, viewGroup, false);
         }
-        TextView textView= (TextView) view.findViewById(R.id.group_name);
-        if(parentPos<groups.size()){
+        TextView textView = (TextView) view.findViewById(R.id.group_name);
+        if (parentPos < groups.size()) {
             textView.setText(groups.get(parentPos));
-        }else {
+        } else {
             textView.setText("");
         }
         return view;
     }
 
-
-    //加载图片
-//    String path = AddressManager.get("photoHost");
-//    Picasso.with(context).load(path + model.getPhoto()).fit()
-//    .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+    
 
 
     //  获得子项显示的view
     @Override
     public View getChildView(int parentPos, int childPos, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null){
-            view=LayoutInflater.from(context).inflate(R.layout.expandable_child_contact_item,viewGroup,false);
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.expandable_child_contact_item, viewGroup, false);
         }
-        ChatContactModel contact=datas.get(groups.get(parentPos)).get(childPos);
-        TextView name= (TextView) view.findViewById(R.id.tv_name);
+        ChatContactModel contact = datas.get(groups.get(parentPos)).get(childPos);
+        TextView name = (TextView) view.findViewById(R.id.tv_name);
         name.setText(contact.getUserName());
-        CircleImageView head_image= (CircleImageView) view.findViewById(R.id.head_image);
-        if(!TextUtils.isEmpty(contact.getPhoto())){
-            Picasso.with(context).load(AddressManager.get("photoHost")+contact.getPhoto()).fit().placeholder(R.drawable.img_default)
+        CircleImageView head_image = (CircleImageView) view.findViewById(R.id.head_image);
+        if (!TextUtils.isEmpty(contact.getPhoto())) {
+            Picasso.with(context).load(AddressManager.get("photoHost") + contact.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(head_image);
+        } else {
+            Picasso.with(context).load(R.drawable.img_default).into(head_image);
         }
 
         return view;
