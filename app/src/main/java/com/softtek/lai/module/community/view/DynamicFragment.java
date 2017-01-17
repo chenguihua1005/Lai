@@ -36,11 +36,11 @@ import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jerry.guan on 4/11/2016.
- * 健康圈推荐
+ * 莱聚+动态
  *
  */
 @InjectLayout(R.layout.fragment_recommend_healthy)
-public class RecommendHealthyFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,RecommentHealthyManager.RecommentHealthyManagerCallback{
+public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,RecommentHealthyManager.RecommentHealthyManagerCallback{
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -55,14 +55,6 @@ public class RecommendHealthyFragment extends LazyBaseFragment implements PullTo
 
     @Override
     protected void lazyLoad() {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(ptrlv!=null){
-                    ptrlv.setRefreshing();
-                }
-            }
-        }, 400);
         pageIndex=1;
         community.getRecommendDynamic(accountId,1);
     }

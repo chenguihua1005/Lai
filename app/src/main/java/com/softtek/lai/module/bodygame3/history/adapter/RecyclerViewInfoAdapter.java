@@ -1,6 +1,5 @@
 package com.softtek.lai.module.bodygame3.history.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -18,13 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -33,14 +31,11 @@ import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,63 +170,63 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             //用户名
             mUsername.setText(item.getUserName());
 //            关注
-            if (isMyselfFocus) {
-                mIsFocus.setVisibility(View.INVISIBLE);
-            } else if (isFocus) {
-                mIsFocus.setChecked(true);
-            }
-            mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (!mIsFocus.isChecked()) {
-                        try {
-                            service.doCancleFocusAccount(
-                                    UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-                                    item.getAccountid(),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            if (responseData.getStatus() != 200) {
-                                                mIsFocus.setChecked(true);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            super.failure(error);
-                                        }
-                                    });
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            service.doFocusAccount(
-                                    UserInfoModel.getInstance().getToken(),
-                                    UserInfoModel.getInstance().getUserId(),
-//                                    Long.parseLong(item.getAccountid()),
-                                    (item.getAccountid()),
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(ResponseData responseData, Response response) {
-                                            if (responseData.getStatus() != 200) {
-                                                mIsFocus.setChecked(false);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            super.failure(error);
-                                        }
-                                    }
-                            );
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
+//            if (isMyselfFocus) {
+//                mIsFocus.setVisibility(View.INVISIBLE);
+//            } else if (isFocus) {
+//                mIsFocus.setChecked(true);
+//            }
+//            mIsFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                    if (!mIsFocus.isChecked()) {
+//                        try {
+//                            service.doCancleFocusAccount(
+//                                    UserInfoModel.getInstance().getToken(),
+//                                    UserInfoModel.getInstance().getUserId(),
+//                                    item.getAccountid(),
+//                                    new RequestCallback<ResponseData>() {
+//                                        @Override
+//                                        public void success(ResponseData responseData, Response response) {
+//                                            if (responseData.getStatus() != 200) {
+//                                                mIsFocus.setChecked(true);
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void failure(RetrofitError error) {
+//                                            super.failure(error);
+//                                        }
+//                                    });
+//                        } catch (NumberFormatException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        try {
+//                            service.doFocusAccount(
+//                                    UserInfoModel.getInstance().getToken(),
+//                                    UserInfoModel.getInstance().getUserId(),
+////                                    Long.parseLong(item.getAccountid()),
+//                                    (item.getAccountid()),
+//                                    new RequestCallback<ResponseData>() {
+//                                        @Override
+//                                        public void success(ResponseData responseData, Response response) {
+//                                            if (responseData.getStatus() != 200) {
+//                                                mIsFocus.setChecked(false);
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void failure(RetrofitError error) {
+//                                            super.failure(error);
+//                                        }
+//                                    }
+//                            );
+//                        } catch (NumberFormatException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
 
             //用户头像
             if (!TextUtils.isEmpty(item.getUserThPhoto())) {
@@ -239,12 +234,12 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                         .placeholder(R.drawable.img_default).into(mHeaderImg);
             }
             //3个按钮
-            mPopImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    initPopupWindow(v, mPopView, item);
-                }
-            });
+//            mPopImg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    initPopupWindow(v, mPopView, item);
+//                }
+//            });
 
             //日期
             long[] days = DateUtil.getInstance().getDaysForNow(item.getCreatedate());
@@ -267,11 +262,28 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
             //发表留言内容
             if (item.getIsHasTheme() == 1) {
                 String content = item.getContent();
-//                String theme = content.substring(0,7);
-                SpannableString ss = new SpannableString(content);
-                ss.setSpan(new ForegroundColorSpan(0xFFFFA200), 0, 7, SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
-                mContent.setText(ss);
-//                mContent.append(content.substring(7,content.length()));
+                SpannableStringBuilder builder = new SpannableStringBuilder(content);
+                String theme = "#" + item.getThemeName() + "#";
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(0xFFFFA202);
+                //先把
+                int from = 0;
+                int lastIndex = content.lastIndexOf("#");
+                do {
+                    int firstIndex = content.indexOf("#", from);
+                    int nextIndex = firstIndex + item.getThemeName().length() + 1;
+                    if (nextIndex <= lastIndex) {
+                        String sub = content.substring(firstIndex, nextIndex + 1);
+                        if (sub.equals(theme)) {
+                            builder.setSpan(colorSpan, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }
+                    }
+                    from = nextIndex;
+                } while (from < lastIndex);
+                mContent.setText(builder);
+//                SpannableString ss = new SpannableString(content);
+//                ss.setSpan(new ForegroundColorSpan(0xFFFFA200), 0, 7, SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
+//                mContent.setText(ss);
+
             } else {
                 mContent.setText(item.getContent());
             }
@@ -367,13 +379,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                         @Override
                         public void onClick(View v) {
                             popupWindow.dismiss();
-                            hasZaned = true;
-                            mZan.setClickable(false);
-                            String name = "," + UserInfoModel.getInstance().getUser().getNickname();
-                            if (item.getPraiseNameList().isEmpty()) {
-                                name = name.substring(1, name.length());
-                            }
-                            mZanName.append(name);
                             try {
                                 service.postZan(UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
@@ -382,16 +387,28 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                                         new RequestCallback<ResponseData>() {
                                             @Override
                                             public void success(ResponseData responseData, Response response) {
-
+                                                if (responseData.getStatus() == 200) {
+                                                    hasZaned = true;
+                                                    mZan.setClickable(false);
+                                                    String name = "," + UserInfoModel.getInstance().getUser().getNickname();
+                                                    if (model.getPraiseNameList().isEmpty()) {
+                                                        name = name.substring(1, name.length());
+                                                    }
+                                                    mZanName.append(name);
+                                                }else {
+                                                    hasZaned = false;
+                                                    mZan.setClickable(true);
+                                                }
                                             }
 
                                             @Override
                                             public void failure(RetrofitError error) {
                                                 hasZaned = false;
-                                                if (item.getPraiseNameList().isEmpty()) {
-                                                    mZanLayout.setVisibility(View.GONE);
-                                                    mZanName.setText("");
-                                                }
+                                                mZan.setClickable(true);
+//                                                if (item.getPraiseNameList().isEmpty()) {
+//                                                    mZanLayout.setVisibility(View.GONE);
+//                                                    mZanName.setText("");
+//                                                }
                                                 super.failure(error);
                                             }
                                         });

@@ -2,8 +2,6 @@ package com.softtek.lai.module.bodygame3.history.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -37,8 +35,6 @@ import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -46,13 +42,9 @@ import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.RetrofitError;
@@ -166,7 +158,7 @@ public class ClassInfoActivity extends BaseActivity {
                 new RecyclerViewInfoAdapter.CommentListener() {
                     @Override
                     public void onCommentClick(final CommentEvent event) {
-                        doComment(event);
+//                        doComment(event);
                     }
                 },
                 this,
@@ -359,12 +351,8 @@ public class ClassInfoActivity extends BaseActivity {
                             }
                             if (responseData.getStatus() == 200) {
                                 initViewpager(responseData.getData());
-                                if (responseData.getData().getList_Top1() != null) {
-                                    if (responseData.getData().getList_Top1().size() > 2) {
-                                        initHonor(responseData.getData().getList_Top1());
-                                    } else {
-                                        initFailedView();
-                                    }
+                                if (responseData.getData().getList_Top1() != null && !responseData.getData().getList_Top1().isEmpty()) {
+                                    initHonor(responseData.getData().getList_Top1());
                                 } else {
                                     initFailedView();
                                 }
@@ -459,14 +447,25 @@ public class ClassInfoActivity extends BaseActivity {
     }
 
     private void initHonor(List<HistoryDetailsBean.ListTop1Bean> list) {
-        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(0).getPhoto()).placeholder(R.drawable.default_icon_rect)
-                .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
-        Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto()).placeholder(R.drawable.default_icon_rect)
-                .error(R.drawable.default_icon_rect).into(mUserSetImg_2);
-        mLossFat.setText(list.get(0).getUserName());
-        mLossWeight.setText(list.get(1).getUserName());
-        mLossFatValue.setText("减重" + list.get(0).getLoss() + "斤");
-        mLossWeightValue.setText("减脂" + list.get(1).getLoss() + "%");
+        int px = DisplayUtil.dip2px(this, 45);
+        if (list.size() > 0) {
+            Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(0).getPhoto())
+                    .resize(px, px)
+                    .centerCrop()
+                    .placeholder(R.drawable.default_icon_rect)
+                    .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
+            mLossFat.setText(list.get(0).getUserName());
+            mLossFatValue.setText("减重比" + list.get(0).getLoss() + "%");
+        }
+        if (list.size() > 1) {
+            Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto())
+                    .resize(px, px)
+                    .centerCrop()
+                    .placeholder(R.drawable.default_icon_rect)
+                    .error(R.drawable.default_icon_rect).into(mUserSetImg_2);
+            mLossWeight.setText(list.get(1).getUserName());
+            mLossWeightValue.setText("减脂" + list.get(1).getLoss() + "%");
+        }
     }
 
     private void getClassDynamicInfo() {
@@ -479,7 +478,7 @@ public class ClassInfoActivity extends BaseActivity {
                 new RequestCallback<ResponseData<DynamicBean>>() {
                     @Override
                     public void success(ResponseData<DynamicBean> responseData, Response response) {
-                        if (mPull.isRefreshing()){
+                        if (mPull.isRefreshing()) {
                             mPull.setRefreshing(false);
                         }
                         mPull.setRefreshing(false);
@@ -488,8 +487,7 @@ public class ClassInfoActivity extends BaseActivity {
                             mInfoAdapter.notifyDataSetChanged();
 
 
-                        } else if (responseData.getMsg().equals("暂无数据")) {
-                            initFailedView();
+                        } else if (responseData.getStatus() == 100) {
                             mRecyclerNoData.setVisibility(View.VISIBLE);
                         }
                     }

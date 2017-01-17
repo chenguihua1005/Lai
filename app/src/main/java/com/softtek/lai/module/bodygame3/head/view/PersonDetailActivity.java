@@ -300,10 +300,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
                     ll_chart.setVisibility(View.VISIBLE);
+                    if (!"4".equals(memberInfoModel.getClassRole()))
+                    {
+                        fl_right.setVisibility(View.INVISIBLE);
+                        tv_angle.setVisibility(View.GONE);
+                        tv_love.setVisibility(View.GONE);
+                    }
+                    else {
                         if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
                             titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
                             fl_right.setVisibility(View.VISIBLE);
                         }
+                    }
 
                 } else {
                     tv_personlityName.setVisibility(View.VISIBLE);
