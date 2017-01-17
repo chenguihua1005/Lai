@@ -408,6 +408,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                             if (200 == partnersModelResponseData.getStatus()) {
                                 PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
                                 if (partnertotalModel.getPartnersList() != null && !partnertotalModel.getPartnersList().isEmpty()) {
+                                    partnersModels.clear();
                                     partnersModels.addAll(partnertotalModel.getPartnersList());
                                     adapter.notifyDataSetChanged();
                                 } else {
@@ -950,7 +951,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         page++;
-        partnersModels.clear();
         updatepartner(typecode, 10, page);//按类型分页加载小伙伴
     }
 
