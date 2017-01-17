@@ -287,6 +287,44 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
+                tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                if (!"4".equals(memberInfoModel.getClassRole()))
+                {
+                    fl_right.setVisibility(View.INVISIBLE);
+                    ll_chart.setVisibility(View.GONE);
+                }
+                else {
+                    tv_love.setVisibility(View.VISIBLE);
+
+                    tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
+                    if (AccountId == userid) {
+                        if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
+                            titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
+                            fl_right.setVisibility(View.VISIBLE);
+
+                        }
+                        ll_chart.setVisibility(View.VISIBLE);
+                    }
+                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
+                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
+                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
+                    } else {
+
+                        tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
+                    }
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
+
+                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
+                    {
+                        Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());
+                        Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+                    }
+                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
+                        Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
+                        Log.i("现在体重图片" + url + memberInfoModel.getCurttentThImg());
+                    }
+                }
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
                 {   //是本人可编辑个性签名
                     tv_personlityName.setEnabled(true);
@@ -299,19 +337,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     else {
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
-                    ll_chart.setVisibility(View.VISIBLE);
-                    if (!"4".equals(memberInfoModel.getClassRole()))
-                    {
-                        fl_right.setVisibility(View.INVISIBLE);
-                        tv_angle.setVisibility(View.GONE);
-                        tv_love.setVisibility(View.GONE);
-                    }
-                    else {
-                        if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
-                            titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
-                            fl_right.setVisibility(View.VISIBLE);
-                        }
-                    }
+
+
 
                 } else {
                     tv_personlityName.setVisibility(View.VISIBLE);
@@ -361,34 +388,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
 
                 doGetPhotoView();//展示图片
-                if ("4".equals(memberInfoModel.getClassRole())) {
-                    tv_angle.setVisibility(View.VISIBLE);
-                    tv_love.setVisibility(View.VISIBLE);
-                    tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
-                    tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
-                    ll_weigh.setVisibility(View.VISIBLE);
-                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
-                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
-                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
-                    } else {
-
-                        tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
-                    }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
-
-                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
-                    {
-                        Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());
-                        Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
-                    }
-                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-                        Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
-                        Log.i("现在体重图片" + url + memberInfoModel.getCurttentThImg());
-                    }
-                } else {
-                    ll_chart.setVisibility(View.GONE);
-                }
 
             }
         } catch (Resources.NotFoundException e) {
