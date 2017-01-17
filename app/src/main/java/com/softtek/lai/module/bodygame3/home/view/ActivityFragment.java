@@ -657,7 +657,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 Log.i("act and reset", calendarModels.toString());
                                 for (ActCalendarModel model : calendarModels) {
                                     if (DateUtil.getInstance(DateUtil.yyyy_MM_dd).isEq(model.getMonthDate(), saveclassModel.getDates())) {
-//                                        if(DateUtil.getInstance(DateUtil.yyyy_MM_dd).isEq(now, saveclassModel.getDates())){
                                         //如果是复测类型
                                         if (model.getDateType() == 3 || model.getDateType() == Constants.CREATECLASS) {
                                             ll_fuce.setVisibility(View.VISIBLE);
@@ -796,7 +795,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         @Override
         protected Void doInBackground(List<ActscalendarModel>... lists) {
             //把各种类型改得数据过滤出来
-//            filterTypesData();
             return null;
         }
 

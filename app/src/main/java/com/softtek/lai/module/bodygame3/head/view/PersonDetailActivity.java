@@ -123,6 +123,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     Button btn_addguy;//加好友
     @InjectView(R.id.tv_no_dy)
     TextView tv_no_dy;
+    @InjectView(R.id.ll_news)
+    LinearLayout ll_news;
 
     @InjectView(R.id.im_guanzhu)
     CheckBox im_guanzhu;
@@ -144,21 +146,27 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initViews() {
-        tv_dynamic.setOnClickListener(this);
+//        tv_dynamic.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         ll_chart.setOnClickListener(this);
         tv_chart.setOnClickListener(this);
         im_guanzhu.setOnClickListener(this);
+        ll_news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent personal = new Intent(PersonDetailActivity.this, PersionalActivity.class);
+                personal.putExtra("personalId", AccountId + "");
+                personal.putExtra("personalName", memberInfoModel.getUserName());
+                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+                startActivityForResult(personal, PERSONDY);
+            }
+        });
         tv_title.setText("个人详情");
         fl_right.setVisibility(View.INVISIBLE);
 
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         titlePopup.setItemOnClickListener(this);
-
-        //给标题栏弹窗添加子类
-//        titlePopup.addAction(new ActionItem(this, "删除好友", R.drawable.deletefriend));
-//        titlePopup.setItemOnClickListener(this);
 
     }
 
@@ -178,6 +186,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             }
         };
         hlist_dy.setAdapter(easyAdapter);
+        //暂且隐藏点击图片查看大图功能
         hlist_dy.setOnItemClickListener(this);
 
         userid = UserInfoModel.getInstance().getUserId();
@@ -284,9 +293,48 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //用户名
                 tv_stuname.setText(memberInfoModel.getUserName());
                 //用户id环信id用户名
+                AFriendId=memberInfoModel.getAFriendId();
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
+                tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                if (!"4".equals(memberInfoModel.getClassRole()))
+                {
+                    fl_right.setVisibility(View.INVISIBLE);
+                    ll_chart.setVisibility(View.GONE);
+                }
+                else {
+                    tv_love.setVisibility(View.VISIBLE);
+
+                    tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
+                    if (AccountId == userid) {
+                        if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
+                            titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
+                            fl_right.setVisibility(View.VISIBLE);
+
+                        }
+                        ll_chart.setVisibility(View.VISIBLE);
+                    }
+                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
+                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
+                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
+                    } else {
+
+                        tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
+                    }
+                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
+                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
+
+                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
+                    {
+                        Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());
+                        Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+                    }
+                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
+                        Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
+                        Log.i("现在体重图片" + url + memberInfoModel.getCurttentThImg());
+                    }
+                }
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
                 {   //是本人可编辑个性签名
                     tv_personlityName.setEnabled(true);
@@ -299,19 +347,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     else {
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
-                    ll_chart.setVisibility(View.VISIBLE);
-                    if (!"4".equals(memberInfoModel.getClassRole()))
-                    {
-                        fl_right.setVisibility(View.INVISIBLE);
-                        tv_angle.setVisibility(View.GONE);
-                        tv_love.setVisibility(View.GONE);
-                    }
-                    else {
-                        if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
-                            titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "修改爱心学员", R.drawable.modifylove));
-                            fl_right.setVisibility(View.VISIBLE);
-                        }
-                    }
+
+
 
                 } else {
                     tv_personlityName.setVisibility(View.VISIBLE);
@@ -361,34 +398,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
 
                 doGetPhotoView();//展示图片
-                if ("4".equals(memberInfoModel.getClassRole())) {
-                    tv_angle.setVisibility(View.VISIBLE);
-                    tv_love.setVisibility(View.VISIBLE);
-                    tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
-                    tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
-                    ll_weigh.setVisibility(View.VISIBLE);
-                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
-                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
-                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
-                    } else {
-
-                        tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
-                    }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
-
-                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
-                    {
-                        Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());
-                        Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
-                    }
-                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-                        Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
-                        Log.i("现在体重图片" + url + memberInfoModel.getCurttentThImg());
-                    }
-                } else {
-                    ll_chart.setVisibility(View.GONE);
-                }
 
             }
         } catch (Resources.NotFoundException e) {
@@ -431,13 +440,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 startActivityForResult(intent1, GET_Sian);
                 break;
-            case R.id.tv_dynamic:
-                Intent personal = new Intent(this, PersionalActivity.class);
-                personal.putExtra("personalId", AccountId + "");
-                personal.putExtra("personalName", memberInfoModel.getUserName());
-                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
-                startActivityForResult(personal, PERSONDY);
-                break;
+//            case R.id.tv_dynamic:
+//                Intent personal = new Intent(this, PersionalActivity.class);
+//                personal.putExtra("personalId", AccountId + "");
+//                personal.putExtra("personalName", memberInfoModel.getUserName());
+//                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+//                startActivityForResult(personal, PERSONDY);
+//                break;
             case R.id.tv_chart:
                 Intent graph = new Intent(this, GraphActivity.class);
                 graph.putExtra("accountId", AccountId);
@@ -629,6 +638,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     }
                                 });
                             } else {
+                                Log.i(TAG,"error11111111 =" + response.toString());
+
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -646,6 +657,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 @Override
                                 public void run() {
                                     pd.dismiss();
+                                    Log.i(TAG,"error222222 =" + error.toString());
                                     Util.toastMsg(st2 + error.getMessage());
                                 }
                             });
@@ -717,11 +729,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("点击进入。。。。。");
-        Intent intent1 = new Intent(this, PictureMoreActivity.class);
-        intent1.putExtra("images", images);
-        intent1.putExtra("position", i);
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-        ActivityCompat.startActivity(this, intent1, optionsCompat.toBundle());
+        Intent personal = new Intent(PersonDetailActivity.this, PersionalActivity.class);
+        personal.putExtra("personalId", AccountId + "");
+        personal.putExtra("personalName", memberInfoModel.getUserName());
+        personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+        startActivityForResult(personal, PERSONDY);
+//        Intent intent1 = new Intent(this, PictureMoreActivity.class);
+//        intent1.putExtra("images", images);
+//        intent1.putExtra("position", i);
+//        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
+//        ActivityCompat.startActivity(this, intent1, optionsCompat.toBundle());
     }
 }
