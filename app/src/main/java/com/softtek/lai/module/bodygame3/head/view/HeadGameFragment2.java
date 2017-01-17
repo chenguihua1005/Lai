@@ -76,7 +76,7 @@ import zilla.libcore.util.Util;
 import static android.app.Activity.RESULT_OK;
 
 @InjectLayout(R.layout.fragment_head_game_fragment2)
-public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClickListener,PullToRefreshBase.OnRefreshListener2<ListView>{
+public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
     //toolbar标题
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -122,12 +122,12 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
     private List<TuijianModel> tuijianModels = new ArrayList<>();
     public int typecode;
     private List<ClassModel> classModels = new ArrayList<>();
-    private String classId_first="";
+    private String classId_first = "";
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
     HeadService service;
 
-    EasyTypeAdapter<PartnersModel>  adapter;
+    EasyTypeAdapter<PartnersModel> adapter;
 
     private DeleteClass deleteClass;
 
@@ -136,8 +136,8 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
     private SaveclassModel saveclassModel;
     private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
 
-    public static final String SAVE_CLASS_DIR="save_class_dir";
-    public static final String SAVE_CLASS="save_class";
+    public static final String SAVE_CLASS_DIR = "save_class_dir";
+    public static final String SAVE_CLASS = "save_class";
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
@@ -161,7 +161,7 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
 
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-        ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
+        ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true, false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
@@ -169,32 +169,32 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-        View headView= View.inflate(getContext(),R.layout.bodygame3_head,null);
-        re_photowall= (RelativeLayout) headView.findViewById(R.id.re_photowall);
-        honor_lin= (LinearLayout) headView.findViewById(R.id.honor_lin);
-        spinner_title= (NiceSpinner) headView.findViewById(R.id.spinner_title);
-        searchContent= (TextView) headView.findViewById(R.id.searchContent);
-        group_name= (TextView) headView.findViewById(R.id.group_name);
-        jianzhongbi_tv= (TextView) headView.findViewById(R.id.jianzhongbi_tv);
-        iv_group= (ImageView) headView.findViewById(R.id.iv_group);
-        student_tv= (TextView) headView.findViewById(R.id.student_tv);
-        studenticon= (CircleImageView) headView.findViewById(R.id.iv_studenticon);
-        student_jianzhong= (TextView) headView.findViewById(R.id.student_jianzhong);
-        student_jianzhi= (TextView) headView.findViewById(R.id.student_jianzhi);
-        iv_imagevideo1= (RelativeLayout) headView.findViewById(R.id.iv_imagevideo1);
-        iv_imagevideo2=(RelativeLayout) headView.findViewById(R.id.iv_imagevideo2);
-        video_type1= (TextView) headView.findViewById(R.id.video_type1);
-        video_name1= (TextView) headView.findViewById(R.id.video_name1);
-        video_type2= (TextView) headView.findViewById(R.id.video_type2);
-        video_name2=(TextView) headView.findViewById(R.id.video_name2);
-        re_honor= (RelativeLayout) headView.findViewById(R.id.re_honor);//荣誉榜
-        viewPager= (ViewPager) headView.findViewById(R.id.viewpager);
-        rl_container= (MyRelative) headView.findViewById(R.id.rl_container);
-        week_rel=(RelativeLayout) headView.findViewById(R.id.week_rel);
-        iv_types= (ImageView) headView.findViewById(R.id.iv_types);
-        no_photowalll= (TextView) headView.findViewById(R.id.no_photowalll);
-        iv_video2_bg= (ImageView) headView.findViewById(R.id.iv_video2_bg);
-        iv_video1_bg= (ImageView) headView.findViewById(R.id.iv_video1_bg);
+        View headView = View.inflate(getContext(), R.layout.bodygame3_head, null);
+        re_photowall = (RelativeLayout) headView.findViewById(R.id.re_photowall);
+        honor_lin = (LinearLayout) headView.findViewById(R.id.honor_lin);
+        spinner_title = (NiceSpinner) headView.findViewById(R.id.spinner_title);
+        searchContent = (TextView) headView.findViewById(R.id.searchContent);
+        group_name = (TextView) headView.findViewById(R.id.group_name);
+        jianzhongbi_tv = (TextView) headView.findViewById(R.id.jianzhongbi_tv);
+        iv_group = (ImageView) headView.findViewById(R.id.iv_group);
+        student_tv = (TextView) headView.findViewById(R.id.student_tv);
+        studenticon = (CircleImageView) headView.findViewById(R.id.iv_studenticon);
+        student_jianzhong = (TextView) headView.findViewById(R.id.student_jianzhong);
+        student_jianzhi = (TextView) headView.findViewById(R.id.student_jianzhi);
+        iv_imagevideo1 = (RelativeLayout) headView.findViewById(R.id.iv_imagevideo1);
+        iv_imagevideo2 = (RelativeLayout) headView.findViewById(R.id.iv_imagevideo2);
+        video_type1 = (TextView) headView.findViewById(R.id.video_type1);
+        video_name1 = (TextView) headView.findViewById(R.id.video_name1);
+        video_type2 = (TextView) headView.findViewById(R.id.video_type2);
+        video_name2 = (TextView) headView.findViewById(R.id.video_name2);
+        re_honor = (RelativeLayout) headView.findViewById(R.id.re_honor);//荣誉榜
+        viewPager = (ViewPager) headView.findViewById(R.id.viewpager);
+        rl_container = (MyRelative) headView.findViewById(R.id.rl_container);
+        week_rel = (RelativeLayout) headView.findViewById(R.id.week_rel);
+        iv_types = (ImageView) headView.findViewById(R.id.iv_types);
+        no_photowalll = (TextView) headView.findViewById(R.id.no_photowalll);
+        iv_video2_bg = (ImageView) headView.findViewById(R.id.iv_video2_bg);
+        iv_video1_bg = (ImageView) headView.findViewById(R.id.iv_video1_bg);
 
         ptrlv.getRefreshableView().addHeaderView(headView);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
@@ -205,14 +205,14 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
         re_photowall.setOnClickListener(this);
     }
 
-    private static final int EMPTY=0;
-    private static final int DATA=1;
+    private static final int EMPTY = 0;
+    private static final int DATA = 1;
 
     @Override
     protected void initDatas() {
-        SaveClassModel temp= (SaveClassModel) ACache.get(getContext(),SAVE_CLASS_DIR).getAsObject(SAVE_CLASS);
-        if(temp!=null){
-            classId_first=temp.classId;
+        SaveClassModel temp = (SaveClassModel) ACache.get(getContext(), SAVE_CLASS_DIR).getAsObject(SAVE_CLASS);
+        if (temp != null) {
+            classId_first = temp.classId;
             EventBus.getDefault().post(temp);
         }
         viewPager.setOffscreenPageLimit(4);
@@ -244,25 +244,25 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                 updatepartner(typecode, 10, page);//按类型分页加载小伙伴
             }
         });
-        adapter=new EasyTypeAdapter<PartnersModel>(partnersModels) {
+        adapter = new EasyTypeAdapter<PartnersModel>(partnersModels) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                int type=getItemViewType(position);
-                PartnersModel partnersModel=partnersModels.get(position);
+                int type = getItemViewType(position);
+                PartnersModel partnersModel = partnersModels.get(position);
                 ViewHolder holder;
-                if(type==DATA){
-                    holder=ViewHolder.get(getContext(),R.layout.partner_list,convertView,parent);
-                    CircleImageView civ=holder.getView(R.id.head_img);
+                if (type == DATA) {
+                    holder = ViewHolder.get(getContext(), R.layout.partner_list, convertView, parent);
+                    CircleImageView civ = holder.getView(R.id.head_img);
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + partnersModel.getStuImg())
                             .fit().error(R.drawable.img_default)
                             .placeholder(R.drawable.img_default).into(civ);
-                    ImageView exi_iv=holder.getView(R.id.exi_iv);
-                    exi_iv.setVisibility("1".equals(partnersModel.getIsRetire())?View.VISIBLE:View.GONE);
-                    TextView paiming=holder.getView(R.id.paiming);
+                    ImageView exi_iv = holder.getView(R.id.exi_iv);
+                    exi_iv.setVisibility("1".equals(partnersModel.getIsRetire()) ? View.VISIBLE : View.GONE);
+                    TextView paiming = holder.getView(R.id.paiming);
                     paiming.setText(partnersModel.getRanking());
-                    TextView name_tv=holder.getView(R.id.name_tv);
+                    TextView name_tv = holder.getView(R.id.name_tv);
                     name_tv.setText(partnersModel.getStuName());
-                    ImageView fale=holder.getView(R.id.fale);
+                    ImageView fale = holder.getView(R.id.fale);
                     if (partnersModel.getStuGender().equals("1")) {
                         fale.setImageResource(R.drawable.female_iv);
                     } else if (partnersModel.getStuGender().equals("0")) {
@@ -270,14 +270,14 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                     } else if (partnersModel.getStuGender().equals("2")) {
 
                     }
-                    TextView group_tv=holder.getView(R.id.group_tv);
+                    TextView group_tv = holder.getView(R.id.group_tv);
                     group_tv.setText("(" + partnersModel.getGroupName() + ")");
-                    TextView weight_first=holder.getView(R.id.weight_first);
+                    TextView weight_first = holder.getView(R.id.weight_first);
                     weight_first.setText("初始体重" + partnersModel.getWeight() + "斤");
 
-                    TextView tv_bi=holder.getView(R.id.tv_bi);
-                    TextView jianzhong_tv=holder.getView(R.id.jianzhong_tv);
-                    TextView jianzhong_tv2=holder.getView(R.id.jianzhong_tv2);
+                    TextView tv_bi = holder.getView(R.id.tv_bi);
+                    TextView jianzhong_tv = holder.getView(R.id.jianzhong_tv);
+                    TextView jianzhong_tv2 = holder.getView(R.id.jianzhong_tv2);
                     if (typecode == 0) {//Int	排序类型：0:体重,1:减重比,2:体脂比
                         tv_bi.setText("减重斤数");
                         jianzhong_tv.setText(partnersModel.getLoss());
@@ -292,8 +292,8 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                         jianzhong_tv.setText(partnersModel.getLoss());
                         jianzhong_tv2.setText("%");
                     }
-                }else {
-                    holder=ViewHolder.get(getContext(),R.layout.empty_view,convertView,parent);
+                } else {
+                    holder = ViewHolder.get(getContext(), R.layout.empty_view, convertView, parent);
                 }
                 return holder.getConvertView();
             }
@@ -305,11 +305,11 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
 
             @Override
             public int getItemViewType(int position) {
-                if (partnersModels.isEmpty()){
+                if (partnersModels.isEmpty()) {
                     return EMPTY;
                 }
-                PartnersModel model=partnersModels.get(position);
-                return model.isNotData?EMPTY:DATA;
+                PartnersModel model = partnersModels.get(position);
+                return model.isNotData ? EMPTY : DATA;
             }
         };
 
@@ -318,13 +318,13 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
         ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                com.github.snowdream.android.util.Log.i("点击页面。。。。。="+position);
-                int index=position-2;
-                if(index<0){
+                com.github.snowdream.android.util.Log.i("点击页面。。。。。=" + position);
+                int index = position - 2;
+                if (index < 0) {
                     return;
                 }
-                PartnersModel partnersModel = partnersModels.get(position-2);
-                if(partnersModel.isNotData){
+                PartnersModel partnersModel = partnersModels.get(position - 2);
+                if (partnersModel.isNotData) {
                     return;
                 }
                 String stu_id = partnersModel.getAccountId();
@@ -348,12 +348,12 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                 saveclassModel.setClassId(classModels.get(i).getClassId());
                 saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
                 saveclassModel.setClassRole(classModels.get(i).getClassRole());
-                page=1;
+                page = 1;
                 classinfo(classId_first, classnum);
-                SaveClassModel saveClassModel=new SaveClassModel();
-                saveClassModel.classId=classId_first;
-                saveClassModel.classWeek=classnum;
-                ACache.get(getContext(),SAVE_CLASS_DIR).put(SAVE_CLASS,saveClassModel);
+                SaveClassModel saveClassModel = new SaveClassModel();
+                saveClassModel.classId = classId_first;
+                saveClassModel.classWeek = classnum;
+                ACache.get(getContext(), SAVE_CLASS_DIR).put(SAVE_CLASS, saveClassModel);
                 EventBus.getDefault().post(saveClassModel);
 
             }
@@ -407,10 +407,10 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                             ptrlv.onRefreshComplete();
                             if (200 == partnersModelResponseData.getStatus()) {
                                 PartnertotalModel partnertotalModel = partnersModelResponseData.getData();
-                                if (partnertotalModel.getPartnersList() != null&&!partnertotalModel.getPartnersList().isEmpty()) {
+                                if (partnertotalModel.getPartnersList() != null && !partnertotalModel.getPartnersList().isEmpty()) {
                                     partnersModels.addAll(partnertotalModel.getPartnersList());
                                     adapter.notifyDataSetChanged();
-                                }else {
+                                } else {
                                     page--;
                                 }
                             } else {
@@ -421,6 +421,7 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void failure(RetrofitError error) {
                         page--;
@@ -473,11 +474,11 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
 
                                 //班级赛况
                                 partnersModels.clear();
-                                if (classinfoModel.getPartnersList() != null&&!classinfoModel.getPartnersList().isEmpty()) {
+                                if (classinfoModel.getPartnersList() != null && !classinfoModel.getPartnersList().isEmpty()) {
                                     partnersModels.addAll(classinfoModel.getPartnersList());
-                                }else {
-                                    PartnersModel model=new PartnersModel();
-                                    model.isNotData=true;
+                                } else {
+                                    PartnersModel model = new PartnersModel();
+                                    model.isNotData = true;
                                     partnersModels.add(model);
                                 }
                                 adapter.notifyDataSetChanged();
@@ -676,7 +677,7 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
     }
 
     private void getallfirst(final String classId) {
-        service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10,classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
+        service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
                 try {
@@ -740,20 +741,20 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                                     }
                                 }
                             });
-                            SaveClassModel saveClassModel= (SaveClassModel) ACache.get(getContext(),SAVE_CLASS_DIR).getAsObject(SAVE_CLASS);
-                            if(saveClassModel!=null){
-                                for (int i=0,j=classModels.size();i<j;i++){
-                                    ClassModel model=classModels.get(i);
-                                    if(model.getClassId().equals(saveClassModel.classId)){
+                            SaveClassModel saveClassModel = (SaveClassModel) ACache.get(getContext(), SAVE_CLASS_DIR).getAsObject(SAVE_CLASS);
+                            if (saveClassModel != null) {
+                                for (int i = 0, j = classModels.size(); i < j; i++) {
+                                    ClassModel model = classModels.get(i);
+                                    if (model.getClassId().equals(saveClassModel.classId)) {
                                         tv_title.setSelected(i);
                                         classId_first = saveClassModel.classId;
                                         EventBus.getDefault().post(saveClassModel);
                                         break;
                                     }
                                 }
-                            }else {
-                                saveClassModel=new SaveClassModel();
-                                saveClassModel.classId=classId_first;
+                            } else {
+                                saveClassModel = new SaveClassModel();
+                                saveClassModel.classId = classId_first;
                                 EventBus.getDefault().post(saveClassModel);
                             }
                         }
@@ -846,11 +847,11 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
                         }
                         //班级赛况
                         partnersModels.clear();
-                        if (classinfoModel.getPartnersList() != null&&!classinfoModel.getPartnersList().isEmpty()) {
+                        if (classinfoModel.getPartnersList() != null && !classinfoModel.getPartnersList().isEmpty()) {
                             partnersModels.addAll(classinfoModel.getPartnersList());
-                        }else {
-                            PartnersModel model=new PartnersModel();
-                            model.isNotData=true;
+                        } else {
+                            PartnersModel model = new PartnersModel();
+                            model.isNotData = true;
                             partnersModels.add(model);
                         }
                         adapter.notifyDataSetChanged();
@@ -936,7 +937,7 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        page=1;
+        page = 1;
         if (saveclassModel != null) {
             classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
@@ -949,6 +950,7 @@ public class  HeadGameFragment2 extends LazyBaseFragment implements View.OnClick
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         page++;
+        partnersModels.clear();
         updatepartner(typecode, 10, page);//按类型分页加载小伙伴
     }
 
