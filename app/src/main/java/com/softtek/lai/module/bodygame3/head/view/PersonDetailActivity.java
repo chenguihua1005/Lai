@@ -284,6 +284,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //用户名
                 tv_stuname.setText(memberInfoModel.getUserName());
                 //用户id环信id用户名
+                AFriendId=memberInfoModel.getAFriendId();
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
@@ -628,6 +629,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     }
                                 });
                             } else {
+                                Log.i(TAG,"error11111111 =" + response.toString());
+
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -645,6 +648,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 @Override
                                 public void run() {
                                     pd.dismiss();
+                                    Log.i(TAG,"error222222 =" + error.toString());
                                     Util.toastMsg(st2 + error.getMessage());
                                 }
                             });
