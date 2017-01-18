@@ -233,8 +233,8 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 //            });
 
             //用户头像
-            if (!TextUtils.isEmpty(item.getUserThPhoto())) {
-                Picasso.with(mContext).load(path + item.getUserThPhoto()).fit().error(R.drawable.img_default)
+            if (!TextUtils.isEmpty(item.getUserPhoto())) {
+                Picasso.with(mContext).load(path + item.getUserPhoto()).fit().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(mHeaderImg);
             }
             //3个按钮
@@ -270,7 +270,6 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
                 SpannableStringBuilder builder = new SpannableStringBuilder(content);
                 String theme = "#" + item.getThemeName() + "#";
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(0xFFFFA202);
-                //先把
                 int from = 0;
                 int lastIndex = content.lastIndexOf("#");
                 do {
