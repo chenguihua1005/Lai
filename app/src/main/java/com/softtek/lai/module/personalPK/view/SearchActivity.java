@@ -2,6 +2,7 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -104,18 +105,20 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         try {
             lv.onRefreshComplete();
             if(data==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
                 return;
             }
             totalPage=data.getPageCount();
             List<PKObjModel> models=data.getData();
             if(models==null||models.isEmpty()){
                 lv.setMode(PullToRefreshBase.Mode.DISABLED);
-                modelList.clear();
-                adapter.notifyDataSetChanged();
+                pageIndex=--pageIndex<1?1:pageIndex;
                 return;
             }
             lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-            modelList.clear();
+            if (pageIndex==1){
+                modelList.clear();
+            }
             modelList.addAll(models);
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
@@ -165,7 +168,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         if(pageIndex<=totalPage){
             manager.searchPKObj(this,search.getText().toString(),pageIndex);
         }else{
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     lv.onRefreshComplete();
