@@ -164,11 +164,19 @@ public class ClassInfoActivity extends BaseActivity {
                 this,
                 popView);
         mRecyclerView.setAdapter(mInfoAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManagerWrapper(this));
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                //监听 RecyclerView的滚动，在滚动到第一条的时候展开 AppBarLayout
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (firstVisiblePosition == 0) {
+                        mAppbar.setExpanded(true, true);
+                    }
+                }
                 int count = mInfoAdapter.getItemCount();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
                     //加载更多数据
