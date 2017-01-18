@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -34,7 +33,6 @@ import com.softtek.lai.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,38 +135,6 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 return false;
             }
         });
-//        ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            int lastVisibleItemPosition;//标记上次的显示位置
-//            boolean isFirst=true;//标记第一次进入，因为第一次进来lastVisibleItemPosition默认为0，
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                if(!isFirst){
-//                    isFirst=false;
-//                    if(firstVisibleItem>lastVisibleItemPosition){
-//                        //执行向上滑动时要做的逻辑
-//                        //上滑隐藏
-//                        if(isShow){
-//                            isShow=false;
-//                            fab_sender.hide();
-//
-//                        }
-//                    }else {
-//                        //下滑
-//                        //下滑显示
-//                        if(!isShow){
-//                            isShow=true;
-//                            fab_sender.show();
-//                        }
-//                    }
-//                    lastVisibleItemPosition=firstVisibleItem;//记录当前条目
-//                }
-//            }
-//        });
     }
     long accountId=0;
     @Override
