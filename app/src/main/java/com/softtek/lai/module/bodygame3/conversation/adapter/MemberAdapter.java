@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
+import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -74,9 +75,20 @@ public class MemberAdapter extends BaseAdapter {
         String photo = model.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
 
+        int px = DisplayUtil.dip2px(context, 45);
+
         if (!TextUtils.isEmpty(photo)) {
-            Picasso.with(context).load(path + photo).fit().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
+//            Picasso.with(context).load(path + photo).resize(px, px)
+//                    .centerCrop().fit().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
+//                    .error(com.hyphenate.easeui.R.drawable.ease_default_avatar).into(holder.img);
+
+//            Picasso.with(context).load(path + photo).fit().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
+//                    .error(com.hyphenate.easeui.R.drawable.ease_default_avatar).into(holder.img);
+
+            Picasso.with(context).load(path + photo).fit()
                     .error(com.hyphenate.easeui.R.drawable.ease_default_avatar).into(holder.img);
+        } else {
+            Picasso.with(context).load(R.drawable.ease_default_avatar).into(holder.img);
         }
 
         holder.text_name.setText(model.getUserName());

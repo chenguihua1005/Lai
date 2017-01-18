@@ -88,7 +88,7 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-    
+
 
 
     //  获得子项显示的view
