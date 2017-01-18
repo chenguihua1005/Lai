@@ -62,7 +62,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     protected void initViews() {
         //overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         Constants.IS_LOGINIMG="0";
-        tintManager.setStatusBarTintResource(android.R.color.transparent);
+        //tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
             finish();
             return;
