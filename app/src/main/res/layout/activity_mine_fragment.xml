@@ -172,7 +172,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
                             <TextView
@@ -206,7 +206,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
                             <TextView
@@ -245,7 +245,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
                             <TextView
@@ -262,6 +262,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="您当前等级为1级"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_losslevel"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
@@ -277,7 +279,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
                             <TextView
@@ -294,6 +296,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="运动等级为1级"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_sportlevel"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
@@ -314,7 +318,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
                             <TextView
@@ -331,6 +335,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="建设中，敬请期待"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_task"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
@@ -346,7 +352,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
 
@@ -366,6 +372,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="您有3条未读消息"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_mynews"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
