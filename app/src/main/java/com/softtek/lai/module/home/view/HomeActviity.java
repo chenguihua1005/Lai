@@ -13,6 +13,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.softtek.lai.module.laijumine.MineTwoFragment;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
 
@@ -62,7 +63,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         fragments.add(new DynamicFragment());
 //        fragments.add(new HealthyRecordFragment());//健康记录
         fragments.add(new FocusFragment());//关注
-        fragments.add(new MineFragment());
+        fragments.add(new MineTwoFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
