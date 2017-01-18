@@ -188,8 +188,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="当前于2016年11月12日"
+                                android:text="更新于2016年11月12日"
                                 android:layout_below="@+id/tv_health"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
                     </RelativeLayout>
@@ -221,6 +223,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="您当前有3名顾客"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_mycustomer"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
@@ -283,7 +287,7 @@
                                 android:text="运动等级"
                                 android:textSize="14sp"
                                 android:textColor="#333333"
-                                android:drawableLeft="@drawable/my_customers_icon"
+                                android:drawableLeft="@drawable/sport_level_icon"
                                 android:gravity="center"
                                 android:drawablePadding="5dp"/>
                             <TextView
@@ -320,7 +324,7 @@
                                 android:text="任务与积分"
                                 android:textSize="14sp"
                                 android:textColor="#333333"
-                                android:drawableLeft="@drawable/health_record_icon"
+                                android:drawableLeft="@drawable/more_task_integral"
                                 android:gravity="center"
                                 android:drawablePadding="5dp"/>
                             <TextView
@@ -353,7 +357,7 @@
                                 android:text="消息中心"
                                 android:textSize="14sp"
                                 android:textColor="#333333"
-                                android:drawableLeft="@drawable/my_customers_icon"
+                                android:drawableLeft="@drawable/my_news_icon"
                                 android:gravity="center"
                                 android:drawablePadding="5dp"
                                 android:layout_alignParentTop="true"
