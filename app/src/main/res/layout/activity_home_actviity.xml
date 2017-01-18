@@ -49,7 +49,7 @@
         <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_healthy_record"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1" 
                 android:layout_height="match_parent"
                 app:normalBitmap="@drawable/ic_focus"
                 app:pitchBitmap="@drawable/ic_refocus"

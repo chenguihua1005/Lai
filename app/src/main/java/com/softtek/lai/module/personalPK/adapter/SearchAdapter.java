@@ -61,6 +61,8 @@ public class SearchAdapter extends BaseAdapter{
         holder.paotuan_name.setText(model.getRGName());
         if(StringUtils.isNotEmpty(model.getPhoto())){
             Picasso.with(context).load(AddressManager.get("photoHost")+model.getPhoto()).fit().error(R.drawable.img_default).into(holder.header_image);
+        }else {
+            Picasso.with(context).load(R.drawable.img_default).into(holder.header_image);
         }
         return convertView;
     }
