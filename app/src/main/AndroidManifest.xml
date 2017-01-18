@@ -769,7 +769,8 @@
         <activity
             android:name=".module.bodygame3.more.view.SupportTeamActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.community.view.TopicListActivity"></activity>
+        <activity android:name=".module.community.view.TopicListActivity" />
+        <activity android:name=".module.community.view.TopicDetailActivity" />
     </application>
 
 </manifest>

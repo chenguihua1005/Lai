@@ -166,8 +166,10 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     }
     @OnClick(R.id.fl_right)
     public void moreTopicClick(View view){
-
+//        startActivity(new Intent(getContext(),TopicListActivity.class));
+        startActivity(new Intent(getContext(),TopicDetailActivity.class));
     }
+
 
     @Subscribe
     public void refreshList(RefreshRecommedEvent event){

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/red"
+    android:background="@color/white"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingTop="10dp"
@@ -36,16 +36,18 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_topic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#ec7166"
             android:text="#精彩踢馆赛#"/>
         <TextView
+            android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#ec7166"
+            android:textSize="10sp"
+            android:textColor="#999999"
             android:layout_marginTop="11dp"
             android:maxLines="1"
             android:ellipsize="end"
