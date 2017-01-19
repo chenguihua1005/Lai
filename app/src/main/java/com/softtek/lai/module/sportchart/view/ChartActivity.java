@@ -757,16 +757,6 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                     dates.add(entry);
                 }
             }
-            if (Userid.equals(isFocusid)) {
-                if (dateForm.getDateform(getPeriodDate(type, 0) + "").equals(day.get(6))) {
-                    Intent intent = getIntent();
-                    int step = intent.getIntExtra("step", 0);
-                    maxStep = step > maxStep ? step : maxStep;
-                    Entry entry = dates.get(6);
-                    entry.setVal(step);
-                    dates.set(6, entry);
-                }
-            }
             chart.setDate(days, dates, maxStep, BrokenLine.INTEGER);
 
         } catch (Exception e) {

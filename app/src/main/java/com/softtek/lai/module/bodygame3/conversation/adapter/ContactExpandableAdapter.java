@@ -88,8 +88,6 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-    
-
 
     //  获得子项显示的view
     @Override
@@ -102,7 +100,7 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
         name.setText(contact.getUserName());
         CircleImageView head_image = (CircleImageView) view.findViewById(R.id.head_image);
         if (!TextUtils.isEmpty(contact.getPhoto())) {
-            Picasso.with(context).load(AddressManager.get("photoHost") + contact.getPhoto()).fit().placeholder(R.drawable.img_default)
+            Picasso.with(context).load(AddressManager.get("photoHost") + contact.getPhoto()).fit()
                     .error(R.drawable.img_default).into(head_image);
         } else {
             Picasso.with(context).load(R.drawable.img_default).into(head_image);

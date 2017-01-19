@@ -33,6 +33,7 @@ import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -290,19 +291,16 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //用户名
                 tv_stuname.setText(memberInfoModel.getUserName());
                 //用户id环信id用户名
-                AFriendId=memberInfoModel.getAFriendId();
+                AFriendId = memberInfoModel.getAFriendId();
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
                 tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
-                if (!"4".equals(memberInfoModel.getClassRole()))
-                {
+                if (!"4".equals(memberInfoModel.getClassRole())) {
                     fl_right.setVisibility(View.INVISIBLE);
                     ll_chart.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     tv_love.setVisibility(View.VISIBLE);
-
                     tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                     if (AccountId == userid) {
                         if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
@@ -311,7 +309,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                         }
                         ll_chart.setVisibility(View.VISIBLE);
-                    }
+                    }ll_weigh.setVisibility(View.VISIBLE);
                     if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
                         String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
                         tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
@@ -340,11 +338,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         tv_personlityName.setText(memberInfoModel.getPersonalityName());
                         tv_personlityName.setCompoundDrawables(null, null, null, null);
                         tv_personlityName.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
-
 
 
                 } else {
@@ -631,11 +627,16 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                     public void run() {
                                         pd.dismiss();
                                         Util.toastMsg("删除好友成功");
+                                        //发通知更新好友列表
+                                        Intent intent = new Intent(ContactFragment.UPDATE_CONTACT_MSG);
+                                        sendBroadcast(intent);
+
+
                                         finish();
                                     }
                                 });
                             } else {
-                                Log.i(TAG,"error11111111 =" + response.toString());
+                                Log.i(TAG, "error11111111 =" + response.toString());
 
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -654,7 +655,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 @Override
                                 public void run() {
                                     pd.dismiss();
-                                    Log.i(TAG,"error222222 =" + error.toString());
+                                    Log.i(TAG, "error222222 =" + error.toString());
                                     Util.toastMsg(st2 + error.getMessage());
                                 }
                             });
