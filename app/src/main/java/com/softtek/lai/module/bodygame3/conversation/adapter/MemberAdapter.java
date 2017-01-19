@@ -73,15 +73,13 @@ public class MemberAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final ClassMemberModel model = members.get(position);
         String photo = model.getPhoto();
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-
-        int px = DisplayUtil.dip2px(context, 44);
-
         if (!TextUtils.isEmpty(photo)) {
+            int px = DisplayUtil.dip2px(context, 44);
+            String path = AddressManager.get("photoHost");
             Picasso.with(context).load(path + photo).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(R.drawable.img_default).placeholder(R.drawable.img_default).into(holder.img);
         }
 
         holder.text_name.setText(model.getUserName());

@@ -106,8 +106,7 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
             Picasso.with(context).load(AddressManager.get("photoHost") + contact.getPhoto()).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(head_image);
         } else {
-            Picasso.with(context).load(R.drawable.img_default).into(head_image);
-//            head_image.setBackgroundResource(R.drawable.img_default);
+            Picasso.with(context).load(R.drawable.img_default).placeholder(R.drawable.img_default).into(head_image);
         }
 
         return view;
