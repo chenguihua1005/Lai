@@ -475,9 +475,9 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case CAMERA_PREMISSION:
-                if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                imageFileCropSelector.takePhoto(ChartActivity.this);
-            }
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    imageFileCropSelector.takePhoto(ChartActivity.this);
+                }
                 break;
             case LOCATION_PREMISSION:
                 if (grantResults.length > 0
@@ -492,6 +492,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 break;
         }
     }
+
     private void setShare() {
         dialogShow("加载中");
         Bitmap b1 = getViewBitmap(chart);
@@ -752,7 +753,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                 for (int i = 6; i >= 0; i--) {
                     int step = Integer.parseInt(steps.get(6 - i).getTotalCnt());
                     maxStep = step > maxStep ? step : maxStep;
-                    Entry entry = new Entry(6-i, step);
+                    Entry entry = new Entry(6 - i, step);
                     dates.add(entry);
                 }
             }

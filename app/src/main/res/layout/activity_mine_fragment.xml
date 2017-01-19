@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_mine_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#ffffff"
+    tools:context="com.softtek.lai.module.laijumine.MineTwoFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="252dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="215dp"
+                    android:background="#E6E6E6">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/takephoto_icon_grey" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop" />
+
+                </RelativeLayout>
+
+                <com.softtek.lai.widgets.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:background="@drawable/img_default" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="小白"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/edit_grey_icon"
+                android:gravity="center"
+                android:text="爱生活，爱健康"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_dynum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="3"
+                        android:textColor="#333333"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_dynum"
+                        android:layout_centerHorizontal="true"
+                        android:text="动态"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_guanzhunum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="3"
+                        android:textColor="#333333"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_guanzhunum"
+                        android:layout_centerHorizontal="true"
+                        android:text="关注"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_fansnum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="3"
+                        android:textColor="#333333"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_fansnum"
+                        android:layout_centerHorizontal="true"
+                        android:text="粉丝"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e6e6e6" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+                            <TextView
+                                android:id="@+id/tv_health"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="健康记录"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/health_record_icon"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="更新于2016年11月12日"
+                                android:layout_below="@+id/tv_health"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:background="#cccccc"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+                            <TextView
+                                android:id="@+id/tv_mycustomer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="我的顾客"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/my_customers_icon"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="您当前有3名顾客"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_below="@+id/tv_mycustomer"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e6e6e6"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+                            <TextView
+                                android:id="@+id/tv_losslevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="减重等级"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/loss_level_icon"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="您当前等级为1级"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_below="@+id/tv_losslevel"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:background="#cccccc"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+                            <TextView
+                                android:id="@+id/tv_sportlevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="运动等级"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/sport_level_icon"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="运动等级为1级"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_below="@+id/tv_sportlevel"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e6e6e6"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+                            <TextView
+                                android:id="@+id/tv_task"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="任务与积分"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/more_task_integral"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="建设中，敬请期待"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_below="@+id/tv_task"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:background="#cccccc"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+                            <TextView
+                                android:id="@+id/tv_mynews"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="消息中心"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/my_news_icon"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="您有3条未读消息"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_below="@+id/tv_mynews"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e6e6e6"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
