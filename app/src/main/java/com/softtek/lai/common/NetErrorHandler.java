@@ -97,7 +97,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 SharedPreferenceService.getInstance().put("HXID", "-1");
                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                                UserInfoModel.getInstance().loginOut();
                                 if (EMClient.getInstance().isLoggedInBefore()) {
                                     EMClient.getInstance().logout(true, new EMCallBack() {
                                         @Override
@@ -117,6 +116,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     //builder = null;
+                                                    UserInfoModel.getInstance().loginOut();
                                                     Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

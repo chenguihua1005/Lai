@@ -1,7 +1,9 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
+import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
@@ -33,7 +35,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_class_member)
-public class ClassMemberActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ExpandableListView>{
+public class ClassMemberActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ExpandableListView> {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -44,11 +46,41 @@ public class ClassMemberActivity extends BaseActivity implements PullToRefreshBa
 
     //EasyAdapter<Member> adapter;
     MemberExpandableAdapter adapter;
-    private Map<String,List<Member>> members =new HashMap<>();
-    private List<String> parents=new ArrayList<>();
-    private List<ClassGroup> groups=new ArrayList<>();
+    private Map<String, List<Member>> members = new HashMap<>();
+    private List<String> parents = new ArrayList<>();
+    private List<ClassGroup> groups = new ArrayList<>();
     private String classId;
     private String classHxId;
+
+    private ProgressDialog pDialog;
+
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0x0011:
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+
+                    Member member = (Member) msg.obj;
+                    members.get(member.getCGName()).remove(member);
+                    adapter.notifyDataSetChanged();
+
+                    break;
+                case 0x0012:
+                    if (pDialog != null && pDialog.isShowing()) {
+                        pDialog.dismiss();
+                    }
+
+                    Util.toastMsg("移除失败");
+                    break;
+
+            }
+
+        }
+    };
 
 
     @Override
@@ -69,16 +101,22 @@ public class ClassMemberActivity extends BaseActivity implements PullToRefreshBa
         classHxId = getIntent().getStringExtra("classHxId");
         lv.setOnRefreshListener(this);
         lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        adapter=new MemberExpandableAdapter(this,members,parents,classId,classHxId,groups,tv_title);
+
+        pDialog = new ProgressDialog(ClassMemberActivity.this);
+        pDialog.setCanceledOnTouchOutside(false);
+
+        adapter = new MemberExpandableAdapter(this, members, parents, classId, classHxId, groups, tv_title, handler, pDialog);
         lv.getRefreshableView().setAdapter(adapter);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(lv!=null){
+                if (lv != null) {
                     lv.setRefreshing();
                 }
             }
-        },400);
+        }, 400);
+
+
     }
 
 
@@ -93,19 +131,19 @@ public class ClassMemberActivity extends BaseActivity implements PullToRefreshBa
                                 lv.onRefreshComplete();
                                 if (data.getStatus() == 200) {
                                     try {
-                                        List<ClassGroup> temp=new ArrayList<>();
-                                        for (ClassGroup3 group3:data.getData()){
-                                            ClassGroup group=new ClassGroup();
+                                        List<ClassGroup> temp = new ArrayList<>();
+                                        for (ClassGroup3 group3 : data.getData()) {
+                                            ClassGroup group = new ClassGroup();
                                             group.setCGId(group3.ClassGroupId);
                                             group.setCGName(group3.ClassGroupName);
                                             temp.add(group);
-                                            if(!parents.contains(group3.ClassGroupName)){
+                                            if (!parents.contains(group3.ClassGroupName)) {
                                                 parents.add(group3.ClassGroupName);
                                             }
-                                            if(!members.containsKey(group3.ClassGroupName)){
-                                                members.put(group3.ClassGroupName,group3.GroupMembers);
-                                            }else {
-                                                List<Member> member=members.get(group3.ClassGroupName);
+                                            if (!members.containsKey(group3.ClassGroupName)) {
+                                                members.put(group3.ClassGroupName, group3.GroupMembers);
+                                            } else {
+                                                List<Member> member = members.get(group3.ClassGroupName);
                                                 member.clear();
                                                 member.addAll(group3.GroupMembers);
                                             }

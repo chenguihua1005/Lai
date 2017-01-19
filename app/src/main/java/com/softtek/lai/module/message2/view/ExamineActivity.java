@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
@@ -140,9 +141,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         model.reviewerId = UserInfoModel.getInstance().getUserId();//审核人Id
         tv_apply_name.setText(apply.getApplyName());
         if (!TextUtils.isEmpty(apply.getApplyPhoto())) {
-            int px= DisplayUtil.dip2px(this,30);
-            Picasso.with(this).load(AddressManager.get("photoHost")+apply.getApplyPhoto())
-                    .resize(px,px)
+            int px = DisplayUtil.dip2px(this, 30);
+            Picasso.with(this).load(AddressManager.get("photoHost") + apply.getApplyPhoto())
+                    .resize(px, px)
                     .centerCrop()
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
@@ -308,9 +309,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
-                                        Intent intent=getIntent();
-                                        intent.putExtra("msgStatus",2);
-                                        setResult(RESULT_OK,intent);
+                                        Intent intent = getIntent();
+                                        intent.putExtra("msgStatus", 2);
+                                        setResult(RESULT_OK, intent);
                                         finish();
                                     }
 
@@ -329,6 +330,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                     Util.toastMsg("请为用户分配角色");
                     return;
                 }
+
                 //确定
                 dialogShow("审批确认");
                 model.status = 1;
@@ -345,7 +347,16 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                             Log.i("ExamineActivity", "hxGroupId = " + hxGroupId + " newmembers = " + confirm.getApplyHxId());
                             Log.i(TAG, "getCurrentUser() = " + EMClient.getInstance().getCurrentUser() + " group.getOwner() = " + group.getOwner());
 
-                            EMClient.getInstance().groupManager().acceptApplication(confirm.getApplyHxId(), confirm.getClassHxId());
+//                            EMClient.getInstance().groupManager().acceptApplication(confirm.getApplyHxId(), confirm.getClassHxId());
+
+                            //根据群组ID从服务器获取群组基本信息
+//                            EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());
+                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+                                EMClient.getInstance().groupManager().addUsersToGroup(confirm.getClassHxId(), newmembers);
+                            } else {
+                                // 一般成员调用invite方法
+                                EMClient.getInstance().groupManager().inviteUser(confirm.getClassHxId(), newmembers, null);
+                            }
 
                             ZillaApi.NormalRestAdapter.create(Message2Service.class)
                                     .examine(UserInfoModel.getInstance().getToken(),
@@ -355,9 +366,9 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                                 public void success(final ResponseData responseData, Response response) {
                                                     int status = responseData.getStatus();
                                                     if (status == 200) {
-                                                        Intent intent=getIntent();
-                                                        intent.putExtra("msgStatus",1);
-                                                        setResult(RESULT_OK,intent);
+                                                        Intent intent = getIntent();
+                                                        intent.putExtra("msgStatus", 1);
+                                                        setResult(RESULT_OK, intent);
                                                         finish();
                                                         runOnUiThread(new Runnable() {
                                                             @Override
@@ -415,6 +426,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                 @Override
                                 public void run() {
                                     dialogDissmiss();
+                                    Util.toastMsg("通讯服务器异常");
                                 }
                             });
                         }
