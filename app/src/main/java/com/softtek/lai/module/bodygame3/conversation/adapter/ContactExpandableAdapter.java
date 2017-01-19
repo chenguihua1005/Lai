@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -100,10 +102,12 @@ public class ContactExpandableAdapter extends BaseExpandableListAdapter {
         name.setText(contact.getUserName());
         CircleImageView head_image = (CircleImageView) view.findViewById(R.id.head_image);
         if (!TextUtils.isEmpty(contact.getPhoto())) {
-            Picasso.with(context).load(AddressManager.get("photoHost") + contact.getPhoto()).fit()
+            int px = DisplayUtil.dip2px(context, 40);
+            Picasso.with(context).load(AddressManager.get("photoHost") + contact.getPhoto()).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(head_image);
         } else {
             Picasso.with(context).load(R.drawable.img_default).into(head_image);
+//            head_image.setBackgroundResource(R.drawable.img_default);
         }
 
         return view;
