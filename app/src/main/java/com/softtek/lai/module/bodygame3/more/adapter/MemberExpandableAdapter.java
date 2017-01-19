@@ -3,9 +3,13 @@ package com.softtek.lai.module.bodygame3.more.adapter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -47,34 +52,38 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 11/19/2016.
- *
  */
 
 public class MemberExpandableAdapter extends BaseExpandableListAdapter {
 
-    private Map<String,List<Member>> datas;
+    private Map<String, List<Member>> datas;
     private List<String> parents;
     private List<ClassGroup> groups;
     private Context context;
-    private int headPX=68;
+    private int headPX = 68;
     private String classId;
     private String classHxId;
     private TextView tv_title;
     private ProgressDialog pDialog;
 
+    private Handler handler;
+
     public MemberExpandableAdapter(Context context, Map<String, List<Member>> datas, List<String> parents,
-                                   String classId,String classHxId,List<ClassGroup> groups,TextView tv_title ) {
-        this.context=context;
+                                   String classId, String classHxId, List<ClassGroup> groups, TextView tv_title, Handler handler, ProgressDialog pDialog) {
+        this.context = context;
         this.datas = datas;
         this.parents = parents;
-        this.groups=groups;
-        this.classId=classId;
-        this.classHxId=classHxId;
-        this.tv_title=tv_title;
-        headPX=DisplayUtil.dip2px(context,34);
-        pDialog=new ProgressDialog(context);
-        pDialog.setCanceledOnTouchOutside(false);
+        this.groups = groups;
+        this.classId = classId;
+        this.classHxId = classHxId;
+        this.tv_title = tv_title;
+        headPX = DisplayUtil.dip2px(context, 34);
+//        pDialog = new ProgressDialog(context);
+//        pDialog.setCanceledOnTouchOutside(false);
         //progressDialog.setCancelable(false);
+
+        this.handler = handler;
+        this.pDialog = pDialog;
     }
 
     //父项的数量
@@ -122,11 +131,11 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
     //  获得父项显示的view
     @Override
     public View getGroupView(int parentPos, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null){
-            view=LayoutInflater.from(context).inflate(R.layout.expandable_parent_item,viewGroup,false);
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_item, viewGroup, false);
         }
-        if(parentPos< parents.size()){
-            TextView textView= (TextView) view.findViewById(R.id.group_name);
+        if (parentPos < parents.size()) {
+            TextView textView = (TextView) view.findViewById(R.id.group_name);
             textView.setText(parents.get(parentPos));
         }
         return view;
@@ -135,17 +144,17 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
     //  获得子项显示的view
     @Override
     public View getChildView(int parentPos, int childPos, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null){
-            view=LayoutInflater.from(context).inflate(R.layout.item_class_member,viewGroup,false);
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.item_class_member, viewGroup, false);
         }
 
-        final Member member=datas.get(parents.get(parentPos)).get(childPos);
+        final Member member = datas.get(parents.get(parentPos)).get(childPos);
         //业务逻辑
         CircleImageView head_image = (CircleImageView) view.findViewById(R.id.head_image);
-        if(!TextUtils.isEmpty(member.getPhoto())){
+        if (!TextUtils.isEmpty(member.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + member.getPhoto())
                     .placeholder(R.drawable.img_default)
-                    .resize(headPX,headPX).centerCrop().error(R.drawable.img_default).into(head_image);
+                    .resize(headPX, headPX).centerCrop().error(R.drawable.img_default).into(head_image);
         }
         TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_name.setText(StringUtil.showName(member.getUserName(), member.getMobile()));
@@ -254,46 +263,122 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         pDialog.setMessage("移除成员");
                         pDialog.show();
-                        ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                .removeFromGroup(UserInfoModel.getInstance().getToken(),
-                                        member.getAccountId(),
-                                        classId,
-                                        member.getCGId(),
-                                        new Callback<ResponseData>() {
-                                            @Override
-                                            public void success(ResponseData responseData, Response response) {
-                                                if(pDialog!=null&&pDialog.isShowing()){
-                                                    pDialog.dismiss();
-                                                }
-                                                if (responseData.getStatus() == 200) {
-                                                    datas.get(member.getCGName()).remove(member);
-                                                    notifyDataSetChanged();
-                                                    //环信移除个人
-                                                    //把username从群组里删除
-                                                    new Thread(new Runnable() {
+
+                        //把username从群组里删除
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    EMClient.getInstance().groupManager().removeUserFromGroup(classHxId, member.getHxAccountId());//需异步处理
+                                    ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                            .removeFromGroup(UserInfoModel.getInstance().getToken(),
+                                                    member.getAccountId(),
+                                                    classId,
+                                                    member.getCGId(),
+                                                    new Callback<ResponseData>() {
                                                         @Override
-                                                        public void run() {
-                                                            try {
-                                                                EMClient.getInstance().groupManager().removeUserFromGroup(classHxId, member.getHxAccountId());//需异步处理
-                                                            } catch (HyphenateException e) {
-                                                                e.printStackTrace();
+                                                        public void success(ResponseData responseData, Response response) {
+//                                                            Looper.prepare();
+//                                                            if (pDialog != null && pDialog.isShowing()) {
+//                                                                pDialog.dismiss();
+//                                                            }
+//                                                            Looper.loop();
+                                                            if (responseData.getStatus() == 200) {
+//                                                                datas.get(member.getCGName()).remove(member);
+//                                                                notifyDataSetChanged();
+
+                                                                Log.i("MemberExpandableAdapter", "移除成功。。。。。。。。。。。。");
+
+                                                                Message msg = new Message();
+                                                                msg.obj = member;
+                                                                msg.what = 0x0011;
+                                                                handler.sendMessage(msg);
+                                                                //环信移除个人
+                                                                //把username从群组里删除
+
+                                                            } else {
+//                                                                Util.toastMsg(responseData.getMsg());
+                                                                Log.i("MemberExpandableAdapter", "移除失败。。。。。。。。。。。。" + responseData.getMsg());
+                                                                Message msg = new Message();
+                                                                msg.what = 0x0012;
+                                                                handler.sendMessage(msg);
                                                             }
                                                         }
-                                                    }).start();
 
-                                                } else {
-                                                    Util.toastMsg(responseData.getMsg());
-                                                }
-                                            }
+                                                        @Override
+                                                        public void failure(RetrofitError error) {
+//                                                            Looper.prepare();
+//                                                            if (pDialog != null && pDialog.isShowing()) {
+//                                                                pDialog.dismiss();
+//                                                            }
+//                                                            Looper.loop();
 
-                                            @Override
-                                            public void failure(RetrofitError error) {
-                                                if(pDialog!=null&&pDialog.isShowing()){
-                                                    pDialog.dismiss();
-                                                }
-                                                ZillaApi.dealNetError(error);
-                                            }
-                                        });
+                                                            Log.i("MemberExpandableAdapter", "移除失败。。。。。。。。。。。。" + error.toString());
+
+                                                            Message msg = new Message();
+                                                            msg.what = 0x0012;
+                                                            handler.sendMessage(msg);
+                                                            ZillaApi.dealNetError(error);
+                                                        }
+                                                    });
+
+
+                                } catch (HyphenateException e) {
+                                    Looper.prepare();
+                                    if (pDialog != null && pDialog.isShowing()) {
+                                        pDialog.dismiss();
+                                    }
+                                    Looper.loop();
+                                    e.printStackTrace();
+//                                    Util.toastMsg("移除失败");
+                                    Message msg = new Message();
+                                    msg.what = 0x0012;
+                                    handler.sendMessage(msg);
+                                }
+                            }
+                        }).start();
+
+
+//                        ZillaApi.NormalRestAdapter.create(MoreService.class)
+//                                .removeFromGroup(UserInfoModel.getInstance().getToken(),
+//                                        member.getAccountId(),
+//                                        classId,
+//                                        member.getCGId(),
+//                                        new Callback<ResponseData>() {
+//                                            @Override
+//                                            public void success(ResponseData responseData, Response response) {
+//                                                if(pDialog!=null&&pDialog.isShowing()){
+//                                                    pDialog.dismiss();
+//                                                }
+//                                                if (responseData.getStatus() == 200) {
+//                                                    datas.get(member.getCGName()).remove(member);
+//                                                    notifyDataSetChanged();
+//                                                    //环信移除个人
+//                                                    //把username从群组里删除
+//                                                    new Thread(new Runnable() {
+//                                                        @Override
+//                                                        public void run() {
+//                                                            try {
+//                                                                EMClient.getInstance().groupManager().removeUserFromGroup(classHxId, member.getHxAccountId());//需异步处理
+//                                                            } catch (HyphenateException e) {
+//                                                                e.printStackTrace();
+//                                                            }
+//                                                        }
+//                                                    }).start();
+//
+//                                                } else {
+//                                                    Util.toastMsg(responseData.getMsg());
+//                                                }
+//                                            }
+//
+//                                            @Override
+//                                            public void failure(RetrofitError error) {
+//                                                if(pDialog!=null&&pDialog.isShowing()){
+//                                                    pDialog.dismiss();
+//                                                }
+//                                                ZillaApi.dealNetError(error);
+//                                            }
+//                                        });
                     }
                 }).show();
     }
@@ -333,13 +418,13 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(lv.getCheckedItemPosition()==-1){
+                if (lv.getCheckedItemPosition() == -1) {
                     return;
                 }
                 final ClassGroup group = groups.get(lv.getCheckedItemPosition());
-                if(group.getCGId().equals(member.getCGId())){
+                if (group.getCGId().equals(member.getCGId())) {
                     Snackbar.make(tv_title, "转组成功", Snackbar.LENGTH_SHORT).setDuration(1000).show();
-                }else {
+                } else {
                     pDialog.setMessage("转组中");
                     pDialog.show();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
@@ -351,7 +436,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
-                                            if(pDialog!=null&&pDialog.isShowing()){
+                                            if (pDialog != null && pDialog.isShowing()) {
                                                 pDialog.dismiss();
                                             }
                                             if (responseData.getStatus() == 200) {
@@ -368,7 +453,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
 
                                         @Override
                                         public void failure(RetrofitError error) {
-                                            if(pDialog!=null&&pDialog.isShowing()){
+                                            if (pDialog != null && pDialog.isShowing()) {
                                                 pDialog.dismiss();
                                             }
                                             super.failure(error);
