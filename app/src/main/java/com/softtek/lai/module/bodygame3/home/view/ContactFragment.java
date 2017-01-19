@@ -381,6 +381,12 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getContext().unregisterReceiver(messageUpdateReceiver);
+    }
+
     //收到广播后刷新页面
     public class MessageUpdateReceiver extends BroadcastReceiver {
         @Override
@@ -391,5 +397,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
         }
     }
+
 
 }

@@ -26,6 +26,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
 import com.softtek.lai.R;
@@ -33,17 +34,25 @@ import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.chat.Constant;
 import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
+import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
@@ -147,9 +156,84 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
             conversationListFragment = new ConversationListFragment();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                     .commit();
+
+
+            //查看学员是否有加入环信群的消息
+            getMsgHxInviteToGroup();
+
         } else {
             Util.toastMsg("会话功能开通中，请稍后再试");
         }
+    }
+
+    private List<HxInviteToGroupModel> needGroupList = new ArrayList<HxInviteToGroupModel>();
+
+    //    查看学员是否有加入环信群的消息
+    private void getMsgHxInviteToGroup() {
+        com.github.snowdream.android.util.Log.i(TAG, " 查看学员是否有加入环信群的消息......");
+        needGroupList.clear();
+        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
+            @Override
+            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
+                int status = listResponseData.getStatus();
+                if (200 == status) {
+                    needGroupList = listResponseData.getData();
+                    if (needGroupList != null && needGroupList.size() > 0) {
+                        for (int i = 0; i < needGroupList.size(); i++) {
+                            final HxInviteToGroupModel model = needGroupList.get(i);
+                            if (model != null) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
+
+                                            //环迅同意进群之后，告知后台
+                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    if (200 == responseData.getStatus()) {
+
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void failure(RetrofitError error) {
+                                                    error.printStackTrace();
+                                                    ZillaApi.dealNetError(error);
+                                                }
+                                            });
+
+
+                                        } catch (HyphenateException e) {
+                                            e.printStackTrace();
+//                                            runOnUiThread(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    dialogDissmiss();
+//                                                    Util.toastMsg("环信异常");
+//                                                }
+//                                            });
+                                        }
+
+                                    }
+                                }).start();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+
     }
 
 
@@ -299,6 +383,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 //            EMClient.getInstance().
             Log.i(TAG, "环信服务器重连......");
         }
+
+
     }
 
     @Override

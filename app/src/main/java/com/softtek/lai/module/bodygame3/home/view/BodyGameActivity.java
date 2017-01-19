@@ -25,6 +25,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassDao;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -170,7 +171,12 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         }).start();
 
 
+        //检查是否有进群邀请
+        getMsgHxInviteToGroup();
+
+
     }
+
 
     private void setChildProgress(int position, float progress) {
         switch (position) {
@@ -272,9 +278,11 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         super.onResume();
         if (EMClient.getInstance().isLoggedInBefore()) {
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-            Log.i("onResume 获取还信未读消息="+unreadNum);
+            Log.i("onResume 获取还信未读消息=" + unreadNum);
             updateMessage(unreadNum);
         }
+
+
     }
 
     @Override
@@ -297,7 +305,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(getClass().getCanonicalName()+"接收到还信的消息");
+            Log.i(getClass().getCanonicalName() + "接收到还信的消息");
             if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
                 int unreadNum = intent.getIntExtra("count", 0);
                 Log.i(TAG, "收到未读消息数= " + unreadNum);
@@ -370,5 +378,77 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+    private List<HxInviteToGroupModel> needGroupList = new ArrayList<HxInviteToGroupModel>();
+
+    //    查看学员是否有加入环信群的消息
+    private void getMsgHxInviteToGroup() {
+        Log.i(TAG, " 查看学员是否有加入环信群的消息......");
+        needGroupList.clear();
+        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
+            @Override
+            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
+                int status = listResponseData.getStatus();
+                if (200 == status) {
+                    needGroupList = listResponseData.getData();
+                    if (needGroupList != null && needGroupList.size() > 0) {
+                        for (int i = 0; i < needGroupList.size(); i++) {
+                            final HxInviteToGroupModel model = needGroupList.get(i);
+                            if (model != null) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
+
+                                            //环迅同意进群之后，告知后台
+                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    if (200 == responseData.getStatus()) {
+
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void failure(RetrofitError error) {
+                                                    error.printStackTrace();
+                                                    ZillaApi.dealNetError(error);
+                                                }
+                                            });
+
+
+                                        } catch (HyphenateException e) {
+                                            e.printStackTrace();
+//                                            runOnUiThread(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    dialogDissmiss();
+//                                                    Util.toastMsg("环信异常");
+//                                                }
+//                                            });
+                                        }
+
+                                    }
+                                }).start();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+
+    }
+
 
 }
