@@ -146,9 +146,12 @@ public class SupportTeamActivity extends BaseActivity {
                 //序号
                 TextView tv_group_number = holder.getView(R.id.tv_group_number);
                 tv_group_number.setText(String.valueOf(++position));
+
+
                 //设置学员adapter
 //                waiterList.clear();
 //                waiterList.addAll(serviceModel.getWaiters());
+
                 viewPager(holder, serviceModel.getWaiters());
 
             }
@@ -158,44 +161,59 @@ public class SupportTeamActivity extends BaseActivity {
     private void viewPager(ViewHolder holder, final List<ServiceTeam.Waiter> waiterList) {
 
         final ViewPager vp_test = holder.getView(R.id.vp_support_team);
+        final TextView tip_tv = holder.getView(R.id.tip_tv);
 
-        vp_test.setAdapter(new SupportTeamVPAdapter(waiterList));
-        //设置viewpager可以显示的item的数量和viewpager的大小
-        vp_test.setOffscreenPageLimit(4);
+        if (waiterList != null && waiterList.size() > 0) {
+            vp_test.setVisibility(View.VISIBLE);
+            tip_tv.setVisibility(View.GONE);
+
+
+            vp_test.setAdapter(new SupportTeamVPAdapter(waiterList));
+            //设置viewpager可以显示的item的数量和viewpager的大小
+            vp_test.setOffscreenPageLimit(4);
 //        vp_test.setPageMargin(10);
-        ViewGroup.LayoutParams layoutParams = vp_test.getLayoutParams();
-        layoutParams.width = px;
-        layoutParams.height = px;
-        vp_test.setLayoutParams(layoutParams);
-        //监听事件
-        RelativeLayout rl_test = holder.getView(R.id.rl_support_team);
-        rl_test.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return vp_test.dispatchTouchEvent(event);
-            }
-        });
-        ImageView btn_p = holder.getView(R.id.btn_previous);
-        btn_p.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentPosition = vp_test.getCurrentItem();/*.getCurrentPosition();*/
-                if (currentPosition != 0) {
-                    vp_test.setCurrentItem(currentPosition - 4);
+            ViewGroup.LayoutParams layoutParams = vp_test.getLayoutParams();
+            layoutParams.width = px;
+            layoutParams.height = px;
+            vp_test.setLayoutParams(layoutParams);
+            //监听事件
+            RelativeLayout rl_test = holder.getView(R.id.rl_support_team);
+            rl_test.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return vp_test.dispatchTouchEvent(event);
                 }
-            }
-        });
-        ImageView btn_n = holder.getView(R.id.btn_next);
-        btn_n.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentPosition = vp_test.getCurrentItem();
-                //currentPosition是索引，所以用waiterList.size()-1
-                if (currentPosition != waiterList.size() - 1) {
-                    vp_test.setCurrentItem(currentPosition + 4);
+            });
+            ImageView btn_p = holder.getView(R.id.btn_previous);
+            btn_p.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int currentPosition = vp_test.getCurrentItem();/*.getCurrentPosition();*/
+                    if (currentPosition != 0) {
+                        vp_test.setCurrentItem(currentPosition - 4);
+                    }
                 }
-            }
-        });
+            });
+            ImageView btn_n = holder.getView(R.id.btn_next);
+            btn_n.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int currentPosition = vp_test.getCurrentItem();
+                    //currentPosition是索引，所以用waiterList.size()-1
+                    if (currentPosition != waiterList.size() - 1) {
+                        vp_test.setCurrentItem(currentPosition + 4);
+                    }
+                }
+            });
+        } else {
+//            vp_test.setEnabled(false);
+//            //监听事件
+//            RelativeLayout rl_test = holder.getView(R.id.rl_support_team);
+//            rl_test.setEnabled(false);
+            vp_test.setVisibility(View.GONE);
+            tip_tv.setVisibility(View.VISIBLE);
+        }
+
 
     }
 

@@ -98,10 +98,12 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         ContactDao dao = new ContactDao(ContactSearchActivity.this);
-        contacts = dao.getAllConatct();
+//        contacts = dao.getAllConatct();
+//        contacts_static.clear();
+//        contacts_static.addAll(contacts);
+
         contacts_static.clear();
-        contacts_static.addAll(contacts);
-        Log.i(TAG, "contacts_temp = " + new Gson().toJson(contacts));
+        contacts_static.addAll(dao.getAllConatct());
 
         adapter = new EasyAdapter<ChatContactModel>(this, contacts, R.layout.expandable_child_contact_item) {
             @Override
@@ -166,7 +168,7 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
         Log.i(TAG, "text = " + text + ": " + text.trim().length());
         if (text.trim().length() == 0) {
             contacts.clear();
-            contacts.addAll(contacts_static);
+//            contacts.addAll(contacts_static);
             adapter.notifyDataSetChanged();
             return;
         }
@@ -189,18 +191,14 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
 //        }
 
         List<ChatContactModel> contacts_temp = new ArrayList<>();
-        Log.i(TAG, "contacts12222 = " + new Gson().toJson(contacts));
 
-
-        for (ChatContactModel contact : contacts) {
+        for (ChatContactModel contact : contacts_static) {
             if (contact.getMobile().contains(text)
                     || contact.getUserName().contains(text)
-                    || contact.getMobile().contains(text)) {
+                    || contact.getUserName().toLowerCase().contains(text.toLowerCase())) {
                 contacts_temp.add(contact);
             }
         }
-
-        Log.i(TAG, "过滤result = " + new Gson().toJson(contacts_temp));
 
         contacts.clear();
         contacts.addAll(contacts_temp);

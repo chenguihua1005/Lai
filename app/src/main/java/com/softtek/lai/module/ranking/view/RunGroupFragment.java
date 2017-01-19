@@ -395,7 +395,6 @@ public class RunGroupFragment extends LazyBaseFragment implements RankManager.Ra
             public void onItemClick(View view, int position) {
                 Intent intent1=new Intent(getActivity(),ChartActivity.class);
                 intent1.putExtra("isFocusid",infos.get(position).getAccountId());
-                intent1.putExtra("step",Integer.parseInt(infos.get(position).getStepCount()));
                 getActivity().startActivity(intent1);
             }
         });

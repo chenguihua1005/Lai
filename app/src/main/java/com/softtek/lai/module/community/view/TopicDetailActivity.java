@@ -20,9 +20,7 @@ public class TopicDetailActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            tintManager.setStatusBarTintResource(android.R.color.transparent);
-        }
+
         ctl.setTitle("#精彩踢馆赛#");
         //通过CollapsingToolbarLayout修改字体颜色
         ctl.setExpandedTitleColor(Color.WHITE);//设置还没收缩时状态下字体颜色
