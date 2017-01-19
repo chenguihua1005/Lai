@@ -2,6 +2,8 @@ package com.softtek.lai.module.laijumine;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
@@ -15,6 +17,9 @@ import com.softtek.lai.module.health.view.HealthyRecordActivity$$ViewInjector;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.home.view.ActivityRecordFragment;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.module.sport2.view.LaiSportActivity;
+import com.softtek.lai.utils.DisplayUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -74,7 +79,6 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 Intent personal = new Intent(getContext(), PersionalActivity.class);
                 personal.putExtra("isFocus", 1);
                 personal.putExtra("personalId", String.valueOf(UserInfoModel.getInstance().getUserId()));
-//                personal.putExtra("personalName", );
                 startActivity(personal);
                 break;
             //跳转关注
@@ -102,6 +106,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
             //跳转消息中心
             case R.id.re_mynews:
+                getActivity().startActivity(new Intent(getActivity(), Message2Activity.class));
                 break;
         }
     }
