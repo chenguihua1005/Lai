@@ -75,6 +75,15 @@ public class UserInfoModel {
      * 退出登录
      */
     public void loginOut(){
+        clear();
+        JpushSet set = new JpushSet(LaiApplication.getInstance());
+        set.setAlias("");
+        MobclickAgent.onProfileSignOff();
+    }
+    /**
+     * 退出登录
+     */
+    public void clear(){
         //请出用户数据
         setUser(null);
         token=null;
@@ -82,13 +91,10 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put("token", "");
         SharedPreferenceService.getInstance().put(Constants.USER, "");
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
+        isVr=true;
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
         classCache.remove(HeadGameFragment2.SAVE_CLASS);
-        JpushSet set = new JpushSet(LaiApplication.getInstance());
-        set.setAlias("");
-        MobclickAgent.onProfileSignOff();
-        isVr=true;
     }
     public long getUserId(){
         return SharedPreferenceService.getInstance().get(USER_ID,0L);

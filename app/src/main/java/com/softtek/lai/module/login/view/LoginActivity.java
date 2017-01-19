@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initViews() {
 
-        //tintManager.setStatusBarTintResource(R.drawable.grey_white);
+        tintManager.setStatusBarTintResource(R.drawable.grey_white);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("登录中，请稍候...");

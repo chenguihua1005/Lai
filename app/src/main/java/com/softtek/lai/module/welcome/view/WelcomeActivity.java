@@ -17,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.RelativeLayout;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -60,7 +59,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initViews() {
-        //overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         Constants.IS_LOGINIMG="0";
         //tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
@@ -92,7 +90,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
             String token=UserInfoModel.getInstance().getToken();
             if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
-                UserInfoModel.getInstance().loginOut();
+                UserInfoModel.getInstance().clear();
                 Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -163,7 +161,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 }
                                 break;
                             default:
-                                UserInfoModel.getInstance().loginOut();
+                                UserInfoModel.getInstance().clear();
                                 Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
                                 startActivity(intent);
                                 finish();
