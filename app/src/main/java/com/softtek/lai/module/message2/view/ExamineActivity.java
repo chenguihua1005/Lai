@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
@@ -329,6 +330,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                     Util.toastMsg("请为用户分配角色");
                     return;
                 }
+
                 //确定
                 dialogShow("审批确认");
                 model.status = 1;
@@ -424,6 +426,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                 @Override
                                 public void run() {
                                     dialogDissmiss();
+                                    Util.toastMsg("通讯服务器异常");
                                 }
                             });
                         }
