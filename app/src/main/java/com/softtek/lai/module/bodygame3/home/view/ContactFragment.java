@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -92,6 +95,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     public static final int REFRESH_UI = 0x001;
     public int count = 0;
 
+    public static final String UPDATE_CONTACT_MSG = "MESSAGE_UPDATE_CONTACT";//用于删除好友后，更新联系人列表
+    public MessageUpdateReceiver messageUpdateReceiver;
+
+
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
@@ -103,8 +110,17 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     }
 
+    public void registerMessageReceiver() {
+        messageUpdateReceiver = new MessageUpdateReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(ContactFragment.UPDATE_CONTACT_MSG);
+        getActivity().registerReceiver(messageUpdateReceiver, filter);
+    }
+
     @Override
     protected void initDatas() {
+        registerMessageReceiver();
         //顶上几个菜单列表
         menuAdapter = new ContactMenuAdapter(getActivity(), count);
         menu_gridview.setAdapter(menuAdapter);
@@ -363,6 +379,17 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         }
 
 
+    }
+
+    //收到广播后刷新页面
+    public class MessageUpdateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (ContactFragment.UPDATE_CONTACT_MSG.equals(intent.getAction())) {
+                getDataAndUpdate();
+            }
+
+        }
     }
 
 }

@@ -44,15 +44,23 @@
         android:clipChildren="false">
 
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_support_team"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="10dp"
+            android:clipChildren="false" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_support_team"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="35dp"
-                android:layout_marginRight="35dp"
-                android:layout_marginTop="10dp"
-                android:clipChildren="false" />
+        <TextView
+            android:id="@+id/tip_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:gravity="center"
+            android:text="暂无人员" />
 
 
         <ImageView
