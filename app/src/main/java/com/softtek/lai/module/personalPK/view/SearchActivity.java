@@ -112,7 +112,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             List<PKObjModel> models=data.getData();
             if(models==null||models.isEmpty()){
                 lv.setMode(PullToRefreshBase.Mode.DISABLED);
-                pageIndex=--pageIndex<1?1:pageIndex;
+                if (pageIndex==1){
+                    modelList.clear();
+                    adapter.notifyDataSetChanged();
+                }else {
+                    pageIndex=--pageIndex<1?1:pageIndex;
+                }
                 return;
             }
             lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);

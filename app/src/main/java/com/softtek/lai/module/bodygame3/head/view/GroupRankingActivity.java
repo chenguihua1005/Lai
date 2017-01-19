@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.head.model.HonorGroupRankModel;
@@ -61,6 +62,8 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     TextView tv_per_number;
     @InjectView(R.id.tv_by_which)
     TextView tv_by_which;
+    @InjectView(R.id.tv_role_name)
+    TextView tv_role_name;
 
     EasyAdapter<ListGroupRankingModel> honorGroupRankAdapter;
     private List<ListGroupRankingModel> groupRankingModelList = new ArrayList<>();
@@ -139,10 +142,12 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         if (listdateModel != null) {
             WhichTime = Integer.parseInt(listdateModel.getDateValue());
             whichName = listdateModel.getDateName();
+
         }
         listGroupModel = (ListGroupModel) intent.getSerializableExtra("ListGroupModel");
         if (listGroupModel != null) {
             GroupId = listGroupModel.getGroupId();
+            tv_role_name.setText(listGroupModel.getCoachType());
         }
         groupRankingManager = new GroupRankingManager(this);
         groupRankingManager.getWeekHonnorInfo(ClassId, ByWhichRatio, SortTimeType, WhichTime, GroupId);
