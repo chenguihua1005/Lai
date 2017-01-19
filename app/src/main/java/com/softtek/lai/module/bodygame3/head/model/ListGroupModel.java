@@ -13,6 +13,7 @@ public class ListGroupModel implements Serializable{
     private String CoachIco;//教练头像
     private String Ranking;//排名
     private String LossPer;//减比
+    private String CoachType;//
 
     @Override
     public String toString() {
@@ -24,7 +25,16 @@ public class ListGroupModel implements Serializable{
                 ", CoachIco='" + CoachIco + '\'' +
                 ", Ranking='" + Ranking + '\'' +
                 ", LossPer='" + LossPer + '\'' +
+                ", CoachType='" + CoachType + '\'' +
                 '}';
+    }
+
+    public String getCoachType() {
+        return CoachType;
+    }
+
+    public void setCoachType(String coachType) {
+        CoachType = coachType;
     }
 
     public String getGroupId() {
