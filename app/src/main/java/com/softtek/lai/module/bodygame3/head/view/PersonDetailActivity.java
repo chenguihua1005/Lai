@@ -304,7 +304,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     ll_chart.setVisibility(View.GONE);
                 } else {
                     tv_love.setVisibility(View.VISIBLE);
-
                     tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                     if (AccountId == userid) {
                         if (TextUtils.isEmpty(memberInfoModel.getIntroducer())) {
@@ -313,7 +312,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                         }
                         ll_chart.setVisibility(View.VISIBLE);
-                    }
+                    }ll_weigh.setVisibility(View.VISIBLE);
                     if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
                         String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
                         tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
