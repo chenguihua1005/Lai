@@ -158,8 +158,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                     .commit();
 
 
-            //查看学员是否有加入环信群的消息
-            getMsgHxInviteToGroup();
+
 
         } else {
             Util.toastMsg("会话功能开通中，请稍后再试");
@@ -383,6 +382,9 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 //            EMClient.getInstance().
             Log.i(TAG, "环信服务器重连......");
         }
+
+        //查看学员是否有加入环信群的消息
+        getMsgHxInviteToGroup();
 
 
     }
