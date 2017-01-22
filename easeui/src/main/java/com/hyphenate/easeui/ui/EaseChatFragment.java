@@ -303,7 +303,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     protected void setProfile(EMConversation conversation) {
         String name = fragmentArgs.getString("name");
         String photo = fragmentArgs.getString("photo");
-        System.out.println(TAG + "conversation------------------->:" + name + "," + photo);
+        Log.i(TAG, "conversation------------------->: " + name + "," + photo);
         conversation.setExtField(name + "," + photo);
     }
 
