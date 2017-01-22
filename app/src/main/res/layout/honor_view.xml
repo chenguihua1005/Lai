@@ -17,7 +17,7 @@
             android:gravity="center"
             android:text="荣誉榜"
             android:textColor="#333333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +80,8 @@
                         android:layout_height="match_parent"
                         android:text="减重比最多的学员"
                         android:gravity="center"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
                 <TextView
@@ -91,7 +92,7 @@
                     android:gravity="center"
                     android:text="无数据"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
 
                 <LinearLayout
                     android:id="@+id/ll_most_fat"
@@ -108,7 +109,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="17sp"
+                        android:textSize="15sp"
                         android:textColor="@color/white"/>
 
                 </LinearLayout>
@@ -119,7 +120,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/white">
+                    android:textColor="@color/white"
+                    android:textSize="14sp">
 
                 </TextView>
             </LinearLayout>
@@ -156,6 +158,7 @@
                         android:layout_height="match_parent"
                         android:text="减脂比最多的学员"
                         android:gravity="center"
+                        android:textSize="14sp"
                         android:textColor="@color/white"/>
                 </LinearLayout>
 
@@ -166,7 +169,7 @@
                     android:visibility="gone"
                     android:gravity="center"
                     android:text="无数据"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textColor="@color/white"/>
                 <LinearLayout
                     android:id="@+id/ll_most_weight"
@@ -183,7 +186,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="17sp"
+                        android:textSize="15sp"
                         android:textColor="@color/white"/>
 
                 </LinearLayout>
@@ -194,6 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textSize="14sp"
                     android:textColor="@color/white">
 
                 </TextView>
