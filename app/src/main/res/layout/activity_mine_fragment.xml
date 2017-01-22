@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="6dp"
+                android:padding="5dp"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/edit_grey_icon"
                 android:gravity="center"
@@ -322,7 +322,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
                     <RelativeLayout
                         android:id="@+id/re_task"
                         android:layout_width="0dp"
@@ -396,6 +397,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#e6e6e6"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:id="@+id/re_renzheng"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+                            <TextView
+                                android:id="@+id/tv_renzheng"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="身份认证"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/remine"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SP"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_centerHorizontal="true"
+                                android:layout_below="@+id/tv_renzheng"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
