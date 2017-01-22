@@ -207,6 +207,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 }
                 TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
                 tv_rank_number.setText(data.getRanking());
+                TextView tv_coach_type=holder.getView(R.id.tv_coach_type);
+                tv_coach_type.setText(data.getCoachType());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
 //                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);

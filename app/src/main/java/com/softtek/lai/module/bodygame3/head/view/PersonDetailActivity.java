@@ -301,8 +301,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                 if (!"4".equals(memberInfoModel.getClassRole())) {
                     fl_right.setVisibility(View.INVISIBLE);
-                    ll_chart.setVisibility(View.GONE);
-                } else {
+                }
+                else
+                {
                     tv_love.setVisibility(View.VISIBLE);
                     tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                     if (AccountId == userid) {
@@ -311,8 +312,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             fl_right.setVisibility(View.VISIBLE);
 
                         }
-                        ll_chart.setVisibility(View.VISIBLE);
-                    }ll_weigh.setVisibility(View.VISIBLE);
+                    }
+                    ll_weigh.setVisibility(View.VISIBLE);
                     if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
                         String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
                         tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
@@ -325,12 +326,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
-                        Log.i("初始体重图片" + url + memberInfoModel.getInitThImg());
                         Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
                     }
                     if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
                         Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
-                        Log.i("现在体重图片" + url + memberInfoModel.getCurttentThImg());
                     }
                 }
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
@@ -344,8 +343,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
-
-
+                    if ("4".equals(memberInfoModel.getClassRole()))
+                    {
+                        ll_chart.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     tv_personlityName.setVisibility(View.VISIBLE);
                     im_guanzhu.setVisibility(View.VISIBLE);
@@ -356,10 +357,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         tv_personlityName.setText("暂无个性签名");
                     }
-                    if ((memberInfoModel.getIntroducerId()).equals(userid))//如果是登陆id是该学员的爱心学员，显示查看曲线图
+                    if ((memberInfoModel.getIntroducerId()).equals(userid+""))//如果是登陆id是该学员的爱心学员，显示查看曲线图
                     {
                         ll_chart.setVisibility(View.VISIBLE);
                     }
+
                     issendFriend = memberInfoModel.getIsSendFriend();
                     IsFriend = memberInfoModel.getIsFriend();
                     if ("1".equals(IsFriend))//如果是好友，显示发起聊天
@@ -392,9 +394,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                     }
                 }
-
                 doGetPhotoView();//展示图片
-
             }
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
@@ -412,8 +412,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             images.clear();
             for (int n = 0; n < newsTopFourModels.size(); n++) {
                 images.add(n, newsTopFourModels.get(n).getImgUrl());
-                Log.i("图片测试", AddressManager.get("photoHost") + newsTopFourModels.get(n).getThumbnailImgUrl());
-
             }
             easyAdapter.notifyDataSetChanged();
         } else {
