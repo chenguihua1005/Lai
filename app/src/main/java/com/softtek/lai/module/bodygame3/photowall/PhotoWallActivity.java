@@ -336,12 +336,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                                                 int status = responseData.getStatus();
                                                 switch (status) {
                                                     case 200:
-                                                        Util.toastMsg(responseData.getMsg());
+                                                        //Util.toastMsg(responseData.getMsg());
                                                         refreshList(data.getAccountid(), 1);
                                                         break;
                                                     default:
                                                         cb_focus.setChecked(false);
-                                                        Util.toastMsg(responseData.getMsg());
+                                                        //Util.toastMsg(responseData.getMsg());
                                                         break;
                                                 }
                                             }
@@ -356,12 +356,12 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                                                 int status = responseData.getStatus();
                                                 switch (status) {
                                                     case 200:
-                                                        Util.toastMsg(responseData.getMsg());
+                                                        //Util.toastMsg(responseData.getMsg());
                                                         refreshList(data.getAccountid(), 0);
                                                         break;
                                                     default:
                                                         cb_focus.setChecked(true);
-                                                        Util.toastMsg(responseData.getMsg());
+                                                        //Util.toastMsg(responseData.getMsg());
                                                         break;
                                                 }
                                             }

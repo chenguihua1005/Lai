@@ -93,9 +93,9 @@
                     android:textSize="11sp" />
 
                 <TextView
+                    android:id="@+id/tv_role_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rank_trainer_name_test1"
                     android:textColor="#999999"
                     android:textSize="9sp" />
             </LinearLayout>

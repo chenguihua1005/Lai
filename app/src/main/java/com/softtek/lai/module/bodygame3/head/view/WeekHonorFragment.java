@@ -299,7 +299,6 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 groupModelList.addAll(model.getList_group());
                 newAdapter();
                 listHonorrank.setAdapter(honorGroupRankAdapter);
-                //            honorGroupRankAdapter.notifyDataSetChanged();
                 //list中显示减脂还是减重
                 for (ListTopModel topModel : model.getList_top3()) {
                     switch (topModel.getRanking()) {

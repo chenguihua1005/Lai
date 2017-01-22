@@ -6,6 +6,7 @@ import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactListModel;
 import com.softtek.lai.module.bodygame3.conversation.model.CountModel;
 import com.softtek.lai.module.bodygame3.conversation.model.FriendModel;
+import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
 
 import java.util.List;
 
@@ -138,5 +139,21 @@ public interface ContactService {
             Callback<ResponseData<ContactClassModel>> callback
     );
 
+    //查看学员是否有加入环信群的消息
+    @GET("/v1/HerbalifeClass/HxInviteToGroup")
+    void getMsgHxInviteToGroup(
+            @Header("token") String token,
+            @Query("AccountId") long AccountId,
+            Callback<ResponseData<List<HxInviteToGroupModel>>> callback
+    );
+
+    //告诉服务端加入环信群处理完成
+    @GET("/v1/HerbalifeClass/CompleteJoinHx")
+    void completeJoinHx(
+            @Header("token") String token,
+            @Query("classId") String classId,//班级Id
+            @Query("MessageId") String MessageId,//处理消息Id
+            Callback<ResponseData> callback
+    );
 
 }
