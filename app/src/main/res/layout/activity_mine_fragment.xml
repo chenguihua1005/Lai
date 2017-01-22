@@ -43,6 +43,7 @@
                 </RelativeLayout>
 
                 <com.softtek.lai.widgets.CircleImageView
+                    android:id="@+id/cir_userphoto"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center_horizontal|bottom"
@@ -50,6 +51,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tv_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -60,6 +62,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_editor_signature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -67,7 +70,7 @@
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/edit_grey_icon"
                 android:gravity="center"
-                android:text="爱生活，爱健康"
+                android:text="编辑个性签名"
                 android:textColor="#333333"
                 android:textSize="12sp" />
 
@@ -410,6 +413,7 @@
             android:layout_centerInParent="true"
             />
         <TextView
+            android:id="@+id/tv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="设置"
@@ -417,7 +421,7 @@
             android:textColor="#ffffff"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="15dp"
             />
 
     </RelativeLayout>
