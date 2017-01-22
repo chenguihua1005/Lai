@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
@@ -692,6 +693,12 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
                 tv_personlityName.setText(data.getStringExtra("sina"));
                 tv_personlityName.setCompoundDrawables(null, null, null, null);
+            }
+            else {
+                tv_personlityName.setText("编辑个性签名");
+                Drawable drawable=getResources().getDrawable(R.drawable.lable);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+                tv_personlityName.setCompoundDrawables(drawable, null, null, null);//画在右边
             }
 
         }
