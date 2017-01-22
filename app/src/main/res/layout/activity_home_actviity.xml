@@ -54,7 +54,7 @@
                 app:normalBitmap="@drawable/hrecord"
                 app:pitchBitmap="@drawable/rehrecord"
                 app:wx_alpha="true"
-                app:text="动态"/>
+                app:text="健康记录"/>
 
         <com.softtek.lai.widgets.SimpleButton
                 android:id="@+id/btn_mine"
