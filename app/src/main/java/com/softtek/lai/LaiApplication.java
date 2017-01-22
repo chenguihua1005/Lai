@@ -142,7 +142,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 break;
             case 2:
                 db.execSQL(CREATE_SPORT_DATA);
-                break;
+            break;
         }
     }
 }
