@@ -620,20 +620,24 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
                     @Override
                     public void success(ResponseData<PhotoWallListModel> photoWallListModelResponseData, Response response) {
-                        ptrlv.onRefreshComplete();
-                        int status = photoWallListModelResponseData.getStatus();
-                        switch (status) {
-                            case 200:
-                                photoWallListModel = photoWallListModelResponseData.getData();
-                                if (photoWallListModel != null) {
+                        try {
+                            ptrlv.onRefreshComplete();
+                            int status = photoWallListModelResponseData.getStatus();
+                            switch (status) {
+                                case 200:
+                                    photoWallListModel = photoWallListModelResponseData.getData();
                                     photoWallItemModels.clear();
-                                    photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                                    adapter.notifyDataSetChanged();
-                                }
-                                break;
-                            default:
-                                Util.toastMsg(photoWallListModelResponseData.getMsg());
-                                break;
+                                    if (photoWallListModel != null) {
+                                        photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    break;
+                                default:
+                                    Util.toastMsg(photoWallListModelResponseData.getMsg());
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
 

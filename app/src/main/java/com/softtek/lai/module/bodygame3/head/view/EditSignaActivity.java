@@ -41,6 +41,7 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
     protected void initViews() {
         tv_title.setText("编辑签名");
         edit_content.setText(getIntent().getStringExtra("sina"));
+        edit_content.setSelection(getIntent().getStringExtra("sina").length());
         editSignaModel=new EditSignaModel();
         editSignaModel.setAccountId(UserInfoModel.getInstance().getUserId());
         headService= ZillaApi.NormalRestAdapter.create(HeadService.class);

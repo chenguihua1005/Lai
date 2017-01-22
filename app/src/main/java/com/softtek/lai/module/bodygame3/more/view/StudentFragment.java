@@ -10,12 +10,15 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -71,8 +74,36 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 case 0x0002:
-                    Util.toastMsg("退出班级失败！");
+//                    Util.toastMsg("退出班级失败！");
                     dialogDissmiss();
+                    int error_code = msg.arg1;
+                    Log.i("StudentFragment", "error_code = " + error_code + " EMError.GROUP_NOT_JOINED = " + EMError.GROUP_NOT_JOINED);
+                    if (EMError.GROUP_NOT_JOINED == error_code) {
+                        Log.i("StudentFragment", "执行后台。。。。。。。");
+                        ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                .existClass(UserInfoModel.getInstance().getToken(),
+                                        UserInfoModel.getInstance().getUserId(),
+                                        model.getClassId(),
+                                        new retrofit.Callback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                                dialogDissmiss();
+                                                if (responseData.getStatus() == 200) {
+                                                    Util.toastMsg("退出班级成功！");
+                                                    EventBus.getDefault().post(new UpdateClass(2, model));
+                                                } else {
+                                                    Util.toastMsg(responseData.getMsg());
+                                                }
+                                            }
+
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                dialogDissmiss();
+                                                ZillaApi.dealNetError(error);
+                                                Util.toastMsg("退出班级失败！");
+                                            }
+                                        });
+                    }
                     break;
             }
             super.handleMessage(msg);
@@ -161,15 +192,18 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                                             Message msg = new Message();
                                             msg.what = 0x0001;
                                             handler.sendMessage(msg);
-                                        } catch (Exception e) {
+                                        } catch (HyphenateException e) {
 //                                            Util.toastMsg("退出班级失败！");
 //                                            Looper.prepare();
 //                                            dialogDissmiss();
 //                                            Looper.loop();
                                             Message msg = new Message();
                                             msg.what = 0x0002;
+                                            msg.arg1 = e.getErrorCode();
                                             handler.sendMessage(msg);
                                             e.printStackTrace();
+                                        } catch (Exception e) {
+
                                         }
                                     }
                                 }).start();
