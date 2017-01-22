@@ -56,7 +56,7 @@ public class BrokenLineFragment1 extends Fragment {
         historyDetailsBean = (HistoryDetailsBean) arg.getSerializable(ARGUMENTS);
         mBrokeChat = (Chart) view.findViewById(R.id.broken_chat);
         mNoData = (TextView)view.findViewById(R.id.tv_no_data);
-        mBrokeChat.setTitle1("减重均值");
+        mBrokeChat.setTitle1("总减重斤数");
         mBrokeChat.setTitle2("未复测");
         int radius = DisplayUtil.dip2px(getContext(), 5);
         GradientDrawable orange = new GradientDrawable();
