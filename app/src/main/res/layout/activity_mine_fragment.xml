@@ -393,10 +393,6 @@
                     </RelativeLayout>
 
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e6e6e6"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -418,17 +414,55 @@
                                 android:text="身份认证"
                                 android:textSize="14sp"
                                 android:textColor="#333333"
-                                android:drawableLeft="@drawable/remine"
+                                android:drawableLeft="@drawable/more_task_integral"
                                 android:gravity="center"
                                 android:drawablePadding="5dp"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="SP"
+                                android:text="您当前身份为SP"
                                 android:textSize="10sp"
                                 android:textColor="#cccccc"
-                                android:layout_centerHorizontal="true"
                                 android:layout_below="@+id/tv_renzheng"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:background="#cccccc"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"/>
+                    <RelativeLayout
+                        android:id="@+id/re_mynews1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        android:layout_weight="1">
+                        <RelativeLayout
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+                            <TextView
+                                android:id="@+id/tv_mynews1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="消息中心"
+                                android:textSize="14sp"
+                                android:textColor="#333333"
+                                android:drawableLeft="@drawable/my_news_icon"
+                                android:gravity="center"
+                                android:drawablePadding="5dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="您有3条未读消息"
+                                android:textSize="10sp"
+                                android:textColor="#cccccc"
+                                android:layout_below="@+id/tv_mynews1"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
                     </RelativeLayout>
