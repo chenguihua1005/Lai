@@ -11,6 +11,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
 import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
+import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
@@ -118,6 +119,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
             //跳转关注
             case R.id.re_guanzhu:
+                startActivity(new Intent(getContext(), FocusFragment.class));
                 break;
             //跳转粉丝
             case R.id.re_fans:
@@ -143,6 +145,19 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             case R.id.re_mynews:
                 getActivity().startActivity(new Intent(getActivity(), Message2Activity.class));
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //个人编辑页返回更新本页签名
+        if (requestCode == GET_Sian && resultCode == getActivity().RESULT_OK) {
+            if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
+                tv_editor_signature.setText(data.getStringExtra("sina"));
+                tv_editor_signature.setCompoundDrawables(null, null, null, null);
+            }
+
         }
     }
 }

@@ -65,7 +65,6 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_sina:
-
                 editSignaModel.setPName(edit_content.getText().toString());
                 headService.doCommitSina(UserInfoModel.getInstance().getToken(),editSignaModel, new RequestCallback<ResponseData>() {
                     @Override
