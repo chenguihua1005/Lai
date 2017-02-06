@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -103,18 +105,18 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         //设置详情内容跳转
-        holder.ll_content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ("0".equals(model.getMinetype())) {//动态
-                    Intent logDetail = new Intent(context, HealthyDetailActivity.class);
-                    logDetail.putExtra("dynamicModel", copyModeltoDynamci(model));
-                    logDetail.putExtra("position", pos);
-                    logDetail.putExtra("type", "1");
-                    fragment.startActivityForResult(logDetail, LIST_JUMP);
-                }
-            }
-        });
+//        holder.ll_content.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if ("0".equals(model.getMinetype())) {//动态
+//                    Intent logDetail = new Intent(context, HealthyDetailActivity.class);
+//                    logDetail.putExtra("dynamicModel", copyModeltoDynamci(model));
+//                    logDetail.putExtra("position", pos);
+//                    logDetail.putExtra("type", "1");
+//                    fragment.startActivityForResult(logDetail, LIST_JUMP);
+//                }
+//            }
+//        });
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getContent());
         long[] days=DateUtil.getInstance().getDaysForNow(model.getCreateDate());
@@ -133,7 +135,6 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             time=days[0]+"天前";
         }
         holder.tv_date.setText(time);
-        holder.tv_zan_name.setText(model.getUsernameSet());
         boolean isMine=Long.parseLong(TextUtils.isEmpty(model.getAccountId())?"0":model.getAccountId()) == UserInfoModel.getInstance().getUserId();
         //如果是自己的则隐藏关注按钮
         if(isMine){
@@ -184,102 +185,16 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 }
             });
         }
-        //删除按钮
-        //如果不是自己的
-        holder.cb_zan.setText(model.getPraiseNum());
-        if ( !isMine|| "1".equals(model.getMinetype())) {
-            holder.tv_delete.setVisibility(View.GONE);//隐藏删除按钮
-        } else {//否则显示删除按钮
-            holder.tv_delete.setVisibility(View.VISIBLE);
-            holder.tv_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(context).setTitle("温馨提示").setMessage("确定删除吗？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    service.deleteHealth(UserInfoModel.getInstance().getToken(), model.getID(),
-                                            new RequestCallback<ResponseData>() {
-                                                @Override
-                                                public void success(ResponseData responseData, Response response) {
-                                                    if (responseData.getStatus() == 200) {
-                                                        lossWeightStoryModels.remove(model);
-                                                        notifyDataSetChanged();
-                                                    }
-                                                }
-                                            });
-                                }
-                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).create().show();
-                }
-            });
 
-        }
         //点赞
         //如果没有人点赞就隐藏点咱人姓名显示
+        holder.tv_zan_name.setText(model.getUsernameSet());
         if (!"0".equals(model.getPraiseNum())) {
             holder.ll_dianzan.setVisibility(View.VISIBLE);
         } else {
             holder.ll_dianzan.setVisibility(View.GONE);
         }
 
-        //如果本人点过赞了 则禁用点赞功能
-        if (Constants.HAS_ZAN.equals(model.getIsPraise())) {
-            //有点赞
-            holder.cb_zan.setChecked(true);
-            holder.cb_zan.setEnabled(false);
-        } else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
-            //没有点赞
-            holder.cb_zan.setChecked(false);
-            holder.cb_zan.setEnabled(true);
-            holder.cb_zan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (checkVr()) {
-                        holder.cb_zan.setChecked(false);
-                    } else {
-                        if ("0".equals(model.getMinetype())) {
-                            if (holder.cb_zan.isChecked()) {
-                                final UserInfoModel infoModel = UserInfoModel.getInstance();
-                                model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                                model.setIsPraise(Constants.HAS_ZAN);
-                                model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
-                                        infoModel.getUser().getMobile()));
-                                if(model.getIsFocus()!=0){
-                                    EventBus.getDefault().post(new ZanEvent(model.getID(),true,1));
-                                }
-                                //向服务器提交
-                                String token = infoModel.getToken();
-                                service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getID()),
-                                        new RequestCallback<ResponseData>() {
-                                            @Override
-                                            public void success(ResponseData responseData, Response response) {
-                                                holder.ll_dianzan.setVisibility(View.VISIBLE);
-                                            }
-
-                                            @Override
-                                            public void failure(RetrofitError error) {
-                                                super.failure(error);
-                                                int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
-                                                model.setPraiseNum(priase + "");
-                                                String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
-                                                model.setUsernameSet(del);
-                                                model.setIsPraise(Constants.NO_ZAN);
-                                                notifyDataSetChanged();
-                                            }
-                                        });
-                            }
-
-                        }
-                        notifyDataSetChanged();
-                    }
-                }
-            });
-
-        }
         //加载图片
         Picasso.with(context).load(path + model.getPhoto()).resize(px,px).centerCrop()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
@@ -313,10 +228,12 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 
     static class ViewHolder {
         CircleImageView civ_header_image;
-        TextView tv_name, tv_content, tv_date, tv_zan_name, tv_delete;
+        TextView tv_name, tv_content, tv_date, tv_zan_name/*, tv_delete*/;
         LinearLayout ll_dianzan, ll_content;
-        CheckBox cb_zan, cb_focus;
+        CheckBox /*cb_zan,*/ cb_focus;
         CustomGridView photos;
+        RecyclerView rv_comment;
+        ImageView iv_operator;
 
         public ViewHolder(View view) {
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
@@ -327,9 +244,11 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             tv_zan_name = (TextView) view.findViewById(R.id.tv_zan_name);
             ll_dianzan = (LinearLayout) view.findViewById(R.id.ll_dianzan);
             photos = (CustomGridView) view.findViewById(R.id.photos);
-            cb_zan = (CheckBox) view.findViewById(R.id.cb_zan);
-            tv_delete = (TextView) view.findViewById(R.id.tv_delete);
+//            cb_zan = (CheckBox) view.findViewById(R.id.cb_zan);
+//            tv_delete = (TextView) view.findViewById(R.id.tv_delete);
             cb_focus = (CheckBox) view.findViewById(R.id.cb_focus);
+            rv_comment= (RecyclerView) view.findViewById(R.id.rv_comment);
+            iv_operator= (ImageView) view.findViewById(R.id.iv_operator);
         }
     }
 

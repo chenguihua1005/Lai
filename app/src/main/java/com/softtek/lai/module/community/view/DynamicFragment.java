@@ -1,14 +1,21 @@
 package com.softtek.lai.module.community.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -17,17 +24,24 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
+import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
+import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +53,11 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.ui.InjectLayout;
+
+import static android.view.View.GONE;
 
 /**
  * Created by jerry.guan on 4/11/2016.
@@ -292,5 +310,137 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 updateList();
             }
         }
+    }
+
+    int scrollY;
+    private PopupWindow createPop(final PhotoWallslistModel data, final View itemBottom, final int position){
+        //弹出popwindow
+        final PopupWindow popupWindow = new PopupWindow(getContext());
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(DisplayUtil.dip2px(getContext(),30));
+        popupWindow.setAnimationStyle(R.style.operation_anim_style);
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.opteration_drawable));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        final View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_operator, null);
+        TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
+        //点击点赞按钮
+        tv_zan.setEnabled(data.getIsPraise()!=1);
+        tv_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                scrollY=ptrlv.getRefreshableView().getScrollY();
+                final UserInfoModel infoModel = UserInfoModel.getInstance();
+                data.setPraiseNum(data.getPraiseNum() + 1);
+                data.setIsPraise(1);
+                List<String> praiseName=data.getPraiseNameList();
+                praiseName.add(infoModel.getUser().getNickname());
+                data.setPraiseNameList(praiseName);
+                //向服务器提交
+                String token = infoModel.getToken();
+                service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                                int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
+                                data.setPraiseNum(priase);
+                                data.setIsPraise(0);
+                                List<String> praise=data.getPraiseNameList();
+                                praise.remove(praise.size()-1);
+                                data.setPraiseNameList(praise);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                adapter.notifyDataSetChanged();
+            }
+
+
+        });
+        TextView tv_comment = (TextView) contentView.findViewById(R.id.tv_oper_comment);
+        //点击评论按钮
+        tv_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                btn_send.setTag(data);
+                rl_send.setVisibility(View.VISIBLE);
+                et_input.setFocusable(true);
+                et_input.setFocusableInTouchMode(true);
+                et_input.requestFocus();
+                et_input.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SoftInputUtil.showInputAsView(getContext(), et_input);
+                    }
+                }, 400);
+                rl_send.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(position<photoWallItemModels.size()-1){
+                            int[] position1 = new int[2];
+                            itemBottom.getLocationOnScreen(position1);
+                            int[] position2 = new int[2];
+                            rl_send.getLocationOnScreen(position2);
+                            ptrlv.getRefreshableView().scrollBy(0, position1[1] - position2[1]);
+                        }
+                    }
+                }, 1000);
+            }
+        });
+        TextView tv_jubao = (TextView) contentView.findViewById(R.id.tv_oper_jubao);
+        //点击举报按钮
+        tv_jubao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
+        //点击删除按钮
+        if(Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
+            tv_delete.setVisibility(View.VISIBLE);
+            tv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    popupWindow.dismiss();
+                    new AlertDialog.Builder(getContext()).setTitle("温馨提示").setMessage("确定删除吗？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    service.deleteHealth(UserInfoModel.getInstance().getToken(),
+                                            data.getHealtId(),
+                                            new RequestCallback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    try {
+                                                        if (responseData.getStatus() == 200) {
+                                                            photoWallItemModels.remove(data);
+                                                            adapter.notifyDataSetChanged();
+                                                        }
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                }
+            });
+        }else {
+            tv_delete.setVisibility(GONE);
+        }
+        contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        popupWindow.setContentView(contentView);
+        return popupWindow;
     }
 }

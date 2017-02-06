@@ -71,46 +71,27 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:text="2015年02月14日"
+                android:textSize="9sp"
                 android:textColor="#cbcbcb"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@id/tv_date"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="删除"
-                android:textColor="@color/textview_blue"
-                android:textSize="13sp"
-                android:visibility="gone" />
+                android:layout_alignParentLeft="true"
+                android:text="2015年02月14日"/>
 
-            <CheckBox
-                android:id="@+id/cb_zan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:background="@null"
-                android:button="@null"
-                android:checked="false"
-                android:drawableLeft="@drawable/zan_selector"
-                android:drawablePadding="5dp"
-                android:src="@drawable/zan"
-                android:text="0"
-                android:textColor="#f67169" />
+            <ImageView
+                android:id="@+id/iv_operator"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/operator"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <LinearLayout
@@ -121,7 +102,7 @@
             android:background="#F1F1F1"
             android:gravity="center|left"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -138,5 +119,9 @@
                 android:textColor="#7a7a7a"
                 android:textSize="10sp" />
         </LinearLayout>
+        <!--<android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>-->
     </LinearLayout>
 </RelativeLayout>
