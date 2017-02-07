@@ -1,7 +1,11 @@
 package com.softtek.lai.module.community.view;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,14 +16,21 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.community.model.TopicListModel;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.community.model.TopicInfo;
+import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.SquareImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_topic_list)
@@ -30,8 +41,8 @@ public class TopicListActivity extends BaseActivity implements PullToRefreshBase
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
 
-    private EasyAdapter<TopicListModel> adapter;
-    private List<TopicListModel> datas;
+    private EasyAdapter<TopicInfo> adapter;
+    private List<TopicInfo> datas;
     @Override
     protected void initViews() {
         tv_title.setText("话题");
@@ -46,15 +57,31 @@ public class TopicListActivity extends BaseActivity implements PullToRefreshBase
     @Override
     protected void initDatas() {
         datas=new ArrayList<>();
-        adapter=new EasyAdapter<TopicListModel>(this,datas,R.layout.item_topic_list) {
+        adapter=new EasyAdapter<TopicInfo>(this,datas,R.layout.item_topic_list) {
             @Override
-            public void convert(ViewHolder holder, TopicListModel data, int position) {
+            public void convert(ViewHolder holder, TopicInfo data, int position) {
                 TextView tv_topic=holder.getView(R.id.tv_topic);
+                tv_topic.setText("#"+data.getTopicName()+"#");
                 TextView tv_content=holder.getView(R.id.tv_content);
+                tv_content.setText(data.getTopicExplain());
                 SquareImageView siv_topic=holder.getView(R.id.siv_topic);
+                if(TextUtils.isEmpty(data.getTopicPhoto())){
+                    Picasso.with(TopicListActivity.this).load(R.drawable.default_icon_square).into(siv_topic);
+                }else {
+                    Picasso.with(TopicListActivity.this).load(AddressManager.get("photoHost")+data.getTopicPhoto())
+                            .fit()
+                            .error(R.drawable.default_icon_square).placeholder(R.drawable.default_icon_square).into(siv_topic);
+                }
+
             }
         };
         ptrlv.setAdapter(adapter);
+        ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(TopicListActivity.this,TopicDetailActivity.class));
+            }
+        });
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -69,7 +96,15 @@ public class TopicListActivity extends BaseActivity implements PullToRefreshBase
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        ZillaApi.NormalRestAdapter.create(CommunityService.class)
+                .getTopicList(new RequestCallback<ResponseData<List<TopicInfo>>>() {
+                    @Override
+                    public void success(ResponseData<List<TopicInfo>> listResponseData, Response response) {
+                        datas.clear();
+                        datas.addAll(listResponseData.getData());
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     @Override

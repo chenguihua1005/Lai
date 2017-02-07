@@ -243,7 +243,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         for (int i = 0; i < imgs.length; i++) {
             list.add(imgs[i]);
         }
-        holder.photos.setAdapter(new PhotosAdapter(list, context));
+        holder.photos.setAdapter(new PhotosAdapter(list, context,new Object()));
         holder.photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

@@ -8,7 +8,7 @@ import java.util.List;
 public class HealthyRecommendModel {
 
     private  String TotalPage;
-    private  List<HealthyCommunityModel> HealthList;
+    private  List<DynamicModel> Dynamiclist;
 
     public String getTotalPage() {
         return TotalPage==null||"".equals(TotalPage)?"0":TotalPage;
@@ -18,19 +18,19 @@ public class HealthyRecommendModel {
         TotalPage = totalPage;
     }
 
-    public List<HealthyCommunityModel> getHealthList() {
-        return HealthList;
+    public List<DynamicModel> getDynamiclist() {
+        return Dynamiclist;
     }
 
-    public void setHealthList(List<HealthyCommunityModel> healthList) {
-        HealthList = healthList;
+    public void setDynamiclist(List<DynamicModel> dynamiclist) {
+        Dynamiclist = dynamiclist;
     }
 
     @Override
     public String toString() {
         return "HealthyRecommendModel{" +
                 "TotalPage='" + TotalPage + '\'' +
-                ", HealthList=" + HealthList +
+                ", HealthList=" + Dynamiclist +
                 '}';
     }
 }

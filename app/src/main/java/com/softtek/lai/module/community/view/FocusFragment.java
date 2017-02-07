@@ -199,32 +199,32 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
-        try {
-            hasFocus=false;
-            ptrlv.onRefreshComplete();
-            if(model==null){
-                pageIndex=--pageIndex<1?1:pageIndex;
-                return;
-            }
-            if(model.getTotalPage()==null&&model.getHealthList()==null){
-                pageIndex=--pageIndex<1?1:pageIndex;
-                return;
-            }
-            totalPage=Integer.parseInt(model.getTotalPage());
-            List<HealthyCommunityModel> models=model.getHealthList();
-            if(models==null||models.isEmpty()){
-                pageIndex=--pageIndex<1?1:pageIndex;
-                return;
-            }
-            if(pageIndex==1){
-                this.communityModels.clear();
-            }
-
-            this.communityModels.addAll(models);
-            adapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            hasFocus=false;
+//            ptrlv.onRefreshComplete();
+//            if(model==null){
+//                pageIndex=--pageIndex<1?1:pageIndex;
+//                return;
+//            }
+//            if(model.getTotalPage()==null&&model.getHealthList()==null){
+//                pageIndex=--pageIndex<1?1:pageIndex;
+//                return;
+//            }
+//            totalPage=Integer.parseInt(model.getTotalPage());
+//            List<HealthyCommunityModel> models=model.getHealthList();
+//            if(models==null||models.isEmpty()){
+//                pageIndex=--pageIndex<1?1:pageIndex;
+//                return;
+//            }
+//            if(pageIndex==1){
+//                this.communityModels.clear();
+//            }
+//
+//            this.communityModels.addAll(models);
+//            adapter.notifyDataSetChanged();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

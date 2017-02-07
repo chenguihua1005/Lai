@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,40 +19,33 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
-import com.softtek.lai.module.community.eventModel.ZanEvent;
-import com.softtek.lai.module.community.model.DoZan;
-import com.softtek.lai.module.community.model.HealthyCommunityModel;
-import com.softtek.lai.module.community.model.HealthyDynamicModel;
+import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.HealthyDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
@@ -61,16 +56,17 @@ import zilla.libcore.file.AddressManager;
  */
 public class HealthyCommunityAdapter extends BaseAdapter {
 
+    private OperationCall call;
     private Context context;
-    private Fragment fragment;
-    private List<HealthyCommunityModel> lossWeightStoryModels;
+    private List<DynamicModel> lossWeightStoryModels;
     private CommunityService service;
-    private static final int LIST_JUMP = 1;
     String path = AddressManager.get("photoHost");
     int px;
+    private Object tag;
 
-    public HealthyCommunityAdapter(Fragment fragment, Context context, List<HealthyCommunityModel> lossWeightStoryModels) {
-        this.fragment = fragment;
+    public HealthyCommunityAdapter(OperationCall call,Context context, List<DynamicModel> lossWeightStoryModels,Object tag) {
+        this.tag=tag;
+        this.call=call;
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
@@ -93,10 +89,9 @@ public class HealthyCommunityAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        final int pos = position;
-        final HealthyCommunityModel model = lossWeightStoryModels.get(position);
+        final DynamicModel model = lossWeightStoryModels.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item, parent, false);
             holder = new ViewHolder(convertView);
@@ -118,7 +113,31 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 //            }
 //        });
         holder.tv_name.setText(model.getUserName());
-        holder.tv_content.setText(model.getContent());
+        String content=model.getContent();
+        SpannableStringBuilder builder=new SpannableStringBuilder(content);
+        if(model.getIsTopic()==1){
+            /**
+             * 0  1 2 3 4 5   6 7  8  9 10
+             * 哈哈哈哈 # 金 彩 踢 馆 赛 #
+             */
+            String theme="#"+model.getThemeName()+"#";
+            ForegroundColorSpan colorSpan=new ForegroundColorSpan(0xFFFFA202);
+            //先把
+            int from=0;
+            int lastIndex=content.lastIndexOf("#");
+            do {
+                int firstIndex=content.indexOf("#",from);
+                int nextIndex=firstIndex+model.getThemeName().length()+1;
+                if(nextIndex<=lastIndex){
+                    String sub=content.substring(firstIndex,nextIndex+1);
+                    if(sub.equals(theme)){
+                        builder.setSpan(colorSpan,firstIndex,nextIndex+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    }
+                }
+                from=nextIndex;
+            }while (from<lastIndex);
+        }
+        holder.tv_content.setText(builder);
         long[] days=DateUtil.getInstance().getDaysForNow(model.getCreateDate());
         String time="";
         if(days[0]==0){//今天
@@ -135,7 +154,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             time=days[0]+"天前";
         }
         holder.tv_date.setText(time);
-        boolean isMine=Long.parseLong(TextUtils.isEmpty(model.getAccountId())?"0":model.getAccountId()) == UserInfoModel.getInstance().getUserId();
+        boolean isMine=model.getAccountId() == UserInfoModel.getInstance().getUserId();
         //如果是自己的则隐藏关注按钮
         if(isMine){
             holder.cb_focus.setVisibility(View.GONE);
@@ -154,10 +173,10 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                         holder.cb_focus.setChecked(false);
                     } else {
                         if (holder.cb_focus.isChecked()) {
-                            EventBus.getDefault().post(new RefreshRecommedEvent(model.getAccountId(),1));
+                            EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),1));
                             service.focusAccount(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(model.getAccountId()),
+                                   model.getAccountId(),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
@@ -167,11 +186,11 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                         }
                                     });
                         } else {
-                            EventBus.getDefault().post(new RefreshRecommedEvent(model.getAccountId(),0));
-                            EventBus.getDefault().post(new DeleteFocusEvent(model.getAccountId()));
+                            EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),0));
+                            EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
                             service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(model.getAccountId()),
+                                    model.getAccountId(),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
@@ -188,16 +207,24 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 
         //点赞
         //如果没有人点赞就隐藏点咱人姓名显示
-        holder.tv_zan_name.setText(model.getUsernameSet());
-        if (!"0".equals(model.getPraiseNum())) {
-            holder.ll_dianzan.setVisibility(View.VISIBLE);
+        StringBuilder nameSet=new StringBuilder();
+        for (int i=0,j=model.getUsernameSet().size();i<j;i++){
+            nameSet.append(model.getUsernameSet().get(i));
+            if(i<j-1){
+                nameSet.append(",");
+            }
+        }
+
+        if (0!=model.getPraiseNum()) {
+            holder.tv_zan_name.setText(nameSet.toString());
+            holder.tv_zan_name.setVisibility(View.VISIBLE);
         } else {
-            holder.ll_dianzan.setVisibility(View.GONE);
+            holder.tv_zan_name.setVisibility(View.GONE);
         }
 
         //加载图片
-        Picasso.with(context).load(path + model.getPhoto()).resize(px,px).centerCrop()
-                .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+        Picasso.with(context).load(path + model.getUserPhoto()).resize(px,px).centerCrop()
+                .placeholder(R.drawable.img_default).error(R.drawable.img_default).tag(tag).into(holder.civ_header_image);
         holder.civ_header_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,19 +235,34 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 context.startActivity(personal);
             }
         });
-        String[] imgs = model.getImgCollection().split(",");
-        final ArrayList<String> list =new ArrayList<>(Arrays.asList(imgs));
-        holder.photos.setAdapter(new PhotosAdapter(list, context));
+        holder.photos.setAdapter(new PhotosAdapter(model.getThumbnailPhotoList(), context,tag));
         holder.photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent in = new Intent(context, PictureMoreActivity.class);
-                in.putStringArrayListExtra("images", list);
+                in.putStringArrayListExtra("images", (ArrayList<String>) model.getPhotoList());
                 in.putExtra("position", position);
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
                 ActivityCompat.startActivity(context, in, optionsCompat.toBundle());
             }
         });
+        holder.iv_operator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[] location1 = new int[2];
+                holder.itemBottom.getLocationOnScreen(location1);
+                if(call!=null){
+                    PopupWindow popupWindow=call.doOperation(model,location1[1],position);
+                    int width=popupWindow.getContentView().getMeasuredWidth();
+                    int[] location = new int[2];
+                    v.getLocationOnScreen(location);
+                    popupWindow.showAtLocation(v, Gravity.NO_GRAVITY,  location[0]-width, location[1]);
+                }
+            }
+        });
+        CommentAdapter adapter=new CommentAdapter(context,model.getCommendsList());
+        holder.rv_comment.setLayoutManager(new LinearLayoutManagerWrapper(context));
+        holder.rv_comment.setAdapter(adapter);
         return convertView;
 
     }
@@ -228,12 +270,13 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 
     static class ViewHolder {
         CircleImageView civ_header_image;
-        TextView tv_name, tv_content, tv_date, tv_zan_name/*, tv_delete*/;
-        LinearLayout ll_dianzan, ll_content;
-        CheckBox /*cb_zan,*/ cb_focus;
+        TextView tv_name, tv_content, tv_date, tv_zan_name;
+        LinearLayout  ll_content;
+        CheckBox cb_focus;
         CustomGridView photos;
         RecyclerView rv_comment;
         ImageView iv_operator;
+        View itemBottom;
 
         public ViewHolder(View view) {
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
@@ -242,29 +285,14 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             tv_content = (TextView) view.findViewById(R.id.tv_content);
             tv_date = (TextView) view.findViewById(R.id.tv_date);
             tv_zan_name = (TextView) view.findViewById(R.id.tv_zan_name);
-            ll_dianzan = (LinearLayout) view.findViewById(R.id.ll_dianzan);
             photos = (CustomGridView) view.findViewById(R.id.photos);
-//            cb_zan = (CheckBox) view.findViewById(R.id.cb_zan);
-//            tv_delete = (TextView) view.findViewById(R.id.tv_delete);
             cb_focus = (CheckBox) view.findViewById(R.id.cb_focus);
             rv_comment= (RecyclerView) view.findViewById(R.id.rv_comment);
             iv_operator= (ImageView) view.findViewById(R.id.iv_operator);
+            itemBottom=view.findViewById(R.id.item_bottom);
         }
     }
 
-    private HealthyDynamicModel copyModeltoDynamci(HealthyCommunityModel model) {
-        HealthyDynamicModel dynamicModel = new HealthyDynamicModel();
-        dynamicModel.setPraiseNum(model.getPraiseNum());
-        dynamicModel.setUsernameSet(model.getUsernameSet());
-        dynamicModel.setContent(model.getContent());
-        dynamicModel.setUserName(model.getUserName());
-        dynamicModel.setHealtId(model.getID());
-        dynamicModel.setIsPraise(model.getIsPraise());
-        dynamicModel.setCreateDate(model.getCreateDate());
-        dynamicModel.setImgCollection(model.getImgCollection());
-        dynamicModel.setPhoto(model.getPhoto());
-        return dynamicModel;
-    }
 
     //检查是否为游客
     private boolean checkVr() {
@@ -287,4 +315,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         return false;
     }
 
+   public interface OperationCall{
+        PopupWindow doOperation(DynamicModel data, int  itemBottomY, int position);
+    }
 }

@@ -1,11 +1,11 @@
 package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.utils.DisplayUtil;
@@ -24,12 +24,14 @@ public class PhotosAdapter extends BaseAdapter{
 
     private List<String> images;
     private Context context;
+    private Object tag;
     private int px;
 
-    public PhotosAdapter(List<String> images, Context context) {
+    public PhotosAdapter(List<String> images, Context context,Object tag) {
         this.images = images;
         this.context = context;
         px = DisplayUtil.dip2px(context.getApplicationContext(), 78);
+        this.tag=tag;
     }
 
     @Override
@@ -62,6 +64,8 @@ public class PhotosAdapter extends BaseAdapter{
         Picasso.with(context).load(path+images.get(position)).resize(px, px).centerCrop()
                 .placeholder(R.drawable.default_icon_square)
                 .error(R.drawable.default_icon_square)
+                .config(Bitmap.Config.RGB_565)
+                .tag(tag)
                 .into(holder.image);
         return convertView;
     }

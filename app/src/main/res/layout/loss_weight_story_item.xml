@@ -4,7 +4,10 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
-    android:padding="16dp">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="10dp">
 
     <com.softtek.lai.widgets.CircleImageView
         android:id="@+id/civ_header_image"
@@ -94,34 +97,28 @@
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_dianzan"
+        <TextView
+            android:id="@+id/tv_zan_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
+            android:textColor="#576A80"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/love_story"
+            android:drawablePadding="5dp"
             android:background="#F1F1F1"
             android:gravity="center|left"
-            android:orientation="horizontal"
-            android:visibility="visible">
+            android:textSize="10sp"
+            android:visibility="gone"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/love_story" />
-
-            <TextView
-                android:id="@+id/tv_zan_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text=""
-                android:textColor="#7a7a7a"
-                android:textSize="10sp" />
-        </LinearLayout>
-        <!--<android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>-->
+            android:layout_height="wrap_content"/>
     </LinearLayout>
+    <View
+        android:id="@+id/item_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#00c0c0c0"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
