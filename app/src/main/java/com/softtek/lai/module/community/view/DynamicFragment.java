@@ -12,10 +12,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -24,23 +27,19 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
-import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
-import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.utils.StringUtil;
 
@@ -53,8 +52,6 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.view.View.GONE;
@@ -81,6 +78,12 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @InjectView(R.id.fab_sender)
     FloatingActionButton fab_sender;
+    @InjectView(R.id.rl_send)
+    RelativeLayout rl_send;
+    @InjectView(R.id.et_input)
+    EditText et_input;
+    @InjectView(R.id.btn_send)
+    Button btn_send;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -339,24 +342,24 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 data.setPraiseNameList(praiseName);
                 //向服务器提交
                 String token = infoModel.getToken();
-                service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                super.failure(error);
-                                int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
-                                data.setPraiseNum(priase);
-                                data.setIsPraise(0);
-                                List<String> praise=data.getPraiseNameList();
-                                praise.remove(praise.size()-1);
-                                data.setPraiseNameList(praise);
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
+//                service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
+//                        new RequestCallback<ResponseData>() {
+//                            @Override
+//                            public void success(ResponseData responseData, Response response) {
+//                            }
+//
+//                            @Override
+//                            public void failure(RetrofitError error) {
+//                                super.failure(error);
+//                                int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
+//                                data.setPraiseNum(priase);
+//                                data.setIsPraise(0);
+//                                List<String> praise=data.getPraiseNameList();
+//                                praise.remove(praise.size()-1);
+//                                data.setPraiseNameList(praise);
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                        });
                 adapter.notifyDataSetChanged();
             }
 
@@ -382,7 +385,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 rl_send.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(position<photoWallItemModels.size()-1){
+                        if(position<communityModels.size()-1){
                             int[] position1 = new int[2];
                             itemBottom.getLocationOnScreen(position1);
                             int[] position2 = new int[2];
@@ -413,21 +416,21 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    service.deleteHealth(UserInfoModel.getInstance().getToken(),
+                                    /*service.deleteHealth(UserInfoModel.getInstance().getToken(),
                                             data.getHealtId(),
                                             new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
                                                     try {
                                                         if (responseData.getStatus() == 200) {
-                                                            photoWallItemModels.remove(data);
+                                                            communityModels.remove(data);
                                                             adapter.notifyDataSetChanged();
                                                         }
                                                     } catch (Exception e) {
                                                         e.printStackTrace();
                                                     }
                                                 }
-                                            });
+                                            });*/
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
