@@ -16,9 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.community.model.Comment;
-import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
@@ -99,16 +97,18 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 hiden();
-                DynamicModel model= (DynamicModel) v.getTag();
+                Integer position= (Integer) v.getTag();
                 String commentStr=et_input.getText().toString();
                 et_input.setText("");
-                if(model!=null&&tag.equals("dynamic")){
-                    Comment comment=new Comment();
-                    comment.Comment=commentStr;
-                    comment.CommentUserId= UserInfoModel.getInstance().getUserId();
-                    comment.CommentUserName=UserInfoModel.getInstance().getUser().getNickname();
-                    comment.isReply=0;
-                    ((DynamicFragment)fragments.get(1)).doSend(model,comment);
+                Comment comment=new Comment();
+                comment.Comment=commentStr;
+                comment.CommentUserId= UserInfoModel.getInstance().getUserId();
+                comment.CommentUserName=UserInfoModel.getInstance().getUser().getNickname();
+                comment.isReply=0;
+                if(tag.equals("dynamic")){
+                    ((DynamicFragment)fragments.get(1)).doSend(position,comment);
+                }else if(tag.equals("FocusFragment")){
+                    ((FocusFragment)fragments.get(2)).doSend(position,comment);
                 }
             }
         });
@@ -117,10 +117,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
         fragments.add(new HomeFragment());
-//        fragments.add(new HealthyFragment());
         fragments.add(DynamicFragment.getInstance(this));
 //        fragments.add(new HealthyRecordFragment());//健康记录
-        fragments.add(new FocusFragment());//关注
+        fragments.add(FocusFragment.getInstance(this));//关注
         fragments.add(new MineTwoFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -234,9 +233,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void doOpen(DynamicModel model,final int itemBottomY, final int position, final String tag) {
+    public void doOpen(final int itemBottomY, final int position, final String tag) {
         this.tag=tag;
-        btn_send.setTag(model);
+        btn_send.setTag(position);
         rl_send.setVisibility(View.VISIBLE);
         et_input.setFocusable(true);
         et_input.setFocusableInTouchMode(true);
@@ -255,6 +254,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 scrollY=itemBottomY-position2[1];
                 if(tag.equals("dynamic")){
                     ((DynamicFragment)fragments.get(1)).doScroll(position,scrollY);
+                }else if(tag.equals("FocusFragment")){
+                    ((FocusFragment)fragments.get(2)).doScroll(position,scrollY);
                 }
             }
         }, 1000);
@@ -291,6 +292,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 rl_send.setVisibility(View.INVISIBLE);
                 if(tag.equals("dynamic")){
                     ((DynamicFragment)fragments.get(1)).doScroll(0,scrollY);
+                }else if(tag.equals("FocusFragment")){
+                    ((DynamicFragment)fragments.get(2)).doScroll(0,scrollY);
                 }
             }
 

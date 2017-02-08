@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -44,6 +46,7 @@ import com.softtek.lai.module.community.presenter.SendCommend;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.SquareImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,6 +61,7 @@ import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.view.View.GONE;
@@ -86,6 +90,15 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     @InjectView(R.id.fab_sender)
     FloatingActionButton fab_sender;
 
+    @InjectView(R.id.siv_topic)
+    SquareImageView siv_topic;
+    @InjectView(R.id.tv_dynamic_num)
+    TextView tv_dynamic_num;
+    @InjectView(R.id.tv_hot_topic)
+    TextView tv_hot_topic;
+    @InjectView(R.id.rl_hot)
+    RelativeLayout rl_hot;
+
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -101,8 +114,35 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         community.getRecommendDynamic(accountId,1);
         service.getHotTopicInfo(new RequestCallback<ResponseData<TopicInfo>>() {
             @Override
-            public void success(ResponseData<TopicInfo> topicInfoResponseData, Response response) {
+            public void success(ResponseData<TopicInfo> data, Response response) {
+                if(data.getStatus()==200){
+                    TopicInfo info=data.getData();
+                    tv_dynamic_num.setText(String.valueOf(info.getDynamicNum()));
+                    tv_dynamic_num.append("条动态");
+                    if(!TextUtils.isEmpty(info.getTopicName())){
+                        tv_hot_topic.setText("#");
+                        tv_hot_topic.append(info.getTopicName());
+                        tv_hot_topic.append("#");
+                    }
+                    if(TextUtils.isEmpty(info.getTopicPhoto())){
+                        Picasso.with(getContext()).load(R.drawable.default_icon_square)
+                                .placeholder(R.drawable.default_icon_square)
+                                .into(siv_topic);
+                    }else {
+                        Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getData().getTopicPhoto())
+                                .resize(DisplayUtil.dip2px(getContext(),38),DisplayUtil.dip2px(getContext(),38))
+                                .centerCrop()
+                                .error(R.drawable.default_icon_square).placeholder(R.drawable.default_icon_square)
+                                .into(siv_topic);
+                    }
+                    rl_hot.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
+                        }
+                    });
+
+                }
             }
         });
     }
@@ -321,7 +361,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     private CommunityService service;
     @Override
     public PopupWindow doOperation(final DynamicModel data, final int itemBottomY, final int position) {
-//弹出popwindow
+        //弹出popwindow
         final PopupWindow popupWindow = new PopupWindow(getContext());
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(DisplayUtil.dip2px(getContext(),30));
@@ -375,7 +415,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
             public void onClick(View view) {
                 popupWindow.dismiss();
                 if(openComment!=null){
-                    openComment.doOpen(data,itemBottomY,position,"dynamic");
+                    openComment.doOpen(itemBottomY,position,"dynamic");
                 }
             }
         });
@@ -438,12 +478,14 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     }
 
     @Override
-    public void doSend(DynamicModel dynamicModel,Comment comment) {
-        dynamicModel.getCommendsList().add(comment);
+    public void doSend(int position,Comment comment) {
+        Log.i("更新的动态position是"+position);
+        DynamicModel model=communityModels.get(position);
+        model.getCommendsList().add(comment);
         adapter.notifyDataSetChanged();
         ZillaApi.NormalRestAdapter.create(PhotoWallService.class)
                 .commitComment(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
-                        dynamicModel.getDynamicId(), comment.Comment, new RequestCallback<ResponseData>() {
+                        model.getDynamicId(), comment.Comment, new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
 

@@ -88,7 +88,7 @@ public interface CommunityService {
                      RequestCallback<ResponseData<List<ImageResponse2>>> callback);
 
     //删除动态
-    @POST("/HealthyCircle/DeleteHealth")
+    @POST("/V1/HealthyCircle/DeletePhotoWall")
     void deleteHealth(@Header("token")String token,
                       @Query("healthid") String healthId,
                       RequestCallback<ResponseData> callback);
@@ -107,9 +107,10 @@ public interface CommunityService {
                             @Query("focusaccid")long focusAccount,
                             RequestCallback<ResponseData> callback);
     //关注列表
-    @GET("/HealthyCircle/HealthFocus")
+    @GET("/v1/HealthyCircle/GetFocusDynamicList")
     void healthyFocus(@Header("token")String token,
-                      @Query("accountid")long accountId,
-                      @Query("pageIndex")int pageIndex,
+                      @Query("Loginaccid")long accountId,
+                      @Query("PageIndex")int pageIndex,
+                      @Query("PageSize")int pageSize,
                       RequestCallback<ResponseData<HealthyRecommendModel>> callback);
 }

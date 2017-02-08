@@ -11,5 +11,5 @@ public interface SendCommend {
 
     void doScroll(int position,int y);
 
-    void doSend(DynamicModel dynamicModel, Comment comment);
+    void doSend(int position,Comment comment);
 }

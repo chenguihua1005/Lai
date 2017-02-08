@@ -51,12 +51,7 @@ public class CommunityManager{
     }
     public void getHealthyFocus(int pageIndex) {
         String token= UserInfoModel.getInstance().getToken();
-        UserModel model=UserInfoModel.getInstance().getUser();
-        if(model==null){
-            return;
-        }
-        int accountId=Integer.parseInt(model.getUserid());
-        service.healthyFocus(token,accountId,pageIndex, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
+        service.healthyFocus(token,UserInfoModel.getInstance().getUserId(),pageIndex,10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
             @Override
             public void success(ResponseData<HealthyRecommendModel> listResponseData, Response response) {
                 if(cb!=null)cb.getMineDynamic(listResponseData.getData());

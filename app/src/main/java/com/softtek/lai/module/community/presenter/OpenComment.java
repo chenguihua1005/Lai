@@ -8,6 +8,6 @@ import com.softtek.lai.module.community.model.DynamicModel;
 
 public interface OpenComment {
 
-    void doOpen(DynamicModel model,int itemBottomY, int position, String tag);
+    void doOpen(int itemBottomY, int position, String tag);
     void hiden();
 }

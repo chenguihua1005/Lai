@@ -1,14 +1,20 @@
 package com.softtek.lai.module.community.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -17,18 +23,25 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
+import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
-import com.softtek.lai.module.community.model.HealthyCommunityModel;
-import com.softtek.lai.module.community.model.HealthyDynamicModel;
+import com.softtek.lai.module.community.model.Comment;
+import com.softtek.lai.module.community.model.DoZan;
+import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
+import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.CommunityManager;
+import com.softtek.lai.module.community.presenter.OpenComment;
+import com.softtek.lai.module.community.presenter.SendCommend;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.utils.StringUtil;
+import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -38,14 +51,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+
+import static android.view.View.GONE;
 
 /**
  * Created by jerry.guan on 4/11/2016.
  *
  */
 @InjectLayout(R.layout.fragment_mine_healthy)
-public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener{
+public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener
+,HealthyCommunityAdapter.OperationCall,SendCommend {
 
     @InjectView(R.id.iv_left)
     ImageView iv_left;
@@ -63,11 +82,12 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     private CommunityManager community;
     private HealthyCommunityFocusAdapter adapter;
-    private List<HealthyCommunityModel> communityModels=new ArrayList<>();
+    private List<DynamicModel> communityModels=new ArrayList<>();
     int pageIndex=1;
     int totalPage=0;
     boolean isLogin=false;
     boolean hasFocus=false;
+    private OpenComment openComment;
 
     @Override
     protected void onVisible() {
@@ -83,6 +103,15 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
             pageIndex=1;
             community.getHealthyFocus(1);
         }
+    }
+    public static FocusFragment getInstance(OpenComment openComment){
+        FocusFragment fragment=new FocusFragment();
+        fragment.setOpenComment(openComment);
+        return fragment;
+    }
+
+    public void setOpenComment(OpenComment openComment) {
+        this.openComment = openComment;
     }
 
     @Override
@@ -113,10 +142,10 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Subscribe
     public void refreshList(DeleteFocusEvent event){
-        List<HealthyCommunityModel> models=new ArrayList<>();
+        List<DynamicModel> models=new ArrayList<>();
         for (int i=0,j=communityModels.size();i<j;i++){
-            HealthyCommunityModel item = communityModels.get(i);
-            if(item.getAccountId().equals(event.getAccountId())){
+            DynamicModel item = communityModels.get(i);
+            if(item.getAccountId()==Integer.parseInt(event.getAccountId())){
                 models.add(item);
             }
         }
@@ -127,13 +156,12 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     @Subscribe
     public void refreshListZan(ZanEvent event){
         if(event.getWhere()==1){
-            for (HealthyCommunityModel model:communityModels){
-                if(model.getID().equals(event.getDynamicId())){
-                    model.setIsPraise(Constants.HAS_ZAN);
-                    model.setPraiseNum(String.valueOf(Integer.parseInt(model.getPraiseNum()) + 1));
+            for (DynamicModel model:communityModels){
+                if(model.getDynamicId().equals(event.getDynamicId())){
+                    model.setIsPraise(1);
+                    model.setPraiseNum(model.getPraiseNum() + 1);
                     UserInfoModel infoModel = UserInfoModel.getInstance();
-                    model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
-                            infoModel.getUser().getMobile()));
+                    model.getUsernameSet().add(infoModel.getUser().getNickname());
                     break;
                 }
             }
@@ -148,9 +176,10 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Override
     protected void initDatas() {
+        service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
         community=new CommunityManager(this);
         //加载数据适配器
-        adapter=new HealthyCommunityFocusAdapter(this,getContext(),communityModels);
+        adapter=new HealthyCommunityFocusAdapter(this,new Object(),getContext(),communityModels);
         ptrlv.setAdapter(adapter);
         String token=UserInfoModel.getInstance().getToken();
         //判断token是否为空
@@ -199,32 +228,32 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
-//        try {
-//            hasFocus=false;
-//            ptrlv.onRefreshComplete();
-//            if(model==null){
-//                pageIndex=--pageIndex<1?1:pageIndex;
-//                return;
-//            }
-//            if(model.getTotalPage()==null&&model.getHealthList()==null){
-//                pageIndex=--pageIndex<1?1:pageIndex;
-//                return;
-//            }
-//            totalPage=Integer.parseInt(model.getTotalPage());
-//            List<HealthyCommunityModel> models=model.getHealthList();
-//            if(models==null||models.isEmpty()){
-//                pageIndex=--pageIndex<1?1:pageIndex;
-//                return;
-//            }
-//            if(pageIndex==1){
-//                this.communityModels.clear();
-//            }
-//
-//            this.communityModels.addAll(models);
-//            adapter.notifyDataSetChanged();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            hasFocus=false;
+            ptrlv.onRefreshComplete();
+            if(model==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(model.getTotalPage()==null&&model.getDynamiclist()==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            totalPage=Integer.parseInt(model.getTotalPage());
+            List<DynamicModel> models=model.getDynamiclist();
+            if(models==null||models.isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(pageIndex==1){
+                this.communityModels.clear();
+            }
+
+            this.communityModels.addAll(models);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -243,17 +272,149 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==-1){
-            if(requestCode==LIST_JUMP){
-                int position=data.getIntExtra("position",-1);
-                HealthyDynamicModel model=data.getParcelableExtra("dynamicModel");
-                if(position!=-1&&model!=null){
-                    communityModels.get(position).setIsPraise(model.getIsPraise());
-                    communityModels.get(position).setUsernameSet(model.getUsernameSet());
-                    communityModels.get(position).setPraiseNum(model.getPraiseNum());
-                    adapter.notifyDataSetChanged();
+//            if(requestCode==LIST_JUMP){
+//                int position=data.getIntExtra("position",-1);
+//                HealthyDynamicModel model=data.getParcelableExtra("dynamicModel");
+//                if(position!=-1&&model!=null){
+//                    communityModels.get(position).setIsPraise(model.getIsPraise());
+//                    communityModels.get(position).setUsernameSet(model.getUsernameSet());
+//                    communityModels.get(position).setPraiseNum(model.getPraiseNum());
+//                    adapter.notifyDataSetChanged();
+//                }
+//            }
+        }
+    }
+    private CommunityService service;
+    @Override
+    public PopupWindow doOperation(final DynamicModel data, final int itemBottomY, final int position) {
+        //弹出popwindow
+        final PopupWindow popupWindow = new PopupWindow(getContext());
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(DisplayUtil.dip2px(getContext(),30));
+        popupWindow.setAnimationStyle(R.style.operation_anim_style);
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.opteration_drawable));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        final View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_operator, null);
+        TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
+        //点击点赞按钮
+        tv_zan.setEnabled(data.getIsPraise()!=1);
+        tv_zan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                final UserInfoModel infoModel = UserInfoModel.getInstance();
+                data.setPraiseNum(data.getPraiseNum() + 1);
+                data.setIsPraise(1);
+                List<String> praise=data.getUsernameSet();
+                praise.add(infoModel.getUser().getNickname());
+                data.setUsernameSet(praise);
+                //向服务器提交
+                String token = infoModel.getToken();
+                service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                                int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
+                                data.setPraiseNum(priase);
+                                data.setIsPraise(0);
+                                List<String> praise=data.getUsernameSet();
+                                praise.remove(praise.size()-1);
+                                data.setUsernameSet(praise);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                adapter.notifyDataSetChanged();
+            }
+
+
+        });
+        TextView tv_comment = (TextView) contentView.findViewById(R.id.tv_oper_comment);
+        //点击评论按钮
+        tv_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                if(openComment!=null){
+                    openComment.doOpen(itemBottomY,position,"FocusFragment");
                 }
             }
+        });
+        TextView tv_jubao = (TextView) contentView.findViewById(R.id.tv_oper_jubao);
+        //点击举报按钮
+        tv_jubao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
+        //点击删除按钮
+        if(data.getAccountId() == UserInfoModel.getInstance().getUserId()){
+            tv_delete.setVisibility(View.VISIBLE);
+            tv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    popupWindow.dismiss();
+                    new AlertDialog.Builder(getContext()).setTitle("温馨提示").setMessage("确定删除吗？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    service.deleteHealth(UserInfoModel.getInstance().getToken(),
+                                            data.getDynamicId(),
+                                            new RequestCallback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    try {
+                                                        if (responseData.getStatus() == 200) {
+                                                            communityModels.remove(data);
+                                                            adapter.notifyDataSetChanged();
+                                                        }
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                }
+            });
+        }else {
+            tv_delete.setVisibility(GONE);
+        }
+        contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        popupWindow.setContentView(contentView);
+        return popupWindow;
+    }
+
+    @Override
+    public void doScroll(int position,int y) {
+        if (position < communityModels.size() - 1) {
+            ptrlv.getRefreshableView().scrollBy(0, y);
         }
     }
 
+    @Override
+    public void doSend(int  position,Comment comment) {
+        DynamicModel model=communityModels.get(position);
+        model.getCommendsList().add(comment);
+        adapter.notifyDataSetChanged();
+        ZillaApi.NormalRestAdapter.create(PhotoWallService.class)
+                .commitComment(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
+                        model.getDynamicId(), comment.Comment, new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+
+                            }
+                        });
+    }
 }
