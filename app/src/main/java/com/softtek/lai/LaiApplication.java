@@ -14,6 +14,7 @@ import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.NetErrorHandler;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.umeng.socialize.PlatformConfig;
@@ -29,12 +30,11 @@ import zilla.libcore.file.PropertiesManager;
 
 /**
  * Created by zilla on 9/8/15.
- *
  */
 public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
     private static LaiApplication laiApplication;
-    private WeakReference<Context>  context;
+    private WeakReference<Context> context;
 
     @Override
     public void onCreate() {
@@ -48,7 +48,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         CrashHandler.getInstance().init(this);
 
     }
-
 
 
     public static LaiApplication getInstance() {
@@ -93,10 +92,10 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             public void intercept(RequestFacade requestFacade) {
                 requestFacade.addHeader("appid", PropertiesManager.get("appid"));
                 requestFacade.addHeader("vision_name", DisplayUtil.getAppVersionName(LaiApplication.laiApplication));
-                UserModel info=UserInfoModel.getInstance().getUser();
-                if(info!=null){
+                UserModel info = UserInfoModel.getInstance().getUser();
+                if (info != null) {
                     requestFacade.addHeader("cilent_mobile", info.getMobile());
-                }else{
+                } else {
                     requestFacade.addHeader("cilent_mobile", "");
                 }
             }
@@ -105,44 +104,70 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         ZillaApi.setmIApiErrorHandler(new NetErrorHandler());
     }
 
-    public static final String CREATE_STEP="create table user_step(" +
+    public static final String CREATE_STEP = "create table user_step(" +
             "id text primary key," +
             "accountId text," +
             "stepCount bigint," +
             "recordTime text )";
-    public static final String CREATE_SPORT_DATA="create table sport_data(" +
-            "id text primary key,"+
-            "user_id text,"+
-            "longitude text,"+
-            "latitude text,"+
-            "speed text,"+//速度
-            "step integer,"+//当前步数
-            "currentkm text,"+//当前公里数
-            "kilometre integer,"+//是否是一公里
-            "hasProblem integer,"+//是否是问题坐标
-            "kilometre_time integer,"+//一公里配速
-            "index_count text,"+//索引字段
+    public static final String CREATE_SPORT_DATA = "create table sport_data(" +
+            "id text primary key," +
+            "user_id text," +
+            "longitude text," +
+            "latitude text," +
+            "speed text," +//速度
+            "step integer," +//当前步数
+            "currentkm text," +//当前公里数
+            "kilometre integer," +//是否是一公里
+            "hasProblem integer," +//是否是问题坐标
+            "kilometre_time integer," +//一公里配速
+            "index_count text," +//索引字段
             "time_consuming integer)";//耗时
+
+
+    //通讯录联系人表
+    public static final String CREATE_CONATCT = "create table " + ContactTable.TABLE_NAME + "(" + ContactTable._ID
+            + " integer primary key autoincrement, "
+            + ContactTable.Mobile + " varchar(20),"
+            + ContactTable.UserName + " varchar(20),"
+            + ContactTable.UserEn + " varchar(20),"
+            + ContactTable.Gender + " varchar(20),"
+            + ContactTable.Photo + " varchar(20),"
+            + ContactTable.UserRole + "  varchar(20),"
+            + ContactTable.HXAccountId + "  varchar(20),"
+
+            + ContactTable.Certification + " varchar(20),"
+            + ContactTable.AccountId + " varchar(20),"
+            + ContactTable.AFriendId + " varchar(20),"
+            + ContactTable.AccpetTime + " varchar(20))";
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("onCreate(SQLiteDatabase db)");
+        Log.i("onCreate(SQLiteDatabase db)    1111111111111111111111      ");
         db.execSQL(CREATE_STEP);
         db.execSQL(CREATE_SPORT_DATA);
+        db.execSQL(CREATE_CONATCT);
+
+
         Log.i("表创建了");
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i("onUpgrade(SQLiteDatabase db)");
-        switch (oldVersion){
+        Log.i("onUpgrade(SQLiteDatabase db)    +++++++++++++++++++++++++++++++++++");
+        switch (oldVersion) {
             case 1:
+                Log.i("版本1 更新 。。。。。。。。。。。。。。");
                 db.execSQL("drop table user_step");//删除表
                 db.execSQL(CREATE_STEP);//创建新表
                 break;
             case 2:
-                db.execSQL(CREATE_SPORT_DATA);
-            break;
+                Log.i("版本2 更新 。。。。。。。。。。。。。。");
+                db.execSQL(CREATE_CONATCT);
+                break;
         }
+
+
     }
 }

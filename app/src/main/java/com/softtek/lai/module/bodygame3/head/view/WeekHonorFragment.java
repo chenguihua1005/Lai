@@ -163,6 +163,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                     holder.getConvertView().setVisibility(View.GONE);
                     return;
                 }
+                TextView tv_coach_type=holder.getView(R.id.tv_coach_type);
+                tv_coach_type.setText(data.getCoachType());
                 TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
                 tv_rank_number.setText(data.getRanking());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -97,13 +98,14 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
-        ContactDao dao = new ContactDao(ContactSearchActivity.this);
+//        ContactDao dao = new ContactDao(ContactSearchActivity.this);
 //        contacts = dao.getAllConatct();
 //        contacts_static.clear();
 //        contacts_static.addAll(contacts);
 
+
         contacts_static.clear();
-        contacts_static.addAll(dao.getAllConatct());
+        contacts_static.addAll(ContactUtil.getInstance().getAllConatct());
 
         adapter = new EasyAdapter<ChatContactModel>(this, contacts, R.layout.expandable_child_contact_item) {
             @Override

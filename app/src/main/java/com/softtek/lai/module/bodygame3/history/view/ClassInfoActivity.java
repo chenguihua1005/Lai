@@ -38,7 +38,6 @@ import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
-import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 

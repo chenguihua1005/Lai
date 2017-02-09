@@ -245,9 +245,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(rl_send.getVisibility()==View.VISIBLE){
-//                    int[] position2 = new int[2];
-//                    rl_send.getLocationOnScreen(position2);
-                    //ptrlv.getRefreshableView().scrollBy(0, position2[1]);
                     rl_send.setVisibility(View.INVISIBLE);
                     SoftInputUtil.hidden(PhotoWallActivity.this);
                 }
@@ -405,7 +402,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 }
 
                 CustomGridView photos = holder.getView(R.id.photos);
-                photos.setAdapter(new PhotosAdapter(data.getThumbnailPhotoList(), PhotoWallActivity.this));
+                photos.setAdapter(new PhotosAdapter(data.getThumbnailPhotoList(), PhotoWallActivity.this,new Object()));
                 //添加评论
                 LinearLayout ll_comment = holder.getView(R.id.ll_comment);
                 if (!data.getPhotoWallCommendsList().isEmpty()) {
@@ -620,20 +617,24 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 new RequestCallback<ResponseData<PhotoWallListModel>>() {
                     @Override
                     public void success(ResponseData<PhotoWallListModel> photoWallListModelResponseData, Response response) {
-                        ptrlv.onRefreshComplete();
-                        int status = photoWallListModelResponseData.getStatus();
-                        switch (status) {
-                            case 200:
-                                photoWallListModel = photoWallListModelResponseData.getData();
-                                if (photoWallListModel != null) {
+                        try {
+                            ptrlv.onRefreshComplete();
+                            int status = photoWallListModelResponseData.getStatus();
+                            switch (status) {
+                                case 200:
+                                    photoWallListModel = photoWallListModelResponseData.getData();
                                     photoWallItemModels.clear();
-                                    photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                                    adapter.notifyDataSetChanged();
-                                }
-                                break;
-                            default:
-                                Util.toastMsg(photoWallListModelResponseData.getMsg());
-                                break;
+                                    if (photoWallListModel != null) {
+                                        photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    break;
+                                default:
+                                    Util.toastMsg(photoWallListModelResponseData.getMsg());
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
 

@@ -342,7 +342,7 @@ public class RecyclerViewInfoAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             //照片墙的缩略图
             if (item.getThumbnailPhotoList().size() > 0) {
-                mPhotos.setAdapter((new PhotosAdapter(item.getThumbnailPhotoList(), mContext)));
+                mPhotos.setAdapter((new PhotosAdapter(item.getThumbnailPhotoList(), mContext,new Object())));
                 mPhotos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

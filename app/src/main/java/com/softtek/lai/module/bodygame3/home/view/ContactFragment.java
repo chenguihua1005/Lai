@@ -26,6 +26,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactExpandableAdapter;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactListModel;
 import com.softtek.lai.module.bodygame3.conversation.model.CountModel;
@@ -346,9 +348,17 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                                 }
 
                                 //存入数据库,之前先清除之前的数据
-                                ContactDao dao = new ContactDao(getContext());
-                                dao.clearContactTab();
-                                dao.insert(list);
+//                                ContactDao dao = new ContactDao(getContext());
+//                                dao.clearContactTab();
+//                                dao.insert(list);
+                                Log.i(TAG, "判断表明是否存在......");
+                                if (ContactUtil.getInstance().tableIsExist(ContactTable.TABLE_NAME)) {
+                                    Log.i(TAG, "存在。。。。。");
+                                    ContactUtil.getInstance().clearContactTab();
+                                    ContactUtil.getInstance().insert(list);
+                                } else {
+                                    Log.i(TAG, "不存在。。。。。");
+                                }
 
                             }
                             adapter.notifyDataSetChanged();

@@ -8,6 +8,7 @@ import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.model.ImageResponse;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.model.PersonalRecommendModel;
+import com.softtek.lai.module.community.model.TopicInfo;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -26,11 +27,19 @@ import retrofit.mime.TypedFile;
  */
 public interface CommunityService {
 
-    //获取推荐健康圈内容
-    @GET("/HealthyCircle/NewHealthRecommend")
-    void getrecommendHealthyContent(@Query("accountid")long accountId,
-                                    @Query("pageIndex")int pageIndex,
-                                    RequestCallback<ResponseData<HealthyRecommendModel>> callback);
+    //获取动态列表
+    @GET("/v1/HealthyCircle/GetDynamicList")
+    void getDynamicList(@Query("Loginaccid")long accountId,
+                        @Query("PageIndex")int pageIndex,
+                        @Query("PageSize")int pageSize,
+                        RequestCallback<ResponseData<HealthyRecommendModel>> callback);
+    //获取热门话题信息
+    @GET("/v1/HealthyCircle/GetHotTopicInfo")
+    void getHotTopicInfo(RequestCallback<ResponseData<TopicInfo>> callback);
+
+    //获取话题列表
+    @GET("/v1/HealthyCircle/GetTopicList")
+    void getTopicList(RequestCallback<ResponseData<List<TopicInfo>>> callback);
 
     //获取健康圈关注内容
     @GET("/HealthyCircle/NewHealthMine")
@@ -79,7 +88,7 @@ public interface CommunityService {
                      RequestCallback<ResponseData<List<ImageResponse2>>> callback);
 
     //删除动态
-    @POST("/HealthyCircle/DeleteHealth")
+    @POST("/V1/HealthyCircle/DeletePhotoWall")
     void deleteHealth(@Header("token")String token,
                       @Query("healthid") String healthId,
                       RequestCallback<ResponseData> callback);
@@ -98,9 +107,10 @@ public interface CommunityService {
                             @Query("focusaccid")long focusAccount,
                             RequestCallback<ResponseData> callback);
     //关注列表
-    @GET("/HealthyCircle/HealthFocus")
+    @GET("/v1/HealthyCircle/GetFocusDynamicList")
     void healthyFocus(@Header("token")String token,
-                      @Query("accountid")long accountId,
-                      @Query("pageIndex")int pageIndex,
+                      @Query("Loginaccid")long accountId,
+                      @Query("PageIndex")int pageIndex,
+                      @Query("PageSize")int pageSize,
                       RequestCallback<ResponseData<HealthyRecommendModel>> callback);
 }
