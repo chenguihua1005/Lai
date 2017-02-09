@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -69,11 +68,10 @@ import static android.view.View.GONE;
 /**
  * Created by jerry.guan on 4/11/2016.
  * 莱聚+动态
- *
  */
 @InjectLayout(R.layout.fragment_recommend_healthy)
 public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,
-        RecommentHealthyManager.RecommentHealthyManagerCallback,HealthyCommunityAdapter.OperationCall,SendCommend {
+        RecommentHealthyManager.RecommentHealthyManagerCallback, HealthyCommunityAdapter.OperationCall, SendCommend {
 
     @InjectView(R.id.iv_left)
     ImageView iv_left;
@@ -102,35 +100,38 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
-    private List<DynamicModel> communityModels=new ArrayList<>();
-    int pageIndex=1;
-    int totalPage=0;
+    private List<DynamicModel> communityModels = new ArrayList<>();
+    int pageIndex = 1;
+    int totalPage = 0;
     private OpenComment openComment;
 
-    private static final int OPEN_SENDER_REQUEST=2;
+    private static final int OPEN_SENDER_REQUEST = 2;
+    public static final String DYNAMIC="dynamic";
+
+
     @Override
     protected void lazyLoad() {
-        pageIndex=1;
-        community.getRecommendDynamic(accountId,1);
+        pageIndex = 1;
+        community.getRecommendDynamic(accountId, 1);
         service.getHotTopicInfo(new RequestCallback<ResponseData<TopicInfo>>() {
             @Override
             public void success(ResponseData<TopicInfo> data, Response response) {
-                if(data.getStatus()==200){
-                    TopicInfo info=data.getData();
+                if (data.getStatus() == 200) {
+                    TopicInfo info = data.getData();
                     tv_dynamic_num.setText(String.valueOf(info.getDynamicNum()));
                     tv_dynamic_num.append("条动态");
-                    if(!TextUtils.isEmpty(info.getTopicName())){
+                    if (!TextUtils.isEmpty(info.getTopicName())) {
                         tv_hot_topic.setText("#");
                         tv_hot_topic.append(info.getTopicName());
                         tv_hot_topic.append("#");
                     }
-                    if(TextUtils.isEmpty(info.getTopicPhoto())){
+                    if (TextUtils.isEmpty(info.getTopicPhoto())) {
                         Picasso.with(getContext()).load(R.drawable.default_icon_square)
                                 .placeholder(R.drawable.default_icon_square)
                                 .into(siv_topic);
-                    }else {
-                        Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getData().getTopicPhoto())
-                                .resize(DisplayUtil.dip2px(getContext(),38),DisplayUtil.dip2px(getContext(),38))
+                    } else {
+                        Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getData().getTopicPhoto())
+                                .resize(DisplayUtil.dip2px(getContext(), 38), DisplayUtil.dip2px(getContext(), 38))
                                 .centerCrop()
                                 .error(R.drawable.default_icon_square).placeholder(R.drawable.default_icon_square)
                                 .into(siv_topic);
@@ -147,8 +148,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         });
     }
 
-    public static DynamicFragment getInstance(OpenComment openComment){
-        DynamicFragment fragment=new DynamicFragment();
+    public static DynamicFragment getInstance(OpenComment openComment) {
+        DynamicFragment fragment = new DynamicFragment();
         fragment.setOpenComment(openComment);
         return fragment;
     }
@@ -166,7 +167,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setEmptyView(empty);
-        ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
+        ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true, false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
@@ -177,27 +178,29 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
 
     }
-    long accountId=0;
+
+    long accountId = 0;
+
     @Override
     protected void initDatas() {
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
-        community=new RecommentHealthyManager(this);
-        UserModel user= UserInfoModel.getInstance().getUser();
-        String token=UserInfoModel.getInstance().getToken();
-        if(StringUtils.isEmpty(token)){
-            accountId=-1;
-        }else{
-            accountId=Long.parseLong(user.getUserid());
+        community = new RecommentHealthyManager(this);
+        UserModel user = UserInfoModel.getInstance().getUser();
+        String token = UserInfoModel.getInstance().getToken();
+        if (StringUtils.isEmpty(token)) {
+            accountId = -1;
+        } else {
+            accountId = Long.parseLong(user.getUserid());
         }
-        final Object tag=new Object();
-        adapter=new HealthyCommunityAdapter(this,getContext(),communityModels,tag);
+        final Object tag = new Object();
+        adapter = new HealthyCommunityAdapter(this, getContext(), communityModels, tag);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(scrollState==SCROLL_STATE_TOUCH_SCROLL||scrollState==SCROLL_STATE_FLING){//正在滚动或手指快速一滑
+                if (scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING) {//正在滚动或手指快速一滑
                     Picasso.with(getContext()).pauseTag(tag);
-                }else if (scrollState==SCROLL_STATE_IDLE){//停止滑动
+                } else if (scrollState == SCROLL_STATE_IDLE) {//停止滑动
                     Picasso.with(getContext()).resumeTag(tag);
                 }
             }
@@ -210,7 +213,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(openComment!=null){
+                if (openComment != null) {
                     openComment.hiden();
                 }
                 return false;
@@ -225,20 +228,21 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     }
 
     @OnClick(R.id.fab_sender)
-    public void sendDynamicClick(View view){
-        Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
-        startActivityForResult(intent,OPEN_SENDER_REQUEST);
+    public void sendDynamicClick(View view) {
+        Intent intent = new Intent(getContext(), EditPersonalDynamicActivity.class);//跳转到发布动态界面
+        startActivityForResult(intent, OPEN_SENDER_REQUEST);
     }
+
     @OnClick(R.id.fl_right)
-    public void moreTopicClick(View view){
-        startActivity(new Intent(getContext(),TopicListActivity.class));
+    public void moreTopicClick(View view) {
+        startActivity(new Intent(getContext(), TopicListActivity.class));
     }
 
 
     @Subscribe
-    public void refreshList(RefreshRecommedEvent event){
-        for (DynamicModel model:communityModels){
-            if(model.getAccountId()==Integer.parseInt(event.getAccountId())){
+    public void refreshList(RefreshRecommedEvent event) {
+        for (DynamicModel model : communityModels) {
+            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
                 model.setIsFocus(event.getFocusStatus());
             }
         }
@@ -246,26 +250,26 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     }
 
     @Subscribe
-    public void refreshListDelete(DeleteRecommedEvent event){
-        int position=-1;
-        for (int i=0,j=communityModels.size();i<j;i++){
-            DynamicModel model=communityModels.get(i);
-            if(model.getDynamicId().equals(event.getDynamicId())){
-                position=i;
+    public void refreshListDelete(DeleteRecommedEvent event) {
+        int position = -1;
+        for (int i = 0, j = communityModels.size(); i < j; i++) {
+            DynamicModel model = communityModels.get(i);
+            if (model.getDynamicId().equals(event.getDynamicId())) {
+                position = i;
                 break;
             }
         }
-        if(position>=0){
+        if (position >= 0) {
             communityModels.remove(position);
         }
         adapter.notifyDataSetChanged();
     }
 
     @Subscribe
-    public void refreshListZan(ZanEvent event){
-        if(event.getWhere()==0){
-            for (DynamicModel model:communityModels){
-                if(model.getDynamicId().equals(event.getDynamicId())){
+    public void refreshListZan(ZanEvent event) {
+        if (event.getWhere() == 0) {
+            for (DynamicModel model : communityModels) {
+                if (model.getDynamicId().equals(event.getDynamicId())) {
                     model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
                     model.setPraiseNum(model.getPraiseNum() + 1);
                     UserInfoModel infoModel = UserInfoModel.getInstance();
@@ -277,21 +281,19 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         }
     }
 
-    private static final int LIST_JUMP=1;
-
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         //获取健康推荐动态
-        pageIndex=1;
-        community.getRecommendDynamic(accountId,1);
+        pageIndex = 1;
+        community.getRecommendDynamic(accountId, 1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
-        if(pageIndex<=totalPage){
-            community.getRecommendDynamic(accountId,pageIndex);
-        }else{
+        if (pageIndex <= totalPage) {
+            community.getRecommendDynamic(accountId, pageIndex);
+        } else {
             pageIndex--;
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
@@ -299,14 +301,15 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     ptrlv.onRefreshComplete();
 
                 }
-            },300);
+            }, 300);
         }
     }
-    public  void updateList(){
-        if(ptrlv!=null){
+
+    public void updateList() {
+        if (ptrlv != null) {
             ptrlv.getRefreshableView().setSelection(0);
-            pageIndex=1;
-            community.getRecommendDynamic(accountId,1);
+            pageIndex = 1;
+            community.getRecommendDynamic(accountId, 1);
         }
     }
 
@@ -314,21 +317,21 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     public void getRecommendDynamic(HealthyRecommendModel model) {
         try {
             ptrlv.onRefreshComplete();
-            if(model==null){
-                pageIndex=--pageIndex<1?1:pageIndex;
+            if (model == null) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
                 return;
             }
-            if(model.getTotalPage()==null||model.getDynamiclist()==null){
-                pageIndex=--pageIndex<1?1:pageIndex;
+            if (model.getTotalPage() == null || model.getDynamiclist() == null) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
                 return;
             }
-            totalPage=Integer.parseInt(model.getTotalPage());
-            List<DynamicModel> models=model.getDynamiclist();
-            if(models==null||models.isEmpty()){
-                pageIndex=--pageIndex<1?1:pageIndex;
+            totalPage = Integer.parseInt(model.getTotalPage());
+            List<DynamicModel> models = model.getDynamiclist();
+            if (models == null || models.isEmpty()) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
                 return;
             }
-            if(pageIndex==1){
+            if (pageIndex == 1) {
                 this.communityModels.clear();
             }
             this.communityModels.addAll(models);
@@ -341,17 +344,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==-1){
-            if(requestCode==LIST_JUMP){
-                int position=data.getIntExtra("position",-1);
-//                HealthyDynamicModel model=data.getParcelableExtra("dynamicModel");
-//                if(position!=-1&&model!=null){
-//                    communityModels.get(position).setIsPraise(model.getIsPraise());
-//                    communityModels.get(position).setUsernameSet(model.getUsernameSet());
-//                    communityModels.get(position).setPraiseNum(model.getPraiseNum());
-//                    adapter.notifyDataSetChanged();
-//                }
-            } else if(requestCode==OPEN_SENDER_REQUEST){
+        if (resultCode == -1) {
+            if (requestCode == OPEN_SENDER_REQUEST) {
                 updateList();
             }
         }
@@ -359,12 +353,13 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
 
     private CommunityService service;
+
     @Override
-    public PopupWindow doOperation(final DynamicModel data, final int itemBottomY, final int position) {
+    public PopupWindow doOperation(final DynamicModel data, final int itemHeight, final int position) {
         //弹出popwindow
         final PopupWindow popupWindow = new PopupWindow(getContext());
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(DisplayUtil.dip2px(getContext(),30));
+        popupWindow.setHeight(DisplayUtil.dip2px(getContext(), 30));
         popupWindow.setAnimationStyle(R.style.operation_anim_style);
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.opteration_drawable));
         popupWindow.setOutsideTouchable(true);
@@ -372,7 +367,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         final View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_operator, null);
         TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
-        tv_zan.setEnabled(data.getIsPraise()!=1);
+        tv_zan.setEnabled(data.getIsPraise() != 1);
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -380,7 +375,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 final UserInfoModel infoModel = UserInfoModel.getInstance();
                 data.setPraiseNum(data.getPraiseNum() + 1);
                 data.setIsPraise(1);
-                List<String> praise=data.getUsernameSet();
+                List<String> praise = data.getUsernameSet();
                 praise.add(infoModel.getUser().getNickname());
                 data.setUsernameSet(praise);
                 //向服务器提交
@@ -397,8 +392,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                                 int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
                                 data.setPraiseNum(priase);
                                 data.setIsPraise(0);
-                                List<String> praise=data.getUsernameSet();
-                                praise.remove(praise.size()-1);
+                                List<String> praise = data.getUsernameSet();
+                                praise.remove(praise.size() - 1);
                                 data.setUsernameSet(praise);
                                 adapter.notifyDataSetChanged();
                             }
@@ -414,8 +409,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                if(openComment!=null){
-                    openComment.doOpen(itemBottomY,position,"dynamic");
+                if (openComment != null) {
+                    openComment.doOpen(position, itemHeight, DYNAMIC);
                 }
             }
         });
@@ -429,7 +424,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         });
         TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
         //点击删除按钮
-        if(data.getAccountId() == UserInfoModel.getInstance().getUserId()){
+        if (data.getAccountId() == UserInfoModel.getInstance().getUserId()) {
             tv_delete.setVisibility(View.VISIBLE);
             tv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -462,7 +457,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     }).create().show();
                 }
             });
-        }else {
+        } else {
             tv_delete.setVisibility(GONE);
         }
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -471,16 +466,25 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     }
 
     @Override
-    public void doScroll(int position,int y) {
-        if (position < communityModels.size() - 1) {
-            ptrlv.getRefreshableView().scrollBy(0, y);
+    public void doScroll(int index, int itemHeight, int inputY) {
+
+        int[] position = new int[2];
+        ptrlv.getLocationOnScreen(position);
+        //用弹出软件盘输入框在屏幕中的y值减去listView的顶部在屏幕中的Y值就是listView的剩余可显示高度。
+        int emptyHeight=inputY - position[1];
+        if (emptyHeight>=itemHeight){
+            //如果可显示高度大于整个item的高度则只需移动这个item到第一个区域即可
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,0);
+        }else {
+            //把被软件盘遮住的部分显示出来
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,(inputY - position[1])-itemHeight);
         }
+
     }
 
     @Override
-    public void doSend(int position,Comment comment) {
-        Log.i("更新的动态position是"+position);
-        DynamicModel model=communityModels.get(position);
+    public void doSend(int position, Comment comment) {
+        DynamicModel model = communityModels.get(position);
         model.getCommendsList().add(comment);
         adapter.notifyDataSetChanged();
         ZillaApi.NormalRestAdapter.create(PhotoWallService.class)

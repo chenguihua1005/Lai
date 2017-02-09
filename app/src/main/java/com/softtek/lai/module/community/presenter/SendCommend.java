@@ -1,5 +1,7 @@
 package com.softtek.lai.module.community.presenter;
 
+import android.view.View;
+
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DynamicModel;
 
@@ -9,7 +11,7 @@ import com.softtek.lai.module.community.model.DynamicModel;
 
 public interface SendCommend {
 
-    void doScroll(int position,int y);
+    void doScroll(int position,int itemHeight,int inputY);
 
     void doSend(int position,Comment comment);
 }

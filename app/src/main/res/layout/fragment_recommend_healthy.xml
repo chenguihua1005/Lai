@@ -74,7 +74,7 @@
             android:id="@+id/ptrlv"
             android:layout_below="@id/rl_hot"
             android:divider="#00ececec"
-            android:dividerHeight="1dp"
+            android:dividerHeight="0dp"
             android:listSelector="@android:color/transparent"
             android:overScrollMode="never"
             android:scrollbars="none"

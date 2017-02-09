@@ -1,6 +1,5 @@
 package com.softtek.lai.module.community.presenter;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.net.CommunityService;
@@ -27,7 +26,6 @@ public class RecommentHealthyManager {
         service.getDynamicList(accountId,pageIndex,10,new RequestCallback<ResponseData<HealthyRecommendModel>>() {
             @Override
             public void success(ResponseData<HealthyRecommendModel> listResponseData, Response response) {
-                Log.i("响应数据"+listResponseData.getData().toString());
                 if(cb!=null){
                     cb.getRecommendDynamic(listResponseData.getData());
                 }

@@ -105,9 +105,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 comment.CommentUserId= UserInfoModel.getInstance().getUserId();
                 comment.CommentUserName=UserInfoModel.getInstance().getUser().getNickname();
                 comment.isReply=0;
-                if(tag.equals("dynamic")){
+                if(DynamicFragment.DYNAMIC.equals(tag)){
                     ((DynamicFragment)fragments.get(1)).doSend(position,comment);
-                }else if(tag.equals("FocusFragment")){
+                }else if(FocusFragment.FOCUSFRAGMENT.equals(tag)){
                     ((FocusFragment)fragments.get(2)).doSend(position,comment);
                 }
             }
@@ -233,7 +233,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void doOpen(final int itemBottomY, final int position, final String tag) {
+    public void doOpen( final int position, final int itemHeight, final String tag) {
         this.tag=tag;
         btn_send.setTag(position);
         rl_send.setVisibility(View.VISIBLE);
@@ -251,14 +251,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 int[] position2 = new int[2];
                 rl_send.getLocationOnScreen(position2);
-                scrollY=itemBottomY-position2[1];
-                if(tag.equals("dynamic")){
-                    ((DynamicFragment)fragments.get(1)).doScroll(position,scrollY);
-                }else if(tag.equals("FocusFragment")){
-                    ((FocusFragment)fragments.get(2)).doScroll(position,scrollY);
+                if(DynamicFragment.DYNAMIC.equals(tag)){
+                    ((DynamicFragment)fragments.get(1)).doScroll(position,itemHeight,position2[1]);
+                }else if(FocusFragment.FOCUSFRAGMENT.equals(tag)){
+                    ((FocusFragment)fragments.get(2)).doScroll(position,itemHeight,position2[1]);
                 }
             }
-        }, 1000);
+        }, 1400);
     }
 
     @Override
@@ -280,21 +279,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         super.onStop();
         rl_send.removeOnLayoutChangeListener(this);
     }
-    int scrollY;
-
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        com.github.snowdream.android.util.Log.i("旧的="+oldBottom);
-        com.github.snowdream.android.util.Log.i("新的="+bottom);
         if(rl_send.getVisibility()==View.VISIBLE){
             if(oldBottom-bottom<0){
                 //键盘收起来
                 rl_send.setVisibility(View.INVISIBLE);
-                if(tag.equals("dynamic")){
-                    ((DynamicFragment)fragments.get(1)).doScroll(0,scrollY);
-                }else if(tag.equals("FocusFragment")){
-                    ((DynamicFragment)fragments.get(2)).doScroll(0,scrollY);
-                }
             }
 
         }

@@ -1,5 +1,7 @@
 package com.softtek.lai.module.community.presenter;
 
+import android.view.View;
+
 import com.softtek.lai.module.community.model.DynamicModel;
 
 /**
@@ -8,6 +10,6 @@ import com.softtek.lai.module.community.model.DynamicModel;
 
 public interface OpenComment {
 
-    void doOpen(int itemBottomY, int position, String tag);
+    void doOpen(int position,int itemHeight, String tag);
     void hiden();
 }
