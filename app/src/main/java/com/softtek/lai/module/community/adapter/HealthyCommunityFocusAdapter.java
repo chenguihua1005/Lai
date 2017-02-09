@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -231,7 +232,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
                 int[] location1 = new int[2];
                 holder.itemBottom.getLocationOnScreen(location1);
                 if(call!=null){
-                    PopupWindow popupWindow=call.doOperation(model,location1[1],position);
+                    PopupWindow popupWindow=call.doOperation(model,holder.rl_item.getHeight(),position);
                     int width=popupWindow.getContentView().getMeasuredWidth();
                     int[] location = new int[2];
                     v.getLocationOnScreen(location);
@@ -257,6 +258,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         ImageView iv_operator;
         View itemBottom;
         TextViewExpandableAnimation tv_content;
+        RelativeLayout rl_item;
 
         public ViewHolder(View view) {
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
@@ -270,6 +272,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
             rv_comment= (RecyclerView) view.findViewById(R.id.rv_comment);
             iv_operator= (ImageView) view.findViewById(R.id.iv_operator);
             itemBottom=view.findViewById(R.id.item_bottom);
+            rl_item= (RelativeLayout) view.findViewById(R.id.rl_item);
         }
     }
 

@@ -89,6 +89,8 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     boolean hasFocus=false;
     private OpenComment openComment;
 
+    public static final String FOCUSFRAGMENT="focusFragment";
+
     @Override
     protected void onVisible() {
         if(hasFocus){
@@ -224,7 +226,6 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
         }
     }
 
-    private static final int LIST_JUMP=1;
 
     @Override
     public void getMineDynamic(HealthyRecommendModel model) {
@@ -272,21 +273,11 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==-1){
-//            if(requestCode==LIST_JUMP){
-//                int position=data.getIntExtra("position",-1);
-//                HealthyDynamicModel model=data.getParcelableExtra("dynamicModel");
-//                if(position!=-1&&model!=null){
-//                    communityModels.get(position).setIsPraise(model.getIsPraise());
-//                    communityModels.get(position).setUsernameSet(model.getUsernameSet());
-//                    communityModels.get(position).setPraiseNum(model.getPraiseNum());
-//                    adapter.notifyDataSetChanged();
-//                }
-//            }
         }
     }
     private CommunityService service;
     @Override
-    public PopupWindow doOperation(final DynamicModel data, final int itemBottomY, final int position) {
+    public PopupWindow doOperation(final DynamicModel data, final int itemHeight, final int position) {
         //弹出popwindow
         final PopupWindow popupWindow = new PopupWindow(getContext());
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -341,7 +332,7 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
             public void onClick(View view) {
                 popupWindow.dismiss();
                 if(openComment!=null){
-                    openComment.doOpen(itemBottomY,position,"FocusFragment");
+                    openComment.doOpen(position,itemHeight,FOCUSFRAGMENT);
                 }
             }
         });
@@ -397,9 +388,17 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     }
 
     @Override
-    public void doScroll(int position,int y) {
-        if (position < communityModels.size() - 1) {
-            ptrlv.getRefreshableView().scrollBy(0, y);
+    public void doScroll(int index,int itemHeight,int inputY) {
+        int[] position = new int[2];
+        ptrlv.getLocationOnScreen(position);
+        //用弹出软件盘输入框在屏幕中的y值减去listView的顶部在屏幕中的Y值就是listView的剩余可显示高度。
+        int emptyHeight=inputY - position[1];
+        if (emptyHeight>=itemHeight){
+            //如果可显示高度大于整个item的高度则只需移动这个item到第一个区域即可
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,0);
+        }else {
+            //把被软件盘遮住的部分显示出来
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,(inputY - position[1])-itemHeight);
         }
     }
 
