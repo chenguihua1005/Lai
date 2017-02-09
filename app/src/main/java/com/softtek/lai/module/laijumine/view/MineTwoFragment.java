@@ -1,4 +1,4 @@
-package com.softtek.lai.module.laijumine;
+package com.softtek.lai.module.laijumine.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
