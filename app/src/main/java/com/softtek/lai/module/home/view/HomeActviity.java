@@ -13,7 +13,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
-import com.softtek.lai.module.laijumine.MineTwoFragment;
+import com.softtek.lai.module.laijumine.view.MineTwoFragment;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
 
