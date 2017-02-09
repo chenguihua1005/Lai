@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
 import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
@@ -15,12 +16,17 @@ import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
+import com.softtek.lai.module.laijumine.model.MyInfoModel;
+import com.softtek.lai.module.laijumine.net.MineSevice;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
@@ -59,6 +65,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     RelativeLayout re_mynews;
 
     private int GET_Sian=1;//个人签名
+    MineSevice mineSevice;
     @Override
     protected void lazyLoad() {
 
@@ -82,6 +89,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initDatas() {
+        mineSevice= ZillaApi.NormalRestAdapter.create(MineSevice.class);
         model=UserInfoModel.getInstance().getUser();
         String photo=model.getPhoto();
         if (TextUtils.isEmpty(photo)) {
@@ -159,5 +167,14 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
 
         }
+    }
+    private void GetMyInfo()
+    {
+        mineSevice.GetMyInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<MyInfoModel>>() {
+            @Override
+            public void success(ResponseData<MyInfoModel> myInfoModelResponseData, Response response) {
+                
+            }
+        });
     }
 }
