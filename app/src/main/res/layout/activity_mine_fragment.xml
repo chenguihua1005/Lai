@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,12 +30,14 @@
                     android:background="#E6E6E6">
 
                     <ImageView
+                        android:id="@+id/im_takephicon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:background="@drawable/takephoto_icon_grey" />
 
                     <ImageView
+                        android:id="@+id/im_banner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
@@ -193,9 +196,9 @@
                                 android:gravity="center"
                                 android:drawablePadding="5dp"/>
                             <TextView
+                                android:id="@+id/tv_updatetime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="更新于2016年11月12日"
                                 android:layout_below="@+id/tv_health"
                                 android:textSize="10sp"
                                 android:textColor="#cccccc"
@@ -208,46 +211,6 @@
                         android:background="#cccccc"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"/>
-                    <RelativeLayout
-                        android:id="@+id/re_mycustomers"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-                        <RelativeLayout
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true">
-                            <TextView
-                                android:id="@+id/tv_mycustomer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="我的顾客"
-                                android:textSize="14sp"
-                                android:textColor="#333333"
-                                android:drawableLeft="@drawable/my_customers_icon"
-                                android:gravity="center"
-                                android:drawablePadding="5dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="您当前有3名顾客"
-                                android:textSize="10sp"
-                                android:textColor="#cccccc"
-                                android:layout_below="@+id/tv_mycustomer"
-                                android:layout_marginTop="10dp"/>
-                        </RelativeLayout>
-                    </RelativeLayout>
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e6e6e6"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
                     <RelativeLayout
                         android:id="@+id/re_losslevel"
                         android:layout_width="0dp"
@@ -268,21 +231,26 @@
                                 android:gravity="center"
                                 android:drawablePadding="5dp"/>
                             <TextView
+                                android:id="@+id/tv_level"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="您当前等级为1级"
                                 android:textSize="10sp"
                                 android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_losslevel"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
                     </RelativeLayout>
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="wrap_content"
-                        android:background="#cccccc"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e6e6e6"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
                     <RelativeLayout
                         android:id="@+id/re_sportlevel"
                         android:layout_width="0dp"
@@ -303,53 +271,12 @@
                                 android:gravity="center"
                                 android:drawablePadding="5dp"/>
                             <TextView
+                                android:id="@+id/tv_sportlevelnum"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="运动等级为1级"
                                 android:textSize="10sp"
                                 android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_sportlevel"
-                                android:layout_marginTop="10dp"/>
-                        </RelativeLayout>
-                    </RelativeLayout>
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e6e6e6"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-                    <RelativeLayout
-                        android:id="@+id/re_task"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-                        <RelativeLayout
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true">
-                            <TextView
-                                android:id="@+id/tv_task"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="任务与积分"
-                                android:textSize="14sp"
-                                android:textColor="#333333"
-                                android:drawableLeft="@drawable/more_task_integral"
-                                android:gravity="center"
-                                android:drawablePadding="5dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="建设中，敬请期待"
-                                android:textSize="10sp"
-                                android:textColor="#cccccc"
-                                android:layout_below="@+id/tv_task"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
                     </RelativeLayout>
@@ -382,9 +309,9 @@
                                 android:layout_alignParentTop="true"
                                 android:layout_alignParentStart="true" />
                             <TextView
+                                android:id="@+id/tv_news"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="您有3条未读消息"
                                 android:textSize="10sp"
                                 android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_mynews"
@@ -393,11 +320,16 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e6e6e6"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
                     <RelativeLayout
                         android:id="@+id/re_renzheng"
                         android:layout_width="0dp"
@@ -418,9 +350,9 @@
                                 android:gravity="center"
                                 android:drawablePadding="5dp"/>
                             <TextView
+                                android:id="@+id/tv_renzh"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="您当前身份为SP"
                                 android:textSize="10sp"
                                 android:textColor="#cccccc"
                                 android:layout_below="@+id/tv_renzheng"
@@ -434,35 +366,32 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"/>
                     <RelativeLayout
-                        android:id="@+id/re_mynews1"
+                        android:id="@+id/re_task"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:visibility="invisible"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:visibility="invisible">
                         <RelativeLayout
                             android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
-
                             <TextView
-                                android:id="@+id/tv_mynews1"
+                                android:id="@+id/tv_task"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="消息中心"
+                                android:text="任务与积分"
                                 android:textSize="14sp"
                                 android:textColor="#333333"
-                                android:drawableLeft="@drawable/my_news_icon"
+                                android:drawableLeft="@drawable/more_task_integral"
                                 android:gravity="center"
-                                android:drawablePadding="5dp"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentStart="true" />
+                                android:drawablePadding="5dp"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="您有3条未读消息"
+                                android:text="建设中，敬请期待"
                                 android:textSize="10sp"
                                 android:textColor="#cccccc"
-                                android:layout_below="@+id/tv_mynews1"
+                                android:layout_below="@+id/tv_task"
                                 android:layout_marginTop="10dp"/>
                         </RelativeLayout>
                     </RelativeLayout>

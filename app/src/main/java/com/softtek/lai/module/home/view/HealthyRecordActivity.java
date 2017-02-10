@@ -20,9 +20,8 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
-import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.historydate.view.HistoryDataActivity;
 import com.softtek.lai.module.home.model.LaichModel;
@@ -35,7 +34,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy_record)
-public class HealthyRecordFragment extends LazyBaseFragment implements View.OnClickListener, PullToRefreshScrollView.OnRefreshListener<ScrollView>
+public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener, PullToRefreshScrollView.OnRefreshListener<ScrollView>
         , HealthyRecordManager.HealthyRecordCallback {
 
     @InjectView(R.id.ll_left)
@@ -98,25 +97,7 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
     String mobile;
 
     @Override
-    protected void lazyLoad() {
-            fl_right.setVisibility(View.VISIBLE);
-            fl_right.setOnClickListener(this);
-            //获取健康记录
-            mobile = UserInfoModel.getInstance().getUser().getMobile();
-            retestPre = new HealthyRecordManager(this);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(healthy_refresh!=null){
-                        healthy_refresh.setRefreshing();
-                    }
-                }
-            }, 300);
-    }
-
-    @Override
     protected void initViews() {
-        ll_left.setVisibility(View.INVISIBLE);
         tv_weight.setOnClickListener(this);
         tv_body_fat.setOnClickListener(this);
         tv_fat.setOnClickListener(this);
@@ -128,7 +109,7 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
         tv_shin.setOnClickListener(this);
         tv_healthhistoty.setOnClickListener(this);
 
-        iv_email.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.healthedit));
+        iv_email.setBackground(ContextCompat.getDrawable(this,R.drawable.healthedit));
         healthy_refresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         healthy_refresh.setOnRefreshListener(this);
         ILoadingLayout startLabelse = healthy_refresh.getLoadingLayoutProxy(true,false);
@@ -140,6 +121,19 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
     @Override
     protected void initDatas() {
         tv_title.setText("健康记录");
+        fl_right.setVisibility(View.VISIBLE);
+        fl_right.setOnClickListener(this);
+        //获取健康记录
+        mobile = UserInfoModel.getInstance().getUser().getMobile();
+        retestPre = new HealthyRecordManager(this);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(healthy_refresh!=null){
+                    healthy_refresh.setRefreshing();
+                }
+            }
+        }, 300);
 
 
     }
@@ -150,65 +144,68 @@ public class HealthyRecordFragment extends LazyBaseFragment implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
             case R.id.fl_right:
-                startActivityForResult(new Intent(getContext(), HealthEntryActivity.class), 2);
+                startActivityForResult(new Intent(this, HealthEntryActivity.class), 2);
                 break;
             case R.id.tv_weight:
-                Intent intent = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent.putExtra("id", 0);
                 intent.putExtra("flag", 1);
                 startActivity(intent);
                 break;
             case R.id.tv_body_fat:
-                Intent intent1 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent1 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent1.putExtra("id", 1);
                 intent1.putExtra("flag", 1);
                 startActivity(intent1);
                 break;
             case R.id.tv_fat:
-                Intent intent2 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent2 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent2.putExtra("id", 2);
                 intent2.putExtra("flag", 1);
                 startActivity(intent2);
                 break;
             case R.id.tv_bust:
-                Intent intent3 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent3 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent3.putExtra("id", 3);
                 intent3.putExtra("flag", 1);
                 startActivity(intent3);
                 break;
             case R.id.tv_waistline:
-                Intent intent4 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent4 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent4.putExtra("id", 4);
                 intent4.putExtra("flag", 1);
                 startActivity(intent4);
                 break;
             case R.id.tv_hipline:
-                Intent intent5 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent5 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent5.putExtra("id", 5);
                 intent5.putExtra("flag", 1);
                 startActivity(intent5);
                 break;
             case R.id.tv_uphipline:
-                Intent intent6 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent6 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent6.putExtra("id", 6);
                 intent6.putExtra("flag", 1);
                 startActivity(intent6);
                 break;
             case R.id.tv_leg:
-                Intent intent7 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent7 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent7.putExtra("id", 7);
                 intent7.putExtra("flag", 1);
                 startActivity(intent7);
                 break;
             case R.id.tv_shin:
-                Intent intent8 = new Intent(getContext(), HealthyRecordActivity.class);
+                Intent intent8 = new Intent(this, com.softtek.lai.module.health.view.HealthyRecordActivity.class);
                 intent8.putExtra("id", 8);
                 intent8.putExtra("flag", 1);
                 startActivity(intent8);
                 break;
             case R.id.tv_healthhistoty:
-                startActivityForResult(new Intent(getContext(), HistoryDataActivity.class), 2);
+                startActivityForResult(new Intent(this, HistoryDataActivity.class), 2);
                 break;
         }
     }
