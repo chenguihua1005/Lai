@@ -15,7 +15,7 @@ public class MyInfoModel {
     private String FocusNum;//关注数
     private String LoveNum;//粉丝数
     private String RecordTime;//更新时间
-    private String CustomerNum;//顾客数
+    private int CustomerNum;//顾客数
     private String LossLevel;//减重等级
     private String SportLevel;//运动等级
     private String UnReadMsgNum;//未读消息数
@@ -33,7 +33,7 @@ public class MyInfoModel {
                 ", FocusNum='" + FocusNum + '\'' +
                 ", LoveNum='" + LoveNum + '\'' +
                 ", RecordTime='" + RecordTime + '\'' +
-                ", CustomerNum='" + CustomerNum + '\'' +
+                ", CustomerNum=" + CustomerNum +
                 ", LossLevel='" + LossLevel + '\'' +
                 ", SportLevel='" + SportLevel + '\'' +
                 ", UnReadMsgNum='" + UnReadMsgNum + '\'' +
@@ -120,11 +120,11 @@ public class MyInfoModel {
         RecordTime = recordTime;
     }
 
-    public String getCustomerNum() {
+    public int getCustomerNum() {
         return CustomerNum;
     }
 
-    public void setCustomerNum(String customerNum) {
+    public void setCustomerNum(int customerNum) {
         CustomerNum = customerNum;
     }
 
@@ -151,4 +151,6 @@ public class MyInfoModel {
     public void setUnReadMsgNum(String unReadMsgNum) {
         UnReadMsgNum = unReadMsgNum;
     }
+
+
 }

@@ -15,7 +15,8 @@
         android:layout_width="fill_parent"
         android:layout_height="80dip"
         android:layout_marginTop="10dip"
-        android:background="@color/white">
+        android:background="@color/white"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -156,4 +157,83 @@
             android:src="@drawable/img_modify_person_more"
             android:visibility="gone" />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dip"
+        android:layout_marginTop="1dip"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生日"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1"/>
+        <TextView
+            android:id="@+id/tv_birth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1"
+            />
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dip"
+        android:layout_marginTop="1dip"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="身高"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1"/>
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1"
+            />
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dip"
+        android:layout_marginTop="1dip"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="体重"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1"/>
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1"
+            />
+
+
+    </RelativeLayout>
+
 </LinearLayout>

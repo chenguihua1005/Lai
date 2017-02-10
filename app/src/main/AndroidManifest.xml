@@ -197,8 +197,7 @@
         <activity
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ValidateCertificationActivity"
             android:screenOrientation="portrait" />
@@ -337,6 +336,10 @@
         <activity
             android:name=".module.bodygame3.history.view.ClassInfoActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".module.laijumine.view.MySettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.home.view.HealthyRecordActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -758,7 +761,8 @@
         <activity
             android:name=".module.bodygame3.activity.view.PreViewPicActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.activity.view.ResetStuActivity"
+        <activity
+            android:name=".module.bodygame3.activity.view.ResetStuActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".module.bodygame3.more.view.LoveStudentActivity"

@@ -20,11 +20,12 @@ public class UserModel implements Serializable {
     private String nickname;
     private String gender;
     private String weight;
-    private String height;
+    private String hight;
     private String Photo;
     private String Certification;
     private String CertTime;
     private String Mobile;
+    private String birthday;
     private String IsJoin;//是否加入跑团
     private String TodayStepCnt;//当天最新步数
     private String IsCreatInfo;//该用户是否创建过档案
@@ -33,6 +34,21 @@ public class UserModel implements Serializable {
     private int HasThClass;//0无班级，1有班级
     private int DoingClass;//0没有进行中的班级,1有
 
+    public String getHight() {
+        return hight;
+    }
+
+    public void setHight(String hight) {
+        this.hight = hight;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
     public String getRoleName() {
         return RoleName;
@@ -153,13 +169,6 @@ public class UserModel implements Serializable {
         this.weight = weight;
     }
 
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
 
     public String getIsJoin() {
         return IsJoin;

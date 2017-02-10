@@ -118,7 +118,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     protected void initDatas() {
         fragments.add(new HomeFragment());
         fragments.add(DynamicFragment.getInstance(this));
-//        fragments.add(new HealthyRecordFragment());//健康记录
+//        fragments.add(new HealthyRecordActivity());//健康记录
         fragments.add(FocusFragment.getInstance(this));//关注
         fragments.add(new MineTwoFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));

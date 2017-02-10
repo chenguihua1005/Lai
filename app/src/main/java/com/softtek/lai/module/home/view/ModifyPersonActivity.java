@@ -47,7 +47,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_modify_person)
-public class ModifyPersonActivity extends BaseActivity implements View.OnClickListener {
+    public class ModifyPersonActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -69,6 +69,15 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.rel_modofy_name)
     RelativeLayout rel_modofy_name;
+
+    @InjectView(R.id.tv_birth)
+    TextView tv_birth;
+
+    @InjectView(R.id.tv_height)
+    TextView tv_height;
+
+    @InjectView(R.id.tv_weight)
+    TextView tv_weight;
 
     @InjectView(R.id.img)
     ImageView img;
@@ -149,11 +158,11 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         model = UserInfoModel.getInstance().getUser();
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost");
-        Log.i("用户的头像是？==="+model.getPhoto());
         if (TextUtils.isEmpty(photo)) {
             Picasso.with(this).load(R.drawable.img_default).into(img);
         } else {
-            Picasso.with(this).load(path + photo).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img);
+            Picasso.with(this).load(path + photo).fit().placeholder(R.drawable.img_default).
+                    centerCrop().error(R.drawable.img_default).into(img);
         }
 
         if (TextUtils.isEmpty(model.getNickname())) {
@@ -171,6 +180,9 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         } else {
             text_sex.setText("");
         }
+        tv_birth.setText(model.getBirthday());
+        tv_height.setText(model.getHight()+"cm");
+        tv_weight.setText(model.getWeight()+"斤");
 
     }
 
