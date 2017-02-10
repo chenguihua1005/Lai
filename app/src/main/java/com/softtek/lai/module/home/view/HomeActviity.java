@@ -34,7 +34,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_home_actviity)
 public class HomeActviity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener
-,OpenComment,View.OnLayoutChangeListener{
+        , OpenComment, View.OnLayoutChangeListener {
 
     @InjectView(R.id.content)
     ViewPager content;
@@ -54,7 +54,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     private int currentId = 0;
     private boolean isClick = false;
 
-    private List<Fragment> fragments=new ArrayList<>();
+    private List<Fragment> fragments = new ArrayList<>();
 
     @InjectView(R.id.rl_send)
     RelativeLayout rl_send;
@@ -86,9 +86,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable.length()==0){
+                if (editable.length() == 0) {
                     btn_send.setEnabled(false);
-                }else {
+                } else {
                     btn_send.setEnabled(true);
                 }
             }
@@ -97,18 +97,18 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 hiden();
-                Integer position= (Integer) v.getTag();
-                String commentStr=et_input.getText().toString();
+                Integer position = (Integer) v.getTag();
+                String commentStr = et_input.getText().toString();
                 et_input.setText("");
-                Comment comment=new Comment();
-                comment.Comment=commentStr;
-                comment.CommentUserId= UserInfoModel.getInstance().getUserId();
-                comment.CommentUserName=UserInfoModel.getInstance().getUser().getNickname();
-                comment.isReply=0;
-                if(DynamicFragment.DYNAMIC.equals(tag)){
-                    ((DynamicFragment)fragments.get(1)).doSend(position,comment);
-                }else if(FocusFragment.FOCUSFRAGMENT.equals(tag)){
-                    ((FocusFragment)fragments.get(2)).doSend(position,comment);
+                Comment comment = new Comment();
+                comment.Comment = commentStr;
+                comment.CommentUserId = UserInfoModel.getInstance().getUserId();
+                comment.CommentUserName = UserInfoModel.getInstance().getUser().getNickname();
+                comment.isReply = 0;
+                if (DynamicFragment.DYNAMIC.equals(tag)) {
+                    ((DynamicFragment) fragments.get(1)).doSend(position, comment);
+                } else if (FocusFragment.FOCUSFRAGMENT.equals(tag)) {
+                    ((FocusFragment) fragments.get(2)).doSend(position, comment);
                 }
             }
         });
@@ -121,7 +121,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 //        fragments.add(new HealthyRecordActivity());//健康记录
         fragments.add(FocusFragment.getInstance(this));//关注
         fragments.add(new MineTwoFragment());
-        content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
+        content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -169,12 +169,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             case R.id.btn_healthy:
                 btn_healthy.setProgress(1);
                 currentId = 1;
-                MobclickAgent.onEvent(this,"HealthyCommunityEvent");
+                MobclickAgent.onEvent(this, "HealthyCommunityEvent");
                 break;
             case R.id.btn_healthy_record:
                 btn_healthy_record.setProgress(1);
                 currentId = 2;
-                MobclickAgent.onEvent(this,"HealthyRecordEvent");
+                MobclickAgent.onEvent(this, "HealthyRecordEvent");
                 break;
             case R.id.btn_mine:
                 btn_mine.setProgress(1);
@@ -217,24 +217,25 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.VISIBLE){
+        if (keyCode == KeyEvent.KEYCODE_BACK && rl_send.getVisibility() == View.VISIBLE) {
             rl_send.setVisibility(View.INVISIBLE);
             SoftInputUtil.hidden(this);
             return true;
-        }else if(keyCode==KeyEvent.KEYCODE_BACK){
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             moveTaskToBack(false);
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
     @Override
-    public void doOpen( final int position, final int itemHeight, final String tag) {
-        this.tag=tag;
+    public void doOpen(final int position, final int itemHeight, final String tag) {
+        this.tag = tag;
         btn_send.setTag(position);
         rl_send.setVisibility(View.VISIBLE);
         et_input.setFocusable(true);
@@ -251,10 +252,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 int[] position2 = new int[2];
                 rl_send.getLocationOnScreen(position2);
-                if(DynamicFragment.DYNAMIC.equals(tag)){
-                    ((DynamicFragment)fragments.get(1)).doScroll(position,itemHeight,position2[1]);
-                }else if(FocusFragment.FOCUSFRAGMENT.equals(tag)){
-                    ((FocusFragment)fragments.get(2)).doScroll(position,itemHeight,position2[1]);
+                if (DynamicFragment.DYNAMIC.equals(tag)) {
+                    ((DynamicFragment) fragments.get(1)).doScroll(position, itemHeight, position2[1]);
+                } else if (FocusFragment.FOCUSFRAGMENT.equals(tag)) {
+                    ((FocusFragment) fragments.get(2)).doScroll(position, itemHeight, position2[1]);
                 }
             }
         }, 1400);
@@ -262,7 +263,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void hiden() {
-        if(rl_send.getVisibility()==View.VISIBLE){
+        if (rl_send.getVisibility() == View.VISIBLE) {
             rl_send.setVisibility(View.INVISIBLE);
             SoftInputUtil.hidden(this);
         }
@@ -279,10 +280,11 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         super.onStop();
         rl_send.removeOnLayoutChangeListener(this);
     }
+
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        if(rl_send.getVisibility()==View.VISIBLE){
-            if(oldBottom-bottom<0){
+        if (rl_send.getVisibility() == View.VISIBLE) {
+            if (oldBottom - bottom < 0) {
                 //键盘收起来
                 rl_send.setVisibility(View.INVISIBLE);
             }

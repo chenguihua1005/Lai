@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -182,6 +183,15 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
         community=new CommunityManager(this);
         //加载数据适配器
         adapter=new HealthyCommunityFocusAdapter(this,new Object(),getContext(),communityModels);
+        ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (openComment != null) {
+                    openComment.hiden();
+                }
+                return false;
+            }
+        });
         ptrlv.setAdapter(adapter);
         String token=UserInfoModel.getInstance().getToken();
         //判断token是否为空
