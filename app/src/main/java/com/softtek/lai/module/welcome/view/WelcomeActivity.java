@@ -60,7 +60,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     @Override
     protected void initViews() {
         Constants.IS_LOGINIMG="0";
-        //tintManager.setStatusBarTintResource(android.R.color.transparent);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
             finish();
             return;
