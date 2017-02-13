@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -86,7 +87,9 @@ public class TopicListActivity extends BaseActivity implements PullToRefreshBase
         ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(TopicListActivity.this, TopicDetailActivity.class));
+                Intent intent=new Intent(TopicListActivity.this, TopicDetailActivity.class);
+                intent.putExtra("topicId",datas.get(position-1).getTopicType());
+                startActivity(intent);
             }
         });
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {

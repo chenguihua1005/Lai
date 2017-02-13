@@ -229,8 +229,6 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         holder.iv_operator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int[] location1 = new int[2];
-                holder.itemBottom.getLocationOnScreen(location1);
                 if(call!=null){
                     PopupWindow popupWindow=call.doOperation(model,holder.rl_item.getHeight(),position);
                     int width=popupWindow.getContentView().getMeasuredWidth();

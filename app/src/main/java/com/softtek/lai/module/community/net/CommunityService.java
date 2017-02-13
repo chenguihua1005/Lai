@@ -48,13 +48,24 @@ public interface CommunityService {
                         @Query("accountid")long accountId,
                         @Query("pageIndex")int pageIndex,
                         RequestCallback<ResponseData<PersonalRecommendModel>> callback);
-    //请求路径:Api/V1/HealthyCircle/CreatePhotoWall
+
     //保存我健康圈我的动态
-//    @POST("/HealthyCircle/GetReleaseDynamic")
     @POST("/V1/HealthyCircle/CreatePhotoWall")
     void saveDynamic(@Header("token")String token,
                      @Body CommunityModel model,
                      RequestCallback<ResponseData> callback);
+
+    //获取话题详情列表
+    @GET("/v1/HealthyCircle/GetTopicDetailList")
+    void getTopicDetail(@Query("Loginaccid")long accountId,
+                        @Query("TopicType")String topicId,
+                        @Query("PageIndex")int pageIndex,
+                        @Query("PageSize")int pageSize,
+                        RequestCallback<ResponseData<HealthyDynamicModel>> callback);
+    //获取话题详情封面
+    @GET("/v1/HealthyCircle/GetTopicCover")
+    void getTopicCover(@Query("TopicType")String topicId,
+                       RequestCallback<ResponseData<TopicInfo>> callback);
 
     //健康圈动态详情
     @GET("/HealthyCircle/GetHealthDetail")

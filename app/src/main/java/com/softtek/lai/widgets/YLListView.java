@@ -1,4 +1,4 @@
-package com.softtek.lai.module.home.view;
+package com.softtek.lai.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -149,7 +149,6 @@ public class YLListView extends ListView implements AbsListView.OnScrollListener
         int height = getHeaderHeight();
         if (height == 0) // not visible.
             return;
-        Log.i("重置Header高度");
         mScrollBack = SCROLLBACK_HEADER;
         mScroller.startScroll(0, height, 0, finalTopHeight - height,
                 SCROLL_DURATION);
