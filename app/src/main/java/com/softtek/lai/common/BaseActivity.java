@@ -9,12 +9,14 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
@@ -58,6 +60,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
         initToolbars();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
