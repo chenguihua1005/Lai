@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+    <com.softtek.lai.widgets.CircleImageView
+        android:id="@+id/cir_photo"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/img_default"
+        android:layout_centerVertical="true"
+        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/cir_photo"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true">
+            <TextView
+                android:id="@+id/tv_fansname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小喵"
+                android:textColor="#333333"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/tv_fanssignature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="努力奋斗，增强体质"
+                android:textSize="12sp"
+                android:padding="2dp"
+                android:textColor="#B2B2B2"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:text="加关注"
+            android:drawableTop="@drawable/add_guanzhu"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
