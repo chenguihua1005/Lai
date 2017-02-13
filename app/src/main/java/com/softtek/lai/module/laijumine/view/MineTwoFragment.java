@@ -142,6 +142,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
+                Util.toastMsg("拍照》》》》》");
                 upload(new File(file));
 //                progressDialog.show();
 //                im_takephicon.setVisibility(View.GONE);
@@ -150,6 +151,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
 
             @Override
             public void onMutilSuccess(List<String> files) {
+                Util.toastMsg("拍照》》》》》");
                 upload(new File(files.get(0)));
 //                progressDialog.show();
 //                im_takephicon.setVisibility(View.GONE);
