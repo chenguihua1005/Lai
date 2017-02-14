@@ -201,10 +201,15 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
             //跳转关注
             case R.id.re_guanzhu:
-                startActivity(new Intent(getContext(), FocusFragment.class));
+                Intent intent=new Intent(getContext(),FocusActivity.class);
+                intent.putExtra("focusnum",Integer.parseInt(tv_guanzhunum.getText().toString()));
+                startActivity(intent);
                 break;
             //跳转粉丝
             case R.id.re_fans:
+                Intent focusintent=new Intent(getContext(),FansActivity.class);
+                focusintent.putExtra("fansnum",Integer.parseInt(tv_fansnum.getText().toString()));
+                startActivity(focusintent);
                 break;
             //跳转健康记录
             case R.id.re_health:

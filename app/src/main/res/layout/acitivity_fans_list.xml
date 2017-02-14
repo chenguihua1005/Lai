@@ -38,14 +38,14 @@
                 android:padding="2dp"
                 android:textColor="#B2B2B2"/>
         </LinearLayout>
-        <TextView
+        <ImageView
+            android:id="@+id/im_guanzhu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
-            android:text="加关注"
-            android:drawableTop="@drawable/add_guanzhu"/>
+            android:src="@drawable/focused_icon"/>
 
     </RelativeLayout>
 

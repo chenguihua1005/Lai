@@ -773,7 +773,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".module.community.view.TopicListActivity" />
         <activity android:name=".module.community.view.TopicDetailActivity" />
-        <activity android:name=".module.laijumine.view.FansActivity"></activity>
+        <activity android:name=".module.laijumine.view.FansActivity" />
+        <activity android:name=".module.laijumine.view.FocusActivity"></activity>
     </application>
 
 </manifest>
