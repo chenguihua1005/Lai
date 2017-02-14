@@ -196,10 +196,9 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             case 3:
                 Log.i("old版本3 更新 。。。。。。。。。。。。。。");
                 db.execSQL(CREATE_CLASS_MEMBERS);
-                break;
-            case 4:
                 db.execSQL(CREATE_CLASS_GROUP);
                 break;
+
         }
 
 
