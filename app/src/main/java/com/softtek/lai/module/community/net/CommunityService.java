@@ -61,7 +61,7 @@ public interface CommunityService {
                         @Query("TopicType")String topicId,
                         @Query("PageIndex")int pageIndex,
                         @Query("PageSize")int pageSize,
-                        RequestCallback<ResponseData<HealthyDynamicModel>> callback);
+                        RequestCallback<ResponseData<HealthyRecommendModel>> callback);
     //获取话题详情封面
     @GET("/v1/HealthyCircle/GetTopicCover")
     void getTopicCover(@Query("TopicType")String topicId,

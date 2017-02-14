@@ -4,11 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.ContentFrameLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
@@ -28,10 +29,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,12 +47,14 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.CommentAdapter;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.DynamicModel;
+import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.model.TopicInfo;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
@@ -80,17 +85,24 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.view.View.GONE;
-import static android.view.View.generateViewId;
 
 @InjectLayout(R.layout.activity_topic_detail)
-public class TopicDetailActivity extends BaseActivity implements OpenComment,SendCommend,View.OnLayoutChangeListener,
-        PullToRefreshBase.OnRefreshListener2<YLListView>,YLListView.OnRefreshListener{
+public class TopicDetailActivity extends BaseActivity implements OpenComment, SendCommend, View.OnLayoutChangeListener,
+        PullToRefreshBase.OnRefreshListener2<YLListView>, YLListView.OnRefreshListener {
 
     @InjectView(R.id.ptrlv)
     MyPullToListView ptrlv;
 
+    @InjectView(R.id.rl_content)
+    RelativeLayout rl_content;
     @InjectView(R.id.rl_toolbar)
     RelativeLayout rl_toolbar;
+    @InjectView(R.id.fl_bg)
+    FrameLayout fl_bg;
+    @InjectView(R.id.ll_title)
+    LinearLayout ll_title;
+    @InjectView(R.id.pb)
+    ProgressBar pb;
 
     @InjectView(R.id.rl_send)
     RelativeLayout rl_send;
@@ -98,6 +110,9 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
     EditText et_input;
     @InjectView(R.id.btn_send)
     Button btn_send;
+
+    @InjectView(R.id.fat)
+    FloatingActionButton fat;
 
     ImageView iv_banner;
     TextView tv_topticName;
@@ -109,13 +124,26 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
     private Object tag;
     String topicId;
 
+    int pageIndex;
+    int totalPage;
+
     @Override
     protected void initViews() {
+        fl_bg.setAlpha(0);
         tintManager.setStatusBarTintColor(android.R.color.transparent);
-        if(DisplayUtil.getSDKInt()>=Build.VERSION_CODES.KITKAT){
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) rl_toolbar.getLayoutParams();
-            params.topMargin= DisplayUtil.getStatusHeight(this);
-            rl_toolbar.setLayoutParams(params);
+        if (DisplayUtil.getSDKInt() >= Build.VERSION_CODES.KITKAT) {
+            RelativeLayout.LayoutParams llTitleParams= (RelativeLayout.LayoutParams) ll_title.getLayoutParams();
+            llTitleParams.topMargin=DisplayUtil.getStatusHeight(this);
+            ll_title.setLayoutParams(llTitleParams);
+
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) fl_bg.getLayoutParams();
+            params.height=DisplayUtil.getStatusHeight(this)+DisplayUtil.dip2px(this,50);
+            fl_bg.setLayoutParams(params);
+
+            ContentFrameLayout.LayoutParams params1= (ContentFrameLayout.LayoutParams) rl_content.getLayoutParams();
+            params1.topMargin=-DisplayUtil.getStatusHeight(this);
+            rl_content.setLayoutParams(params1);
+
         }
         ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         ptrlv.setOnRefreshListener(this);
@@ -160,8 +188,9 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
                 doSend(position, comment);
             }
         });
-        tag=new Object();
+        tag = new Object();
         ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING) {//正在滚动或手指快速一滑
@@ -173,37 +202,44 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+                View c = view.getChildAt(0);
+                if (c == null) {
+                    return;
+                }
+                int firstVisiblePosition = view.getFirstVisiblePosition();
+                int top = c.getTop();
+                int y= -top + firstVisiblePosition * c.getHeight() ;
+                fl_bg.setAlpha(y*0.3f/1000.0f);
             }
         });
     }
 
     @Override
     protected void initDatas() {
-        topicId=getIntent().getStringExtra("topicId");
-        datas=new ArrayList<>();
+        topicId = getIntent().getStringExtra("topicId");
+        datas = new ArrayList<>();
         ptrlv.getRefreshableView().addHeaderView(createHeadView());
-        adapter=new EasyAdapter<DynamicModel>(this,datas,R.layout.loss_weight_story_item) {
+        adapter = new EasyAdapter<DynamicModel>(this, datas, R.layout.loss_weight_story_item) {
             @Override
             public void convert(final ViewHolder holder, final DynamicModel model, final int position) {
-                TextView tv_name=holder.getView(R.id.tv_name);
+                TextView tv_name = holder.getView(R.id.tv_name);
                 tv_name.setText(model.getUserName());
-                final String content=model.getContent();
-                SpannableStringBuilder builder=new SpannableStringBuilder(content);
-                if(model.getIsTopic()==1){
+                final String content = model.getContent();
+                SpannableStringBuilder builder = new SpannableStringBuilder(content);
+                if (model.getIsTopic() == 1) {
                     /**
                      * 0  1 2 3 4 5   6 7  8  9 10
                      * 哈哈哈哈 # 金 彩 踢 馆 赛 #
                      */
-                    String theme="#"+model.getThemeName()+"#";
-                    int from=0;
-                    int lastIndex=content.lastIndexOf("#");
+                    String theme = "#" + model.getThemeName() + "#";
+                    int from = 0;
+                    int lastIndex = content.lastIndexOf("#");
                     do {
-                        int firstIndex=content.indexOf("#",from);
-                        int nextIndex=firstIndex+model.getThemeName().length()+1;
-                        if(nextIndex<=lastIndex){
-                            String sub=content.substring(firstIndex,nextIndex+1);
-                            if(sub.equals(theme)){
+                        int firstIndex = content.indexOf("#", from);
+                        int nextIndex = firstIndex + model.getThemeName().length() + 1;
+                        if (nextIndex <= lastIndex) {
+                            String sub = content.substring(firstIndex, nextIndex + 1);
+                            if (sub.equals(theme)) {
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
@@ -220,52 +256,52 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
                                 }, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             }
                         }
-                        from=nextIndex;
-                    }while (from<lastIndex);
+                        from = nextIndex;
+                    } while (from < lastIndex);
                 }
-                TextViewExpandableAnimation tv_content=holder.getView(R.id.tv_content);
-                tv_content.getTextView().setHighlightColor(ContextCompat.getColor(TopicDetailActivity.this,android.R.color.transparent));
+                TextViewExpandableAnimation tv_content = holder.getView(R.id.tv_content);
+                tv_content.getTextView().setHighlightColor(ContextCompat.getColor(TopicDetailActivity.this, android.R.color.transparent));
                 tv_content.setText(builder);
                 tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
                 tv_content.resetState(true);
-                final long[] days= DateUtil.getInstance().getDaysForNow(model.getCreateDate());
-                StringBuilder time=new StringBuilder();
-                if(days[0]==0){//今天
-                    if (days[3]<60){//小于1分钟
+                final long[] days = DateUtil.getInstance().getDaysForNow(model.getCreateDate());
+                StringBuilder time = new StringBuilder();
+                if (days[0] == 0) {//今天
+                    if (days[3] < 60) {//小于1分钟
                         time.append("刚刚");
-                    }else if(days[3]>=60&&days[3]<3600){//>=一分钟小于一小时
+                    } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
                         time.append(days[2]);
                         time.append("分钟前");
-                    }else {//大于一小时
+                    } else {//大于一小时
                         time.append(days[1]);
                         time.append("小时前");
                     }
-                }else if(days[0]==1) {//昨天
+                } else if (days[0] == 1) {//昨天
                     time.append("昨天");
-                }else {
+                } else {
                     time.append(days[0]);
                     time.append("天前");
                 }
-                TextView tv_date=holder.getView(R.id.tv_date);
+                TextView tv_date = holder.getView(R.id.tv_date);
                 tv_date.setText(time);
                 //关注
-                CheckBox cb_focus=holder.getView(R.id.cb_focus);
+                CheckBox cb_focus = holder.getView(R.id.cb_focus);
                 cb_focus.setVisibility(View.VISIBLE);
                 //看一下是否被关注了
                 cb_focus.setChecked(true);
                 cb_focus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        List<DynamicModel> models=new ArrayList<>();
-                        for (int i=0,j=datas.size();i<j;i++){
+                        List<DynamicModel> models = new ArrayList<>();
+                        for (int i = 0, j = datas.size(); i < j; i++) {
                             DynamicModel item = datas.get(i);
-                            if(item.getAccountId()==model.getAccountId()){
+                            if (item.getAccountId() == model.getAccountId()) {
                                 models.add(item);
                             }
                         }
                         datas.removeAll(models);
                         notifyDataSetChanged();
-                        EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),0));
+                        EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()), 0));
                         ZillaApi.NormalRestAdapter.create(CommunityService.class).cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                 UserInfoModel.getInstance().getUserId(),
                                 model.getAccountId(),
@@ -278,15 +314,15 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
                 });
                 //点赞
                 //如果没有人点赞就隐藏点咱人姓名显示
-                StringBuilder nameSet=new StringBuilder();
-                for (int i=0,j=model.getUsernameSet().size();i<j;i++){
+                StringBuilder nameSet = new StringBuilder();
+                for (int i = 0, j = model.getUsernameSet().size(); i < j; i++) {
                     nameSet.append(model.getUsernameSet().get(i));
-                    if(i<j-1){
+                    if (i < j - 1) {
                         nameSet.append(",");
                     }
                 }
-                TextView tv_zan_name=holder.getView(R.id.tv_zan_name);
-                if (0!=model.getPraiseNum()) {
+                TextView tv_zan_name = holder.getView(R.id.tv_zan_name);
+                if (0 != model.getPraiseNum()) {
                     tv_zan_name.setText(nameSet.toString());
                     tv_zan_name.setVisibility(View.VISIBLE);
                 } else {
@@ -294,21 +330,21 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
                 }
                 //加载图片
                 String path = AddressManager.get("photoHost");
-                CircleImageView civ_header_image=holder.getView(R.id.civ_header_image);
+                CircleImageView civ_header_image = holder.getView(R.id.civ_header_image);
                 Picasso.with(TopicDetailActivity.this).load(path + model.getUserPhoto()).fit()
                         .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
                 civ_header_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent personal=new Intent(TopicDetailActivity.this, PersionalActivity.class);
-                        personal.putExtra("isFocus",model.getIsFocus());
-                        personal.putExtra("personalId",String.valueOf(model.getAccountId()));
-                        personal.putExtra("personalName",model.getUserName());
+                        Intent personal = new Intent(TopicDetailActivity.this, PersionalActivity.class);
+                        personal.putExtra("isFocus", model.getIsFocus());
+                        personal.putExtra("personalId", String.valueOf(model.getAccountId()));
+                        personal.putExtra("personalName", model.getUserName());
                         startActivity(personal);
                     }
                 });
-                CustomGridView photos=holder.getView(R.id.photos);
-                photos.setAdapter(new PhotosAdapter(model.getThumbnailPhotoList(), TopicDetailActivity.this,tag));
+                CustomGridView photos = holder.getView(R.id.photos);
+                photos.setAdapter(new PhotosAdapter(model.getThumbnailPhotoList(), TopicDetailActivity.this, tag));
                 photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -319,27 +355,35 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
                         ActivityCompat.startActivity(TopicDetailActivity.this, in, optionsCompat.toBundle());
                     }
                 });
-                ImageView iv_operator=holder.getView(R.id.iv_operator);
+                ImageView iv_operator = holder.getView(R.id.iv_operator);
 
                 iv_operator.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        RelativeLayout rl_item=holder.getView(R.id.rl_item);
-                        PopupWindow popupWindow=doOperation(model,rl_item.getHeight(),position);
-                        int width=popupWindow.getContentView().getMeasuredWidth();
+                        RelativeLayout rl_item = holder.getView(R.id.rl_item);
+                        PopupWindow popupWindow = doOperation(model, rl_item.getHeight(), position);
+                        int width = popupWindow.getContentView().getMeasuredWidth();
                         int[] location = new int[2];
                         v.getLocationOnScreen(location);
-                        popupWindow.showAtLocation(v, Gravity.NO_GRAVITY,  location[0]-width, location[1]);
+                        popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0] - width, location[1]);
                     }
                 });
-                CommentAdapter adapter=new CommentAdapter(TopicDetailActivity.this,model.getCommendsList());
-                RecyclerView rv_comment=holder.getView(R.id.rv_comment);
+                CommentAdapter adapter = new CommentAdapter(TopicDetailActivity.this, model.getCommendsList());
+                RecyclerView rv_comment = holder.getView(R.id.rv_comment);
                 rv_comment.setLayoutManager(new LinearLayoutManagerWrapper(TopicDetailActivity.this));
                 rv_comment.setAdapter(adapter);
             }
         };
         ptrlv.setAdapter(adapter);
-
+        onRefresh();
+        fat.setOnClickListener(new View.OnClickListener() {
+            int i=20;
+            @Override
+            public void onClick(View v) {
+                ((ListView) ptrlv.getRefreshableView()).setSelectionFromTop(2,i);
+                i+=20;
+            }
+        });
     }
 
     public PopupWindow doOperation(final DynamicModel data, final int itemHeight, final int position) {
@@ -450,53 +494,68 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
         return popupWindow;
     }
 
-    private View createHeadView(){
-        RelativeLayout rl=new RelativeLayout(this);
+    private View createHeadView() {
+        //创建一个高度为162dp的relativeLayout容器
+        RelativeLayout rl = new RelativeLayout(this);
         rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,162,
-                getResources().getDisplayMetrics())));
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
+                        getResources().getDisplayMetrics())));
 
-        iv_banner=new ImageView(this);
+        //添加一个imageView进去
+        iv_banner = new ImageView(this);
         iv_banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        iv_banner.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.default_icon_rect));
+        iv_banner.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_icon_rect));
         rl.addView(iv_banner);
 
-        tv_explin=new TextView(this);
-        tv_explin.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
-        tv_explin.setTextColor(0xFF333333);
-        tv_explin.setGravity(Gravity.CENTER|Gravity.LEFT);
-        tv_explin.setBackgroundColor(0xFFFFFFFF);
-        tv_explin.setPadding(0,0,0,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,14,getResources().getDisplayMetrics()));
-        RelativeLayout.LayoutParams explinParams=new RelativeLayout
+        //添加一段描述性文本
+        LinearLayout ll_text = new LinearLayout(this);
+        ll_text.setOrientation(LinearLayout.VERTICAL);
+        ll_text.setBackgroundColor(0xFFFAFAFA);
+        RelativeLayout.LayoutParams llParams = new RelativeLayout
                 .LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,32,getResources().getDisplayMetrics()));
-        explinParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        tv_explin.setLayoutParams(explinParams);
-        rl.addView(tv_explin);
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        llParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        ll_text.setLayoutParams(llParams);
+        tv_explin = new TextView(this);
+        tv_explin.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        tv_explin.setTextColor(0xFF333333);
+        tv_explin.setGravity(Gravity.CENTER | Gravity.LEFT);
+        tv_explin.setBackgroundColor(0xFFFFFFFF);
+        tv_explin.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics()),0,0,0);
+        tv_explin.setHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics()));
+        ll_text.addView(tv_explin);
 
-        LinearLayout ll=new LinearLayout(this);
-        RelativeLayout.LayoutParams rlp=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        rlp.bottomMargin=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,32,getResources().getDisplayMetrics());
+        //在画一条线
+        View line = new View(this);
+        LinearLayout.LayoutParams lineParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
+        line.setLayoutParams(lineParams);
+        ll_text.addView(line);
+        rl.addView(ll_text);
+
+        LinearLayout ll = new LinearLayout(this);
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        rlp.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        rlp.bottomMargin= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,20,getResources().getDisplayMetrics());
-        rlp.leftMargin= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,15,getResources().getDisplayMetrics());
+        rlp.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
+        rlp.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
         ll.setLayoutParams(rlp);
         ll.setOrientation(LinearLayout.VERTICAL);
-        tv_topticName=new TextView(this);
+        tv_topticName = new TextView(this);
         tv_topticName.setTextColor(0xFFFFFFFF);
-        tv_topticName.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-        LinearLayout.LayoutParams params1=new LinearLayout
+        tv_topticName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        LinearLayout.LayoutParams params1 = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         tv_topticName.setLayoutParams(params1);
 
-        tv_dynamicNum=new TextView(this);
+        tv_dynamicNum = new TextView(this);
         tv_dynamicNum.setTextColor(0xFFFFFFFF);
-        tv_dynamicNum.setTextSize(TypedValue.COMPLEX_UNIT_SP,9);
-        LinearLayout.LayoutParams params=new LinearLayout
+        tv_dynamicNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9);
+        LinearLayout.LayoutParams params = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.topMargin= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,6,getResources().getDisplayMetrics());
+        params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, getResources().getDisplayMetrics());
         tv_dynamicNum.setLayoutParams(params);
         ll.addView(tv_topticName);
         ll.addView(tv_dynamicNum);
@@ -505,7 +564,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
     }
 
     @Override
-    public void doOpen(final int position,final int itemHeight, String tag) {
+    public void doOpen(final int position, final int itemHeight, String tag) {
         btn_send.setTag(position);
         rl_send.setVisibility(View.VISIBLE);
         et_input.setFocusable(true);
@@ -537,22 +596,33 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
 
     @Override
     public void doScroll(int index, int itemHeight, int inputY) {
+        Log.i("index="+index);
         int[] position = new int[2];
         ptrlv.getLocationOnScreen(position);
         //用弹出软件盘输入框在屏幕中的y值减去listView的顶部在屏幕中的Y值就是listView的剩余可显示高度。
-        int emptyHeight=inputY - position[1];
-        if (emptyHeight>=itemHeight){
+        int emptyHeight = inputY - position[1];
+        if (emptyHeight >= itemHeight) {
             //如果可显示高度大于整个item的高度则只需移动这个item到第一个区域即可
-            ((ListView)ptrlv.getRefreshableView()).setSelectionFromTop(index+1,0);
-        }else {
+            ((ListView) ptrlv.getRefreshableView()).setSelectionFromTop(index + 2, 0);
+        } else {
             //把被软件盘遮住的部分显示出来
-            ((ListView)ptrlv.getRefreshableView()).setSelectionFromTop(index + 1,(inputY - position[1])-itemHeight);
+            ((ListView) ptrlv.getRefreshableView()).setSelectionFromTop(index + 2, (inputY - position[1]) - itemHeight);
         }
     }
 
     @Override
     public void doSend(int position, Comment comment) {
+        DynamicModel model = datas.get(position);
+        model.getCommendsList().add(comment);
+        adapter.notifyDataSetChanged();
+        ZillaApi.NormalRestAdapter.create(PhotoWallService.class)
+                .commitComment(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
+                        model.getDynamicId(), comment.Comment, new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
 
+                            }
+                        });
     }
 
     @Override
@@ -585,38 +655,71 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<YLListView> refreshView) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("上拉加载更多完成");
-                ptrlv.onRefreshComplete();
-            }
-        },1000);
+        pageIndex++;
+        ZillaApi.NormalRestAdapter.create(CommunityService.class)
+                .getTopicDetail(UserInfoModel.getInstance().getUserId(), topicId, pageIndex, 10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
+                    @Override
+                    public void success(ResponseData<HealthyRecommendModel> data, Response response) {
+                        ptrlv.onRefreshComplete();
+                        if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
+                            datas.addAll(data.getData().getDynamiclist());
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        ptrlv.onRefreshComplete();
+                        super.failure(error);
+                    }
+                });
     }
 
     @Override
     public void onRefresh() {
-        Log.i("刷新加载 话题Id"+topicId);
+        pageIndex = 1;
+        pb.setVisibility(View.VISIBLE);
+        ZillaApi.NormalRestAdapter.create(CommunityService.class)
+                .getTopicDetail(UserInfoModel.getInstance().getUserId(), topicId, 1, 10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
+                    @Override
+                    public void success(ResponseData<HealthyRecommendModel> data, Response response) {
+                        pb.setVisibility(GONE);
+                        ptrlv.getRefreshableView().onCompletedRefresh();
+                        if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
+                            datas.clear();
+                            datas.addAll(data.getData().getDynamiclist());
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        pb.setVisibility(GONE);
+                        ptrlv.getRefreshableView().onCompletedRefresh();
+                        super.failure(error);
+                    }
+                });
         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                 .getTopicCover(topicId, new RequestCallback<ResponseData<TopicInfo>>() {
                     @Override
                     public void success(ResponseData<TopicInfo> data, Response response) {
-                        ptrlv.getRefreshableView().onCompletedRefresh();
                         Log.i("刷新加载完成");
-                        if(data.getStatus()==200){
-                            TopicInfo info=data.getData();
+                        if (data.getStatus() == 200) {
+                            TopicInfo info = data.getData();
                             tv_topticName.setText("#");
                             tv_topticName.append(info.getTopicName());
                             tv_topticName.append("#");
                             tv_dynamicNum.setText(String.valueOf(info.getDynamicNum()));
                             tv_dynamicNum.append("条动态");
                             tv_explin.setText(info.getTopicExplain());
-                            if(TextUtils.isEmpty(info.getTopicPhoto())){
+                            if (TextUtils.isEmpty(info.getTopicPhoto())) {
                                 Picasso.with(TopicDetailActivity.this)
                                         .load(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_banner);
-                            }else {
+                            } else {
                                 Picasso.with(TopicDetailActivity.this)
-                                        .load(AddressManager.get("photoHost")+info.getTopicPhoto())
+                                        .load(AddressManager.get("photoHost") + info.getTopicPhoto())
                                         .fit()
                                         .error(R.drawable.default_icon_rect)
                                         .placeholder(R.drawable.default_icon_rect)
@@ -624,12 +727,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment,Sen
                             }
                         }
                     }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        ptrlv.getRefreshableView().onCompletedRefresh();
-                        super.failure(error);
-                    }
                 });
     }
+
 }
