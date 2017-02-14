@@ -14,7 +14,9 @@ import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.NetErrorHandler;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
+import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.umeng.socialize.PlatformConfig;
@@ -141,12 +143,37 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             + ContactTable.AccpetTime + " varchar(20))";
 
 
+    // 班级联系人表
+    public static final String CREATE_CLASS_MEMBERS = "create table " + ClassMemberTable.TABLE_NAME + "(" + ClassMemberTable._ID
+            + " integer primary key autoincrement, "
+            + ClassMemberTable.HXAccountId + " varchar(20),"
+            + ClassMemberTable.AccountId + " varchar(20),"
+            + ClassMemberTable.UserName + " varchar(20),"
+            + ClassMemberTable.Mobile + " varchar(20),"
+            + ClassMemberTable.Photo + " varchar(20))";
+
+
+    //    public static final String ClassId = "ClassId";
+//    public static final String ClassName = "ClassName";
+//    public static final String ClassCode = "ClassCode";//班级编号
+//    public static final String HXGroupId = "HXGroupId";//班级环信ID
+    // 班级群聊表
+    public static final String CREATE_CLASS_GROUP = "create table " + GroupTable.TABLE_NAME + "(" + GroupTable._ID
+            + " integer primary key autoincrement, "
+            + GroupTable.ClassId + " varchar(20),"
+            + GroupTable.ClassName + " varchar(20),"
+            + GroupTable.ClassCode + " varchar(20),"
+            + GroupTable.HXGroupId + " varchar(20))";
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("onCreate(SQLiteDatabase db)    1111111111111111111111      ");
+        Log.i("onCreate(SQLiteDatabase db)          ");
         db.execSQL(CREATE_STEP);
         db.execSQL(CREATE_SPORT_DATA);
         db.execSQL(CREATE_CONATCT);
+        db.execSQL(CREATE_CLASS_MEMBERS);
+        db.execSQL(CREATE_CLASS_GROUP);
 
 
         Log.i("表创建了");
@@ -165,6 +192,13 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             case 2:
                 Log.i("版本2 更新 。。。。。。。。。。。。。。");
                 db.execSQL(CREATE_CONATCT);
+                break;
+            case 3:
+                Log.i("old版本3 更新 。。。。。。。。。。。。。。");
+                db.execSQL(CREATE_CLASS_MEMBERS);
+                break;
+            case 4:
+                db.execSQL(CREATE_CLASS_GROUP);
                 break;
         }
 

@@ -2,6 +2,7 @@ package com.softtek.lai.chat.ui;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.softtek.lai.chat.Constant;
 import com.softtek.lai.contants.Constants;
 
 public class ConversationListFragment extends EaseConversationListFragment {
+    private static final String TAG = "会话列表";
 
     private TextView errorText;
 
@@ -86,6 +89,8 @@ public class ConversationListFragment extends EaseConversationListFragment {
                             }
                         }
                     }
+
+                    Log.i(TAG, "hxId = " + username + " name= " + name + " photo= " + photo);
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
                     intent.putExtra("name", name);
                     intent.putExtra("photo", photo);

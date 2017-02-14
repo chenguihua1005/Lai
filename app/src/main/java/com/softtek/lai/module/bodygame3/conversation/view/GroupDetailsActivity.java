@@ -17,6 +17,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.MemberAdapter;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberUtil;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
@@ -142,6 +146,19 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
                         members.addAll(classListInfoModel.getContactList());
                     }
                     memberAdapter.updateData(members);
+
+
+                    if (members != null && members.size() > 0) {
+                        Log.i(TAG, "here ..........");
+                        //存入数据库
+                        if (ClassMemberUtil.getInstance().tableIsExist(ClassMemberTable.TABLE_NAME)) {
+                            com.github.snowdream.android.util.Log.i(TAG, "存在。。。。。");
+                            ClassMemberUtil.getInstance().insert(members);
+                        } else {
+                            com.github.snowdream.android.util.Log.i(TAG, "不存在。。。。。");
+                        }
+                    }
+
                 }
 
                 @Override

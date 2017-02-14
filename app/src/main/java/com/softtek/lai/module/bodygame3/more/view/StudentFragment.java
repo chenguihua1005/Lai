@@ -203,7 +203,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                                             handler.sendMessage(msg);
                                             e.printStackTrace();
                                         } catch (Exception e) {
-
+                                            e.printStackTrace();
                                         }
                                     }
                                 }).start();

@@ -6,16 +6,11 @@
 package com.softtek.lai.chat.ui;
 
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,22 +22,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.hyphenate.EMConnectionListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseChatFragment;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
-import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.runtimepermissions.PermissionsManager;
-import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -75,40 +65,40 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private EMGroup group;
 
 
-    public AlertDialog.Builder builder = null;
-    private EMConnectionListener connectionListener;
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            if (builder != null) {
-                return;
-            }
-            builder = new AlertDialog.Builder(ChatActivity.this)
-                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            builder = null;
-                            UserInfoModel.getInstance().loginOut();
-                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                            Intent intent = new Intent(ChatActivity.this, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                        }
-                    }).setCancelable(false);
-            Dialog dialog = builder.create();
-            if (!isFinishing()) {
-                if (dialog != null && !dialog.isShowing()) {
-                    dialog.show();
-                }
-            }
-
-        }
-
-    };
+//    public AlertDialog.Builder builder = null;
+//    private EMConnectionListener connectionListener;
+//    private Handler handler = new Handler() {
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            // TODO Auto-generated method stub
+//            if (builder != null) {
+//                return;
+//            }
+//            builder = new AlertDialog.Builder(ChatActivity.this)
+//                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+//                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            builder = null;
+//                            UserInfoModel.getInstance().loginOut();
+//                            LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
+//                            Intent intent = new Intent(ChatActivity.this, LoginActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(intent);
+//                        }
+//                    }).setCancelable(false);
+//            Dialog dialog = builder.create();
+//            if (!isFinishing()) {
+//                if (dialog != null && !dialog.isShowing()) {
+//                    dialog.show();
+//                }
+//            }
+//
+//        }
+//
+//    };
 
 
     @Override
@@ -121,10 +111,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         //可以直接new EaseChatFratFragment使用
         chatFragment = new ChatFragment();
         //传入参数
-        String title_value = getIntent().getStringExtra("name");
-        if ("".equals(title_value)) {
-            title_value = "";
-        }
+        final String title_value = getIntent().getStringExtra("name");
+//        if ("".equals(title_value)) {
+//            title_value = "";
+//        }
 
 
         //获取聊天类型
@@ -156,7 +146,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             //根据群组ID从本地获取群组基本信息
                             group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
 //                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
-                            tv_title.setText(group.getGroupName());
+//                            tv_title.setText(group.getGroupName());
+                            tv_title.setText(title_value);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

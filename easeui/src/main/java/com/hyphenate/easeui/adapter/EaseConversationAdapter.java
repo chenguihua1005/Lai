@@ -21,7 +21,11 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.database.ChatContactModel;
+import com.hyphenate.easeui.database.ClassGroupUtil;
+import com.hyphenate.easeui.database.ClassMemberModel;
+import com.hyphenate.easeui.database.ClassMemberUtil;
 import com.hyphenate.easeui.database.ContactUtil;
+import com.hyphenate.easeui.database.GroupModel;
 import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -123,10 +127,21 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             }
             // group message, show group avatar
             holder.avatar.setImageResource(R.drawable.ease_group_icon);
-            EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
+//            EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
+//
+//            Log.i(TAG, "username = " + username);//this question
+//            holder.name.setText(group != null ? group.getGroupName() : username);
 
-            Log.i(TAG, "username = " + username);//this question
-            holder.name.setText(group != null ? group.getGroupName() : username);
+            GroupModel groupModel = ClassGroupUtil.getInstance().findGroup(groupId);
+            if (groupModel != null) {
+                if (groupModel.getClassName() != null) {
+                    holder.name.setText(groupModel.getClassName());
+                }
+            } else {
+                EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
+                holder.name.setText(group != null ? group.getGroupName() : username);
+            }
+
         } else if (conversation.getType() == EMConversationType.ChatRoom) {
             holder.avatar.setImageResource(R.drawable.ease_group_icon);
             EMChatRoom room = EMClient.getInstance().chatroomManager().getChatRoom(username);
@@ -184,22 +199,29 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.name.setText(name);
 
             if (!TextUtils.isEmpty(photo) && !"null".equals(photo)) {
-                Log.i(TAG, "头像为11111111111111111 =" + photo);
                 Picasso.with(getContext()).load(photo).fit().placeholder(R.drawable.ease_default_avatar)
                         .error(R.drawable.ease_default_avatar).into(holder.avatar);
-            } else {
-//                List<EMMessage> messageList = conversation.getAllMessages();
+            } else if (ContactUtil.getInstance().findContact(toWho) != null) {
+                Log.i(TAG, "好友数据获取。。。。。。。。。。。。");
                 ChatContactModel model = ContactUtil.getInstance().findContact(toWho);
                 if (model != null && !TextUtils.isEmpty(model.getPhoto())) {
-                    Log.i(TAG, "头像为 2222222222222222 = " + model.getPhoto());
+                    Log.i(TAG, "头像为好友 2222222222222222 = " + model.getPhoto());
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + model.getPhoto()).fit().placeholder(R.drawable.ease_default_avatar)
                             .error(R.drawable.ease_default_avatar).into(holder.avatar);
-                } else {
-                    Picasso.with(getContext()).load(R.drawable.ease_default_avatar).placeholder(R.drawable.ease_default_avatar).into(holder.avatar);
-                }
 
+                }
+            } else if (ClassMemberUtil.getInstance().findClassMember(toWho) != null) {
+                Log.i(TAG, "非好友数据获取。。。。。。。。。。。。");
+                ClassMemberModel model = ClassMemberUtil.getInstance().findClassMember(toWho);
+                Log.i(TAG, "非好友 model = " + model.toString());
+                if (!TextUtils.isEmpty(model.getPhoto())) {
+                    Log.i(TAG, "头像为 非好友 = " + model.getPhoto());
+                    Picasso.with(getContext()).load(AddressManager.get("photoHost") + model.getPhoto()).fit().placeholder(R.drawable.ease_default_avatar)
+                            .error(R.drawable.ease_default_avatar).into(holder.avatar);
+                }
+            } else {
+                Picasso.with(getContext()).load(R.drawable.ease_default_avatar).placeholder(R.drawable.ease_default_avatar).into(holder.avatar);
             }
-//           holder.avatar.setShapeType(1);
         }
 
         if (conversation.getUnreadMsgCount() > 0) {

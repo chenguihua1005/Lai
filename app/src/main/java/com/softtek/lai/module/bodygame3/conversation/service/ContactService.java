@@ -30,7 +30,7 @@ public interface ContactService {
      * @param callback
      */
 
-    @GET("/v1//HerbUser/GetContacts")
+    @GET("/v1/HerbUser/GetContacts")
     void getEMChatContacts(
             @Header("token") String token,
             @Query("pageIndex") int pageIndex,

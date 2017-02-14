@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.conversation.model;
+package com.hyphenate.easeui.database;
 
 import java.io.Serializable;
 
@@ -132,23 +132,5 @@ public class ClassMemberModel implements Serializable {
 
     public void setAddTime(String addTime) {
         AddTime = addTime;
-    }
-
-    @Override
-    public String toString() {
-        return "ClassMemberModel{" +
-                "HXAccountId='" + HXAccountId + '\'' +
-                ", AccountId=" + AccountId +
-                ", UserName='" + UserName + '\'' +
-                ", UserEn='" + UserEn + '\'' +
-                ", Mobile='" + Mobile + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", CGId='" + CGId + '\'' +
-                ", CGName='" + CGName + '\'' +
-                ", Role='" + Role + '\'' +
-                ", AddTime='" + AddTime + '\'' +
-                ", IsFriend=" + IsFriend +
-                ", AFriendId='" + AFriendId + '\'' +
-                '}';
     }
 }

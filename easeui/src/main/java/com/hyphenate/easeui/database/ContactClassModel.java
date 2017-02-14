@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame3.conversation.model;
+package com.hyphenate.easeui.database;
 
 import java.io.Serializable;
 
