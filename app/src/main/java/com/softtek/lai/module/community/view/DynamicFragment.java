@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -45,6 +44,7 @@ import com.softtek.lai.module.community.presenter.SendCommend;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.DragFloatActionButton;
 import com.softtek.lai.widgets.SquareImageView;
 import com.squareup.picasso.Picasso;
 
@@ -86,7 +86,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     FrameLayout empty;
 
     @InjectView(R.id.fab_sender)
-    FloatingActionButton fab_sender;
+    DragFloatActionButton fab_sender;
 
     @InjectView(R.id.siv_topic)
     SquareImageView siv_topic;
