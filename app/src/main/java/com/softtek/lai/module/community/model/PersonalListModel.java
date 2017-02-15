@@ -11,6 +11,34 @@ public class PersonalListModel {
     private String CreateDate;
     private String minetype;
     private String imgCollection;
+    private  int IsTopic;
+    private String TopicType;
+    private String ThemeName;
+
+
+    public int getIsTopic() {
+        return IsTopic;
+    }
+
+    public void setIsTopic(int isTopic) {
+        IsTopic = isTopic;
+    }
+
+    public String getTopicType() {
+        return TopicType;
+    }
+
+    public void setTopicType(String topicType) {
+        TopicType = topicType;
+    }
+
+    public String getThemeName() {
+        return ThemeName;
+    }
+
+    public void setThemeName(String themeName) {
+        ThemeName = themeName;
+    }
 
     public String getID() {
         return ID;

@@ -22,6 +22,7 @@ import android.text.style.ClickableSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
@@ -189,6 +190,13 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
             }
         });
         tag = new Object();
+        ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hiden();
+                return false;
+            }
+        });
         ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
@@ -399,6 +407,9 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
         tv_zan.setEnabled(data.getIsPraise() != 1);
+        if(data.getIsPraise() ==1){
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this,R.drawable.zan_has),null,null,null);
+        }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

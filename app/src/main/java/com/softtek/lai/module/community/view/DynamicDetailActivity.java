@@ -1,52 +1,45 @@
 package com.softtek.lai.module.community.view;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
-import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
-import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
-import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
-import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.DynamicModel;
-import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.presenter.CommunityManager;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.SendCommend;
-import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.SoftInputUtil;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,249 +52,154 @@ import zilla.libcore.ui.InjectLayout;
 
 import static android.view.View.GONE;
 
-/**
- * Created by jerry.guan on 4/11/2016.
- *
- */
-@InjectLayout(R.layout.fragment_mine_healthy)
-public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener
-,HealthyCommunityAdapter.OperationCall,SendCommend {
-
-    @InjectView(R.id.iv_left)
-    ImageView iv_left;
+@InjectLayout(R.layout.activity_dynamic_detail)
+public class DynamicDetailActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ListView>
+        ,HealthyCommunityAdapter.OperationCall,SendCommend
+,OpenComment, View.OnLayoutChangeListener{
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
-    @InjectView(R.id.lin_is_vr)
-    LinearLayout lin_is_vr;
-    @InjectView(R.id.but_login)
-    Button but_login;
-    @InjectView(R.id.empty)
-    FrameLayout empty;
 
-    private CommunityManager community;
-    private HealthyCommunityFocusAdapter adapter;
+    @InjectView(R.id.rl_send)
+    RelativeLayout rl_send;
+    @InjectView(R.id.et_input)
+    EditText et_input;
+    @InjectView(R.id.btn_send)
+    Button btn_send;
+
+    private CommunityService service;
+    private HealthyCommunityAdapter adapter;
     private List<DynamicModel> communityModels=new ArrayList<>();
-    int pageIndex=1;
-    int totalPage=0;
-    boolean isLogin=false;
-    boolean hasFocus=false;
-    private OpenComment openComment;
 
-    public static final String FOCUSFRAGMENT="focusFragment";
+    String dynamicId;
 
-    @Override
-    protected void onVisible() {
-        if(hasFocus){
-            isPrepared=false;
-        }
-        super.onVisible();
-    }
-
-    @Override
-    protected void lazyLoad() {
-        if(isLogin){
-            pageIndex=1;
-            community.getHealthyFocus(1);
-        }
-    }
-    public static FocusFragment getInstance(OpenComment openComment){
-        FocusFragment fragment=new FocusFragment();
-        fragment.setOpenComment(openComment);
-        return fragment;
-    }
-
-    public void setOpenComment(OpenComment openComment) {
-        this.openComment = openComment;
-    }
 
     @Override
     protected void initViews() {
-        tv_title.setText("关注");
-        iv_left.setVisibility(View.INVISIBLE);
-        EventBus.getDefault().register(this);
-        but_login.setOnClickListener(this);
-        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        tv_title.setText("动态详情");
+        ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         ptrlv.setOnRefreshListener(this);
-        ptrlv.setEmptyView(empty);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-        ILoadingLayout endLabelsr = ptrlv.getLoadingLayoutProxy(false, true);
-        endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
-//        endLabelsr.setLastUpdatedLabel("正在刷新数据");// 刷新时
-        endLabelsr.setRefreshingLabel("正在刷新数据");
-        endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe
-    public void refreshList(DeleteFocusEvent event){
-        List<DynamicModel> models=new ArrayList<>();
-        for (int i=0,j=communityModels.size();i<j;i++){
-            DynamicModel item = communityModels.get(i);
-            if(item.getAccountId()==Integer.parseInt(event.getAccountId())){
-                models.add(item);
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
-        }
-        communityModels.removeAll(models);
-        adapter.notifyDataSetChanged();
-    }
+        });
+        et_input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-    @Subscribe
-    public void refreshListZan(ZanEvent event){
-        if(event.getWhere()==1){
-            for (DynamicModel model:communityModels){
-                if(model.getDynamicId().equals(event.getDynamicId())){
-                    model.setIsPraise(1);
-                    model.setPraiseNum(model.getPraiseNum() + 1);
-                    UserInfoModel infoModel = UserInfoModel.getInstance();
-                    model.getUsernameSet().add(infoModel.getUser().getNickname());
-                    break;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() == 0) {
+                    btn_send.setEnabled(false);
+                } else {
+                    btn_send.setEnabled(true);
                 }
             }
-            adapter.notifyDataSetChanged();
-        }
+        });
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hiden();
+                Integer position = (Integer) v.getTag();
+                String commentStr = et_input.getText().toString();
+                et_input.setText("");
+                Comment comment = new Comment();
+                comment.Comment = commentStr;
+                comment.CommentUserId = UserInfoModel.getInstance().getUserId();
+                comment.CommentUserName = UserInfoModel.getInstance().getUser().getNickname();
+                comment.isReply = 0;
+                doSend(position, comment);
+            }
+        });
     }
 
-    @Subscribe
-    public void onReload(FocusReload reload){
-        hasFocus=true;
-    }
+
 
     @Override
     protected void initDatas() {
+        dynamicId=getIntent().getStringExtra("dynamicId");
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
-        community=new CommunityManager(this);
         //加载数据适配器
-        adapter=new HealthyCommunityFocusAdapter(this,new Object(),getContext(),communityModels);
+        adapter=new HealthyCommunityAdapter(this,this,communityModels,new Object());
         ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (openComment != null) {
-                    openComment.hiden();
-                }
+                hiden();
                 return false;
             }
         });
         ptrlv.setAdapter(adapter);
-        String token=UserInfoModel.getInstance().getToken();
-        //判断token是否为空
-        if(StringUtils.isEmpty(token)){
-            //token为空，游客模式显示立即登陆页面
-            isLogin=false;
-            lin_is_vr.setVisibility(View.VISIBLE);
-            ptrlv.setVisibility(View.GONE);
-        }else{
-            //token不为空，非游客模式，隐藏立即登陆页面
-            isLogin=true;
-            lin_is_vr.setVisibility(View.GONE);
-            ptrlv.setVisibility(View.VISIBLE);
-        }
         //自动加载
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrlv.setRefreshing();
+            }
+        }, 400);
     }
 
     @Override
-    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+    public void onRefresh(final PullToRefreshBase<ListView> refreshView) {
         //获取健康我的动态
-        Log.i("加载健康圈我的动态");
-        pageIndex=1;
-        community.getHealthyFocus(1);
-    }
-
-    @Override
-    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        pageIndex++;
-        if(pageIndex<=totalPage){
-            community.getHealthyFocus(pageIndex);
-        }else{
-            pageIndex--;
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(ptrlv!=null){
-                        ptrlv.onRefreshComplete();
+        service.getHealthyDynamciDetail(UserInfoModel.getInstance().getUserId(), dynamicId,
+                new RequestCallback<ResponseData<DynamicModel>>() {
+                    @Override
+                    public void success(ResponseData<DynamicModel> data, Response response) {
+                        try {
+                            refreshView.onRefreshComplete();
+                            communityModels.clear();
+                            communityModels.add(data.getData());
+                            adapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                }
-            },300);
-        }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        try {
+                            refreshView.onRefreshComplete();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        super.failure(error);
+                    }
+                });
     }
 
-
-    @Override
-    public void getMineDynamic(HealthyRecommendModel model) {
-        try {
-            hasFocus=false;
-            ptrlv.onRefreshComplete();
-            if(model==null){
-                pageIndex=--pageIndex<1?1:pageIndex;
-                return;
-            }
-            if(model.getTotalPage()==null&&model.getDynamiclist()==null){
-                pageIndex=--pageIndex<1?1:pageIndex;
-                return;
-            }
-            totalPage=Integer.parseInt(model.getTotalPage());
-            List<DynamicModel> models=model.getDynamiclist();
-            if(models==null||models.isEmpty()){
-                pageIndex=--pageIndex<1?1:pageIndex;
-                return;
-            }
-            if(pageIndex==1){
-                this.communityModels.clear();
-            }
-
-            this.communityModels.addAll(models);
-            adapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.but_login:
-                Intent toLoginIntent=new Intent(getContext(), LoginActivity.class);
-                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(toLoginIntent);
-                break;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==-1){
-        }
-    }
-    private CommunityService service;
     @Override
     public PopupWindow doOperation(final DynamicModel data, final int itemHeight, final int position) {
         //弹出popwindow
-        final PopupWindow popupWindow = new PopupWindow(getContext());
+        final PopupWindow popupWindow = new PopupWindow(this);
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(DisplayUtil.dip2px(getContext(),30));
+        popupWindow.setHeight(DisplayUtil.dip2px(this,30));
         popupWindow.setAnimationStyle(R.style.operation_anim_style);
-        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.opteration_drawable));
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.opteration_drawable));
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
-        final View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_operator, null);
+        final View contentView = LayoutInflater.from(this).inflate(R.layout.pop_operator, null);
         final TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
         tv_zan.setEnabled(data.getIsPraise()!=1);
         if(data.getIsPraise() ==1){
-            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(),R.drawable.zan_has),null,null,null);
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this,R.drawable.zan_has),null,null,null);
         }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,6 +213,8 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
+                EventBus.getDefault().post(new ZanEvent(dynamicId,true,1));
+                EventBus.getDefault().post(new ZanEvent(dynamicId,true,0));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -344,9 +244,8 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                if(openComment!=null){
-                    openComment.doOpen(position,itemHeight,FOCUSFRAGMENT);
-                }
+                doOpen(position,itemHeight,null);
+
             }
         });
         TextView tv_jubao = (TextView) contentView.findViewById(R.id.tv_oper_jubao);
@@ -365,7 +264,7 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                 @Override
                 public void onClick(View view) {
                     popupWindow.dismiss();
-                    new AlertDialog.Builder(getContext()).setTitle("温馨提示").setMessage("确定删除吗？")
+                    new AlertDialog.Builder(DynamicDetailActivity.this).setTitle("温馨提示").setMessage("确定删除吗？")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -429,4 +328,59 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                             }
                         });
     }
+
+    @Override
+    public void doOpen(final int position, final int itemHeight, final String tag) {
+        btn_send.setTag(position);
+        rl_send.setVisibility(View.VISIBLE);
+        et_input.setFocusable(true);
+        et_input.setFocusableInTouchMode(true);
+        et_input.requestFocus();
+        et_input.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SoftInputUtil.showInputAsView(DynamicDetailActivity.this, et_input);
+            }
+        }, 400);
+        rl_send.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int[] position2 = new int[2];
+                rl_send.getLocationOnScreen(position2);
+                doScroll(position, itemHeight, position2[1]);
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void hiden() {
+        if (rl_send.getVisibility() == View.VISIBLE) {
+            rl_send.setVisibility(View.INVISIBLE);
+            SoftInputUtil.hidden(this);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        rl_send.addOnLayoutChangeListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        rl_send.removeOnLayoutChangeListener(this);
+    }
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        if (rl_send.getVisibility() == View.VISIBLE) {
+            if (oldBottom - bottom < 0) {
+                //键盘收起来
+                rl_send.setVisibility(View.INVISIBLE);
+            }
+
+        }
+    }
+
 }

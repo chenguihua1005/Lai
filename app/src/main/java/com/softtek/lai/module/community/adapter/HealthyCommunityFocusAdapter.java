@@ -118,8 +118,9 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
                         builder.setSpan(new ClickableSpan() {
                             @Override
                             public void onClick(View widget) {
-                                Log.i("点击了主题");
-                                context.startActivity(new Intent(context, TopicDetailActivity.class));
+                                Intent intent=new Intent(context, TopicDetailActivity.class);
+                                intent.putExtra("topicId",model.getTopicType());
+                                context.startActivity(intent);
                             }
 
                             @Override
@@ -186,15 +187,14 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         });
         //点赞
         //如果没有人点赞就隐藏点咱人姓名显示
-        StringBuilder nameSet=new StringBuilder();
-        for (int i=0,j=model.getUsernameSet().size();i<j;i++){
-            nameSet.append(model.getUsernameSet().get(i));
-            if(i<j-1){
-                nameSet.append(",");
-            }
-        }
-
         if (0!=model.getPraiseNum()) {
+            StringBuilder nameSet=new StringBuilder();
+            for (int i=0,j=model.getUsernameSet().size();i<j;i++){
+                nameSet.append(model.getUsernameSet().get(i));
+                if(i<j-1){
+                    nameSet.append(",");
+                }
+            }
             holder.tv_zan_name.setText(nameSet.toString());
             holder.tv_zan_name.setVisibility(View.VISIBLE);
         } else {

@@ -10,25 +10,32 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.HealthyDetailActivity;
+import com.softtek.lai.module.community.view.DynamicDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
+import com.softtek.lai.module.community.view.TopicDetailActivity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -90,14 +97,52 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View v) {
                     if ("0".equals(model.getMinetype())) {//动态
-                        Intent logDetail = new Intent(context, HealthyDetailActivity.class);
-                        logDetail.putExtra("type", "1");
-                        logDetail.putExtra("logId", model.getID());
+                        Intent logDetail = new Intent(context, DynamicDetailActivity.class);
+                        logDetail.putExtra("dynamicId", model.getID());
                         context.startActivity(logDetail);
                     }
                 }
             });
-            ((ViewHolder) holder).tv_content.setText(model.getContent());
+            final String content=model.getContent();
+            SpannableStringBuilder builder=new SpannableStringBuilder(content);
+            if(model.getIsTopic()==1){
+                /**
+                 * 0  1 2 3 4 5   6 7  8  9 10
+                 * 哈哈哈哈 # 金 彩 踢 馆 赛 #
+                 */
+                String theme="#"+model.getThemeName()+"#";
+                int from=0;
+                int lastIndex=content.lastIndexOf("#");
+                do {
+                    int firstIndex=content.indexOf("#",from);
+                    int nextIndex=firstIndex+model.getThemeName().length()+1;
+                    if(nextIndex<=lastIndex){
+                        String sub=content.substring(firstIndex,nextIndex+1);
+                        if(sub.equals(theme)){
+                            builder.setSpan(new ClickableSpan() {
+                                @Override
+                                public void onClick(View widget) {
+                                    Log.i("点击了主题");
+                                    Intent intent=new Intent(context, TopicDetailActivity.class);
+                                    intent.putExtra("topicId",model.getTopicType());
+                                    context.startActivity(intent);
+                                }
+
+                                @Override
+                                public void updateDrawState(TextPaint ds) {
+                                    super.updateDrawState(ds);
+                                    ds.setColor(0xFFFFA202);
+                                    ds.setUnderlineText(false);//去除超链接的下划线
+                                }
+                            }, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }
+                    }
+                    from=nextIndex;
+                }while (from<lastIndex);
+            }
+            ((ViewHolder) holder).tv_content.setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
+            ((ViewHolder) holder).tv_content.setText(builder);
+            ((ViewHolder) holder).tv_content.setMovementMethod(LinkMovementMethod.getInstance());
             int[] dates=DateUtil.getInstance().getDates(model.getCreateDate());
             if(position==0){//第一条
                 ((ViewHolder) holder).tv_month.setVisibility(View.VISIBLE);
@@ -190,6 +235,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             }else {
                 ((ViewHolder) holder).tv_delete.setVisibility(View.GONE);
             }
+
             //将数据保存在itemView的Tag中，以便点击时进行获取
             /*holder.itemView.setTag(position);*/
         }

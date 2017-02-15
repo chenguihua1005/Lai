@@ -19,8 +19,11 @@ import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -287,7 +290,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                             .into(civ_header_image);
                 }
                 TextView tv_content = holder.getView(R.id.tv_content);
-                String content=data.getContent();
+                final String content=data.getContent();
                 SpannableStringBuilder builder=new SpannableStringBuilder(content);
                 if(data.getIsHasTheme()==1){
                     /**
@@ -295,8 +298,6 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                      * 哈哈哈哈 # 金 彩 踢 馆 赛 #
                      */
                     String theme="#"+data.getThemeName()+"#";
-                    ForegroundColorSpan colorSpan=new ForegroundColorSpan(0xFFFFA202);
-                    //先把
                     int from=0;
                     int lastIndex=content.lastIndexOf("#");
                     do {
@@ -305,13 +306,30 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         if(nextIndex<=lastIndex){
                             String sub=content.substring(firstIndex,nextIndex+1);
                             if(sub.equals(theme)){
-                                builder.setSpan(colorSpan,firstIndex,nextIndex+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                builder.setSpan(new ClickableSpan() {
+                                    @Override
+                                    public void onClick(View widget) {
+                                        Log.i("点击了主题");
+//                                        Intent intent=new Intent(PhotoWallActivity.this, TopicDetailActivity.class);
+//                                        //intent.putExtra("topicId",data.);
+//                                        startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void updateDrawState(TextPaint ds) {
+                                        super.updateDrawState(ds);
+                                        ds.setColor(0xFFFFA202);
+                                        ds.setUnderlineText(false);//去除超链接的下划线
+                                    }
+                                }, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             }
                         }
                         from=nextIndex;
                     }while (from<lastIndex);
                 }
-                tv_content.setText(builder);//正文
+                tv_content.setHighlightColor(ContextCompat.getColor(PhotoWallActivity.this,android.R.color.transparent));
+                tv_content.setText(builder);
+                tv_content.setMovementMethod(LinkMovementMethod.getInstance());
                 final CheckBox cb_focus = holder.getView(R.id.cb_focus);
                 boolean isMine=Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId();
                 if(isMine){

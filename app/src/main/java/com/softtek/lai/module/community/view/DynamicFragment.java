@@ -365,9 +365,12 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         final View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_operator, null);
-        TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
+        final TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
         tv_zan.setEnabled(data.getIsPraise() != 1);
+        if(data.getIsPraise() ==1){
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(),R.drawable.zan_has),null,null,null);
+        }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
