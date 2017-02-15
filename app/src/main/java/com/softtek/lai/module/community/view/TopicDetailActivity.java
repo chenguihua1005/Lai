@@ -67,6 +67,7 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.DragFloatActionButton;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MyPullToListView;
 import com.softtek.lai.widgets.TextViewExpandableAnimation;
@@ -113,7 +114,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     Button btn_send;
 
     @InjectView(R.id.fat)
-    FloatingActionButton fat;
+    DragFloatActionButton fat;
 
     ImageView iv_banner;
     TextView tv_topticName;
