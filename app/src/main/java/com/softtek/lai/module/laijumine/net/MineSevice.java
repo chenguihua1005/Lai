@@ -5,6 +5,8 @@ import com.softtek.lai.module.laijumine.model.FansInfoModel;
 import com.softtek.lai.module.laijumine.model.FocusInfoModel;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -27,13 +29,13 @@ public interface MineSevice {
     void GetLovePelist(
             @Header("token")String token,
             @Query("AccountId")long AccountId,
-            Callback<ResponseData<FansInfoModel>>callback
+            Callback<ResponseData<List<FansInfoModel>>>callback
     );
     //关注列表
     @GET("/v1/HerbUser/GetFocusPelist")
     void GetFocusPelist(
             @Header("token")String token,
             @Query("AccountId")long AccountId,
-            Callback<ResponseData<FocusInfoModel>>callback
+            Callback<ResponseData<List<FocusInfoModel>>>callback
     );
 }

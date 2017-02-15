@@ -10,6 +10,26 @@ public class FocusInfoModel {
     private String Photo;//头像
     private String ThPhoto;//头像缩略图
     private String Signature;//个性签名
+    private boolean IsFocus;
+
+    public boolean isFocus() {
+        return IsFocus;
+    }
+
+    public void setFocus(boolean focus) {
+        IsFocus = focus;
+    }
+
+    @Override
+    public String toString() {
+        return "FocusInfoModel{" +
+                "FocusAccountId='" + FocusAccountId + '\'' +
+                ", UserName='" + UserName + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", ThPhoto='" + ThPhoto + '\'' +
+                ", Signature='" + Signature + '\'' +
+                '}';
+    }
 
     public String getFocusAccountId() {
         return FocusAccountId;
