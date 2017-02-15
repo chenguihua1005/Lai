@@ -6,11 +6,19 @@ package com.softtek.lai.module.laijumine.model;
 
 public class FansInfoModel {
     private String AccountId;//粉丝id
-    private String IsFocus;//是否关注
+    private int IsFocus;//是否关注
     private String UserName;//粉丝用户名
     private String Photo;//粉丝头像
     private String ThPhoto;//头像缩略图
     private String Signature;//粉丝个人签名
+
+    public int getIsFocus() {
+        return IsFocus;
+    }
+
+    public void setIsFocus(int isFocus) {
+        IsFocus = isFocus;
+    }
 
     public String getAccountId() {
         return AccountId;
@@ -20,13 +28,6 @@ public class FansInfoModel {
         AccountId = accountId;
     }
 
-    public String getIsFocus() {
-        return IsFocus;
-    }
-
-    public void setIsFocus(String isFocus) {
-        IsFocus = isFocus;
-    }
 
     public String getUserName() {
         return UserName;
