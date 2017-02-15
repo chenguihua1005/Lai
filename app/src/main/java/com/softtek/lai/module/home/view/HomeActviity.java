@@ -257,7 +257,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                     ((FocusFragment) fragments.get(2)).doScroll(position, itemHeight, position2[1]);
                 }
             }
-        }, 1400);
+        }, 1000);
     }
 
     @Override

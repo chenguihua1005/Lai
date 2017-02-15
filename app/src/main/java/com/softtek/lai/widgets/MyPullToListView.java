@@ -11,14 +11,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.LoadingLayoutProxy;
 import com.handmark.pulltorefresh.library.OverscrollHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshAdapterViewBase;
 import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 import com.handmark.pulltorefresh.library.internal.LoadingLayout;
-import com.softtek.lai.module.home.view.YLListView;
 
 /**
  * Created by jerry.guan on 2/10/2017.
@@ -205,7 +203,7 @@ public class MyPullToListView extends PullToRefreshAdapterViewBase<YLListView> {
 
     @Override
     protected YLListView createRefreshableView(Context context, AttributeSet attrs) {
-        YLListView lv = (YLListView) createListView(context, attrs);
+        YLListView lv = createListView(context, attrs);
 
         // Set it to this so it can be used in ListActivity/ListFragment
         lv.setId(android.R.id.list);

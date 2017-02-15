@@ -22,10 +22,13 @@ import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.HealthyRecordActivity;
+import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
 import com.softtek.lai.module.laijumine.net.MineSevice;
+import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sportchart.model.PhotModel;
 import com.softtek.lai.module.sportchart.presenter.PhotoManager;
@@ -36,13 +39,18 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_mine_fragment)
 public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener,PhotoManager.PhotoManagerCallback {
@@ -126,6 +134,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         re_mynews.setOnClickListener(this);
         re_renzheng.setOnClickListener(this);
         im_banner.setOnClickListener(this);
+        cir_userphoto.setOnClickListener(this);
         imageFileCropSelector = new ImageFileCropSelector(getContext());
         imageFileCropSelector.setQuality(90);
         imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(getContext()), DisplayUtil.dip2px(getContext(), 190));
@@ -133,16 +142,20 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                progressDialog.show();
-                im_takephicon.setVisibility(View.GONE);
-                photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId()+"", "1", file, progressDialog);
+                Util.toastMsg("拍照》》》》》");
+                upload(new File(file));
+//                progressDialog.show();
+//                im_takephicon.setVisibility(View.GONE);
+//                photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId()+"", "1", file, progressDialog);
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-                progressDialog.show();
-                im_takephicon.setVisibility(View.GONE);
-                photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId()+"", "1", files.get(0), progressDialog);
+                Util.toastMsg("拍照》》》》》");
+                upload(new File(files.get(0)));
+//                progressDialog.show();
+//                im_takephicon.setVisibility(View.GONE);
+//                photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId()+"", "1", files.get(0), progressDialog);
             }
 
             @Override
@@ -160,6 +173,12 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         tv_username.setText(model.getNickname());
         tv_renzh.setText(model.getRoleName());
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GetMyInfo();
     }
 
     @Override
@@ -188,10 +207,15 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
             //跳转关注
             case R.id.re_guanzhu:
-                startActivity(new Intent(getContext(), FocusFragment.class));
+                Intent intent=new Intent(getContext(),FocusActivity.class);
+                intent.putExtra("focusnum",Integer.parseInt(tv_guanzhunum.getText().toString()));
+                startActivity(intent);
                 break;
             //跳转粉丝
             case R.id.re_fans:
+                Intent focusintent=new Intent(getContext(),FansActivity.class);
+                focusintent.putExtra("fansnum",Integer.parseInt(tv_fansnum.getText().toString()));
+                startActivity(focusintent);
                 break;
             //跳转健康记录
             case R.id.re_health:
@@ -215,6 +239,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             case R.id.re_renzheng:
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
+            case R.id.cir_userphoto:
             case R.id.im_banner:
                 //点击编辑个人封面
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext()
@@ -253,6 +278,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         //个人编辑页返回更新本页签名
         if (requestCode == GET_Sian && resultCode == getActivity().RESULT_OK) {
             if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
@@ -326,5 +353,37 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         }
         Picasso.with(getContext()).load(AddressManager.get("photoHost") + result.getPath()).centerCrop()
                 .placeholder(R.drawable.default_icon_rect).fit().into(im_banner);
+    }
+    private void upload(final File file){
+        ZillaApi.NormalRestAdapter.create(LoginService.class).modifyPicture(UserInfoModel.getInstance().getToken(),
+                UserInfoModel.getInstance().getUserId(), new TypedFile("image/*", file), new Callback<ResponseData<PhotoModel>>() {
+                    @Override
+                    public void success(ResponseData<PhotoModel> responseData, Response response) {
+                        dialogDissmiss();
+                        try {
+                            int status = responseData.getStatus();
+                            switch (status) {
+                                case 200:
+                                    PhotoModel photoModel = responseData.getData();
+                                    Picasso.with(getContext()).load(file).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(cir_userphoto);
+                                    UserModel userModel = UserInfoModel.getInstance().getUser();
+                                    userModel.setPhoto(photoModel.ThubImg);
+                                    UserInfoModel.getInstance().saveUserCache(userModel);
+                                    break;
+                                default:
+                                    Util.toastMsg(responseData.getMsg());
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        ZillaApi.dealNetError(error);
+                    }
+                });
     }
 }

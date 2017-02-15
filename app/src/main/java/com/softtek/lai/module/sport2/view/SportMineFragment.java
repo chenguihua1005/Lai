@@ -291,13 +291,12 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(">>>>>>>>>>>>>>>>>>>>>>"+tv_step.getText().toString());
         StringBuilder buffer = new StringBuilder();
         buffer.append(DateUtil.getInstance().getCurrentDate());
         buffer.append(",");
         buffer.append(tv_step.getText().toString());
         StepNetService stepNetService=ZillaApi.NormalRestAdapter.create(StepNetService.class);
-        stepNetService.synStepCount(UserInfoModel.getInstance().getToken(), Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), buffer+"", new RequestCallback<ResponseData>() {
+        stepNetService.synStepCount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), buffer+"", new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.d("请求成功"+responseData.getMsg());

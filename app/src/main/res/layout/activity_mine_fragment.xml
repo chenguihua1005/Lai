@@ -7,7 +7,6 @@
     android:fitsSystemWindows="true"
     android:background="#ffffff"
     tools:context="com.softtek.lai.module.laijumine.view.MineTwoFragment">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
