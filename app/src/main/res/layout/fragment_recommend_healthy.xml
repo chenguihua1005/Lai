@@ -81,7 +81,7 @@
             app:ptrAnimationStyle="flip"
             app:ptrShowIndicator="false"
             android:animateLayoutChanges="true"/>
-        <android.support.design.widget.FloatingActionButton
+        <com.softtek.lai.widgets.DragFloatActionButton
             android:id="@+id/fab_sender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

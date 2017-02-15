@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +21,7 @@ import android.text.style.ClickableSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
@@ -66,6 +66,7 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.DragFloatActionButton;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MyPullToListView;
 import com.softtek.lai.widgets.TextViewExpandableAnimation;
@@ -112,7 +113,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     Button btn_send;
 
     @InjectView(R.id.fat)
-    FloatingActionButton fat;
+    DragFloatActionButton fat;
 
     ImageView iv_banner;
     TextView tv_topticName;
@@ -189,6 +190,13 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
             }
         });
         tag = new Object();
+        ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hiden();
+                return false;
+            }
+        });
         ptrlv.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
@@ -399,6 +407,9 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
         tv_zan.setEnabled(data.getIsPraise() != 1);
+        if(data.getIsPraise() ==1){
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this,R.drawable.zan_has),null,null,null);
+        }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

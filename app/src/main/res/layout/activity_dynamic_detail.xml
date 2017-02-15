@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_dynamic_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
 
-    <com.softtek.lai.widgets.MyPullToListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/ptrlv"
+        android:layout_below="@id/toolbar"
         android:divider="#00ececec"
         android:dividerHeight="0dp"
         android:listSelector="@android:color/transparent"
@@ -18,44 +21,6 @@
         app:ptrAnimationStyle="flip"
         app:ptrShowIndicator="false"
         android:animateLayoutChanges="true"/>
-
-    <RelativeLayout
-        android:id="@+id/rl_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <FrameLayout
-            android:id="@+id/fl_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#74bb2a">
-
-        </FrameLayout>
-        <LinearLayout
-            android:id="@+id/ll_title"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <ProgressBar
-                android:id="@+id/pb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@android:style/Widget.ProgressBar.Small"
-                android:visibility="gone"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="话题详情"
-                android:textSize="16sp"
-                android:layout_marginLeft="5dp"
-                />
-
-        </LinearLayout>
-
-    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_send"
         android:layout_width="match_parent"
@@ -88,13 +53,4 @@
             android:layout_toLeftOf="@id/btn_send"
             android:layout_marginRight="10dp" />
     </RelativeLayout>
-
-    <com.softtek.lai.widgets.DragFloatActionButton
-        android:id="@+id/fat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="100dp"
-        android:layout_marginRight="40dp"/>
 </RelativeLayout>
