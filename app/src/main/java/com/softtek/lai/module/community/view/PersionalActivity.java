@@ -141,7 +141,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
+        personalId=Long.parseLong(intent.getStringExtra("personalId"));
         if(personalId == UserInfoModel.getInstance().getUserId()){
             cb_attention.setVisibility(View.GONE);
             tv_title.setText("我");
@@ -153,14 +153,14 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
             }
             isMine=true;
         }else {
-            String userName=getIntent().getStringExtra("personalName");
+            String userName=intent.getStringExtra("personalName");
             tv_title.setText(userName);
             tv_name.setText(userName);
             cb_attention.setVisibility(View.VISIBLE);
             isMine=false;
         }
         tv_title.append("的动态");
-        isFocus=getIntent().getIntExtra("isFocus",0);
+        isFocus=intent.getIntExtra("isFocus",0);
         if(isFocus==0){
             cb_attention.setChecked(false);
         }else {
