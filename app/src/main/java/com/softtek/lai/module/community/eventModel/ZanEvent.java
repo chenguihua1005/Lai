@@ -7,7 +7,7 @@ public class ZanEvent {
 
     private String dynamicId;
     private boolean isZan;
-    private int where;//0表示从关注列表点的赞，1表示从推荐列表点的赞
+    private int where;//0表示从关注列表点的赞，1表示从推荐列表点的赞,2表示话题详情,3表示动态详情
 
     public ZanEvent( String dynamicId, boolean isZan,int where) {
         this.dynamicId = dynamicId;

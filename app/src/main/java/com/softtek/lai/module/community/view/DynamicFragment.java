@@ -31,7 +31,7 @@ import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
-import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -248,7 +248,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
 
     @Subscribe
-    public void refreshList(RefreshRecommedEvent event) {
+    public void refreshList(FocusEvent event) {
         for (DynamicModel model : communityModels) {
             if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
                 model.setIsFocus(event.getFocusStatus());
@@ -275,7 +275,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Subscribe
     public void refreshListZan(ZanEvent event) {
-        if (event.getWhere() == 0) {
+        if (event.getWhere() != 1) {
             for (DynamicModel model : communityModels) {
                 if (model.getDynamicId().equals(event.getDynamicId())) {
                     model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
@@ -391,6 +391,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
+                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,1));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override

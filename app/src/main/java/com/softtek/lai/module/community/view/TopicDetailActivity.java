@@ -47,13 +47,16 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.CommentAdapter;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
-import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.DynamicModel;
@@ -63,6 +66,7 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.SendCommend;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
@@ -78,8 +82,10 @@ import com.softtek.lai.widgets.YLListView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -134,6 +140,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         fl_bg.setAlpha(0);
         tintManager.setStatusBarTintColor(android.R.color.transparent);
         if (DisplayUtil.getSDKInt() >= Build.VERSION_CODES.KITKAT) {
@@ -317,7 +324,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                 cb_focus.setChecked(false);
                             } else {
                                 if (cb_focus.isChecked()) {
-                                    EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),1));
+                                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),1));
                                     ZillaApi.NormalRestAdapter.create(CommunityService.class).focusAccount(UserInfoModel.getInstance().getToken(),
                                             UserInfoModel.getInstance().getUserId(),
                                             model.getAccountId(),
@@ -330,7 +337,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                                 }
                                             });
                                 } else {
-                                    EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),0));
+                                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0));
                                     EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
                                     ZillaApi.NormalRestAdapter.create(CommunityService.class).cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                             UserInfoModel.getInstance().getUserId(),
@@ -480,6 +487,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
+                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,2));
                 ZillaApi.NormalRestAdapter.create(CommunityService.class).clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -707,6 +715,12 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     }
 
     @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
         if (rl_send.getVisibility() == View.VISIBLE) {
             if (oldBottom - bottom < 0) {
@@ -799,4 +813,41 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 });
     }
 
+    @Subscribe
+    public void refreshListZan(ZanEvent event) {
+        if (event.getWhere() != 2) {
+            for (DynamicModel model : datas) {
+                if (model.getDynamicId().equals(event.getDynamicId())) {
+                    model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
+                    model.setPraiseNum(model.getPraiseNum() + 1);
+                    UserInfoModel infoModel = UserInfoModel.getInstance();
+                    model.getUsernameSet().add(infoModel.getUser().getNickname());
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
+    }
+    @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event) {
+        Iterator<DynamicModel> iterator=datas.iterator();
+        while (iterator.hasNext()){
+            DynamicModel model=iterator.next();
+            if (model.getDynamicId().equals(event.getDynamicId())) {
+                iterator.remove();
+                break;
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void refreshList(FocusEvent event) {
+        for (DynamicModel model : datas) {
+            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                model.setIsFocus(event.getFocusStatus());
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
 }

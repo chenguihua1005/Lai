@@ -26,13 +26,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
-import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
 import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.PersionalActivity;
@@ -185,7 +184,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                         holder.cb_focus.setChecked(false);
                     } else {
                         if (holder.cb_focus.isChecked()) {
-                            EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),1));
+                            EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),1));
                             service.focusAccount(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
                                    model.getAccountId(),
@@ -198,7 +197,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                         }
                                     });
                         } else {
-                            EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),0));
+                            EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0));
                             EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
                             service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),

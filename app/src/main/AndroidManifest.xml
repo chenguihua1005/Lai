@@ -202,7 +202,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ModifyPersonActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".module.bodygame3.head.view.PersonDetailActivity"
             android:screenOrientation="portrait" />
@@ -610,7 +611,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.PersionalActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".module.sport2.view.LaiSportActivity"
             android:screenOrientation="portrait" />
@@ -771,7 +773,8 @@
         <activity
             android:name=".module.bodygame3.more.view.SupportTeamActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.community.view.TopicListActivity" />
+        <activity android:name=".module.community.view.TopicListActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.community.view.TopicDetailActivity"
             android:launchMode="singleTop"
@@ -780,6 +783,7 @@
         <activity
             android:name=".module.community.view.DynamicDetailActivity"
             android:label="@string/title_activity_dynamic_detail"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
     </application>
 
