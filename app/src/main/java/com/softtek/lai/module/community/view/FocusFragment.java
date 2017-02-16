@@ -158,17 +158,17 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Subscribe
     public void refreshListZan(ZanEvent event){
-        if(event.getWhere()==1){
+        if(event.getWhere()!=0){
             for (DynamicModel model:communityModels){
                 if(model.getDynamicId().equals(event.getDynamicId())){
                     model.setIsPraise(1);
                     model.setPraiseNum(model.getPraiseNum() + 1);
                     UserInfoModel infoModel = UserInfoModel.getInstance();
                     model.getUsernameSet().add(infoModel.getUser().getNickname());
+                    adapter.notifyDataSetChanged();
                     break;
                 }
             }
-            adapter.notifyDataSetChanged();
         }
     }
 
@@ -315,6 +315,7 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
+                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,0));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override

@@ -2,13 +2,14 @@ package com.softtek.lai.module.community.eventModel;
 
 /**
  * Created by jerry.guan on 10/9/2016.
+ * 关注通知
  */
-public class RefreshRecommedEvent {
+public class FocusEvent {
 
     private String accountId;
     private int focusStatus;
 
-    public RefreshRecommedEvent(String accountId,int focusStatus) {
+    public FocusEvent(String accountId, int focusStatus) {
         this.accountId = accountId;
         this.focusStatus=focusStatus;
     }

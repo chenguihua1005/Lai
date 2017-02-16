@@ -27,10 +27,11 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
-import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -117,7 +118,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
             @Override
             public void success(ResponseData<TopicInfo> data, Response response) {
                 if (data.getStatus() == 200) {
-                    TopicInfo info = data.getData();
+                    final TopicInfo info = data.getData();
                     tv_dynamic_num.setText(String.valueOf(info.getDynamicNum()));
                     tv_dynamic_num.append("条动态");
                     if (!TextUtils.isEmpty(info.getTopicName())) {
@@ -139,6 +140,9 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     rl_hot.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Intent intent=new Intent(getContext(),TopicDetailActivity.class);
+                            intent.putExtra("topicId",info.getTopicType());
+                            startActivity(intent);
 
                         }
                     });
@@ -175,7 +179,11 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-
+        if(UserInfoModel.getInstance().isVr()){
+            fab_sender.setVisibility(GONE);
+        }else {
+            fab_sender.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -229,7 +237,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @OnClick(R.id.fab_sender)
     public void sendDynamicClick(View view) {
-        Intent intent = new Intent(getContext(), EditPersonalDynamicActivity.class);//跳转到发布动态界面
+        Intent intent = new Intent(getContext(), PublishDyActivity.class);//跳转到发布动态界面
         startActivityForResult(intent, OPEN_SENDER_REQUEST);
     }
 
@@ -240,7 +248,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
 
     @Subscribe
-    public void refreshList(RefreshRecommedEvent event) {
+    public void refreshList(FocusEvent event) {
         for (DynamicModel model : communityModels) {
             if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
                 model.setIsFocus(event.getFocusStatus());
@@ -267,7 +275,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Subscribe
     public void refreshListZan(ZanEvent event) {
-        if (event.getWhere() == 0) {
+        if (event.getWhere() != 1) {
             for (DynamicModel model : communityModels) {
                 if (model.getDynamicId().equals(event.getDynamicId())) {
                     model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
@@ -383,6 +391,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
+                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,1));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override

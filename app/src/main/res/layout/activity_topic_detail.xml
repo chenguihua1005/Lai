@@ -93,8 +93,14 @@
         android:id="@+id/fat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:backgroundTint="#F3AD34"
+        app:elevation="4dp"
+        android:scaleType="center"
+        app:pressedTranslationZ="2dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="100dp"
-        android:layout_marginRight="40dp"/>
+        android:layout_marginRight="40dp"
+        android:src="@drawable/ic_camera"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -24,11 +24,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
 import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.PersionalActivity;
@@ -174,7 +173,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
                 }
                 lossWeightStoryModels.removeAll(models);
                 notifyDataSetChanged();
-                EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),0));
+                EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0));
                 service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
                         model.getAccountId(),
