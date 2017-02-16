@@ -229,7 +229,6 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 }
             }
         });
-
         refresh.setRefreshing(true);
         manager.getHealthyMine(personalId,1);
     }
