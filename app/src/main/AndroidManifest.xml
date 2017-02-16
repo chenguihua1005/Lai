@@ -788,9 +788,6 @@
             android:label="@string/title_activity_dynamic_detail"
 
             android:theme="@style/AppTheme" />
-        <activity android:name=".module.laijumine.view.TestActivity">
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
 
     </application>
 
