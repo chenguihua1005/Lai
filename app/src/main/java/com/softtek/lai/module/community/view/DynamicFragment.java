@@ -27,6 +27,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
@@ -236,7 +237,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @OnClick(R.id.fab_sender)
     public void sendDynamicClick(View view) {
-        Intent intent = new Intent(getContext(), EditPersonalDynamicActivity.class);//跳转到发布动态界面
+        Intent intent = new Intent(getContext(), PublishDyActivity.class);//跳转到发布动态界面
         startActivityForResult(intent, OPEN_SENDER_REQUEST);
     }
 
