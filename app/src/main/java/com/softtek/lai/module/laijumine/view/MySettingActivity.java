@@ -71,7 +71,10 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, ModifyPersonActivity.class));
                 break;
             case R.id.re_setpassword:
-                startActivity(new Intent(this, ModifyPasswordActivity.class));
+                Intent intent = new Intent(this, ModifyPasswordActivity.class);
+                intent.putExtra("type", "2");
+                intent.putExtra("token", UserInfoModel.getInstance().getToken());
+                startActivity(intent);
                 break;
             case R.id.re_aboutour:
                 startActivity(new Intent(this, AboutMeActivity.class));
