@@ -117,7 +117,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
             @Override
             public void success(ResponseData<TopicInfo> data, Response response) {
                 if (data.getStatus() == 200) {
-                    TopicInfo info = data.getData();
+                    final TopicInfo info = data.getData();
                     tv_dynamic_num.setText(String.valueOf(info.getDynamicNum()));
                     tv_dynamic_num.append("条动态");
                     if (!TextUtils.isEmpty(info.getTopicName())) {
@@ -139,6 +139,9 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     rl_hot.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Intent intent=new Intent(getContext(),TopicDetailActivity.class);
+                            intent.putExtra("topicId",info.getTopicType());
+                            startActivity(intent);
 
                         }
                     });
@@ -175,7 +178,11 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-
+        if(UserInfoModel.getInstance().isVr()){
+            fab_sender.setVisibility(GONE);
+        }else {
+            fab_sender.setVisibility(View.VISIBLE);
+        }
 
     }
 

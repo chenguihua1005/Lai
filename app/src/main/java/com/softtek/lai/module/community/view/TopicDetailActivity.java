@@ -47,9 +47,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.CommentAdapter;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -59,6 +62,7 @@ import com.softtek.lai.module.community.model.TopicInfo;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.SendCommend;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
@@ -293,33 +297,58 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 TextView tv_date = holder.getView(R.id.tv_date);
                 tv_date.setText(time);
                 //关注
-                CheckBox cb_focus = holder.getView(R.id.cb_focus);
-                cb_focus.setVisibility(View.VISIBLE);
-                //看一下是否被关注了
-                cb_focus.setChecked(true);
-                cb_focus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        List<DynamicModel> models = new ArrayList<>();
-                        for (int i = 0, j = datas.size(); i < j; i++) {
-                            DynamicModel item = datas.get(i);
-                            if (item.getAccountId() == model.getAccountId()) {
-                                models.add(item);
+                final CheckBox cb_focus = holder.getView(R.id.cb_focus);
+                ////////////////////////////////////////////
+                //如果是自己的则隐藏关注按钮
+                if(model.getAccountId() == UserInfoModel.getInstance().getUserId()){
+                    cb_focus.setVisibility(View.GONE);
+                }else {
+                    cb_focus.setVisibility(View.VISIBLE);
+                    //看一下是否被关注了
+                    if (model.getIsFocus() == 0) {
+                       cb_focus.setChecked(false);//未关注
+                    } else {
+                       cb_focus.setChecked(true);//已关注
+                    }
+                    cb_focus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (checkVr()) {
+                                cb_focus.setChecked(false);
+                            } else {
+                                if (cb_focus.isChecked()) {
+                                    EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),1));
+                                    ZillaApi.NormalRestAdapter.create(CommunityService.class).focusAccount(UserInfoModel.getInstance().getToken(),
+                                            UserInfoModel.getInstance().getUserId(),
+                                            model.getAccountId(),
+                                            new RequestCallback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+                                                    if(responseData.getStatus()==200){
+                                                        EventBus.getDefault().post(new FocusReload());
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()),0));
+                                    EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
+                                    ZillaApi.NormalRestAdapter.create(CommunityService.class).cancleFocusAccount(UserInfoModel.getInstance().getToken(),
+                                            UserInfoModel.getInstance().getUserId(),
+                                            model.getAccountId(),
+                                            new RequestCallback<ResponseData>() {
+                                                @Override
+                                                public void success(ResponseData responseData, Response response) {
+
+                                                }
+                                            });
+
+
+                                }
                             }
                         }
-                        datas.removeAll(models);
-                        notifyDataSetChanged();
-                        EventBus.getDefault().post(new RefreshRecommedEvent(String.valueOf(model.getAccountId()), 0));
-                        ZillaApi.NormalRestAdapter.create(CommunityService.class).cancleFocusAccount(UserInfoModel.getInstance().getToken(),
-                                UserInfoModel.getInstance().getUserId(),
-                                model.getAccountId(),
-                                new RequestCallback<ResponseData>() {
-                                    @Override
-                                    public void success(ResponseData responseData, Response response) {
-                                    }
-                                });
-                    }
-                });
+                    });
+                }
+                /////////////////////////////////////////////
                 //点赞
                 //如果没有人点赞就隐藏点咱人姓名显示
                 StringBuilder nameSet = new StringBuilder();
@@ -368,12 +397,14 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 iv_operator.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        RelativeLayout rl_item = holder.getView(R.id.rl_item);
-                        PopupWindow popupWindow = doOperation(model, rl_item.getHeight(), position);
-                        int width = popupWindow.getContentView().getMeasuredWidth();
-                        int[] location = new int[2];
-                        v.getLocationOnScreen(location);
-                        popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0] - width, location[1]);
+                        if (!checkVr()) {
+                            RelativeLayout rl_item = holder.getView(R.id.rl_item);
+                            PopupWindow popupWindow = doOperation(model, rl_item.getHeight(), position);
+                            int width = popupWindow.getContentView().getMeasuredWidth();
+                            int[] location = new int[2];
+                            v.getLocationOnScreen(location);
+                            popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0] - width, location[1]);
+                        }
                     }
                 });
                 CommentAdapter adapter = new CommentAdapter(TopicDetailActivity.this, model.getCommendsList());
@@ -384,14 +415,41 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         };
         ptrlv.setAdapter(adapter);
         onRefresh();
-        fat.setOnClickListener(new View.OnClickListener() {
-            int i=20;
-            @Override
-            public void onClick(View v) {
-                ((ListView) ptrlv.getRefreshableView()).setSelectionFromTop(2,i);
-                i+=20;
-            }
-        });
+        if(UserInfoModel.getInstance().isVr()){
+            fat.setVisibility(GONE);
+        }else {
+            fat.setVisibility(View.VISIBLE);
+            fat.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(TopicDetailActivity.this, PublishDyActivity.class);//跳转到发布动态界面
+                    startActivityForResult(intent, OPEN_SENDER_REQUEST);
+                }
+            });
+        }
+    }
+    private static final int OPEN_SENDER_REQUEST = 2;
+
+    //检查是否为游客
+    private boolean checkVr() {
+        if (UserInfoModel.getInstance().isVr()) {
+            new AlertDialog.Builder(this).setMessage("您当前是游客身份，请登录后再试").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent login = new Intent(TopicDetailActivity.this, LoginActivity.class);
+                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(login);
+                }
+            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            }).create().show();
+            return true;
+        }
+        return false;
     }
 
     public PopupWindow doOperation(final DynamicModel data, final int itemHeight, final int position) {

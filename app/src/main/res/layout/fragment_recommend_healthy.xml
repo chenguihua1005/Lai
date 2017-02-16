@@ -93,5 +93,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="80dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/ic_camera"/>
+            android:src="@drawable/ic_camera"
+            android:visibility="gone"/>
 </RelativeLayout>
