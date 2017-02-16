@@ -282,7 +282,6 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
             //跳转运动等级
             case R.id.re_sportlevel:
-                startActivity(new Intent(getContext(),TestActivity.class));
                 break;
             //跳转任务与积分
             case R.id.re_task:
