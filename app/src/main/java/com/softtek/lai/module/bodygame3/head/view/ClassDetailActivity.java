@@ -89,7 +89,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
         headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
         classlistModel=getIntent().getParcelableExtra("ClasslistModel");//接受对象
         if (classlistModel!=null) {
-            headService.doGetClassDetial(classlistModel.getClassId(),UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData<ClassDetailModel>>() {
+            headService.doGetClassDetial(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData<ClassDetailModel>>() {
                 @Override
                 public void success(ResponseData<ClassDetailModel> classDetailModelResponseData, Response response) {
                     int status=classDetailModelResponseData.getStatus();
@@ -128,7 +128,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doJoinClass() {
-        headService.doPostClass(classlistModel.getClassId(),UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData>() {
+        headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classlistModel.getClassId(), new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status=responseData.getStatus();

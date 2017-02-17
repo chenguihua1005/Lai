@@ -138,7 +138,7 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 
         try {
             ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-            service.GetContactsByClassId(token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
+            service.GetContactsByClassId(classId,token, classId, 1, 100, new Callback<ResponseData<ClassListInfoModel>>() {
                 @Override
                 public void success(ResponseData<ClassListInfoModel> listResponseData, Response response) {
                     classListInfoModel = listResponseData.getData();

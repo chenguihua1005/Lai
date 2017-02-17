@@ -293,6 +293,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                 @Override
                                 public void success(ResponseData<List<ClasslistModel>> data, Response response) {
 
+
                                     if (data.getStatus() == 200) {
                                         if (data.getData() != null && !data.getData().isEmpty()) {
                                             Intent intent = new Intent(getContext(), SearchClassActivity.class);

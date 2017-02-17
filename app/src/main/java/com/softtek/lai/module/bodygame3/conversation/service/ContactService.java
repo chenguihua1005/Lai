@@ -66,6 +66,7 @@ public interface ContactService {
 
     @GET("/v1/HerbUser/GetContactsByClassId")
     void GetContactsByClassId(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("classId") String classId,
             @Query("pageIndex") int pageIndex,
