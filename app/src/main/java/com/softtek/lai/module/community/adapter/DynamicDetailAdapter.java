@@ -1,10 +1,12 @@
 package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -29,13 +31,16 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.community.view.TopicDetailActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
@@ -53,23 +58,25 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 
 /**
- * 健康圈关注adapter
+ *
  * Created by John on 2016/4/14.
+ *
  */
-public class HealthyCommunityFocusAdapter extends BaseAdapter {
-    private HealthyCommunityAdapter.OperationCall call;
+public class DynamicDetailAdapter extends BaseAdapter {
+
+    private OperationCall call;
     private Context context;
     private List<DynamicModel> lossWeightStoryModels;
     private CommunityService service;
-    private Object tag;
+    private String path = AddressManager.get("photoHost");
+    private int px;
 
-
-    public HealthyCommunityFocusAdapter(HealthyCommunityAdapter.OperationCall call,Object tag, Context context, List<DynamicModel> lossWeightStoryModels) {
+    public DynamicDetailAdapter(OperationCall call, Context context, List<DynamicModel> lossWeightStoryModels) {
         this.call=call;
-        this.tag=tag;
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+        px= DisplayUtil.dip2px(context,45);
     }
 
     @Override
@@ -98,7 +105,6 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         holder.tv_name.setText(model.getUserName());
         final String content=model.getContent();
         SpannableStringBuilder builder=new SpannableStringBuilder(content);
@@ -159,25 +165,57 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
             time.append("天前");
         }
         holder.tv_date.setText(time);
-        //关注
-        holder.cb_focus.setVisibility(View.VISIBLE);
-        //看一下是否被关注了
-        holder.cb_focus.setChecked(true);
-        holder.cb_focus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
-                EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0, Where.FOCUS_LIST));
-                service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
-                        UserInfoModel.getInstance().getUserId(),
-                        model.getAccountId(),
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
-                            }
-                        });
+        boolean isMine=model.getAccountId() == UserInfoModel.getInstance().getUserId();
+        //如果是自己的则隐藏关注按钮
+        if(isMine){
+            holder.cb_focus.setVisibility(View.GONE);
+        }else {
+            holder.cb_focus.setVisibility(View.VISIBLE);
+            //看一下是否被关注了
+            if (model.getIsFocus() == 0) {
+                holder.cb_focus.setChecked(false);//未关注
+            } else {
+                holder.cb_focus.setChecked(true);//已关注
             }
-        });
+            holder.cb_focus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkVr()) {
+                        holder.cb_focus.setChecked(false);
+                    } else {
+                        if (holder.cb_focus.isChecked()) {
+                            EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),1, Where.DYNAMIC_DETAIL));
+                            service.focusAccount(UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                   model.getAccountId(),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            if(responseData.getStatus()==200){
+                                                EventBus.getDefault().post(new FocusReload());
+                                            }
+                                        }
+                                    });
+                        } else {
+                            EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0,Where.DYNAMIC_DETAIL));
+                            EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
+                            service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
+                                    UserInfoModel.getInstance().getUserId(),
+                                    model.getAccountId(),
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+
+                                        }
+                                    });
+
+
+                        }
+                    }
+                }
+            });
+        }
+
         //点赞
         //如果没有人点赞就隐藏点咱人姓名显示
         if (0!=model.getPraiseNum()) {
@@ -193,9 +231,9 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         } else {
             holder.tv_zan_name.setVisibility(View.GONE);
         }
+
         //加载图片
-        String path = AddressManager.get("photoHost");
-        Picasso.with(context).load(path + model.getUserPhoto()).fit()
+        Picasso.with(context).load(path + model.getUserPhoto()).resize(px,px).centerCrop()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
         holder.civ_header_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,8 +245,7 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
                 context.startActivity(personal);
             }
         });
-
-        holder.photos.setAdapter(new PhotosAdapter(model.getThumbnailPhotoList(), context,tag));
+        holder.photos.setAdapter(new PhotosAdapter(model.getThumbnailPhotoList(), context,new Object()));
         holder.photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -222,12 +259,14 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         holder.iv_operator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(call!=null){
-                    PopupWindow popupWindow=call.doOperation(model,holder.rl_item.getHeight(),position);
-                    int width=popupWindow.getContentView().getMeasuredWidth();
-                    int[] location = new int[2];
-                    v.getLocationOnScreen(location);
-                    popupWindow.showAtLocation(v, Gravity.NO_GRAVITY,  location[0]-width, location[1]);
+                if (!checkVr()){
+                    if(call!=null){
+                        PopupWindow popupWindow=call.doOperation(model,holder.rl_item.getHeight(),position);
+                        int width=popupWindow.getContentView().getMeasuredWidth();
+                        int[] location = new int[2];
+                        v.getLocationOnScreen(location);
+                        popupWindow.showAtLocation(v, Gravity.NO_GRAVITY,  location[0]-width, location[1]);
+                    }
                 }
             }
         });
@@ -267,4 +306,29 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         }
     }
 
+
+    //检查是否为游客
+    private boolean checkVr() {
+        if (UserInfoModel.getInstance().isVr()) {
+            new AlertDialog.Builder(context).setMessage("您当前是游客身份，请登录后再试").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent login = new Intent(context, LoginActivity.class);
+                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(login);
+                }
+            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            }).create().show();
+            return true;
+        }
+        return false;
+    }
+
+   public interface OperationCall{
+        PopupWindow doOperation(DynamicModel data, int itemHeight, int position);
+    }
 }

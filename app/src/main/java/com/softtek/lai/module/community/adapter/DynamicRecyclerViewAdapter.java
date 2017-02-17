@@ -31,6 +31,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.DynamicDetailActivity;
@@ -214,7 +215,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                                                     @Override
                                                     public void success(ResponseData responseData, Response response) {
                                                         if (responseData.getStatus() == 200) {
-                                                            EventBus.getDefault().post(new DeleteRecommedEvent(model.getID()));
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(model.getID(), Where.PERSONAL_DYNAMIC_LIST));
                                                             infos.remove(model);
                                                             notifyDataSetChanged();
                                                             if(context instanceof PersionalActivity){

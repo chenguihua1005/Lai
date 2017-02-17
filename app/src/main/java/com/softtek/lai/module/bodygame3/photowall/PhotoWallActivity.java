@@ -59,6 +59,12 @@ import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
+import com.softtek.lai.module.community.eventModel.Where;
+import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.picture.model.UploadImage;
@@ -71,6 +77,8 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -342,6 +350,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                         @Override
                         public void onClick(View view) {
                             if (cb_focus.isChecked()) {
+                                EventBus.getDefault().post(new FocusEvent(String.valueOf(data.getHealtId()),1, Where.PHOTOWALL_LIST));
                                 service.focusAccount(UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
                                         Long.parseLong(data.getAccountid()),
@@ -351,6 +360,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                                                 int status = responseData.getStatus();
                                                 switch (status) {
                                                     case 200:
+                                                        EventBus.getDefault().post(new FocusReload());
                                                         //Util.toastMsg(responseData.getMsg());
                                                         refreshList(data.getAccountid(), 1);
                                                         break;
@@ -362,6 +372,8 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                                             }
                                         });
                             } else {
+                                EventBus.getDefault().post(new FocusEvent(String.valueOf(data.getHealtId()),1, Where.PHOTOWALL_LIST));
+                                EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(data.getAccountid())));
                                 service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
                                         Long.parseLong(data.getAccountid()),
@@ -496,6 +508,9 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
         TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
         tv_zan.setEnabled(data.getIsPraise()!=1);
+        if(data.getIsPraise() ==1){
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this,R.drawable.zan_has),null,null,null);
+        }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -509,6 +524,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                 data.setPraiseNameList(praiseName);
                 //向服务器提交
                 String token = infoModel.getToken();
+                EventBus.getDefault().post(new ZanEvent(data.getHealtId(),true,Where.PHOTOWALL_LIST));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -590,6 +606,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
                                                 public void success(ResponseData responseData, Response response) {
                                                     try {
                                                         if (responseData.getStatus() == 200) {
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(data.getHealtId(), Where.PHOTOWALL_LIST));
                                                             photoWallItemModels.remove(data);
                                                             adapter.notifyDataSetChanged();
                                                         }

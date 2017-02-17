@@ -20,7 +20,9 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.DynamicRecyclerViewAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.model.PersonalRecommendModel;
 import com.softtek.lai.module.community.net.CommunityService;
@@ -37,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -223,7 +226,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 }else {
                     UserInfoModel infoModel = UserInfoModel.getInstance();
                     if (cb_attention.isChecked()) {
-                        EventBus.getDefault().post(new FocusEvent(personalId + "", 1));
+                        EventBus.getDefault().post(new FocusEvent(personalId + "", 1,Where.PERSONAL_DYNAMIC_LIST));
                         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                                 .focusAccount(infoModel.getToken(),
                                         infoModel.getUserId(),
@@ -242,7 +245,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                                         });
 
                     } else {
-                        EventBus.getDefault().post(new FocusEvent(personalId + "", 0));
+                        EventBus.getDefault().post(new FocusEvent(personalId + "", 0,Where.PERSONAL_DYNAMIC_LIST));
                         EventBus.getDefault().post(new DeleteFocusEvent(personalId+""));
                         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                                 .cancleFocusAccount(infoModel.getToken(),
@@ -341,14 +344,32 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        if(personalId==Long.parseLong(event.getAccountId())){
-            isFocus=event.getFocusStatus();
-            if(isFocus==0){
-                cb_attention.setChecked(false);
-            }else {
-                cb_attention.setChecked(true);
+        if(event.getWhere()!=Where.PERSONAL_DYNAMIC_LIST){
+            if(personalId==Long.parseLong(event.getAccountId())){
+                isFocus=event.getFocusStatus();
+                if(isFocus==0){
+                    cb_attention.setChecked(false);
+                }else {
+                    cb_attention.setChecked(true);
+                }
             }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event) {
+        if(event.getWhere()!= Where.PERSONAL_DYNAMIC_LIST){
+            Iterator<PersonalListModel> iterator=dynamics.iterator();
+            while (iterator.hasNext()){
+                PersonalListModel model=iterator.next();
+                if (model.getID().equals(event.getDynamicId())) {
+                    iterator.remove();
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
+
+        }
     }
 }

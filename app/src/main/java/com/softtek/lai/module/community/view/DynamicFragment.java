@@ -32,6 +32,7 @@ import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -54,6 +55,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -249,33 +251,35 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        for (DynamicModel model : communityModels) {
-            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
-                model.setIsFocus(event.getFocusStatus());
+        if(event.getWhere()!=Where.DYNAMIC_LIST) {
+            for (DynamicModel model : communityModels) {
+                if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                    model.setIsFocus(event.getFocusStatus());
+                }
             }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
     @Subscribe
     public void refreshListDelete(DeleteRecommedEvent event) {
-        int position = -1;
-        for (int i = 0, j = communityModels.size(); i < j; i++) {
-            DynamicModel model = communityModels.get(i);
-            if (model.getDynamicId().equals(event.getDynamicId())) {
-                position = i;
-                break;
+        if(event.getWhere()!= Where.DYNAMIC_LIST){
+            Iterator<DynamicModel> iterator=communityModels.iterator();
+            while (iterator.hasNext()){
+                DynamicModel model=iterator.next();
+                if (model.getDynamicId().equals(event.getDynamicId())) {
+                    iterator.remove();
+                    break;
+                }
             }
+            adapter.notifyDataSetChanged();
+
         }
-        if (position >= 0) {
-            communityModels.remove(position);
-        }
-        adapter.notifyDataSetChanged();
     }
 
     @Subscribe
     public void refreshListZan(ZanEvent event) {
-        if (event.getWhere() != 1) {
+        if (event.getWhere() != Where.DYNAMIC_LIST) {
             for (DynamicModel model : communityModels) {
                 if (model.getDynamicId().equals(event.getDynamicId())) {
                     model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
@@ -391,7 +395,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
-                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,1));
+                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,Where.DYNAMIC_LIST));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -453,6 +457,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                                                 public void success(ResponseData responseData, Response response) {
                                                     try {
                                                         if (responseData.getStatus() == 200) {
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(data.getDynamicId(), Where.DYNAMIC_LIST));
                                                             communityModels.remove(data);
                                                             adapter.notifyDataSetChanged();
                                                         }
