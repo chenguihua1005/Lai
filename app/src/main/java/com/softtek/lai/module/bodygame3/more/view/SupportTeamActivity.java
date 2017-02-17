@@ -84,7 +84,7 @@ public class SupportTeamActivity extends BaseActivity {
 
         StudentService service = ZillaApi.NormalRestAdapter.create(StudentService.class);
         String token = UserInfoModel.getInstance().getToken();
-        service.getServiceTeam(token, classId, new Callback<ResponseData<ServiceTeam>>() {
+        service.getServiceTeam(classId,token, classId, new Callback<ResponseData<ServiceTeam>>() {
             @Override
             public void success(ResponseData<ServiceTeam> serviceTeamResponseData, Response response) {
                 //暂时没判断异常的情况

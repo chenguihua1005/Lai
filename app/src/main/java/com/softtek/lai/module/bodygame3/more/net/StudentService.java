@@ -33,7 +33,7 @@ public interface StudentService {
 
     //服务团队
     @GET("/v1/MsgCenter/GetServiceGroup")
-    void getServiceTeam(
+    void getServiceTeam(@Header("classid")String cId,
             @Header("token") String token,
             @Query("classId") String classId,
             Callback<ResponseData<ServiceTeam>> callback

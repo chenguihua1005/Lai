@@ -52,7 +52,8 @@ public interface MoreService {
 
     //获取邀请人列表
     @GET("/V1/MoreFunction/GetInvitedContactList")
-    void getInvitatedContactList(@Header("token")String token,
+    void getInvitatedContactList(@Header("classid")String cId,
+                                 @Header("token")String token,
                                  @Query("AccountId")long accountId,
                                  @Query("ClassId")String classId,
                                  @Query("PageSize")int pageSize,
@@ -68,7 +69,8 @@ public interface MoreService {
 
     //邀请设置
     @GET("/V1/MoreFunction/GetClassInfoForInvite")
-    void getClassInfoForInvite(@Header("token")String token,
+    void getClassInfoForInvite(@Header("classid")String cId,
+                               @Header("token")String token,
                                @Query("ClassId")String classId,
                                @Query("SenderId")long senderId,
                                @Query("InviterId")long inviterId,
@@ -87,18 +89,21 @@ public interface MoreService {
 
     //获取班级组别信息
     @GET("/V1/MoreFunction/GetClassGroup")
-    void getClassGroupsInfo(@Header("token")String token,
+    void getClassGroupsInfo(@Header("classid")String cId,
+                            @Header("token")String token,
                             @Query("ClassId")String classId,
                             Callback<ResponseData<List<ClassGroup2>>> callback);
     //修改班级名称
     @GET("/V1/MoreFunction/UpdateClass")
-    void updateClassName(@Header("token")String token,
+    void updateClassName(@Header("classid")String cId,
+                         @Header("token")String token,
                          @Query("ClassId")String classId,
                          @Query("ClassName")String className,
                          Callback<ResponseData> callback);
     //修改组名
     @GET("/V1/MoreFunction/UpdateClassGroupName")
-    void updateGroupName(@Header("token")String token,
+    void updateGroupName(@Header("classid")String cId,
+                         @Header("token")String token,
                          @Query("ClassId")String classId,
                          @Query("CGId")String groupId,
                          @Query("CGName")String groupName,
@@ -111,7 +116,8 @@ public interface MoreService {
     //添加小组
     @FormUrlEncoded
     @POST("/V1/MoreFunction/AddClassGroup")
-    void addGroup(@Header("token")String token,
+    void addGroup(@Header("classid")String cId,
+                  @Header("token")String token,
                   @Field("ClassId")String classId,
                   @Field("GroupName")String groupName,
                   @Field("AccountId")long accountId,
@@ -119,12 +125,14 @@ public interface MoreService {
 
     //获取班级复测日
     @GET("/v1/MeasuredRecordLog/GetMeasureDateListByClassId")
-    void getMeasureDateList(@Header("token")String token,
+    void getMeasureDateList(@Header("classid")String cId,
+                            @Header("token")String token,
                             @Query("classId")String classId,
                             Callback<ResponseData<List<FuceDate>>> callback);
     //修改复测日期
     @GET("/V1/MoreFunction/UpdateMeasureDate")
-    void updateMeasureDate(@Header("token")String token,
+    void updateMeasureDate(@Header("classid")String cId,
+                           @Header("token")String token,
                            @Query("ClassId")String classId,
                            @Query("WeekNum")int weekNum,
                            @Query("MeasureDate")String date,
@@ -132,20 +140,23 @@ public interface MoreService {
 
     //获取班级人员管理
     @GET("/V1/MoreFunction/GetClassesMembersByGroups")
-    void getClassesMembers(@Header("token")String token,
+    void getClassesMembers(@Header("classid")String cId,
+                           @Header("token")String token,
                            @Query("ClassId")String classId,
                            Callback<ResponseData<List<ClassGroup3>>> callback);
 
     //转租
     @GET("/V1/MoreFunction/TurnToAnotherGroup")
-    void turnToAnotherGroup(@Header("token")String token,
+    void turnToAnotherGroup(@Header("classid")String cId,
+                            @Header("token")String token,
                             @Query("TAccountId")long tAccountId,
                             @Query("ClassId")String classId,
                             @Query("CGId")String groupId,
                             Callback<ResponseData> callback);
     //移除
     @GET("/V1/MoreFunction/RemoveGroup")
-    void removeFromGroup(@Header("token")String token,
+    void removeFromGroup(@Header("classid")String cId,
+                         @Header("token")String token,
                      @Query("RAccountId")long rAccountId,
                      @Query("ClassId")String classId,
                      @Query("CGId")String groupId,
@@ -158,7 +169,8 @@ public interface MoreService {
                       Callback<ResponseData<LossWeightAndFat>> callback);
     //关闭班级
     @GET("/V1/MsgCenter/ShutDownClass")
-    void shutDownClass(@Header("token")String token,
+    void shutDownClass(@Header("classid")String cId,
+                       @Header("token")String token,
                        @Query("ClassId")String classId,
                        Callback<ResponseData> callback);
 
@@ -170,7 +182,8 @@ public interface MoreService {
 
     //学员退赛
     @GET("/V1/MineCustomer/ExsitClass")
-    void existClass(@Header("token")String token,
+    void existClass(@Header("classid")String cId,
+                    @Header("token")String token,
                     @Query("AccountId")long accountId,
                     @Query("ClassId")String classId,
                     Callback<ResponseData> callback);
