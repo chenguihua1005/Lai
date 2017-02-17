@@ -24,6 +24,9 @@ public class ContactClassModel implements Serializable {
     private String HXGroupId;
     private int Status;//0 状态: 0:无解散班级权限， 1：有解散班级权限
 
+    public ContactClassModel() {
+    }
+
     public ContactClassModel(long coachId, String coachName, String coachPhoto, String classId, String classBanner, String className, String classCode, String role, String startDate, String endDate, int total, String HXGroupId, int status) {
         CoachId = coachId;
         CoachName = coachName;
