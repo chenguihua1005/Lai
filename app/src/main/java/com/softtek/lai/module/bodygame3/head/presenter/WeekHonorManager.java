@@ -29,7 +29,7 @@ public class WeekHonorManager {
 
     public void getWeekHonnorInfo(Long UID, String classId, String byWhichRatio, String sortTimeType, int whichTime, Boolean isFirst) {
         String token = UserInfoModel.getInstance().getToken();
-        service.doGetHonorRoll(token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
+        service.doGetHonorRoll(classId,token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
                 new Callback<ResponseData<HonorRankModel>>() {
                     @Override
                     public void success(ResponseData<HonorRankModel> honorRankModelResponseData, Response response) {

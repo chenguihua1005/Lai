@@ -186,7 +186,7 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 activityModel.setWholeDay(false);
                 activityModel.setStartTime(startime);
                 activityModel.setContent(mark);
-                ZillaApi.NormalRestAdapter.create(ActivityService.class).commitact(UserInfoModel.getInstance().getToken(),
+                ZillaApi.NormalRestAdapter.create(ActivityService.class).commitact(classid,UserInfoModel.getInstance().getToken(),
                         activityModel, new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {

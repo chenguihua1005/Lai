@@ -294,7 +294,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
                     EMClient.getInstance().groupManager().destroyGroup(HXGroupId);//需异步处理
 
                     ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                    service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(), ClassId, new Callback<ResponseData>() {
+                    service.dissolutionHxGroup(UserInfoModel.getInstance().getToken(),ClassId, ClassId, new Callback<ResponseData>() {
                         @Override
                         public void success(final ResponseData responseData, Response response) {
                             int status = responseData.getStatus();

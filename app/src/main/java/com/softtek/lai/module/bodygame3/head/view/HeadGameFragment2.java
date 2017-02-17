@@ -399,7 +399,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
     //按类型分页加载小伙伴
     private void updatepartner(int sorttype, int pagesize, int pageindex) {
-        service.getpartnertype(UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
+        service.getpartnertype(classId_first,UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
                 pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
                     @Override
                     public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
@@ -437,7 +437,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     }
 
     private void classinfo(String classId_first, String classnum) {
-        ZillaApi.NormalRestAdapter.create(HeadService.class).choose(UserInfoModel.getInstance().getToken(), classId_first,
+        ZillaApi.NormalRestAdapter.create(HeadService.class).choose(classId_first,UserInfoModel.getInstance().getToken(), classId_first,
                 classnum, 10, new RequestCallback<ResponseData<ChooseModel>>() {
                     @Override
                     public void success(ResponseData<ChooseModel> chooseModelResponseData, Response response) {
@@ -678,7 +678,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     }
 
     private void getallfirst(final String classId) {
-        service.getfirst(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
+        service.getfirst(classId,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
                 try {

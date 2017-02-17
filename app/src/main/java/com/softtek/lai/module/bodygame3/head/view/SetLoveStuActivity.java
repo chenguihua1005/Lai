@@ -89,7 +89,7 @@ public class SetLoveStuActivity extends BaseActivity implements View.OnClickList
    *
    * */
     private void setLoveStu(Long accountid,String classid,String mobile) {
-        headService.doPostAddMineLovePC(UserInfoModel.getInstance().getToken(), accountid, classid, mobile, new RequestCallback<ResponseData>() {
+        headService.doPostAddMineLovePC(classid,UserInfoModel.getInstance().getToken(), accountid, classid, mobile, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         int staus=responseData.getStatus();

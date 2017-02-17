@@ -47,7 +47,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
             switch (msg.what) {
                 case 0x0001: {
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .existClass(UserInfoModel.getInstance().getToken(),
+                            .existClass(model.getClassId(),UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
                                     model.getClassId(),
                                     new retrofit.Callback<ResponseData>() {
@@ -81,7 +81,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                     if (EMError.GROUP_NOT_JOINED == error_code) {
                         Log.i("StudentFragment", "执行后台。。。。。。。");
                         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                .existClass(UserInfoModel.getInstance().getToken(),
+                                .existClass(model.getClassId(),UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
                                         model.getClassId(),
                                         new retrofit.Callback<ResponseData>() {
