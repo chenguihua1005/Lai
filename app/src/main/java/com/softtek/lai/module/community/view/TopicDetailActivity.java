@@ -56,6 +56,7 @@ import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -324,7 +325,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                 cb_focus.setChecked(false);
                             } else {
                                 if (cb_focus.isChecked()) {
-                                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),1));
+                                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),1,Where.TOPIC_DETAIL_LIST));
                                     ZillaApi.NormalRestAdapter.create(CommunityService.class).focusAccount(UserInfoModel.getInstance().getToken(),
                                             UserInfoModel.getInstance().getUserId(),
                                             model.getAccountId(),
@@ -337,7 +338,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                                 }
                                             });
                                 } else {
-                                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0));
+                                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0,Where.TOPIC_DETAIL_LIST));
                                     EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
                                     ZillaApi.NormalRestAdapter.create(CommunityService.class).cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                             UserInfoModel.getInstance().getUserId(),
@@ -487,7 +488,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
-                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,2));
+                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true, Where.TOPIC_DETAIL_LIST));
                 ZillaApi.NormalRestAdapter.create(CommunityService.class).clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -547,6 +548,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                                 public void success(ResponseData responseData, Response response) {
                                                     try {
                                                         if (responseData.getStatus() == 200) {
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(data.getDynamicId(), Where.TOPIC_DETAIL_LIST));
                                                             datas.remove(data);
                                                             adapter.notifyDataSetChanged();
                                                         }
@@ -815,7 +817,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @Subscribe
     public void refreshListZan(ZanEvent event) {
-        if (event.getWhere() != 2) {
+        if (event.getWhere() != Where.TOPIC_DETAIL_LIST) {
             for (DynamicModel model : datas) {
                 if (model.getDynamicId().equals(event.getDynamicId())) {
                     model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
@@ -830,24 +832,29 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     }
     @Subscribe
     public void refreshListDelete(DeleteRecommedEvent event) {
-        Iterator<DynamicModel> iterator=datas.iterator();
-        while (iterator.hasNext()){
-            DynamicModel model=iterator.next();
-            if (model.getDynamicId().equals(event.getDynamicId())) {
-                iterator.remove();
-                break;
+        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
+            Iterator<DynamicModel> iterator=datas.iterator();
+            while (iterator.hasNext()){
+                DynamicModel model=iterator.next();
+                if (model.getDynamicId().equals(event.getDynamicId())) {
+                    iterator.remove();
+                    break;
+                }
             }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        for (DynamicModel model : datas) {
-            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
-                model.setIsFocus(event.getFocusStatus());
+        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
+            for (DynamicModel model : datas) {
+                if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                    model.setIsFocus(event.getFocusStatus());
+                }
             }
+            adapter.notifyDataSetChanged();
+
         }
-        adapter.notifyDataSetChanged();
     }
 }

@@ -28,9 +28,10 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
-import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.adapter.DynamicDetailAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -46,7 +47,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -59,7 +59,7 @@ import static android.view.View.GONE;
 
 @InjectLayout(R.layout.activity_dynamic_detail)
 public class DynamicDetailActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ListView>
-        , HealthyCommunityAdapter.OperationCall, SendCommend
+        , DynamicDetailAdapter.OperationCall, SendCommend
         , OpenComment, View.OnLayoutChangeListener {
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -77,7 +77,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
     Button btn_send;
 
     private CommunityService service;
-    private HealthyCommunityAdapter adapter;
+    private DynamicDetailAdapter adapter;
     private List<DynamicModel> communityModels = new ArrayList<>();
 
     String dynamicId;
@@ -142,7 +142,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
         dynamicId = getIntent().getStringExtra("dynamicId");
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
         //加载数据适配器
-        adapter = new HealthyCommunityAdapter(this, this, communityModels, new Object());
+        adapter = new DynamicDetailAdapter(this, this, communityModels);
         ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -218,8 +218,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
-                EventBus.getDefault().post(new ZanEvent(dynamicId, true, 1));
-                EventBus.getDefault().post(new ZanEvent(dynamicId, true, 0));
+                EventBus.getDefault().post(new ZanEvent(dynamicId, true, Where.DYNAMIC_DETAIL));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -280,6 +279,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
                                                 public void success(ResponseData responseData, Response response) {
                                                     try {
                                                         if (responseData.getStatus() == 200) {
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(data.getDynamicId(), Where.DYNAMIC_DETAIL));
                                                             communityModels.remove(data);
                                                             adapter.notifyDataSetChanged();
                                                         }
@@ -396,7 +396,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
 
     @Subscribe
     public void refreshListZan(ZanEvent event) {
-        if (event.getWhere() != 3 && communityModels.isEmpty()) {
+        if (event.getWhere() != Where.DYNAMIC_DETAIL && !communityModels.isEmpty()) {
             DynamicModel model = communityModels.get(0);
             if (model.getDynamicId().equals(event.getDynamicId())) {
                 model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
@@ -410,23 +410,25 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
 
     @Subscribe
     public void refreshListDelete(DeleteRecommedEvent event) {
-        if(communityModels.isEmpty()){
+        if(event.getWhere()!=Where.DYNAMIC_DETAIL&&!communityModels.isEmpty()){
             DynamicModel model = communityModels.get(0);
             if (model.getDynamicId().equals(event.getDynamicId())) {
                 communityModels.clear();
                 adapter.notifyDataSetChanged();
-
             }
+
         }
     }
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        for (DynamicModel model : communityModels) {
-            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
-                model.setIsFocus(event.getFocusStatus());
+        if(event.getWhere()!=Where.DYNAMIC_DETAIL){
+            for (DynamicModel model : communityModels) {
+                if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                    model.setIsFocus(event.getFocusStatus());
+                }
             }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 }
