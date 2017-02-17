@@ -198,16 +198,13 @@ import zilla.libcore.util.Util;
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
-
             case R.id.rel_modofy_name:
                 startActivity(new Intent(this, ModifyNameActivity.class));
                 break;
-
             case R.id.rel_modofy_photo:
                 if (TextUtils.isEmpty(photo)) {
                     //弹出dialog

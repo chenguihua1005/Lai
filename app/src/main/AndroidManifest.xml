@@ -330,15 +330,18 @@
         <activity
             android:name=".module.bodygame3.history.view.ClassInfoActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".module.laijumine.view.MySettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.HealthyRecordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.laijumine.view.FansActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.laijumine.view.FocusActivity"
-            android:screenOrientation="portrait"/>
-        
+        <activity
+            android:name=".module.laijumine.view.MySettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.HealthyRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laijumine.view.FansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laijumine.view.FocusActivity"
+            android:screenOrientation="portrait" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -780,8 +783,9 @@
         <activity
             android:name=".module.community.view.DynamicDetailActivity"
             android:label="@string/title_activity_dynamic_detail"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+
+            android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>
