@@ -123,7 +123,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private String dateStr;
     private int classrole;
     private ClassModel classModel;
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public ActivityFragment() {
 
