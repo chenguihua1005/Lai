@@ -20,15 +20,17 @@ public interface GraphService {
 
     //获取体重变化曲线图
     @GET("/V1/HerbalifeClass/GetClassMemberWeightChart")
-    void getClassMemberWeightChart(@Header("token")String token,
-                                   @Query("accountId")long accountId,
-                                   @Query("classid")String classId,
+    void getClassMemberWeightChart(@Header("classid") String cId,
+                                   @Header("token") String token,
+                                   @Query("accountId") long accountId,
+                                   @Query("classid") String classId,
                                    Callback<ResponseData<List<WeightModel>>> callback);
 
     //获取维度变化曲线图
     @GET("/V1/HerbalifeClass/GetClassMemberGirthChart")
-    void getClassMemberGirthChart(@Header("token")String token,
-                                   @Query("accountId")long accountId,
-                                   @Query("classid")String classId,
-                                   Callback<ResponseData<List<GirthModel>>> callback);
+    void getClassMemberGirthChart(@Header("classid") String cId,
+                                  @Header("token") String token,
+                                  @Query("accountId") long accountId,
+                                  @Query("classid") String classId,
+                                  Callback<ResponseData<List<GirthModel>>> callback);
 }
