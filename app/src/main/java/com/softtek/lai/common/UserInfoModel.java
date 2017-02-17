@@ -72,6 +72,13 @@ public class UserInfoModel {
     }
 
     /**
+     * 清楚班级默认存储
+     */
+    public void clearClassSave(){
+        classCache.remove(HeadGameFragment2.SAVE_CLASS);
+    }
+
+    /**
      * 退出登录
      */
     public void loginOut(){

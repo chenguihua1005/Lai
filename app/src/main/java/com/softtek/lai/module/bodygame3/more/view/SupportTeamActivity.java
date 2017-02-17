@@ -129,7 +129,7 @@ public class SupportTeamActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
-
+                ZillaApi.dealNetError(error);
             }
         });
 

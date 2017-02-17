@@ -4,7 +4,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -22,8 +21,6 @@ public interface HistoryService {
     //班级照片墙
     @GET("/V1/HealthyCircle/GetPhotoWalls")
     void getClassDynamic(@Header("token") String token,
-                         @Header("classid") String CId,
-
                          @Query("Loginaccid") long LoginaccId,
                          @Query("ClassId") String classId,
                          @Query("PageIndex") String pageIndex,
@@ -33,8 +30,6 @@ public interface HistoryService {
     //班级详情
     @GET("/V1/HistoryClass/GetHistoryClassDetails")
     void getHistoryInfo(@Header("token") String token,
-                        @Header("classid") String CId,
-
                         @Query("AccountId") long accountId,
                         @Query("ClassId") String classId,
                         RequestCallback<ResponseData<HistoryDetailsBean>> callback);
