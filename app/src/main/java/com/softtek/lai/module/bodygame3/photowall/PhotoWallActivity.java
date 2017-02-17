@@ -620,7 +620,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        photoWallService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
+        photoWallService.doGetPhotoWalls(classId,UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
                 classId,
                 pageIndex,
@@ -664,7 +664,7 @@ public class PhotoWallActivity extends BaseActivity implements PullToRefreshBase
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex ++;
-        photoWallService.doGetPhotoWalls(UserInfoModel.getInstance().getToken(),
+        photoWallService.doGetPhotoWalls(classId,UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
                 classId,
                 pageIndex,

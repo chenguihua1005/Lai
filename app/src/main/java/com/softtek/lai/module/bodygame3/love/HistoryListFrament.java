@@ -10,7 +10,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.graph.LossWeightFragment;
 import com.softtek.lai.module.bodygame3.love.adapter.LoverMemberAdapter;
 import com.softtek.lai.module.bodygame3.love.model.LoverModel;
 import com.softtek.lai.module.bodygame3.love.service.LoverService;
@@ -51,7 +50,8 @@ public class HistoryListFrament extends LazyBaseFragment2 {
     @Override
     protected void lazyLoad() {
         LoverService service = ZillaApi.NormalRestAdapter.create(LoverService.class);
-        service.getIntroducerList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), getArguments().getString("classId"), 0, new RequestCallback<ResponseData<List<LoverModel>>>() {
+        String classId=getArguments().getString("classId");
+        service.getIntroducerList(classId,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, 0, new RequestCallback<ResponseData<List<LoverModel>>>() {
             @Override
             public void success(ResponseData<List<LoverModel>> listResponseData, Response response) {
                 setContentEmpty(false);
