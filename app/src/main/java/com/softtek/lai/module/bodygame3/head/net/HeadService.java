@@ -152,7 +152,6 @@ public interface HeadService {
     //申请加入班级
     @GET("/V1/MsgCenter/ApplyJoinClass")
     void doPostClass(
-            @Header("classid") String CId,
             @Header("token") String token,
             @Query("Applyer") Long Applyer,//申请人id
             @Query("ClassId") String ClassId,//班级id
@@ -244,7 +243,6 @@ public interface HeadService {
     //获取班级详情数据(用户学员获取复测、初始数据信息)
     @GET("/V1/HerbalifeClass/GetClassDetial")
     void doGetClassDetial(
-            @Header("classid") String CId,
             @Header("token") String token,
             @Query("accountid") Long accountid,
             @Query("classid") String classid,
