@@ -218,6 +218,7 @@ public class ClassInfoActivity extends BaseActivity {
         try {
             service.getClassDynamic(
                     UserInfoModel.getInstance().getToken(),
+                    historyClassModel.getClassId(),
                     UserInfoModel.getInstance().getUserId(),
                     historyClassModel.getClassId(),
                     pageIndex + "",
@@ -346,6 +347,7 @@ public class ClassInfoActivity extends BaseActivity {
         try {
             service.getHistoryInfo(
                     UserInfoModel.getInstance().getToken(),
+                    historyClassModel.getClassId(),
                     UserInfoModel.getInstance().getUserId(),
                     historyClassModel.getClassId(),
                     //                "C4E8E179-FD99-4955-8BF9-CF470898788B",
@@ -478,6 +480,7 @@ public class ClassInfoActivity extends BaseActivity {
     private void getClassDynamicInfo() {
         service.getClassDynamic(
                 UserInfoModel.getInstance().getToken(),
+                historyClassModel.getClassId(),
                 UserInfoModel.getInstance().getUserId(),
                 historyClassModel.getClassId(),
                 "1",
