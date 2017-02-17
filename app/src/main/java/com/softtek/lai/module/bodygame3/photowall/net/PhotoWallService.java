@@ -27,6 +27,7 @@ public interface PhotoWallService {
     //照片墙
     @GET("/V1/HealthyCircle/GetPhotoWalls")
     void doGetPhotoWalls(
+            @Header("classid")String cId,
             @Header("token")String token,
             @Query("Loginaccid")long accountId,//用户id
             @Query("ClassId")String ClassId,//班级id
