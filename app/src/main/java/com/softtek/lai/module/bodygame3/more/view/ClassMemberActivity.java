@@ -123,7 +123,7 @@ public class ClassMemberActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void onRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getClassesMembers(UserInfoModel.getInstance().getToken(),
+                .getClassesMembers(classId,UserInfoModel.getInstance().getToken(),
                         classId,
                         new Callback<ResponseData<List<ClassGroup3>>>() {
                             @Override

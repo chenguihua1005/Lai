@@ -102,7 +102,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         invitation.setInviterId(invitaterId);
         dialogShow();
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getClassInfoForInvite(UserInfoModel.getInstance().getToken(),
+                .getClassInfoForInvite(classId,UserInfoModel.getInstance().getToken(),
                         classId, UserInfoModel.getInstance().getUserId(), invitaterId,
                         new RequestCallback<ResponseData<ClassInvitater>>() {
                             @Override

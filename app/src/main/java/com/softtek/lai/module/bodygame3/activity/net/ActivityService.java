@@ -27,6 +27,7 @@ public interface ActivityService {
     //活动界面初始数据请求路径:Api/V1/ClassActivity/GetClassActivitys
     @GET("/V1/ClassActivity/GetClassActivitys")
     void getactivity(
+            @Header("classid") String classid,
             @Header("token") String token,
             @Query("AccountId") long AccountId,
             @Query("ClassId") String ClassId,
@@ -37,6 +38,7 @@ public interface ActivityService {
     //获取当天的活动列表请求路径:Api/V1/ ClassActivity / GetActivityCurrDayInfo
     @GET("/V1/ClassActivity/GetActivityCurrDayInfo")
     void gettoday(
+            @Header("classid") String classid,
             @Header("token") String token,
             @Query("AccountId") long AccountId,
             @Query("ClassId") String ClassId,
@@ -90,6 +92,7 @@ public interface ActivityService {
     //创建活动请求路径:Api/V1/ ClassActivity / CreateClassActivity
     @POST("/V1/ClassActivity/CreateClassActivity")
     void commitact(
+            @Header("classid") String classid,
             @Header("token") String token,
             @Body ActivityModel activityModel,
             Callback<ResponseData> callback

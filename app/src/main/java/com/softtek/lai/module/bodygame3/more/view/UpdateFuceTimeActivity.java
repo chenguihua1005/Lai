@@ -132,7 +132,7 @@ public class UpdateFuceTimeActivity extends BaseActivity{
         lv.setAdapter(adapter);
         dialogShow();
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getMeasureDateList(UserInfoModel.getInstance().getToken(),
+                .getMeasureDateList(classId,UserInfoModel.getInstance().getToken(),
                         classId,
                         new RequestCallback<ResponseData<List<FuceDate>>>() {
                             @Override
@@ -194,7 +194,7 @@ public class UpdateFuceTimeActivity extends BaseActivity{
                 //输出当前日期
                 dialogShow("提交中");
                 ZillaApi.NormalRestAdapter.create(MoreService.class)
-                        .updateMeasureDate(UserInfoModel.getInstance().getToken(),
+                        .updateMeasureDate(classId,UserInfoModel.getInstance().getToken(),
                                 classId,
                                 dates.get(position).getWeekNum(),
                                 date,

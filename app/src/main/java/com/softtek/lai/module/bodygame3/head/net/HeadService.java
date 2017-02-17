@@ -37,6 +37,7 @@ public interface HeadService {
     //    首页版本1接口
     @GET("/V1/HerbalifeClass/GetClassInfoDefaultHome")
     void getfirst(
+            @Header("classid") String classid,
             @Header("token") String token,
             @Query("accountid") long accountid,
             @Query("pagesize") int pagesize,
@@ -80,6 +81,7 @@ public interface HeadService {
     @GET("/V1/HerbalifeClass/GetClassPartner")
 //    请求路径:Api/V1/ HerbalifeClass / GetClassPartner
     void getpartnertype(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("classid") String classid,
             @Query("sorttype") int sorttype,
@@ -109,6 +111,7 @@ public interface HeadService {
     //选择班级加载数据请求路径:请求路径:Api/V1/ HerbalifeClass / GetClassInfo130ed197-17ea-4125-8643-09f9c8ec377
     @GET("/V1/HerbalifeClass/GetClassInfo")
     void choose(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("classid") String classid,
             @Query("classweeknum") String classweeknum,

@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -48,7 +47,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 11/19/2016.
@@ -271,7 +269,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                 try {
                                     EMClient.getInstance().groupManager().removeUserFromGroup(classHxId, member.getHxAccountId());//需异步处理
                                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                            .removeFromGroup(UserInfoModel.getInstance().getToken(),
+                                            .removeFromGroup(classId,UserInfoModel.getInstance().getToken(),
                                                     member.getAccountId(),
                                                     classId,
                                                     member.getCGId(),
@@ -428,7 +426,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                     pDialog.setMessage("转组中");
                     pDialog.show();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .turnToAnotherGroup(
+                            .turnToAnotherGroup(classId,
                                     UserInfoModel.getInstance().getToken(),
                                     member.getAccountId(),
                                     classId,

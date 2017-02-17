@@ -194,7 +194,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
         };
         lv.setAdapter(adapter);
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getClassGroupsInfo(UserInfoModel.getInstance().getToken(),
+                .getClassGroupsInfo(classId,UserInfoModel.getInstance().getToken(),
                         classId,
                         new RequestCallback<ResponseData<List<ClassGroup2>>>() {
                             @Override
@@ -267,7 +267,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogShow("正在解散");
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                        .shutDownClass(UserInfoModel.getInstance().getToken(),
+                                        .shutDownClass(classId,UserInfoModel.getInstance().getToken(),
                                                 classId,
                                                 new RequestCallback<ResponseData>() {
                                                     @Override

@@ -38,7 +38,6 @@ import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
-import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
@@ -219,6 +218,7 @@ public class ClassInfoActivity extends BaseActivity {
         try {
             service.getClassDynamic(
                     UserInfoModel.getInstance().getToken(),
+                    historyClassModel.getClassId(),
                     UserInfoModel.getInstance().getUserId(),
                     historyClassModel.getClassId(),
                     pageIndex + "",
@@ -347,6 +347,7 @@ public class ClassInfoActivity extends BaseActivity {
         try {
             service.getHistoryInfo(
                     UserInfoModel.getInstance().getToken(),
+                    historyClassModel.getClassId(),
                     UserInfoModel.getInstance().getUserId(),
                     historyClassModel.getClassId(),
                     //                "C4E8E179-FD99-4955-8BF9-CF470898788B",
@@ -479,6 +480,7 @@ public class ClassInfoActivity extends BaseActivity {
     private void getClassDynamicInfo() {
         service.getClassDynamic(
                 UserInfoModel.getInstance().getToken(),
+                historyClassModel.getClassId(),
                 UserInfoModel.getInstance().getUserId(),
                 historyClassModel.getClassId(),
                 "1",
