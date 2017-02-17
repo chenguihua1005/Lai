@@ -17,6 +17,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.MemberAdapter;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberUtil;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
@@ -142,6 +146,19 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
                         members.addAll(classListInfoModel.getContactList());
                     }
                     memberAdapter.updateData(members);
+
+
+                    if (members != null && members.size() > 0) {
+                        Log.i(TAG, "here ..........");
+                        //存入数据库
+                        if (ClassMemberUtil.getInstance().tableIsExist(ClassMemberTable.TABLE_NAME)) {
+                            com.github.snowdream.android.util.Log.i(TAG, "存在。。。。。");
+                            ClassMemberUtil.getInstance().insert(members);
+                        } else {
+                            com.github.snowdream.android.util.Log.i(TAG, "不存在。。。。。");
+                        }
+                    }
+
                 }
 
                 @Override
@@ -165,73 +182,88 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-    private class GroupChangeListener implements EMGroupChangeListener {
-
-        @Override
-        public void onInvitationReceived(String groupId, String groupName,
-                                         String inviter, String reason) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onApplicationReceived(String groupId, String groupName,
-                                          String applyer, String reason) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onApplicationAccept(String groupId, String groupName,
-                                        String accepter) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onApplicationDeclined(String groupId, String groupName,
-                                          String decliner, String reason) {
-
-        }
-
-        @Override
-        public void onInvitationAccepted(String groupId, String inviter, String reason) {
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-//                    refreshMembers();
-                }
-
-            });
-
-        }
-
-        @Override
-        public void onInvitationDeclined(String groupId, String invitee,
-                                         String reason) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onUserRemoved(String groupId, String groupName) {
-            finish();
-
-        }
-
-        @Override
-        public void onGroupDestroyed(String groupId, String groupName) {
-            finish();
-
-        }
-
-        @Override
-        public void onAutoAcceptInvitationFromGroup(String groupId, String inviter, String inviteMessage) {
-            // TODO Auto-generated method stub
-
-        }
-
-    }
+//    private class GroupChangeListener implements EMGroupChangeListener {
+//
+//        @Override
+//        public void onInvitationReceived(String groupId, String groupName,
+//                                         String inviter, String reason) {
+//            // TODO Auto-generated method stub
+//
+//        }
+//
+//        @Override
+//        public void onRequestToJoinReceived(String s, String s1, String s2, String s3) {
+//
+//        }
+//
+//        @Override
+//        public void onRequestToJoinAccepted(String s, String s1, String s2) {
+//
+//        }
+//
+//        @Override
+//        public void onRequestToJoinDeclined(String s, String s1, String s2, String s3) {
+//
+//        }
+//
+////        @Override
+////        public void onApplicationReceived(String groupId, String groupName,
+////                                          String applyer, String reason) {
+////            // TODO Auto-generated method stub
+////
+////        }
+////
+////        @Override
+////        public void onApplicationAccept(String groupId, String groupName,
+////                                        String accepter) {
+////            // TODO Auto-generated method stub
+////
+////        }
+////
+////        @Override
+////        public void onApplicationDeclined(String groupId, String groupName,
+////                                          String decliner, String reason) {
+////
+////        }
+//
+//        @Override
+//        public void onInvitationAccepted(String groupId, String inviter, String reason) {
+//            runOnUiThread(new Runnable() {
+//
+//                @Override
+//                public void run() {
+////                    refreshMembers();
+//                }
+//
+//            });
+//
+//        }
+//
+//        @Override
+//        public void onInvitationDeclined(String groupId, String invitee,
+//                                         String reason) {
+//            // TODO Auto-generated method stub
+//
+//        }
+//
+//        @Override
+//        public void onUserRemoved(String groupId, String groupName) {
+//            finish();
+//
+//        }
+//
+//        @Override
+//        public void onGroupDestroyed(String groupId, String groupName) {
+//            finish();
+//
+//        }
+//
+//        @Override
+//        public void onAutoAcceptInvitationFromGroup(String groupId, String inviter, String inviteMessage) {
+//            // TODO Auto-generated method stub
+//
+//        }
+//
+//    }
 
 }

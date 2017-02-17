@@ -87,9 +87,11 @@ public class NetErrorHandler implements IApiErrorHandler {
                 switch (statusCode) {
                     case 401:
                         int customCode = 0;
+                        String customData = "";
                         if (error.getBody() instanceof ResponseData) {
                             ResponseData data = (ResponseData) error.getBody();
                             customCode = data.getStatus();
+                            customData = (String) data.getData();
                         }
                         Log.i("return code=====" + customCode);
                         switch (customCode) {
@@ -127,6 +129,19 @@ public class NetErrorHandler implements IApiErrorHandler {
                                     builder.show();
 
                                 }
+                                break;
+                            case 403:
+                                AlertDialog dialog3 = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+                                        .setTitle("温馨提示").setMessage(customData)
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                LaiApplication.getInstance().startActivity(intent);
+                                            }
+                                        }).setCancelable(false).create();
+                                dialog3.show();
                                 break;
                             case 4001:
                                 AlertDialog dialog = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())

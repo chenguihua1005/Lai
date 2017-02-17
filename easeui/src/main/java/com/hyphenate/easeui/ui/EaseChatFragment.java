@@ -618,17 +618,30 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             }
 
             @Override
-            public void onMemberKicked(String roomId, String roomName, String participant) {
+            public void onRemovedFromChatRoom(String roomId, String roomName, String participant) {
                 if (roomId.equals(toChatUsername)) {
                     String curUser = EMClient.getInstance().getCurrentUser();
                     if (curUser.equals(participant)) {
                         EMClient.getInstance().chatroomManager().leaveChatRoom(toChatUsername);
                         getActivity().finish();
-                    } else {
+                    }else{
                         showChatroomToast("member : " + participant + " was kicked from the room : " + roomId + " room name : " + roomName);
                     }
                 }
             }
+
+//            @Override
+//            public void onMemberKicked(String roomId, String roomName, String participant) {
+//                if (roomId.equals(toChatUsername)) {
+//                    String curUser = EMClient.getInstance().getCurrentUser();
+//                    if (curUser.equals(participant)) {
+//                        EMClient.getInstance().chatroomManager().leaveChatRoom(toChatUsername);
+//                        getActivity().finish();
+//                    } else {
+//                        showChatroomToast("member : " + participant + " was kicked from the room : " + roomId + " room name : " + roomName);
+//                    }
+//                }
+//            }
 
         };
 
@@ -677,18 +690,32 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     }
 
     @Override
-    public void onMessageReadAckReceived(List<EMMessage> messages) {
-        if (isMessageListInited) {
+    public void onMessageRead(List<EMMessage> list) {
+        if(isMessageListInited) {
             messageList.refresh();
         }
     }
 
     @Override
-    public void onMessageDeliveryAckReceived(List<EMMessage> messages) {
-        if (isMessageListInited) {
+    public void onMessageDelivered(List<EMMessage> list) {
+        if(isMessageListInited) {
             messageList.refresh();
         }
     }
+
+//    @Override
+//    public void onMessageReadAckReceived(List<EMMessage> messages) {
+//        if (isMessageListInited) {
+//            messageList.refresh();
+//        }
+//    }
+//
+//    @Override
+//    public void onMessageDeliveryAckReceived(List<EMMessage> messages) {
+//        if (isMessageListInited) {
+//            messageList.refresh();
+//        }
+//    }
 
     @Override
     public void onMessageChanged(EMMessage emMessage, Object change) {
@@ -1117,6 +1144,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     /**
      * listen the group event
      */
+
     class GroupListener extends EaseGroupRemoveListener {
 
         @Override
@@ -1152,6 +1180,42 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         }
 
     }
+
+//    class GroupListener extends EaseGroupRemoveListener {
+//
+//        @Override
+//        public void onUserRemoved(final String groupId, String groupName) {
+//            getActivity().runOnUiThread(new Runnable() {
+//
+//                public void run() {
+//                    if (toChatUsername.equals(groupId)) {
+//                        Toast.makeText(getActivity(), R.string.you_are_group, Toast.LENGTH_LONG).show();
+//                        Activity activity = getActivity();
+//                        if (activity != null && !activity.isFinishing()) {
+//                            activity.finish();
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//
+//        @Override
+//        public void onGroupDestroyed(final String groupId, String groupName) {
+//            // prompt group is dismissed and finish this activity
+//            getActivity().runOnUiThread(new Runnable() {
+//                public void run() {
+//                    if (toChatUsername.equals(groupId)) {
+//                        Toast.makeText(getActivity(), R.string.the_current_group, Toast.LENGTH_LONG).show();
+//                        Activity activity = getActivity();
+//                        if (activity != null && !activity.isFinishing()) {
+//                            activity.finish();
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//
+//    }
 
 
     protected EaseChatFragmentHelper chatFragmentHelper;
