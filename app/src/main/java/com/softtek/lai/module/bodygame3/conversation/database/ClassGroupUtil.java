@@ -136,10 +136,7 @@ public class ClassGroupUtil {
     }
 
 
-//    public static final String ClassId = "ClassId";
-//    public static final String ClassName = "ClassName";
-//    public static final String ClassCode = "ClassCode";//班级编号
-//    public static final String HXGroupId = "HXGroupId";//班级环信ID
+
 
     public GroupModel findGroup(String hXGroupId) {
         GroupModel model = null;
