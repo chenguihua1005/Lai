@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
-import com.google.gson.Gson;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -30,7 +29,6 @@ import com.hyphenate.easeui.domain.ChatUserInfoModel;
 import com.hyphenate.easeui.domain.ChatUserModel;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
-import com.hyphenate.easeui.utils.DisplayUtil;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
@@ -112,14 +110,14 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         // get conversation
         EMConversation conversation = getItem(position);
         // get username or group id
-        String username = conversation.getUserName();
+        String username = conversation.conversationId();
 
         EMMessage lastMessage1 = conversation.getLastMessage();
 
 
         if (conversation.getType() == EMConversationType.GroupChat) {
             Log.i(TAG, "群聊类型  ");
-            String groupId = conversation.getUserName();
+            String groupId = conversation.conversationId();
             if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
                 holder.motioned.setVisibility(View.VISIBLE);
             } else {
@@ -341,7 +339,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 
                 for (int i = 0; i < count; i++) {
                     final EMConversation value = mOriginalValues.get(i);
-                    String username = value.getUserName();
+                    String username = value.conversationId();
 
                     EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
                     if (group != null) {

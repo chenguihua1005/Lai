@@ -461,14 +461,24 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         }
 
         @Override
-        public void onMessageReadAckReceived(List<EMMessage> messages) {
+        public void onMessageRead(List<EMMessage> list) {
             refreshUIWithMessage();
         }
 
         @Override
-        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+        public void onMessageDelivered(List<EMMessage> list) {
             refreshUIWithMessage();
         }
+
+//        @Override
+//        public void onMessageReadAckReceived(List<EMMessage> messages) {
+//            refreshUIWithMessage();
+//        }
+//
+//        @Override
+//        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+//            refreshUIWithMessage();
+//        }
 
         @Override
         public void onMessageChanged(EMMessage message, Object change) {

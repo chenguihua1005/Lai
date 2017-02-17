@@ -51,7 +51,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = conversationListView.getItem(position);
-                String username = conversation.getUserName().toLowerCase();
+                String username = conversation.conversationId().toLowerCase();
 
                 if (username.equals(EMClient.getInstance().getCurrentUser()))
                     Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_SHORT).show();
@@ -91,7 +91,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
                     }
 
                     Log.i(TAG, "hxId = " + username + " name= " + name + " photo= " + photo);
-                    intent.putExtra(Constant.EXTRA_USER_ID, username);
+                    intent.putExtra(Constant.EXTRA_USER_ID, username);//环信ID
                     intent.putExtra("name", name);
                     intent.putExtra("photo", photo);
                     startActivity(intent);
@@ -132,7 +132,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
 //            EMClient.getInstance().chatManager().deleteConversation(tobeDeleteCons.getUserName(), tobeDeleteCons.isGroup(), deleteMessage);
 
             //3.0    jessica
-            EMClient.getInstance().chatManager().deleteConversation(tobeDeleteCons.getUserName(), deleteMessage);
+            EMClient.getInstance().chatManager().deleteConversation(tobeDeleteCons.conversationId().toLowerCase(), deleteMessage);
 
             refresh();
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();

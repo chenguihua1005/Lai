@@ -153,10 +153,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             + ClassMemberTable.Photo + " varchar(20))";
 
 
-    //    public static final String ClassId = "ClassId";
-//    public static final String ClassName = "ClassName";
-//    public static final String ClassCode = "ClassCode";//班级编号
-//    public static final String HXGroupId = "HXGroupId";//班级环信ID
+
     // 班级群聊表
     public static final String CREATE_CLASS_GROUP = "create table " + GroupTable.TABLE_NAME + "(" + GroupTable._ID
             + " integer primary key autoincrement, "

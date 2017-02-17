@@ -29,6 +29,8 @@ import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassGroupUtil;
+import com.softtek.lai.module.bodygame3.conversation.database.GroupModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
@@ -135,10 +137,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
             if (classModel != null) {
                 tv_title.setText(classModel.getClassName());
-
-            }
-
-            if (TextUtils.isEmpty(tv_title.getText().toString().trim())) {
+            } else if (ClassGroupUtil.getInstance().findGroup(toChatUsername) != null) {
+                GroupModel model = ClassGroupUtil.getInstance().findGroup(toChatUsername);
+                Log.i(TAG, "here 查询数据库 = " + model.getClassName());
+                tv_title.setText(model.getClassName());
+            } else {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -146,8 +149,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             //根据群组ID从本地获取群组基本信息
                             group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
 //                        group = EMClient.getInstance().groupManager().getGroupFromServer(toChatUsername);
-//                            tv_title.setText(group.getGroupName());
-                            tv_title.setText(title_value);
+                            tv_title.setText(group.getGroupName());
+//                            tv_title.setText(title_value);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -250,34 +253,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-//    private void getClassInfo() {
-//        Log.i(TAG, "群聊或个人环信Id ： toChatUsername = " + toChatUsername);
-//        if (EaseConstant.CHATTYPE_GROUP == chatType) {//如果是群聊界面的话.需要根据环信GroupId查询这个群，即：班级信息
-//            if (!TextUtils.isEmpty(toChatUsername)) {
-//                ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-//                service.getClassByHxGroupId(UserInfoModel.getInstance().getToken(), toChatUsername, new Callback<ResponseData<ContactClassModel>>() {
-//                    @Override
-//                    public void success(ResponseData<ContactClassModel> contactClassModelResponseData, Response response) {
-//                        int status = contactClassModelResponseData.getStatus();
-//                        if (200 == status) {
-//                            classModel = contactClassModelResponseData.getData();
-//                            Log.i(TAG, "获取的班级信息 = " + new Gson().toJson(classModel));
-//                            if (classModel != null) {
-//
-//
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        ZillaApi.dealNetError(error);
-//                    }
-//                });
-//            }
-//        }
-//    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -287,8 +262,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(intent1);
                 break;
             case R.id.fl_right:
-
-                Log.i(TAG, "toChatUsername = " + toChatUsername + " classModel = " + classModel);
                 Intent intent = new Intent(ChatActivity.this, ClassDetailActivity.class);
                 intent.putExtra("toChatUsername", toChatUsername);
                 intent.putExtra("classId", classId);

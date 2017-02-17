@@ -454,11 +454,13 @@ public class ChatHelper {
             }
 
             @Override
-            public void onMessageReadAckReceived(List<EMMessage> messages) {
+            public void onMessageRead(List<EMMessage> list) {
+
             }
 
             @Override
-            public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+            public void onMessageDelivered(List<EMMessage> list) {
+
             }
 
             @Override

@@ -369,14 +369,22 @@ public abstract class EaseChatRow extends LinearLayout {
             public void run() {
                 if (message.status() == EMMessage.Status.FAIL) {
 
-                    if (message.getError() == EMError.MESSAGE_INCLUDE_ILLEGAL_CONTENT) {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_invalid_content), Toast.LENGTH_SHORT).show();
-                    } else if (message.getError() == EMError.GROUP_NOT_JOINED) {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_not_in_the_group), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
+//                    if (message.getError() == EMError.MESSAGE_INCLUDE_ILLEGAL_CONTENT) {
+//                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_invalid_content), Toast.LENGTH_SHORT).show();
+//                    } else if (message.getError() == EMError.GROUP_NOT_JOINED) {
+//                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_not_in_the_group), Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
+//                    }
+
+                    if (message.status() == EMMessage.Status.FAIL) {
+                        Toast.makeText(activity,activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                    if (message.status() == EMMessage.Status.FAIL) {
+                        Toast.makeText(activity,activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
+                    }
 
                 onUpdateView();
             }
