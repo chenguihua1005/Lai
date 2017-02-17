@@ -132,6 +132,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 break;
                             case 403:
                                 if (builder == null || !builder.isShowing()) {
+                                    UserInfoModel.getInstance().clearClassSave();
                                     builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                             .setTitle("温馨提示").setMessage(customData)
                                             .setPositiveButton("确认", new DialogInterface.OnClickListener() {
