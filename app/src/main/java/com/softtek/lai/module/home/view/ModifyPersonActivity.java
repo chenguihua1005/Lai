@@ -159,7 +159,7 @@ import zilla.libcore.util.Util;
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost");
         if (TextUtils.isEmpty(photo)) {
-            Picasso.with(this).load(R.drawable.img_default).into(img);
+            Picasso.with(this).load(R.drawable.img_default).placeholder(R.drawable.img_default).into(img);
         } else {
             Picasso.with(this).load(path + photo).fit().placeholder(R.drawable.img_default).
                     centerCrop().error(R.drawable.img_default).into(img);
@@ -181,7 +181,10 @@ import zilla.libcore.util.Util;
             text_sex.setText("");
         }
         tv_birth.setText(model.getBirthday());
-        tv_height.setText(model.getHight()+"cm");
+        if (!TextUtils.isEmpty(model.getHight()))
+        {
+            tv_height.setText(model.getHight()+"cm");
+        }
         tv_weight.setText(model.getWeight()+"斤");
 
     }

@@ -1,15 +1,18 @@
 package com.softtek.lai.module.laijumine.view;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,8 +29,6 @@ import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
 import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.HealthyRecordActivity;
-import com.softtek.lai.module.home.view.ModifyPersonActivity;
-import com.softtek.lai.module.home.view.ModifyPhotoActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
 import com.softtek.lai.module.laijumine.net.MineSevice;
@@ -38,7 +39,6 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sportchart.model.PhotModel;
 import com.softtek.lai.module.sportchart.net.ChartService;
-import com.softtek.lai.module.sportchart.presenter.PhotoManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -61,7 +61,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_mine_fragment)
-public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener, PhotoManager.PhotoManagerCallback {
+public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener {
 
     private UserModel model;
     private MyInfoModel myinfomodel;
@@ -126,10 +126,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
 
     private int GET_Sian = 1;//个人签名
     MineSevice mineSevice;
-    PhotoManager photoManager;
     String photo;
     boolean isUserPhot=true;
-    ProgressDialog progressDialog;
 
     @Override
     protected void lazyLoad() {
@@ -137,7 +135,6 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initViews() {
-        photoManager = new PhotoManager(this);
         tv_setting.setOnClickListener(this);
         tv_editor_signature.setOnClickListener(this);
         re_mydy.setOnClickListener(this);
@@ -167,6 +164,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                     upload(new File(file));
                 }
                 else {
+                    uploadBanner(file);
 //                    photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId(), "1", file, progressDialog);
                 }
             }
@@ -174,7 +172,14 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             @Override
             public void onMutilSuccess(List<String> files) {
                 dialogShow("上传图片");
-                upload(new File(files.get(0)));
+                if (isUserPhot)
+                {
+                    upload(new File(files.get(0)));
+                }
+                else
+                {
+                    uploadBanner(files.get(0));
+                }
             }
 
             @Override
@@ -210,7 +215,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if (!TextUtils.isEmpty(photo)) {
-            Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_userphoto);
+            Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default)
+                    .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
         }
         if (StringUtils.isEmpty(model.getNickname())) {
             tv_username.setText(model.getMobile()+"");
@@ -392,18 +398,20 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
             tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
             tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
-            tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
+            if ("0".equals(myinfomodel.getUnReadMsgNum()))
+            {
+                tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
+            }
+            else {
+                String strs="您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
+                SpannableStringBuilder style=new SpannableStringBuilder(strs);
+                style.setSpan(new ForegroundColorSpan(Color.RED),2,3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tv_news.setText(style);
+            }
+
         }
     }
 
-    @Override
-    public void getResult(PhotModel result) {
-        if (result == null) {
-            return;
-        }
-        Picasso.with(getContext()).load(AddressManager.get("photoHost") + result.getPath()).centerCrop()
-                .placeholder(R.drawable.default_icon_rect).fit().into(im_banner);
-    }
 
     private void upload(final File file){
         ZillaApi.NormalRestAdapter.create(LoginService.class).modifyPicture(UserInfoModel.getInstance().getToken(),
@@ -419,7 +427,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                                     UserModel userModel = UserInfoModel.getInstance().getUser();
                                     userModel.setPhoto(photoModel.ThubImg);
                                     UserInfoModel.getInstance().saveUserCache(userModel);
-                                    Picasso.with(getContext()).load(file).centerCrop().placeholder(R.drawable.img_default).fit().into(cir_userphoto);
+                                    Picasso.with(getContext()).load(file).centerCrop().placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(cir_userphoto);
                                     dialogDissmiss();
                                     break;
                                 default:
@@ -439,16 +447,37 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 });
     }
 
-//    private void uploadBanner(final File file)
-//    {
-//        ZillaApi.NormalRestAdapter.create(ChartService.class).doUploadPhoto(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()+"",
-//                "1", file, new RequestCallback<ResponseData<PhotModel>>() {
-//                    @Override
-//                    public void success(ResponseData<PhotModel> photModelResponseData, Response response) {
-//
-//                    }
-//                }));
-//    }
+    private void uploadBanner(final String file)
+    {
+        ZillaApi.NormalRestAdapter.create(ChartService.class).doUploadPhoto(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()+"",
+                "1", new TypedFile("image/png", new File(file)), new RequestCallback<ResponseData<PhotModel>>() {
+                    @Override
+                    public void success(ResponseData<PhotModel> photModelResponseData, Response response) {
+                        try {
+                            int status=photModelResponseData.getStatus();
+                            switch (status)
+                            {
+                                case 200:
+                                    Picasso.with(getContext()).load(new File(file)).centerCrop().placeholder(R.drawable.default_icon_rect).fit().into(im_banner);
+                                    dialogDissmiss();
+                                    break;
+                                default:
+                                    dialogDissmiss();
+                                    Util.toastMsg(photModelResponseData.getMsg());
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                        dialogDissmiss();
+                    }
+                });
+    }
     // Android 6.0的动态权限
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
