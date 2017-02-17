@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -383,11 +384,18 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 tv_editor_signature.setCompoundDrawables(null, null, null, null);
             }
             else {
+                tv_editor_signature.setText("编辑个性签名");
+                Drawable drawable= getResources().getDrawable(R.drawable.edit_grey_icon);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+                tv_editor_signature.setCompoundDrawables(null,
+                        null, drawable,
+                        null);
             }
             if (!TextUtils.isEmpty(myinfomodel.getAcBanner())) {
-                Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).placeholder(R.drawable.default_icon_rect).fit().centerCrop().into(im_banner);
             }
             else {
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
             }
             tv_dynum.setText(myinfomodel.getDynamicNum());
             tv_guanzhunum.setText(myinfomodel.getFocusNum());
@@ -397,7 +405,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
             }
             tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
-            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
+            tv_sportlevelnum.setText("开发中，敬请期待");
+//            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
             if ("0".equals(myinfomodel.getUnReadMsgNum()))
             {
                 tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
