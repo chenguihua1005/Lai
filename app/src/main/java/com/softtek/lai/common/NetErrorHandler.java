@@ -136,9 +136,8 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                                Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
