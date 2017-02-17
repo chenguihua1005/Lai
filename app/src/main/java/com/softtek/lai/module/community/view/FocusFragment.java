@@ -153,7 +153,6 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
             DynamicModel model=iterator.next();
             if (model.getAccountId()==Long.parseLong(event.getAccountId())) {
                 iterator.remove();
-                break;
             }
         }
         adapter.notifyDataSetChanged();
