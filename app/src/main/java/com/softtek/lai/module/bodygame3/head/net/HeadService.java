@@ -64,6 +64,7 @@ public interface HeadService {
     //检索小伙伴
     @GET("/V1/HerbalifeClass/GetSearchClassPartner")
     void getpartner(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("keyword") String keyword,
             @Query("classid") String classid,
@@ -101,6 +102,7 @@ public interface HeadService {
     //个人详情
     @GET("/V1/HerbalifeClass/GetClassMemberInfo")
     void doGetClassMemberInfo(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("loginuserid") long loginuserid,//登录id
             @Query("accountid") long accountid,//学员id
@@ -122,6 +124,7 @@ public interface HeadService {
     //请求路径:Api/V1/ ClassHonor/ GetHonorRoll(荣誉榜)
     @GET("/V1/ClassHonor/GetHonorRoll")
     void doGetHonorRoll(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("UID") Long UID,
             @Query("ClassId") String ClassId,
@@ -135,6 +138,7 @@ public interface HeadService {
     //请求路径:Api/V1/ ClassHonor/ GetHonorGroupList(荣誉榜——小组排名接口)
     @GET("/V1/ClassHonor/GetHonorGroupList")
     void doGetHonorGroup(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("ClassId") String ClassId,
             @Query("ByWhichRatio") String ByWhichRatio,//ByFatRatio按减脂比，ByWeightRatio按减重比
@@ -148,6 +152,7 @@ public interface HeadService {
     //申请加入班级
     @GET("/V1/MsgCenter/ApplyJoinClass")
     void doPostClass(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("Applyer") Long Applyer,//申请人id
             @Query("ClassId") String ClassId,//班级id
@@ -173,6 +178,7 @@ public interface HeadService {
     //请求路径:Api/V1/HerbalifeClass/AddMineLovePC
     @GET("/V1/HerbalifeClass/AddMineLovePC")
     void doPostAddMineLovePC(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("accountid") long accountid,
             @Query("classid") String classid,
@@ -238,6 +244,7 @@ public interface HeadService {
     //获取班级详情数据(用户学员获取复测、初始数据信息)
     @GET("/V1/HerbalifeClass/GetClassDetial")
     void doGetClassDetial(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("accountid") Long accountid,
             @Query("classid") String classid,
