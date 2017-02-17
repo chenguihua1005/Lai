@@ -107,6 +107,7 @@ public interface ContactService {
     @GET("/v1/MsgCenter/DissolutionHxGroup")
     void dissolutionHxGroup(
             @Header("token") String token,
+            @Header("classid") String CId,
             @Query("ClassId") String ClassId,
             Callback<ResponseData> callback
     );
@@ -115,6 +116,7 @@ public interface ContactService {
     @POST("/v1/HerbUser/SentFriendApply")
     void sentFriendApply(
             @Header("token") String token,
+            @Header("classid") String CId,
             @Query("senderId") long senderId,
             @Query("receiverId") long receiverId,
             @Query("classId") String classId,
@@ -151,6 +153,7 @@ public interface ContactService {
     @GET("/v1/HerbalifeClass/CompleteJoinHx")
     void completeJoinHx(
             @Header("token") String token,
+            @Header("classid") String CId,
             @Query("classId") String classId,//班级Id
             @Query("MessageId") String MessageId,//处理消息Id
             Callback<ResponseData> callback
