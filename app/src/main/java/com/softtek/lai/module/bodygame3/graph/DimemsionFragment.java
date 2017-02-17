@@ -105,6 +105,7 @@ public class DimemsionFragment extends LazyBaseFragment2 {
     protected void lazyLoad() {
         ZillaApi.NormalRestAdapter.create(GraphService.class)
                 .getClassMemberGirthChart(
+                        getArguments().getString("classId"),
                         UserInfoModel.getInstance().getToken(),
                         getArguments().getLong("accountId"),
                         getArguments().getString("classId"),

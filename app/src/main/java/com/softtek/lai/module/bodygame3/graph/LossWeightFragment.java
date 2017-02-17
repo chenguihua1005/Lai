@@ -80,6 +80,7 @@ public class LossWeightFragment extends LazyBaseFragment2 {
     protected void lazyLoad() {
         ZillaApi.NormalRestAdapter.create(GraphService.class)
                 .getClassMemberWeightChart(
+                        getArguments().getString("classId"),
                         UserInfoModel.getInstance().getToken(),
                         getArguments().getLong("accountId"),
                         getArguments().getString("classId"),
