@@ -25,6 +25,7 @@ import com.ggx.widgets.view.CheckTextView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupManager;
+import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -455,7 +456,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         dialogDissmiss();
-                                        Toast.makeText(CreateClassActivity.this, "创建群组失败!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(CreateClassActivity.this, "创建群组失败", Toast.LENGTH_LONG).show();
                                     }
                                 });
                                 super.failure(error);
@@ -463,12 +464,12 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         });
 
 
-                    } catch (Exception e) {
+                    } catch (final HyphenateException e) {
                         e.printStackTrace();
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 dialogDissmiss();
-                                Toast.makeText(CreateClassActivity.this, "创建群组失败!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(CreateClassActivity.this, "创建群组失败:" + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
                     }

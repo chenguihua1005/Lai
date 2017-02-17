@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.conversation.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
@@ -98,6 +99,34 @@ public class ClassMemberUtil {
         }
     }
 
+    public void insert(ClassMemberModel model) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            String hxaccountid = model.getHXAccountId();
+            if (isExistedThisItem(hxaccountid)) {//存在相同条目,删除旧的
+//                deleteItem(hxaccountid);
+                if (!TextUtils.isEmpty(model.getPhoto())) {
+
+                }
+            } else {
+                ContentValues values = new ContentValues();
+                values.put(ClassMemberTable.HXAccountId, model.getHXAccountId());
+                values.put(ClassMemberTable.AccountId, model.getAccountId());
+                values.put(ClassMemberTable.UserName, model.getUserName());
+                values.put(ClassMemberTable.Mobile, model.getMobile());
+                values.put(ClassMemberTable.Photo, model.getPhoto());
+
+//                    values.put(ClassMemberTable.CGId, model.getCGId());
+//                    values.put(ClassMemberTable.CGName, model.getCGName());
+
+                db.insert(ClassMemberTable.TABLE_NAME, null, values);
+
+            }
+
+
+        }
+
+    }
 
     public void insert(List<ClassMemberModel> list) {
         try {
