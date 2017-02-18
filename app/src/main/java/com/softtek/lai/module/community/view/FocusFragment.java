@@ -30,7 +30,9 @@ import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -49,6 +51,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -145,30 +148,45 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Subscribe
     public void refreshList(DeleteFocusEvent event){
-        List<DynamicModel> models=new ArrayList<>();
-        for (int i=0,j=communityModels.size();i<j;i++){
-            DynamicModel item = communityModels.get(i);
-            if(item.getAccountId()==Integer.parseInt(event.getAccountId())){
-                models.add(item);
+        Iterator<DynamicModel> iterator=communityModels.iterator();
+        while (iterator.hasNext()){
+            DynamicModel model=iterator.next();
+            if (model.getAccountId()==Long.parseLong(event.getAccountId())) {
+                iterator.remove();
             }
         }
-        communityModels.removeAll(models);
         adapter.notifyDataSetChanged();
     }
 
     @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event) {
+        if(event.getWhere()!= Where.FOCUS_LIST){
+            Iterator<DynamicModel> iterator=communityModels.iterator();
+            while (iterator.hasNext()){
+                DynamicModel model=iterator.next();
+                if (model.getDynamicId().equals(event.getDynamicId())) {
+                    iterator.remove();
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
+
+        }
+    }
+
+    @Subscribe
     public void refreshListZan(ZanEvent event){
-        if(event.getWhere()==1){
+        if(event.getWhere()!= Where.FOCUS_LIST){
             for (DynamicModel model:communityModels){
                 if(model.getDynamicId().equals(event.getDynamicId())){
                     model.setIsPraise(1);
                     model.setPraiseNum(model.getPraiseNum() + 1);
                     UserInfoModel infoModel = UserInfoModel.getInstance();
                     model.getUsernameSet().add(infoModel.getUser().getNickname());
+                    adapter.notifyDataSetChanged();
                     break;
                 }
             }
-            adapter.notifyDataSetChanged();
         }
     }
 
@@ -315,6 +333,7 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
+                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,Where.FOCUS_LIST));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -376,6 +395,7 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                                                 public void success(ResponseData responseData, Response response) {
                                                     try {
                                                         if (responseData.getStatus() == 200) {
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(data.getDynamicId(), Where.FOCUS_LIST));
                                                             communityModels.remove(data);
                                                             adapter.notifyDataSetChanged();
                                                         }

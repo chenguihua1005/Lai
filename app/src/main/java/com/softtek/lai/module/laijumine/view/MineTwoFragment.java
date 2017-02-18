@@ -1,15 +1,23 @@
 package com.softtek.lai.module.laijumine.view;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,27 +25,28 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
 import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
-import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.HealthyRecordActivity;
-import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
 import com.softtek.lai.module.laijumine.net.MineSevice;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sportchart.model.PhotModel;
-import com.softtek.lai.module.sportchart.presenter.PhotoManager;
-import com.softtek.lai.module.sportchart.view.ChartActivity;
+import com.softtek.lai.module.sportchart.net.ChartService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.List;
@@ -53,12 +62,12 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_mine_fragment)
-public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener,PhotoManager.PhotoManagerCallback {
+public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener {
 
     private UserModel model;
     private MyInfoModel myinfomodel;
     CharSequence[] items = {"拍照", "照片"};
-    private static final int CAMERA_PREMISSION = 101;
+    private static final int CAMERA_PREMISSION=100;
     private ImageFileCropSelector imageFileCropSelector;
 
     @InjectView(R.id.cir_userphoto)
@@ -85,6 +94,10 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     TextView tv_news;
     @InjectView(R.id.tv_renzh)
     TextView tv_renzh;
+    @InjectView(R.id.lin_not_vr)
+    RelativeLayout lin_not_vr;
+    @InjectView(R.id.lin_is_vr)
+    LinearLayout lin_is_vr;
 
     //跳转
     @InjectView(R.id.tv_setting)
@@ -109,19 +122,20 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     RelativeLayout re_mynews;
     @InjectView(R.id.re_renzheng)
     RelativeLayout re_renzheng;
+    @InjectView(R.id.but_login)
+    Button but_login;
 
-    private int GET_Sian=1;//个人签名
+    private int GET_Sian = 1;//个人签名
     MineSevice mineSevice;
-    ProgressDialog progressDialog;
-    PhotoManager photoManager;
+    String photo;
+    boolean isUserPhot=true;
+
     @Override
     protected void lazyLoad() {
-        GetMyInfo();
     }
 
     @Override
     protected void initViews() {
-        photoManager=new PhotoManager(this);
         tv_setting.setOnClickListener(this);
         tv_editor_signature.setOnClickListener(this);
         re_mydy.setOnClickListener(this);
@@ -135,27 +149,38 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         re_renzheng.setOnClickListener(this);
         im_banner.setOnClickListener(this);
         cir_userphoto.setOnClickListener(this);
-        imageFileCropSelector = new ImageFileCropSelector(getContext());
-        imageFileCropSelector.setQuality(90);
-        imageFileCropSelector.setOutPutAspect(DisplayUtil.getMobileWidth(getContext()), DisplayUtil.dip2px(getContext(), 190));
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(getContext()), DisplayUtil.dip2px(getContext(), 190));
+        but_login.setOnClickListener(this);
+        int px = DisplayUtil.dip2px(getContext(), 300);
+        imageFileCropSelector=new ImageFileCropSelector(getContext());
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(30);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(px, px);
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                Util.toastMsg("拍照》》》》》");
-                upload(new File(file));
-//                progressDialog.show();
-//                im_takephicon.setVisibility(View.GONE);
-//                photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId()+"", "1", file, progressDialog);
+                dialogShow("上传图片");
+                if (isUserPhot)
+                {
+                    upload(new File(file));
+                }
+                else {
+                    uploadBanner(file);
+//                    photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId(), "1", file, progressDialog);
+                }
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-                Util.toastMsg("拍照》》》》》");
-                upload(new File(files.get(0)));
-//                progressDialog.show();
-//                im_takephicon.setVisibility(View.GONE);
-//                photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId()+"", "1", files.get(0), progressDialog);
+                dialogShow("上传图片");
+                if (isUserPhot)
+                {
+                    upload(new File(files.get(0)));
+                }
+                else
+                {
+                    uploadBanner(files.get(0));
+                }
             }
 
             @Override
@@ -164,27 +189,64 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
         });
 
+
     }
 
     @Override
     protected void initDatas() {
-        mineSevice= ZillaApi.NormalRestAdapter.create(MineSevice.class);
-        model=UserInfoModel.getInstance().getUser();
-        tv_username.setText(model.getNickname());
-        tv_renzh.setText(model.getRoleName());
-
+        mineSevice = ZillaApi.NormalRestAdapter.create(MineSevice.class);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        model = UserInfoModel.getInstance().getUser();
+        if (model == null) {
+            return;
+        }
+        String userrole = model.getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+            lin_not_vr.setVisibility(View.GONE);
+            lin_is_vr.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            lin_not_vr.setVisibility(View.VISIBLE);
+            lin_is_vr.setVisibility(View.GONE);
+        }
+        photo = model.getPhoto();
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        if (!TextUtils.isEmpty(photo)) {
+            Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default)
+                    .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
+        }
+        if (StringUtils.isEmpty(model.getNickname())) {
+            tv_username.setText(model.getMobile()+"");
+        } else {
+            tv_username.setText(model.getNickname()+"");
+        }
+
+        String certification = model.getCertification();
+        if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
+            tv_renzh.setText("已认证");
+            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+        } else {
+            tv_renzh.setText("未认证");
+            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
+        }
+
+//        text_zgzh.setText(certification);
         GetMyInfo();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
+            case R.id.but_login:
+                Intent login = new Intent(getContext(), LoginActivity.class);
+                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(login);
+                break;
             case R.id.tv_setting:
                 startActivity(new Intent(getContext(), MySettingActivity.class));
                 break;
@@ -194,7 +256,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 if (TextUtils.isEmpty(myinfomodel.getSignature())) {
                     intent1.putExtra("sina", "");
                 } else {
-                    intent1.putExtra("sina",tv_editor_signature.getText().toString());
+                    intent1.putExtra("sina", tv_editor_signature.getText().toString());
                 }
                 startActivityForResult(intent1, GET_Sian);
                 break;
@@ -207,14 +269,14 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
             //跳转关注
             case R.id.re_guanzhu:
-                Intent intent=new Intent(getContext(),FocusActivity.class);
-                intent.putExtra("focusnum",Integer.parseInt(tv_guanzhunum.getText().toString()));
+                Intent intent = new Intent(getContext(), FocusActivity.class);
+                intent.putExtra("focusnum", Integer.parseInt(tv_guanzhunum.getText().toString()));
                 startActivity(intent);
                 break;
             //跳转粉丝
             case R.id.re_fans:
-                Intent focusintent=new Intent(getContext(),FansActivity.class);
-                focusintent.putExtra("fansnum",Integer.parseInt(tv_fansnum.getText().toString()));
+                Intent focusintent = new Intent(getContext(), FansActivity.class);
+                focusintent.putExtra("fansnum", Integer.parseInt(tv_fansnum.getText().toString()));
                 startActivity(focusintent);
                 break;
             //跳转健康记录
@@ -239,39 +301,44 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             case R.id.re_renzheng:
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
-            case R.id.cir_userphoto:
             case R.id.im_banner:
-                //点击编辑个人封面
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext()
-                );
+            case R.id.cir_userphoto:
+                if (view.getId()==R.id.cir_userphoto)
+                {
+                    isUserPhot=true;
+                }
+                else {
+                    isUserPhot=false;
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             //拍照
-                            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ||
-                                        ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
                                     //允许弹出提示
                                     ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
 
-                                } else {
+                                }else{
                                     //不允许弹出提示
                                     ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
                                 }
-                            } else {
-                                imageFileCropSelector.takePhoto(getActivity());
+                            }else {
+                                imageFileCropSelector.takePhoto(MineTwoFragment.this);
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectImage(getActivity());
+                            imageFileCropSelector.selectImage(MineTwoFragment.this);
                         }
                     }
                 }).create().show();
                 break;
+
         }
     }
 
@@ -287,20 +354,18 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 tv_editor_signature.setCompoundDrawables(null, null, null, null);
                 myinfomodel.setSignature(data.getStringExtra("sina"));
             }
-
         }
     }
+
     //获取我的信息
-    private void GetMyInfo()
-    {
+    private void GetMyInfo() {
         mineSevice.GetMyInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<MyInfoModel>>() {
             @Override
             public void success(ResponseData<MyInfoModel> myInfoModelResponseData, Response response) {
-                int status=myInfoModelResponseData.getStatus();
-                switch (status)
-                {
+                int status = myInfoModelResponseData.getStatus();
+                switch (status) {
                     case 200:
-                        myinfomodel=myInfoModelResponseData.getData();
+                        myinfomodel = myInfoModelResponseData.getData();
                         doSetData();
                         break;
                     default:
@@ -309,69 +374,105 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
         });
     }
-    private void doSetData()
-    {
-        if (myinfomodel==null)
-        {
+
+    private void doSetData() {
+        if (myinfomodel == null) {
             return;
-        }
-        else {
-            tv_username.setText(myinfomodel.getUserName());
-            if (!TextUtils.isEmpty(myinfomodel.getSignature()))
-            {
+        } else {
+            if (!TextUtils.isEmpty(myinfomodel.getSignature())) {
                 tv_editor_signature.setText(myinfomodel.getSignature());
                 tv_editor_signature.setCompoundDrawables(null, null, null, null);
             }
-            if (!TextUtils.isEmpty(myinfomodel.getAcBanner()))
-            {
-                Picasso.with(getContext()).load(AddressManager.get("photoHost")+myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
+            else {
+                tv_editor_signature.setText("编辑个性签名");
+                Drawable drawable= getResources().getDrawable(R.drawable.edit_grey_icon);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+                tv_editor_signature.setCompoundDrawables(null,
+                        null, drawable,
+                        null);
             }
-            if (!TextUtils.isEmpty(myinfomodel.getThPhoto()))
-            {
-                Picasso.with(getContext()).load(AddressManager.get("photoHost")+myinfomodel.getThPhoto()).fit()
-                        .centerCrop().into(cir_userphoto);
+            if (!TextUtils.isEmpty(myinfomodel.getAcBanner())) {
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).placeholder(R.drawable.default_icon_rect).fit().centerCrop().into(im_banner);
+            }
+            else {
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
             }
             tv_dynum.setText(myinfomodel.getDynamicNum());
             tv_guanzhunum.setText(myinfomodel.getFocusNum());
             tv_fansnum.setText(myinfomodel.getLoveNum());
-            if (!TextUtils.isEmpty(myinfomodel.getRecordTime()))
-            {
-                String[]date=myinfomodel.getRecordTime().split("-");
-                tv_updatetime.setText("更新于"+date[0]+"年"+date[1]+"月"+date[2]+"日");
+            if (!TextUtils.isEmpty(myinfomodel.getRecordTime())) {
+                String[] date = myinfomodel.getRecordTime().split("-");
+                tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
             }
-            tv_level.setText("您当前等级为"+myinfomodel.getLossLevel()+"级");
-            tv_sportlevelnum.setText("运动等级为"+myinfomodel.getSportLevel()+"级");
-            tv_news.setText("您有"+myinfomodel.getUnReadMsgNum()+"条未读消息");
-            tv_renzh.setText(""+model.getRoleName());
+            tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
+            tv_sportlevelnum.setText("开发中，敬请期待");
+//            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
+            if ("0".equals(myinfomodel.getUnReadMsgNum()))
+            {
+                tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
+            }
+            else {
+                String strs="您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
+                SpannableStringBuilder style=new SpannableStringBuilder(strs);
+                style.setSpan(new ForegroundColorSpan(Color.RED),2,3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tv_news.setText(style);
+            }
+
         }
     }
 
-    @Override
-    public void getResult(PhotModel result) {
-        if (result == null) {
-            return;
-        }
-        Picasso.with(getContext()).load(AddressManager.get("photoHost") + result.getPath()).centerCrop()
-                .placeholder(R.drawable.default_icon_rect).fit().into(im_banner);
-    }
+
     private void upload(final File file){
         ZillaApi.NormalRestAdapter.create(LoginService.class).modifyPicture(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), new TypedFile("image/*", file), new Callback<ResponseData<PhotoModel>>() {
                     @Override
                     public void success(ResponseData<PhotoModel> responseData, Response response) {
-                        dialogDissmiss();
+
                         try {
                             int status = responseData.getStatus();
                             switch (status) {
                                 case 200:
                                     PhotoModel photoModel = responseData.getData();
-                                    Picasso.with(getContext()).load(file).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(cir_userphoto);
                                     UserModel userModel = UserInfoModel.getInstance().getUser();
                                     userModel.setPhoto(photoModel.ThubImg);
                                     UserInfoModel.getInstance().saveUserCache(userModel);
+                                    Picasso.with(getContext()).load(file).centerCrop().placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(cir_userphoto);
+                                    dialogDissmiss();
                                     break;
                                 default:
+                                    dialogDissmiss();
                                     Util.toastMsg(responseData.getMsg());
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        ZillaApi.dealNetError(error);
+                    }
+                });
+    }
+
+    private void uploadBanner(final String file)
+    {
+        ZillaApi.NormalRestAdapter.create(ChartService.class).doUploadPhoto(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()+"",
+                "1", new TypedFile("image/png", new File(file)), new RequestCallback<ResponseData<PhotModel>>() {
+                    @Override
+                    public void success(ResponseData<PhotModel> photModelResponseData, Response response) {
+                        try {
+                            int status=photModelResponseData.getStatus();
+                            switch (status)
+                            {
+                                case 200:
+                                    Picasso.with(getContext()).load(new File(file)).centerCrop().placeholder(R.drawable.default_icon_rect).fit().into(im_banner);
+                                    dialogDissmiss();
+                                    break;
+                                default:
+                                    dialogDissmiss();
+                                    Util.toastMsg(photModelResponseData.getMsg());
                                     break;
                             }
                         } catch (Exception e) {
@@ -381,9 +482,27 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
 
                     @Override
                     public void failure(RetrofitError error) {
+                        super.failure(error);
                         dialogDissmiss();
-                        ZillaApi.dealNetError(error);
                     }
                 });
+    }
+    // Android 6.0的动态权限
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(MineTwoFragment.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
     }
 }

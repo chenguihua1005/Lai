@@ -54,7 +54,7 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
     EasyAdapter<FansInfoModel> adapter;
     MineSevice mineSevice;
     HeadService headService;
-    int positions=1;
+    int positions = 1;
     List<FansInfoModel> fansInfoModels = new ArrayList<FansInfoModel>();
 
     @Override
@@ -95,8 +95,9 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                         Picasso.with(getBaseContext()).load(AddressManager.get("photoHost") + data.getPhoto())
                                 .centerCrop().fit().placeholder(R.drawable.img_default).error(R.drawable.img_default)
                                 .into(cir_photo);
+                    } else {
+                        cir_photo.setImageResource(R.drawable.img_default);
                     }
-                    else {cir_photo.setImageResource(R.drawable.img_default);}
 
                     TextView tv_fansname = holder.getView(R.id.tv_fansname);
                     tv_fansname.setText(data.getUserName());
@@ -111,6 +112,7 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                     im_guanzhu.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            im_guanzhu.setClickable(false);
                             if (fansInfoModels.get(position).getIsFocus() == 0) {
                                 headService.doFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
                                         Long.parseLong(fansInfoModels.get(position).getAccountId()), new RequestCallback<ResponseData>() {
@@ -118,8 +120,13 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                                             public void success(ResponseData responseData, Response response) {
                                                 try {
                                                     int status = responseData.getStatus();
+                                                    im_guanzhu.setClickable(true);
                                                     switch (status) {
                                                         case 200:
+                                                            fansInfoModels.get(position).setIsFocus(1);
+                                                            im_guanzhu.setImageResource(R.drawable.focused_icon);
+                                                            break;
+                                                        case 501:
                                                             fansInfoModels.get(position).setIsFocus(1);
                                                             im_guanzhu.setImageResource(R.drawable.focused_icon);
                                                             break;
@@ -140,6 +147,7 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                                             public void success(ResponseData responseData, Response response) {
                                                 try {
                                                     int status = responseData.getStatus();
+                                                    im_guanzhu.setClickable(true);
                                                     switch (status) {
                                                         case 200:
                                                             fansInfoModels.get(position).setIsFocus(0);
@@ -196,12 +204,14 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
             }
         });
     }
+
     /*下拉刷新*/
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         fansInfoModels.clear();
         doGetData();
     }
+
     /*上拉加载*/
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -213,7 +223,7 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent personal = new Intent(this, PersionalActivity.class);
-        positions=i-1;//记住跳转的用户列表位置
+        positions = i - 1;//记住跳转的用户列表位置
         personal.putExtra("isFocus", fansInfoModels.get(positions).getIsFocus());
         personal.putExtra("personalName", fansInfoModels.get(positions).getUserName());
         personal.putExtra("personalId", fansInfoModels.get(positions).getAccountId());
@@ -225,10 +235,9 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Fans && resultCode == RESULT_OK) {
             //从个人动态页返回，判断该用户关注状态是否改变，是则改变该用户被关注状态
-            if (data.getIntExtra("isFocus",0)==fansInfoModels.get(positions).getIsFocus())
-            {}
-            else {
-                fansInfoModels.get(positions).setIsFocus(data.getIntExtra("isFocus",0));
+            if (data.getIntExtra("isFocus", 0) == fansInfoModels.get(positions).getIsFocus()) {
+            } else {
+                fansInfoModels.get(positions).setIsFocus(data.getIntExtra("isFocus", 0));
                 adapter.notifyDataSetChanged();
             }
         }

@@ -8,6 +8,8 @@ import android.provider.MediaStore.Audio.Albums;
 import android.provider.MediaStore.Images.Media;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,15 +31,15 @@ public class AlbumHelper {
      * 图像的路径为值
      */
     private HashMap<String, String> thumbnailList = new HashMap<>();
-    HashMap<String, ImageBucket> bucketList = new HashMap<>();
+    private HashMap<String, ImageBucket> bucketList = new HashMap<>();
 
     // 专辑列表
-    List<HashMap<String, String>> albumList = new ArrayList<>();
+    private List<HashMap<String, String>> albumList = new ArrayList<>();
 
     /**
      * 是否创建了图片集
      */
-    boolean hasBuildImagesBucketList = false;
+    private boolean hasBuildImagesBucketList = false;
 
 
     public AlbumHelper(Context context) {
@@ -50,7 +52,7 @@ public class AlbumHelper {
                 MediaStore.Images.Thumbnails.DATA };
         Cursor cursor=resolver.query(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
                 projection,null,null,MediaStore.Images.Thumbnails._ID+" desc");
-        if(cursor.moveToFirst()){
+        if(cursor!=null&&cursor.moveToFirst()){
             int _id;
             int image_id;
             String image_path;
@@ -63,8 +65,8 @@ public class AlbumHelper {
                 image_path=cursor.getString(dataColumn);
                 thumbnailList.put(String.valueOf(image_id),image_path);
             }while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
     }
 
     //从数据库中获取原图
@@ -73,7 +75,7 @@ public class AlbumHelper {
                 Albums.ALBUM_KEY, Albums.ARTIST, Albums.NUMBER_OF_SONGS };
         Cursor cursor = resolver.query(Albums.EXTERNAL_CONTENT_URI, projection, null,
                 null, Albums._ID+" desc");
-        if(cursor.moveToFirst()){
+        if(cursor!=null&&cursor.moveToFirst()){
             int _id;
             String album ;
             String albumArt ;
@@ -104,8 +106,8 @@ public class AlbumHelper {
                 albumList.add(hash);
 
             }while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
     }
 
     //获取所有相册集合
@@ -121,10 +123,11 @@ public class AlbumHelper {
                 Media.DISPLAY_NAME,
                 Media.TITLE,
                 Media.SIZE,
-                Media.BUCKET_DISPLAY_NAME };
+                Media.BUCKET_DISPLAY_NAME,
+        };
         Cursor cursor = resolver.query(Media.EXTERNAL_CONTENT_URI, columns, null, null,
                 Media._ID+" desc");
-        if (cursor.moveToFirst()){
+        if (cursor!=null&&cursor.moveToFirst()){
             // 获取指定列的索引
             int photoIDIndex = cursor.getColumnIndexOrThrow(Media._ID);
             int photoPathIndex = cursor.getColumnIndexOrThrow(Media.DATA);
@@ -146,7 +149,6 @@ public class AlbumHelper {
                 String bucketName = cursor.getString(bucketDisplayNameIndex);
                 String bucketId = cursor.getString(bucketIdIndex);
                 String picasaId = cursor.getString(picasaIdIndex);
-
                 ImageBucket bucket = bucketList.get(bucketId);
                 if (bucket == null) {
                     bucket = new ImageBucket();
@@ -161,9 +163,8 @@ public class AlbumHelper {
                 imageItem.thumbnailPath = thumbnailList.get(_id);
                 bucket.imageList.add(imageItem);
             }while (cursor.moveToNext());
-
+            cursor.close();
         }
-        cursor.close();
         hasBuildImagesBucketList = true;
     }
 
@@ -193,6 +194,16 @@ public class AlbumHelper {
             bucket.imageList.addAll(tmp.imageList);
             tmpList.add(entry.getValue());
         }
+        Collections.sort(bucket.imageList, new Comparator<ImageItem>() {
+            @Override
+            public int compare(ImageItem o1, ImageItem o2) {
+                if(Integer.parseInt(o1.imageId)<Integer.parseInt(o2.imageId)){
+                    return 1;//最后修改的照片在前
+                }else{
+                    return -1;
+                }
+            }
+        });
         return tmpList;
     }
 

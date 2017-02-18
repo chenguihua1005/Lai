@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_mine_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="#ffffff"
+    android:orientation="vertical"
     tools:context="com.softtek.lai.module.laijumine.view.MineTwoFragment">
+    <RelativeLayout
+        android:id="@+id/lin_not_vr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,7 +46,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        />
 
                 </RelativeLayout>
 
@@ -92,7 +99,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="3"
                         android:textColor="#333333"
                         android:textSize="18sp" />
 
@@ -118,7 +124,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="3"
                         android:textColor="#333333"
                         android:textSize="18sp" />
 
@@ -144,7 +149,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="3"
                         android:textColor="#333333"
                         android:textSize="18sp" />
 
@@ -425,6 +429,39 @@
             />
 
     </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/lin_is_vr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:src="@drawable/default_icon_rect" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:gravity="center|bottom"
+            android:text="登录后，才能使用更多功能哦"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/but_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fragmentMineMargin"
+            android:layout_marginRight="@dimen/fragmentMineMargin"
+            android:layout_marginTop="40dip"
+            android:background="@drawable/bg_login_btn"
+            android:text="立即登录"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

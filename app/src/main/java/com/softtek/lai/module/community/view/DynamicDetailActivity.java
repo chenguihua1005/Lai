@@ -26,8 +26,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.photowall.net.PhotoWallService;
-import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
+import com.softtek.lai.module.community.adapter.DynamicDetailAdapter;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
@@ -40,6 +44,7 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +59,8 @@ import static android.view.View.GONE;
 
 @InjectLayout(R.layout.activity_dynamic_detail)
 public class DynamicDetailActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ListView>
-        ,HealthyCommunityAdapter.OperationCall,SendCommend
-,OpenComment, View.OnLayoutChangeListener{
+        , DynamicDetailAdapter.OperationCall, SendCommend
+        , OpenComment, View.OnLayoutChangeListener {
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.ll_left)
@@ -72,18 +77,19 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
     Button btn_send;
 
     private CommunityService service;
-    private HealthyCommunityAdapter adapter;
-    private List<DynamicModel> communityModels=new ArrayList<>();
+    private DynamicDetailAdapter adapter;
+    private List<DynamicModel> communityModels = new ArrayList<>();
 
     String dynamicId;
 
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         tv_title.setText("动态详情");
         ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         ptrlv.setOnRefreshListener(this);
-        ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true,false);
+        ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true, false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
@@ -131,13 +137,12 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
     }
 
 
-
     @Override
     protected void initDatas() {
-        dynamicId=getIntent().getStringExtra("dynamicId");
+        dynamicId = getIntent().getStringExtra("dynamicId");
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
         //加载数据适配器
-        adapter=new HealthyCommunityAdapter(this,this,communityModels,new Object());
+        adapter = new DynamicDetailAdapter(this, this, communityModels);
         ptrlv.getRefreshableView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -189,7 +194,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
         //弹出popwindow
         final PopupWindow popupWindow = new PopupWindow(this);
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(DisplayUtil.dip2px(this,30));
+        popupWindow.setHeight(DisplayUtil.dip2px(this, 30));
         popupWindow.setAnimationStyle(R.style.operation_anim_style);
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.opteration_drawable));
         popupWindow.setOutsideTouchable(true);
@@ -197,9 +202,9 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
         final View contentView = LayoutInflater.from(this).inflate(R.layout.pop_operator, null);
         final TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
-        tv_zan.setEnabled(data.getIsPraise()!=1);
-        if(data.getIsPraise() ==1){
-            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this,R.drawable.zan_has),null,null,null);
+        tv_zan.setEnabled(data.getIsPraise() != 1);
+        if (data.getIsPraise() == 1) {
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.zan_has), null, null, null);
         }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,13 +213,12 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
                 final UserInfoModel infoModel = UserInfoModel.getInstance();
                 data.setPraiseNum(data.getPraiseNum() + 1);
                 data.setIsPraise(1);
-                List<String> praise=data.getUsernameSet();
+                List<String> praise = data.getUsernameSet();
                 praise.add(infoModel.getUser().getNickname());
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
-                EventBus.getDefault().post(new ZanEvent(dynamicId,true,1));
-                EventBus.getDefault().post(new ZanEvent(dynamicId,true,0));
+                EventBus.getDefault().post(new ZanEvent(dynamicId, true, Where.DYNAMIC_DETAIL));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -227,8 +231,8 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
                                 int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
                                 data.setPraiseNum(priase);
                                 data.setIsPraise(0);
-                                List<String> praise=data.getUsernameSet();
-                                praise.remove(praise.size()-1);
+                                List<String> praise = data.getUsernameSet();
+                                praise.remove(praise.size() - 1);
                                 data.setUsernameSet(praise);
                                 adapter.notifyDataSetChanged();
                             }
@@ -244,7 +248,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                doOpen(position,itemHeight,null);
+                doOpen(position, itemHeight, null);
 
             }
         });
@@ -258,7 +262,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
         });
         TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
         //点击删除按钮
-        if(data.getAccountId() == UserInfoModel.getInstance().getUserId()){
+        if (data.getAccountId() == UserInfoModel.getInstance().getUserId()) {
             tv_delete.setVisibility(View.VISIBLE);
             tv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -275,6 +279,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
                                                 public void success(ResponseData responseData, Response response) {
                                                     try {
                                                         if (responseData.getStatus() == 200) {
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(data.getDynamicId(), Where.DYNAMIC_DETAIL));
                                                             communityModels.remove(data);
                                                             adapter.notifyDataSetChanged();
                                                         }
@@ -291,7 +296,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
                     }).create().show();
                 }
             });
-        }else {
+        } else {
             tv_delete.setVisibility(GONE);
         }
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -300,23 +305,23 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
     }
 
     @Override
-    public void doScroll(int index,int itemHeight,int inputY) {
+    public void doScroll(int index, int itemHeight, int inputY) {
         int[] position = new int[2];
         ptrlv.getLocationOnScreen(position);
         //用弹出软件盘输入框在屏幕中的y值减去listView的顶部在屏幕中的Y值就是listView的剩余可显示高度。
-        int emptyHeight=inputY - position[1];
-        if (emptyHeight>=itemHeight){
+        int emptyHeight = inputY - position[1];
+        if (emptyHeight >= itemHeight) {
             //如果可显示高度大于整个item的高度则只需移动这个item到第一个区域即可
-            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,0);
-        }else {
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1, 0);
+        } else {
             //把被软件盘遮住的部分显示出来
-            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,(inputY - position[1])-itemHeight);
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1, (inputY - position[1]) - itemHeight);
         }
     }
 
     @Override
-    public void doSend(int  position,Comment comment) {
-        DynamicModel model=communityModels.get(position);
+    public void doSend(int position, Comment comment) {
+        DynamicModel model = communityModels.get(position);
         model.getCommendsList().add(comment);
         adapter.notifyDataSetChanged();
         ZillaApi.NormalRestAdapter.create(PhotoWallService.class)
@@ -383,4 +388,47 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void refreshListZan(ZanEvent event) {
+        if (event.getWhere() != Where.DYNAMIC_DETAIL && !communityModels.isEmpty()) {
+            DynamicModel model = communityModels.get(0);
+            if (model.getDynamicId().equals(event.getDynamicId())) {
+                model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
+                model.setPraiseNum(model.getPraiseNum() + 1);
+                UserInfoModel infoModel = UserInfoModel.getInstance();
+                model.getUsernameSet().add(infoModel.getUser().getNickname());
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event) {
+        if(event.getWhere()!=Where.DYNAMIC_DETAIL&&!communityModels.isEmpty()){
+            DynamicModel model = communityModels.get(0);
+            if (model.getDynamicId().equals(event.getDynamicId())) {
+                communityModels.clear();
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+    }
+
+    @Subscribe
+    public void refreshList(FocusEvent event) {
+        if(event.getWhere()!=Where.DYNAMIC_DETAIL){
+            for (DynamicModel model : communityModels) {
+                if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                    model.setIsFocus(event.getFocusStatus());
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
 }
