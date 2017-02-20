@@ -708,7 +708,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     //录入请求
     private void doPostInitData() {
-        service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+        service.doPostInitData(classId,UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
