@@ -76,6 +76,9 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
     @InjectView(R.id.btn_send)
     Button btn_send;
 
+    @InjectView(R.id.empty)
+    RelativeLayout empty;
+
     private CommunityService service;
     private DynamicDetailAdapter adapter;
     private List<DynamicModel> communityModels = new ArrayList<>();
@@ -88,6 +91,7 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
         EventBus.getDefault().register(this);
         tv_title.setText("动态详情");
         ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+//        ptrlv.setEmptyView(empty);
         ptrlv.setOnRefreshListener(this);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true, false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
@@ -282,6 +286,8 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
                                                             EventBus.getDefault().post(new DeleteRecommedEvent(data.getDynamicId(), Where.DYNAMIC_DETAIL));
                                                             communityModels.remove(data);
                                                             adapter.notifyDataSetChanged();
+                                                            ptrlv.setVisibility(GONE);
+                                                            empty.setVisibility(View.VISIBLE);
                                                         }
                                                     } catch (Exception e) {
                                                         e.printStackTrace();
@@ -415,6 +421,8 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
             if (model.getDynamicId().equals(event.getDynamicId())) {
                 communityModels.clear();
                 adapter.notifyDataSetChanged();
+                ptrlv.setVisibility(GONE);
+                empty.setVisibility(View.VISIBLE);
             }
 
         }
