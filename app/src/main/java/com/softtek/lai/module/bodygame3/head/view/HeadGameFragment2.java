@@ -62,6 +62,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -651,9 +652,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
         } else if (clazz.getStatus() == 2) {
             //删除班级
-            for (ClassModel model : classModels) {
+            Iterator<ClassModel> iter=classModels.iterator();
+            while (iter.hasNext()){
+                ClassModel model=iter.next();
                 if (model.getClassId().equals(clazz.getModel().getClassId())) {
-                    this.classModels.remove(model);
+                    iter.remove();
                     break;
                 }
             }
