@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -142,7 +141,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
         pageIndex=1;
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getInvitatedContactList(
+                .getInvitatedContactList(classId,
                         UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
                         classId,
@@ -189,7 +188,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
         pageIndex++;
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getInvitatedContactList(
+                .getInvitatedContactList(classId,
                         UserInfoModel.getInstance().getToken(),
                         UserInfoModel.getInstance().getUserId(),
                         classId,

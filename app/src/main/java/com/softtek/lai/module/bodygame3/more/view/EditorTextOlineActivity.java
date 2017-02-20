@@ -175,7 +175,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                                 EMClient.getInstance().groupManager().changeGroupName(classHXId, value);//需异步处理
 
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                        .updateClassName(UserInfoModel.getInstance().getToken(),
+                                        .updateClassName(classId,UserInfoModel.getInstance().getToken(),
                                                 classId,
                                                 value,
                                                 new RequestCallback<ResponseData>() {
@@ -217,7 +217,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 case UPDATE_GROUP_NAME: {
                     final String value = et_value.getText().toString();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .updateGroupName(UserInfoModel.getInstance().getToken(),
+                            .updateGroupName(classId,UserInfoModel.getInstance().getToken(),
                                     classId,
                                     getIntent().getStringExtra("groupId"),
                                     value,
@@ -239,7 +239,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 case ADD_GROUP_NAME: {
                     final String value = et_value.getText().toString();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .addGroup(UserInfoModel.getInstance().getToken(),
+                            .addGroup(classId,UserInfoModel.getInstance().getToken(),
                                     classId,
                                     value,
                                     UserInfoModel.getInstance().getUserId(),

@@ -23,6 +23,8 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassDao;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassGroupUtil;
+import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
@@ -233,18 +235,13 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         registerMessageReceiver();
 
         //此处获取群组信息，并缓存在本地
-//        getContactGroups();
+        getContactGroups();
 
     }
 
 
-    /**
-     * 获取群聊列表信息（即班级列表）
-     */
+    //伙计班级群信息，并存入列表
     private void getContactGroups() {
-//        ConatctDBHelper helper = new ConatctDBHelper(getApplicationContext());
-//        helper.deleteDatabase(getApplicationContext());
-
         try {
             ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
             service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
@@ -253,9 +250,18 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
                     int status = listResponseData.getStatus();
                     if (200 == status) {
                         classModels = listResponseData.getData();
-                        ClassDao classDao = new ClassDao(BodyGameActivity.this);
-                        classDao.clearClassTab();
-                        classDao.insert(classModels);
+                        if (classModels != null) {
+
+                            //存入数据库
+                            com.github.snowdream.android.util.Log.i(TAG, "判断表明是否存在......");
+                            if (ClassGroupUtil.getInstance().tableIsExist(GroupTable.TABLE_NAME)) {
+                                com.github.snowdream.android.util.Log.i(TAG, "存在。。。。。");
+                                ClassGroupUtil.getInstance().insert(classModels);
+                            } else {
+                                com.github.snowdream.android.util.Log.i(TAG, "不存在。。。。。");
+                            }
+                        }
+
                     } else {
                         Util.toastMsg(listResponseData.getMsg());
                     }
@@ -404,7 +410,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
                                             EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
 
                                             //环迅同意进群之后，告知后台
-                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
+                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(),model.getClassId(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
                                                     if (200 == responseData.getStatus()) {

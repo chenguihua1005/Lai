@@ -27,6 +27,7 @@ public interface FuceSevice {
     //    获取初始数据接口
     @GET("/v1/MeasuredRecordLog/GetPreMeasureData")
     void dogetInitData(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("accountId") Long accountId,
             @Query("classId") String classId,
@@ -37,6 +38,7 @@ public interface FuceSevice {
     //    获取复测审核列表
     @GET("/v1/MeasuredRecordLog/GetMeasureReviewedList")
     void dogetAuditList(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("accountId") Long accountId,
             @Query("classId") String classId,
@@ -48,6 +50,7 @@ public interface FuceSevice {
     //    获取初始数据审核列表
     @GET("/v1/MeasuredRecordLog/GetClassInitDataList")
     void dogetInitAuditList(
+            @Header("classid") String CId,
             @Header("token") String token,
             @Query("accountId") Long accountId,
             @Query("classId") String classId,
@@ -58,6 +61,7 @@ public interface FuceSevice {
     //复测录入
     @POST("/v1/MeasuredRecordLog/PostMeasuredData")
     void doPostMeasuredData(
+
             @Header("token")String token,
             @Body MultipartTypedOutput multipartTypedOutput,
             Callback<ResponseData>callback
@@ -73,6 +77,7 @@ public interface FuceSevice {
     //获取个人复测信息
     @GET("/v1/MeasuredRecordLog/GetMeasuredDataByAcmid")
     void doGetMeasuredData(
+            @Header("classid") String CId,
             @Header("token")String token,
             @Query("accountId")Long accountId,
             @Query("classId")String classId,
@@ -83,6 +88,7 @@ public interface FuceSevice {
     ///v1/MeasuredRecordLog/GetPreMeasureData
     @GET("/v1/MeasuredRecordLog/GetPreMeasureData")
     void doGetPreMeasureData(
+            @Header("classid") String CId,
             @Header("token")String token,
             @Query("accountId")Long accountId,
             @Query("classId")String classId,

@@ -219,14 +219,14 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
                 EaseAtMessageHelper.get().parseMessages(messages);
             }
 
-            @Override
-            public void onMessageReadAckReceived(List<EMMessage> messages) {
-
-            }
-
-            @Override
-            public void onMessageDeliveryAckReceived(List<EMMessage> messages) {
-            }
+//            @Override
+//            public void onMessageReadAckReceived(List<EMMessage> messages) {
+//
+//            }
+//
+//            @Override
+//            public void onMessageDeliveryAckReceived(List<EMMessage> messages) {
+//            }
 
             @Override
             public void onMessageChanged(EMMessage message, Object change) {
@@ -235,6 +235,16 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onCmdMessageReceived(List<EMMessage> messages) {
+
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> list) {
 
             }
         });
@@ -386,14 +396,24 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     }
 
     @Override
-    public void onMessageReadAckReceived(List<EMMessage> list) {
+    public void onMessageRead(List<EMMessage> list) {
 
     }
 
     @Override
-    public void onMessageDeliveryAckReceived(List<EMMessage> list) {
+    public void onMessageDelivered(List<EMMessage> list) {
 
     }
+
+//    @Override
+//    public void onMessageReadAckReceived(List<EMMessage> list) {
+//
+//    }
+//
+//    @Override
+//    public void onMessageDeliveryAckReceived(List<EMMessage> list) {
+//
+//    }
 
     @Override
     public void onMessageChanged(EMMessage emMessage, Object o) {

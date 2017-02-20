@@ -123,7 +123,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private String dateStr;
     private int classrole;
     private ClassModel classModel;
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public ActivityFragment() {
 
@@ -289,7 +288,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     private void gettodaydata(final String datestr) {
         pull.setRefreshing(false);
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(classid,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
                 classid, datestr, new RequestCallback<ResponseData<TodaysModel>>() {
                     @Override
                     public void success(ResponseData<TodaysModel> data, Response response) {
@@ -579,7 +578,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         material_calendar.removeDecorator(decorator_act);
         material_calendar.removeDecorator(decorator_create);
         material_calendar.removeDecorator(decorator_free);
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(classid,UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), classid, saveclassModel.getDates(), new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> data, Response response) {

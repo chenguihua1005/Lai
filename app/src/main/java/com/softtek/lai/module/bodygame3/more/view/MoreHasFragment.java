@@ -229,13 +229,13 @@ public class MoreHasFragment extends Fragment {
         }else if(clazz.getStatus()==1){
             //添加新班级
             this.classModels.add(clazz.getModel());
-            arrow.getAdapter().notifyDataSetChanged();
+            arrow.notifChange();
         }else if(clazz.getStatus()==2){
             //删除班级
             for (ClassModel model:classModels){
                 if(model.getClassCode().equals(clazz.getModel().getClassCode())){
                     this.classModels.remove(model);
-                    arrow.getAdapter().notifyDataSetChanged();
+                    arrow.notifChange();
                     break;
                 }
             }

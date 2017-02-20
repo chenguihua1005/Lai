@@ -28,7 +28,7 @@ public class GroupRankingManager {
 
     public void getWeekHonnorInfo(String classId, String byWhichRatio, String sortTimeType, int whichTime, String GroupId) {
         final String token = UserInfoModel.getInstance().getToken();
-        service.doGetHonorGroup(token, classId, byWhichRatio, sortTimeType, whichTime, GroupId,
+        service.doGetHonorGroup(classId,token, classId, byWhichRatio, sortTimeType, whichTime, GroupId,
                 new Callback<ResponseData<HonorGroupRankModel>>() {
                     @Override
                     public void success(ResponseData<HonorGroupRankModel> honorGroupRankModelData, Response response) {

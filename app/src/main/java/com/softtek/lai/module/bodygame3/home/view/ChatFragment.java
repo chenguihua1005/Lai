@@ -190,7 +190,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                                             EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
 
                                             //环迅同意进群之后，告知后台
-                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
+                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(),model.getClassId(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
                                                     if (200 == responseData.getStatus()) {
@@ -461,14 +461,24 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         }
 
         @Override
-        public void onMessageReadAckReceived(List<EMMessage> messages) {
+        public void onMessageRead(List<EMMessage> list) {
             refreshUIWithMessage();
         }
 
         @Override
-        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+        public void onMessageDelivered(List<EMMessage> list) {
             refreshUIWithMessage();
         }
+
+//        @Override
+//        public void onMessageReadAckReceived(List<EMMessage> messages) {
+//            refreshUIWithMessage();
+//        }
+//
+//        @Override
+//        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+//            refreshUIWithMessage();
+//        }
 
         @Override
         public void onMessageChanged(EMMessage message, Object change) {
