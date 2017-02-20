@@ -52,7 +52,7 @@ public class JpushReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.i(TAG, "[MyReceiver] 接收到推送下来的通知");
-            processCustomMessage(context, bundle);
+            //processCustomMessage(context, bundle);
             String extra=bundle.getString(JPushInterface.EXTRA_EXTRA);
             if(!extra.isEmpty()){
                 try {
