@@ -780,7 +780,10 @@
         <activity
             android:name=".module.community.view.DynamicDetailActivity"
             android:theme="@style/AppTheme" />
-
+        <activity android:name=".picture.LookBigPicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:process=":picture"/>
     </application>
 
 </manifest>
