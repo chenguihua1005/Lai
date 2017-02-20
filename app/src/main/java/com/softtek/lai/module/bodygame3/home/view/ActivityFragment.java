@@ -599,16 +599,18 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
                                     ll_chuDate.setVisibility(View.VISIBLE);
                                     classModels.addAll(activitydataModel.getList_Class());
-                                    tv_title.getAdapter().notifyDataSetChanged();
                                     if (TextUtils.isEmpty(classid)) {
                                         classid = classModels.get(0).getClassId();
                                         classrole = classModels.get(0).getClassRole();
                                         tv_title.setSelected(0);
+                                        tv_title.notifChange();
+
                                     } else {
                                         for (int i = 0, j = classModels.size(); i < j; i++) {
                                             ClassModel model = classModels.get(i);
                                             if (model.getClassId().equals(classid)) {
                                                 tv_title.setSelected(i);
+                                                tv_title.notifChange();
                                                 break;
                                             }
                                         }
