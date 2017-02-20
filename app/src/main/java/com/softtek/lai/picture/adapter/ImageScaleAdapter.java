@@ -86,12 +86,13 @@ public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher
      * @param ealuationPicBean
      */
     private void setupNetImage(final ProgressBar pb, final EaluationPicBean ealuationPicBean) {
+        startLoad(pb);
         Picasso.with(mContext).load(AddressManager.get("photoHost")+ealuationPicBean.imageUrl)
                 .placeholder(R.drawable.default_icon_square)
                 .error(R.drawable.default_icon_square).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
-                startLoad(pb);
+                overLoad(pb);
             }
 
             @Override

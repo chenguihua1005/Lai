@@ -782,7 +782,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".picture.LookBigPicActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:process=":picture"/>
     </application>
 

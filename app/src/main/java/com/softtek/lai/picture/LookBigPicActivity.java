@@ -35,7 +35,7 @@ import uk.co.senab.photoview.PhotoView;
 /**
  * Created by mabeijianxi on 2016/1/5.
  */
-public class LookBigPicActivity extends AppCompatActivity implements View.OnClickListener, ViewTreeObserver.OnPreDrawListener{
+public class LookBigPicActivity extends Activity implements View.OnClickListener, ViewTreeObserver.OnPreDrawListener{
     private List<EaluationPicBean> picDataList;
     private List<View> dotList = new ArrayList<>();
     public static String PICDATALIST = "PICDATALIST";
@@ -60,11 +60,8 @@ public class LookBigPicActivity extends AppCompatActivity implements View.OnClic
         intiView();
         setUpEvent();
         initDot(currentItem);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(android.R.color.transparent);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        toggleHideyBar();
     }
     public void toggleHideyBar() {

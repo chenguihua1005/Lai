@@ -323,7 +323,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             ealuationPicBean.width=width;
             ealuationPicBean.height=height;
             ealuationPicBean.x=x0+(i%3)*(width+h);
-            ealuationPicBean.y=y0+(i/3)*(height+v)/*-DisplayUtil.getStatusBarHeight(iv_image)*/;
+            ealuationPicBean.y=y0+(i/3)*(height+v)-DisplayUtil.getStatusBarHeight(iv_image);
             list.add(ealuationPicBean);
         }
         return list;
