@@ -66,6 +66,7 @@ public class JpushReceiver extends BroadcastReceiver {
                         model.setClassId(json.optString("classcode"));
                         clazz.setModel(model);
                         EventBus.getDefault().post(clazz);
+                        UserInfoModel.getInstance().clearClassSave();
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "Get message extra JSON error!");
