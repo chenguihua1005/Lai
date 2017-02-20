@@ -388,7 +388,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     void doPostInitData() {
-        fuceSevice.doPostMeasuredData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+        fuceSevice.doPostMeasuredData(classId,UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         int status = responseData.getStatus();

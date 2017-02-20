@@ -61,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -912,13 +913,14 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             tv_title.notifChange();
         } else if (clazz.getStatus() == 2) {
             //删除班级
-            for (ClassModel model : classModels) {
-                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-                    this.classModels.remove(model);
+            Iterator<ClassModel> iter=classModels.iterator();
+            while (iter.hasNext()){
+                ClassModel model=iter.next();
+                if (model.getClassId().equals(clazz.getModel().getClassId())) {
+                    iter.remove();
                     break;
                 }
             }
-
             tv_title.notifChange();
             if (classModels.isEmpty()) {
                 this.classModel = null;
