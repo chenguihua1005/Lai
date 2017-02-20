@@ -663,6 +663,20 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             tv_title.notifChange();
             if (!classModels.isEmpty()) {
                 tv_title.setSelected(0);
+                ClassModel model=classModels.get(0);
+                classId_first=model.getClassId();
+                classnum=model.getClassWeek();
+                saveclassModel = new SaveclassModel();
+                saveclassModel.setClassName(model.getClassName());
+                saveclassModel.setClassCode(model.getClassCode());
+                saveclassModel.setClassId(model.getClassId());
+                saveclassModel.setClassWeek(model.getClassWeek());
+                saveclassModel.setClassRole(model.getClassRole());
+                SaveClassModel saveClassModel = new SaveClassModel();
+                saveClassModel.classId = classId_first;
+                saveClassModel.classWeek = classnum;
+                ACache.get(getContext(), SAVE_CLASS_DIR).put(SAVE_CLASS, saveClassModel);
+
             } else {
                 if (deleteClass != null) {
                     deleteClass.deletClass();
