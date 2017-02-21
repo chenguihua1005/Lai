@@ -234,7 +234,6 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                                             runOnUiThread(new Runnable() {
                                                                 @Override
                                                                 public void run() {
-                                                                    dialogDissmiss();
                                                                     Util.toastMsg("成功发送邀请！");
                                                                     InvitatedContact contact = new InvitatedContact();
                                                                     contact.setClassRole(invitation.getClassRole());
@@ -250,6 +249,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                                                     Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
                                                                     intent.putExtra("invitater", contact);
                                                                     intent.putExtra("classId", invitation.getClassId());
+                                                                    dialogDissmiss();
                                                                     startActivity(intent);
                                                                 }
                                                             });
