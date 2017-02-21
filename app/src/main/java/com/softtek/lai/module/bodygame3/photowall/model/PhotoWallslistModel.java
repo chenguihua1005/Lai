@@ -23,6 +23,15 @@ public class PhotoWallslistModel {
     private List<String> ThumbnailPhotoList;//照片列表缩略图
     private int CommendsNum;//评论数
     private List<CommentModel> PhotoWallCommendsList;
+    private int CurrWeek;//第几体管周
+
+    public int getCurrWeek() {
+        return CurrWeek;
+    }
+
+    public void setCurrWeek(int currWeek) {
+        CurrWeek = currWeek;
+    }
 
     public String getThemeName() {
         return ThemeName;

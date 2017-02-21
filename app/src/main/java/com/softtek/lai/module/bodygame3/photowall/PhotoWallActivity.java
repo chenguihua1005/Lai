@@ -290,6 +290,15 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                     Picasso.with(PhotoWallActivity.this).load(R.drawable.img_default)
                             .into(civ_header_image);
                 }
+                TextView tv_week=holder.getView(R.id.tv_week);
+                if(data.getCurrWeek()!=0){
+                    tv_week.setVisibility(View.VISIBLE);
+                    tv_week.setText("第");
+                    tv_week.append(String.valueOf(data.getCurrWeek()));
+                    tv_week.append("体管周");
+                }else {
+                    tv_week.setVisibility(GONE);
+                }
                 TextView tv_content = holder.getView(R.id.tv_content);
                 final String content=data.getContent();
                 SpannableStringBuilder builder=new SpannableStringBuilder(content);
