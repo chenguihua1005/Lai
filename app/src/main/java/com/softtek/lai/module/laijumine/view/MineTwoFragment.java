@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -453,7 +452,13 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 String[] date = myinfomodel.getRecordTime().split("-");
                 tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
             }
-            tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
+            if ("0".equals(myinfomodel.getLossLevel()))
+            {
+                tv_level.setText("暂无等级");
+            }
+            else {
+                tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
+            }
             tv_sportlevelnum.setText("开发中，敬请期待");
 //            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
             if ("0".equals(myinfomodel.getUnReadMsgNum()))
