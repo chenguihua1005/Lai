@@ -161,7 +161,13 @@ public class LossWeightAndFatActivity extends BaseActivity {
             if(data.getWeightLevel()==0){
                 iv_weight_media_bg.setBackground(ContextCompat.getDrawable(this,R.drawable.bg_media_dark));
                 tv_weight_level.setTextColor(0xFF878787);
-                tv_weight_level_des.setText("减重5斤才能点亮勋章");
+                if ("0".equals(data.getIsHasClass()))
+                {
+                    tv_weight_level_des.setText("参加体管赛班级"+"\n"+"才能累积减重等级");
+                }
+                else {
+                    tv_weight_level_des.setText("减重5斤才能点亮勋章");
+                }
             }else {
                 tv_weight_level.setTextColor(0xFFF3EE7B);
                 iv_weight_media_bg.setBackground(ContextCompat.getDrawable(this,R.drawable.bg_media));
@@ -173,7 +179,13 @@ public class LossWeightAndFatActivity extends BaseActivity {
             if(data.getFatLevel()==0){
                 tv_fat_level.setTextColor(0xFF878787);
                 iv_fat_media_bg.setBackground(ContextCompat.getDrawable(this,R.drawable.bg_media_dark));
-                tv_fat_level_des.setText("减脂1%才能点亮勋章");
+                if (data.getIsHasClass().equals("0"))
+                {
+                    tv_fat_level_des.setText("参加体管赛班级"+"\n"+"才能累积减脂等级");
+                }
+                else {
+                    tv_fat_level_des.setText("减脂1%才能点亮勋章");
+                }
             }else {
                 tv_fat_level.setTextColor(0xFFF3EE7B);
                 iv_fat_media_bg.setBackground(ContextCompat.getDrawable(this,R.drawable.bg_media));

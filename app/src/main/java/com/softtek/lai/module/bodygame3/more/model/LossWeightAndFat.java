@@ -11,9 +11,18 @@ public class LossWeightAndFat {
 
 
     private int WeightLevel;
+    private String IsHasClass;
     private int FatLevel;
     private List<LossFatLevel> LossFatLevelList;
     private List<LossWeightLevel> LossWeightLevelList;
+
+    public String getIsHasClass() {
+        return IsHasClass;
+    }
+
+    public void setIsHasClass(String isHasClass) {
+        IsHasClass = isHasClass;
+    }
 
     public int getWeightLevel() {
         return WeightLevel;
