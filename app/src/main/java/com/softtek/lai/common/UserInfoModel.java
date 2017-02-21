@@ -10,11 +10,14 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment2;
+import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
 import com.softtek.lai.premission.Role;
 import com.softtek.lai.utils.ACache;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,6 +77,12 @@ public class UserInfoModel {
     /**
      * 清楚班级默认存储
      */
+    public void clearClassSave(String classId){
+        SaveClassModel model= (SaveClassModel) classCache.getAsObject(HeadGameFragment2.SAVE_CLASS);
+        if(model!=null&&classId.equals(model.classId)){
+            classCache.remove(HeadGameFragment2.SAVE_CLASS);
+        }
+    }
     public void clearClassSave(){
         classCache.remove(HeadGameFragment2.SAVE_CLASS);
     }
