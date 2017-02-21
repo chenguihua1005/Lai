@@ -2,9 +2,11 @@ package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -35,6 +37,9 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.community.view.TopicDetailActivity;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.picture.LookBigPicActivity;
+import com.softtek.lai.picture.bean.EaluationPicBean;
+import com.softtek.lai.picture.util.EvaluateUtil;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -45,6 +50,7 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,11 +218,19 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         holder.photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Intent in = new Intent(context, PictureMoreActivity.class);
-                in.putStringArrayListExtra("images", (ArrayList<String>) model.getPhotoList());
-                in.putExtra("position", position);
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                ActivityCompat.startActivity(context, in, optionsCompat.toBundle());
+//                Intent in = new Intent(context, PictureMoreActivity.class);
+//                in.putStringArrayListExtra("images", (ArrayList<String>) model.getPhotoList());
+//                in.putExtra("position", position);
+//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+//                ActivityCompat.startActivity(context, in, optionsCompat.toBundle());
+                Intent intent = new Intent(context, LookBigPicActivity.class);
+                Bundle bundle = new Bundle();
+                List<EaluationPicBean> list= EvaluateUtil.setupCoords(context,(ImageView) v,model.getPhotoList(),position);
+                bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
+                intent.putExtras(bundle);
+                intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
+                context.startActivity(intent);
+                ((AppCompatActivity) context).overridePendingTransition(0,0);
             }
         });
         holder.iv_operator.setOnClickListener(new View.OnClickListener() {
