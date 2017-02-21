@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:padding="16dp"
+    android:id="@+id/rl_item"
     android:background="@color/white">
     <com.softtek.lai.widgets.CircleImageView
         android:id="@+id/civ_header_image"
@@ -129,9 +130,5 @@
                 android:layout_height="0.5dp"
                 android:background="#e1e1e1"/>
         </LinearLayout>
-        <View
-            android:id="@+id/item_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="1px"/>
     </LinearLayout>
 </RelativeLayout>
