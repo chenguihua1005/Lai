@@ -580,7 +580,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     progressDialog.dismiss();
-                                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
