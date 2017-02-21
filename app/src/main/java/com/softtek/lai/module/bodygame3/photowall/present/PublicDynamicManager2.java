@@ -12,7 +12,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.community.model.ImageResponse2;
-import com.softtek.lai.module.community.net.UploadImageService;
 import com.softtek.lai.module.community.net.UploadImageService2;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.RequestCallback;
@@ -105,7 +104,6 @@ public class PublicDynamicManager2 implements Runnable,UploadImageService2.Uploa
                         progressDialog.dismiss();
                     }
                     Intent intent=((AppCompatActivity)context).getIntent();
-                    intent.putExtra("uploadImage",new UploadImage());
                     ((AppCompatActivity)context).setResult(-1,intent);
                     ((AppCompatActivity)context).finish();
                 }

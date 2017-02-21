@@ -25,6 +25,7 @@ import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -229,13 +230,15 @@ public class MoreHasFragment extends Fragment {
         }else if(clazz.getStatus()==1){
             //添加新班级
             this.classModels.add(clazz.getModel());
-            arrow.getAdapter().notifyDataSetChanged();
+            arrow.notifChange();
         }else if(clazz.getStatus()==2){
             //删除班级
-            for (ClassModel model:classModels){
-                if(model.getClassCode().equals(clazz.getModel().getClassCode())){
-                    this.classModels.remove(model);
-                    arrow.getAdapter().notifyDataSetChanged();
+            Iterator<ClassModel> iter=classModels.iterator();
+            while (iter.hasNext()){
+                ClassModel model=iter.next();
+                if(model.getClassId().equals(clazz.getModel().getClassId())){
+                    iter.remove();
+                    arrow.notifChange();
                     break;
                 }
             }

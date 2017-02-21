@@ -51,7 +51,8 @@ public class CurrentClassFrament extends LazyBaseFragment2 {
     protected void lazyLoad() {
         setEmptyText("暂无数据");
         LoverService service = ZillaApi.NormalRestAdapter.create(LoverService.class);
-        service.getIntroducerList(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), getArguments().getString("classId"), 1, new RequestCallback<ResponseData<List<LoverModel>>>() {
+        String classId=getArguments().getString("classId");
+        service.getIntroducerList(classId,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, 1, new RequestCallback<ResponseData<List<LoverModel>>>() {
             @Override
             public void success(ResponseData<List<LoverModel>> listResponseData, Response response) {
                 setContentEmpty(false);

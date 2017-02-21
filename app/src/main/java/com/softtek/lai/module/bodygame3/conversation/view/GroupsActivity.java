@@ -29,6 +29,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.GroupAdapter;
+import com.softtek.lai.module.bodygame3.conversation.database.ClassGroupUtil;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
+import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
+import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
@@ -236,26 +240,18 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
                     int status = listResponseData.getStatus();
                     if (200 == status) {
                         classModels = listResponseData.getData();
-                        Log.i(TAG, "classModels = " + new Gson().toJson(classModels));
                         if (classModels != null) {
                             groupAdapter.updateData(classModels);
+
+                            //存入数据库
+                            com.github.snowdream.android.util.Log.i(TAG, "判断表明是否存在......");
+                            if (ClassGroupUtil.getInstance().tableIsExist(GroupTable.TABLE_NAME)) {
+                                com.github.snowdream.android.util.Log.i(TAG, "存在。。。。。");
+                                ClassGroupUtil.getInstance().insert(classModels);
+                            } else {
+                                com.github.snowdream.android.util.Log.i(TAG, "不存在。。。。。");
+                            }
                         }
-                        //                for (int i = 0; i < classModels.size(); i++) {
-                        //                    ContactClassModel classModel = classModels.get(i);
-                        //                    String HXGroupId = classModel.getHXGroupId();
-                        //
-                        //                    if (!TextUtils.isEmpty(HXGroupId)) {
-                        //                        try {
-                        //                            EMClient.getInstance().groupManager().destroyGroup(HXGroupId);
-                        //                            Util.toastMsg("解散成功！");
-                        //
-                        //                        } catch (HyphenateException e) {
-                        //                            e.printStackTrace();
-                        //                            Util.toastMsg("解散失败！");
-                        //                        }
-                        //                    }
-                        //
-                        //                }
 
                     } else {
                         Util.toastMsg(listResponseData.getMsg());
@@ -307,7 +303,7 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
                                             EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
 
                                             //环迅同意进群之后，告知后台
-                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
+                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
                                                     if (200 == responseData.getStatus()) {

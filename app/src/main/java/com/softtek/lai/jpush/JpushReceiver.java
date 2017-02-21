@@ -11,12 +11,15 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
+import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.view.ExamineActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.message2.view.MessageConfirmActivity;
 import com.softtek.lai.module.sport.view.RunSportActivity;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,7 +52,26 @@ public class JpushReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.i(TAG, "[MyReceiver] 接收到推送下来的通知");
-            processCustomMessage(context, bundle);
+            //processCustomMessage(context, bundle);
+            String extra=bundle.getString(JPushInterface.EXTRA_EXTRA);
+            if(!extra.isEmpty()){
+                try {
+                    JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
+                    //拿到通知类型
+                    int msgType=json.optInt("msgtype");
+                    if(msgType==6){//收到了被移除班级的通知
+                        UpdateClass clazz=new UpdateClass();
+                        clazz.setStatus(2);
+                        ClassModel model=new ClassModel();
+                        model.setClassId(json.optString("classcode"));
+                        clazz.setModel(model);
+                        EventBus.getDefault().post(clazz);
+                        UserInfoModel.getInstance().clearClassSave();
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "Get message extra JSON error!");
+                }
+            }
             Log.i(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {

@@ -124,7 +124,7 @@ public class PantnerActivity extends BaseActivity implements View.OnClickListene
                 String content_searc = pantnerContent.getText().toString();
                 if(StringUtils.isNotEmpty(content_searc)) {
                     pb.setVisibility(View.VISIBLE);
-                    ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(UserInfoModel.getInstance().getToken(),
+                    ZillaApi.NormalRestAdapter.create(HeadService.class).getpartner(classId_first,UserInfoModel.getInstance().getToken(),
                             content_searc, classId_first, 10, 1, new RequestCallback<ResponseData<PantnerpageModel>>() {
                                 @Override
                                 public void success(ResponseData<PantnerpageModel> pantnerpageModelResponseData, Response response) {

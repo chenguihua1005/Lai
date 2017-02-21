@@ -3,6 +3,7 @@ package com.hyphenate.easeui.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,8 @@ public class ContactUtil {
 
         } catch (Exception e) {
             // TODO: handle exception
+        } finally {
+
         }
         return result;
     }
@@ -157,6 +160,7 @@ public class ContactUtil {
             cursor.close();
             db.close();
         }
+        com.github.snowdream.android.util.Log.i("model = " + model);
         return model;
     }
 

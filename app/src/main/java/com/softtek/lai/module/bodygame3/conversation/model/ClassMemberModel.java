@@ -20,6 +20,9 @@ public class ClassMemberModel implements Serializable {
     private int IsFriend;//是否是好友（1：是， 0：否）
     private String AFriendId;//班级好友关系ID
 
+    public ClassMemberModel() {
+    }
+
     public ClassMemberModel(String HXAccountId, long accountId, String userName, String userEn, String mobile, String photo, String CGId, String CGName, String role, String addTime, int isFriend, String AFriendId) {
         this.HXAccountId = HXAccountId;
         AccountId = accountId;
@@ -49,10 +52,6 @@ public class ClassMemberModel implements Serializable {
 
     public long getAccountId() {
         return AccountId;
-    }
-
-    public void setAccountId(int accountId) {
-        AccountId = accountId;
     }
 
     public int getIsFriend() {
@@ -133,5 +132,23 @@ public class ClassMemberModel implements Serializable {
 
     public void setAddTime(String addTime) {
         AddTime = addTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassMemberModel{" +
+                "HXAccountId='" + HXAccountId + '\'' +
+                ", AccountId=" + AccountId +
+                ", UserName='" + UserName + '\'' +
+                ", UserEn='" + UserEn + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", CGId='" + CGId + '\'' +
+                ", CGName='" + CGName + '\'' +
+                ", Role='" + Role + '\'' +
+                ", AddTime='" + AddTime + '\'' +
+                ", IsFriend=" + IsFriend +
+                ", AFriendId='" + AFriendId + '\'' +
+                '}';
     }
 }

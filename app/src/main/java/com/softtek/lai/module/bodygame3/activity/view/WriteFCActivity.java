@@ -629,7 +629,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         }
     }
     private void doGetDataService(String type) {
-        service.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+        service.doGetPreMeasureData(classId,UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status = fcStDataModelResponseData.getStatus();
@@ -708,7 +708,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     //录入请求
     private void doPostInitData() {
-        service.doPostInitData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+        service.doPostInitData(classId,UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();

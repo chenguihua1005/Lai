@@ -193,7 +193,7 @@ public class FcAuditFragment extends LazyBaseFragment implements View.OnClickLis
     }
     //获取审核列表数据
     private void doGetData() {
-        fuceSevice.dogetAuditList(UserInfoModel.getInstance().getToken(), userid, classid,typedata, pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetAuditList(classid,UserInfoModel.getInstance().getToken(), userid, classid,typedata, pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();

@@ -54,8 +54,8 @@ import com.softtek.lai.module.community.adapter.CommentAdapter;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
-import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
@@ -67,7 +67,6 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.SendCommend;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
@@ -438,6 +437,19 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         }
     }
     private static final int OPEN_SENDER_REQUEST = 2;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == -1) {
+            if (requestCode == OPEN_SENDER_REQUEST) {
+                if(ptrlv!=null){
+                    ptrlv.getRefreshableView().setSelection(0);
+                    onRefresh();
+                }
+            }
+        }
+    }
 
     //检查是否为游客
     private boolean checkVr() {
