@@ -210,7 +210,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         }
         String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
-            lin_not_vr.setVisibility(View.GONE);
+            srl_refresh.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);
             return;
         } else {
@@ -563,7 +563,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         }
         String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
-            lin_not_vr.setVisibility(View.GONE);
+            srl_refresh.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);
             return;
         } else {
