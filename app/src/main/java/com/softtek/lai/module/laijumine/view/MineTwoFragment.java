@@ -5,10 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -62,7 +63,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_mine_fragment)
-public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener {
+public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private UserModel model;
     private MyInfoModel myinfomodel;
@@ -98,6 +99,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     RelativeLayout lin_not_vr;
     @InjectView(R.id.lin_is_vr)
     LinearLayout lin_is_vr;
+    @InjectView(R.id.srl_refresh)
+    SwipeRefreshLayout srl_refresh;
 
     //跳转
     @InjectView(R.id.tv_setting)
@@ -136,6 +139,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initViews() {
+        srl_refresh.setOnRefreshListener(this);
+        srl_refresh.setColorSchemeColors(getResources().getColor(R.color.btn_blue_normal));
         tv_setting.setOnClickListener(this);
         tv_editor_signature.setOnClickListener(this);
         re_mydy.setOnClickListener(this);
@@ -166,7 +171,6 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 }
                 else {
                     uploadBanner(file);
-//                    photoManager.doUploadPhoto(UserInfoModel.getInstance().getUserId(), "1", file, progressDialog);
                 }
             }
 
@@ -206,7 +210,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         }
         String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
-            lin_not_vr.setVisibility(View.GONE);
+            srl_refresh.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);
             return;
         } else {
@@ -234,9 +238,54 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
         }
 
-//        text_zgzh.setText(certification);
         GetMyInfo();
     }
+
+
+
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser)
+//        {
+//            model = UserInfoModel.getInstance().getUser();
+//            if (model == null) {
+//                return;
+//            }
+//            String userrole = model.getUserrole();
+//            if (String.valueOf(Constants.VR).equals(userrole)) {
+//                lin_not_vr.setVisibility(View.GONE);
+//                lin_is_vr.setVisibility(View.VISIBLE);
+//                return;
+//            } else {
+//                lin_not_vr.setVisibility(View.VISIBLE);
+//                lin_is_vr.setVisibility(View.GONE);
+//            }
+//            photo = model.getPhoto();
+//            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//            if (!TextUtils.isEmpty(photo)) {
+//                Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default)
+//                        .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
+//            }
+//            if (StringUtils.isEmpty(model.getNickname())) {
+//                tv_username.setText(model.getMobile()+"");
+//            } else {
+//                tv_username.setText(model.getNickname()+"");
+//            }
+//
+//            String certification = model.getCertification();
+//            if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
+//                tv_renzh.setText("已认证");
+//                tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+//            } else {
+//                tv_renzh.setText("未认证");
+//                tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
+//            }
+//
+////        text_zgzh.setText(certification);
+//            GetMyInfo();
+//        }
+//    }
 
     @Override
     public void onClick(View view) {
@@ -351,7 +400,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         if (requestCode == GET_Sian && resultCode == getActivity().RESULT_OK) {
             if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
                 tv_editor_signature.setText(data.getStringExtra("sina"));
-                tv_editor_signature.setCompoundDrawables(null, null, null, null);
+//                tv_editor_signature.setCompoundDrawables(null, null, null, null);
                 myinfomodel.setSignature(data.getStringExtra("sina"));
             }
         }
@@ -381,15 +430,15 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         } else {
             if (!TextUtils.isEmpty(myinfomodel.getSignature())) {
                 tv_editor_signature.setText(myinfomodel.getSignature());
-                tv_editor_signature.setCompoundDrawables(null, null, null, null);
+//                tv_editor_signature.setCompoundDrawables(null, null, null, null);
             }
             else {
                 tv_editor_signature.setText("编辑个性签名");
-                Drawable drawable= getResources().getDrawable(R.drawable.edit_grey_icon);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
-                tv_editor_signature.setCompoundDrawables(null,
-                        null, drawable,
-                        null);
+//                Drawable drawable= getResources().getDrawable(R.drawable.edit_grey_icon);
+//                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+//                tv_editor_signature.setCompoundDrawables(null,
+//                        null, drawable,
+//                        null);
             }
             if (!TextUtils.isEmpty(myinfomodel.getAcBanner())) {
                 Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).placeholder(R.drawable.default_icon_rect).fit().centerCrop().into(im_banner);
@@ -504,5 +553,45 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 // functionality that depends on this permission.
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        model = UserInfoModel.getInstance().getUser();
+        if (model == null) {
+            return;
+        }
+        String userrole = model.getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+            srl_refresh.setVisibility(View.GONE);
+            lin_is_vr.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            lin_not_vr.setVisibility(View.VISIBLE);
+            lin_is_vr.setVisibility(View.GONE);
+        }
+        photo = model.getPhoto();
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        if (!TextUtils.isEmpty(photo)) {
+            Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default)
+                    .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
+        }
+        if (StringUtils.isEmpty(model.getNickname())) {
+            tv_username.setText(model.getMobile()+"");
+        } else {
+            tv_username.setText(model.getNickname()+"");
+        }
+
+        String certification = model.getCertification();
+        if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
+            tv_renzh.setText("已认证");
+            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+        } else {
+            tv_renzh.setText("未认证");
+            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
+        }
+
+        GetMyInfo();
+        srl_refresh.setRefreshing(false);
     }
 }
