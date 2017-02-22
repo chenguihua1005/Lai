@@ -9,12 +9,12 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
+import android.text.Selection;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -22,11 +22,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -106,21 +106,41 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         fl_right.setOnClickListener(this);
         tv_title.setText("发布动态");
         tv_right.setText("发布");
-        et_content.addTextChangedListener(new TextWatcher() {
+        et_content.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String str=s.toString();
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    int cursor=et_content.getSelectionStart();
+                    int from=0;
+                    String content=et_content.getText().toString();
+                    int lastIndex=content.lastIndexOf("#");
+                    do {
+                        //先获取第一个#号出现的下标
+                        int firstIndex=content.indexOf("#",from);
+                        //然后获取下一个#号出现的位置
+                        int next=content.indexOf("#",firstIndex+1);
+                        if(next==-1){
+                            break;
+                        }
+                        //截取两个#号之间的字符
+                        String sub=content.substring(firstIndex+1,next);
+                        //将开始下标移动至下一个#号出现的位置
+                        from=next;
+                        for (TopicModel topic:topicModels){
+                            if(sub.equals(topic.getWordKey())){
+                                from=next+1;
+                                //判断光标是否在话题文字范围内如果是则
+                                if(cursor>firstIndex&&cursor<next){
+                                    Log.i("在话题的位置 移动光标到末尾");
+                                    //Selection.setSelection(et_content.getText(),content.length());
+                                        et_content.setSelection(content.length());
+                                    break;
+                                }
+                            }
+                        }
+                    }while (from<lastIndex);
+                }
+                return false;
             }
         });
 
@@ -157,44 +177,65 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 tv_hot_num.setText(data.getThemeHot());
                 CircleImageView cir_title=holder.getView(R.id.cir_title);
                 final ImageView ck_select=holder.getView(R.id.ck_select);
-                if(hasTheme){
+                if(data.isSelect()){
                     ck_select.setBackgroundResource(R.drawable.selected);
                 }else {
                     ck_select.setBackgroundResource(R.drawable.unselect);
                 }
-                RelativeLayout re_oc=holder.getView(R.id.re_oc);
                 if (!TextUtils.isEmpty(data.getThemePhoto()))
                 {
-                    Picasso.with(PublishDyActivity.this).load(AddressManager.get("photoHost")+data.getThemePhoto()).fit().into(cir_title);
+                    Picasso.with(PublishDyActivity.this)
+                            .load(AddressManager.get("photoHost")+data.getThemePhoto())
+                            .fit()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(cir_title);
+                }else {
+                    Picasso.with(PublishDyActivity.this)
+                            .load(R.drawable.default_icon_square)
+                            .placeholder(R.drawable.default_icon_square)
+                            .into(cir_title);
                 }
-                re_oc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(hasTheme){
-                            ck_select.setBackgroundResource(R.drawable.unselect);
-                            hasTheme=false;
-                            //获取当前光标的所在位置
-                            int start=et_content.getSelectionStart();
-                            String replace="#"+data.getWordKey()+"#";
-                            String str=et_content.getText().toString();
-                            et_content.setText(str.replace(replace,""));
-                            int selection=start-replace.length();
-                            int lenght=et_content.length()-1<0?0:et_content.length()-1;
-                            et_content.setSelection(selection<0?lenght:selection);
-                        }else {
-                            ck_select.setBackgroundResource(R.drawable.selected);
-                            hasTheme=true;
-                            Editable edit=et_content.getText();
-                            SpannableString ss=new SpannableString("#"+data.getWordKey()+"#");
-                            ss.setSpan(new ForegroundColorSpan(0xFFFFA202),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            edit.insert(et_content.getSelectionStart(),ss);
-                        }
-                    }
-                });
-
             }
         };
         lv.setAdapter(topicAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TopicModel model=topicModels.get(position);
+                model.setSelect(!model.isSelect());
+                topicAdapter.notifyDataSetChanged(lv,position);
+                if(model.isSelect()){
+                    //在光标位置插入话题文字
+                    int start=et_content.getSelectionStart();
+                    SpannableString ss=new SpannableString("#"+model.getWordKey()+"#");
+                    ss.setSpan(new ForegroundColorSpan(0xFFFFA202),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    et_content.getText().insert(start,ss);
+                }else {
+                    //从后往前移除此话题
+                    String content=et_content.getText().toString();
+                    int from=content.indexOf("#");
+                    int lastIndex=content.lastIndexOf("#");
+                    do {
+                        //先从后往前获取第二个#号出现的位置
+                        int next=content.lastIndexOf("#",lastIndex-1);
+                        if(next==-1){
+                            break;
+                        }
+                        //截取两个#号之间的字符
+                        String sub=content.substring(next+1,lastIndex);
+                        //将开始下标移动至下一个#号出现的位置
+
+                        if(sub.equals(model.getWordKey())){
+                            et_content.getText().delete(next, lastIndex+1);
+                            lastIndex=next-1;
+                        }else {
+                            lastIndex=next;
+                        }
+                    }while (lastIndex>from);
+                }
+            }
+        });
 
         int px= DisplayUtil.dip2px(this,300);
         //*************************
