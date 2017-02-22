@@ -925,8 +925,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             }
             tv_title.notifChange();
             if (classModels.isEmpty()) {
-                this.classModel = null;
                 classid = "";
+                this.classModel = null;
             } else {
                 tv_title.setSelected(0);
                 this.classModel = classModels.get(0);

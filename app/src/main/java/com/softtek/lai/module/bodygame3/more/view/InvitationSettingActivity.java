@@ -230,32 +230,31 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                                 new RequestCallback<ResponseData>() {
                                                     @Override
                                                     public void success(final ResponseData responseData, final Response response) {
-                                                        dialogDissmiss();
                                                         if (responseData.getStatus() == 200) {
                                                             runOnUiThread(new Runnable() {
                                                                 @Override
                                                                 public void run() {
-                                                                    dialogDissmiss();
                                                                     Util.toastMsg("成功发送邀请！");
-
+                                                                    InvitatedContact contact = new InvitatedContact();
+                                                                    contact.setClassRole(invitation.getClassRole());
+                                                                    contact.setInviterCertification("");
+                                                                    contact.setInviterId((int) invitation.getInviterId());
+                                                                    contact.setInviterMobile(classInvitater.getInviterMobile());
+                                                                    contact.setInviterPhoto(classInvitater.getInviterPhoto());
+                                                                    contact.setInviterStatus(0);
+                                                                    contact.setMessageId("0");
+                                                                    contact.setInviterUserName(classInvitater.getInviterName());
+                                                                    contact.setJoinGroupId(invitation.getClassGroupId());
+                                                                    contact.setJoinGroupName(tv_group_name.getText().toString());
+                                                                    Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
+                                                                    intent.putExtra("invitater", contact);
+                                                                    intent.putExtra("classId", invitation.getClassId());
+                                                                    dialogDissmiss();
+                                                                    startActivity(intent);
                                                                 }
                                                             });
 
-                                                            InvitatedContact contact = new InvitatedContact();
-                                                            contact.setClassRole(invitation.getClassRole());
-                                                            contact.setInviterCertification("");
-                                                            contact.setInviterId((int) invitation.getInviterId());
-                                                            contact.setInviterMobile(classInvitater.getInviterMobile());
-                                                            contact.setInviterPhoto(classInvitater.getInviterPhoto());
-                                                            contact.setInviterStatus(0);
-                                                            contact.setMessageId("0");
-                                                            contact.setInviterUserName(classInvitater.getInviterName());
-                                                            contact.setJoinGroupId(invitation.getClassGroupId());
-                                                            contact.setJoinGroupName(tv_group_name.getText().toString());
-                                                            Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
-                                                            intent.putExtra("invitater", contact);
-                                                            intent.putExtra("classId", invitation.getClassId());
-                                                            startActivity(intent);
+
                                                         } else {
                                                             runOnUiThread(new Runnable() {
                                                                 @Override
