@@ -29,7 +29,7 @@ public class TextViewExpandableAnimation extends LinearLayout
     /**
      * TextView
      */
-    private TextView textView;
+    private CommentTextView textView;
 
     /**
      * 收起/全部TextView
@@ -154,7 +154,7 @@ public class TextViewExpandableAnimation extends LinearLayout
 
         rlToggleLayout = (RelativeLayout) findViewById(R.id.rl_expand_text_view_animation_toggle_layout);
 
-        textView = (TextView) findViewById(R.id.tv_expand_text_view_animation);
+        textView = (CommentTextView) findViewById(R.id.tv_expand_text_view_animation);
         textView.setTextColor(textContentColor);
         textView.getPaint().setTextSize(textContentSize);
 

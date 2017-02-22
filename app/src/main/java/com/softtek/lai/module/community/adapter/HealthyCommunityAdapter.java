@@ -34,6 +34,7 @@ import com.softtek.lai.module.community.eventModel.FocusEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.model.DynamicModel;
+import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.community.view.TopicDetailActivity;
@@ -58,6 +59,7 @@ import java.util.List;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.util.Util;
 
 /**
  * Created by John on 2016/4/14.
@@ -111,25 +113,29 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         holder.tv_name.setText(model.getUserName());
         final String content=model.getContent();
         SpannableStringBuilder builder=new SpannableStringBuilder(content);
-        if(model.getIsTopic()==1){
-            /**
-             * 0  1 2 3 4 5   6 7  8  9 10
-             * 哈哈哈哈 # 金 彩 踢 馆 赛 #
-             */
-            String theme="#"+model.getThemeName()+"#";
+        if(model.getIsTopic()==1&&model.getTopicList()!=null){
             int from=0;
             int lastIndex=content.lastIndexOf("#");
             do {
+                //先获取第一个#号出现的下标
                 int firstIndex=content.indexOf("#",from);
-                int nextIndex=firstIndex+model.getThemeName().length()+1;
-                if(nextIndex<=lastIndex){
-                    String sub=content.substring(firstIndex,nextIndex+1);
-                    if(sub.equals(theme)){
+                //然后获取下一个#号出现的位置
+                int next=content.indexOf("#",firstIndex+1);
+                if(next==-1){
+                    break;
+                }
+                //截取两个#号之间的字符
+                String sub=content.substring(firstIndex+1,next);
+                //将开始下标移动至下一个#号出现的位置
+                from=next;
+                for (final TopicList topic:model.getTopicList()){
+                    if(sub.equals(topic.getTopicName())){
+                        from=next+1;
                         builder.setSpan(new ClickableSpan() {
                             @Override
                             public void onClick(View widget) {
                                 Intent intent=new Intent(context, TopicDetailActivity.class);
-                                intent.putExtra("topicId",model.getTopicType());
+                                intent.putExtra("topicId",topic.getTopicType());
                                 context.startActivity(intent);
                             }
 
@@ -139,16 +145,22 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                                 ds.setColor(0xFFFFA202);
                                 ds.setUnderlineText(false);//去除超链接的下划线
                             }
-                        }, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }, firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        break;
                     }
                 }
-                from=nextIndex;
             }while (from<lastIndex);
         }
         holder.tv_content.getTextView().setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
         holder.tv_content.setText(builder);
         holder.tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
-        holder.tv_content.resetState(true);
+        holder.tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+            @Override
+            public void onStateChange(boolean isShrink) {
+                model.setOpen(isShrink);
+            }
+        });
+        holder.tv_content.resetState(model.isOpen());
         long[] days=DateUtil.getInstance().getDaysForNow(model.getCreateDate());
         StringBuilder time=new StringBuilder();
         if(days[0]==0){//今天
@@ -252,11 +264,6 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         holder.photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                Intent in = new Intent(context, PictureMoreActivity.class);
-//                in.putStringArrayListExtra("images", (ArrayList<String>) model.getPhotoList());
-//                in.putExtra("position", position);
-//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-//                ActivityCompat.startActivity(context, in, optionsCompat.toBundle());
                 Intent intent = new Intent(context, LookBigPicActivity.class);
                 Bundle bundle = new Bundle();
                 List<EaluationPicBean> list=setupCoords((ImageView) v,model.getPhotoList(),position);
@@ -287,6 +294,12 @@ public class HealthyCommunityAdapter extends BaseAdapter {
         holder.rv_comment.setAdapter(adapter);
         return convertView;
 
+    }
+
+    private static int topicContact(String content,List<TopicList> match){
+        int has=0;
+
+        return has;
     }
 
     /**

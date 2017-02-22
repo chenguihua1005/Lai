@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">-->
 
-    <TextView
+    <com.softtek.lai.widgets.CommentTextView
         android:id="@+id/tv_expand_text_view_animation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

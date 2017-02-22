@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -65,11 +62,11 @@ import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.model.TopicInfo;
+import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.SendCommend;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.picture.LookBigPicActivity;
 import com.softtek.lai.picture.bean.EaluationPicBean;
 import com.softtek.lai.picture.util.EvaluateUtil;
@@ -251,25 +248,34 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 tv_name.setText(model.getUserName());
                 final String content = model.getContent();
                 SpannableStringBuilder builder = new SpannableStringBuilder(content);
-                if (model.getIsTopic() == 1) {
+                if (model.getIsTopic() == 1&&model.getTopicList()!=null) {
                     /**
                      * 0  1 2 3 4 5   6 7  8  9 10
                      * 哈哈哈哈 # 金 彩 踢 馆 赛 #
                      */
-                    String theme = "#" + model.getThemeName() + "#";
-                    int from = 0;
-                    int lastIndex = content.lastIndexOf("#");
+                    int from=0;
+                    int lastIndex=content.lastIndexOf("#");
                     do {
-                        int firstIndex = content.indexOf("#", from);
-                        int nextIndex = firstIndex + model.getThemeName().length() + 1;
-                        if (nextIndex <= lastIndex) {
-                            String sub = content.substring(firstIndex, nextIndex + 1);
-                            if (sub.equals(theme)) {
+                        //先获取第一个#号出现的下标
+                        int firstIndex=content.indexOf("#",from);
+                        //然后获取下一个#号出现的位置
+                        int next=content.indexOf("#",firstIndex+1);
+                        if(next==-1){
+                            break;
+                        }
+                        //截取两个#号之间的字符
+                        String sub=content.substring(firstIndex+1,next);
+                        //将开始下标移动至下一个#号出现的位置
+                        from=next;
+                        for (final TopicList topic:model.getTopicList()){
+                            if(sub.equals(topic.getTopicName())){
+                                from=next+1;
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-                                        Log.i("点击了主题");
-                                        startActivity(new Intent(TopicDetailActivity.this, TopicDetailActivity.class));
+                                        Intent intent=new Intent(TopicDetailActivity.this, TopicDetailActivity.class);
+                                        intent.putExtra("topicId",topic.getTopicType());
+                                        startActivity(intent);
                                     }
 
                                     @Override
@@ -278,17 +284,23 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                         ds.setColor(0xFFFFA202);
                                         ds.setUnderlineText(false);//去除超链接的下划线
                                     }
-                                }, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                }, firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                                break;
                             }
                         }
-                        from = nextIndex;
-                    } while (from < lastIndex);
+                    }while (from<lastIndex);
                 }
                 TextViewExpandableAnimation tv_content = holder.getView(R.id.tv_content);
                 tv_content.getTextView().setHighlightColor(ContextCompat.getColor(TopicDetailActivity.this, android.R.color.transparent));
                 tv_content.setText(builder);
                 tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
-                tv_content.resetState(true);
+                tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                    @Override
+                    public void onStateChange(boolean isShrink) {
+                        model.setOpen(isShrink);
+                    }
+                });
+                tv_content.resetState(model.isOpen());
                 final long[] days = DateUtil.getInstance().getDaysForNow(model.getCreateDate());
                 StringBuilder time = new StringBuilder();
                 if (days[0] == 0) {//今天
@@ -791,31 +803,40 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 .getTopicDetail(UserInfoModel.getInstance().getUserId(), topicId, 1, 10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
                     @Override
                     public void success(ResponseData<HealthyRecommendModel> data, Response response) {
-                        pb.setVisibility(GONE);
-                        ptrlv.getRefreshableView().onCompletedRefresh();
-                        if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
-                            datas.clear();
-                            datas.addAll(data.getData().getDynamiclist());
-                            adapter.notifyDataSetChanged();
+                        try {
+                            pb.setVisibility(GONE);
+                            ptrlv.getRefreshableView().onCompletedRefresh();
+                            if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
+                                datas.clear();
+                                datas.addAll(data.getData().getDynamiclist());
+                                adapter.notifyDataSetChanged();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        pb.setVisibility(GONE);
-                        ptrlv.getRefreshableView().onCompletedRefresh();
+                        try {
+                            pb.setVisibility(GONE);
+                            ptrlv.getRefreshableView().onCompletedRefresh();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         super.failure(error);
                     }
                 });
+        Log.i("话题id是="+topicId);
         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                 .getTopicCover(topicId, new RequestCallback<ResponseData<TopicInfo>>() {
                     @Override
                     public void success(ResponseData<TopicInfo> data, Response response) {
-                        Log.i("刷新加载完成");
+                        Log.i("刷新加载完成"+data.toString());
                         if (data.getStatus() == 200) {
                             TopicInfo info = data.getData();
                             tv_topticName.setText("#");
-                            tv_topticName.append(info.getTopicName());
+                            tv_topticName.append(info.getTopicName()==null?"没有话题":info.getTopicName());
                             tv_topticName.append("#");
                             tv_dynamicNum.setText(String.valueOf(info.getDynamicNum()));
                             tv_dynamicNum.append("条动态");

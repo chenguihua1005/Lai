@@ -53,4 +53,15 @@ public class TopicInfo {
     public void setTopicExplain(String TopicExplain) {
         this.TopicExplain = TopicExplain;
     }
+
+    @Override
+    public String                                                     toString() {
+        return "TopicInfo{" +
+                "TopicType='" + TopicType + '\'' +
+                ", TopicName='" + TopicName + '\'' +
+                ", TopicPhoto='" + TopicPhoto + '\'' +
+                ", TopicExplain='" + TopicExplain + '\'' +
+                ", DynamicNum=" + DynamicNum +
+                '}';
+    }
 }

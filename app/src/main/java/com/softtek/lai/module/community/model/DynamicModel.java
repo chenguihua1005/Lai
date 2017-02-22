@@ -15,8 +15,9 @@ public class DynamicModel {
     private String Content;
     private String CreateDate;
     private int IsTopic;
-    private String TopicType;
-    private String ThemeName;
+//    private String TopicType;
+//    private String ThemeName;
+    private List<TopicList> TopicList;
     private int IsPraise;
     private int PraiseNum;
     private int IsFocus;
@@ -25,6 +26,15 @@ public class DynamicModel {
     private List<String> PhotoList;
     private List<String> ThumbnailPhotoList;
     private List<Comment> CommendsList;
+    private boolean isOpen;
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
 
     public List<Comment> getCommendsList() {
         return CommendsList;
@@ -90,20 +100,12 @@ public class DynamicModel {
         this.IsTopic = IsTopic;
     }
 
-    public String getTopicType() {
-        return TopicType;
+    public List<com.softtek.lai.module.community.model.TopicList> getTopicList() {
+        return TopicList;
     }
 
-    public void setTopicType(String TopicType) {
-        this.TopicType = TopicType;
-    }
-
-    public String getThemeName() {
-        return ThemeName;
-    }
-
-    public void setThemeName(String ThemeName) {
-        this.ThemeName = ThemeName;
+    public void setTopicList(List<com.softtek.lai.module.community.model.TopicList> topicList) {
+        TopicList = topicList;
     }
 
     public int getIsPraise() {
@@ -172,8 +174,7 @@ public class DynamicModel {
                 ", Content='" + Content + '\'' +
                 ", CreateDate='" + CreateDate + '\'' +
                 ", IsTopic=" + IsTopic +
-                ", TopicType='" + TopicType + '\'' +
-                ", ThemeName='" + ThemeName + '\'' +
+                ", TopicList"+TopicList+'\'' +
                 ", IsPraise=" + IsPraise +
                 ", PraiseNum=" + PraiseNum +
                 ", IsFocus=" + IsFocus +

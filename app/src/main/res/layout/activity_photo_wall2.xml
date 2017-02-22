@@ -5,5 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.softtek.lai.module.bodygame3.photowall.PhotoWall2Activity">
+    <include layout="@layout/toolbar"/>
+    <include layout="@layout/empty_message"
+        android:visibility="gone"/>
+
+
 
 </RelativeLayout>
