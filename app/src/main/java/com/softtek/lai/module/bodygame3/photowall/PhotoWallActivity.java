@@ -67,9 +67,11 @@ import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
+import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.SendCommend;
+import com.softtek.lai.module.community.view.TopicDetailActivity;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.picture.LookBigPicActivity;
 import com.softtek.lai.picture.bean.EaluationPicBean;
@@ -80,6 +82,7 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.TextViewExpandableAnimation;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
 
@@ -299,30 +302,33 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                 }else {
                     tv_week.setVisibility(GONE);
                 }
-                TextView tv_content = holder.getView(R.id.tv_content);
+                TextViewExpandableAnimation tv_content = holder.getView(R.id.tv_content);
                 final String content=data.getContent();
                 SpannableStringBuilder builder=new SpannableStringBuilder(content);
-                if(data.getIsHasTheme()==1){
-                    /**
-                     * 0  1 2 3 4 5   6 7  8  9 10
-                     * 哈哈哈哈 # 金 彩 踢 馆 赛 #
-                     */
-                    String theme="#"+data.getThemeName()+"#";
+                if(data.getIsHasTheme()==1&&data.getTopicList()!=null){
                     int from=0;
                     int lastIndex=content.lastIndexOf("#");
                     do {
+                        //先获取第一个#号出现的下标
                         int firstIndex=content.indexOf("#",from);
-                        int nextIndex=firstIndex+data.getThemeName().length()+1;
-                        if(nextIndex<=lastIndex){
-                            String sub=content.substring(firstIndex,nextIndex+1);
-                            if(sub.equals(theme)){
+                        //然后获取下一个#号出现的位置
+                        int next=content.indexOf("#",firstIndex+1);
+                        if(next==-1){
+                            break;
+                        }
+                        //截取两个#号之间的字符
+                        String sub=content.substring(firstIndex+1,next);
+                        //将开始下标移动至下一个#号出现的位置
+                        from=next;
+                        for (final TopicList topic:data.getTopicList()){
+                            if(sub.equals(topic.getTopicName())){
+                                from=next+1;
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-                                        Log.i("点击了主题");
-//                                        Intent intent=new Intent(PhotoWallActivity.this, TopicDetailActivity.class);
-//                                        //intent.putExtra("topicId",data.);
-//                                        startActivity(intent);
+                                        Intent intent=new Intent(PhotoWallActivity.this, TopicDetailActivity.class);
+                                        intent.putExtra("topicId",topic.getTopicType());
+                                        startActivity(intent);
                                     }
 
                                     @Override
@@ -331,15 +337,22 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                                         ds.setColor(0xFFFFA202);
                                         ds.setUnderlineText(false);//去除超链接的下划线
                                     }
-                                }, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                }, firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                                break;
                             }
                         }
-                        from=nextIndex;
                     }while (from<lastIndex);
                 }
-                tv_content.setHighlightColor(ContextCompat.getColor(PhotoWallActivity.this,android.R.color.transparent));
+                tv_content.getTextView().setHighlightColor(ContextCompat.getColor(PhotoWallActivity.this, android.R.color.transparent));
                 tv_content.setText(builder);
-                tv_content.setMovementMethod(LinkMovementMethod.getInstance());
+                tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
+                tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                    @Override
+                    public void onStateChange(boolean isShrink) {
+                        data.setOpen(isShrink);
+                    }
+                });
+                tv_content.resetState(data.isOpen());
                 final CheckBox cb_focus = holder.getView(R.id.cb_focus);
                 boolean isMine=Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId();
                 if(isMine){

@@ -88,7 +88,7 @@ public class PublicDynamicManager2 implements Runnable,UploadImageService2.Uploa
             }else{
                 model.setPhotos(photo.substring(0, photo.lastIndexOf(",")));
             }
-            Log.i("上传的图片"+model.getPhotos());
+            Log.i("上传的数据"+model.toString());
             Log.i("开始上传第二阶段");
             service.doCreatePhotoWall(token, model, new RequestCallback<ResponseData>() {
                 @Override

@@ -107,33 +107,32 @@
             android:name="UMENG_APPKEY"
             android:value="5728545a67e58ea7cf001701" />
         -->
-
         <!-- 测试 -->
-        <meta-data
+            <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5728545a67e58ea7cf001701" />
-        <!-- 测试 -->
-        <!--<meta-data
-            android:name="UMENG_APPKEY"
-            android:value="57d60ab167e58ec4f60000cb" />-->
+            android:value="57d60ab167e58ec4f60000cb" />
 
         <!-- 正式 -->
-         <meta-data
-             android:name="JPUSH_APPKEY"
-             android:value="1a3bbb691bfbfca0d0676e9f" />
-        <!-- 测试54 -->
         <!--<meta-data
             android:name="JPUSH_APPKEY"
-            android:value="f04fa77453f2b3894d05b894" />-->
+            android:value="1a3bbb691bfbfca0d0676e9f" />-->
+        <!-- 测试54 -->
+            <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="f04fa77453f2b3894d05b894" />
+
 
         <!-- 正式 -->
+<!--
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalife#laiju" />
+-->
         <!-- uat设置环信应用的appkey -->
-        <!--<meta-data
+            <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="herbalifeuat#laiapp" />-->
+            android:value="herbalifeuat#laiapp" />
+
 
         <!-- ============================================================================== -->
         <activity
@@ -203,8 +202,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ModifyPersonActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.head.view.PersonDetailActivity"
             android:screenOrientation="portrait" />
@@ -612,8 +610,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.PersionalActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport2.view.LaiSportActivity"
             android:screenOrientation="portrait" />
@@ -774,8 +772,9 @@
         <activity
             android:name=".module.bodygame3.more.view.SupportTeamActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.community.view.TopicListActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.community.view.TopicListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.TopicDetailActivity"
             android:launchMode="singleTop"
@@ -784,10 +783,12 @@
         <activity
             android:name=".module.community.view.DynamicDetailActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".picture.LookBigPicActivity"
+        <activity
+            android:name=".picture.LookBigPicActivity"
+            android:process=":picture"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:process=":picture"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".module.bodygame3.photowall.PhotoWall2Activity"></activity>
     </application>
 
 </manifest>
