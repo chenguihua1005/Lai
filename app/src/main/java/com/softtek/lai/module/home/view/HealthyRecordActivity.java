@@ -121,6 +121,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         tv_title.setText("健康记录");
+        ll_left.setOnClickListener(this);
         fl_right.setVisibility(View.VISIBLE);
         fl_right.setOnClickListener(this);
         //获取健康记录
