@@ -132,8 +132,8 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                                 //判断光标是否在话题文字范围内如果是则
                                 if(cursor>firstIndex&&cursor<next){
                                     Log.i("在话题的位置 移动光标到末尾");
-                                    //Selection.setSelection(et_content.getText(),content.length());
-                                        et_content.setSelection(content.length());
+                                    Selection.setSelection(et_content.getText(),content.length()-1);
+//                                        et_content.setSelection(content.length());
                                     break;
                                 }
                             }
