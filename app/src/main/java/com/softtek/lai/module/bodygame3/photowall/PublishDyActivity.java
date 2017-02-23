@@ -9,9 +9,14 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +41,9 @@ import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.bodygame3.photowall.model.TopicModel;
 import com.softtek.lai.module.bodygame3.photowall.present.PublicDynamicManager2;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
+import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.view.PreviewImageActivity;
+import com.softtek.lai.module.community.view.TopicDetailActivity;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
@@ -136,6 +143,57 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                         }
                     }
                 }while (from<lastIndex);
+            }
+        });
+
+        et_content.addTextChangedListener(new TextWatcher() {
+
+            String temp;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.i(s.toString());
+                String content=s.toString();
+                if(s.toString().equals(temp)){
+                    return;
+                }
+                temp=content;
+                SpannableStringBuilder builder=new SpannableStringBuilder(content);
+                int from=0;
+                int lastIndex=content.lastIndexOf("#");
+                do {
+                    //先获取第一个#号出现的下标
+                    int firstIndex=content.indexOf("#",from);
+                    //然后获取下一个#号出现的位置
+                    int next=content.indexOf("#",firstIndex+1);
+                    if(next==-1){
+                        break;
+                    }
+                    //截取两个#号之间的字符
+                    String sub=content.substring(firstIndex+1,next);
+                    //将开始下标移动至下一个#号出现的位置
+                    from=next;
+                    for (final TopicModel topic:topicModels){
+                        if(sub.equals(topic.getWordKey())){
+                            from=next+1;
+                            builder.setSpan(new ForegroundColorSpan(0xFFFFA202), firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                            topic.setSelect(true);
+                            break;
+                        }
+                    }
+                }while (from<lastIndex);
+                et_content.setText(builder);
+                topicAdapter.notifyDataSetChanged();
             }
         });
 

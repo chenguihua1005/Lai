@@ -54,6 +54,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.photowall.model.CommentModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallslistModel;
@@ -67,6 +68,7 @@ import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
+import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
@@ -87,10 +89,12 @@ import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -657,6 +661,47 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         return popupWindow;
     }
 
+    @Subscribe
+    public void refreshList(FocusEvent event) {
+        for (PhotoWallslistModel model : photoWallItemModels) {
+            if (model.getAccountid().equals(event.getAccountId())) {
+                model.setIsFocus(event.getFocusStatus());
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event) {
+        if(event.getWhere()!= Where.DYNAMIC_LIST){
+            Iterator<PhotoWallslistModel> iterator=photoWallItemModels.iterator();
+            while (iterator.hasNext()){
+                PhotoWallslistModel model=iterator.next();
+                if (model.getHealtId().equals(event.getDynamicId())) {
+                    iterator.remove();
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
+
+        }
+    }
+
+    @Subscribe
+    public void refreshListZan(ZanEvent event) {
+        if (event.getWhere() != Where.DYNAMIC_LIST) {
+            for (PhotoWallslistModel model : photoWallItemModels) {
+                if (model.getHealtId().equals(event.getDynamicId())) {
+                    model.setIsPraise(Integer.parseInt(Constants.HAS_ZAN));
+                    model.setPraiseNum(model.getPraiseNum() + 1);
+                    UserInfoModel infoModel = UserInfoModel.getInstance();
+                    model.getPraiseNameList().add(infoModel.getUser().getNickname());
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     private void refreshList(String Accountid, int focus) {
         for (PhotoWallslistModel model : photoWallItemModels) {
