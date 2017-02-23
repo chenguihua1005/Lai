@@ -72,7 +72,6 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
                         int status = responseData.getStatus();
                         switch (status) {
                             case 200:
-                                Util.toastMsg(responseData.getMsg());
                                 Intent intent = new Intent();
                                 intent.putExtra("sina", edit_content.getText().toString());
                                 setResult(RESULT_OK, intent);
