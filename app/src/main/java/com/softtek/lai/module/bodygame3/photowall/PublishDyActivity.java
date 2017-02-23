@@ -54,7 +54,9 @@ import com.sw926.imagefileselector.ImageFileSelector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -128,7 +130,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                         if(sub.equals(topic.getWordKey())){
                             from=next+1;
                             //判断光标是否在话题文字范围内如果是则
-                            Log.i("selStart="+selEnd+";selEnd="+selEnd);
+                            Log.i("selStart="+selStart+";selEnd="+selEnd);
                             Log.i("firstIndex="+firstIndex+";next="+next);
                             if(selEnd>firstIndex&&selEnd<=next){
                                 et_content.setSelection(content.length());
@@ -143,7 +145,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         et_content.addTextChangedListener(new TextWatcher() {
 
             String temp;
-
+            Map<String,Boolean> index=new HashMap<String, Boolean>();
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -156,12 +158,12 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.i(s.toString());
                 String content=s.toString();
                 if(s.toString().equals(temp)){
                     return;
                 }
                 temp=content;
+                index.clear();
                 SpannableStringBuilder builder=new SpannableStringBuilder(content);
                 int from=0;
                 int lastIndex=content.lastIndexOf("#");
@@ -177,16 +179,25 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                     String sub=content.substring(firstIndex+1,next);
                     //将开始下标移动至下一个#号出现的位置
                     from=next;
-                    for (final TopicModel topic:topicModels){
+                    for (TopicModel topic:topicModels){
                         if(sub.equals(topic.getWordKey())){
                             from=next+1;
                             builder.setSpan(new ForegroundColorSpan(0xFFFFA202), firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                            topic.setSelect(true);
+                            index.put(topic.getWordKeyId(),true);
                             break;
                         }
                     }
                 }while (from<lastIndex);
                 et_content.setText(builder);
+                et_content.setSelection(s.length());
+                //更新列表
+                for (TopicModel topic:topicModels){
+                    Boolean validate=index.get(topic.getWordKeyId());
+                    if(validate==null){
+                        validate=new Boolean(false);
+                    }
+                    topic.setSelect(validate);
+                }
                 topicAdapter.notifyDataSetChanged();
             }
         });

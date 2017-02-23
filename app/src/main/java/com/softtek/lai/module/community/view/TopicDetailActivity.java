@@ -273,9 +273,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-                                        Intent intent=new Intent(TopicDetailActivity.this, TopicDetailActivity.class);
-                                        intent.putExtra("topicId",topic.getTopicType());
-                                        startActivity(intent);
+
                                     }
 
                                     @Override
