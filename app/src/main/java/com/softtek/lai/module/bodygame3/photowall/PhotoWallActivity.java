@@ -68,7 +68,6 @@ import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.model.DoZan;
-import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
@@ -353,10 +352,10 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                 tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
                     @Override
                     public void onStateChange(boolean isShrink) {
-                        data.setOpen(isShrink);
+                        data.setOpen(!isShrink);
                     }
                 });
-                tv_content.resetState(data.isOpen());
+                tv_content.resetState(!data.isOpen());
                 final CheckBox cb_focus = holder.getView(R.id.cb_focus);
                 boolean isMine=Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId();
                 if(isMine){

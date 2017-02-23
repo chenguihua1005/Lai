@@ -153,10 +153,10 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         holder.tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
             @Override
             public void onStateChange(boolean isShrink) {
-                model.setOpen(isShrink);
+                model.setOpen(!isShrink);
             }
         });
-        holder.tv_content.resetState(model.isOpen());
+        holder.tv_content.resetState(!model.isOpen());
         long[] days=DateUtil.getInstance().getDaysForNow(model.getCreateDate());
         StringBuilder time=new StringBuilder();
         if(days[0]==0){//今天
