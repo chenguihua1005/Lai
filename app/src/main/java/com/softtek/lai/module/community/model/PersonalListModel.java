@@ -1,5 +1,7 @@
 package com.softtek.lai.module.community.model;
 
+import java.util.List;
+
 /**
  * Created by jerry.guan on 10/9/2016.
  */
@@ -12,9 +14,15 @@ public class PersonalListModel {
     private String minetype;
     private String imgCollection;
     private  int IsTopic;
-    private String TopicType;
-    private String ThemeName;
+    private List<TopicList> TopicList;
 
+    public List<com.softtek.lai.module.community.model.TopicList> getTopicList() {
+        return TopicList;
+    }
+
+    public void setTopicList(List<com.softtek.lai.module.community.model.TopicList> topicList) {
+        TopicList = topicList;
+    }
 
     public int getIsTopic() {
         return IsTopic;
@@ -22,22 +30,6 @@ public class PersonalListModel {
 
     public void setIsTopic(int isTopic) {
         IsTopic = isTopic;
-    }
-
-    public String getTopicType() {
-        return TopicType;
-    }
-
-    public void setTopicType(String topicType) {
-        TopicType = topicType;
-    }
-
-    public String getThemeName() {
-        return ThemeName;
-    }
-
-    public void setThemeName(String themeName) {
-        ThemeName = themeName;
     }
 
     public String getID() {

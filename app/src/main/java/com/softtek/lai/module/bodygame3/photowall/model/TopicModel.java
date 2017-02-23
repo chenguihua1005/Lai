@@ -9,6 +9,15 @@ public class TopicModel {
     private String WordKey;//话题关键字
     private String ThemePhoto;//话题图片
     private String ThemeHot;//话题热度
+    private boolean isSelect;
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 
     public String getWordKeyId() {
         return WordKeyId;
