@@ -21,7 +21,7 @@
             android:fitsSystemWindows="true"
             android:orientation="vertical">
 
-            <EditText
+            <com.softtek.lai.widgets.CursorChangeEditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"

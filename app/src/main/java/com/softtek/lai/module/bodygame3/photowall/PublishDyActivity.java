@@ -9,15 +9,12 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.text.Selection;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +43,7 @@ import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.CursorChangeEditText;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -84,7 +82,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
     CustomGridView cgv;
     @Required(order = 1,message = "请输入内容")
     @InjectView(R.id.et_content)
-    EditText et_content;
+    CursorChangeEditText et_content;
     @InjectView(R.id.lv)
     ListView lv;
 
@@ -106,41 +104,37 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         fl_right.setOnClickListener(this);
         tv_title.setText("发布动态");
         tv_right.setText("发布");
-        et_content.setOnTouchListener(new View.OnTouchListener() {
+        et_content.setOnCursorChangeListener(new CursorChangeEditText.OnCursorChangeListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    int cursor=et_content.getSelectionStart();
-                    int from=0;
-                    String content=et_content.getText().toString();
-                    int lastIndex=content.lastIndexOf("#");
-                    do {
-                        //先获取第一个#号出现的下标
-                        int firstIndex=content.indexOf("#",from);
-                        //然后获取下一个#号出现的位置
-                        int next=content.indexOf("#",firstIndex+1);
-                        if(next==-1){
-                            break;
-                        }
-                        //截取两个#号之间的字符
-                        String sub=content.substring(firstIndex+1,next);
-                        //将开始下标移动至下一个#号出现的位置
-                        from=next;
-                        for (TopicModel topic:topicModels){
-                            if(sub.equals(topic.getWordKey())){
-                                from=next+1;
-                                //判断光标是否在话题文字范围内如果是则
-                                if(cursor>firstIndex&&cursor<next){
-                                    Log.i("在话题的位置 移动光标到末尾");
-                                    Selection.setSelection(et_content.getText(),content.length()-1);
-//                                        et_content.setSelection(content.length());
-                                    break;
-                                }
+            public void onChange(int selStart, int selEnd) {
+                int from=0;
+                String content=et_content.getText().toString();
+                int lastIndex=content.lastIndexOf("#");
+                do {
+                    //先获取第一个#号出现的下标
+                    int firstIndex=content.indexOf("#",from);
+                    //然后获取下一个#号出现的位置
+                    int next=content.indexOf("#",firstIndex+1);
+                    if(next==-1){
+                        break;
+                    }
+                    //截取两个#号之间的字符
+                    String sub=content.substring(firstIndex+1,next);
+                    //将开始下标移动至下一个#号出现的位置
+                    from=next;
+                    for (TopicModel topic:topicModels){
+                        if(sub.equals(topic.getWordKey())){
+                            from=next+1;
+                            //判断光标是否在话题文字范围内如果是则
+                            Log.i("selStart="+selEnd+";selEnd="+selEnd);
+                            Log.i("firstIndex="+firstIndex+";next="+next);
+                            if(selEnd>firstIndex&&selEnd<=next){
+                                et_content.setSelection(content.length());
+                                return;
                             }
                         }
-                    }while (from<lastIndex);
-                }
-                return false;
+                    }
+                }while (from<lastIndex);
             }
         });
 
@@ -391,7 +385,8 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         switch (view.getId())
         {
             case R.id.ll_left:
-                finish();
+//                finish();
+                et_content.setSelection(0);
                 break;
             case R.id.fl_right:
                 //发布个人动态按钮
