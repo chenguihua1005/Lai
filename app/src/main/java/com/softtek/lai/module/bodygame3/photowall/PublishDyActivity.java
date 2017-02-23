@@ -48,6 +48,8 @@ import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -96,7 +98,6 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
 
     private int limit=9;
     private String classId;
-    private boolean hasTheme=false;
     @Override
     protected void initViews() {
         cgv.setOnItemClickListener(this);
@@ -385,8 +386,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         switch (view.getId())
         {
             case R.id.ll_left:
-//                finish();
-                et_content.setSelection(0);
+                finish();
                 break;
             case R.id.fl_right:
                 //发布个人动态按钮
@@ -410,11 +410,18 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
             PublicDyModel model=new PublicDyModel();
             model.setContent(et_content.getText().toString().trim());
             model.setClassId(classId);
-            if(hasTheme){
-                model.setKeywordId(topicModels.get(0).getWordKeyId());
-            }else {
-                model.setKeywordId("");
+            StringBuilder builder=new StringBuilder("");
+            for (TopicModel topic:topicModels){
+                if(topic.isSelect()){
+                    builder.append(topic.getWordKeyId());
+                    builder.append(",");
+                }
             }
+            if(!TextUtils.isEmpty(builder)){
+                builder.deleteCharAt(builder.length()-1);
+            }
+            Log.i("keyWord="+builder.toString());
+            model.setKeywordId(builder.toString());
             model.setAccountid(UserInfoModel.getInstance().getUserId());
             manager.sendDynamic(model);
         }
