@@ -251,14 +251,14 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        if(event.getWhere()!=Where.DYNAMIC_LIST) {
+//        if(event.getWhere()!=Where.DYNAMIC_LIST) {
             for (DynamicModel model : communityModels) {
                 if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
                     model.setIsFocus(event.getFocusStatus());
                 }
             }
             adapter.notifyDataSetChanged();
-        }
+//        }
     }
 
     @Subscribe

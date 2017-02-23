@@ -273,9 +273,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-                                        Intent intent=new Intent(TopicDetailActivity.this, TopicDetailActivity.class);
-                                        intent.putExtra("topicId",topic.getTopicType());
-                                        startActivity(intent);
+
                                     }
 
                                     @Override
@@ -889,7 +887,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
+//        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
             for (DynamicModel model : datas) {
                 if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
                     model.setIsFocus(event.getFocusStatus());
@@ -897,6 +895,6 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
             }
             adapter.notifyDataSetChanged();
 
-        }
+//        }
     }
 }

@@ -15,8 +15,6 @@ public class DynamicModel {
     private String Content;
     private String CreateDate;
     private int IsTopic;
-//    private String TopicType;
-//    private String ThemeName;
     private List<TopicList> TopicList;
     private int IsPraise;
     private int PraiseNum;
