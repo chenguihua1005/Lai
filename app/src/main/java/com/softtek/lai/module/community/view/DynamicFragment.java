@@ -298,6 +298,42 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         //获取健康推荐动态
         pageIndex = 1;
         community.getRecommendDynamic(accountId, 1);
+        service.getHotTopicInfo(new RequestCallback<ResponseData<TopicInfo>>() {
+            @Override
+            public void success(ResponseData<TopicInfo> data, Response response) {
+                if (data.getStatus() == 200) {
+                    final TopicInfo info = data.getData();
+                    tv_dynamic_num.setText(String.valueOf(info.getDynamicNum()));
+                    tv_dynamic_num.append("条动态");
+                    if (!TextUtils.isEmpty(info.getTopicName())) {
+                        tv_hot_topic.setText("#");
+                        tv_hot_topic.append(info.getTopicName()==null?"":info.getTopicName());
+                        tv_hot_topic.append("#");
+                    }
+                    if (TextUtils.isEmpty(info.getTopicPhoto())) {
+                        Picasso.with(getContext()).load(R.drawable.default_icon_square)
+                                .placeholder(R.drawable.default_icon_square)
+                                .into(siv_topic);
+                    } else {
+                        Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getData().getTopicPhoto())
+                                .resize(DisplayUtil.dip2px(getContext(), 38), DisplayUtil.dip2px(getContext(), 38))
+                                .centerCrop()
+                                .error(R.drawable.default_icon_square).placeholder(R.drawable.default_icon_square)
+                                .into(siv_topic);
+                    }
+                    rl_hot.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(getContext(),TopicDetailActivity.class);
+                            intent.putExtra("topicId",info.getTopicType());
+                            startActivity(intent);
+
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
     @Override

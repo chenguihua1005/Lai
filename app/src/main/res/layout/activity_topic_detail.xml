@@ -30,6 +30,7 @@
             android:background="#74bb2a">
 
         </FrameLayout>
+
         <LinearLayout
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
@@ -51,11 +52,22 @@
                 android:text="话题详情"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
-                android:layout_marginLeft="5dp"
-                />
+                android:layout_marginLeft="5dp" />
 
         </LinearLayout>
-
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                />
+        </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_send"
