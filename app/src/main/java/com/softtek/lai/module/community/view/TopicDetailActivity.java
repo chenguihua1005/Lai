@@ -4,8 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ContentFrameLayout;
@@ -54,8 +53,8 @@ import com.softtek.lai.module.community.adapter.CommentAdapter;
 import com.softtek.lai.module.community.adapter.PhotosAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
-import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
 import com.softtek.lai.module.community.model.Comment;
@@ -63,12 +62,14 @@ import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.model.TopicInfo;
+import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.SendCommend;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.message2.model.OperateMsgModel;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.picture.LookBigPicActivity;
+import com.softtek.lai.picture.bean.EaluationPicBean;
+import com.softtek.lai.picture.util.EvaluateUtil;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -85,6 +86,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -104,6 +106,9 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @InjectView(R.id.ptrlv)
     MyPullToListView ptrlv;
+
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.rl_content)
     RelativeLayout rl_content;
@@ -137,7 +142,6 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     String topicId;
 
     int pageIndex;
-    int totalPage;
 
     @Override
     protected void initViews() {
@@ -152,6 +156,10 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
             RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) fl_bg.getLayoutParams();
             params.height=DisplayUtil.getStatusHeight(this)+DisplayUtil.dip2px(this,50);
             fl_bg.setLayoutParams(params);
+
+            RelativeLayout.LayoutParams params2= (RelativeLayout.LayoutParams) ll_left.getLayoutParams();
+            params2.topMargin=DisplayUtil.getStatusHeight(this);
+            ll_left.setLayoutParams(params2);
 
             ContentFrameLayout.LayoutParams params1= (ContentFrameLayout.LayoutParams) rl_content.getLayoutParams();
             params1.topMargin=-DisplayUtil.getStatusHeight(this);
@@ -184,6 +192,12 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 } else {
                     btn_send.setEnabled(true);
                 }
+            }
+        });
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
         btn_send.setOnClickListener(new View.OnClickListener() {
@@ -246,25 +260,32 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 tv_name.setText(model.getUserName());
                 final String content = model.getContent();
                 SpannableStringBuilder builder = new SpannableStringBuilder(content);
-                if (model.getIsTopic() == 1) {
+                if (model.getIsTopic() == 1&&model.getTopicList()!=null) {
                     /**
                      * 0  1 2 3 4 5   6 7  8  9 10
                      * 哈哈哈哈 # 金 彩 踢 馆 赛 #
                      */
-                    String theme = "#" + model.getThemeName() + "#";
-                    int from = 0;
-                    int lastIndex = content.lastIndexOf("#");
+                    int from=0;
+                    int lastIndex=content.lastIndexOf("#");
                     do {
-                        int firstIndex = content.indexOf("#", from);
-                        int nextIndex = firstIndex + model.getThemeName().length() + 1;
-                        if (nextIndex <= lastIndex) {
-                            String sub = content.substring(firstIndex, nextIndex + 1);
-                            if (sub.equals(theme)) {
+                        //先获取第一个#号出现的下标
+                        int firstIndex=content.indexOf("#",from);
+                        //然后获取下一个#号出现的位置
+                        int next=content.indexOf("#",firstIndex+1);
+                        if(next==-1){
+                            break;
+                        }
+                        //截取两个#号之间的字符
+                        String sub=content.substring(firstIndex+1,next);
+                        //将开始下标移动至下一个#号出现的位置
+                        from=next;
+                        for (final TopicList topic:model.getTopicList()){
+                            if(sub.equals(topic.getTopicName())){
+                                from=next+1;
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-                                        Log.i("点击了主题");
-                                        startActivity(new Intent(TopicDetailActivity.this, TopicDetailActivity.class));
+
                                     }
 
                                     @Override
@@ -273,17 +294,23 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                         ds.setColor(0xFFFFA202);
                                         ds.setUnderlineText(false);//去除超链接的下划线
                                     }
-                                }, firstIndex, nextIndex + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                }, firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                                break;
                             }
                         }
-                        from = nextIndex;
-                    } while (from < lastIndex);
+                    }while (from<lastIndex);
                 }
                 TextViewExpandableAnimation tv_content = holder.getView(R.id.tv_content);
                 tv_content.getTextView().setHighlightColor(ContextCompat.getColor(TopicDetailActivity.this, android.R.color.transparent));
                 tv_content.setText(builder);
                 tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
-                tv_content.resetState(true);
+                tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                    @Override
+                    public void onStateChange(boolean isShrink) {
+                        model.setOpen(isShrink);
+                    }
+                });
+                tv_content.resetState(model.isOpen());
                 final long[] days = DateUtil.getInstance().getDaysForNow(model.getCreateDate());
                 StringBuilder time = new StringBuilder();
                 if (days[0] == 0) {//今天
@@ -393,11 +420,14 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                        Intent in = new Intent(TopicDetailActivity.this, PictureMoreActivity.class);
-                        in.putStringArrayListExtra("images", (ArrayList<String>) model.getPhotoList());
-                        in.putExtra("position", position);
-                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                        ActivityCompat.startActivity(TopicDetailActivity.this, in, optionsCompat.toBundle());
+                        Intent intent = new Intent(TopicDetailActivity.this, LookBigPicActivity.class);
+                        Bundle bundle = new Bundle();
+                        List<EaluationPicBean> list= EvaluateUtil.setupCoords(TopicDetailActivity.this,(ImageView) v,model.getPhotoList(),position);
+                        bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
+                        intent.putExtras(bundle);
+                        intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
+                        startActivity(intent);
+                        overridePendingTransition(0,0);
                     }
                 });
                 ImageView iv_operator = holder.getView(R.id.iv_operator);
@@ -438,6 +468,19 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         }
     }
     private static final int OPEN_SENDER_REQUEST = 2;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == -1) {
+            if (requestCode == OPEN_SENDER_REQUEST) {
+                if(ptrlv!=null){
+                    ptrlv.getRefreshableView().setSelection(0);
+                    onRefresh();
+                }
+            }
+        }
+    }
 
     //检查是否为游客
     private boolean checkVr() {
@@ -770,44 +813,53 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 .getTopicDetail(UserInfoModel.getInstance().getUserId(), topicId, 1, 10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
                     @Override
                     public void success(ResponseData<HealthyRecommendModel> data, Response response) {
-                        pb.setVisibility(GONE);
-                        ptrlv.getRefreshableView().onCompletedRefresh();
-                        if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
-                            datas.clear();
-                            datas.addAll(data.getData().getDynamiclist());
-                            adapter.notifyDataSetChanged();
+                        try {
+                            pb.setVisibility(GONE);
+                            ptrlv.getRefreshableView().onCompletedRefresh();
+                            if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
+                                datas.clear();
+                                datas.addAll(data.getData().getDynamiclist());
+                                adapter.notifyDataSetChanged();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        pb.setVisibility(GONE);
-                        ptrlv.getRefreshableView().onCompletedRefresh();
+                        try {
+                            pb.setVisibility(GONE);
+                            ptrlv.getRefreshableView().onCompletedRefresh();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         super.failure(error);
                     }
                 });
+        Log.i("话题id是="+topicId);
         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                 .getTopicCover(topicId, new RequestCallback<ResponseData<TopicInfo>>() {
                     @Override
                     public void success(ResponseData<TopicInfo> data, Response response) {
-                        Log.i("刷新加载完成");
+                        Log.i("刷新加载完成"+data.toString());
                         if (data.getStatus() == 200) {
                             TopicInfo info = data.getData();
                             tv_topticName.setText("#");
-                            tv_topticName.append(info.getTopicName());
+                            tv_topticName.append(info.getTopicName()==null?"":info.getTopicName());
                             tv_topticName.append("#");
                             tv_dynamicNum.setText(String.valueOf(info.getDynamicNum()));
                             tv_dynamicNum.append("条动态");
                             tv_explin.setText(info.getTopicExplain());
-                            if (TextUtils.isEmpty(info.getTopicPhoto())) {
+                            if (TextUtils.isEmpty(info.getTopciCover())) {
                                 Picasso.with(TopicDetailActivity.this)
                                         .load(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_banner);
                             } else {
                                 Picasso.with(TopicDetailActivity.this)
-                                        .load(AddressManager.get("photoHost") + info.getTopicPhoto())
+                                        .load(AddressManager.get("photoHost") + info.getTopciCover())
                                         .fit()
-                                        .error(R.drawable.default_icon_rect)
                                         .placeholder(R.drawable.default_icon_rect)
+                                        .error(R.drawable.default_icon_rect)
                                         .into(iv_banner);
                             }
                         }
@@ -847,7 +899,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
+//        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
             for (DynamicModel model : datas) {
                 if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
                     model.setIsFocus(event.getFocusStatus());
@@ -855,6 +907,6 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
             }
             adapter.notifyDataSetChanged();
 
-        }
+//        }
     }
 }

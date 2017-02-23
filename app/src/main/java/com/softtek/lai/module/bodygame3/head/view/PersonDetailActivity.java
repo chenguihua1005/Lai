@@ -243,7 +243,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
             });
         } else {
-            headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+            headService.doGetClassMemberInfo(classid,UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
                     int status = memberInfoModelResponseData.getStatus();
@@ -542,7 +542,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     EMClient.getInstance().contactManager().addContact(HXAccountId, s);
 
                     ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                    service.sentFriendApply(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
+                    service.sentFriendApply(UserInfoModel.getInstance().getToken(),TextUtils.isEmpty(ClassId) ? " " : ClassId, UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
                         @Override
                         public void success(final ResponseData responseData, Response response) {
                             int status = responseData.getStatus();
@@ -580,7 +580,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     progressDialog.dismiss();
-                                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
                         }

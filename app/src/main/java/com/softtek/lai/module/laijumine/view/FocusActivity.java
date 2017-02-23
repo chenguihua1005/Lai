@@ -60,8 +60,6 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
-        focusnum = getIntent().getIntExtra("focusnum", 0);
-        tv_title.setText("关注（" + focusnum + "）");
         ll_left.setOnClickListener(this);
         list_focus.setOnItemClickListener(this);
         list_focus.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
@@ -183,7 +181,6 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
             @Override
 
             public void run() {
-
                 list_focus.setRefreshing();
 
             }
@@ -197,13 +194,18 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void success(ResponseData<List<FocusInfoModel>> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
+                list_focus.onRefreshComplete();
                 switch (status) {
                     case 200:
-                        list_focus.onRefreshComplete();
                         focusInfoModels.addAll(listResponseData.getData());
                         easyAdapter.notifyDataSetChanged();
+                        focusnum=focusInfoModels.size();
+                        tv_title.setText("关注（"+focusnum+"）");
                         break;
                     default:
+                        focusnum=0;
+                        Util.toastMsg(listResponseData.getMsg());
+                        tv_title.setText("关注（"+focusnum+"）");
                         break;
                 }
             }

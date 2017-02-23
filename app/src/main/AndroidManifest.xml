@@ -114,9 +114,9 @@
 
         <!-- 正式 -->
         <!--
-             <meta-data
-             android:name="JPUSH_APPKEY"
-             android:value="1a3bbb691bfbfca0d0676e9f" />
+            <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="1a3bbb691bfbfca0d0676e9f" />
         -->
         <!-- 测试54 -->
         <meta-data
@@ -125,7 +125,7 @@
 
         <!-- 正式 -->
         <!--
-            <meta-data
+        <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalife#laiju" />
         -->
@@ -202,8 +202,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ModifyPersonActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.head.view.PersonDetailActivity"
             android:screenOrientation="portrait" />
@@ -611,8 +610,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.PersionalActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport2.view.LaiSportActivity"
             android:screenOrientation="portrait" />
@@ -773,8 +772,9 @@
         <activity
             android:name=".module.bodygame3.more.view.SupportTeamActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.community.view.TopicListActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.community.view.TopicListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.TopicDetailActivity"
             android:launchMode="singleTop"
@@ -782,10 +782,14 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".module.community.view.DynamicDetailActivity"
-            android:label="@string/title_activity_dynamic_detail"
-
             android:theme="@style/AppTheme" />
-
+        <activity
+            android:name=".picture.LookBigPicActivity"
+            android:process=":picture"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".module.bodygame3.photowall.PhotoWall2Activity" />
+        <activity android:name=".module.bodygame3.more.view.SearchFriendActivity"></activity>
     </application>
 
 </manifest>

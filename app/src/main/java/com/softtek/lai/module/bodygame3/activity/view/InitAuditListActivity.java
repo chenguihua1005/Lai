@@ -78,7 +78,7 @@ public class InitAuditListActivity extends BaseActivity{
     }
     //获取审核列表数据
     private void doGetData(Long accountid, String classid,  int pageIndex, int pageSize) {
-        fuceSevice.dogetInitAuditList(UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetInitAuditList(classid,UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();

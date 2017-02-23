@@ -13,6 +13,15 @@ public class TopicInfo {
     private String TopicPhoto;
     private String TopicExplain;
     private int DynamicNum;
+    private String TopciCover;
+
+    public String getTopciCover() {
+        return TopciCover;
+    }
+
+    public void setTopciCover(String topciCover) {
+        TopciCover = topciCover;
+    }
 
     public int getDynamicNum() {
         return DynamicNum;
@@ -52,5 +61,16 @@ public class TopicInfo {
 
     public void setTopicExplain(String TopicExplain) {
         this.TopicExplain = TopicExplain;
+    }
+
+    @Override
+    public String                                                     toString() {
+        return "TopicInfo{" +
+                "TopicType='" + TopicType + '\'' +
+                ", TopicName='" + TopicName + '\'' +
+                ", TopicPhoto='" + TopicPhoto + '\'' +
+                ", TopicExplain='" + TopicExplain + '\'' +
+                ", DynamicNum=" + DynamicNum +
+                '}';
     }
 }

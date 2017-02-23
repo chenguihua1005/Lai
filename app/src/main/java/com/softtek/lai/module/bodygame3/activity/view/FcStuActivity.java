@@ -335,7 +335,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void doGetDataService(String type) {
-        fuceSevice.doGetPreMeasureData(UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+        fuceSevice.doGetPreMeasureData(classId,UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status = fcStDataModelResponseData.getStatus();
@@ -388,7 +388,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     void doPostInitData() {
-        fuceSevice.doPostMeasuredData(UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+        fuceSevice.doPostMeasuredData(classId,UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         int status = responseData.getStatus();

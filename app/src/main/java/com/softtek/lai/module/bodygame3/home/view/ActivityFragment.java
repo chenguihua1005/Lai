@@ -61,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -123,7 +124,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private String dateStr;
     private int classrole;
     private ClassModel classModel;
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     public ActivityFragment() {
 
@@ -289,7 +289,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     private void gettodaydata(final String datestr) {
         pull.setRefreshing(false);
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(classid,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
                 classid, datestr, new RequestCallback<ResponseData<TodaysModel>>() {
                     @Override
                     public void success(ResponseData<TodaysModel> data, Response response) {
@@ -579,7 +579,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         material_calendar.removeDecorator(decorator_act);
         material_calendar.removeDecorator(decorator_create);
         material_calendar.removeDecorator(decorator_free);
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(UserInfoModel.getInstance().getToken(),
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(classid,UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), classid, saveclassModel.getDates(), new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> data, Response response) {
@@ -599,16 +599,18 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
                                     ll_chuDate.setVisibility(View.VISIBLE);
                                     classModels.addAll(activitydataModel.getList_Class());
-                                    tv_title.getAdapter().notifyDataSetChanged();
                                     if (TextUtils.isEmpty(classid)) {
                                         classid = classModels.get(0).getClassId();
                                         classrole = classModels.get(0).getClassRole();
                                         tv_title.setSelected(0);
+                                        tv_title.notifChange();
+
                                     } else {
                                         for (int i = 0, j = classModels.size(); i < j; i++) {
                                             ClassModel model = classModels.get(i);
                                             if (model.getClassId().equals(classid)) {
                                                 tv_title.setSelected(i);
+                                                tv_title.notifChange();
                                                 break;
                                             }
                                         }
@@ -913,17 +915,18 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             tv_title.notifChange();
         } else if (clazz.getStatus() == 2) {
             //删除班级
-            for (ClassModel model : classModels) {
-                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
-                    this.classModels.remove(model);
+            Iterator<ClassModel> iter=classModels.iterator();
+            while (iter.hasNext()){
+                ClassModel model=iter.next();
+                if (model.getClassId().equals(clazz.getModel().getClassId())) {
+                    iter.remove();
                     break;
                 }
             }
-
             tv_title.notifChange();
             if (classModels.isEmpty()) {
-                this.classModel = null;
                 classid = "";
+                this.classModel = null;
             } else {
                 tv_title.setSelected(0);
                 this.classModel = classModels.get(0);

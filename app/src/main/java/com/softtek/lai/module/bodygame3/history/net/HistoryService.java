@@ -4,7 +4,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.module.bodygame3.photowall.model.PhotoWallListModel;
 
 import retrofit.Callback;
 import retrofit.http.Field;

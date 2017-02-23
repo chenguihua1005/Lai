@@ -54,4 +54,5 @@
             android:layout_toLeftOf="@id/btn_send"
             android:layout_marginRight="10dp" />
     </RelativeLayout>
+
 </RelativeLayout>

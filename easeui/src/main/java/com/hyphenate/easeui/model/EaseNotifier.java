@@ -29,6 +29,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.controller.EaseUI.EaseSettingsProvider;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.EasyUtils;
 
@@ -140,7 +141,7 @@ public class EaseNotifier {
     }
     
     public synchronized void onNewMesg(List<EMMessage> messages) {
-        if(EMClient.getInstance().chatManager().isSilentMessage(messages.get(messages.size()-1))){
+        if(EaseCommonUtils.isSilentMessage(messages.get(messages.size()-1))){
             return;
         }
         EaseSettingsProvider settingsProvider = EaseUI.getInstance().getSettingsProvider();
@@ -287,7 +288,7 @@ public class EaseNotifier {
      */
     public void vibrateAndPlayTone(EMMessage message) {
         if(message != null){
-            if(EMClient.getInstance().chatManager().isSilentMessage(message)){
+            if(EaseCommonUtils.isSilentMessage(message)){
                 return;
             } 
         }
