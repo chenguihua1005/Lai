@@ -191,7 +191,7 @@ import zilla.libcore.util.Util;
 
     @Override
     protected void initViews() {
-        tv_title.setText("个人信息");
+        tv_title.setText("详细资料");
     }
 
     @Override
