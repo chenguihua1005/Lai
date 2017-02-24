@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -52,7 +51,7 @@ import zilla.libcore.util.Util;
  *
  * Created by ggx on 2017/2/20.
  */
-public class LookBigPicActivity extends Activity implements View.OnClickListener, ViewTreeObserver.OnPreDrawListener, ImageScaleAdapter.SavePic {
+public class LookBigPicActivity extends Activity implements  ViewTreeObserver.OnPreDrawListener, ImageScaleAdapter.SavePic {
     private List<EaluationPicBean> picDataList;
     private List<View> dotList = new ArrayList<>();
     public static String PICDATALIST = "PICDATALIST";
@@ -62,10 +61,8 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     private ImageScaleAdapter imageScaleAdapter;
     private HackyViewPager viewPager;
     private LinearLayout ll_dots;
-    private TextView tv_back;
     private TextView tv_pager;
     private LinearLayout ll_root;
-    private RelativeLayout rl_title;
     private int height;
     private int width;
 
@@ -77,17 +74,12 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
         intiView();
         setUpEvent();
         initDot(currentItem);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        toggleHideyBar();
-
     }
 
     private void setUpEvent() {
         viewPager.setAdapter(imageScaleAdapter);
         viewPager.setCurrentItem(currentItem);
         setTitleNum(currentItem);
-        tv_back.setOnClickListener(this);
         setPagerChangeListener(viewPager);
         viewPager.getViewTreeObserver().addOnPreDrawListener(this);
     }
@@ -102,9 +94,7 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
 
     private void intiView() {
         ll_dots = (LinearLayout) findViewById(R.id.ll_dots);
-        rl_title = (RelativeLayout) findViewById(R.id.rl_title);
         ll_root = (LinearLayout) findViewById(R.id.ll_root);
-        tv_back = (TextView) findViewById(R.id.tv_back);
         tv_pager = (TextView) findViewById(R.id.tv_pager);
         viewPager = (HackyViewPager) findViewById(R.id.viewpager);
     }
@@ -157,14 +147,12 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
             @Override
             public void onAnimationStart(Animator animation) {
                 ll_root.setBackgroundColor(0x0);
-                rl_title.setVisibility(View.INVISIBLE);
                 ll_dots.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
 
-                rl_title.setVisibility(View.VISIBLE);
                 ll_dots.setVisibility(View.VISIBLE);
             }
 
@@ -237,14 +225,6 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_back:
-                startActivityAnim();
-                break;
-        }
-    }
 
     /**
      * 旋转
@@ -354,7 +334,6 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
         valueAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                rl_title.setVisibility(View.INVISIBLE);
                 ll_dots.setVisibility(View.INVISIBLE);
             }
 
