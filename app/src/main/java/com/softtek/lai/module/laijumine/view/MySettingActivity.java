@@ -117,7 +117,10 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                     LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                     Looper.prepare();
                     UserInfoModel.getInstance().loginOut();
-                    startActivity(new Intent(getBaseContext(), LoginActivity.class));
+                    Intent intent=new Intent(getBaseContext(), LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     finish();
                     Looper.loop();
                 }
@@ -133,7 +136,10 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
             UserInfoModel.getInstance().loginOut();
             LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
             finish();
-            startActivity(new Intent(getBaseContext(), LoginActivity.class));
+            Intent intent=new Intent(getBaseContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
 
     }
