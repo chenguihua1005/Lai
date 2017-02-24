@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.picture.LookBigPicActivity;
 import com.softtek.lai.picture.bean.EaluationPicBean;
@@ -22,7 +23,7 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by mabeijianxi on 2015/1/5.
  */
-public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher.OnPhotoTapListener {
+public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher.OnPhotoTapListener,View.OnLongClickListener {
     private List<EaluationPicBean> mPicData;
     private Context mContext;
 
@@ -64,6 +65,8 @@ public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_photoview, container, false);
         imageView = (PhotoView) inflate.findViewById(R.id.pv);
         imageView.setOnPhotoTapListener(this);
+        imageView.setOnLongClickListener(this);
+        
         final ProgressBar pb = (ProgressBar) inflate.findViewById(R.id.pb);
         final EaluationPicBean ealuationPicBean = mPicData.get(position);
 
@@ -156,5 +159,11 @@ public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher
     @Override
     public void onOutsidePhotoTap() {
 
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Log.i("长按事件");
+        return true;
     }
 }

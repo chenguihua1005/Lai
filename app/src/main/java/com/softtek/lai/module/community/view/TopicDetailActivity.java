@@ -107,6 +107,9 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     @InjectView(R.id.ptrlv)
     MyPullToListView ptrlv;
 
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+
     @InjectView(R.id.rl_content)
     RelativeLayout rl_content;
     @InjectView(R.id.rl_toolbar)
@@ -139,7 +142,6 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     String topicId;
 
     int pageIndex;
-    int totalPage;
 
     @Override
     protected void initViews() {
@@ -154,6 +156,10 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
             RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) fl_bg.getLayoutParams();
             params.height=DisplayUtil.getStatusHeight(this)+DisplayUtil.dip2px(this,50);
             fl_bg.setLayoutParams(params);
+
+            RelativeLayout.LayoutParams params2= (RelativeLayout.LayoutParams) ll_left.getLayoutParams();
+            params2.topMargin=DisplayUtil.getStatusHeight(this);
+            ll_left.setLayoutParams(params2);
 
             ContentFrameLayout.LayoutParams params1= (ContentFrameLayout.LayoutParams) rl_content.getLayoutParams();
             params1.topMargin=-DisplayUtil.getStatusHeight(this);
@@ -186,6 +192,12 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 } else {
                     btn_send.setEnabled(true);
                 }
+            }
+        });
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
         btn_send.setOnClickListener(new View.OnClickListener() {
@@ -273,9 +285,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-                                        Intent intent=new Intent(TopicDetailActivity.this, TopicDetailActivity.class);
-                                        intent.putExtra("topicId",topic.getTopicType());
-                                        startActivity(intent);
+
                                     }
 
                                     @Override
@@ -836,20 +846,20 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                         if (data.getStatus() == 200) {
                             TopicInfo info = data.getData();
                             tv_topticName.setText("#");
-                            tv_topticName.append(info.getTopicName()==null?"没有话题":info.getTopicName());
+                            tv_topticName.append(info.getTopicName()==null?"":info.getTopicName());
                             tv_topticName.append("#");
                             tv_dynamicNum.setText(String.valueOf(info.getDynamicNum()));
                             tv_dynamicNum.append("条动态");
                             tv_explin.setText(info.getTopicExplain());
-                            if (TextUtils.isEmpty(info.getTopicPhoto())) {
+                            if (TextUtils.isEmpty(info.getTopciCover())) {
                                 Picasso.with(TopicDetailActivity.this)
                                         .load(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_banner);
                             } else {
                                 Picasso.with(TopicDetailActivity.this)
-                                        .load(AddressManager.get("photoHost") + info.getTopicPhoto())
+                                        .load(AddressManager.get("photoHost") + info.getTopciCover())
                                         .fit()
-                                        .error(R.drawable.default_icon_rect)
                                         .placeholder(R.drawable.default_icon_rect)
+                                        .error(R.drawable.default_icon_rect)
                                         .into(iv_banner);
                             }
                         }
@@ -889,7 +899,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @Subscribe
     public void refreshList(FocusEvent event) {
-        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
+//        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
             for (DynamicModel model : datas) {
                 if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
                     model.setIsFocus(event.getFocusStatus());
@@ -897,6 +907,6 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
             }
             adapter.notifyDataSetChanged();
 
-        }
+//        }
     }
 }

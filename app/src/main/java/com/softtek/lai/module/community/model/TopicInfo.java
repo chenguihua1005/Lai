@@ -13,6 +13,15 @@ public class TopicInfo {
     private String TopicPhoto;
     private String TopicExplain;
     private int DynamicNum;
+    private String TopciCover;
+
+    public String getTopciCover() {
+        return TopciCover;
+    }
+
+    public void setTopciCover(String topciCover) {
+        TopciCover = topciCover;
+    }
 
     public int getDynamicNum() {
         return DynamicNum;
