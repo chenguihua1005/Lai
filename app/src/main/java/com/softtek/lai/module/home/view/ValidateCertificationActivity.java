@@ -2,6 +2,8 @@ package com.softtek.lai.module.home.view;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,8 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+
+import static com.softtek.lai.R.id.context;
 
 /**
  * 资格号认证
@@ -76,6 +80,9 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         edit_password.setText("");
         edit_account.setText("");
         setData();
+
+        Intent intent=new Intent(this, HomeActviity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -102,7 +109,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     private void setData() {
         model = UserInfoModel.getInstance().getUser();
-        if (model.getCertTime() == null || "".equals(model.getCertTime())) {
+        if (TextUtils.isEmpty(model.getCertTime())) {
             text_time.setText("");
         } else {
             text_time.setText("(上次认证时间：" + model.getCertTime().split(" ")[0] + ")");
@@ -117,6 +124,8 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                 validateLife.validate();
                 break;
             case R.id.ll_left:
+                Intent intent=new Intent(this, HomeActviity.class);
+                startActivity(intent);
                 finish();
                 break;
         }

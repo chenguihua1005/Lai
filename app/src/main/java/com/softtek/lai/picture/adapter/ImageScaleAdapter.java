@@ -66,7 +66,7 @@ public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher
         imageView = (PhotoView) inflate.findViewById(R.id.pv);
         imageView.setOnPhotoTapListener(this);
         imageView.setOnLongClickListener(this);
-        
+
         final ProgressBar pb = (ProgressBar) inflate.findViewById(R.id.pb);
         final EaluationPicBean ealuationPicBean = mPicData.get(position);
 

@@ -307,10 +307,10 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
                     @Override
                     public void onStateChange(boolean isShrink) {
-                        model.setOpen(isShrink);
+                        model.setOpen(!isShrink);
                     }
                 });
-                tv_content.resetState(model.isOpen());
+                tv_content.resetState(!model.isOpen());
                 final long[] days = DateUtil.getInstance().getDaysForNow(model.getCreateDate());
                 StringBuilder time = new StringBuilder();
                 if (days[0] == 0) {//今天
