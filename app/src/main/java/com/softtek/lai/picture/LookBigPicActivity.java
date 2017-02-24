@@ -1,41 +1,58 @@
 package com.softtek.lai.picture;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.picture.adapter.ImageScaleAdapter;
 import com.softtek.lai.picture.bean.EaluationPicBean;
+import com.softtek.lai.picture.util.BigPicService;
 import com.softtek.lai.picture.util.EvaluateUtil;
 import com.softtek.lai.picture.view.HackyViewPager;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.SystemBarTintManager;
-import com.softtek.lai.utils.SystemUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RequestInterceptor;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import uk.co.senab.photoview.PhotoView;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.util.Util;
 
 /**
- * Created by mabeijianxi on 2016/1/5.
+ *
+ * Created by ggx on 2017/2/20.
  */
-public class LookBigPicActivity extends Activity implements View.OnClickListener, ViewTreeObserver.OnPreDrawListener{
+public class LookBigPicActivity extends Activity implements View.OnClickListener, ViewTreeObserver.OnPreDrawListener, ImageScaleAdapter.SavePic {
     private List<EaluationPicBean> picDataList;
     private List<View> dotList = new ArrayList<>();
     public static String PICDATALIST = "PICDATALIST";
@@ -63,39 +80,7 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        toggleHideyBar();
-    }
-    public void toggleHideyBar() {
 
-        // The UI options currently enabled are represented by a bitfield.
-        // getSystemUiVisibility() gives us that bitfield.
-        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
-        int newUiOptions = uiOptions;
-        boolean isImmersiveModeEnabled =
-                ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
-
-        // Navigation bar hiding:  Backwards compatible to ICS.
-        if (SystemUtils.getSDKInt() >= 14) {
-            newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        }
-
-        // Status bar hiding: Backwards compatible to Jellybean
-        if (Build.VERSION.SDK_INT >= 16) {
-            newUiOptions ^= View.SYSTEM_UI_FLAG_FULLSCREEN;
-        }
-
-        // Immersive mode: Backward compatible to KitKat.
-        // Note that this flag doesn't do anything by itself, it only augments the behavior
-        // of HIDE_NAVIGATION and FLAG_FULLSCREEN.  For the purposes of this sample
-        // all three flags are being toggled together.
-        // Note that there are two immersive mode UI flags, one of which is referred to as "sticky".
-        // Sticky immersive mode differs in that it makes the navigation and status bars
-        // semi-transparent, and the UI flag does not get cleared when the user interacts with
-        // the screen.
-        if (Build.VERSION.SDK_INT >= 18) {
-            newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        }
-
-        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
     }
 
     private void setUpEvent() {
@@ -112,7 +97,7 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
         picDataList = (List<EaluationPicBean>) intent.getSerializableExtra("PICDATALIST");
         currentItem = intent.getIntExtra(CURRENTITEM, 0);
         mPositon = currentItem;
-        imageScaleAdapter = new ImageScaleAdapter(this, picDataList);
+        imageScaleAdapter = new ImageScaleAdapter(this, this, picDataList);
     }
 
     private void intiView() {
@@ -127,7 +112,6 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     /**
      * 绘制前开始动画
      *
-     * @return
      */
     @Override
     public boolean onPreDraw() {
@@ -294,7 +278,6 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
 //    public void isCancel() {
 //        ll_bottom.setVisibility(View.VISIBLE);
 //    }
-
     @Override
     public void onBackPressed() {
         startActivityAnim();
@@ -340,6 +323,7 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
 
     /**
      * 计算图片的宽高
+     *
      * @param imageView
      */
     private void computeImageWidthAndHeight(PhotoView imageView) {
@@ -394,6 +378,130 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
+
+    private static final int READ_WRITER = 0X10;
+    private static final String[] RW = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    EaluationPicBean saveBean;
+
+    @Override
+    public void onSave(EaluationPicBean ealuationPicBean) {
+        this.saveBean=ealuationPicBean;
+        new AlertDialog.Builder(this,R.style.AlertDialogTheme)
+                .setItems(new String[]{"保存"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (ActivityCompat.checkSelfPermission(LookBigPicActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                                || ActivityCompat.checkSelfPermission(LookBigPicActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(LookBigPicActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    || ActivityCompat.shouldShowRequestPermissionRationale(LookBigPicActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                //允许弹出提示
+                                ActivityCompat.requestPermissions(LookBigPicActivity.this, RW
+                                        , READ_WRITER);
+
+                            } else {
+                                //不允许弹出提示
+                                ActivityCompat.requestPermissions(LookBigPicActivity.this, RW
+                                        , READ_WRITER);
+                            }
+                        } else {
+                            //保存
+                            getImage();
+
+                        }
+
+                    }
+                }).create().show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == READ_WRITER) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getImage();
+            } else {
+                Util.toastMsg("请开启权限后在保存");
+            }
+        }
+    }
+
+    private void getImage(){
+        if(saveBean==null|| TextUtils.isEmpty(saveBean.imageUrl)){
+            return;
+        }
+        ZillaApi.getCustomRESTAdapter("http://115.29.187.163:8082", new RequestInterceptor() {
+            @Override
+            public void intercept(RequestFacade request) {
+
+            }
+        }).create(BigPicService.class)
+                .downloadPic(saveBean.imageUrl, new Callback<Response>() {
+                    @Override
+                    public void success(Response responseBody, Response response) {
+                        writeResponseBodyToDisk(responseBody);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        error.printStackTrace();
+                    }
+                });
+    }
+
+    private boolean writeResponseBodyToDisk(Response body) {
+        try {
+            // 首先保存图片
+            File appDir = new File(Environment.getExternalStorageDirectory(), "lai_img");
+            if (!appDir.exists()) {
+                appDir.mkdir();
+            }
+            File file = new File(appDir, System.currentTimeMillis() + ".png");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.getBody().length()/*.contentLength()*/;
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.getBody().in();
+                outputStream = new FileOutputStream(file);
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
+                    fileSizeDownloaded += read;
+                    Log.i("file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri = Uri.fromFile(file);
+                intent.setData(uri);
+                sendBroadcast(intent);
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+
 }
