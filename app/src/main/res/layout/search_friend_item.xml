@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#FFFFFF"
+    >
+    
+    <com.softtek.lai.widgets.CircleImageView
+        android:id="@+id/head_image"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/img_default"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="13dp"
+        android:layout_toRightOf="@id/head_image"
+        android:textColor="#333333"
+        android:textSize="15sp"
+        android:text="dsadas"/>
+    <TextView
+        android:id="@+id/tv_certificate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_name"
+        android:layout_marginTop="13dp"
+        android:text="(教练)"
+        android:textColor="#999999"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        android:text="112232432"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="5dp"
+        android:layout_alignLeft="@id/tv_name"/>
+    <TextView
+        android:id="@+id/tv_isfriend_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_guy_btn"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:padding="5dp"
+        android:text="加好友"
+        android:textSize="10sp"
+        android:textColor="#ec7166"/>
+
+</RelativeLayout>

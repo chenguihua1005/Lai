@@ -61,14 +61,12 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ll"
-        android:divider="#e1e1e1"
-        android:dividerHeight="0.5dp"
-        android:overScrollMode="never" />
+        />
 
     <ProgressBar
         android:id="@+id/pb"
