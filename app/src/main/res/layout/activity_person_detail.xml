@@ -43,12 +43,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:text="dfsdf"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -60,6 +61,7 @@
                             android:drawableLeft="@drawable/person_naixi"
                             android:drawablePadding="5dp"
                             android:textSize="10sp"
+                            android:visibility="gone"
                             />
 
                         <TextView
@@ -67,7 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="爱心学员："
-                            android:layout_marginTop="7dp"
+                            android:layout_marginTop="2dp"
                             android:drawableLeft="@drawable/person_aixin"
                             android:drawablePadding="5dp"
                             android:textColor="#999999"
@@ -86,7 +88,7 @@
                         android:text="点击编辑签名"
                         android:textColor="#999999"
                         android:textSize="10sp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         />
 
                 </LinearLayout>
