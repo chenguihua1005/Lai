@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.softtek.lai.LaiApplication;
@@ -25,6 +26,7 @@ import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
+import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
@@ -218,7 +220,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             Intent intent = new Intent(context, CreatFlleActivity.class);
                             intent.putExtra("token", token);
                             context.startActivity(intent);
-                        } else if (MD5.md5WithEncoder("000000").equals(password)) {
+                        } /*else if (MD5.md5WithEncoder("000000").equals(password)) {
                             UserInfoModel.getInstance().setToken("");
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
                                     .setTitle(context.getString(R.string.login_out_title))
@@ -237,7 +239,12 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             Dialog dialog = dialogBuilder.create();
                             dialog.setCancelable(false);
                             dialog.show();
-                        } else {
+                        }*/ else if(TextUtils.isEmpty(model.getCertification())&&SharedPreferenceService.getInstance().get("tipCertif",true)){
+                            SharedPreferenceService.getInstance().put("tipCertif",false);
+                            ((AppCompatActivity) context).finish();
+                            Intent intent=new Intent(context, ValidateCertificationActivity.class);
+                            context.startActivity(intent);
+                        }else {
                             ((AppCompatActivity) context).finish();
                             Intent start = new Intent(context, HomeActviity.class);
                             context.startActivity(start);
