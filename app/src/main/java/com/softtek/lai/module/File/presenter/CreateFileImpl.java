@@ -14,6 +14,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.net.FileService;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.UserModel;
 
 import retrofit.Callback;
@@ -51,15 +52,14 @@ public class CreateFileImpl implements ICreateFilepresenter {
                         model.setIsCreatInfo("1");
                         UserInfoModel.getInstance().saveUserCache(model);
                         ((AppCompatActivity) context).finish();
-                        Intent intent=new Intent(context, HomeActviity.class);
+//                        Intent intent=new Intent(context, HomeActviity.class);
+                        Intent intent=new Intent(context, ValidateCertificationActivity.class);
                         context.startActivity(intent);
                         break;
                     }
-                    case 100:
+                    default:
                         Util.toastMsg(fileResponseData.getMsg());
                         break;
-                    case 101:
-                        Util.toastMsg(fileResponseData.getMsg());
                 }
 
             }

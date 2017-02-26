@@ -37,11 +37,9 @@ import zilla.libcore.util.Util;
 public class HomeInfoImpl implements IHomeInfoPresenter {
 
     private HomeService homeService;
-    private ACache aCache;
 
     public HomeInfoImpl(Context context) {
         homeService = ZillaApi.NormalRestAdapter.create(HomeService.class);
-        aCache = ACache.get(context, Constants.HOME_CACHE_DATA_DIR);
     }
 
     @Override
@@ -53,7 +51,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
                 int status = data.getStatus();
                 switch (status) {
                     case 200:
-                        aCache.put(Constants.HOEM_ACACHE_KEY, new Gson().toJson(new HomeInfoCache(data.getData())));
                         EventBus.getDefault().post(new HomeEvent(data.getData()));
                         break;
                     default:
@@ -109,12 +106,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
 
     @Override
     public List<HomeInfoModel> loadActivityCacheDate(String key) {
-        String json = aCache.getAsString(key);
-        if (json != null && !json.equals("")) {
-            Gson gson = new Gson();
-            HomeInfoCache infoCache = gson.fromJson(json, HomeInfoCache.class);
-            return infoCache.getInfos();
-        }
         return null;
     }
 

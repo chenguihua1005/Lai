@@ -134,7 +134,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     intent.putExtra("token",token);
                                     finish();
                                     startActivity(intent);
-                                }else if(MD5.md5WithEncoder("000000").equals(password)){
+                                }/*else if(MD5.md5WithEncoder("000000").equals(password)){
                                     UserInfoModel.getInstance().setToken("");
                                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(WelcomeActivity.this)
                                             .setTitle(getString(R.string.login_out_title))
@@ -153,7 +153,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     Dialog dialog=dialogBuilder.create();
                                     dialog.setCancelable(false);
                                     dialog.show();
-                                }else {
+                                }*/else {
                                     finish();
                                     Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
                                     startActivity(start);

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.picture.LookBigPicActivity;
 import com.softtek.lai.picture.bean.EaluationPicBean;
@@ -23,17 +22,19 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by mabeijianxi on 2015/1/5.
  */
-public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher.OnPhotoTapListener,View.OnLongClickListener {
+public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher.OnPhotoTapListener {
     private List<EaluationPicBean> mPicData;
     private Context mContext;
 
     private PhotoView imageView;
     private View mCurrentView;
+    private SavePic savePic;
 
-    public ImageScaleAdapter(Context mContext, List<EaluationPicBean> data) {
+    public ImageScaleAdapter(Context mContext, SavePic savePic, List<EaluationPicBean> data) {
         super();
         this.mPicData = data;
         this.mContext = mContext;
+        this.savePic=savePic;
     }
 
     @Override
@@ -65,14 +66,21 @@ public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_photoview, container, false);
         imageView = (PhotoView) inflate.findViewById(R.id.pv);
         imageView.setOnPhotoTapListener(this);
-        imageView.setOnLongClickListener(this);
-        
+
         final ProgressBar pb = (ProgressBar) inflate.findViewById(R.id.pb);
         final EaluationPicBean ealuationPicBean = mPicData.get(position);
 
         if (ealuationPicBean != null && ealuationPicBean.imageUrl != null && !"null".equals(ealuationPicBean.imageUrl)) {
             setupNetImage(pb, ealuationPicBean);
-            savaPic(ealuationPicBean);
+            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(savePic!=null){
+                        savePic.onSave(ealuationPicBean);
+                    }
+                    return false;
+                }
+            });
         } else {
             imageView.setImageResource(R.drawable.default_icon_square);
         }
@@ -80,9 +88,7 @@ public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher
         container.addView(inflate);//将ImageView加入到ViewPager中
         return inflate;
     }
-    private void savaPic(final EaluationPicBean ealuationPicBean) {
 
-    }
     /**
      * 设置网络图片加载规则
      * @param pb
@@ -161,9 +167,7 @@ public class ImageScaleAdapter extends PagerAdapter implements PhotoViewAttacher
 
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-        Log.i("长按事件");
-        return true;
+    public interface SavePic{
+        void onSave(EaluationPicBean ealuationPicBean);
     }
 }
