@@ -67,8 +67,8 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
-    @InjectView(R.id.iv_email)
-    ImageView iv_right;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @InjectView(R.id.list_contant)
     PullToRefreshExpandableListView list_contant;
@@ -115,7 +115,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
         fl_right.setOnClickListener(this);
-        iv_right.setImageResource(R.drawable.invitation_add);
+        tv_right.setText("添加");
         tv_title.setText("通讯录");
         tip_search.setVisibility(View.GONE);
         search_hint.setText("请输入姓名或手机号进行搜索");

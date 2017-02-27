@@ -166,9 +166,9 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                 switch (data.getIsFriend())
                 {
                     case 0:
-                        tv_isfriend_state.setTextColor(0xffec7166);
+                        tv_isfriend_state.setTextColor(0xffffffff);
                         tv_isfriend_state.setText("加好友");
-                        tv_isfriend_state.setBackground(getResources().getDrawable(R.drawable.bg_guy_btn));
+                        tv_isfriend_state.setBackground(getResources().getDrawable(R.drawable.bg_addguy_btn));
                         break;
                     case 1:
                         tv_isfriend_state.setTextColor(0xffB2B2B2);
