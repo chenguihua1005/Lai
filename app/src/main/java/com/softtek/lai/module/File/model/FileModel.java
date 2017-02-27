@@ -18,6 +18,13 @@ public class FileModel implements Serializable {
     private double weight;      //体重
     private int gender;      //性别 :gender(int 0女，1男)
 
+    private double circum;      //胸围:可空
+    private double waistline;   //(腰围:,可空)
+    private double hiplie;      //臀围:可空
+    private double uparmgirth;//(上臂围:,可空)
+    private double upleggirth;//(大腿围 :,可空)
+    private double doleggirth;//(小腿围:,可空)
+
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
@@ -39,12 +46,7 @@ public class FileModel implements Serializable {
         this.weight = weight;
     }
 
-    private double circum;      //胸围:可空
-    private double waistline;   //(腰围:,可空)
-    private double hiplie;      //臀围:可空
-    private double uparmgirth;//(上臂围:,可空)
-    private double upleggirth;//(大腿围 :,可空)
-    private double doleggirth;//(小腿围:,可空)
+
 
     public FileModel() {
 
@@ -57,10 +59,6 @@ public class FileModel implements Serializable {
 
     public String getBirthday() {
         return birthday;
-    }
-
-    public void setBrithday(String birthday) {
-        this.birthday = birthday;
     }
 
 

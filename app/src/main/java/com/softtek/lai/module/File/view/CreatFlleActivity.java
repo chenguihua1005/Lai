@@ -243,7 +243,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             }
 
             file.setNickname(nick);
-            file.setBrithday(birthday);
+            file.setBirthday(birthday);
             file.setGender(gender.equals("男") ? 0 : 1);
 
             String heights = height.split("cm")[0];
