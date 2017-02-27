@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:descendantFocusability="blocksDescendants"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -40,7 +40,20 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
         android:orientation="vertical">
-        <TextView
+        <com.softtek.lai.widgets.TextViewExpandableAnimation
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center|left"
+            app:tvea_expandLines="4"
+            app:tvea_textContentColor="#666666"
+            app:tvea_textContentSize="15sp"
+            app:tvea_textExpand="全文"
+            app:tvea_textShrink="收起"
+            app:tvea_textStateColor="@color/colorPrimary"
+            />
+        <!--<TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +62,7 @@
             android:maxLines="4"
             android:ellipsize="end"
             android:textColor="#666666"
-            android:gravity="center|left" />
+            android:gravity="center|left" />-->
         <com.softtek.lai.widgets.CustomGridView
             android:id="@+id/photos"
             android:layout_width="match_parent"
