@@ -240,7 +240,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             SharedPreferenceService.getInstance().put("tipCertif",false);
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
                                     .setTitle(context.getString(R.string.login_out_title))
-                                    .setMessage("您尚未完成资格证号认证, 请尽快认证.")
+                                    .setMessage("您尚未完成资格证号认证，请尽快认证")
                                     .setNegativeButton("稍后认证", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
