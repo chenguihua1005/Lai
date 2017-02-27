@@ -109,7 +109,6 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号</font>"));
                         return false;
                     }else if(edit.getText().toString().equals(user.getMobile())||
-                            edit.getText().toString().equals(user.getNickname())||
                             edit.getText().toString().equals(user.getCertification())){
                         edit.postDelayed(new Runnable() {
                             @Override
@@ -174,12 +173,12 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                     case 1:
                         tv_isfriend_state.setTextColor(0xffB2B2B2);
                         tv_isfriend_state.setText("已添加");
-                        tv_isfriend_state.setBackground(getResources().getDrawable(R.drawable.bg_isfriend_btn));
+                        tv_isfriend_state.setBackground(null);
                         break;
                     case 2:
-                        tv_isfriend_state.setTextColor(0xffFFA300);
+                        tv_isfriend_state.setTextColor(0xffB2B2B2);
                         tv_isfriend_state.setText("已发送");
-                        tv_isfriend_state.setBackground(getResources().getDrawable(R.drawable.bg_sendaddfriend_btn));
+                        tv_isfriend_state.setBackground(null);
                         break;
                 }
                 tv_isfriend_state.setOnClickListener(new View.OnClickListener() {
@@ -196,9 +195,9 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                                             switch (status)
                                             {
                                                 case 200:
-                                                    tv_isfriend_state.setTextColor(0xffFFA300);
+                                                    tv_isfriend_state.setTextColor(0xffB2B2B2);
                                                     tv_isfriend_state.setText("已发送");
-                                                    tv_isfriend_state.setBackground(getResources().getDrawable(R.drawable.bg_sendaddfriend_btn));
+                                                    tv_isfriend_state.setBackground(null);
                                                     userListModels.get(position).setIsFriend(2);
                                                     break;
                                                 default:
@@ -285,7 +284,6 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                     edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号</font>"));
                     return;
                 }else if(edit.getText().toString().equals(user.getMobile())||
-                        edit.getText().toString().equals(user.getNickname())||
                         edit.getText().toString().equals(user.getCertification())){
                     edit.postDelayed(new Runnable() {
                         @Override
