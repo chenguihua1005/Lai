@@ -100,6 +100,10 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     LinearLayout lin_is_vr;
     @InjectView(R.id.srl_refresh)
     SwipeRefreshLayout srl_refresh;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     //跳转
     @InjectView(R.id.tv_setting)
@@ -211,6 +215,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         if (String.valueOf(Constants.VR).equals(userrole)) {
             srl_refresh.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);
+            tv_title.setText("我的");
+            ll_left.setVisibility(View.INVISIBLE);
             return;
         } else {
             lin_not_vr.setVisibility(View.VISIBLE);
