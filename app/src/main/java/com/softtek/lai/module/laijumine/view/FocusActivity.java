@@ -110,7 +110,7 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
                             dialog.setTitle("确定不再关注此人？").setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    im_guanzhu.setClickable(true);
                                 }
                             }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override

@@ -250,7 +250,7 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                     {
                         case 200:
                             userListModels.addAll(searchFriendModelResponseData.getData().getUserList());
-                            if (userListModels==null&&userListModels.isEmpty())
+                            if (userListModels==null||userListModels.isEmpty())
                             {
                                 Util.toastMsg("无此用户");
                                 return;
