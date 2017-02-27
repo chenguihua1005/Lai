@@ -303,7 +303,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 if (np1.getValue() == myear && np2.getValue() == (mmonth + 1) && np3.getValue() > mday) {
                     show_warn_dialog();
                 } else {
-                    tv_birth.setText(String.valueOf(np1.getValue()) + "-" + String.valueOf(np2.getValue()) + "-" + String.valueOf(np3.getValue()));
+                    tv_birth.setText(String.valueOf(np1.getValue()) + "-"
+                            + (np2.getValue()<10?"0"+String.valueOf(np2.getValue())
+                            :String.valueOf(np2.getValue()))+ "-" + (np3.getValue()<10?"0"+String.valueOf(np3.getValue()):String.valueOf(np3.getValue())));
                     tv_birth.setError(null);
                 }
                 dialog.dismiss();
