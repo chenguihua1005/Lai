@@ -67,7 +67,7 @@ public class DragFloatActionButton extends FloatingActionButton{
                 float y=getY()+dy;
                 //检测是否到达边缘 左上右下
                 x=x<0?0:x>screenWidth-getWidth()?screenWidth-getWidth():x;
-                y=y<statusHeight?statusHeight:y+getHeight()>screenHeight?screenHeight-getHeight():y;
+                y=y<statusHeight?statusHeight:y+getHeight()>screenHeight-DisplayUtil.dip2px(getContext(),40)?screenHeight-getHeight()-DisplayUtil.dip2px(getContext(),40):y;
                 setX(x);
                 setY(y);
                 lastX=rawX;

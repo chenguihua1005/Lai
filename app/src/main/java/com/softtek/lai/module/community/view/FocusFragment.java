@@ -31,6 +31,7 @@ import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.adapter.HealthyCommunityFocusAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
 import com.softtek.lai.module.community.eventModel.FocusReload;
 import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.eventModel.ZanEvent;
@@ -191,8 +192,22 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     }
 
     @Subscribe
+    public void refreshList(FocusEvent event) {
+        for (DynamicModel model : communityModels) {
+            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                model.setIsFocus(event.getFocusStatus());
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
     public void onReload(FocusReload reload){
-        hasFocus=true;
+        if(communityModels.isEmpty()){
+            hasFocus=true;
+        }else {
+            hasFocus=false;
+        }
     }
 
     @Override
@@ -270,12 +285,14 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
             }
             totalPage=Integer.parseInt(model.getTotalPage());
             List<DynamicModel> models=model.getDynamiclist();
-            if(models==null||models.isEmpty()){
-                pageIndex=--pageIndex<1?1:pageIndex;
-                return;
-            }
+
             if(pageIndex==1){
                 this.communityModels.clear();
+            }else {
+                if(models==null||models.isEmpty()){
+                    pageIndex=--pageIndex<1?1:pageIndex;
+                    return;
+                }
             }
 
             this.communityModels.addAll(models);

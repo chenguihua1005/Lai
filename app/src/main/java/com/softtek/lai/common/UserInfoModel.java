@@ -17,8 +17,6 @@ import com.softtek.lai.premission.Role;
 import com.softtek.lai.utils.ACache;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;

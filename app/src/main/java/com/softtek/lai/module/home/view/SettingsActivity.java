@@ -70,6 +70,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+
     @Override
     public void onClick(View v) {
 

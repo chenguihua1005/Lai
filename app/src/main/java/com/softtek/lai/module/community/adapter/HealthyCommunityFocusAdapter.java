@@ -27,7 +27,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
 import com.softtek.lai.module.community.eventModel.FocusEvent;
 import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.model.DynamicModel;
@@ -179,20 +178,42 @@ public class HealthyCommunityFocusAdapter extends BaseAdapter {
         //关注
         holder.cb_focus.setVisibility(View.VISIBLE);
         //看一下是否被关注了
-        holder.cb_focus.setChecked(true);
+        if (model.getIsFocus() == 0) {
+            holder.cb_focus.setChecked(false);//未关注
+        } else {
+            holder.cb_focus.setChecked(true);//已关注
+        }
         holder.cb_focus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
-                EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0, Where.FOCUS_LIST));
-                service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
-                        UserInfoModel.getInstance().getUserId(),
-                        model.getAccountId(),
-                        new RequestCallback<ResponseData>() {
-                            @Override
-                            public void success(ResponseData responseData, Response response) {
-                            }
-                        });
+//                EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(model.getAccountId())));
+//                EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0, Where.FOCUS_LIST));
+
+                if (holder.cb_focus.isChecked()) {
+                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),1, Where.FOCUS_LIST));
+                    service.focusAccount(UserInfoModel.getInstance().getToken(),
+                            UserInfoModel.getInstance().getUserId(),
+                            model.getAccountId(),
+                            new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+
+                                }
+                            });
+                } else {
+                    EventBus.getDefault().post(new FocusEvent(String.valueOf(model.getAccountId()),0,Where.FOCUS_LIST));
+                    service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
+                            UserInfoModel.getInstance().getUserId(),
+                            model.getAccountId(),
+                            new RequestCallback<ResponseData>() {
+                                @Override
+                                public void success(ResponseData responseData, Response response) {
+                                }
+
+                            });
+
+
+                }
             }
         });
         //点赞
