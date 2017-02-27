@@ -46,7 +46,6 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
-import com.softtek.lai.widgets.TextViewExpandableAnimation;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -100,7 +99,7 @@ public class DynamicDetailAdapter extends BaseAdapter {
         final ViewHolder holder;
         final DynamicModel model = lossWeightStoryModels.get(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_dynamic_detail, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -151,16 +150,9 @@ public class DynamicDetailAdapter extends BaseAdapter {
                 }
             }while (from<lastIndex);
         }
-        holder.tv_content.getTextView().setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
+        holder.tv_content.setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
         holder.tv_content.setText(builder);
-        holder.tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
-        holder.tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
-            @Override
-            public void onStateChange(boolean isShrink) {
-                model.setOpen(!isShrink);
-            }
-        });
-        holder.tv_content.resetState(!model.isOpen());
+        holder.tv_content.setMovementMethod(LinkMovementMethod.getInstance());
         long[] days=DateUtil.getInstance().getDaysForNow(model.getCreateDate());
         StringBuilder time=new StringBuilder();
         if(days[0]==0){//今天
@@ -302,14 +294,14 @@ public class DynamicDetailAdapter extends BaseAdapter {
         RecyclerView rv_comment;
         ImageView iv_operator;
         View itemBottom;
-        TextViewExpandableAnimation tv_content;
+        TextView tv_content;
         RelativeLayout rl_item;
 
         public ViewHolder(View view) {
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             ll_content = (LinearLayout) view.findViewById(R.id.ll_content);
-            tv_content= (TextViewExpandableAnimation) view.findViewById(R.id.tv_content);
+            tv_content= (TextView) view.findViewById(R.id.tv_content);
             tv_date = (TextView) view.findViewById(R.id.tv_date);
             tv_zan_name = (TextView) view.findViewById(R.id.tv_zan_name);
             photos = (CustomGridView) view.findViewById(R.id.photos);
