@@ -13,18 +13,34 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
         android:src="@drawable/img_default"/>
-
-    <TextView
-        android:id="@+id/tv_name"
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/head_image"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="13dp"
-        android:layout_toRightOf="@id/head_image"
-        android:textColor="#333333"
-        android:textSize="15sp"
-        android:text="dsadas"/>
-    <TextView
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/im_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/male_iv"
+            />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:text="dsadas"/>
+    </LinearLayout>
+
+    <!-- <TextView
         android:id="@+id/tv_certificate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +48,7 @@
         android:layout_marginTop="13dp"
         android:text="(教练)"
         android:textColor="#999999"
-        android:textSize="12sp" />
+        android:textSize="12sp" />-->
     <TextView
         android:id="@+id/tv_phone"
         android:layout_width="wrap_content"
@@ -40,14 +56,14 @@
         android:textSize="12sp"
         android:textColor="#999999"
         android:text="112232432"
-        android:layout_below="@id/tv_name"
+        android:layout_below="@id/ll"
         android:layout_marginTop="5dp"
-        android:layout_alignLeft="@id/tv_name"/>
+        android:layout_alignLeft="@id/ll"/>
     <TextView
         android:id="@+id/tv_isfriend_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_guy_btn"
+        android:background="@drawable/bg_isfriend_btn"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
