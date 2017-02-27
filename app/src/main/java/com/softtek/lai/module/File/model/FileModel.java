@@ -18,9 +18,13 @@ public class FileModel implements Serializable {
     private double weight;      //体重
     private int gender;      //性别 :gender(int 0女，1男)
 
-    public String getBirthday() {
-        return birthday;
-    }
+    private double circum;      //胸围:可空
+    private double waistline;   //(腰围:,可空)
+    private double hiplie;      //臀围:可空
+    private double uparmgirth;//(上臂围:,可空)
+    private double upleggirth;//(大腿围 :,可空)
+    private double doleggirth;//(小腿围:,可空)
+
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
@@ -42,59 +46,19 @@ public class FileModel implements Serializable {
         this.weight = weight;
     }
 
-    private double circum;      //胸围:可空
-    private double waistline;   //(腰围:,可空)
-    private double hiplie;      //臀围:可空
-    private double uparmgirth;//(上臂围:,可空)
-    private double upleggirth;//(大腿围 :,可空)
-    private double doleggirth;//(小腿围:,可空)
+
 
     public FileModel() {
 
-    }
-
-    public FileModel(String nickname, String birthday, int height, int weight, int gender, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
-        this.nickname = nickname;
-        this.birthday = birthday;
-        this.height = height;
-        this.weight = weight;
-        this.gender = gender;
-        this.circum = circum;
-        this.waistline = waistline;
-        this.hiplie = hiplie;
-        this.uparmgirth = uparmgirth;
-        this.upleggirth = upleggirth;
-        this.doleggirth = doleggirth;
-    }
-
-    public FileModel(String nickname, String birthday, int height, int weight, int gender) {
-        this.nickname = nickname;
-        this.birthday = birthday;
-        this.height = height;
-        this.weight = weight;
-        this.gender = gender;
-
-    }
-
-    public FileModel(double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
-        this.circum = circum;
-        this.waistline = waistline;
-        this.hiplie = hiplie;
-        this.uparmgirth = uparmgirth;
-        this.upleggirth = upleggirth;
-        this.doleggirth = doleggirth;
     }
 
     public String getNickname() {
         return nickname;
     }
 
-    public String getBrithday() {
-        return birthday;
-    }
 
-    public void setBrithday(String brithday) {
-        this.birthday = brithday;
+    public String getBirthday() {
+        return birthday;
     }
 
 

@@ -110,18 +110,20 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
                             dialog.setTitle("确定不再关注此人？").setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    im_guanzhu.setClickable(true);
                                 }
                             }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                                public void onClick(DialogInterface dialogInterface, int i)
+                                {
                                     im_guanzhu.setImageResource(R.drawable.add_focus_icon);
                                     //取消关注
                                     headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
                                             Long.parseLong(data.getFocusAccountId()), new RequestCallback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
-                                                    try {
+                                                    try
+                                                    {
                                                         int status = responseData.getStatus();
                                                         im_guanzhu.setClickable(true);
                                                         switch (status) {
@@ -134,7 +136,8 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
                                                                 Util.toastMsg(responseData.getMsg());
                                                                 break;
                                                         }
-                                                    } catch (Exception e) {
+                                                    } catch (Exception e)
+                                                    {
                                                         e.printStackTrace();
                                                     }
                                                 }

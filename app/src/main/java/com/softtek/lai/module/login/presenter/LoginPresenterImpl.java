@@ -5,16 +5,19 @@
 
 package com.softtek.lai.module.login.presenter;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
@@ -235,9 +238,27 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             dialog.show();
                         }*/ else if(TextUtils.isEmpty(model.getCertification())&&SharedPreferenceService.getInstance().get("tipCertif",true)){
                             SharedPreferenceService.getInstance().put("tipCertif",false);
-                            ((AppCompatActivity) context).finish();
-                            Intent intent=new Intent(context, ValidateCertificationActivity.class);
-                            context.startActivity(intent);
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
+                                    .setTitle(context.getString(R.string.login_out_title))
+                                    .setMessage("您尚未完成资格证号认证，请尽快认证")
+                                    .setNegativeButton("稍后认证", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ((AppCompatActivity) context).finish();
+                                            context.startActivity(new Intent(context, HomeActviity.class));
+                                        }
+                                    })
+                                    .setPositiveButton("现在认证", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ((AppCompatActivity) context).finish();
+                                            Intent intent=new Intent(context, ValidateCertificationActivity.class);
+                                            context.startActivity(intent);
+                                        }
+                                    });
+                            Dialog dialog = dialogBuilder.create();
+                            dialog.setCancelable(false);
+                            dialog.show();
                         }else {
                             ((AppCompatActivity) context).finish();
                             Intent start = new Intent(context, HomeActviity.class);

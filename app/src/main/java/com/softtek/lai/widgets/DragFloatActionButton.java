@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 import android.view.animation.DecelerateInterpolator;
 
 import com.github.snowdream.android.util.Log;
@@ -21,6 +22,7 @@ public class DragFloatActionButton extends FloatingActionButton{
     private int screenHeight;
     private int screenWidthHalf;
     private int statusHeight;
+    private int touchSlop;
 
     public DragFloatActionButton(Context context) {
         super(context);
@@ -38,6 +40,7 @@ public class DragFloatActionButton extends FloatingActionButton{
     }
 
     private void init(){
+        touchSlop= ViewConfiguration.get(getContext()).getScaledTouchSlop();
         screenWidth= DisplayUtil.getMobileWidth(getContext());
         screenWidthHalf=screenWidth/2;
         screenHeight=DisplayUtil.getMobileHeight(getContext());
@@ -63,11 +66,16 @@ public class DragFloatActionButton extends FloatingActionButton{
                 isDrag=true;
                 int dx=rawX-lastX;
                 int dy=rawY-lastY;
+                int distance= (int) Math.sqrt(dx*dx+dy*dy);
+                if(distance==0){
+                    isDrag=false;
+                    break;
+                }
                 float x=getX()+dx;
                 float y=getY()+dy;
                 //检测是否到达边缘 左上右下
                 x=x<0?0:x>screenWidth-getWidth()?screenWidth-getWidth():x;
-                y=y<statusHeight?statusHeight:y+getHeight()>screenHeight?screenHeight-getHeight():y;
+                y=y<statusHeight?statusHeight:y+getHeight()>screenHeight-DisplayUtil.dip2px(getContext(),40)?screenHeight-getHeight()-DisplayUtil.dip2px(getContext(),40):y;
                 setX(x);
                 setY(y);
                 lastX=rawX;

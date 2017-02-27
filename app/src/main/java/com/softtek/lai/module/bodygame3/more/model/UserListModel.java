@@ -8,9 +8,17 @@ public class UserListModel {
     private String photoUrl;
     private String username;
     private String phoneNo;
-    private String gender;
+    private int gender;
     private int roleId;
     private int isFriend;
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
 
     public int getIsFriend() {
         return isFriend;
@@ -59,15 +67,5 @@ public class UserListModel {
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-
 
 }
