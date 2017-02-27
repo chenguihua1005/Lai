@@ -1,8 +1,10 @@
 package com.softtek.lai.module.laijumine.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -141,27 +143,41 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                                         });
 
                             } else {
-                                headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
-                                        Long.parseLong(fansInfoModels.get(position).getAccountId()), new RequestCallback<ResponseData>() {
-                                            @Override
-                                            public void success(ResponseData responseData, Response response) {
-                                                try {
-                                                    int status = responseData.getStatus();
-                                                    im_guanzhu.setClickable(true);
-                                                    switch (status) {
-                                                        case 200:
-                                                            fansInfoModels.get(position).setIsFocus(0);
-                                                            im_guanzhu.setImageResource(R.drawable.add_focus_icon);
-                                                            break;
-                                                        default:
-                                                            Util.toastMsg(responseData.getMsg());
-                                                            break;
+                                AlertDialog.Builder dialog;
+                                dialog = new AlertDialog.Builder(FansActivity.this);
+                                dialog.setTitle("确定不再关注此人？").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        im_guanzhu.setClickable(true);
+
+                                    }
+                                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        headService.doCancleFocusAccount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
+                                                Long.parseLong(fansInfoModels.get(position).getAccountId()), new RequestCallback<ResponseData>() {
+                                                    @Override
+                                                    public void success(ResponseData responseData, Response response) {
+                                                        try {
+                                                            int status = responseData.getStatus();
+                                                            im_guanzhu.setClickable(true);
+                                                            switch (status) {
+                                                                case 200:
+                                                                    fansInfoModels.get(position).setIsFocus(0);
+                                                                    im_guanzhu.setImageResource(R.drawable.add_focus_icon);
+                                                                    break;
+                                                                default:
+                                                                    Util.toastMsg(responseData.getMsg());
+                                                                    break;
+                                                            }
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
                                                     }
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
+                                                });
+                                    }
+                                }).create().show();
+
                             }
                         }
                     });

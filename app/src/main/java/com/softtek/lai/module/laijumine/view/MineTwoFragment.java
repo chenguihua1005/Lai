@@ -15,10 +15,12 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -130,6 +132,8 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     RelativeLayout re_renzheng;
     @InjectView(R.id.but_login)
     Button but_login;
+    @InjectView(R.id.scro)
+    ScrollView scro;
 
     private int GET_Sian = 1;//个人签名
     MineSevice mineSevice;
@@ -142,6 +146,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initViews() {
+        srl_refresh.setEnabled(false);
         srl_refresh.setOnRefreshListener(this);
         srl_refresh.setColorSchemeColors(getResources().getColor(R.color.btn_blue_normal));
         tv_setting.setOnClickListener(this);
@@ -158,6 +163,12 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         im_banner.setOnClickListener(this);
         cir_userphoto.setOnClickListener(this);
         but_login.setOnClickListener(this);
+        scro.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                srl_refresh.setEnabled(scro.getScrollY()==0);
+            }
+        });
         int px = DisplayUtil.dip2px(getContext(), 300);
         imageFileCropSelector=new ImageFileCropSelector(getContext());
         imageFileCropSelector.setOutPutImageSize(px, px);
