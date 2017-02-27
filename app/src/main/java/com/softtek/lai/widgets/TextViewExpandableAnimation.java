@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 
 
@@ -165,7 +164,7 @@ public class TextViewExpandableAnimation extends LinearLayout
     }
 
     private void initClick() {
-        textView.setOnClickListener(this);
+        tvState.setOnClickListener(this);
         rlToggleLayout.setOnClickListener(this);
     }
 
@@ -257,7 +256,7 @@ public class TextViewExpandableAnimation extends LinearLayout
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.rl_expand_text_view_animation_toggle_layout || v.getId() == R.id.tv_expand_text_view_animation) {
+        if (v.getId() == R.id.rl_expand_text_view_animation_toggle_layout || v.getId() == R.id.tv_expand_text_view_animation_hint) {
             clickImageToggle();
             if (null != onStateChangeListener) onStateChangeListener.onStateChange(isShrink);
         }

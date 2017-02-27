@@ -285,7 +285,6 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-
                                     }
 
                                     @Override
@@ -617,7 +616,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     }
 
     private View createHeadView() {
-        //创建一个高度为162dp的relativeLayout容器
+        //创建一个高度为200dp的relativeLayout容器
         RelativeLayout rl = new RelativeLayout(this);
         rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
@@ -857,7 +856,8 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                             } else {
                                 Picasso.with(TopicDetailActivity.this)
                                         .load(AddressManager.get("photoHost") + info.getTopciCover())
-                                        .fit()
+                                        .resize(DisplayUtil.getMobileWidth(TopicDetailActivity.this),DisplayUtil.dip2px(TopicDetailActivity.this,200))
+                                        .centerCrop()
                                         .placeholder(R.drawable.default_icon_rect)
                                         .error(R.drawable.default_icon_rect)
                                         .into(iv_banner);

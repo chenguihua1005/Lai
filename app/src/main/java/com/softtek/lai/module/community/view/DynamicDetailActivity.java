@@ -91,7 +91,6 @@ public class DynamicDetailActivity extends BaseActivity implements PullToRefresh
         EventBus.getDefault().register(this);
         tv_title.setText("动态详情");
         ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-//        ptrlv.setEmptyView(empty);
         ptrlv.setOnRefreshListener(this);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true, false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示

@@ -4,6 +4,7 @@ package com.softtek.lai.module.home.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -124,8 +125,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                 validateLife.validate();
                 break;
             case R.id.ll_left:
-                Intent intent=new Intent(this, HomeActviity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, HomeActviity.class));
                 finish();
                 break;
         }
@@ -159,6 +159,15 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         return super.dispatchTouchEvent(ev);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            startActivity(new Intent(this, HomeActviity.class));
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
