@@ -251,8 +251,21 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                             userListModels.addAll(searchFriendModelResponseData.getData().getUserList());
                             if (userListModels==null||userListModels.isEmpty())
                             {
-                                Util.toastMsg("无此用户");
-                                return;
+                                UserModel user=UserInfoModel.getInstance().getUser();
+                                if (edit.getText().toString().equals(user.getNickname()))
+                                {
+                                    edit.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            edit.requestFocus();
+                                        }
+                                    }, 500);
+                                    edit.setError(Html.fromHtml("<font color=#FFFFFF>无此用户</font>"));
+                                }
+                                else {
+                                    Util.toastMsg("无此用户只支持精确查询");
+                                }
+
                             }
                             adapter.notifyDataSetChanged();
                             break;

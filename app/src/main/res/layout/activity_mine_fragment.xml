@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#ffffff"
+    android:background="#F1F1EF"
     android:orientation="vertical"
     tools:context="com.softtek.lai.module.laijumine.view.MineTwoFragment">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#ffffff">
         <RelativeLayout
             android:id="@+id/lin_not_vr"
             android:layout_width="match_parent"
@@ -444,7 +445,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
         <include layout="@layout/toolbar" />
 
         <ImageView
