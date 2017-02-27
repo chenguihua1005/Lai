@@ -15,6 +15,15 @@ public class PersonalListModel {
     private String imgCollection;
     private  int IsTopic;
     private List<TopicList> TopicList;
+    private boolean isOpen;
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
 
     public List<com.softtek.lai.module.community.model.TopicList> getTopicList() {
         return TopicList;

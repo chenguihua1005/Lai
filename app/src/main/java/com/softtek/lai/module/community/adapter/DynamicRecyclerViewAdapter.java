@@ -41,6 +41,7 @@ import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.TextViewExpandableAnimation;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -148,9 +149,16 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     }
                 }while (from<lastIndex);
             }
-            ((ViewHolder) holder).tv_content.setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
+            ((ViewHolder) holder).tv_content.getTextView().setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
             ((ViewHolder) holder).tv_content.setText(builder);
-            ((ViewHolder) holder).tv_content.setMovementMethod(LinkMovementMethod.getInstance());
+            ((ViewHolder) holder).tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
+            ((ViewHolder) holder).tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                @Override
+                public void onStateChange(boolean isShrink) {
+                    model.setOpen(!isShrink);
+                }
+            });
+            ((ViewHolder) holder).tv_content.resetState(!model.isOpen());
             int[] dates=DateUtil.getInstance().getDates(model.getCreateDate());
             if(position==0){//第一条
                 ((ViewHolder) holder).tv_month.setVisibility(View.VISIBLE);
@@ -282,13 +290,14 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv_month,tv_time,tv_content,tv_delete;
+        public TextView tv_month,tv_time,/*tv_content,*/tv_delete;
         public CustomGridView photos;
+        public TextViewExpandableAnimation tv_content;
 
         public ViewHolder(View view) {
             super(view);
             tv_month= (TextView) view.findViewById(R.id.tv_month);
-            tv_content= (TextView) view.findViewById(R.id.tv_content);
+            tv_content= (TextViewExpandableAnimation) view.findViewById(R.id.tv_content);
             tv_time= (TextView) view.findViewById(R.id.tv_time);
             tv_delete= (TextView) view.findViewById(R.id.tv_delete);
             photos= (CustomGridView) view.findViewById(R.id.photos);

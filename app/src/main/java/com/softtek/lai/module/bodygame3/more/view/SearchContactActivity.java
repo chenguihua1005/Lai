@@ -79,7 +79,6 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号/资格证号</font>"));
                         return false;
                     }else if(edit.getText().toString().equals(user.getMobile())||
-                            edit.getText().toString().equals(user.getNickname())||
                             edit.getText().toString().equals(user.getCertification())){
                         edit.requestFocus();
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>无此用户</font>"));
