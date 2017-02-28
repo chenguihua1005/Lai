@@ -45,6 +45,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import uk.co.senab.photoview.PhotoView;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.util.Util;
 
 /**
@@ -413,7 +414,7 @@ public class LookBigPicActivity extends Activity implements  ViewTreeObserver.On
         if(saveBean==null|| TextUtils.isEmpty(saveBean.imageUrl)){
             return;
         }
-        ZillaApi.getCustomRESTAdapter("http://115.29.187.163:8082", new RequestInterceptor() {
+        ZillaApi.getCustomRESTAdapter(AddressManager.get("photoBase"), new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
 
@@ -462,6 +463,7 @@ public class LookBigPicActivity extends Activity implements  ViewTreeObserver.On
                 }
 
                 outputStream.flush();
+                Util.toastMsg("保存成功");
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri uri = Uri.fromFile(file);
                 intent.setData(uri);
