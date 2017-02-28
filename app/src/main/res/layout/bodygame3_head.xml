@@ -91,7 +91,7 @@
                     android:drawablePadding="5dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="9dp"
-                    android:text="小组第一"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="11sp" />
 
@@ -147,7 +147,7 @@
                         android:drawablePadding="5dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="9dp"
-                        android:text="周优秀学员"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="11sp" />
 
