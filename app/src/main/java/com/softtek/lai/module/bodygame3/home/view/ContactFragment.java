@@ -323,7 +323,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         try {
             ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
             String token = UserInfoModel.getInstance().getToken();
-            service.getEMChatContacts(token, 1, 99, new Callback<ResponseData<ContactListModel>>() {
+            service.getEMChatContacts(token, 1, 99,UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<ContactListModel>>() {
                 @Override
                 public void success(ResponseData<ContactListModel> contactListModelResponseData, Response response) {
                     int status = contactListModelResponseData.getStatus();
