@@ -96,6 +96,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     LinearLayout honor_lin;
     NiceSpinner spinner_title;
     TextView searchContent;
+    TextView week_group;
+    TextView week_stu;
     TextView group_name;//组名
     TextView jianzhongbi_tv;//总减重比
     ImageView iv_group;//图标
@@ -135,7 +137,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     private int page = 1;
     private String classnum;
     private SaveclassModel saveclassModel;
-    private List<String> dataset = new LinkedList<>(Arrays.asList("按减重斤数", "按减重比", "按体脂比"));
+    private List<String> dataset = new LinkedList<>(Arrays.asList("累计减重斤数", "累计减重比", "累计体脂比"));
 
     public static final String SAVE_CLASS_DIR = "save_class_dir";
     public static final String SAVE_CLASS = "save_class";
@@ -179,6 +181,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         jianzhongbi_tv = (TextView) headView.findViewById(R.id.jianzhongbi_tv);
         iv_group = (ImageView) headView.findViewById(R.id.iv_group);
         student_tv = (TextView) headView.findViewById(R.id.student_tv);
+        week_group = (TextView) headView.findViewById(R.id.week_group);
+        week_stu = (TextView) headView.findViewById(R.id.week_stu);
         studenticon = (CircleImageView) headView.findViewById(R.id.iv_studenticon);
         student_jianzhong = (TextView) headView.findViewById(R.id.student_jianzhong);
         student_jianzhi = (TextView) headView.findViewById(R.id.student_jianzhi);
@@ -400,7 +404,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
     //按类型分页加载小伙伴
     private void updatepartner(int sorttype, int pagesize, int pageindex) {
-        service.getpartnertype(classId_first,UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
+        service.getpartnertype(classId_first, UserInfoModel.getInstance().getToken(), classId_first, sorttype, pagesize,
                 pageindex, new RequestCallback<ResponseData<PartnertotalModel>>() {
                     @Override
                     public void success(ResponseData<PartnertotalModel> partnersModelResponseData, Response response) {
@@ -438,7 +442,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     }
 
     private void classinfo(String classId_first, String classnum) {
-        ZillaApi.NormalRestAdapter.create(HeadService.class).choose(classId_first,UserInfoModel.getInstance().getToken(), classId_first,
+        ZillaApi.NormalRestAdapter.create(HeadService.class).choose(classId_first, UserInfoModel.getInstance().getToken(), classId_first,
                 classnum, 10, new RequestCallback<ResponseData<ChooseModel>>() {
                     @Override
                     public void success(ResponseData<ChooseModel> chooseModelResponseData, Response response) {
@@ -652,9 +656,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
         } else if (clazz.getStatus() == 2) {
             //删除班级
-            Iterator<ClassModel> iter=classModels.iterator();
-            while (iter.hasNext()){
-                ClassModel model=iter.next();
+            Iterator<ClassModel> iter = classModels.iterator();
+            while (iter.hasNext()) {
+                ClassModel model = iter.next();
                 if (model.getClassId().equals(clazz.getModel().getClassId())) {
                     iter.remove();
                     break;
@@ -663,9 +667,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             tv_title.notifChange();
             if (!classModels.isEmpty()) {
                 tv_title.setSelected(0);
-                ClassModel model=classModels.get(0);
-                classId_first=model.getClassId();
-                classnum=model.getClassWeek();
+                ClassModel model = classModels.get(0);
+                classId_first = model.getClassId();
+                classnum = model.getClassWeek();
                 saveclassModel = new SaveclassModel();
                 saveclassModel.setClassName(model.getClassName());
                 saveclassModel.setClassCode(model.getClassCode());
@@ -695,7 +699,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     }
 
     private void getallfirst(final String classId) {
-        service.getfirst(classId,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
+        service.getfirst(classId, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
                 try {
@@ -784,6 +788,13 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + " %");
                             } else {
                                 jianzhongbi_tv.setText("总减重比 %");
+                            }
+                            if(!TextUtils.isEmpty(rongyuModel.getClassWeek())){
+                                week_group.setText("第"+rongyuModel.getClassWeek()+"周小组第一");
+                                week_stu.setText("第"+rongyuModel.getClassWeek()+"优秀学员");
+                            }else {
+                                week_group.setText("第 周小组第一");
+                                week_stu.setText("第 周优秀学员");
                             }
                             student_tv.setText(rongyuModel.getStuName());
 

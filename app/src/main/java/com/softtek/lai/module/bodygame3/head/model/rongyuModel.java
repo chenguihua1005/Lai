@@ -11,14 +11,24 @@ public class RongyuModel {
     private String StuName;//优秀学员姓名
     private String LossPre;//优秀学员减重比
     private String PysPre;//优秀学员减脂比
+    private String ClassWeek;//
 
-    public RongyuModel(String groupName, String groupLossPre, String stuPhoto, String stuName, String lossPre, String pysPre) {
+    public RongyuModel(String groupName, String groupLossPre, String stuPhoto, String stuName, String lossPre, String pysPre, String classWeek) {
         GroupName = groupName;
         GroupLossPre = groupLossPre;
         StuPhoto = stuPhoto;
         StuName = stuName;
         LossPre = lossPre;
         PysPre = pysPre;
+        ClassWeek = classWeek;
+    }
+
+    public String getClassWeek() {
+        return ClassWeek;
+    }
+
+    public void setClassWeek(String classWeek) {
+        ClassWeek = classWeek;
     }
 
     public String getGroupName() {
