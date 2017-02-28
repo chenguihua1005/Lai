@@ -105,6 +105,7 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().put("token", "");
         SharedPreferenceService.getInstance().put(Constants.USER, "");
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
+        SharedPreferenceService.getInstance().get(USER_ID,-1L);
         isVr=true;
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
