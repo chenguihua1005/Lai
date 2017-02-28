@@ -83,6 +83,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/week_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -90,7 +91,7 @@
                     android:drawablePadding="5dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="9dp"
-                    android:text="小组第一"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="11sp" />
 
@@ -136,17 +137,22 @@
                 android:background="@drawable/week_lin"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:drawableLeft="@drawable/weeks_one"
-                    android:drawablePadding="5dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="9dp"
-                    android:text="周优秀学员"
-                    android:textColor="@color/white"
-                    android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/week_stu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:drawableLeft="@drawable/weeks_one"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="9dp"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -250,12 +256,6 @@
                 android:layout_height="100dp"
                 android:layout_weight="1">
 
-                <com.softtek.lai.widgets.RoundImageView
-                    android:id="@+id/iv_video1_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
-
                 <TextView
                     android:id="@+id/video_type1"
                     android:layout_width="wrap_content"
@@ -275,6 +275,14 @@
                     android:text="TextView"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
+
+                <com.softtek.lai.widgets.RoundImageView
+                    android:id="@+id/iv_video1_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
             </RelativeLayout>
 
             <RelativeLayout

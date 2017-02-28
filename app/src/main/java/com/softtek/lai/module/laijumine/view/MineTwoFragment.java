@@ -234,7 +234,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             lin_is_vr.setVisibility(View.GONE);
         }
         photo = model.getPhoto();
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost");
         if (!TextUtils.isEmpty(photo)) {
             Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default)
                     .centerCrop().error(R.drawable.img_default).into(cir_userphoto);

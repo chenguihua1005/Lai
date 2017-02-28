@@ -195,12 +195,11 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     protected void initDatas() {
         service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
         community = new RecommentHealthyManager(this);
-        UserModel user = UserInfoModel.getInstance().getUser();
         String token = UserInfoModel.getInstance().getToken();
         if (StringUtils.isEmpty(token)) {
             accountId = -1;
         } else {
-            accountId = Long.parseLong(user.getUserid());
+            accountId =UserInfoModel.getInstance().getUserId();
         }
         final Object tag = new Object();
         adapter = new HealthyCommunityAdapter(this, getContext(), communityModels, tag);
