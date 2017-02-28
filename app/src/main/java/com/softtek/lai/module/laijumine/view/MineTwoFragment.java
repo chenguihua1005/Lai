@@ -484,8 +484,9 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
             else {
                 String strs="您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
+                int length=myinfomodel.getUnReadMsgNum().length();
                 SpannableStringBuilder style=new SpannableStringBuilder(strs);
-                style.setSpan(new ForegroundColorSpan(Color.RED),2,3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(Color.RED),2,2+length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 tv_news.setText(style);
             }
 
