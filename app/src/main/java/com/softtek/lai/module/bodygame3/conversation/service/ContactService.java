@@ -35,7 +35,6 @@ public interface ContactService {
             @Header("token") String token,
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
-            @Query("accountId")long accountId,
             Callback<ResponseData<ContactListModel>> callback
     );
 
