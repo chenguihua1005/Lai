@@ -129,7 +129,7 @@ public class FriendAdapter extends BaseAdapter {
 
             String className = "";
             if (TextUtils.isEmpty(friendModel.getClassName())) {
-                className = "来自通讯录";
+                className = " ";
             } else {
                 className = friendModel.getClassName();
             }

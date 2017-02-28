@@ -180,8 +180,8 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                         if (data.getIsFriend()==0)
                         {
                             ContactService contactService=ZillaApi.NormalRestAdapter.create(ContactService.class);
-                            contactService.sentFriendApply(UserInfoModel.getInstance().getToken(), "", UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(data.getAccountId()), "", new RequestCallback<ResponseData>() {
+                            contactService.doSentFriendApply(UserInfoModel.getInstance().getToken(), "", UserInfoModel.getInstance().getUserId(),
+                                    Long.parseLong(data.getAccountId()), "",1, new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             int status=responseData.getStatus();
