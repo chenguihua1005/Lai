@@ -462,6 +462,14 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                     } else {
                                         jianzhongbi_tv.setText("总减重比 %");
                                     }
+
+                                    if(!TextUtils.isEmpty(rongyuModel.getClassWeek())){
+                                        week_group.setText("第"+rongyuModel.getClassWeek()+"周小组第一");
+                                        week_stu.setText("第"+rongyuModel.getClassWeek()+"优秀学员");
+                                    }else {
+                                        week_group.setText("第 周小组第一");
+                                        week_stu.setText("第 周优秀学员");
+                                    }
                                     student_tv.setText(rongyuModel.getStuName());
 
                                     if (StringUtils.isNotEmpty(rongyuModel.getStuPhoto())) {
