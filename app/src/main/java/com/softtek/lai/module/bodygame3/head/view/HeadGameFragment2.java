@@ -3,11 +3,11 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +48,9 @@ import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.picture.LookBigPicActivity;
+import com.softtek.lai.picture.bean.EaluationPicBean;
+import com.softtek.lai.picture.util.EvaluateUtil;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -60,6 +62,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -934,12 +937,19 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        com.github.snowdream.android.util.Log.i("path" + position);
-                        Intent in = new Intent(getContext(), PictureMoreActivity.class);
-                        in.putStringArrayListExtra("images", photos);
-                        in.putExtra("position", position);
-                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                        ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
+//                        Intent in = new Intent(getContext(), PictureMoreActivity.class);
+//                        in.putStringArrayListExtra("images", photos);
+//                        in.putExtra("position", position);
+//                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
+//                        ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
+                        Intent intent = new Intent(getContext(), LookBigPicActivity.class);
+                        Bundle bundle = new Bundle();
+                        List<EaluationPicBean> list= EvaluateUtil.setupCoords4(getContext(),(ImageView) v,photos,position);
+                        bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
+                        intent.putExtras(bundle);
+                        intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
+                        startActivity(intent);
+                        ((AppCompatActivity) getContext()).overridePendingTransition(0,0);
                     }
                 });
                 container.addView(imageView);
