@@ -117,4 +117,38 @@ public class EvaluateUtil {
         }
         return list;
     }
+
+    public static List<EaluationPicBean> setupCoords4(Context context, ImageView iv_image, List<String> mAttachmentsList, int position) {
+        //x方向的第几个
+        int xn=position%4+1;
+        //y方向的第几个
+        int yn=position/4+1;
+        //x方向的总间距
+        int h=(xn-1)* DisplayUtil.dip2px(context,4);
+        //y方向的总间距
+        int v=h;
+        //图片宽高
+        int height = iv_image.getHeight();
+        int width = iv_image.getWidth();
+        //获取当前点击图片在屏幕上的坐标
+        int[] points=new int[2];
+        iv_image.getLocationInWindow(points);
+        //获取第一张图片的坐标
+        int x0=points[0]-(width+h)*(xn-1) ;
+        int y0=points[1]-(height+v)*(yn-1);
+        //给所有图片添加坐标信息
+        List<EaluationPicBean> list=new ArrayList<>();
+        for(int i=0;i<mAttachmentsList.size();i++){
+            String imgUrl=mAttachmentsList.get(i);
+            EaluationPicBean ealuationPicBean =new EaluationPicBean();
+            ealuationPicBean.imageUrl=imgUrl;
+            ealuationPicBean.smallImageUrl=imgUrl;
+            ealuationPicBean.width=width;
+            ealuationPicBean.height=height;
+            ealuationPicBean.x=x0+(i%4)*(width+h);
+            ealuationPicBean.y=y0+(i/4)*(height+v)-DisplayUtil.getStatusBarHeight(iv_image);
+            list.add(ealuationPicBean);
+        }
+        return list;
+    }
 }
