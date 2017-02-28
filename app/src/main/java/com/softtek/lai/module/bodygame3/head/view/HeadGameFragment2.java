@@ -465,7 +465,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
                                     if(!TextUtils.isEmpty(rongyuModel.getClassWeek())){
                                         week_group.setText("第"+rongyuModel.getClassWeek()+"周小组第一");
-                                        week_stu.setText("第"+rongyuModel.getClassWeek()+"优秀学员");
+                                        week_stu.setText("第"+rongyuModel.getClassWeek()+"周优秀学员");
                                     }else {
                                         week_group.setText("第 周小组第一");
                                         week_stu.setText("第 周优秀学员");
@@ -802,7 +802,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                             }
                             if(!TextUtils.isEmpty(rongyuModel.getClassWeek())){
                                 week_group.setText("第"+rongyuModel.getClassWeek()+"周小组第一");
-                                week_stu.setText("第"+rongyuModel.getClassWeek()+"优秀学员");
+                                week_stu.setText("第"+rongyuModel.getClassWeek()+"周优秀学员");
                             }else {
                                 week_group.setText("第 周小组第一");
                                 week_stu.setText("第 周优秀学员");
