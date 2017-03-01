@@ -471,7 +471,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
             if ("0".equals(myinfomodel.getLossLevel()))
             {
-                tv_level.setText("暂无等级");
+                tv_level.setText("暂无减重等级");
             }
             else {
                 tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
