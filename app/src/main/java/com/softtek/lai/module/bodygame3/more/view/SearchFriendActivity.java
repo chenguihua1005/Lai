@@ -160,7 +160,7 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                 {
                     case 0:
                         tv_isfriend_state.setTextColor(0xffffffff);
-                        tv_isfriend_state.setText("加好友");
+                        tv_isfriend_state.setText("添加");
                         tv_isfriend_state.setBackground(getResources().getDrawable(R.drawable.bg_addguy_btn));
                         break;
                     case 1:
@@ -180,8 +180,8 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                         if (data.getIsFriend()==0)
                         {
                             ContactService contactService=ZillaApi.NormalRestAdapter.create(ContactService.class);
-                            contactService.sentFriendApply(UserInfoModel.getInstance().getToken(), "", UserInfoModel.getInstance().getUserId(),
-                                    Long.parseLong(data.getAccountId()), "", new RequestCallback<ResponseData>() {
+                            contactService.doSentFriendApply(UserInfoModel.getInstance().getToken(), "", UserInfoModel.getInstance().getUserId(),
+                                    Long.parseLong(data.getAccountId()), "",1, new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             int status=responseData.getStatus();

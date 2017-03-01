@@ -25,6 +25,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
+import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;

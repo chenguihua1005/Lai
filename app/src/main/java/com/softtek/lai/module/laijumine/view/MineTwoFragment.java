@@ -234,7 +234,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             lin_is_vr.setVisibility(View.GONE);
         }
         photo = model.getPhoto();
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost");
         if (!TextUtils.isEmpty(photo)) {
             Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default)
                     .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
@@ -471,7 +471,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
             if ("0".equals(myinfomodel.getLossLevel()))
             {
-                tv_level.setText("暂无等级");
+                tv_level.setText("暂无减重等级");
             }
             else {
                 tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
@@ -484,8 +484,9 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
             }
             else {
                 String strs="您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
+                int length=myinfomodel.getUnReadMsgNum().length();
                 SpannableStringBuilder style=new SpannableStringBuilder(strs);
-                style.setSpan(new ForegroundColorSpan(Color.RED),2,3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(Color.RED),2,2+length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 tv_news.setText(style);
             }
 

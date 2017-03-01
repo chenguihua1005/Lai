@@ -101,7 +101,7 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                         cir_photo.setImageResource(R.drawable.img_default);
                     }
 
-                    TextView tv_fansname = holder.getView(R.id.tv_fansname);
+                    final TextView tv_fansname = holder.getView(R.id.tv_fansname);
                     tv_fansname.setText(data.getUserName());
                     TextView tv_fanssignature = holder.getView(R.id.tv_fanssignature);
                     tv_fanssignature.setText(data.getSignature());
@@ -145,6 +145,12 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                             } else {
                                 AlertDialog.Builder dialog;
                                 dialog = new AlertDialog.Builder(FansActivity.this);
+                                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    @Override
+                                    public void onCancel(DialogInterface dialogInterface) {
+                                        im_guanzhu.setClickable(true);
+                                    }
+                                });
                                 dialog.setTitle("确定不再关注此人？").setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -177,6 +183,7 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
                                                 });
                                     }
                                 }).create().show();
+
 
                             }
                         }

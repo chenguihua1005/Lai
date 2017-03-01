@@ -8,10 +8,10 @@ package com.softtek.lai.module.community.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -37,7 +38,9 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.view.DynamicDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.community.view.TopicDetailActivity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.picture.LookBigPicActivity;
+import com.softtek.lai.picture.bean.EaluationPicBean;
+import com.softtek.lai.picture.util.EvaluateUtil;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -45,7 +48,7 @@ import com.softtek.lai.widgets.TextViewExpandableAnimation;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -199,20 +202,19 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             }
             ((ViewHolder) holder).tv_time.setText(dates[6]==0?"上午":"下午");
             ((ViewHolder) holder).tv_time.append(dates[3]+":"+(dates[4]<10?"0"+dates[4]:dates[4]));
-            final String[] imgs = model.getImgCollection().split(",");
-            ((ViewHolder) holder).photos.setAdapter(new PhotosAdapter(Arrays.asList(imgs), context,new Object()));
-            final ArrayList<String> list = new ArrayList<>();
-            for (int i = 0; i < imgs.length; i++) {
-                list.add(imgs[i]);
-            }
+            final List<String> listImg=Arrays.asList(model.getImgCollection().split(","));
+            ((ViewHolder) holder).photos.setAdapter(new PhotosAdapter(listImg, context,new Object()));
             ((ViewHolder) holder).photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    Intent in = new Intent(context, PictureMoreActivity.class);
-                    in.putStringArrayListExtra("images", list);
-                    in.putExtra("position", position);
-                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                    ActivityCompat.startActivity( context, in, optionsCompat.toBundle());
+                    Intent intent = new Intent(context, LookBigPicActivity.class);
+                    Bundle bundle = new Bundle();
+                    List<EaluationPicBean> list= EvaluateUtil.setupCoords(context,(ImageView) v,listImg,position);
+                    bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
+                    intent.putExtras(bundle);
+                    intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
+                    context.startActivity(intent);
+                    ((AppCompatActivity) context).overridePendingTransition(0,0);
                 }
             });
             if(isMine&&"0".equals(model.getMinetype())){

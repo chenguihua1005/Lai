@@ -51,7 +51,7 @@
             app:tvea_textContentSize="15sp"
             app:tvea_textExpand="全文"
             app:tvea_textShrink="收起"
-            app:tvea_textStateColor="@color/colorPrimary"
+            app:tvea_textStateColor="@color/blue"
             />
         <!--<TextView
             android:id="@+id/tv_content"

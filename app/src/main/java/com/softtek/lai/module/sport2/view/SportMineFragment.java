@@ -409,7 +409,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             if(TextUtils.isEmpty(result.getPhoto())){
                 Picasso.with(getContext()).load(R.drawable.img_default).into(header_image);
             }else {
-                Picasso.with(getContext()).load(AddressManager.get("photoHost") + result.getPhoto()).fit().error(R.drawable.img_default)
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + result.getPhoto()).resizeDimen(R.dimen.head,R.dimen.head).centerCrop().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(header_image);
             }
         }

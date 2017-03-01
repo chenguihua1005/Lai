@@ -124,7 +124,7 @@ public class TextViewExpandableAnimation extends LinearLayout
         expandLines = ta.getInteger(
                 R.styleable.TextViewExpandableAnimation_tvea_expandLines, 5);
 
-        textViewStateColor = ta.getColor(R.styleable.TextViewExpandableAnimation_tvea_textStateColor, ContextCompat.getColor(context, R.color.colorPrimary));
+        textViewStateColor = ta.getColor(R.styleable.TextViewExpandableAnimation_tvea_textStateColor, ContextCompat.getColor(context, R.color.blue));
 
         textShrink = ta.getString(R.styleable.TextViewExpandableAnimation_tvea_textShrink);
         textExpand = ta.getString(R.styleable.TextViewExpandableAnimation_tvea_textExpand);

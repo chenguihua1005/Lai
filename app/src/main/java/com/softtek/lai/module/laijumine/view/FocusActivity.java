@@ -107,6 +107,12 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
                         if (!data.isFocus()) {//当前为已关注状态，用户点击提示“确定不再关注此人”，确定请求取消关注，变为加关注状态。
                             AlertDialog.Builder dialog;
                             dialog = new AlertDialog.Builder(FocusActivity.this);
+                            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialogInterface) {
+                                    im_guanzhu.setClickable(true);
+                                }
+                            });
                             dialog.setTitle("确定不再关注此人？").setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -144,6 +150,7 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
                                             });
                                 }
                             }).create().show();
+
 //
                         } else {//当前未关注，请求关注接口，成功变为已关注状态
                             im_guanzhu.setImageResource(R.drawable.focused_icon);
