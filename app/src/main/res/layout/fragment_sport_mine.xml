@@ -32,6 +32,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/img_default" />
             <TextView
                 android:id="@+id/tv_name"

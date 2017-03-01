@@ -85,7 +85,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
 
     @InjectView(R.id.cgv)
     CustomGridView cgv;
-    @Required(order = 1,message = "请输入内容")
+    @Required(order = 1,message = "请输入动态内容")
     @InjectView(R.id.et_content)
     CursorChangeEditText et_content;
     @InjectView(R.id.lv)
