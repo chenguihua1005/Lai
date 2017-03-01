@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -70,15 +72,17 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     @InjectView(R.id.button)
     Button button;
     @InjectView(R.id.pc_tv)//教练，助教，学员
-            TextView pc_tv;
+    TextView pc_tv;
     @InjectView(R.id.sp_tv)//总教练
-            TextView sp_tv;
+    TextView sp_tv;
     @InjectView(R.id.classed_tv)
     TextView classed_tv;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.lin_nostart)
     LinearLayout lin_nostart;
+    @InjectView(R.id.fl)
+    FrameLayout fl;
     Animation roate;
     HeadService service;
 
@@ -108,35 +112,19 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
+        LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) fl.getLayoutParams();
+        params.height= (DisplayUtil.getMobileWidth(getContext())/2);
+        fl.setLayoutParams(params);
         if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {//总教练
-//            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {//有班级
-//                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {//未开始
-//                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”, 查看新班级并开始邀请小伙伴");
-//                    sp_tv.setVisibility(View.GONE);
-//                    pc_tv.setVisibility(View.GONE);
-//                    button.setVisibility(View.VISIBLE);
-//                    button.setOnClickListener(this);
-//                }
-//            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {//没有班级
             sp_tv.setVisibility(View.VISIBLE);
             pc_tv.setVisibility(View.GONE);
             button.setVisibility(View.VISIBLE);
             button.setOnClickListener(this);
-//            }
 
-        } else {//教练，助教，学员
-//            if (UserInfoModel.getInstance().getUser().getHasThClass() == 1) {//有班级
-//                if (UserInfoModel.getInstance().getUser().getDoingClass() == 0) {//未开始
-//                    classed_tv.setText("您的班级尚未开始哦, 请耐心等待! 现在可以切换到\n“更多”， 查看新班级");
-//                    sp_tv.setVisibility(View.GONE);
-//                    pc_tv.setVisibility(View.GONE);
-//                    button.setVisibility(View.GONE);
-//                }
-//            } else if (UserInfoModel.getInstance().getUser().getHasThClass() == 0) {//无班级
+        } else {
             sp_tv.setVisibility(View.GONE);
             pc_tv.setVisibility(View.VISIBLE);
             button.setVisibility(View.GONE);
-//            }
         }
         pull.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
@@ -145,7 +133,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         ivhead2_refresh.setOnClickListener(this);
         searchContent.setOnClickListener(this);
         fl_right.setOnClickListener(this);
-        Log.i("initView没有班级页面加载。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
 
@@ -155,7 +142,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         EventBus.getDefault().register(this);
         pull.setRefreshing(true);
         onRefresh();
-        Log.i("initData没有班级页面加载。。。。。。。。。。。。。。。。。。。。。。。。。。。。。");
     }
 
     @Override
@@ -179,7 +165,9 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                         String basePath = AddressManager.get("photoHost");
                         //首页banner
                         if (StringUtils.isNotEmpty(model2.getThemePic())) {
-                            Picasso.with(getContext()).load(basePath + model2.getThemePic()).fit().placeholder(R.drawable.default_icon_rect)
+                            Picasso.with(getContext()).load(basePath + model2.getThemePic())
+                                    .resize(DisplayUtil.getMobileWidth(getContext()),DisplayUtil.getMobileWidth(getContext())/2)
+                                    .centerCrop().placeholder(R.drawable.default_icon_rect)
                                     .error(R.drawable.default_icon_rect).into(iv_banner);
                         } else {
                             Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_banner);
@@ -192,7 +180,6 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
             @Override
             public void failure(RetrofitError error) {
-//                dialogDissmiss();
                 try {
                       pull.setRefreshing(false);
                 } catch (Exception e) {
@@ -247,7 +234,10 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                                 String basePath = AddressManager.get("photoHost");
                                                 //首页banner
                                                 if (StringUtils.isNotEmpty(model2.getThemePic())) {
-                                                    Picasso.with(getContext()).load(basePath + model2.getThemePic()).placeholder(R.drawable.default_icon_rect)
+                                                    Picasso.with(getContext()).load(basePath + model2.getThemePic())
+                                                            .resize(DisplayUtil.getMobileWidth(getContext()),DisplayUtil.getMobileWidth(getContext())/2)
+                                                            .centerCrop()
+                                                            .placeholder(R.drawable.default_icon_rect)
                                                             .error(R.drawable.default_icon_rect).into(iv_banner);
                                                 } else {
                                                     Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_banner);
