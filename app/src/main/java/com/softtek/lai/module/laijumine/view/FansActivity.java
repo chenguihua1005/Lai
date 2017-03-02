@@ -61,8 +61,6 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
 
     @Override
     protected void initViews() {
-        int fansnum = getIntent().getIntExtra("fansnum", 0);//粉丝数量
-        tv_title.setText("粉丝（" + fansnum + "）");
         list_fans.setOnItemClickListener(this);
         list_fans.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         list_fans.setOnRefreshListener(this);
@@ -214,11 +212,12 @@ public class FansActivity extends BaseActivity implements PullToRefreshBase.OnRe
             @Override
             public void success(ResponseData<List<FansInfoModel>> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
+                tv_title.setText("粉丝（" + listResponseData.getData().size()+ "）");
                 list_fans.onRefreshComplete();
                 switch (status) {
                     case 200:
-                        fansInfoModels.addAll(listResponseData.getData());
-                        adapter.notifyDataSetChanged();
+                            fansInfoModels.addAll(listResponseData.getData());
+                            adapter.notifyDataSetChanged();
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
