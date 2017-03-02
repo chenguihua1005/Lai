@@ -180,9 +180,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             public void convert(ViewHolder holder, NewsTopFourModel data, int position) {
                 ImageView img = holder.getView(R.id.img);
                 if (!TextUtils.isEmpty(data.getThumbnailImgUrl())) {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().centerCrop().into(img);
+                    Picasso.with(PersonDetailActivity.this).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().centerCrop().into(img);
                 } else if (!TextUtils.isEmpty(data.getImgUrl())) {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getImgUrl()).fit().centerCrop().into(img);
+                    Picasso.with(PersonDetailActivity.this).load(AddressManager.get("photoHost") + data.getImgUrl()).fit().centerCrop().into(img);
 
                 }
             }
@@ -290,7 +290,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 String url = AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    Picasso.with(getParent()).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+                    Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
                 }
                 //用户名
                 tv_stuname.setText(memberInfoModel.getUserName());
@@ -349,10 +349,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
-                        Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+                        Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
                     }
                     if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-                        Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
+                        Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
                     }
                 }
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使

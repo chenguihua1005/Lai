@@ -148,10 +148,10 @@ public class SearchFriendActivity extends BaseActivity implements AdapterView.On
                 CircleImageView head_image=holder.getView(R.id.head_image);
                 if (!TextUtils.isEmpty(data.getPhotoUrl()))
                 {
-                    Picasso.with(getParent()).load(data.getPhotoUrl()).placeholder(R.drawable.img_default)
+                    Picasso.with(SearchFriendActivity.this).load(data.getPhotoUrl()).placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(head_image);
                 }else {
-                    Picasso.with(getParent()).load(R.drawable.img_default);
+                    Picasso.with(SearchFriendActivity.this).load(R.drawable.img_default);
                 }
                 TextView tv_phone=holder.getView(R.id.tv_phone);
                 tv_phone.setText(data.getPhoneNo());
