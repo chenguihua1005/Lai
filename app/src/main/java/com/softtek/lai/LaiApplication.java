@@ -164,29 +164,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             + GroupTable.HXGroupId + " varchar(20))";
 
 
-    //用户帐号表
-    /*public static final String CREATE_USER_INFO="create table user_info (" +
-            "userId text primary key," +
-            "userRole integer," +
-            "roleName text," +
-            "nickName text," +
-            "gender integer," +
-            "weight text," +
-            "hight text," +
-            "photo text," +
-            "certification text," +
-            "certTime text," +
-            "mobile text," +
-            "birthday text," +
-            "isJoin integer," +
-            "todayStepCnt text," +
-            "isCreatInfo integer," +
-            "HXAccountId text," +
-            "HasEmchat integer," +
-            "HasThClass integer," +
-            "doingClass integer," +
-            "exit integer)";*/
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_STEP);
@@ -194,7 +171,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         db.execSQL(CREATE_CONATCT);
         db.execSQL(CREATE_CLASS_MEMBERS);
         db.execSQL(CREATE_CLASS_GROUP);
-        //db.execSQL(CREATE_USER_INFO);
         Log.i("表创建了");
     }
 
@@ -214,10 +190,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 Log.i("old版本3 更新 。。。。。。。。。。。。。。");
                 db.execSQL(CREATE_CLASS_MEMBERS);
                 db.execSQL(CREATE_CLASS_GROUP);
-//            case 4:
-//                Log.i("创建用户信息表");
-//                db.execSQL(CREATE_USER_INFO);
-//                break;
 
         }
 
