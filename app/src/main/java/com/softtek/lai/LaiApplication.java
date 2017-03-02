@@ -165,27 +165,27 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
 
 
     //用户帐号表
-    /*public static final String CREATE_USER_INFO="create table user_info (" +
+    public static final String CREATE_USER_INFO="create table user_info (" +
             "userId text primary key," +
             "userRole integer," +
             "roleName text," +
             "nickName text," +
-            "gender integer," +
+            "gender text," +
             "weight text," +
-            "hight text," +
+            "height text," +
             "photo text," +
             "certification text," +
             "certTime text," +
             "mobile text," +
             "birthday text," +
-            "isJoin integer," +
+            "isJoin text," +
             "todayStepCnt text," +
-            "isCreatInfo integer," +
+            "isCreatInfo text," +
             "HXAccountId text," +
-            "HasEmchat integer," +
-            "HasThClass integer," +
-            "doingClass integer," +
-            "exit integer)";*/
+            "HasEmchat text," +
+            "HasThClass text," +
+            "doingClass text," +
+            "exit text)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -194,7 +194,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         db.execSQL(CREATE_CONATCT);
         db.execSQL(CREATE_CLASS_MEMBERS);
         db.execSQL(CREATE_CLASS_GROUP);
-        //db.execSQL(CREATE_USER_INFO);
+        db.execSQL(CREATE_USER_INFO);
         Log.i("表创建了");
     }
 
@@ -214,10 +214,10 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 Log.i("old版本3 更新 。。。。。。。。。。。。。。");
                 db.execSQL(CREATE_CLASS_MEMBERS);
                 db.execSQL(CREATE_CLASS_GROUP);
-//            case 4:
-//                Log.i("创建用户信息表");
-//                db.execSQL(CREATE_USER_INFO);
-//                break;
+            case 4:
+                Log.i("创建用户信息表");
+                db.execSQL(CREATE_USER_INFO);
+                break;
 
         }
 

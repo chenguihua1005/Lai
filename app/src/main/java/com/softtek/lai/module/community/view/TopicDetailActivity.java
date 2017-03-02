@@ -619,7 +619,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         //创建一个高度为200dp的relativeLayout容器
         RelativeLayout rl = new RelativeLayout(this);
         rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DisplayUtil.getMobileWidth(this)/2,
                         getResources().getDisplayMetrics())));
 
         //添加一个imageView进去

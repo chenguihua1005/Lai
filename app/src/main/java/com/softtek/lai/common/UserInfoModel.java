@@ -38,6 +38,7 @@ public class UserInfoModel {
     private ACache classCache;
     private Role role;
     private boolean isVr=true;
+    private UserDao dao;
 
     private UserInfoModel(Context context){
         aCache=ACache.get(context,Constants.USER_ACACHE_DATA_DIR);
@@ -45,6 +46,7 @@ public class UserInfoModel {
         token=SharedPreferenceService.getInstance().get(Constants.TOKEN, "");
         //载入权限数据
         role=loadingRole(context);
+        dao=UserDao.getInstance();
     }
 
     private Role loadingRole(Context context){
@@ -99,7 +101,6 @@ public class UserInfoModel {
      */
     public void clear(){
         //请出用户数据
-        setUser(null);
         token=null;
         //清除token
         SharedPreferenceService.getInstance().put("token", "");
@@ -108,7 +109,11 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().get(USER_ID,-1L);
         isVr=true;
         //清除本地用户
-        aCache.remove(Constants.USER_ACACHE_KEY);
+        user=getUser();
+        user.setExit(true);
+        dao.saveUserOrUpdate(user);
+//        aCache.remove(Constants.USER_ACACHE_KEY);
+        setUser(null);
         classCache.remove(HeadGameFragment2.SAVE_CLASS);
     }
     public long getUserId(){
@@ -127,7 +132,8 @@ public class UserInfoModel {
         setToken(user.getToken());
         //存储本地
         aCache.remove(Constants.USER_ACACHE_KEY);
-        aCache.put(Constants.USER_ACACHE_KEY,user);
+        dao.saveUserOrUpdate(user);
+//        aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
         MobclickAgent.onProfileSignIn(user.getUserid());
     }
@@ -152,7 +158,8 @@ public class UserInfoModel {
         user.setHasEmchat("0");
         setUser(user);
         //存储本地
-        aCache.put(Constants.USER_ACACHE_KEY,user);
+        dao.saveUserOrUpdate(user);
+//        aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
         SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
     }
@@ -221,7 +228,8 @@ public class UserInfoModel {
 
     public UserModel getUser() {
         if(user==null){
-            user= (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+//            user= (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+            user=dao.queryUser(String.valueOf(getUserId()));
         }
         return user;
     }
