@@ -163,7 +163,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             + GroupTable.ClassCode + " varchar(20),"
             + GroupTable.HXGroupId + " varchar(20))";
 
-
+    
     //用户帐号表
     public static final String CREATE_USER_INFO="create table user_info (" +
             "userId text primary key," +
