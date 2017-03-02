@@ -10,7 +10,6 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 
 import zilla.libcore.db.DBHelper;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/2/2017.
@@ -46,9 +45,6 @@ public class UserDao {
         long i=statement.executeInsert();
         if(i!=-1){
             Log.i(user.toString());
-            Util.toastMsg("插入成功");
-        }else {
-            Util.toastMsg("插入失败");
         }
         db.close();
     }

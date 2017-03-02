@@ -619,8 +619,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         //创建一个宽高比是2：1的relativeLayout容器
         RelativeLayout rl = new RelativeLayout(this);
         rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DisplayUtil.getMobileWidth(this)/2,
-                        getResources().getDisplayMetrics())));
+                DisplayUtil.getMobileWidth(this)/2));
 
         //添加一个imageView进去
         iv_banner = new ImageView(this);
