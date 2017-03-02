@@ -299,14 +299,29 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
-                if ("1".equals(memberInfoModel.getClassRole()))
+                if (UserInfoModel.getInstance().getUserId()==memberInfoModel.getAccountid())
                 {
 
+                    if (UserInfoModel.getInstance().getUser().getUserrole().equals("3"))
+                    {}
+                    else {
+                        tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                        tv_angle.setVisibility(View.VISIBLE);
+                    }
+
                 }
-                else {
-                    tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
-                    tv_angle.setVisibility(View.VISIBLE);
+                else
+                {
+                    if ("1".equals(memberInfoModel.getClassRole()))
+                    {
+
+                    }
+                    else {
+                        tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                        tv_angle.setVisibility(View.VISIBLE);
+                    }
                 }
+
                 if (!"4".equals(memberInfoModel.getClassRole())) {
                     fl_right.setVisibility(View.INVISIBLE);
                 }
