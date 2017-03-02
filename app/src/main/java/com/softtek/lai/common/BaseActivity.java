@@ -150,7 +150,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.reset(this);
         //LogManager.getManager(getApplicationContext()).unregisterActivity(this);
         super.onDestroy();
-        //LaiApplication.getInstance().getContext().clear();
     }
 
     @Override

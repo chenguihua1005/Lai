@@ -76,12 +76,13 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#e1e1e1"/>
-    <!--我的勋章-->
+    <!--我的勋章 暂时不显示-->
     <RelativeLayout
         android:id="@+id/rl_media"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="15dp"
+        android:visibility="gone"
         android:background="@color/white">
         <ImageView
             android:id="@+id/iv_media"
