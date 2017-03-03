@@ -147,14 +147,11 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     //屏幕高度
     private int screenHeight = 0;
-    //软件盘弹起后所占高度阀值
-    private int keyHeight = 0;
 
     @Override
     protected void initViews() {
         screenHeight=DisplayUtil.getMobileHeight(this);
         //阀值设置为屏幕高度的1/3
-        keyHeight = screenHeight/3;
         classId=getIntent().getStringExtra("classId");
         tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
