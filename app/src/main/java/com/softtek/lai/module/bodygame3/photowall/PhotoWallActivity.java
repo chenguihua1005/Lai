@@ -147,14 +147,11 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     //屏幕高度
     private int screenHeight = 0;
-    //软件盘弹起后所占高度阀值
-    private int keyHeight = 0;
 
     @Override
     protected void initViews() {
         screenHeight=DisplayUtil.getMobileHeight(this);
         //阀值设置为屏幕高度的1/3
-        keyHeight = screenHeight/3;
         classId=getIntent().getStringExtra("classId");
         tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
@@ -171,7 +168,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         int px = DisplayUtil.dip2px(this, 300);
-        et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+        et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
         //*************************
         imageFileSelector = new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(px, px);

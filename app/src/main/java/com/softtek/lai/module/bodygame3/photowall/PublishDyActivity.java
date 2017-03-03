@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -108,6 +109,7 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
         fl_right.setOnClickListener(this);
         tv_title.setText("发布动态");
         tv_right.setText("发布");
+        et_content.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
         et_content.setOnCursorChangeListener(new CursorChangeEditText.OnCursorChangeListener() {
             @Override
             public void onChange(int selStart, int selEnd) {
