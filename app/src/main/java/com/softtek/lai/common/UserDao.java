@@ -38,7 +38,7 @@ public class UserDao {
         String[] values={user.getUserid(),user.getUserrole(),user.getRoleName(),user.getNickname(),user.getGender(),user.getWeight(),user.getHight(),
         user.getPhoto(),user.getCertification(),user.getCertTime(),user.getMobile(),user.getBirthday(),user.getIsJoin(),user.getTodayStepCnt(),
         user.getIsCreatInfo(),user.getHXAccountId(),user.getHasEmchat(),String.valueOf(user.getHasThClass()),String.valueOf(user.getDoingClass()),
-        user.getExit()?"0":"1"};
+        user.getExit()?"1":"0"};
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         SQLiteStatement statement=db.compileStatement(sql);
         statement.bindAllArgsAsStrings(values);
