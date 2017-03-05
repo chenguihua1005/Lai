@@ -66,6 +66,7 @@ public class DragFloatActionButton extends FloatingActionButton{
                 isDrag=true;
                 int dx=rawX-lastX;
                 int dy=rawY-lastY;
+                //这里修复一些华为手机无法触发点击事件
                 int distance= (int) Math.sqrt(dx*dx+dy*dy);
                 if(distance==0){
                     isDrag=false;
