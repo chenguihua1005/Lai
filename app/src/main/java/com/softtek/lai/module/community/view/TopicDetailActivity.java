@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ContentFrameLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -174,6 +175,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         ptrlv.getRefreshableView().setRefreshListener(this);
         //**************************
+        et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
         et_input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -616,11 +618,10 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     }
 
     private View createHeadView() {
-        //创建一个高度为200dp的relativeLayout容器
+        //创建一个宽高比是2：1的relativeLayout容器
         RelativeLayout rl = new RelativeLayout(this);
         rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200,
-                        getResources().getDisplayMetrics())));
+                DisplayUtil.getMobileWidth(this)/2));
 
         //添加一个imageView进去
         iv_banner = new ImageView(this);

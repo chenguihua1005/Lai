@@ -31,6 +31,7 @@ import zilla.libcore.db.DBHelper;
 import zilla.libcore.file.PropertiesManager;
 
 /**
+ *
  * Created by zilla on 9/8/15.
  */
 public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
@@ -163,37 +164,59 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             + GroupTable.HXGroupId + " varchar(20))";
 
 
+    //用户帐号表
+    public static final String CREATE_USER_INFO="create table user_info (" +
+            "userId text primary key," +
+            "userRole integer," +
+            "roleName text," +
+            "nickName text," +
+            "gender text," +
+            "weight text," +
+            "height text," +
+            "photo text," +
+            "certification text," +
+            "certTime text," +
+            "mobile text," +
+            "birthday text," +
+            "isJoin text," +
+            "todayStepCnt text," +
+            "isCreatInfo text," +
+            "HXAccountId text," +
+            "HasEmchat text," +
+            "HasThClass text," +
+            "doingClass text," +
+            "exit text)";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("onCreate(SQLiteDatabase db)          ");
         db.execSQL(CREATE_STEP);
         db.execSQL(CREATE_SPORT_DATA);
         db.execSQL(CREATE_CONATCT);
         db.execSQL(CREATE_CLASS_MEMBERS);
         db.execSQL(CREATE_CLASS_GROUP);
-
-
+        db.execSQL(CREATE_USER_INFO);
         Log.i("表创建了");
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i("onUpgrade(SQLiteDatabase db)    +++++++++++++++++++++++++++++++++++");
+        Log.i("onUpgrade(SQLiteDatabase db)");
         switch (oldVersion) {
             case 1:
                 Log.i("版本1 更新 。。。。。。。。。。。。。。");
                 db.execSQL("drop table user_step");//删除表
                 db.execSQL(CREATE_STEP);//创建新表
-                break;
             case 2:
                 Log.i("版本2 更新 。。。。。。。。。。。。。。");
                 db.execSQL(CREATE_CONATCT);
-                break;
             case 3:
                 Log.i("old版本3 更新 。。。。。。。。。。。。。。");
                 db.execSQL(CREATE_CLASS_MEMBERS);
                 db.execSQL(CREATE_CLASS_GROUP);
+            case 4:
+                Log.i("创建用户信息表");
+                db.execSQL(CREATE_USER_INFO);
                 break;
 
         }
