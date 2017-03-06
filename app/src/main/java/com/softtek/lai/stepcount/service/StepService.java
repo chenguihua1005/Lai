@@ -262,13 +262,15 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             firstStep=stepTemp;
             lastStep=0;
             if(!isExit&&!isNextDay){//如果不是正常的情况下且不是跨天退出的则需要把中间的插值补上
+                long time=SharedPreferenceService.getInstance().get("recordTime",-1);
                 int phoneStep=SharedPreferenceService.getInstance().get("phoneStep",-1);
-                if (phoneStep>0){//表示之前有记录过手机本身步数
+                if (time>0&&phoneStep>0&&c.getTime().getTime()>=time){//表示之前有记录过手机本身步数
                     firstStep=firstStep-(stepTemp-phoneStep);
                 }
             }
             //存储本次启动计步器的时候手机的本身步数
             SharedPreferenceService.getInstance().put("phoneStep",stepTemp);
+            SharedPreferenceService.getInstance().put("recordTime",c.getTime().getTime());
         }
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
@@ -422,6 +424,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         if(hour==23&&minutes>=50&&minutes<=59){
             firstStep=0;
             lastStep=0;
+            SharedPreferenceService.getInstance().put("phoneStep",-1);
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
         }if(hour==0&&minutes==0){
