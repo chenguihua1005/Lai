@@ -304,7 +304,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
             StepUtil.getInstance().saveStep(userStep);
         }
         //启动计步器服务
-        context.startService(new Intent(context.getApplicationContext(), StepService.class));
+        context.startService(new Intent(context.getApplicationContext(), StepService.class).putExtra("isExit",true));
         context.startService(new Intent(context.getApplicationContext(), DaemonService.class));
 
     }

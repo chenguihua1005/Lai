@@ -173,8 +173,10 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         return messenger.getBinder();
     }
 
+    boolean isExit=false;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        isExit=intent.getBooleanExtra("isExit",false);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -236,6 +238,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
 
     }
 
+    boolean isNextDay;
     private void calTodayStep(int stepTemp){
         //检查日期
         originalStep=stepTemp;
@@ -248,6 +251,8 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             //清空当天的临时步数
             firstStep=0;
             currentStep=0;
+            isNextDay=true;
+            SharedPreferenceService.getInstance().put("phoneStep",-1);
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
             updateNotification(tempStep+"");
             return;
@@ -256,6 +261,14 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         if(firstStep==0){
             firstStep=stepTemp;
             lastStep=0;
+            if(!isExit&&!isNextDay){//如果不是正常的情况下且不是跨天退出的则需要把中间的插值补上
+                int phoneStep=SharedPreferenceService.getInstance().get("phoneStep",-1);
+                if (phoneStep>0){//表示之前有记录过手机本身步数
+                    firstStep=firstStep-(stepTemp-phoneStep);
+                }
+            }
+            //存储本次启动计步器的时候手机的本身步数
+            SharedPreferenceService.getInstance().put("phoneStep",stepTemp);
         }
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
@@ -396,6 +409,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
         public void onReceive(Context context, Intent intent) {
             isLoginOut=true;
             firstStep=0;
+            SharedPreferenceService.getInstance().put("phoneStep",-1);
             stopSelf();
         }
     }

@@ -112,7 +112,6 @@ public class UserInfoModel {
         user=getUser();
         user.setExit(true);
         dao.saveUserOrUpdate(user);
-//        aCache.remove(Constants.USER_ACACHE_KEY);
         setUser(null);
         classCache.remove(HeadGameFragment2.SAVE_CLASS);
     }
@@ -133,7 +132,6 @@ public class UserInfoModel {
         //存储本地
         aCache.remove(Constants.USER_ACACHE_KEY);
         dao.saveUserOrUpdate(user);
-//        aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
         MobclickAgent.onProfileSignIn(user.getUserid());
     }

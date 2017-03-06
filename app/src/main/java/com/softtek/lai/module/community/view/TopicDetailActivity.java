@@ -618,17 +618,6 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     }
 
     private View createHeadView() {
-        //创建一个宽高比是2：1的relativeLayout容器
-        RelativeLayout rl = new RelativeLayout(this);
-        rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                DisplayUtil.getMobileWidth(this)/2));
-
-        //添加一个imageView进去
-        iv_banner = new ImageView(this);
-        iv_banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        iv_banner.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_icon_rect));
-        rl.addView(iv_banner);
-
         //添加一段描述性文本
         LinearLayout ll_text = new LinearLayout(this);
         ll_text.setOrientation(LinearLayout.VERTICAL);
@@ -644,15 +633,26 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
         tv_explin.setGravity(Gravity.CENTER | Gravity.LEFT);
         tv_explin.setBackgroundColor(0xFFFFFFFF);
         tv_explin.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics()),0,0,0);
-        tv_explin.setHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics()));
+        int tv_height=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
+        tv_explin.setHeight(tv_height);
         ll_text.addView(tv_explin);
 
         //在画一条线
         View line = new View(this);
-        LinearLayout.LayoutParams lineParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
+        int line_height=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        LinearLayout.LayoutParams lineParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, line_height);
         line.setLayoutParams(lineParams);
         ll_text.addView(line);
+        int height=DisplayUtil.getMobileWidth(this)/2+line_height+tv_height;
+        //创建一个宽高比是2：1的relativeLayout容器
+        RelativeLayout rl = new RelativeLayout(this);
+        rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, height));
+
+        //添加一个imageView进去
+        iv_banner = new ImageView(this);
+        iv_banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        iv_banner.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_icon_rect));
+        rl.addView(iv_banner);
         rl.addView(ll_text);
 
         LinearLayout ll = new LinearLayout(this);
