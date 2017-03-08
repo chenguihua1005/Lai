@@ -44,4 +44,6 @@
     <color name="btn_grey_true">#a99f9f</color>
     <color name="btn_grey_false">#666666</color>
     <color name="blue">#3E6790</color>
+    <color name="backPressTrue">#c64b8311</color>
+    <color name="backPressFalse">#0074BB2A</color>
 </resources>

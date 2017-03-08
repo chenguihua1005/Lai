@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,7 +38,6 @@ import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -548,11 +545,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     //加好友请求
     private void sentFriendApply() {
-        progressDialog = new ProgressDialog(this);
         String stri = getResources().getString(R.string.Is_sending_a_request);
-        progressDialog.setMessage(stri);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+        dialogShow(stri);
         Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
 
 
@@ -581,7 +575,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        progressDialog.dismiss();
+                                        dialogDissmiss();
                                         Util.toastMsg(getResources().getString(R.string.send_successful));
                                     }
                                 });
@@ -589,7 +583,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             } else {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        progressDialog.dismiss();
+                                        dialogDissmiss();
                                         Toast.makeText(getApplicationContext(), responseData.getMsg(), Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -601,7 +595,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             ZillaApi.dealNetError(error);
                             runOnUiThread(new Runnable() {
                                 public void run() {
-                                    progressDialog.dismiss();
+                                    dialogDissmiss();
                                 }
                             });
                         }
@@ -611,7 +605,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            progressDialog.dismiss();
+                            dialogDissmiss();
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });

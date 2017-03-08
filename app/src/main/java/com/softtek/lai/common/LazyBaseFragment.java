@@ -1,6 +1,5 @@
 package com.softtek.lai.common;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.softtek.lai.common.mvp.BasePersent;
+import com.softtek.lai.common.mvp.BaseView;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
@@ -18,22 +19,22 @@ import zilla.libcore.ui.LayoutInjectUtil;
 /**
  * Created by jerry.guan on 7/7/2016.
  */
-public abstract class LazyBaseFragment extends Fragment{
+public abstract class LazyBaseFragment<T extends BasePersent> extends Fragment implements BaseView{
 
     private boolean isVisible=false;//可否可见
     protected boolean isPrepared=false;//是否加载过
     private boolean isCreatedView=false;//是否加载完成试图
 
-    protected View contentView;
+//    protected View contentView;
     protected ProgressDialog progressDialogs;
-    protected Dialog dialog;
+    private T presenter;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
+        View contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
         LifeCircle.onCreate(this);
         ButterKnife.inject(this, contentView);
         isPrepared=false;
@@ -54,26 +55,41 @@ public abstract class LazyBaseFragment extends Fragment{
         }
     }
 
+
     @Override
     public void onDestroyView() {
+        if(presenter!=null){
+            presenter.recycle();
+        }
         isCreatedView=false;
-        super.onDestroyView();
         ButterKnife.reset(this);
+        super.onDestroyView();
     }
+
+    @Override
     public void dialogShow(String value) {
         if (progressDialogs == null) {
             progressDialogs = new ProgressDialog(getContext());
             progressDialogs.setCanceledOnTouchOutside(false);
-            progressDialogs.setCancelable(false);
+//            progressDialogs.setCancelable(false);
             progressDialogs.setMessage(value);
             progressDialogs.show();
         }
     }
+    @Override
     public void dialogDissmiss() {
         if (progressDialogs != null) {
             progressDialogs.dismiss();
             progressDialogs = null;
         }
+    }
+
+    public T getPresenter() {
+        return presenter;
+    }
+
+    public void setPresenter(T presenter) {
+        this.presenter = presenter;
     }
     @Override
     public void onDestroy() {

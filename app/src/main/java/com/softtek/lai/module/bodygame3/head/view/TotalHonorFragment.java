@@ -78,7 +78,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private TextView tv_top1_per;
     private TextView tv_top2_per;
     private TextView tv_top3_per;
-    private HonorRankModel honorRankModel;
 
 
     public static TotalHonorFragment getInstance(String classId) {
@@ -152,7 +151,11 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     }
 
     private void loadData(boolean is_first) {
-        listHonorrank.setRefreshing();
+        try {
+            listHonorrank.setRefreshing();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void newAdapter() {
@@ -208,7 +211,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 listHonorrank.setAdapter(honorGroupRankAdapter);
                 listHonorrank.setEmptyView(ll_no_data);
             } else {
-                honorRankModel = model;
                 //更新list数据
                 groupModelList.clear();
                 groupModelList.addAll(model.getList_group());
@@ -253,7 +255,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private void setImage(CircleImageView civ, String endUrl) {
         String basePath = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(endUrl)) {
-//            Picasso.with(getContext()).load(basePath + endUrl).into(civ);
             Picasso.with(getContext()).load(basePath + endUrl).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ);
         }else {
             Picasso.with(getContext()).load(R.drawable.img_default).into(civ);

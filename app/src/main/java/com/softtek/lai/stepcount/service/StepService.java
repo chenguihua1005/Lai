@@ -176,7 +176,9 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     boolean isExit=false;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        isExit=intent.getBooleanExtra("isExit",false);
+        if(intent!=null){
+            isExit=intent.getBooleanExtra("isExit",false);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -262,7 +264,7 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             firstStep=stepTemp;
             lastStep=0;
             if(!isExit&&!isNextDay){//如果不是正常的情况下且不是跨天退出的则需要把中间的插值补上
-                long time=SharedPreferenceService.getInstance().get("recordTime",-1);
+                long time=SharedPreferenceService.getInstance().get("recordTime",-1l);
                 int phoneStep=SharedPreferenceService.getInstance().get("phoneStep",-1);
                 if (time>0&&phoneStep>0&&c.getTime().getTime()>=time){//表示之前有记录过手机本身步数
                     firstStep=firstStep-(stepTemp-phoneStep);
