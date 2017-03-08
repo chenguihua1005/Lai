@@ -411,7 +411,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
                                             EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
 
                                             //环迅同意进群之后，告知后台
-                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(),model.getClassId(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
+                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
                                                 @Override
                                                 public void success(ResponseData responseData, Response response) {
                                                     if (200 == responseData.getStatus()) {
