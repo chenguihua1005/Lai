@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.laiClassroom.presenter.WholePresenter;
 
 import zilla.libcore.ui.InjectLayout;
 
 //全部页面
 @InjectLayout(R.layout.fragment_whole)
-public class WholeFragment extends LazyBaseFragment {
+public class WholeFragment extends LazyBaseFragment<WholePresenter> implements WholePresenter.WholeView {
 
 
     public WholeFragment() {
@@ -34,6 +35,7 @@ public class WholeFragment extends LazyBaseFragment {
 
     @Override
     protected void initDatas() {
+        setPresenter(new WholePresenter(this));
 
     }
 
