@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -73,6 +74,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         btn_mine.setOnClickListener(this);
         content.setOffscreenPageLimit(4);
         //**************************
+        et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
         et_input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

@@ -114,8 +114,9 @@ public class BitmapCache {
 		int i = 0;
 		Bitmap bitmap = null;
 		while (true) {
-			if ((options.outWidth >> i <= 256)
-					&& (options.outHeight >> i <= 256)) {
+			//原w=256h=256
+			if ((options.outWidth >> i <= 300)
+					&& (options.outHeight >> i <= 300)) {
 				in = new BufferedInputStream(
 						new FileInputStream(new File(path)));
 				options.inSampleSize = (int) Math.pow(2.0D, i);
