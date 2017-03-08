@@ -109,9 +109,6 @@ public class UserInfoModel {
         SharedPreferenceService.getInstance().get(USER_ID,-1L);
         isVr=true;
         //清除本地用户
-        user=getUser();
-        user.setExit(true);
-        dao.saveUserOrUpdate(user);
         setUser(null);
         classCache.remove(HeadGameFragment2.SAVE_CLASS);
     }
