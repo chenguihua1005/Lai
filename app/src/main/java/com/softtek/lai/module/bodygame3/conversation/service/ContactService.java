@@ -165,7 +165,6 @@ public interface ContactService {
     @GET("/v1/HerbalifeClass/CompleteJoinHx")
     void completeJoinHx(
             @Header("token") String token,
-            @Header("classid") String CId,
             @Query("classId") String classId,//班级Id
             @Query("MessageId") String MessageId,//处理消息Id
             Callback<ResponseData> callback
