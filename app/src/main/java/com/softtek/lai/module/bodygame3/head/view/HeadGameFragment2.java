@@ -788,6 +788,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                             } else {
                                 saveClassModel = new SaveClassModel();
                                 saveClassModel.classId = classId_first;
+                                ACache.get(getContext(), SAVE_CLASS_DIR).put(SAVE_CLASS, saveClassModel);
+
                                 EventBus.getDefault().post(saveClassModel);
                             }
                         }
