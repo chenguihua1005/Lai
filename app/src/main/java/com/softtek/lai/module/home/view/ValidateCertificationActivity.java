@@ -1,7 +1,6 @@
 package com.softtek.lai.module.home.view;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -32,8 +31,6 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-
-import static com.softtek.lai.R.id.context;
 
 /**
  * 资格号认证
@@ -137,10 +134,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
         String memberId = edit_account.getText().toString();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("认证中...");
-        progressDialog.show();
+        dialogShow("认证中...");
         loginPresenter.alidateCertification(memberId, password, account, progressDialog);
     }
 

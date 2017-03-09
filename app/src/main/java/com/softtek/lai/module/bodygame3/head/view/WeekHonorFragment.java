@@ -344,7 +344,11 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         if (is_first) {
             weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
         }else {
-            listHonorrank.setRefreshing();
+            try {
+                listHonorrank.setRefreshing();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

@@ -103,7 +103,7 @@
 
         <!-- 正式 -->
         <!--
-                <meta-data
+        <meta-data
             android:name="UMENG_APPKEY"
             android:value="5728545a67e58ea7cf001701" />
         -->
@@ -790,7 +790,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".module.bodygame3.photowall.PhotoWall2Activity" />
         <activity android:name=".module.bodygame3.more.view.SearchFriendActivity" />
-        <activity android:name=".module.laiClassroom.ClassroomActivity"></activity>
+        <activity android:name=".module.laiClassroom.ClassroomActivity" />
     </application>
 
 </manifest>

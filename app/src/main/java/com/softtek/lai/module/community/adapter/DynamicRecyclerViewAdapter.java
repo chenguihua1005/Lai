@@ -292,7 +292,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv_month,tv_time,/*tv_content,*/tv_delete;
+        public TextView tv_month,tv_time,tv_delete;
         public CustomGridView photos;
         public TextViewExpandableAnimation tv_content;
 

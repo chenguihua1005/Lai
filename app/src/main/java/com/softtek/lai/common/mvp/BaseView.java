@@ -6,6 +6,6 @@ package com.softtek.lai.common.mvp;
 
 public interface BaseView {
 
-    void showLoading(String message);
-    void hideLoading();
+    void dialogShow(String message);
+    void dialogDissmiss();
 }

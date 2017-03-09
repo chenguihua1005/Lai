@@ -33,12 +33,11 @@ public class UserDao {
 
     public void saveUserOrUpdate(UserModel user){
         String sql="replace into user_info(userId,userRole,roleName,nickName,gender,weight,height,photo,certification,certTime," +
-                "mobile,birthday,isJoin,todayStepCnt,isCreatInfo,HXAccountId,HasEmchat,HasThClass,doingClass,exit) " +
-                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "mobile,birthday,isJoin,todayStepCnt,isCreatInfo,HXAccountId,HasEmchat,HasThClass,doingClass) " +
+                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String[] values={user.getUserid(),user.getUserrole(),user.getRoleName(),user.getNickname(),user.getGender(),user.getWeight(),user.getHight(),
         user.getPhoto(),user.getCertification(),user.getCertTime(),user.getMobile(),user.getBirthday(),user.getIsJoin(),user.getTodayStepCnt(),
-        user.getIsCreatInfo(),user.getHXAccountId(),user.getHasEmchat(),String.valueOf(user.getHasThClass()),String.valueOf(user.getDoingClass()),
-        user.getExit()?"1":"0"};
+        user.getIsCreatInfo(),user.getHXAccountId(),user.getHasEmchat(),String.valueOf(user.getHasThClass()),String.valueOf(user.getDoingClass())};
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         SQLiteStatement statement=db.compileStatement(sql);
         statement.bindAllArgsAsStrings(values);
@@ -90,7 +89,7 @@ public class UserDao {
                 String HasEmchat=cursor.getString(cursor.getColumnIndex("HasEmchat"));
                 String HasThClass=cursor.getString(cursor.getColumnIndex("HasThClass"));
                 String doingClass=cursor.getString(cursor.getColumnIndex("doingClass"));
-                String exit=cursor.getString(cursor.getColumnIndex("exit"));
+//                String exit=cursor.getString(cursor.getColumnIndex("exit"));
                 user=new UserModel();
                 user.setUserid(accountId);
                 user.setUserrole(userRole);
@@ -111,7 +110,7 @@ public class UserDao {
                 user.setHasEmchat(HasEmchat);
                 user.setHasThClass(TextUtils.isEmpty(HasThClass)?0:Integer.parseInt(HasThClass));
                 user.setDoingClass(TextUtils.isEmpty(doingClass)?0:Integer.parseInt(doingClass));
-                user.setExit(TextUtils.isEmpty(exit)?false:Integer.parseInt(exit)==1);
+//                user.setExit(TextUtils.isEmpty(exit)?false:Integer.parseInt(exit)==1);
                 return user;
             }
         } catch (Exception e) {
