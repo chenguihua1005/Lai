@@ -23,7 +23,6 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.more.adapter.FuceAlbumAdapter;
@@ -32,7 +31,6 @@ import com.softtek.lai.module.bodygame3.more.model.FuceClassAlbumModel;
 import com.softtek.lai.module.bodygame3.more.model.FucePhotoModel;
 import com.softtek.lai.module.bodygame3.more.present.FuceAlbumManager;
 import com.softtek.lai.widgets.FuCeSelectPicPopupWindow;
-import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.squareup.picasso.Picasso;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -172,8 +170,8 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    int total = 0;
-    int count = 0;
+    static int total = 0;
+    static int count = 0;
 
     private void registerBroadcastReceiver() {
         broadcastManager = LocalBroadcastManager.getInstance(this);
@@ -183,8 +181,8 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                 total = 0;
-                 count = 0;
+                total = 0;
+                count = 0;
 
                 for (int i = 0; i < fucePhotos.size(); i++) {
                     FuceClassAlbumModel classAlbumModel = fucePhotos.get(i);
@@ -199,11 +197,12 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                 }
                 if (0 != count) {
                     tv_title.setText("已选择" + String.valueOf(count) + "/" + total + "张照片");
+                    tv_right.setVisibility(View.VISIBLE);
                     tv_right.setText("分享");
                 } else {
                     tv_title.setText("复测相册");
+                    tv_right.setText("");
                     tv_right.setVisibility(View.GONE);
-//                    tv_right.setText("");
                 }
 
             }
@@ -252,28 +251,78 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
+    int flag = 0;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.fl_right:
-                if (menuWindow != null && menuWindow.isShowing()) {
-                    menuWindow.dismiss();
-                    tv_right.setText("分享");
-                } else {
+            case R.id.fl_right: {
+                Log.i(TAG, "点击分享按钮。。。。。。。。。。。。。。。。。。 count = " + count);
+                if (flag == 0) {
                     if (count != 0) {
                         tv_right.setText("取消");
                         menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
                         //显示窗口
                         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                         menuWindow.showAtLocation(FuceAlbumActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                        flag = 1;
+
                     }
+                } else {// flag = 1;
+                    Log.i(TAG, "点击取消按钮。。。。。。。。。。。。。。。。。。");
+                    count = 0;
+                    tv_title.setText("复测相册");
+                    tv_right.setText("");
+                    tv_right.setVisibility(View.GONE);
+                    if (menuWindow != null && menuWindow.isShowing()) {
+                        menuWindow.dismiss();
+                    }
+
+                    for (int i = 0; i < fucePhotos.size(); i++) {
+                        FuceClassAlbumModel classAlbumModel = fucePhotos.get(i);
+                        for (int j = 0; j < classAlbumModel.getPhotoList().size(); j++) {
+                            FucePhotoModel fucePhotoModel = classAlbumModel.getPhotoList().get(j);
+                            fucePhotoModel.setSelect(false);
+                            Log.i(TAG, "model =" + new Gson().toJson(fucePhotoModel));
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+
+                    flag = 0;
+
                 }
+//                if (count != 0) {
+//                    tv_right.setText("取消");
+//                    menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
+//                    //显示窗口
+//                    menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//                    menuWindow.showAtLocation(FuceAlbumActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+//                } else {
+//                    Log.i(TAG, "点击取消按钮。。。。。。。。。。。。。。。。。。");
+//                    count = 0;
+//                    tv_title.setText("复测相册");
+//                    tv_right.setText("");
+//                    tv_right.setVisibility(View.GONE);
+//                    if (menuWindow != null && menuWindow.isShowing()) {
+//                        menuWindow.dismiss();
+//                    }
+//
+//                    for (int i = 0; i < fucePhotos.size(); i++) {
+//                        FuceClassAlbumModel classAlbumModel = fucePhotos.get(i);
+//                        for (int j = 0; j < classAlbumModel.getPhotoList().size(); j++) {
+//                            FucePhotoModel fucePhotoModel = classAlbumModel.getPhotoList().get(j);
+//                            fucePhotoModel.setSelect(false);
+//                            Log.i(TAG, "model =" + new Gson().toJson(fucePhotoModel));
+//                        }
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                }
+            }
 
-
-                break;
+            break;
         }
     }
 

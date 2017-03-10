@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="勇往直前班级"
+        android:text=""
+        android:textColor="@color/word"
         android:layout_marginTop="10dp"
         android:textSize="20sp" />
 
@@ -19,20 +20,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="2017年1月1号" />
+        android:textColor="@color/word"
+        android:text="" />
 
     <com.softtek.lai.widgets.CustomGridView
         android:id="@+id/photos_gv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:columnWidth="79dp"
+        android:columnWidth="86dp"
         android:gravity="center"
-        android:horizontalSpacing="3dp"
-        android:numColumns="3"
+        android:horizontalSpacing="1dp"
+        android:numColumns="4"
         android:scrollbars="none"
         android:stretchMode="none"
-        android:verticalSpacing="3dp" />
+        android:verticalSpacing="1dp" />
 
 
 </LinearLayout>
