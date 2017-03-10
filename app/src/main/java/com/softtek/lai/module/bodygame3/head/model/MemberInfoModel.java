@@ -20,6 +20,15 @@ public class MemberInfoModel {
     private String IsFocus;//是否关注（true关注，false未关注）
     private String IsFriend;//是否为好友（1.是）
     private String AFriendId;//好友关系id
+    private String ClassId;//班级ID
+
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
 
     public String getAFriendId() {
         return AFriendId;

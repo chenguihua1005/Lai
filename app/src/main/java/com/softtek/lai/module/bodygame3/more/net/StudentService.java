@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.more.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame3.more.model.FuceAlbumModel;
 import com.softtek.lai.module.bodygame3.more.model.HnumsModel;
 import com.softtek.lai.module.bodygame3.more.model.HonorModel;
 import com.softtek.lai.module.bodygame3.more.model.ServiceTeam;
@@ -11,7 +12,6 @@ import retrofit.http.Header;
 import retrofit.http.Query;
 
 /**
- *
  * Created by jarvis.Liu on 3/31/2016.
  */
 public interface StudentService {
@@ -33,12 +33,21 @@ public interface StudentService {
 
     //服务团队
     @GET("/v1/MsgCenter/GetServiceGroup")
-    void getServiceTeam(@Header("classid")String cId,
-            @Header("token") String token,
-            @Query("classId") String classId,
-            Callback<ResponseData<ServiceTeam>> callback
+    void getServiceTeam(@Header("classid") String cId,
+                        @Header("token") String token,
+                        @Query("classId") String classId,
+                        Callback<ResponseData<ServiceTeam>> callback
     );
 
+
+    //复测相册
+    @GET("/v1/MeasuredRecordLog/GetMeasuredPhotos")
+    void GetFucePhotos(
+            @Header("token") String token,
+            @Query("accountId") long accountId,
+            @Query("pageIndex") int pageIndex,
+            Callback<ResponseData<FuceAlbumModel>> callback
+    );
 
 
 }

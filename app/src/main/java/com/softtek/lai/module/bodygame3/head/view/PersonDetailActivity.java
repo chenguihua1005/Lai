@@ -36,6 +36,7 @@ import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
+import com.softtek.lai.module.bodygame3.more.view.FuceAlbumActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -152,6 +153,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         ll_chart.setOnClickListener(this);
         tv_chart.setOnClickListener(this);
         im_guanzhu.setOnClickListener(this);
+        ll_weigh.setOnClickListener(this);
+
         ll_news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -413,11 +416,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     }
 
 //                   曲线图对同班级的人可见
-                    SaveClassModel temp = (SaveClassModel) ACache.get(this, HeadGameFragment2.SAVE_CLASS_DIR).getAsObject(HeadGameFragment2.SAVE_CLASS);
-                    if (temp != null) {
-                        if (!TextUtils.isEmpty(temp.classId) && !TextUtils.isEmpty(ClassId.trim()) && temp.classId.equals(ClassId.trim())) {
-                            ll_chart.setVisibility(View.VISIBLE);
-                        }
+//                    SaveClassModel temp = (SaveClassModel) ACache.get(this, HeadGameFragment2.SAVE_CLASS_DIR).getAsObject(HeadGameFragment2.SAVE_CLASS);
+//                    if (temp != null) {
+//                        if (!TextUtils.isEmpty(temp.classId) && !TextUtils.isEmpty(ClassId.trim()) && temp.classId.equals(ClassId.trim())) {
+//                            ll_chart.setVisibility(View.VISIBLE);
+//                        }
+//                    }
+
+                    if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
+                        ll_chart.setVisibility(View.VISIBLE);
+                        ClassId = memberInfoModel.getClassId();
+                    } else {
+//                        Util.toastMsg("班级ID为空.....");
                     }
                 }
                 doGetPhotoView();//展示图片
@@ -505,6 +515,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.fl_right:
                 titlePopup.show(view);
+                break;
+            case R.id.ll_weigh:
+                Intent intent = new Intent(PersonDetailActivity.this, FuceAlbumActivity.class);
+                startActivity(intent);
                 break;
             case R.id.im_guanzhu:
                 headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
