@@ -6,14 +6,9 @@
 package com.softtek.lai.chat.ui;
 
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,16 +18,12 @@ import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.adapter.SelectGroupSentAdapter;
 import com.softtek.lai.chat.model.SelectContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.stepcount.service.StepService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
