@@ -3,31 +3,20 @@ package com.softtek.lai.module.laiClassroom;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.ggx.widgets.adapter.EasyAdapter;
-import com.ggx.widgets.adapter.ViewHolder;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.view.InputView;
-import com.softtek.lai.module.bodygame3.home.view.ActivityFragment;
 import com.softtek.lai.module.laiClassroom.adapter.CollectAdapter;
 import com.softtek.lai.module.laiClassroom.model.CollectModel;
 import com.softtek.lai.module.laiClassroom.model.CollectlistModel;
 import com.softtek.lai.module.laiClassroom.presenter.CollectPresenter;
-import com.softtek.lai.module.laiClassroom.view.ManyView;
-import com.softtek.lai.module.laiClassroom.view.SigleView;
-import com.softtek.lai.module.laiClassroom.view.VideoView;
-
 
 import java.util.ArrayList;
 import java.util.List;
