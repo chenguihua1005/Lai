@@ -2,7 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.softtek.lai.module.laiClassroom.WholeFragment">
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ptrlv"
+        android:layout_below="@id/rl_hot"
+        android:divider="#00ececec"
+        android:dividerHeight="0dp"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:layout_marginTop="42dp"
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false"
+        android:animateLayoutChanges="true"/>
 
     <LinearLayout
         android:id="@+id/ll_panel"
@@ -32,11 +48,12 @@
             android:background="@drawable/ll_selector_grey">
 
             <TextView
+                android:id="@+id/tv_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:drawablePadding="5dp"
-                android:drawableRight="@drawable/down_arrow"
+                android:drawableRight="@drawable/roate_arrow"
                 android:text="筛选" />
 
             <View

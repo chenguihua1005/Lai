@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.ggx.widgets.view.CheckTextView;
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.model.FilteData;
 
 import java.util.List;
 
@@ -17,13 +18,19 @@ import java.util.List;
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHolder>{
 
-    private Context mContext;
-    private List<String> filters;
+    public static final int SINGLE=1;
+    public static final int MULTI=2;
 
-    public FilterAdapter(Context context,List<String> filters) {
+    private Context mContext;
+    private List<FilteData.Filter> filters;
+    private int type;
+
+    public FilterAdapter(Context context,List<FilteData.Filter> filters,int type) {
         this.filters = filters;
         this.mContext=context;
+        this.type=type;
     }
+
 
     @Override
     public FilterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,26 +39,41 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHold
     }
 
     @Override
-    public void onBindViewHolder(FilterHolder holder, int position) {
-        holder.text.setText(filters.get(position));
+    public void onBindViewHolder(FilterHolder holder, final int position) {
+        final FilteData.Filter filter=filters.get(position);
+        holder.text.setText(filters.get(position).getName());
+        holder.text.setChecked(filter.getSelected()==1);
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(type==SINGLE){
+                    if(filter.getSelected()!=1){
+                        filter.setSelected(1);
+                    }
+                    for (int i=0,j=filters.size(); i<j;i++) {
+                        if(i!=position&&filters.get(i).getSelected()==1){
+                            filters.get(i).setSelected(0);
+                        }
+                    }
+                    notifyDataSetChanged();
+                }else {
+                    filter.setSelected(filter.getSelected()==0?1:0);
+                    notifyItemChanged(position);
+                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return filters.size();
+        return filters==null?0:filters.size();
     }
 
     public static class FilterHolder extends RecyclerView.ViewHolder{
-        TextView text;
+        CheckTextView text;
         public FilterHolder(View itemView) {
             super(itemView);
-            text= (TextView) itemView.findViewById(R.id.tv1);
+            text= (CheckTextView) itemView.findViewById(R.id.tv1);
         }
     }
 

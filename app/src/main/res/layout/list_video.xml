@@ -17,14 +17,13 @@
         android:textColor="@color/word"
         android:textSize="17sp" />
 
-    <ImageView
+    <com.softtek.lai.widgets.RectangleImage
         android:id="@+id/iv_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tv_title"
         android:layout_margin="15dp"
-        android:layout_marginTop="14dp"
         app:srcCompat="@drawable/default_icon_square" />
 
     <TextView
@@ -53,4 +52,14 @@
         android:paddingLeft="5dp"
         android:layout_below="@+id/iv_video"
         android:layout_toEndOf="@+id/imageView11" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_video"
+        android:layout_alignEnd="@+id/iv_video"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="18dp"
+        android:text="TextView" />
 </RelativeLayout>

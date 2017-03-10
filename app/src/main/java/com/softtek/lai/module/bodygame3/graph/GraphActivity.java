@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.graph;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_graph)
 public class GraphActivity extends BaseActivity {
@@ -29,8 +31,9 @@ public class GraphActivity extends BaseActivity {
     @InjectView(R.id.container)
     ViewPager container;
 
-    List<Fragment> fragments=new ArrayList<>();
+    List<Fragment> fragments = new ArrayList<>();
     GraphAdapter adapter;
+
     @Override
     protected void initViews() {
         tv_title.setText("我的曲线图");
@@ -40,11 +43,14 @@ public class GraphActivity extends BaseActivity {
                 finish();
             }
         });
-        long accountId=getIntent().getLongExtra("accountId",0);
-        String classId=getIntent().getStringExtra("classId");
-        fragments.add(LossWeightFragment.getInstance(accountId,classId));
-        fragments.add(DimemsionFragment.getInstance(accountId,classId));
-        adapter=new GraphAdapter(getSupportFragmentManager(),fragments);
+        long accountId = getIntent().getLongExtra("accountId", 0);
+        String classId = getIntent().getStringExtra("classId");
+        if (TextUtils.isEmpty(classId)) {
+            Util.toastMsg("班级ID为空.....");
+        }
+        fragments.add(LossWeightFragment.getInstance(accountId, classId));
+        fragments.add(DimemsionFragment.getInstance(accountId, classId));
+        adapter = new GraphAdapter(getSupportFragmentManager(), fragments);
         container.setAdapter(adapter);
         tab.setupWithViewPager(container);
     }

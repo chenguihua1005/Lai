@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/Re_pers_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <include
+        layout="@layout/empty_message"
+        android:visibility="gone" />
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+    <!--android:id="@+id/refresh"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!--<com.softtek.lai.widgets.MyScrollView2-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:scrollbars="none">-->
+
+
+    <!--</com.softtek.lai.widgets.MyScrollView2>-->
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/ptrlv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:animateLayoutChanges="true"
+        android:background="@color/white"
+        android:divider="#00ececec"
+        android:dividerHeight="0dp"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false" />
+
+</RelativeLayout>

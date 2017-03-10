@@ -1,5 +1,6 @@
 package com.softtek.lai.module.laiClassroom;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ public class ClassroomActivity extends BaseActivity {
         fragmentModels.add(new FragmentModel("收藏",new CollectionFragment()));
         fragmentModels.add(new FragmentModel("历史",new HistoryFragment()));
         fragmentModels.add(new FragmentModel("专题",new SubjectFragment()));
+        content.setOffscreenPageLimit(3);
         content.setAdapter(new TabAdapter(getSupportFragmentManager(),fragmentModels));
         tab.setupWithViewPager(content);
     }
@@ -51,6 +53,6 @@ public class ClassroomActivity extends BaseActivity {
 
     @OnClick(R.id.fl_right)
     public void doSearch(){
-
+        startActivity(new Intent(ClassroomActivity.this,KeywordsSearchActivity.class));
     }
 }
