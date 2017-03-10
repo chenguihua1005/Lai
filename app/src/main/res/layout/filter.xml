@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ggx.widgets.view.CheckTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tv1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -7,4 +7,5 @@
     android:padding="15dp"
     android:gravity="center"
     android:background="@drawable/ll_selector_grey"
+    android:textColor="@drawable/selector_tv_filter"
     android:text="发布排序"/>
