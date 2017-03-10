@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laiClassroom.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 
 import retrofit.Callback;
@@ -26,7 +27,7 @@ public interface LaiClassroomService {
                         @Query("orderby")String order,
                         @Query("pageindex")int pageIndex,
                         @Query("pagesize")int pageSize,
-                        Callback<ResponseData> callback);
+                        Callback<ResponseData<ArticalList>> callback);
 
 
 }

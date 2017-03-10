@@ -19,6 +19,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.laiClassroom.adapter.FilterAdapter;
+import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 import com.softtek.lai.module.laiClassroom.presenter.WholePresenter;
 import com.softtek.lai.utils.DisplayUtil;
@@ -57,6 +58,7 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     @Override
     protected void lazyLoad() {
         getPresenter().getFilterData();
+        getPresenter().getArticleList("0","0","1",1);
     }
 
     @Override
@@ -156,6 +158,12 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
         rv_type.setAdapter(new FilterAdapter(getContext(),data.getMediaTypeList(),FilterAdapter.MULTI));
         rv_subject.setAdapter(new FilterAdapter(getContext(),data.getCategoryList(),FilterAdapter.MULTI));
     }
+
+    @Override
+    public void getData2(ArticalList data) {
+
+    }
+
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
