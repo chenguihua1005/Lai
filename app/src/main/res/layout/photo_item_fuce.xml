@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="85dp"
+    android:layout_height="85dp">
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:scaleType="centerCrop" />
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="18dp"
+        android:layout_width="85dp"
+        android:layout_height="25dp"
         android:layout_gravity="bottom|center_horizontal"
         android:src="@drawable/fuce_phto_shadow" />
 
@@ -29,13 +28,15 @@
 
     <ImageView
         android:id="@+id/img_select_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_centerVertical="true"
         android:layout_gravity="bottom|right"
+        android:layout_marginBottom="6dp"
         android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="2dp"
         android:src="@drawable/circle_fuce_photo" />
+
 
 </FrameLayout>
 
