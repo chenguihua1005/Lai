@@ -47,7 +47,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
             switch (msg.what) {
                 case 0x0001: {
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .existClass(model.getClassId(),UserInfoModel.getInstance().getToken(),
+                            .existClass(model.getClassId(), UserInfoModel.getInstance().getToken(),
                                     UserInfoModel.getInstance().getUserId(),
                                     model.getClassId(),
                                     new retrofit.Callback<ResponseData>() {
@@ -81,7 +81,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                     if (EMError.GROUP_NOT_JOINED == error_code) {
                         Log.i("StudentFragment", "执行后台。。。。。。。");
                         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                .existClass(model.getClassId(),UserInfoModel.getInstance().getToken(),
+                                .existClass(model.getClassId(), UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
                                         model.getClassId(),
                                         new retrofit.Callback<ResponseData>() {
@@ -138,11 +138,13 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
         RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
         rl_honor.setOnClickListener(this);
 
-        RelativeLayout rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);////爱心学员
+        RelativeLayout rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);//爱心学员
         rl_love_student.setOnClickListener(this);
-        RelativeLayout rl_support_team = (RelativeLayout) view.findViewById(R.id.rl_support_team);//// 服务团队
+        RelativeLayout rl_support_team = (RelativeLayout) view.findViewById(R.id.rl_support_team);// 服务团队
         rl_support_team.setOnClickListener(this);
 
+        RelativeLayout rl_fuce_album = (RelativeLayout) view.findViewById(R.id.rl_fuce_album);//复测相册
+        rl_fuce_album.setOnClickListener(this);
     }
 
     @Override
@@ -174,7 +176,12 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
             break;
-
+            case R.id.rl_fuce_album: {
+                Intent intent = new Intent(getContext(), FuceAlbumActivity.class);
+                intent.putExtra("classId", model.getClassId());
+                startActivity(intent);
+            }
+            break;
             case rl_exit: {
                 new AlertDialog.Builder(getContext())
                         .setTitle("温馨提示")

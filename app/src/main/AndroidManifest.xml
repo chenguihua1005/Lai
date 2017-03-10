@@ -791,6 +791,9 @@
         <activity android:name=".module.bodygame3.photowall.PhotoWall2Activity" />
         <activity android:name=".module.bodygame3.more.view.SearchFriendActivity" />
         <activity android:name=".module.laiClassroom.ClassroomActivity" />
+        <activity
+            android:name=".module.bodygame3.more.view.FuceAlbumActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

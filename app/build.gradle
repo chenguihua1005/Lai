@@ -92,10 +92,9 @@ dependencies {
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.malinskiy:superrecyclerview:1.1.4'
-<<<<<<< HEAD
+
 //    compile 'com.android.support.constraint:constraint-layout:1.0.1'
-=======
->>>>>>> 85f8c17990b9c17f426b08b0289ea3b10489ae35
+
     testCompile 'junit:junit:4.12'
 }
 

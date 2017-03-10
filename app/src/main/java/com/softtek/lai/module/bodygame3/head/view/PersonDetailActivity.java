@@ -413,11 +413,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     }
 
 //                   曲线图对同班级的人可见
-                    SaveClassModel temp = (SaveClassModel) ACache.get(this, HeadGameFragment2.SAVE_CLASS_DIR).getAsObject(HeadGameFragment2.SAVE_CLASS);
-                    if (temp != null) {
-                        if (!TextUtils.isEmpty(temp.classId) && !TextUtils.isEmpty(ClassId.trim()) && temp.classId.equals(ClassId.trim())) {
-                            ll_chart.setVisibility(View.VISIBLE);
-                        }
+//                    SaveClassModel temp = (SaveClassModel) ACache.get(this, HeadGameFragment2.SAVE_CLASS_DIR).getAsObject(HeadGameFragment2.SAVE_CLASS);
+//                    if (temp != null) {
+//                        if (!TextUtils.isEmpty(temp.classId) && !TextUtils.isEmpty(ClassId.trim()) && temp.classId.equals(ClassId.trim())) {
+//                            ll_chart.setVisibility(View.VISIBLE);
+//                        }
+//                    }
+
+                    if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
+                        ll_chart.setVisibility(View.VISIBLE);
+                        ClassId = memberInfoModel.getClassId();
+                    } else {
+//                        Util.toastMsg("班级ID为空.....");
                     }
                 }
                 doGetPhotoView();//展示图片
