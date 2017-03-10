@@ -6,6 +6,7 @@ package com.softtek.lai.widgets;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,10 +42,19 @@ public class FuCeSelectPicPopupWindow extends PopupWindow {
         this.setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(LayoutParams.MATCH_PARENT);
-        //设置SelectPicPopupWindow弹出窗体的高
         this.setHeight(LayoutParams.WRAP_CONTENT);
         //设置SelectPicPopupWindow弹出窗体可点击
-        this.setFocusable(true);
+//        this.setFocusable(true);
+
+        //jessica
+        this.setBackgroundDrawable(new BitmapDrawable());
+        this.setOutsideTouchable(false);
+        this.setFocusable(false);
+
+
+
+        //jessica
+
         //设置SelectPicPopupWindow弹出窗体动画效果
 //        this.setAnimationStyle(R.style.AnimBottom);
         //实例化一个ColorDrawable颜色为半透明

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
@@ -91,6 +92,7 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         tv_title.setText("复测相册");
+        tv_right.setText("分享");
 
 
 //        refresh.setOnRefreshListener(this);
@@ -113,11 +115,15 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        fl_right.setFocusable(true);
+        fl_right.setFocusableInTouchMode(true);
 
     }
 
     @Override
     protected void initDatas() {
+        show_photo_circle = false;
+
         registerBroadcastReceiver();//注册
 
         final Object tag = new Object();
@@ -197,12 +203,12 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                 }
                 if (0 != count) {
                     tv_title.setText("已选择" + String.valueOf(count) + "/" + total + "张照片");
-                    tv_right.setVisibility(View.VISIBLE);
-                    tv_right.setText("分享");
+//                    tv_right.setVisibility(View.VISIBLE);
+//                    tv_right.setText("分享");
                 } else {
                     tv_title.setText("复测相册");
-                    tv_right.setText("");
-                    tv_right.setVisibility(View.GONE);
+//                    tv_right.setText("");
+//                    tv_right.setVisibility(View.GONE);
                 }
 
             }
@@ -252,6 +258,7 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     };
 
     int flag = 0;
+    public static boolean show_photo_circle = false;
 
     @Override
     public void onClick(View view) {
@@ -261,22 +268,26 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.fl_right: {
                 Log.i(TAG, "点击分享按钮。。。。。。。。。。。。。。。。。。 count = " + count);
-                if (flag == 0) {
-                    if (count != 0) {
-                        tv_right.setText("取消");
-                        menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
-                        //显示窗口
-                        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                        menuWindow.showAtLocation(FuceAlbumActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-                        flag = 1;
+                if (flag == 0) {//点击分享按钮
+                    tv_right.setText("取消");
+                    menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
+                    //显示窗口
+                    menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    menuWindow.showAtLocation(FuceAlbumActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                    menuWindow.setBackgroundDrawable(new BitmapDrawable());
+                    flag = 1;
 
-                    }
-                } else {// flag = 1;
+                    show_photo_circle = true;
+
+                    adapter.notifyDataSetChanged();
+
+
+                } else {// flag = 1;  点击取消
                     Log.i(TAG, "点击取消按钮。。。。。。。。。。。。。。。。。。");
                     count = 0;
                     tv_title.setText("复测相册");
-                    tv_right.setText("");
-                    tv_right.setVisibility(View.GONE);
+                    tv_right.setText("分享");
+//                    tv_right.setVisibility(View.GONE);
                     if (menuWindow != null && menuWindow.isShowing()) {
                         menuWindow.dismiss();
                     }
@@ -289,6 +300,7 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                             Log.i(TAG, "model =" + new Gson().toJson(fucePhotoModel));
                         }
                     }
+                    show_photo_circle = false;
                     adapter.notifyDataSetChanged();
 
                     flag = 0;

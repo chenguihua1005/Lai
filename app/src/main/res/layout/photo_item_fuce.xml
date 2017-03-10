@@ -35,6 +35,7 @@
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="2dp"
+        android:visibility="gone"
         android:src="@drawable/circle_fuce_photo" />
 
 
