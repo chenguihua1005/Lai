@@ -44,7 +44,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
         });
     }
 
-    public void getArticleList(String type, String subjectId, String order, int pageIndex){
+    public void getArticleList(String type, String subjectId, String order, int pageIndex, final int upOrDown){
         if(getView()!=null){
             getView().dialogShow("正在加载");
         }
@@ -62,7 +62,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
                         }
                         if(data.getStatus()==200){
                             if(getView()!=null){
-                                getView().getData2(data.getData());
+                                getView().getArticles(data.getData(),upOrDown);
                             }
                         }
 
@@ -80,7 +80,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
     }
 
 
-    public interface WholeView extends BaseView2<FilteData,ArticalList> {
-
+    public interface WholeView extends BaseView1<FilteData> {
+        void getArticles(ArticalList data,int upOrDown);
     }
 }

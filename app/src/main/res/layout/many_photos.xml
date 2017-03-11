@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="16dp"
+    android:paddingTop="14dp"
     android:orientation="vertical">
 
 
@@ -10,75 +13,66 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="TextView"
+        android:text="推荐：冬天适合吃的减肥食品"
         android:textColor="@color/word"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
     <LinearLayout
         android:id="@+id/lin_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_title"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_below="@id/tv_title"
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
 
-        <ImageView
+        <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_one"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/default_icon_square" />
+            android:src="@drawable/default_icon_rect"/>
 
-        <ImageView
+        <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_two"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/default_icon_square" />
+            android:src="@drawable/default_icon_rect"/>
 
-        <ImageView
+        <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_three"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/default_icon_square" />
+            android:src="@drawable/default_icon_rect"
+            />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_release"
+        android:id="@+id/tv_relese"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/lin_image"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="TextView" />
-
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lin_image"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/tv_title"
-        app:srcCompat="@drawable/hot_icon" />
+        android:layout_marginTop="12dp"
+        android:textSize="10sp"
+        android:textColor="#A1A1A1"
+        android:text="3小时前" />
 
     <TextView
         android:id="@+id/tv_hotnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView13"
-        android:layout_marginLeft="5dp"
-        android:layout_toEndOf="@+id/imageView13"
+        android:layout_marginTop="12dp"
+        android:layout_below="@id/lin_image"
+        android:layout_toRightOf="@id/tv_relese"
+        android:layout_marginLeft="20dp"
+        android:drawableLeft="@drawable/hot_icon"
+        android:drawablePadding="2dp"
+        android:textColor="#a1a1a1"
+        android:textSize="10sp"
         android:text="300" />
-
 
 </RelativeLayout>

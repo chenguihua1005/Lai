@@ -19,6 +19,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.laiClassroom.adapter.FilterAdapter;
+import com.softtek.lai.module.laiClassroom.adapter.WholeAdapter;
+import com.softtek.lai.module.laiClassroom.model.Artical;
 import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 import com.softtek.lai.module.laiClassroom.presenter.WholePresenter;
@@ -50,6 +52,11 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
 
+    private WholeAdapter adapter;
+    private List<Artical> articals;
+    private int pageIndex=1;
+
+
     public WholeFragment() {
 
     }
@@ -58,7 +65,7 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     @Override
     protected void lazyLoad() {
         getPresenter().getFilterData();
-        getPresenter().getArticleList("0","0","1",1);
+        getPresenter().getArticleList("0","0","1",1,0);
     }
 
     @Override
@@ -83,7 +90,9 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
         rv_sort.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rv_type.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rv_subject.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-
+        articals=new ArrayList<>();
+        adapter=new WholeAdapter(getContext(),articals);
+        ptrlv.setAdapter(adapter);
     }
 
     private void animateArrow(boolean shouldRotateUp) {
@@ -159,19 +168,28 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
         rv_subject.setAdapter(new FilterAdapter(getContext(),data.getCategoryList(),FilterAdapter.MULTI));
     }
 
-    @Override
-    public void getData2(ArticalList data) {
-
-    }
 
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        pageIndex=1;
+        getPresenter().getArticleList("0","0","1",1,0);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        pageIndex++;
+        getPresenter().getArticleList("0","0","1",1,1);
+    }
 
+
+    @Override
+    public void getArticles(ArticalList data, int upOrDown) {
+        if(upOrDown==0){
+            //刷新
+            articals.clear();
+        }
+        articals.addAll(data.getArticleList());
+        adapter.notifyDataSetChanged();
     }
 }
