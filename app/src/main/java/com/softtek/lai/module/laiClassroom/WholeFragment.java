@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -173,13 +172,13 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex=1;
-        getPresenter().getArticleList("0","0","1",1,0);
+        getPresenter().getArticleList("0","0","1",pageIndex,0);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
-        getPresenter().getArticleList("0","0","1",1,1);
+        getPresenter().getArticleList("0","0","1",pageIndex,1);
     }
 
 

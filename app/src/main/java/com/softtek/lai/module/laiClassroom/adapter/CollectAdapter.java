@@ -109,7 +109,7 @@ public class CollectAdapter extends BaseAdapter {
                 viewHolderThree.iv_one = (ImageView) convertView.findViewById(R.id.iv_one);
                 viewHolderThree.iv_two = (ImageView) convertView.findViewById(R.id.iv_two);
                 viewHolderThree.iv_three = (ImageView) convertView.findViewById(R.id.iv_three);
-                viewHolderThree.tv_release = (TextView) convertView.findViewById(R.id.tv_release);
+                viewHolderThree.tv_release = (TextView) convertView.findViewById(R.id.tv_relese);
                 viewHolderThree.tv_hotnum = (TextView) convertView.findViewById(R.id.tv_hotnum);
                 convertView.setTag(viewHolderThree);
             } else {
