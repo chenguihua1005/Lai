@@ -6,8 +6,6 @@ import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laiClassroom.model.CollectModel;
 import com.softtek.lai.module.laiClassroom.net.CollectService;
 
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -35,12 +33,13 @@ public class CollectPresenter extends BasePersent<CollectPresenter.getcollect> {
                 if (200 == status) {
                     if (Data.getData() != null) {
                         collectModel = Data.getData();
-                    } else {
-                        Util.toastMsg(Data.getMsg());
+                        if (getView() != null) {
+                            getView().getcollects(collectModel);
+                        }
                     }
-                    if (getView() != null) {
-                        getView().getcollects(collectModel);
-                    }
+
+                }else {
+                    Util.toastMsg(Data.getMsg());
                 }
             }
 

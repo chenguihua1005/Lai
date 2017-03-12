@@ -13,6 +13,7 @@ import retrofit.http.Query;
  */
 
 public interface CollectService {
+    //获取收藏列表的接口
     @GET("/v1/LaiClassRoom/GetBookmarkArticle")
     void getBookmarkArticle(
             @Header("token") String token,
@@ -21,4 +22,15 @@ public interface CollectService {
             @Query("pagesize") int pagesize,
             Callback<ResponseData<CollectModel>> callback
     );
+
+    //获取历史列表的接口
+    @GET("/v1/LaiClassRoom/GetVisitArticleHistory")
+    void getVisitArticleHistory(
+            @Header("token") String token,
+            @Query("accountid") long accountid,
+            @Query("pageindex") int pageindex,
+            @Query("pagesize") int pagesize,
+            Callback<ResponseData<CollectModel>> callback
+    );
+
 }

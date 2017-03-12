@@ -3,9 +3,7 @@ package com.softtek.lai.module.laiClassroom.presenter;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePersent;
-import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.common.mvp.BaseView1;
-import com.softtek.lai.common.mvp.BaseView2;
 import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 import com.softtek.lai.module.laiClassroom.net.LaiClassroomService;
@@ -13,7 +11,6 @@ import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.Query;
 import zilla.libcore.api.ZillaApi;
 
 /**
@@ -44,7 +41,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
         });
     }
 
-    public void getArticleList(String type, String subjectId, String order, int pageIndex){
+    public void getArticleList(String type, String subjectId, String order, int pageIndex, final int upOrDown){
         if(getView()!=null){
             getView().dialogShow("正在加载");
         }
@@ -62,7 +59,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
                         }
                         if(data.getStatus()==200){
                             if(getView()!=null){
-                                getView().getData2(data.getData());
+                                getView().getArticles(data.getData(),upOrDown);
                             }
                         }
 
@@ -80,7 +77,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
     }
 
 
-    public interface WholeView extends BaseView2<FilteData,ArticalList> {
-
+    public interface WholeView extends BaseView1<FilteData> {
+        void getArticles(ArticalList data,int upOrDown);
     }
 }

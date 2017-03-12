@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ggx.widgets.view.CheckTextView;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 
@@ -22,13 +23,25 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHold
     public static final int MULTI=2;
 
     private Context mContext;
+
     private List<FilteData.Filter> filters;
     private int type;
+    //记录选择的原始状态
+    private StringBuilder orginal;
+    //记录选择后的状态，用来对比用
+    private StringBuilder change;
 
     public FilterAdapter(Context context,List<FilteData.Filter> filters,int type) {
         this.filters = filters;
         this.mContext=context;
         this.type=type;
+        orginal=new StringBuilder();
+        change=new StringBuilder();
+        for (FilteData.Filter filter:filters){
+            orginal.append(filter.getSelected());
+            change.append(filter.getSelected());
+        }
+        Log.i("原始数据="+orginal.toString());
     }
 
 
@@ -50,18 +63,52 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHold
                     if(filter.getSelected()!=1){
                         filter.setSelected(1);
                     }
+                    //单选只有一个所以需要重置变换位
+                    change.delete(0,change.length());
                     for (int i=0,j=filters.size(); i<j;i++) {
                         if(i!=position&&filters.get(i).getSelected()==1){
                             filters.get(i).setSelected(0);
                         }
+                        change.append(filters.get(i).getSelected());
                     }
                     notifyDataSetChanged();
                 }else {
                     filter.setSelected(filter.getSelected()==0?1:0);
+                    //多选只需要改变相应位置的状态即可
+                    change.setCharAt(position, (char) (filter.getSelected()+48));
                     notifyItemChanged(position);
                 }
             }
         });
+    }
+
+    //获取选择是否真的发生变化
+    public boolean isChange(){
+        return Long.parseLong(orginal.toString())!=Long.parseLong(change.toString());
+    }
+    //获取选中的关键字
+    public String getKey(){
+        //如果有异常则返回默认的值
+        if(filters==null||filters.isEmpty()){
+            return type==SINGLE?"1":"0";
+        }
+        StringBuilder keys=new StringBuilder();
+        for (FilteData.Filter filter:filters){
+            if(filter.getSelected()==1){
+                keys.append(filter.getID());
+                keys.append(",");
+            }
+        }
+        if(keys.length()>0){
+            return keys.deleteCharAt(keys.length()-1).toString();
+        }
+        return type==SINGLE?"1":"0";
+    }
+
+    //将新的改变记录更新给原始记录
+    public void doUpdate(){
+        orginal.delete(0,orginal.length());
+        orginal.append(change);
     }
 
     @Override

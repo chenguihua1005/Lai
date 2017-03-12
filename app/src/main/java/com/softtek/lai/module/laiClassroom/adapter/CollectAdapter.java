@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygame3.conversation.adapter.ChatContantAdapter;
 import com.softtek.lai.module.laiClassroom.model.CollectlistModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.RectangleImage;
@@ -17,22 +16,21 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 
 /**
+ *
  * Created by shelly.xu on 3/10/2017.
  */
 
 public class CollectAdapter extends BaseAdapter {
 
     private List<CollectlistModel> collectlistModels;
-    Context mContext;
-    public static final int SINGle = 0;
-    public static final int MANY = 1;
-    public static final int VIDEO = 2;
-     public static final int TYPE_COUNT=3;
-    private int currenttype;
+    private Context mContext;
+    private static final int SINGle = 0;
+    private static final int MANY = 1;
+    private static final int VIDEO = 2;
+    private static final int TYPE_COUNT=3;
 
     public CollectAdapter(Context context, List<CollectlistModel> collectlistModelList) {
         this.mContext = context;
@@ -61,11 +59,11 @@ public class CollectAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderOne viewHolderOne = null;
-        ViewHolderTwo viewHolderTwo = null;
-        ViewHolderThree viewHolderThree = null;
+        ViewHolderOne viewHolderOne;
+        ViewHolderTwo viewHolderTwo;
+        ViewHolderThree viewHolderThree;
         CollectlistModel collectModel = collectlistModels.get(position);
-        currenttype = getItemViewType(position);
+        int currenttype = getItemViewType(position);
         if (currenttype == VIDEO) {//视频
             if (convertView == null) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.list_video, parent,false);
@@ -80,24 +78,9 @@ public class CollectAdapter extends BaseAdapter {
                 viewHolderOne = (ViewHolderOne) convertView.getTag();
             }
             viewHolderOne.tv_title.setText(collectModel.getTitle());
-            viewHolderOne.tv_hotnum.setText(collectModel.getClicks() + "");
+            viewHolderOne.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
             Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0)).into(viewHolderOne.iv_video);
-            String time = "";
-            long[] days = DateUtil.getInstance().getDaysForNow(collectModel.getCreateDate());
-            if (days[0] == 0) {//今天
-                if (days[3] < 60) {//小于1分钟
-                    time = "刚刚";
-                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                    time = days[2] + "分钟前";
-                } else {//大于一小时
-                    time = days[1] + "小时前";
-                }
-            } else if (days[0] == 1) {//昨天
-                time = "昨天";
-            } else {
-                time = days[0] + "天前";
-            }
-            viewHolderOne.tv_relese.setText(time);//日期
+            viewHolderOne.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
             viewHolderOne.tv_time.setText(collectModel.getVideoTime());
 
         } else if (currenttype == SINGle) {
@@ -113,24 +96,10 @@ public class CollectAdapter extends BaseAdapter {
                 viewHolderTwo = (ViewHolderTwo) convertView.getTag();
             }
             viewHolderTwo.tv_title.setText(collectModel.getTitle());
-            viewHolderTwo.tv_hotnum.setText(collectModel.getClicks() + "");
+            viewHolderTwo.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
             Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0)).into(viewHolderTwo.iv_single);
-            String time = "";
-            long[] days = DateUtil.getInstance().getDaysForNow(collectModel.getCreateDate());
-            if (days[0] == 0) {//今天
-                if (days[3] < 60) {//小于1分钟
-                    time = "刚刚";
-                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                    time = days[2] + "分钟前";
-                } else {//大于一小时
-                    time = days[1] + "小时前";
-                }
-            } else if (days[0] == 1) {//昨天
-                time = "昨天";
-            } else {
-                time = days[0] + "天前";
-            }
-            viewHolderTwo.tv_relese.setText(time);//日期
+
+            viewHolderTwo.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
 
         } else if (currenttype == MANY) {
             if (convertView == null) {
@@ -140,36 +109,40 @@ public class CollectAdapter extends BaseAdapter {
                 viewHolderThree.iv_one = (ImageView) convertView.findViewById(R.id.iv_one);
                 viewHolderThree.iv_two = (ImageView) convertView.findViewById(R.id.iv_two);
                 viewHolderThree.iv_three = (ImageView) convertView.findViewById(R.id.iv_three);
-                viewHolderThree.tv_release = (TextView) convertView.findViewById(R.id.tv_release);
+                viewHolderThree.tv_release = (TextView) convertView.findViewById(R.id.tv_relese);
                 viewHolderThree.tv_hotnum = (TextView) convertView.findViewById(R.id.tv_hotnum);
                 convertView.setTag(viewHolderThree);
             } else {
                 viewHolderThree = (ViewHolderThree) convertView.getTag();
             }
             viewHolderThree.tv_title.setText(collectModel.getTitle());
-            viewHolderThree.tv_hotnum.setText(collectModel.getClicks() + "");
+            viewHolderThree.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
             Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0)).into(viewHolderThree.iv_one);
             Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(1)).into(viewHolderThree.iv_two);
             Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(2)).into(viewHolderThree.iv_three);
-            String time = "";
-            long[] days = DateUtil.getInstance().getDaysForNow(collectModel.getCreateDate());
-            if (days[0] == 0) {//今天
-                if (days[3] < 60) {//小于1分钟
-                    time = "刚刚";
-                } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
-                    time = days[2] + "分钟前";
-                } else {//大于一小时
-                    time = days[1] + "小时前";
-                }
-            } else if (days[0] == 1) {//昨天
-                time = "昨天";
-            } else {
-                time = days[0] + "天前";
-            }
-            viewHolderThree.tv_release.setText(time);//日期
+            viewHolderThree.tv_release.setText(getTime(collectModel.getCreateDate()));//日期
         }
 
         return convertView;
+    }
+
+    private String getTime(String createTime){
+        String time = "";
+        long[] days = DateUtil.getInstance().getDaysForNow(createTime);
+        if (days[0] == 0) {//今天
+            if (days[3] < 60) {//小于1分钟
+                time = "刚刚";
+            } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
+                time = days[2] + "分钟前";
+            } else {//大于一小时
+                time = days[1] + "小时前";
+            }
+        } else if (days[0] == 1) {//昨天
+            time = "昨天";
+        } else {
+            time = days[0] + "天前";
+        }
+        return time;
     }
 
     @Override
@@ -193,7 +166,7 @@ public class CollectAdapter extends BaseAdapter {
         return TYPE_COUNT;
     }
 
-    class ViewHolderOne {
+    private static class ViewHolderOne {
         TextView tv_title;
         ImageView iv_video;
         TextView tv_relese;
@@ -202,14 +175,14 @@ public class CollectAdapter extends BaseAdapter {
 
     }
 
-    class ViewHolderTwo {
+    private static class ViewHolderTwo {
         TextView tv_title;
         TextView tv_relese;
         TextView tv_hotnum;
         ImageView iv_single;
     }
 
-    class ViewHolderThree {
+    private static class ViewHolderThree {
         TextView tv_title;
         ImageView iv_one;
         ImageView iv_two;

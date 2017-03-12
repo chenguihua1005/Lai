@@ -1,65 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="TextView"
+        android:paddingLeft="15dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:text="蛋白质的价值"
         android:textColor="@color/word"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
-    <com.softtek.lai.widgets.RectangleImage
-        android:id="@+id/iv_video"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_title"
-        android:layout_margin="15dp"
-        app:srcCompat="@drawable/default_icon_square" />
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp">
+        <com.softtek.lai.widgets.RectangleImage
+            android:id="@+id/iv_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/default_icon_square" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/video_start"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:textSize="10sp"
+            android:background="@drawable/time_g"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="@color/white"
+            android:text="01:19"
+            />
+    </FrameLayout>
 
-    <TextView
-        android:id="@+id/tv_relese"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/iv_video"
-        android:layout_marginLeft="15dp"
-        android:text="TextView" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp">
 
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_video"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/tv_relese"
-        app:srcCompat="@drawable/hot_icon" />
+        <TextView
+            android:id="@+id/tv_relese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3小时前"
+            android:textColor="#a1a1a1"
+            android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/tv_hotnum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="300"
-        android:paddingLeft="5dp"
-        android:layout_below="@+id/iv_video"
-        android:layout_toEndOf="@+id/imageView11" />
-
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/iv_video"
-        android:layout_alignEnd="@+id/iv_video"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="18dp"
-        android:text="TextView" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_hotnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/hot_icon"
+            android:drawablePadding="2dp"
+            android:text="0"
+            android:textColor="#A1A1A1"
+            android:textSize="10sp" />
+    </LinearLayout>
+</LinearLayout>

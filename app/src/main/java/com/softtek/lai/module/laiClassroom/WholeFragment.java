@@ -12,13 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.laiClassroom.adapter.FilterAdapter;
+import com.softtek.lai.module.laiClassroom.adapter.WholeAdapter;
+import com.softtek.lai.module.laiClassroom.model.Artical;
 import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 import com.softtek.lai.module.laiClassroom.presenter.WholePresenter;
@@ -50,6 +51,15 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
 
+    private WholeAdapter adapter;
+    private List<Artical> articals;
+    private int pageIndex=1;
+
+    FilterAdapter sortAdapter;
+    FilterAdapter typeAdapter;
+    FilterAdapter subjectAdapter;
+
+
     public WholeFragment() {
 
     }
@@ -58,7 +68,7 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     @Override
     protected void lazyLoad() {
         getPresenter().getFilterData();
-        getPresenter().getArticleList("0","0","1",1);
+        getPresenter().getArticleList("0","0","1",1,0);
     }
 
     @Override
@@ -83,7 +93,9 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
         rv_sort.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rv_type.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rv_subject.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-
+        articals=new ArrayList<>();
+        adapter=new WholeAdapter(getContext(),articals);
+        ptrlv.setAdapter(adapter);
     }
 
     private void animateArrow(boolean shouldRotateUp) {
@@ -140,6 +152,21 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
                         public void onAnimationEnd(Animator animation) {
                             isExpand=false;
                             doAnimat=false;
+                            if (sortAdapter==null||typeAdapter==null||subjectAdapter==null){
+                                return;
+                            }
+                            //判断是否可请求
+                            if(sortAdapter.isChange()||typeAdapter.isChange()
+                                    ||subjectAdapter.isChange()){
+                                //恢复标志
+                                sortAdapter.doUpdate();
+                                typeAdapter.doUpdate();
+                                subjectAdapter.doUpdate();
+                                pageIndex=1;
+                                getPresenter().getArticleList(typeAdapter.getKey(),
+                                        subjectAdapter.getKey(),
+                                        sortAdapter.getKey(),pageIndex,0);
+                            }
                         }
 
                         @Override
@@ -154,24 +181,72 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
 
     @Override
     public void getData(FilteData data) {
-        rv_sort.setAdapter(new FilterAdapter(getContext(),data.getOrderByList(),FilterAdapter.SINGLE));
-        rv_type.setAdapter(new FilterAdapter(getContext(),data.getMediaTypeList(),FilterAdapter.MULTI));
-        rv_subject.setAdapter(new FilterAdapter(getContext(),data.getCategoryList(),FilterAdapter.MULTI));
+        sortAdapter=new FilterAdapter(getContext(),data.getOrderByList(),FilterAdapter.SINGLE);
+        typeAdapter=new FilterAdapter(getContext(),data.getMediaTypeList(),FilterAdapter.MULTI);
+        subjectAdapter=new FilterAdapter(getContext(),data.getCategoryList(),FilterAdapter.MULTI);
+        rv_sort.setAdapter(sortAdapter);
+        rv_type.setAdapter(typeAdapter);
+        rv_subject.setAdapter(subjectAdapter);
     }
 
-    @Override
-    public void getData2(ArticalList data) {
-
-    }
 
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        pageIndex=1;
+        String sort;
+        String type;
+        String subject;
+        if(sortAdapter==null){
+            sort="1";
+        }else {
+            sort=sortAdapter.getKey();
+        }
+        if(typeAdapter==null){
+            type="0";
+        }else {
+            type=typeAdapter.getKey();
+        }
+        if(subjectAdapter==null){
+            subject="0";
+        }else {
+            subject=subjectAdapter.getKey();
+        }
+        getPresenter().getArticleList(type,subject,sort,pageIndex,0);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        pageIndex++;
+        String sort;
+        String type;
+        String subject;
+        if(sortAdapter==null){
+            sort="1";
+        }else {
+            sort=sortAdapter.getKey();
+        }
+        if(typeAdapter==null){
+            type="0";
+        }else {
+            type=typeAdapter.getKey();
+        }
+        if(subjectAdapter==null){
+            subject="0";
+        }else {
+            subject=subjectAdapter.getKey();
+        }
+        getPresenter().getArticleList(type,subject,sort,pageIndex,1);
+    }
 
+
+    @Override
+    public void getArticles(ArticalList data, int upOrDown) {
+        if(upOrDown==0){
+            //刷新
+            articals.clear();
+        }
+        articals.addAll(data.getArticleList());
+        adapter.notifyDataSetChanged();
     }
 }
