@@ -9,9 +9,10 @@
         android:layout_centerInParent="true">
     <ImageView
         android:id="@+id/im_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/default_icon_square"
+        android:layout_width="185dp"
+        android:layout_height="135dp"
+        android:src="@drawable/default_icon_rect"
+        android:scaleType="centerCrop"
         />
     <LinearLayout
         android:layout_width="wrap_content"
