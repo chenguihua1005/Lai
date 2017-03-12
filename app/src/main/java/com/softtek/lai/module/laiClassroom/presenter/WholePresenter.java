@@ -3,9 +3,7 @@ package com.softtek.lai.module.laiClassroom.presenter;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePersent;
-import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.common.mvp.BaseView1;
-import com.softtek.lai.common.mvp.BaseView2;
 import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 import com.softtek.lai.module.laiClassroom.net.LaiClassroomService;
@@ -13,7 +11,6 @@ import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.Query;
 import zilla.libcore.api.ZillaApi;
 
 /**
