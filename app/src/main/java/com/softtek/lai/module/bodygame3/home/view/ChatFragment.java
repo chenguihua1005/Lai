@@ -95,7 +95,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                             .commit();
                 } else {
-                    Util.toastMsg("会话功能开通中，请稍后再试");
+                    Util.toastMsg(getContext().getString(R.string.conversation_starting));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -158,10 +158,8 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                     .commit();
 
 
-
-
         } else {
-            Util.toastMsg("会话功能开通中，请稍后再试");
+            Util.toastMsg(getContext().getString(R.string.conversation_starting));
         }
     }
 
@@ -296,7 +294,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 loginChat(progressDialog, model.getHXAccountId());
             }
         } else {
-            Util.toastMsg("会话功能开通中，请稍后再试");
+            Util.toastMsg(getContext().getString(R.string.conversation_starting));
         }
     }
 

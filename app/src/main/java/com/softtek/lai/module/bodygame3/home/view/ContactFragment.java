@@ -226,7 +226,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     intent.putExtra("AFriendId", model.getAFriendId());
                     startActivity(intent);
                 } else {
-                    Util.toastMsg("会话功能开通中，请稍后再试");
+                    Util.toastMsg(getContext().getString(R.string.conversation_starting));
                 }
                 return false;
 
