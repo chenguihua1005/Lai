@@ -94,6 +94,7 @@ dependencies {
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.malinskiy:superrecyclerview:1.1.4'
+
     testCompile 'junit:junit:4.12'
 }
 

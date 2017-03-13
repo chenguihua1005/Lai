@@ -341,8 +341,9 @@
         <activity
             android:name=".module.laijumine.view.FocusActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.laiClassroom.KeywordsSearchActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.laiClassroom.KeywordsSearchActivity"
+            android:screenOrientation="portrait" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -796,6 +797,7 @@
         <activity
             android:name=".module.bodygame3.more.view.FuceAlbumActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".module.laiClassroom.ArticdetailActivity"></activity>
     </application>
 
 </manifest>
