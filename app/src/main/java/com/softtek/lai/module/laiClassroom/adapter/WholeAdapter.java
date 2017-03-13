@@ -109,7 +109,7 @@ public class WholeAdapter extends BaseAdapter{
         return convertView;
     }
 
-    private void dealWithVideo(Artical artical,VideoHolder holder){
+    private void dealWithVideo(final Artical artical, VideoHolder holder){
         holder.tv_title.setText(artical.getTitle());
         holder.tv_time.setText(artical.getVideoTime());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
@@ -132,11 +132,16 @@ public class WholeAdapter extends BaseAdapter{
                     .into(holder.iv_video);
         }
         if(!TextUtils.isEmpty(artical.getArticUrl())){
+            final String finalVideoImage = videoImage;
             holder.iv_video.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //跳转视频详情
-                    ((AppCompatActivity)context).startActivity(new Intent(context, VideoDetailActivity.class));
+                    Intent intent=new Intent(context, VideoDetailActivity.class);
+                    intent.putExtra("articleId",artical.getArticleId());
+                    intent.putExtra("cover",AddressManager.get("photoHost")+ finalVideoImage);
+                    intent.putExtra("videoUrl",AddressManager.get("videoHost")+artical.getArticUrl());
+                    context.startActivity(intent);
                 }
             });
         }

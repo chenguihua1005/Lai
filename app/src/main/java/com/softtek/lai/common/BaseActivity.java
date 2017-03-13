@@ -6,7 +6,6 @@ package com.softtek.lai.common;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -19,7 +18,7 @@ import android.view.WindowManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
-import com.softtek.lai.common.mvp.BasePersent;
+import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.utils.SystemBarTintManager;
 import com.umeng.analytics.MobclickAgent;
@@ -34,7 +33,7 @@ import zilla.libcore.ui.LayoutInjectUtil;
 /**
  * Created by zilla on 14/12/1.
  */
-public abstract class BaseActivity<T extends BasePersent> extends AppCompatActivity implements BaseView{
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView{
 
     /**
      * Toobar

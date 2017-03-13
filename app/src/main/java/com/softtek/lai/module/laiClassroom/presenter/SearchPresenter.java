@@ -4,13 +4,12 @@ import android.util.Log;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.common.mvp.BasePersent;
+import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView1;
 import com.softtek.lai.module.laiClassroom.model.SearchModel;
 import com.softtek.lai.module.laiClassroom.net.SearchService;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -22,7 +21,7 @@ import zilla.libcore.util.Util;
  * Created by jia.lu on 2017/3/10.
  */
 
-public class SearchPresenter extends BasePersent<SearchPresenter.SearchView> {
+public class SearchPresenter extends BasePresenter<SearchPresenter.SearchView> {
     SearchService service;
     public SearchPresenter(SearchView searchView) {
         super(searchView);

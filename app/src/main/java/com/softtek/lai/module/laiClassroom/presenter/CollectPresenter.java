@@ -1,13 +1,12 @@
 package com.softtek.lai.module.laiClassroom.presenter;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.mvp.BasePersent;
+import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laiClassroom.model.CollectModel;
 import com.softtek.lai.module.laiClassroom.net.CollectService;
 import com.softtek.lai.utils.RequestCallback;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -17,7 +16,7 @@ import zilla.libcore.util.Util;
  * Created by shelly.xu on 3/10/2017.
  */
 
-public class CollectPresenter extends BasePersent<CollectPresenter.getcollect> {
+public class CollectPresenter extends BasePresenter<CollectPresenter.getcollect> {
     CollectService service;
     CollectModel collectModel;
 
