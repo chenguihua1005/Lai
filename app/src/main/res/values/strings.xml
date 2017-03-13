@@ -235,6 +235,8 @@
 
     <string name="please_close_class">解散班级群(请先关闭班级)</string>
     <string name="please_dismiss_class">解散班级群</string>
+    <string name="conversation_starting">网络异常，请重新登录后再试</string>
+
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
