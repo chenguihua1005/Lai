@@ -73,7 +73,6 @@ public class HistoryFragment extends LazyBaseFragment<HistoryPresenter> implemen
     @Override
     protected void initDatas() {
         setPresenter(new HistoryPresenter(this));
-//        getPresenter().getVisitHistory(UserInfoModel.getInstance().getToken(),UserInfoModel.getInstance().getUserId(),pageindex,10);
         adapter = new CollectAdapter(getContext(), collectlistModels);
         plv_history.setAdapter(adapter);
     }
@@ -87,9 +86,11 @@ public class HistoryFragment extends LazyBaseFragment<HistoryPresenter> implemen
                 collectlistModels.addAll(collectModel.getArticleList());
                 adapter.updateCollect(collectlistModels);
             } else {
+                im_nomessage.setVisibility(View.VISIBLE);
                 pageindex--;
             }
         } else {
+            im_nomessage.setVisibility(View.VISIBLE);
             pageindex--;
         }
     }

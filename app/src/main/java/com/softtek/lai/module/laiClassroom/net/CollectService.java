@@ -33,4 +33,6 @@ public interface CollectService {
             Callback<ResponseData<CollectModel>> callback
     );
 
+
+
 }
