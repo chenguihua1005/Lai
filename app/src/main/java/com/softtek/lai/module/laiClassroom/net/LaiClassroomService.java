@@ -3,7 +3,7 @@ package com.softtek.lai.module.laiClassroom.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
-import com.softtek.lai.module.laiClassroom.model.MonographicListModel;
+import com.softtek.lai.module.laiClassroom.model.SubjectModel;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -35,7 +35,7 @@ public interface LaiClassroomService {
             @Header("token") String token,
             @Query("pageindex")int pageindex,
             @Query("pagesize")int pagesize,
-            Callback<ResponseData<MonographicListModel>>callback
+            Callback<ResponseData<SubjectModel>>callback
     );
 
 }

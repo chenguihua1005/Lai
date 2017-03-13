@@ -1,14 +1,14 @@
 package com.softtek.lai.module.laiClassroom.model;
 
 /**
- * Created by lareina.qiao on 3/10/2017.
+ * Created by shelly.xu on 3/13/2017.
  */
 
-public class TopicListModel {
-    private String TopicId;//专题id
-    private String TopicName;//专题名
-    private String TopicImg;//专题主题图片
-    private String Clicks;//点击热度
+public class ArticleTopicModel {
+    private String TopicId;
+    private String TopicName;
+    private String TopicImg;
+    private int Clicks;
 
     public String getTopicId() {
         return TopicId;
@@ -34,11 +34,11 @@ public class TopicListModel {
         TopicImg = topicImg;
     }
 
-    public String getClicks() {
+    public int getClicks() {
         return Clicks;
     }
 
-    public void setClicks(String clicks) {
+    public void setClicks(int clicks) {
         Clicks = clicks;
     }
 }
