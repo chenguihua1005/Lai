@@ -74,6 +74,9 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHold
                     notifyDataSetChanged();
                 }else {
                     filter.setSelected(filter.getSelected()==0?1:0);
+//                    if(filter.getID().equals("0")){//表示全选类型的选择
+//
+//                    }
                     //多选只需要改变相应位置的状态即可
                     change.setCharAt(position, (char) (filter.getSelected()+48));
                     notifyItemChanged(position);
