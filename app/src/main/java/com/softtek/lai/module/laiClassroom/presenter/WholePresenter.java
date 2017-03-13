@@ -42,10 +42,8 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
     }
 
     public void getArticleList(String type, String subjectId, String order, int pageIndex, final int upOrDown){
-        if(getView()!=null){
-            getView().dialogShow("正在加载");
-        }
         service.getArticleList(UserInfoModel.getInstance().getToken(),
+                String.valueOf(UserInfoModel.getInstance().getUserId()),
                 type,
                 subjectId,
                 order,
@@ -56,6 +54,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
                     public void success(ResponseData<ArticalList> data, Response response) {
                         if (getView()!=null){
                             getView().dialogDissmiss();
+                            getView().hidenLoading();
                         }
                         if(data.getStatus()==200){
                             if(getView()!=null){
@@ -69,6 +68,7 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
                     public void failure(RetrofitError error) {
                         if (getView()!=null){
                             getView().dialogDissmiss();
+                            getView().hidenLoading();
                         }
                         super.failure(error);
                     }
@@ -79,5 +79,6 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
 
     public interface WholeView extends BaseView1<FilteData> {
         void getArticles(ArticalList data,int upOrDown);
+        void hidenLoading();
     }
 }

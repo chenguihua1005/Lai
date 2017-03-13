@@ -4,9 +4,10 @@
     android:layout_height="wrap_content"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingBottom="16dp"
+    android:paddingBottom="15dp"
     android:paddingTop="14dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
 
     <TextView
@@ -22,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_title"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
 
@@ -30,6 +31,7 @@
             android:id="@+id/iv_one"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
             android:layout_weight="1"
             android:src="@drawable/default_icon_rect"/>
 
@@ -39,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             android:src="@drawable/default_icon_rect"/>
 
         <com.softtek.lai.widgets.RectangleImage
@@ -46,6 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
+            android:scaleType="centerCrop"
             android:layout_weight="1"
             android:src="@drawable/default_icon_rect"
             />
@@ -74,5 +78,15 @@
         android:textColor="#a1a1a1"
         android:textSize="10sp"
         android:text="300" />
-
+    <TextView
+        android:id="@+id/tv_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/lin_image"
+        android:layout_toRightOf="@id/tv_hotnum"
+        android:layout_marginTop="12dp"
+        android:text="12课堂"
+        android:textColor="#75ba2b"
+        android:textSize="10sp" />
 </RelativeLayout>

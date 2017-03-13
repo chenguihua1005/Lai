@@ -134,7 +134,7 @@ public abstract class BaseActivity<T extends BasePersent> extends AppCompatActiv
     }
     @Override
     public void dialogDissmiss() {
-        if (progressDialog != null) {
+        if (progressDialog != null&&progressDialog.isShowing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }

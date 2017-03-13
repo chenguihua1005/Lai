@@ -23,6 +23,7 @@ public interface LaiClassroomService {
 
     @GET("/v1/LaiClassRoom/GetLaiArticleList")
     void getArticleList(@Header("token")String token,
+                        @Query("accountid")String accountId,
                         @Query("type")String type,
                         @Query("topictype")String subjectId,
                         @Query("orderby")String order,

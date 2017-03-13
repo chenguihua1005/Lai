@@ -111,6 +111,7 @@ public class WholeAdapter extends BaseAdapter{
         holder.tv_time.setText(artical.getVideoTime());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
+        holder.tv_subject.setText(artical.getTopic());
         String videoImage=null;
         if(artical.getArticImg()!=null&&!artical.getArticImg().isEmpty()){
             videoImage=artical.getArticImg().get(0);
@@ -141,6 +142,7 @@ public class WholeAdapter extends BaseAdapter{
         holder.tv_title.setText(artical.getTitle());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
+        holder.tv_subject.setText(artical.getTopic());
         String videoImage=null;
         if(artical.getArticImg()!=null&&!artical.getArticImg().isEmpty()){
             videoImage=artical.getArticImg().get(0);
@@ -168,6 +170,7 @@ public class WholeAdapter extends BaseAdapter{
         holder.tv_title.setText(artical.getTitle());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
+        holder.tv_subject.setText(artical.getTopic());
         if(artical.getArticImg()!=null&&!artical.getArticImg().isEmpty()){
             for (int i=0;i<artical.getArticImg().size();i++){
                 String imgUrl=artical.getArticImg().get(i);
@@ -226,6 +229,7 @@ public class WholeAdapter extends BaseAdapter{
         TextView tv_time;
         TextView tv_relese;
         TextView tv_hotnum;
+        TextView tv_subject;
         RectangleImage iv_video;
 
         private VideoHolder(View view) {
@@ -233,6 +237,7 @@ public class WholeAdapter extends BaseAdapter{
             tv_time = (TextView) view.findViewById(R.id.tv_time);
             tv_relese= (TextView) view.findViewById(R.id.tv_relese);
             tv_hotnum= (TextView) view.findViewById(R.id.tv_hotnum);
+            tv_subject= (TextView) view.findViewById(R.id.tv_subject);
             iv_video= (RectangleImage) view.findViewById(R.id.iv_video);
         }
     }
@@ -241,6 +246,7 @@ public class WholeAdapter extends BaseAdapter{
         TextView tv_relese;
         TextView tv_hotnum;
         ImageView iv_single;
+        TextView tv_subject;
         RelativeLayout rl_single;
 
         private SinglePicHolder(View view) {
@@ -249,12 +255,14 @@ public class WholeAdapter extends BaseAdapter{
             tv_hotnum= (TextView) view.findViewById(R.id.tv_hotnum);
             iv_single= (ImageView) view.findViewById(R.id.iv_single);
             rl_single= (RelativeLayout) view.findViewById(R.id.rl_single);
+            tv_subject= (TextView) view.findViewById(R.id.tv_subject);
         }
     }
     private static class MutilPicHolder {
         TextView tv_title;
         TextView tv_relese;
         TextView tv_hotnum;
+        TextView tv_subject;
         ImageView iv_one;
         ImageView iv_two;
         ImageView iv_three;
@@ -268,6 +276,7 @@ public class WholeAdapter extends BaseAdapter{
             iv_two= (ImageView) view.findViewById(R.id.iv_two);
             iv_three= (ImageView) view.findViewById(R.id.iv_three);
             lin_image= (LinearLayout) view.findViewById(R.id.lin_image);
+            tv_subject= (TextView) view.findViewById(R.id.tv_subject);
         }
     }
 }

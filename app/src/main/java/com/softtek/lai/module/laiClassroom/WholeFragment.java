@@ -163,6 +163,7 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
                                 typeAdapter.doUpdate();
                                 subjectAdapter.doUpdate();
                                 pageIndex=1;
+                                dialogShow("正在加载");
                                 getPresenter().getArticleList(typeAdapter.getKey(),
                                         subjectAdapter.getKey(),
                                         sortAdapter.getKey(),pageIndex,0);
@@ -242,11 +243,17 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
 
     @Override
     public void getArticles(ArticalList data, int upOrDown) {
+
         if(upOrDown==0){
             //刷新
             articals.clear();
         }
         articals.addAll(data.getArticleList());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void hidenLoading() {
+        ptrlv.onRefreshComplete();
     }
 }
