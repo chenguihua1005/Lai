@@ -75,27 +75,33 @@ public class PhotosAdapterFuCe extends BaseAdapter {
                 .tag(tag)
                 .into(holder.image);
         holder.weekth_tv.setText(model.getWeekth());
-        final boolean isSelect = model.isSelect();
-        if (isSelect) {
-            holder.img_select_button.setImageResource(R.drawable.circled_fuce_photo);
-        } else {
-            holder.img_select_button.setImageResource(R.drawable.circle_fuce_photo);
-        }
-        holder.img_select_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (model.isSelect()) {
-                    holder.img_select_button.setImageResource(R.drawable.circle_fuce_photo);
-                    model.setSelect(false);
-                } else {
-                    holder.img_select_button.setImageResource(R.drawable.circled_fuce_photo);
-                    model.setSelect(true);
-                }
-
-                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(FuceAlbumActivity.UPDATE_PHOTO_NUMBER));
-
+        if (FuceAlbumActivity.show_photo_circle) {
+            holder.img_select_button.setVisibility(View.VISIBLE);
+            final boolean isSelect = model.isSelect();
+            if (isSelect) {
+                holder.img_select_button.setImageResource(R.drawable.circled_fuce_photo);
+            } else {
+                holder.img_select_button.setImageResource(R.drawable.circle_fuce_photo);
             }
-        });
+            holder.img_select_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (model.isSelect()) {
+                        holder.img_select_button.setImageResource(R.drawable.circle_fuce_photo);
+                        model.setSelect(false);
+                    } else {
+                        holder.img_select_button.setImageResource(R.drawable.circled_fuce_photo);
+                        model.setSelect(true);
+                    }
+
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(FuceAlbumActivity.UPDATE_PHOTO_NUMBER));
+
+                }
+            });
+        }else {
+            holder.img_select_button.setVisibility(View.GONE);
+        }
+
 
         return convertView;
     }

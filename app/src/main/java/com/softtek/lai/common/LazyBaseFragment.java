@@ -78,7 +78,7 @@ public abstract class LazyBaseFragment<T extends BasePersent> extends Fragment i
     }
     @Override
     public void dialogDissmiss() {
-        if (progressDialogs != null) {
+        if (progressDialogs != null&&progressDialogs.isShowing()) {
             progressDialogs.dismiss();
             progressDialogs = null;
         }

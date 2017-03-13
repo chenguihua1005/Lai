@@ -3,9 +3,8 @@ package com.softtek.lai.module.laiClassroom.presenter;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePersent;
-import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.common.mvp.BaseView1;
-import com.softtek.lai.common.mvp.BaseView2;
+import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
 import com.softtek.lai.module.laiClassroom.net.LaiClassroomService;
 import com.softtek.lai.utils.RequestCallback;
@@ -39,20 +38,47 @@ public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
                     }
                 }
             }
-
-            @Override
-            public void failure(RetrofitError error) {
-                super.failure(error);
-            }
         });
     }
 
-    public void getData(){
+    public void getArticleList(String type, String subjectId, String order, int pageIndex, final int upOrDown){
+        service.getArticleList(UserInfoModel.getInstance().getToken(),
+                String.valueOf(UserInfoModel.getInstance().getUserId()),
+                type,
+                subjectId,
+                order,
+                pageIndex,
+                10,
+                new RequestCallback<ResponseData<ArticalList>>() {
+                    @Override
+                    public void success(ResponseData<ArticalList> data, Response response) {
+                        if (getView()!=null){
+                            getView().dialogDissmiss();
+                            getView().hidenLoading();
+                        }
+                        if(data.getStatus()==200){
+                            if(getView()!=null){
+                                getView().getArticles(data.getData(),upOrDown);
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (getView()!=null){
+                            getView().dialogDissmiss();
+                            getView().hidenLoading();
+                        }
+                        super.failure(error);
+                    }
+                });
 
     }
 
 
     public interface WholeView extends BaseView1<FilteData> {
-
+        void getArticles(ArticalList data,int upOrDown);
+        void hidenLoading();
     }
 }
