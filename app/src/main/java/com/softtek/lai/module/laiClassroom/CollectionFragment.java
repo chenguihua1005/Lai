@@ -89,9 +89,11 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
                 collectlistModels.addAll(collectModel.getArticleList());
                 adapter.updateCollect(collectlistModels);
             } else {
+                im_nomessage.setVisibility(View.VISIBLE);
                 pageindex--;
             }
         } else {
+            im_nomessage.setVisibility(View.VISIBLE);
             pageindex--;
         }
     }

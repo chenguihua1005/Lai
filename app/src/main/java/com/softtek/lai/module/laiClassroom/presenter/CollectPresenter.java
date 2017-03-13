@@ -5,6 +5,7 @@ import com.softtek.lai.common.mvp.BasePersent;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laiClassroom.model.CollectModel;
 import com.softtek.lai.module.laiClassroom.net.CollectService;
+import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -26,7 +27,7 @@ public class CollectPresenter extends BasePersent<CollectPresenter.getcollect> {
 
     public void getcollectarticle(String token, long userId, int pageindex, int pagesize) {
         service = ZillaApi.NormalRestAdapter.create(CollectService.class);
-        service.getBookmarkArticle(token, userId, pageindex, pagesize, new Callback<ResponseData<CollectModel>>() {
+        service.getBookmarkArticle(token, userId, pageindex, pagesize, new RequestCallback<ResponseData<CollectModel>>() {
             @Override
             public void success(ResponseData<CollectModel> Data, Response response) {
                 int status = Data.getStatus();
@@ -38,14 +39,14 @@ public class CollectPresenter extends BasePersent<CollectPresenter.getcollect> {
                         }
                     }
 
-                }else {
+                } else {
                     Util.toastMsg(Data.getMsg());
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                super.failure(error);
             }
         });
 
