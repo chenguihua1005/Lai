@@ -1,6 +1,8 @@
 package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.Artical;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.RectangleImage;
@@ -133,6 +136,7 @@ public class WholeAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     //跳转视频详情
+                    ((AppCompatActivity)context).startActivity(new Intent(context, VideoDetailActivity.class));
                 }
             });
         }

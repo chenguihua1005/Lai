@@ -49,7 +49,7 @@ public abstract class BaseActivity<T extends BasePersent> extends AppCompatActiv
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         TAG=getClass().getCanonicalName();
         setContentView(LayoutInjectUtil.getInjectLayoutId(this));
