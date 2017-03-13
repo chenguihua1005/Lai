@@ -1,7 +1,6 @@
 package com.softtek.lai.module.laiClassroom;
 
 import android.os.Bundle;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +13,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laiClassroom.adapter.ChaosAdapter;
 import com.softtek.lai.module.laiClassroom.model.SearchModel;
+import com.softtek.lai.module.laiClassroom.net.SearchService;
 import com.softtek.lai.module.laiClassroom.presenter.SearchPresenter;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -33,7 +33,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
 
     private ChaosAdapter chaosAdapter;
     private SearchPresenter presenter;
-    private List<SearchModel> modelList;
+    private SearchModel modelList;
 
 
     @Override
@@ -45,7 +45,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
     protected void initViews() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        modelList = new ArrayList<>();
+        modelList = new SearchModel();
         chaosAdapter = new ChaosAdapter(modelList, new ChaosAdapter.ItemListener() {
             @Override
             public void onItemClick(SearchModel item, int position) {
@@ -64,7 +64,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     SoftInputUtil.hidden(KeywordsSearchActivity.this);
-                    presenter.getChaosData();
+                    presenter.getChaosData(String.valueOf(mEditText.getText()));
                 }
                 return false;
             }
@@ -72,10 +72,10 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
     }
 
     @Override
-    public void getData(List<SearchModel> data) {
-        modelList.clear();
-        modelList.addAll(data);
-        chaosAdapter.notifyDataSetChanged();
+    public void getData(List<SearchModel.ArticleListBean> data) {
+       if (data != null){
+           chaosAdapter.notifyDataSetChanged();
+       }
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -76,6 +77,8 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     String url;
     String title_value;
 
+    private String account;
+
 
     int pageIndex = 1;
     int totalPage = 0;
@@ -124,6 +127,9 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         show_photo_circle = false;
 
+        account = getIntent().getStringExtra("account");
+
+
         registerBroadcastReceiver();//注册
 
         final Object tag = new Object();
@@ -148,21 +154,21 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
         pageIndex = 1;
         community = new FuceAlbumManager(this);
-        community.getFuceAlbum(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 1);
+        community.getFuceAlbum(UserInfoModel.getInstance().getToken(), TextUtils.isEmpty(account) ? UserInfoModel.getInstance().getUserId() : Long.valueOf(account), 1);
 
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        community.getFuceAlbum(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 1);
+        community.getFuceAlbum(UserInfoModel.getInstance().getToken(), TextUtils.isEmpty(account) ? UserInfoModel.getInstance().getUserId() : Long.valueOf(account), 1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if (pageIndex <= totalPage) {
-            community.getFuceAlbum(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageIndex);
+            community.getFuceAlbum(UserInfoModel.getInstance().getToken(), TextUtils.isEmpty(account) ? UserInfoModel.getInstance().getUserId() : Long.valueOf(account), pageIndex);
         } else {
             pageIndex--;
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {

@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.softtek.lai.common.mvp.BasePersent;
+import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -19,7 +19,7 @@ import zilla.libcore.ui.LayoutInjectUtil;
 /**
  * Created by jerry.guan on 7/7/2016.
  */
-public abstract class LazyBaseFragment<T extends BasePersent> extends Fragment implements BaseView{
+public abstract class LazyBaseFragment<T extends BasePresenter> extends Fragment implements BaseView{
 
     private boolean isVisible=false;//可否可见
     protected boolean isPrepared=false;//是否加载过

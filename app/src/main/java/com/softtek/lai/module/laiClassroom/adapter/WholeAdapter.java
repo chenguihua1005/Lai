@@ -1,6 +1,8 @@
 package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.Artical;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.RectangleImage;
@@ -106,7 +109,7 @@ public class WholeAdapter extends BaseAdapter{
         return convertView;
     }
 
-    private void dealWithVideo(Artical artical,VideoHolder holder){
+    private void dealWithVideo(final Artical artical, VideoHolder holder){
         holder.tv_title.setText(artical.getTitle());
         holder.tv_time.setText(artical.getVideoTime());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
@@ -129,10 +132,16 @@ public class WholeAdapter extends BaseAdapter{
                     .into(holder.iv_video);
         }
         if(!TextUtils.isEmpty(artical.getArticUrl())){
+            final String finalVideoImage = videoImage;
             holder.iv_video.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //跳转视频详情
+                    Intent intent=new Intent(context, VideoDetailActivity.class);
+                    intent.putExtra("articleId",artical.getArticleId());
+                    intent.putExtra("cover",AddressManager.get("photoHost")+ finalVideoImage);
+                    intent.putExtra("videoUrl",AddressManager.get("videoHost")+artical.getArticUrl());
+                    context.startActivity(intent);
                 }
             });
         }

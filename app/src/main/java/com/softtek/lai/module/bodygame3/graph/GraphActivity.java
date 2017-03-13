@@ -46,7 +46,7 @@ public class GraphActivity extends BaseActivity {
         long accountId = getIntent().getLongExtra("accountId", 0);
         String classId = getIntent().getStringExtra("classId");
         if (TextUtils.isEmpty(classId)) {
-            Util.toastMsg("班级ID为空.....");
+//            Util.toastMsg("班级ID为空.....");
         }
         fragments.add(LossWeightFragment.getInstance(accountId, classId));
         fragments.add(DimemsionFragment.getInstance(accountId, classId));

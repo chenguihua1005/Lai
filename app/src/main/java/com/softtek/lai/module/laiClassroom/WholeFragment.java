@@ -67,6 +67,7 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
 
     @Override
     protected void lazyLoad() {
+        dialogShow("正在加载");
         getPresenter().getFilterData();
         getPresenter().getArticleList("0","0","1",1,0);
     }

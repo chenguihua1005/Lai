@@ -41,7 +41,6 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHold
             orginal.append(filter.getSelected());
             change.append(filter.getSelected());
         }
-        Log.i("原始数据="+orginal.toString());
     }
 
 
@@ -73,11 +72,31 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHold
                     }
                     notifyDataSetChanged();
                 }else {
-                    filter.setSelected(filter.getSelected()==0?1:0);
+                    if(filter.getID().equals("0")){//表示全选类型的选择,其他的都标记不选中
+                        filter.setSelected(1);
+                        for (int i=0,j=filters.size(); i<j;i++) {
+                            if (!filters.get(i).getID().equals("0")){
+                                filters.get(i).setSelected(0);
+                                change.setCharAt(i, (char) (filters.get(i).getSelected()+48));
+                            }
+
+                        }
+                    }else {//否则取消全部类型的选择
+                        //设置选择条件的状态
+                        filter.setSelected(filter.getSelected()==0?1:0);
+                        for (int i=0,j=filters.size(); i<j;i++) {
+                            if (filters.get(i).getID().equals("0")){
+                                filters.get(i).setSelected(0);
+                                change.setCharAt(i, (char) (filters.get(i).getSelected()+48));
+                                break;
+                            }
+                        }
+                    }
                     //多选只需要改变相应位置的状态即可
                     change.setCharAt(position, (char) (filter.getSelected()+48));
-                    notifyItemChanged(position);
+                    notifyDataSetChanged();
                 }
+                Log.i("本次选择="+change.toString());
             }
         });
     }

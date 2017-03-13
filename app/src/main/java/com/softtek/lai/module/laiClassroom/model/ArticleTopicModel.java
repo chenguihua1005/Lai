@@ -1,7 +1,7 @@
 package com.softtek.lai.module.laiClassroom.model;
 
 /**
- * Created by shelly.xu on 3/13/2017.
+ * Created by lareina.qiao on 3/13/2017.
  */
 
 public class ArticleTopicModel {

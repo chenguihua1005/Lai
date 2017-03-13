@@ -423,7 +423,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 //                        }
 //                    }
 
-                    if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
+                    if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && ("4".equals(memberInfoModel.getClassRole()))) {
                         ll_chart.setVisibility(View.VISIBLE);
                         ClassId = memberInfoModel.getClassId();
                     } else {
@@ -518,6 +518,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.ll_weigh:
                 Intent intent = new Intent(PersonDetailActivity.this, FuceAlbumActivity.class);
+                intent.putExtra("account", String.valueOf(memberInfoModel.getAccountid()));
                 startActivity(intent);
                 break;
             case R.id.im_guanzhu:
