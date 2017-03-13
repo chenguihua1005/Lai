@@ -1,14 +1,17 @@
 package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.ArticdetailActivity;
 import com.softtek.lai.module.laiClassroom.model.CollectlistModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.RectangleImage;
@@ -61,7 +64,7 @@ public class CollectAdapter extends BaseAdapter {
         ViewHolderOne viewHolderOne;
         ViewHolderTwo viewHolderTwo;
         ViewHolderThree viewHolderThree;
-        CollectlistModel collectModel = collectlistModels.get(position);
+        final CollectlistModel collectModel = collectlistModels.get(position);
         int currenttype = getItemViewType(position);
         if (currenttype == VIDEO) {//视频
             if (convertView == null) {
@@ -96,6 +99,7 @@ public class CollectAdapter extends BaseAdapter {
                 viewHolderTwo.tv_hotnum = (TextView) convertView.findViewById(R.id.tv_hotnum);
                 viewHolderTwo.iv_single = (ImageView) convertView.findViewById(R.id.iv_single);
                 viewHolderTwo.tv_subject = (TextView) convertView.findViewById(R.id.tv_subject);
+                viewHolderTwo.rl_single = (RelativeLayout) convertView.findViewById(R.id.rl_single);
                 convertView.setTag(viewHolderTwo);
             } else {
                 viewHolderTwo = (ViewHolderTwo) convertView.getTag();
@@ -108,7 +112,16 @@ public class CollectAdapter extends BaseAdapter {
                     .into(viewHolderTwo.iv_single);
             viewHolderTwo.tv_subject.setText(collectModel.getTopic());
             viewHolderTwo.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
+            viewHolderTwo.rl_single.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //跳转图文详情
+                    Intent intent = new Intent(mContext, ArticdetailActivity.class);
+                    intent.putExtra("articalUrl", collectModel.getArticUrl());
+                    mContext.startActivity(intent);
 
+                }
+            });
         } else if (currenttype == MANY) {
             if (convertView == null) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.many_photos, parent, false);
@@ -120,6 +133,7 @@ public class CollectAdapter extends BaseAdapter {
                 viewHolderThree.tv_release = (TextView) convertView.findViewById(R.id.tv_relese);
                 viewHolderThree.tv_hotnum = (TextView) convertView.findViewById(R.id.tv_hotnum);
                 viewHolderThree.tv_subject = (TextView) convertView.findViewById(R.id.tv_subject);
+                viewHolderThree.rl_onclick = (RelativeLayout) convertView.findViewById(R.id.rl_onclick);
                 convertView.setTag(viewHolderThree);
             } else {
                 viewHolderThree = (ViewHolderThree) convertView.getTag();
@@ -140,6 +154,16 @@ public class CollectAdapter extends BaseAdapter {
                     .error(R.drawable.default_icon_rect)
                     .into(viewHolderThree.iv_three);
             viewHolderThree.tv_release.setText(getTime(collectModel.getCreateDate()));//日期
+
+            viewHolderThree.rl_onclick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //跳转图文详情
+                    Intent intent = new Intent(mContext, ArticdetailActivity.class);
+                    intent.putExtra("articalUrl", collectModel.getArticUrl());
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         return convertView;
@@ -201,6 +225,7 @@ public class CollectAdapter extends BaseAdapter {
         TextView tv_hotnum;
         ImageView iv_single;
         TextView tv_subject;
+        RelativeLayout rl_single;
     }
 
     private static class ViewHolderThree {
@@ -211,5 +236,6 @@ public class CollectAdapter extends BaseAdapter {
         TextView tv_release;
         TextView tv_hotnum;
         TextView tv_subject;
+        RelativeLayout rl_onclick;
     }
 }

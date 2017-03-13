@@ -57,14 +57,21 @@ public class ArticdetailActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
-        Intent intent = getIntent();
-        articalUrl = intent.getStringExtra("articalUrl");
+        articalUrl = getIntent().getStringExtra("articalUrl");
         Log.i("文章地址", articalUrl);
         if (!TextUtils.isEmpty(articalUrl)) {
-            webView.loadUrl(articalUrl);
+            webView.loadUrl("http://"+articalUrl);
         }
-
     }
 
+    @Override
+    protected void onDestroy() {
+        if (webView != null) {
+            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.destroy();
+            webView = null;
+        }
+        super.onDestroy();
+    }
 
 }

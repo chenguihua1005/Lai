@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/10/2017.
@@ -142,7 +143,7 @@ public class WholeAdapter extends BaseAdapter {
         }
     }
 
-    private void dealWithSingle(final Artical artical, SinglePicHolder holder) {
+    private void dealWithSingle(final Artical artical, final SinglePicHolder holder) {
         holder.tv_title.setText(artical.getTitle());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
@@ -175,7 +176,7 @@ public class WholeAdapter extends BaseAdapter {
         });
     }
 
-    private void dealWithMutil(Artical artical, MutilPicHolder holder) {
+    private void dealWithMutil(final Artical artical, MutilPicHolder holder) {
         holder.tv_title.setText(artical.getTitle());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
@@ -213,6 +214,16 @@ public class WholeAdapter extends BaseAdapter {
         } else {
             holder.lin_image.setVisibility(View.GONE);
         }
+        holder.rl_onclick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转图文详情
+                Intent intent = new Intent(context, ArticdetailActivity.class);
+                intent.putExtra("articalUrl", artical.getArticUrl());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     private String getTime(String createTime) {
@@ -279,6 +290,7 @@ public class WholeAdapter extends BaseAdapter {
         ImageView iv_two;
         ImageView iv_three;
         LinearLayout lin_image;
+        RelativeLayout rl_onclick;
 
         private MutilPicHolder(View view) {
             tv_title = (TextView) view.findViewById(R.id.tv_title);
@@ -289,6 +301,7 @@ public class WholeAdapter extends BaseAdapter {
             iv_three = (ImageView) view.findViewById(R.id.iv_three);
             lin_image = (LinearLayout) view.findViewById(R.id.lin_image);
             tv_subject = (TextView) view.findViewById(R.id.tv_subject);
+            rl_onclick = (RelativeLayout) view.findViewById(R.id.rl_onclick);
         }
     }
 }
