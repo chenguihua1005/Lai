@@ -2,8 +2,13 @@ package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +22,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.Artical;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.widgets.CommentTextView;
 import com.softtek.lai.widgets.RectangleImage;
 import com.squareup.picasso.Picasso;
 
@@ -114,7 +120,23 @@ public class WholeAdapter extends BaseAdapter{
         holder.tv_time.setText(artical.getVideoTime());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
-        holder.tv_subject.setText(artical.getTopic());
+        holder.tv_subject.setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
+        SpannableString ss=new SpannableString(artical.getTopic());
+        ss.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(0xFF75BA2B);
+                ds.setUnderlineText(false);//去除超链接的下划线
+            }
+        }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE );
+        holder.tv_subject.setText(ss);
+        holder.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
         String videoImage=null;
         if(artical.getArticImg()!=null&&!artical.getArticImg().isEmpty()){
             videoImage=artical.getArticImg().get(0);
@@ -151,7 +173,23 @@ public class WholeAdapter extends BaseAdapter{
         holder.tv_title.setText(artical.getTitle());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
-        holder.tv_subject.setText(artical.getTopic());
+        holder.tv_subject.setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
+        SpannableString ss=new SpannableString(artical.getTopic());
+        ss.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(0xFF75BA2B);
+                ds.setUnderlineText(false);//去除超链接的下划线
+            }
+        }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE );
+        holder.tv_subject.setText(ss);
+        holder.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
         String videoImage=null;
         if(artical.getArticImg()!=null&&!artical.getArticImg().isEmpty()){
             videoImage=artical.getArticImg().get(0);
@@ -179,7 +217,23 @@ public class WholeAdapter extends BaseAdapter{
         holder.tv_title.setText(artical.getTitle());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));
-        holder.tv_subject.setText(artical.getTopic());
+        holder.tv_subject.setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
+        SpannableString ss=new SpannableString(artical.getTopic());
+        ss.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(0xFF75BA2B);
+                ds.setUnderlineText(false);//去除超链接的下划线
+            }
+        }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE );
+        holder.tv_subject.setText(ss);
+        holder.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
         if(artical.getArticImg()!=null&&!artical.getArticImg().isEmpty()){
             for (int i=0;i<artical.getArticImg().size();i++){
                 String imgUrl=artical.getArticImg().get(i);
@@ -238,7 +292,7 @@ public class WholeAdapter extends BaseAdapter{
         TextView tv_time;
         TextView tv_relese;
         TextView tv_hotnum;
-        TextView tv_subject;
+        CommentTextView tv_subject;
         RectangleImage iv_video;
 
         private VideoHolder(View view) {
@@ -246,7 +300,7 @@ public class WholeAdapter extends BaseAdapter{
             tv_time = (TextView) view.findViewById(R.id.tv_time);
             tv_relese= (TextView) view.findViewById(R.id.tv_relese);
             tv_hotnum= (TextView) view.findViewById(R.id.tv_hotnum);
-            tv_subject= (TextView) view.findViewById(R.id.tv_subject);
+            tv_subject= (CommentTextView) view.findViewById(R.id.tv_subject);
             iv_video= (RectangleImage) view.findViewById(R.id.iv_video);
         }
     }
@@ -255,7 +309,7 @@ public class WholeAdapter extends BaseAdapter{
         TextView tv_relese;
         TextView tv_hotnum;
         ImageView iv_single;
-        TextView tv_subject;
+        CommentTextView tv_subject;
         RelativeLayout rl_single;
 
         private SinglePicHolder(View view) {
@@ -264,14 +318,14 @@ public class WholeAdapter extends BaseAdapter{
             tv_hotnum= (TextView) view.findViewById(R.id.tv_hotnum);
             iv_single= (ImageView) view.findViewById(R.id.iv_single);
             rl_single= (RelativeLayout) view.findViewById(R.id.rl_single);
-            tv_subject= (TextView) view.findViewById(R.id.tv_subject);
+            tv_subject= (CommentTextView) view.findViewById(R.id.tv_subject);
         }
     }
     private static class MutilPicHolder {
         TextView tv_title;
         TextView tv_relese;
         TextView tv_hotnum;
-        TextView tv_subject;
+        CommentTextView tv_subject;
         ImageView iv_one;
         ImageView iv_two;
         ImageView iv_three;
@@ -285,7 +339,7 @@ public class WholeAdapter extends BaseAdapter{
             iv_two= (ImageView) view.findViewById(R.id.iv_two);
             iv_three= (ImageView) view.findViewById(R.id.iv_three);
             lin_image= (LinearLayout) view.findViewById(R.id.lin_image);
-            tv_subject= (TextView) view.findViewById(R.id.tv_subject);
+            tv_subject= (CommentTextView) view.findViewById(R.id.tv_subject);
         }
     }
 }

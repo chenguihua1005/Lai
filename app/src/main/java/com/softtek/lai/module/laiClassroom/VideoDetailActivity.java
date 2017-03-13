@@ -1,7 +1,13 @@
 package com.softtek.lai.module.laiClassroom;
 
 import android.content.res.Configuration;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
@@ -76,7 +82,23 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                 TextView tv_hotnum=holder.getView(R.id.tv_hotnum);
                 tv_hotnum.setText(String.valueOf(data.getClicks()));
                 TextView tv_subject=holder.getView(R.id.tv_subject);
-                tv_subject.setText(data.getTopic());
+                tv_subject.setHighlightColor(ContextCompat.getColor(VideoDetailActivity.this,android.R.color.transparent));
+                SpannableString ss=new SpannableString(data.getTopic());
+                ss.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setColor(0xFF75BA2B);
+                        ds.setUnderlineText(false);//去除超链接的下划线
+                    }
+                }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE );
+                tv_subject.setText(ss);
+                tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
                 ImageView iv_single=holder.getView(R.id.iv_single);
                 if(TextUtils.isEmpty(data.getVideoImg())){
                     Picasso.with(VideoDetailActivity.this).load(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_single);
@@ -136,6 +158,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
 
     @Override
     public void getData(VideoDetailModel data) {
+        playerView.setTitle(data.getTitle());
         video_title.setText(data.getTitle());
         tv_hot.setText(String.valueOf(data.getClicks()));
         cb_shoucang.setChecked(data.getIsMark()==1);
