@@ -3,12 +3,14 @@ package com.softtek.lai.module.laiClassroom;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -93,22 +95,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     protected void initDatas() {
       setPresenter(new SubjectPresenter(this));
-        if (topicListModels.size()/2==0)
-        {
-            for (int i=0;i<=topicListModels.size()/2;i=i+2)
-            {
-                topicModels.get(i).getTopicName().set(i,topicListModels.get(i).getTopicName());
-                topicModels.get(i).getTopicName().set(i,topicListModels.get(i+1).getTopicName());
-            }
-        }
-        else {
 
-        }
-        for (int i=0;i<topicListModels.size();i=i++) {
-
-
-
-        }
 
 
     }
@@ -117,6 +104,38 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
         topicListModels.addAll(subjectModel.getArticleTopicList());
+        if (topicListModels.size()!=0||topicListModels!=null)
+        {TopicModel topicModel;
+            topicModel=new TopicModel();
+//            if (topicListModels.size()%2==0)
+//            {   int j=0;
+//                for (int i=0;i<=topicListModels.size()/2;i=i+2)
+//                {
+//
+////                    topicModel.setTopicName();
+////                    topicModels.set(j).getTopicName().set(i,topicListModels.get(i).getTopicName());
+////                    topicModels.get(j).getTopicName().set(i+1,topicListModels.get(i+1).getTopicName());
+////                    j++;
+//                }
+//            }
+//            else {
+//                int j=0;
+//                for (int i=1;i<=topicListModels.size();i=i+2) {
+//                    if (i==topicListModels.size())
+//                    {
+//                        topicModels.get(j).getTopicName().set(i-1,topicListModels.get(i-1).getTopicName());
+//                    }
+//                    else {
+//                        topicModels.get(j).getTopicName().set(i-1,topicListModels.get(i-1).getTopicName());
+//                        topicModels.get(j).getTopicName().set(i,topicListModels.get(i).getTopicName());
+//                        j++;
+//                    }
+//
+//                }
+//            }
+            Log.i("3333",new Gson().toJson(topicModels));
+
+        }
         ple_list.setAdapter(adapter);
         ple_list.onRefreshComplete();
 
