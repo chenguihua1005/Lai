@@ -16,7 +16,6 @@ import com.softtek.lai.R;
 
 /**
  * Fragment基类
- * Created by zilla on 9/10/15.
  */
 public abstract class ProgressFragment extends Fragment {
     private View mProgressContainer;
@@ -243,7 +242,8 @@ public abstract class ProgressFragment extends Fragment {
         }
         View root = getView();
         if (root == null) {
-            throw new IllegalStateException("Content view not yet created");
+            //throw new IllegalStateException("Content view not yet created");
+            return;
         }
         mProgressContainer = root.findViewById(R.id.progress_container);
         if (mProgressContainer == null) {

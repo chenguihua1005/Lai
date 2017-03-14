@@ -30,8 +30,9 @@ public abstract class LazyBaseFragment2 extends ProgressFragment{
         contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
         LifeCircle.onCreate(this);
         ButterKnife.inject(this, contentView);
-
         isPrepared=false;
+        setContentView(contentView);
+        setEmptyText("暂无数据");
         initViews();
         return inflater.inflate(R.layout.fragment_progress, container, false);
     }
@@ -40,8 +41,6 @@ public abstract class LazyBaseFragment2 extends ProgressFragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setContentView(contentView);
-        setEmptyText("暂无数据");
         isCreatedView=true;
         initDatas();
         //如果当前的frgment可见且没有加载过数据则 正常加载数据
