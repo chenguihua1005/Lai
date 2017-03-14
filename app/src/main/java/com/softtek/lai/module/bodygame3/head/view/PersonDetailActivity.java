@@ -233,6 +233,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void doGetService(final long userid, long AccountId, String classid, String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
         if (!TextUtils.isEmpty(HXAccountId)) {
+            Log.i(TAG, "通过环信账号查  token = " + UserInfoModel.getInstance().getToken() + "  userid = " + userid + "  HXAccountId = " + HXAccountId + " classid = " + classid);
             headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
@@ -253,6 +254,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
             });
         } else {
+            Log.i(TAG, "token = " + UserInfoModel.getInstance().getToken() + "  userid = " + userid + "  HXAccountId = " + HXAccountId + " classid = " + classid);
             headService.doGetClassMemberInfo(classid, UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
@@ -358,8 +360,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
 
+                className_tv.setText(memberInfoModel.getClassName());
+
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
                 {   //是本人可编辑个性签名
+
                     tv_personlityName.setEnabled(true);
                     //个性签名已存在现实个性签名内容并隐藏图标
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
@@ -370,6 +375,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
                     if ("4".equals(memberInfoModel.getClassRole())) {
+                        Log.i(TAG, "本人且 身份是学员......");
                         ll_chart.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -391,9 +397,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     IsFriend = memberInfoModel.getIsFriend();
 
                     //如果是好友的话，并且对方是学员时候，可查看当前班级 曲线图放开
-                    className_tv.setText(memberInfoModel.getClassName());
 
-                    Log.i(TAG, "角色 = " + memberInfoModel.getClassRole() + "  classId = " + memberInfoModel.getClassId() + " getIsCurrClass =  " + memberInfoModel.getIsCurrClass());
+
+                    Log.i(TAG, "角色 = " + memberInfoModel.getClassRole() + "  classId = " + memberInfoModel.getClassId() + " getIsCurrClass =  " + memberInfoModel.getIsCurrClass() + memberInfoModel.getClassName());
                     if ("4".equals(memberInfoModel.getClassRole())) {
                         if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
                             ll_chart.setVisibility(View.VISIBLE);
@@ -401,15 +407,19 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                         if (Constants.FROM_CONTACT == comeFromClass) {
                             ll_chart.setVisibility(View.VISIBLE);
-                            if (TextUtils.isEmpty(memberInfoModel.getClassId())) {
-                                ClassId ="";
+
+                            if (TextUtils.isEmpty(ClassId)) {
+                                ClassId = memberInfoModel.getClassId();
                             }
 
-                            if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass()){
-                                ClassId ="";
+                            if (TextUtils.isEmpty(memberInfoModel.getClassId())) {
+                                ClassId = "";
+                            }
+
+                            if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass()) {
+                                ClassId = "";
                                 className_tv.setText("");
                             }
-
                         }
 
 //                        if (Constants.FROM_CONTACT == comeFromClass && TextUtils.isEmpty(memberInfoModel.getClassId())) {
@@ -532,6 +542,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 //                startActivityForResult(personal, PERSONDY);
 //                break;
             case R.id.tv_chart:
+                Log.i(TAG, "ClassId = " + ClassId);
+//                if (View.VISIBLE == ll_chart.getVisibility() && TextUtils.isEmpty(ClassId)) {
+//                    ClassId = memberInfoModel.getClassId();
+//                }
+
                 Intent graph = new Intent(this, GraphActivity.class);
                 graph.putExtra("accountId", AccountId);
                 graph.putExtra("classId", ClassId);
