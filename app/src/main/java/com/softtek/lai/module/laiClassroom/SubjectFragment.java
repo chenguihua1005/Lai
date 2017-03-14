@@ -16,6 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.laiClassroom.model.ArticleTopicModel;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
+import com.softtek.lai.module.laiClassroom.model.TopicModel;
 import com.softtek.lai.module.laiClassroom.presenter.SubjectPresenter;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
 
     EasyAdapter<ArticleTopicModel>adapter;
     List<ArticleTopicModel> topicListModels= new ArrayList<>();
+    List<TopicModel> topicModels=new ArrayList<>();
     private List<String> advList = new ArrayList<>();
 
     int pageindex=1;
@@ -91,7 +93,22 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     protected void initDatas() {
       setPresenter(new SubjectPresenter(this));
+        if (topicListModels.size()/2==0)
+        {
+            for (int i=0;i<=topicListModels.size()/2;i=i+2)
+            {
+                topicModels.get(i).getTopicName().set(i,topicListModels.get(i).getTopicName());
+                topicModels.get(i).getTopicName().set(i,topicListModels.get(i+1).getTopicName());
+            }
+        }
+        else {
 
+        }
+        for (int i=0;i<topicListModels.size();i=i++) {
+
+
+
+        }
 
 
     }

@@ -7,8 +7,8 @@ import java.util.List;
  */
 
 public class SubjectModel {
-    private List<RecommendModel> RecommendTopicList;
-    private List<ArticleTopicModel> ArticleTopicList;
+    private List<RecommendModel> RecommendTopicList;//推荐专题列表
+    private List<ArticleTopicModel> ArticleTopicList;//全部专题列表
     private int TotalPage;
 
     public List<RecommendModel> getRecommendTopicList() {

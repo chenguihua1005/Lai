@@ -43,7 +43,8 @@
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
-        android:background="@drawable/back_selector">
+        android:background="@drawable/back_selector"
+        android:transitionName="sharedView">
 
         <ImageView
             android:id="@+id/iv_right"
