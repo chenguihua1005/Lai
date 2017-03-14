@@ -1,12 +1,17 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.laiClassroom.SubjectdetailActivity">
 
+    <include layout="@layout/toolbar"></include>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/plv_collect"
+        android:id="@+id/plv_subject"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null">
@@ -18,6 +23,7 @@
         android:id="@+id/ll_nomessage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:layout_centerInParent="true">
 
         <ImageView
@@ -28,4 +34,4 @@
             android:background="@drawable/no_message" />
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

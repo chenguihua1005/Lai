@@ -46,8 +46,8 @@ public class SearchModel {
         private int MediaType;
         private String Title;
         private int IsMultiPic;
-        private Object ArticUrl;
-        private Object VideoTime;
+        private String ArticUrl;
+        private String VideoTime;
         private int Clicks;
         private String TopicId;
         private String Topic;
@@ -86,19 +86,19 @@ public class SearchModel {
             this.IsMultiPic = IsMultiPic;
         }
 
-        public Object getArticUrl() {
+        public String getArticUrl() {
             return ArticUrl;
         }
 
-        public void setArticUrl(Object ArticUrl) {
+        public void setArticUrl(String ArticUrl) {
             this.ArticUrl = ArticUrl;
         }
 
-        public Object getVideoTime() {
+        public String getVideoTime() {
             return VideoTime;
         }
 
-        public void setVideoTime(Object VideoTime) {
+        public void setVideoTime(String VideoTime) {
             this.VideoTime = VideoTime;
         }
 

@@ -17,6 +17,7 @@ public interface SearchService {
 
     @GET("/v1/LaiClassRoom/SearchArticle")
     void getChaosInfo(@Header("token") String token,
+                      @Query("accountid")long accountId,
                       @Query("keyword")String keyword,
                       @Query("pageindex")int pageIndex,
                       @Query("pagesize")int pageSize,
