@@ -18,6 +18,7 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
@@ -133,6 +134,8 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
                 intent.putExtra("HXAccountId", model.getHXAccountId());
                 intent.putExtra("UserName", model.getUserName());
                 intent.putExtra("AFriendId", model.getAFriendId());
+
+                intent.putExtra("comeFrom", Constants.FROM_CONTACT);
                 startActivity(intent);
 
             }

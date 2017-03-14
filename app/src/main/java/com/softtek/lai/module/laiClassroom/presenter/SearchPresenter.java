@@ -70,7 +70,7 @@ public class SearchPresenter extends BasePresenter<SearchPresenter.SearchView> {
                         public void success(ResponseData<SearchModel> responseData, Response response) {
                             if (responseData.getStatus() == 200){
                                 if (responseData.getData().getArticleList() != null){
-                                    getView().getData(responseData.getData().getArticleList());
+                                    getView().updateSuccess(responseData.getData().getArticleList());
                                 }
                             }else {
                                 Util.toastMsg(responseData.getMsg());
@@ -90,5 +90,6 @@ public class SearchPresenter extends BasePresenter<SearchPresenter.SearchView> {
 
     public interface SearchView extends BaseView1<List<SearchModel.ArticleListBean>> {
         void updateFail();
+        void updateSuccess(List<SearchModel.ArticleListBean> data);
     }
 }

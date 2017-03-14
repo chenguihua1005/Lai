@@ -31,7 +31,6 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int THREE_PIC = 3;
     private static final int FOOTER = -1;
     private static final int EMPTY = -2;
-    //    private SearchModel myItems;
     private List<SearchModel.ArticleListBean> myItems;
     private ItemListener myListener;
     private Context context;
@@ -77,7 +76,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         int result = 0;//默认没有
         if (position + 1 == getItemCount()) {
-            result = getItemCount() < 6 ? EMPTY : FOOTER;
+            return getItemCount() < 6 ? EMPTY : FOOTER;
         } else {
             int itemType = myItems.get(position).getMediaType();
             int isMultiPic = myItems.get(position).getIsMultiPic();
@@ -126,7 +125,6 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public VideoViewHolder(View itemView) {
             super(itemView);
-//            itemView.setOnClickListener(this);
             mVideoTitle = (TextView) itemView.findViewById(R.id.tv_video_name);
             mVideoImage = (RectangleImage) itemView.findViewById(R.id.iv_video_img);
             mVideoTime = (TextView) itemView.findViewById(R.id.tv_video_time);
@@ -307,6 +305,11 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void setKeyColor(TextView view, String changeString, boolean isTitle) {
+        if (changeString.equals(searchKey)){
+            view.setText(changeString);
+            view.setTextColor(context.getResources().getColor(R.color.red));
+            return;
+        }
         int index = changeString.indexOf(searchKey);
         if (index > 0) {
             int titleLength = changeString.length();
