@@ -5,10 +5,10 @@ package com.softtek.lai.module.laiClassroom.model;
  */
 
 public class ArticleTopicModel {
-    private String TopicId;
-    private String TopicName;
-    private String TopicImg;
-    private int Clicks;
+    private String TopicId;//专题id
+    private String TopicName;//专题主题名称
+    private String TopicImg;//专题主题图片
+    private int Clicks;//点击热度
 
     public String getTopicId() {
         return TopicId;

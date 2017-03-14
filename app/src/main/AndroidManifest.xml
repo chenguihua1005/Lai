@@ -797,13 +797,12 @@
         <activity
             android:name=".module.bodygame3.more.view.FuceAlbumActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".module.laiClassroom.ArticdetailActivity"></activity>
-
-        <activity android:name=".module.laiClassroom.VideoDetailActivity"
+        <activity android:name=".module.laiClassroom.ArticdetailActivity" />
+        <activity
+            android:name=".module.laiClassroom.VideoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppTransparentStatus"></activity>
-
+            android:theme="@style/AppTransparentStatus" />
+        <activity android:name=".module.laiClassroom.SubjectdetailActivity"></activity>
     </application>
 
 </manifest>

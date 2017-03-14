@@ -32,7 +32,7 @@ import zilla.libcore.file.AddressManager;
  * Created by shelly.xu on 3/10/2017.
  */
 
-public class CollectAdapter extends BaseAdapter {
+public class SubjectDetailAdapter extends BaseAdapter {
 
     private List<CollectlistModel> collectlistModels;
     private Context mContext;
@@ -41,7 +41,7 @@ public class CollectAdapter extends BaseAdapter {
     private static final int VIDEO = 2;
     private static final int TYPE_COUNT = 3;
 
-    public CollectAdapter(Context context, List<CollectlistModel> collectlistModelList) {
+    public SubjectDetailAdapter(Context context, List<CollectlistModel> collectlistModelList) {
         this.mContext = context;
         this.collectlistModels = collectlistModelList;
     }
@@ -93,25 +93,6 @@ public class CollectAdapter extends BaseAdapter {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect)
                     .into(viewHolderOne.iv_video);
-            SpannableString ss = new SpannableString(collectModel.getTopic());
-            ss.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(View widget) {
-                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
-                    intent.putExtra("topicId", collectModel.getTopicId());
-                    intent.putExtra("topictitle", collectModel.getTopic());
-                    mContext.startActivity(intent);
-                }
-
-                @Override
-                public void updateDrawState(TextPaint ds) {
-                    super.updateDrawState(ds);
-                    ds.setColor(0xFF75BA2B);
-                    ds.setUnderlineText(false);//去除超链接的下划线
-                }
-            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            viewHolderOne.tv_subject.setText(ss);
-            viewHolderOne.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
             viewHolderOne.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
             viewHolderOne.tv_time.setText(collectModel.getVideoTime());
             viewHolderOne.iv_video.setOnClickListener(new View.OnClickListener() {
@@ -145,25 +126,7 @@ public class CollectAdapter extends BaseAdapter {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect)
                     .into(viewHolderTwo.iv_single);
-            SpannableString ss = new SpannableString(collectModel.getTopic());
-            ss.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(View widget) {
-                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
-                    intent.putExtra("topicId", collectModel.getTopicId());
-                    intent.putExtra("topictitle", collectModel.getTopic());
-                    mContext.startActivity(intent);
-                }
 
-                @Override
-                public void updateDrawState(TextPaint ds) {
-                    super.updateDrawState(ds);
-                    ds.setColor(0xFF75BA2B);
-                    ds.setUnderlineText(false);//去除超链接的下划线
-                }
-            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            viewHolderTwo.tv_subject.setText(ss);
-            viewHolderTwo.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
             viewHolderTwo.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
             viewHolderTwo.rl_single.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,25 +157,6 @@ public class CollectAdapter extends BaseAdapter {
             }
             viewHolderThree.tv_title.setText(collectModel.getTitle());
             viewHolderThree.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
-            SpannableString ss = new SpannableString(collectModel.getTopic());
-            ss.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(View widget) {
-                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
-                    intent.putExtra("topicId", collectModel.getTopicId());
-                    intent.putExtra("topictitle", collectModel.getTopic());
-                    mContext.startActivity(intent);
-                }
-
-                @Override
-                public void updateDrawState(TextPaint ds) {
-                    super.updateDrawState(ds);
-                    ds.setColor(0xFF75BA2B);
-                    ds.setUnderlineText(false);//去除超链接的下划线
-                }
-            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            viewHolderThree.tv_subject.setText(ss);
-            viewHolderThree.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
             Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect)

@@ -86,8 +86,11 @@ public class HistoryFragment extends LazyBaseFragment<HistoryPresenter> implemen
                 collectlistModels.addAll(collectModel.getArticleList());
                 adapter.updateCollect(collectlistModels);
             } else {
-                im_nomessage.setVisibility(View.VISIBLE);
-                pageindex--;
+                if (pageindex == 1) {
+                    im_nomessage.setVisibility(View.VISIBLE);
+                } else {
+                    pageindex--;
+                }
             }
         } else {
             im_nomessage.setVisibility(View.VISIBLE);
