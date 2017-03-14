@@ -72,6 +72,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
 }
 
 dependencies {
@@ -81,6 +82,8 @@ dependencies {
     compile project(':easeui')
     compile project(':widgets')
     compile project(':playerview')
+
+
 
     compile 'com.rainim:libzilla:1.0.59'
     compile 'com.android.support:design:25.2.0'
@@ -93,8 +96,10 @@ dependencies {
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.malinskiy:superrecyclerview:1.1.4'
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+
 
     testCompile 'junit:junit:4.12'
+    compile project(path: ':playerview')
 }
 

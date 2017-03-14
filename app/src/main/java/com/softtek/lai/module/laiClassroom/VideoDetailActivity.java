@@ -34,7 +34,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_video_detail)
-public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> implements VideoDetailPresenter.VideoDetailView{
+public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> implements VideoDetailPresenter.VideoDetailView {
 
     @InjectView(R.id.player_view)
     IjkPlayerView playerView;
@@ -48,17 +48,18 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     CheckBox cb_shoucang;
 
 
+
     @InjectView(R.id.lv)
     ListView lv;
     private EasyAdapter<VideoDetailModel.VideoList> adapter;
-    private List<VideoDetailModel.VideoList> datas=new ArrayList<>();
+    private List<VideoDetailModel.VideoList> datas = new ArrayList<>();
 
-//    private static final String VIDEO_URL = "http://flv2.bn.netease.com/videolib3/1611/28/GbgsL3639/SD/movie_index.m3u8";
+    //    private static final String VIDEO_URL = "http://flv2.bn.netease.com/videolib3/1611/28/GbgsL3639/SD/movie_index.m3u8";
 //    private static final String VIDEO_HD_URL = "http://flv2.bn.netease.com/videolib3/1611/28/GbgsL3639/HD/movie_index.m3u8";
     @Override
     protected void initViews() {
-        String videoImage=getIntent().getStringExtra("cover");
-        String videoUrl=getIntent().getStringExtra("videoUrl");
+        String videoImage = getIntent().getStringExtra("cover");
+        String videoUrl = getIntent().getStringExtra("videoUrl");
         Picasso.with(this).load(videoImage).fit().into(playerView.mPlayerThumb);
         playerView.init()
                 //.setTitle("这是个跑马灯TextView，标题要足够长才会跑。-(゜ -゜)つロ 乾杯~")
@@ -70,21 +71,21 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     @Override
     protected void initDatas() {
         setPresenter(new VideoDetailPresenter(this));
-        if(!getPresenter().isWifiConnected(this)){
-            String str="正在使用非 WIFI 网络, 播放将产生流量费用 视频时长 03:41 | 流量 约 XX MB \" 用户需点击\"继续播放\" 按钮, 才会播放视频. ";
+        if (!getPresenter().isWifiConnected(this)) {
+            String str = "正在使用非 WIFI 网络, 播放将产生流量费用 视频时长 03:41 | 流量 约 XX MB \" 用户需点击\"继续播放\" 按钮, 才会播放视频. ";
             Log.i(str);
             tv_net.setVisibility(View.VISIBLE);
         }
-        adapter=new EasyAdapter<VideoDetailModel.VideoList>(this,datas,R.layout.recommend_item) {
+        adapter = new EasyAdapter<VideoDetailModel.VideoList>(this, datas, R.layout.recommend_item) {
             @Override
             public void convert(ViewHolder holder, VideoDetailModel.VideoList data, int position) {
-                TextView tv_title=holder.getView(R.id.tv_title);
+                TextView tv_title = holder.getView(R.id.tv_title);
                 tv_title.setText(data.getTitle());
-                TextView tv_hotnum=holder.getView(R.id.tv_hotnum);
+                TextView tv_hotnum = holder.getView(R.id.tv_hotnum);
                 tv_hotnum.setText(String.valueOf(data.getClicks()));
-                CommentTextView tv_subject=holder.getView(R.id.tv_subject);
-                tv_subject.setHighlightColor(ContextCompat.getColor(VideoDetailActivity.this,android.R.color.transparent));
-                SpannableString ss=new SpannableString(data.getTopic());
+                CommentTextView tv_subject = holder.getView(R.id.tv_subject);
+                tv_subject.setHighlightColor(ContextCompat.getColor(VideoDetailActivity.this, android.R.color.transparent));
+                SpannableString ss = new SpannableString(data.getTopic());
                 ss.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
@@ -97,14 +98,14 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                         ds.setColor(0xFF75BA2B);
                         ds.setUnderlineText(false);//去除超链接的下划线
                     }
-                }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE );
+                }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 tv_subject.setText(ss);
                 tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
-                ImageView iv_single=holder.getView(R.id.iv_single);
-                if(TextUtils.isEmpty(data.getVideoImg())){
+                ImageView iv_single = holder.getView(R.id.iv_single);
+                if (TextUtils.isEmpty(data.getVideoImg())) {
                     Picasso.with(VideoDetailActivity.this).load(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_single);
-                }else {
-                    Picasso.with(VideoDetailActivity.this).load(AddressManager.get("photoHost")+data.getVideoImg())
+                } else {
+                    Picasso.with(VideoDetailActivity.this).load(AddressManager.get("photoHost") + data.getVideoImg())
                             .fit()
                             .placeholder(R.drawable.default_icon_rect)
                             .error(R.drawable.default_icon_rect)
@@ -162,17 +163,17 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         playerView.setTitle(data.getTitle());
         video_title.setText(data.getTitle());
         tv_hot.setText(String.valueOf(data.getClicks()));
-        cb_shoucang.setChecked(data.getIsMark()==1);
+        cb_shoucang.setChecked(data.getIsMark() == 1);
         cb_shoucang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cb_shoucang.setEnabled(false);
-                Log.i("选中状态"+cb_shoucang.isChecked());
-                if(!cb_shoucang.isChecked()){
+                Log.i("选中状态" + cb_shoucang.isChecked());
+                if (!cb_shoucang.isChecked()) {
                     cb_shoucang.setChecked(false);
                     Log.i("取消收藏");
                     getPresenter().unLike(getIntent().getStringExtra("articleId"));
-                }else {
+                } else {
                     cb_shoucang.setChecked(true);
                     Log.i("加入收藏");
                     getPresenter().doLike(getIntent().getStringExtra("articleId"));

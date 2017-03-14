@@ -141,7 +141,7 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 //                            }
 //                        }
 //                    }
-                    if (model.getWeekDay() == 0) {
+                    if(model.getWeekDay()==0){
                         xAsix.add("初始");
                     } else {
                         xAsix.add("第" + model.getWeekDay() + "周");

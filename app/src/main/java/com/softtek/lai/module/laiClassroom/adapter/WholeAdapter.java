@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.ArticdetailActivity;
+import com.softtek.lai.module.laiClassroom.SubjectdetailActivity;
 import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.Artical;
 import com.softtek.lai.utils.DateUtil;
@@ -125,7 +126,10 @@ public class WholeAdapter extends BaseAdapter {
         ss.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-
+                Intent intent = new Intent(context, SubjectdetailActivity.class);
+                intent.putExtra("topicId", artical.getTopicId());
+                intent.putExtra("topictitle", artical.getTopic());
+                context.startActivity(intent);
             }
 
             @Override
@@ -178,7 +182,10 @@ public class WholeAdapter extends BaseAdapter {
         ss.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-
+                Intent intent = new Intent(context, SubjectdetailActivity.class);
+                intent.putExtra("topictitle", artical.getTopic());
+                intent.putExtra("topicId", artical.getTopicId());
+                context.startActivity(intent);
             }
 
             @Override
@@ -211,7 +218,7 @@ public class WholeAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //跳转图文详情
                 Intent intent = new Intent(context, ArticdetailActivity.class);
-                intent.putExtra("articaltitle",artical.getTitle());
+                intent.putExtra("articaltitle", artical.getTitle());
                 intent.putExtra("articalUrl", artical.getArticUrl());
                 context.startActivity(intent);
             }
@@ -227,7 +234,10 @@ public class WholeAdapter extends BaseAdapter {
         ss.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-
+                Intent intent = new Intent(context, SubjectdetailActivity.class);
+                intent.putExtra("topicId", artical.getTopicId());
+                intent.putExtra("topictitle", artical.getTopic());
+                context.startActivity(intent);
             }
 
             @Override
@@ -278,7 +288,7 @@ public class WholeAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //跳转图文详情
                 Intent intent = new Intent(context, ArticdetailActivity.class);
-                intent.putExtra("articaltitle",artical.getTitle());
+                intent.putExtra("articaltitle", artical.getTitle());
                 intent.putExtra("articalUrl", artical.getArticUrl());
                 context.startActivity(intent);
             }

@@ -1,10 +1,16 @@
 package com.softtek.lai.module.laiClassroom;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,7 +19,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laiClassroom.adapter.ChaosAdapter;
 import com.softtek.lai.module.laiClassroom.model.SearchModel;
-import com.softtek.lai.module.laiClassroom.net.SearchService;
 import com.softtek.lai.module.laiClassroom.presenter.SearchPresenter;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -30,33 +35,66 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
     RecyclerView mRecyclerView;
     @InjectView(R.id.edt_search)
     EditText mEditText;
-
+    @InjectView(R.id.tv_title)
+    TextView mTitle;
     private ChaosAdapter chaosAdapter;
     private SearchPresenter presenter;
-    private SearchModel modelList;
+    //    private SearchModel searchModel = new SearchModel();
+    private List<SearchModel.ArticleListBean> searchList = new ArrayList<>();
 
+    private int page = 1;
+    private static final int LOADCOUNT = 6;
+    private int lastVisitableItem;
+    private boolean isLoading = false;
 
+    private String searchKey;
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initViews() {
+        mTitle.setText("关键字搜索");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        modelList = new SearchModel();
-        chaosAdapter = new ChaosAdapter(modelList, new ChaosAdapter.ItemListener() {
+        chaosAdapter = new ChaosAdapter(this, searchList, new ChaosAdapter.ItemListener() {
             @Override
-            public void onItemClick(SearchModel item, int position) {
+            public void onItemClick(SearchModel.ArticleListBean item, int position) {
                 Log.d("position", String.valueOf(position));
             }
-        });
+        }, "");
         mRecyclerView.setAdapter(chaosAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int count = chaosAdapter.getItemCount();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
+                    //加载更多数据
+                    if (!isLoading) {
+                        isLoading = true;
+                        page++;
+                        presenter.updateChaosData(page, 6, searchKey);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager llm = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+                lastVisitableItem = llm.findLastVisibleItemPosition();
+            }
+        });
     }
 
     @Override
     protected void initDatas() {
+        searchKey = "";
         setPresenter(new SearchPresenter(this));
         presenter = getPresenter();
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -64,7 +102,9 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     SoftInputUtil.hidden(KeywordsSearchActivity.this);
-                    presenter.getChaosData(String.valueOf(mEditText.getText()));
+                    searchKey = String.valueOf(mEditText.getText());
+                    chaosAdapter.updataKey(searchKey);
+                    presenter.getChaosData(searchKey);
                 }
                 return false;
             }
@@ -73,9 +113,27 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
 
     @Override
     public void getData(List<SearchModel.ArticleListBean> data) {
-       if (data != null){
-           chaosAdapter.notifyDataSetChanged();
-       }
+        if (data != null) {
+            searchList.clear();
+            searchList.addAll(data);
+            chaosAdapter.notifyDataSetChanged();
+        }
+        chaosAdapter.notifyItemRemoved(chaosAdapter.getItemCount());
+    }
+
+    @Override
+    public void updateFail() {
+        page--;
+        isLoading = false;
+        chaosAdapter.notifyItemRemoved(chaosAdapter.getItemCount());
+    }
+
+    @Override
+    public void updateSuccess(List<SearchModel.ArticleListBean> data) {
+        page--;
+        isLoading = false;
+        searchList.addAll(data);
+        chaosAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -84,8 +142,8 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
         presenter.recycle();
     }
 
-    @OnClick(R.id.tv_cancel)
-    public void goBack(){
+    @OnClick({R.id.tv_cancel, R.id.ll_left})
+    public void goBack() {
         this.finish();
     }
 }

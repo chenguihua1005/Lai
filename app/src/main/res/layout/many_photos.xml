@@ -88,7 +88,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"
         android:layout_toRightOf="@id/tv_hotnum"
-        android:text="12课堂"
+        android:text=""
         android:textColor="#75ba2b"
         android:textSize="10sp" />
 </RelativeLayout>

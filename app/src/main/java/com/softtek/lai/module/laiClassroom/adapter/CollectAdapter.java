@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.ArticdetailActivity;
+import com.softtek.lai.module.laiClassroom.SubjectdetailActivity;
 import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.CollectlistModel;
 import com.softtek.lai.utils.DateUtil;
@@ -96,7 +97,10 @@ public class CollectAdapter extends BaseAdapter {
             ss.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
-
+                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
+                    intent.putExtra("topicId", collectModel.getTopicId());
+                    intent.putExtra("topictitle", collectModel.getTopic());
+                    mContext.startActivity(intent);
                 }
 
                 @Override
@@ -145,7 +149,10 @@ public class CollectAdapter extends BaseAdapter {
             ss.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
-
+                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
+                    intent.putExtra("topicId", collectModel.getTopicId());
+                    intent.putExtra("topictitle", collectModel.getTopic());
+                    mContext.startActivity(intent);
                 }
 
                 @Override
@@ -191,7 +198,10 @@ public class CollectAdapter extends BaseAdapter {
             ss.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
-
+                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
+                    intent.putExtra("topicId", collectModel.getTopicId());
+                    intent.putExtra("topictitle", collectModel.getTopic());
+                    mContext.startActivity(intent);
                 }
 
                 @Override
