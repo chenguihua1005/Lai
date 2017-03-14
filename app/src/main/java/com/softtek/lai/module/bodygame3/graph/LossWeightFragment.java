@@ -112,28 +112,6 @@ public class LossWeightFragment extends LazyBaseFragment2 {
             if (data!=null) {
                 for (int i = 0, j = data.size(); i < j; i++) {
                     WeightModel model = data.get(i);
-//                    if (i == 0) {//第一条数据
-//                        //初始
-//
-//                        //第一周
-//                        int diff = model.getWeekDay() - 1;
-//                        if (diff > 0) {
-//                            //第一条数据不是第一周的，需要先补点0上去
-//                            for (int k = 1; k < diff; k++) {
-//                                xAsix.add("第" + k + "周");
-//                            }
-//                        }
-//                    } else {
-//                        //不是第一条数据则需要查看此条数据与上一条数据的周数相差
-//                        WeightModel previous = data.get(i - 1);
-//                        int diff = model.getWeekDay() - previous.getWeekDay();
-//                        if (diff > 1) {
-//                            //第一条数据不是第一周的，需要先补点0上去
-//                            for (int k = previous.getWeekDay() + 1; k < model.getWeekDay(); k++) {
-//                                xAsix.add("第" + (k + 1) + "周");
-//                            }
-//                        }
-//                    }
                     if(model.getWeekDay()==0){
                         xAsix.add("初始");
                     }else {

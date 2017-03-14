@@ -48,6 +48,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     CheckBox cb_shoucang;
 
 
+
     @InjectView(R.id.lv)
     ListView lv;
     private EasyAdapter<VideoDetailModel.VideoList> adapter;
