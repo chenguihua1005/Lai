@@ -2,7 +2,8 @@ package com.softtek.lai.module.laiClassroom.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.common.mvp.BasePersent;
+
+import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
 import com.softtek.lai.module.laiClassroom.net.LaiClassroomService;
@@ -16,7 +17,7 @@ import zilla.libcore.api.ZillaApi;
  * Created by lareina.qiao on 3/13/2017.
  */
 
-public class SubjectPresenter extends BasePersent<SubjectPresenter.getSubject> {
+public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject> {
     LaiClassroomService service;
     SubjectModel subjectModel;
 
