@@ -25,16 +25,17 @@ public class SearchPresenter extends BasePresenter<SearchPresenter.SearchView> {
     SearchService service;
     public SearchPresenter(SearchView searchView) {
         super(searchView);
+        service = ZillaApi.NormalRestAdapter.create(SearchService.class);
     }
 
     public void getChaosData(String keywords) {
-        service = ZillaApi.NormalRestAdapter.create(SearchService.class);
         if (getView() != null){
             service.getChaosInfo(
                     UserInfoModel.getInstance().getToken(),
+                    UserInfoModel.getInstance().getUserId(),
                     keywords,
                     1,
-                    1000,
+                    6,
                     new RequestCallback<ResponseData<SearchModel>>() {
                         @Override
                         public void success(ResponseData<SearchModel> responseData, Response response) {
@@ -56,7 +57,39 @@ public class SearchPresenter extends BasePresenter<SearchPresenter.SearchView> {
         }
     }
 
-    public interface SearchView extends BaseView1<List<SearchModel.ArticleListBean>> {
+    public void updateChaosData(final int page, int pageCount, String keywords){
+        if (getView() != null){
+            service.getChaosInfo(
+                    UserInfoModel.getInstance().getToken(),
+                    UserInfoModel.getInstance().getUserId(),
+                    keywords,
+                    page,
+                    pageCount,
+                    new RequestCallback<ResponseData<SearchModel>>() {
+                        @Override
+                        public void success(ResponseData<SearchModel> responseData, Response response) {
+                            if (responseData.getStatus() == 200){
+                                if (responseData.getData().getArticleList() != null){
+                                    getView().updateSuccess(responseData.getData().getArticleList());
+                                }
+                            }else {
+                                Util.toastMsg(responseData.getMsg());
+                                getView().updateFail();
+                            }
+                        }
 
+                        @Override
+                        public void failure(RetrofitError error) {
+                            super.failure(error);
+                            Log.d("SearchPresenter",error.toString());
+                            getView().updateFail();
+                        }
+                    });
+        }
+    }
+
+    public interface SearchView extends BaseView1<List<SearchModel.ArticleListBean>> {
+        void updateFail();
+        void updateSuccess(List<SearchModel.ArticleListBean> data);
     }
 }

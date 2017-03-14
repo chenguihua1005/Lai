@@ -2272,14 +2272,18 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
      */
     private void _recoverScreen() {
         // 清除焦点
-        mEditDanmakuLayout.clearFocus();
-        mEditDanmakuLayout.setVisibility(GONE);
+        if(mEditDanmakuLayout!=null){
+            mEditDanmakuLayout.clearFocus();
+            mEditDanmakuLayout.setVisibility(GONE);
+        }
         // 关闭软键盘
         SoftInputUtils.closeSoftInput(mAttachActivity);
         // 重新设置全屏界面UI标志位
         _setUiLayoutFullscreen();
-        if (mDanmakuColorOptions.getWidth() != 0) {
-            _toggleMoreColorOptions();
+        if(mDanmakuColorOptions!=null){
+            if (mDanmakuColorOptions.getWidth() != 0) {
+                _toggleMoreColorOptions();
+            }
         }
     }
 

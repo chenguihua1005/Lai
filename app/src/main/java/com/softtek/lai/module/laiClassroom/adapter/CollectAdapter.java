@@ -2,6 +2,11 @@ package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,8 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.ArticdetailActivity;
+import com.softtek.lai.module.laiClassroom.SubjectdetailActivity;
+import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.CollectlistModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.RectangleImage;
@@ -86,9 +93,37 @@ public class CollectAdapter extends BaseAdapter {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect)
                     .into(viewHolderOne.iv_video);
-            viewHolderOne.tv_subject.setText(collectModel.getTopic());
+            SpannableString ss = new SpannableString(collectModel.getTopic());
+            ss.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
+                    intent.putExtra("topicId", collectModel.getTopicId());
+                    intent.putExtra("topictitle", collectModel.getTopic());
+                    mContext.startActivity(intent);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setColor(0xFF75BA2B);
+                    ds.setUnderlineText(false);//去除超链接的下划线
+                }
+            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            viewHolderOne.tv_subject.setText(ss);
+            viewHolderOne.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
             viewHolderOne.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
             viewHolderOne.tv_time.setText(collectModel.getVideoTime());
+            viewHolderOne.iv_video.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, VideoDetailActivity.class);
+                    intent.putExtra("articleId", collectModel.getArticleId());
+                    intent.putExtra("cover", AddressManager.get("photoHost") + collectModel.getArticImg().get(0));
+                    intent.putExtra("videoUrl", collectModel.getArticUrl());
+                    mContext.startActivity(intent);
+                }
+            });
 
         } else if (currenttype == SINGle) {
             if (convertView == null) {
@@ -110,13 +145,32 @@ public class CollectAdapter extends BaseAdapter {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect)
                     .into(viewHolderTwo.iv_single);
-            viewHolderTwo.tv_subject.setText(collectModel.getTopic());
+            SpannableString ss = new SpannableString(collectModel.getTopic());
+            ss.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
+                    intent.putExtra("topicId", collectModel.getTopicId());
+                    intent.putExtra("topictitle", collectModel.getTopic());
+                    mContext.startActivity(intent);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setColor(0xFF75BA2B);
+                    ds.setUnderlineText(false);//去除超链接的下划线
+                }
+            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            viewHolderTwo.tv_subject.setText(ss);
+            viewHolderTwo.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
             viewHolderTwo.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
             viewHolderTwo.rl_single.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //跳转图文详情
                     Intent intent = new Intent(mContext, ArticdetailActivity.class);
+                    intent.putExtra("articaltitle", collectModel.getTitle());
                     intent.putExtra("articalUrl", collectModel.getArticUrl());
                     mContext.startActivity(intent);
 
@@ -140,7 +194,25 @@ public class CollectAdapter extends BaseAdapter {
             }
             viewHolderThree.tv_title.setText(collectModel.getTitle());
             viewHolderThree.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
-            viewHolderThree.tv_subject.setText(collectModel.getTopic());
+            SpannableString ss = new SpannableString(collectModel.getTopic());
+            ss.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent intent = new Intent(mContext, SubjectdetailActivity.class);
+                    intent.putExtra("topicId", collectModel.getTopicId());
+                    intent.putExtra("topictitle", collectModel.getTopic());
+                    mContext.startActivity(intent);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setColor(0xFF75BA2B);
+                    ds.setUnderlineText(false);//去除超链接的下划线
+                }
+            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            viewHolderThree.tv_subject.setText(ss);
+            viewHolderThree.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
             Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect)
@@ -160,6 +232,7 @@ public class CollectAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     //跳转图文详情
                     Intent intent = new Intent(mContext, ArticdetailActivity.class);
+                    intent.putExtra("articaltitle", collectModel.getTitle());
                     intent.putExtra("articalUrl", collectModel.getArticUrl());
                     mContext.startActivity(intent);
                 }

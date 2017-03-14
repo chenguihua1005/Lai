@@ -30,7 +30,6 @@ public abstract class LazyBaseFragment2 extends ProgressFragment{
         contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
         LifeCircle.onCreate(this);
         ButterKnife.inject(this, contentView);
-
         isPrepared=false;
         initViews();
         return inflater.inflate(R.layout.fragment_progress, container, false);

@@ -94,6 +94,10 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterHold
                     }
                     //多选只需要改变相应位置的状态即可
                     change.setCharAt(position, (char) (filter.getSelected()+48));
+                    if(Long.parseLong(change.toString())==0){
+                        change.setCharAt(0, (char) (1+48));
+                        filters.get(0).setSelected(1);
+                    }
                     notifyDataSetChanged();
                 }
                 Log.i("本次选择="+change.toString());

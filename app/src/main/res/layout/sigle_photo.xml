@@ -53,7 +53,7 @@
         android:layout_below="@id/tv_title"
         android:layout_toRightOf="@id/tv_hotnum"
         android:layout_marginTop="12dp"
-        android:text="12课堂"
+        android:text=""
         android:textColor="#75ba2b"
         android:textSize="10sp" />
 

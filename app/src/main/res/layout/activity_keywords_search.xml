@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.laiClassroom.KeywordsSearchActivity">
+    tools:context="com.softtek.lai.module.laiClassroom.KeywordsSearchActivity"
+    android:fitsSystemWindows="true">
     <include layout="@layout/toolbar" />
 
     <RelativeLayout
-        android:id="@+id/ll_search"
+        android:id="@+id/ll_key_search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/toolbar">
@@ -40,7 +41,8 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/light" />
+                android:background="@drawable/light"
+                android:transitionName="sharedView"/>
 
             <EditText
                 android:id="@+id/edt_search"
@@ -63,7 +65,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_search_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_search"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_key_search"
         android:layout_marginTop="16dp"/>
 </RelativeLayout>

@@ -46,4 +46,16 @@ public interface CollectService {
             Callback<ResponseData> callback
     );
 
+
+    //专题详情页
+    @GET("/v1/LaiClassRoom/GetTopicArticleList")
+    void getSubjectdetail(
+            @Header("token") String token,
+            @Query("accountid") long accountid,
+            @Query("topicid") String topicid,
+            @Query("pageindex") int pageindex,
+            @Query("pagesize") int pagesize,
+            Callback<ResponseData<CollectModel>> callback
+    );
+
 }
