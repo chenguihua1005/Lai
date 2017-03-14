@@ -76,7 +76,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
                     if (!isLoading) {
                         isLoading = true;
                         page++;
-                        presenter.updateChaosData(page, 2, searchKey);
+                        presenter.updateChaosData(page, 6, searchKey);
                     }
                 }
             }
