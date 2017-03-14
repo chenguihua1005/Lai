@@ -89,6 +89,15 @@ public class VideoDetailModel {
         private int Clicks;
         private String TopicId;
         private String Topic;
+        private String VideoUrl;
+
+        public String getVideoUrl() {
+            return VideoUrl;
+        }
+
+        public void setVideoUrl(String videoUrl) {
+            VideoUrl = videoUrl;
+        }
 
         public String getArticleId() {
             return ArticleId;

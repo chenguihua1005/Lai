@@ -4,6 +4,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,9 +46,11 @@ public class GraphActivity extends BaseActivity {
         });
         long accountId = getIntent().getLongExtra("accountId", 0);
         String classId = getIntent().getStringExtra("classId");
-        if (TextUtils.isEmpty(classId)) {
+
+        Log.i(TAG, "classId = " + classId);
+//        if (TextUtils.isEmpty(classId)) {
 //            Util.toastMsg("班级ID为空.....");
-        }
+//        }
         fragments.add(LossWeightFragment.getInstance(accountId, classId));
         fragments.add(DimemsionFragment.getInstance(accountId, classId));
         adapter = new GraphAdapter(getSupportFragmentManager(), fragments);

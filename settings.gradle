@@ -1,1 +1,1 @@
-include ':app', ':social_project', ':takePhoto', ':widgets', ':easeui', ':playerview'
+include ':app', ':social_project', ':takePhoto', ':widgets', ':easeui', ':playerview', ':ijkplayer-arm64', ':ijkplayer-x86_64'
