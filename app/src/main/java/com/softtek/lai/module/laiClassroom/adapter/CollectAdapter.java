@@ -163,7 +163,7 @@ public class CollectAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     //跳转图文详情
                     Intent intent = new Intent(mContext, ArticdetailActivity.class);
-                    intent.putExtra("articaltitle", collectModel.getTopic());
+                    intent.putExtra("articaltitle", collectModel.getTitle());
                     intent.putExtra("articalUrl", collectModel.getArticUrl());
                     mContext.startActivity(intent);
 
@@ -222,7 +222,7 @@ public class CollectAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     //跳转图文详情
                     Intent intent = new Intent(mContext, ArticdetailActivity.class);
-                    intent.putExtra("articaltitle", collectModel.getTopic());
+                    intent.putExtra("articaltitle", collectModel.getTitle());
                     intent.putExtra("articalUrl", collectModel.getArticUrl());
                     mContext.startActivity(intent);
                 }

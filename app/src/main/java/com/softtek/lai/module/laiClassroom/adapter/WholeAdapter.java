@@ -211,7 +211,7 @@ public class WholeAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //跳转图文详情
                 Intent intent = new Intent(context, ArticdetailActivity.class);
-                intent.putExtra("articaltitle",artical.getTopic());
+                intent.putExtra("articaltitle",artical.getTitle());
                 intent.putExtra("articalUrl", artical.getArticUrl());
                 context.startActivity(intent);
             }
@@ -278,7 +278,7 @@ public class WholeAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //跳转图文详情
                 Intent intent = new Intent(context, ArticdetailActivity.class);
-                intent.putExtra("articaltitle",artical.getTopic());
+                intent.putExtra("articaltitle",artical.getTitle());
                 intent.putExtra("articalUrl", artical.getArticUrl());
                 context.startActivity(intent);
             }
