@@ -9,23 +9,27 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laiClassroom.presenter.ArticalDetailPresenter;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_articdetail)
-public class ArticdetailActivity extends BaseActivity<ArticalDetailPresenter> implements ArticalDetailPresenter.getAddHotAndHistory {
+public class ArticdetailActivity extends BaseActivity {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.pb)
     ProgressBar pb;
     @InjectView(R.id.webView)
     WebView webView;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
     private String articalUrl;
 
     @Override
@@ -36,6 +40,7 @@ public class ArticdetailActivity extends BaseActivity<ArticalDetailPresenter> im
                 finish();
             }
         });
+        tv_title.setText(getIntent().getStringExtra("articaltitle"));
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -58,13 +63,14 @@ public class ArticdetailActivity extends BaseActivity<ArticalDetailPresenter> im
 
     @Override
     protected void initDatas() {
-        setPresenter(new ArticalDetailPresenter(this));
-        getPresenter().UpdateAddHot();
         articalUrl = getIntent().getStringExtra("articalUrl");
         Log.i("文章地址", articalUrl);
         if (!TextUtils.isEmpty(articalUrl)) {
             webView.loadUrl("http://" + articalUrl);
         }
+
+//        setPresenter(new ArticalDetailPresenter(this));
+//        getPresenter().UpdateAddHot(UserInfoModel.getInstance().getToken(),UserInfoModel.getInstance().getUserId(),getIntent().getStringExtra("articalId"));
     }
 
     @Override
@@ -77,4 +83,8 @@ public class ArticdetailActivity extends BaseActivity<ArticalDetailPresenter> im
         super.onDestroy();
     }
 
+//    @Override
+//    public void getData() {
+//
+//    }
 }
