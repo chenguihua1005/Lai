@@ -67,7 +67,17 @@ public class VideoDetailPresenter extends BasePresenter<VideoDetailPresenter.Vid
                 new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        if (getView()!=null){
+                            getView().canLike();
+                        }
+                    }
 
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (getView()!=null){
+                            getView().canLike();
+                        }
+                        super.failure(error);
                     }
                 });
     }
@@ -79,7 +89,17 @@ public class VideoDetailPresenter extends BasePresenter<VideoDetailPresenter.Vid
                 new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        if (getView()!=null){
+                            getView().canLike();
+                        }
+                    }
 
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (getView()!=null){
+                            getView().canLike();
+                        }
+                        super.failure(error);
                     }
                 });
     }

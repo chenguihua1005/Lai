@@ -23,6 +23,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity2;
 import com.softtek.lai.module.laiClassroom.model.VideoDetailModel;
 import com.softtek.lai.module.laiClassroom.presenter.VideoDetailPresenter;
+import com.softtek.lai.widgets.CommentTextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                 tv_title.setText(data.getTitle());
                 TextView tv_hotnum=holder.getView(R.id.tv_hotnum);
                 tv_hotnum.setText(String.valueOf(data.getClicks()));
-                TextView tv_subject=holder.getView(R.id.tv_subject);
+                CommentTextView tv_subject=holder.getView(R.id.tv_subject);
                 tv_subject.setHighlightColor(ContextCompat.getColor(VideoDetailActivity.this,android.R.color.transparent));
                 SpannableString ss=new SpannableString(data.getTopic());
                 ss.setSpan(new ClickableSpan() {
@@ -165,12 +166,16 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         cb_shoucang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cb_shoucang.setChecked(!cb_shoucang.isChecked());
                 cb_shoucang.setEnabled(false);
-                if(cb_shoucang.isChecked()){
-                    getPresenter().doLike(getIntent().getStringExtra("articleId"));
-                }else {
+                Log.i("选中状态"+cb_shoucang.isChecked());
+                if(!cb_shoucang.isChecked()){
+                    cb_shoucang.setChecked(false);
+                    Log.i("取消收藏");
                     getPresenter().unLike(getIntent().getStringExtra("articleId"));
+                }else {
+                    cb_shoucang.setChecked(true);
+                    Log.i("加入收藏");
+                    getPresenter().doLike(getIntent().getStringExtra("articleId"));
                 }
             }
         });
