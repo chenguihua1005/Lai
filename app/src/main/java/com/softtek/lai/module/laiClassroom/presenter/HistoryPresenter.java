@@ -1,7 +1,7 @@
 package com.softtek.lai.module.laiClassroom.presenter;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.mvp.BasePersent;
+import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laiClassroom.model.CollectModel;
 import com.softtek.lai.module.laiClassroom.net.CollectService;
@@ -15,7 +15,7 @@ import zilla.libcore.api.ZillaApi;
  * Created by Lenovo-G400 on 2017/3/11.
  */
 
-public class HistoryPresenter extends BasePersent<HistoryPresenter.getHistorydata>{
+public class HistoryPresenter extends BasePresenter<HistoryPresenter.getHistorydata> {
     CollectService service;
     CollectModel collectModel;
 

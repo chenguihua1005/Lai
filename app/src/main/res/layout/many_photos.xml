@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_onclick"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/ll_selector_grey"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingBottom="15dp"
     android:paddingTop="14dp"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:descendantFocusability="blocksDescendants">
 
 
     <TextView
@@ -31,9 +33,9 @@
             android:id="@+id/iv_one"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
             android:layout_weight="1"
-            android:src="@drawable/default_icon_rect"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_icon_rect" />
 
         <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_two"
@@ -42,17 +44,16 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_icon_rect"/>
+            android:src="@drawable/default_icon_rect" />
 
         <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_three"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:scaleType="centerCrop"
             android:layout_weight="1"
-            android:src="@drawable/default_icon_rect"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_icon_rect" />
     </LinearLayout>
 
     <TextView
@@ -61,31 +62,32 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lin_image"
         android:layout_marginTop="12dp"
-        android:textSize="10sp"
+        android:text="3小时前"
         android:textColor="#A1A1A1"
-        android:text="3小时前" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tv_hotnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_below="@id/lin_image"
-        android:layout_toRightOf="@id/tv_relese"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/tv_relese"
         android:drawableLeft="@drawable/hot_icon"
         android:drawablePadding="2dp"
+        android:text="300"
         android:textColor="#a1a1a1"
-        android:textSize="10sp"
-        android:text="300" />
-    <TextView
+        android:textSize="10sp" />
+
+    <com.softtek.lai.widgets.CommentTextView
         android:id="@+id/tv_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
         android:layout_below="@id/lin_image"
-        android:layout_toRightOf="@id/tv_hotnum"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/tv_hotnum"
         android:text="12课堂"
         android:textColor="#75ba2b"
         android:textSize="10sp" />

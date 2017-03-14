@@ -3,33 +3,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
-    <ImageView
-        android:id="@+id/im_photo"
-        android:layout_width="185dp"
-        android:layout_height="135dp"
-        android:src="@drawable/default_icon_rect"
-        android:scaleType="centerCrop"
-        />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/im_photo"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="12课堂"/>
-        <TextView
-            android:id="@+id/tv_clickhot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2055"
-            android:drawableLeft="@drawable/hot_icon"
-            android:layout_marginLeft="10dp"/>
-    </LinearLayout>
-    </RelativeLayout>
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_centerInParent="true">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:id="@+id/im_photo"
+                    android:layout_width="170dp"
+                    android:layout_height="135dp"
+                    android:src="@drawable/default_icon_rect"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center_horizontal"
+
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/im_photo"
+                    android:layout_marginTop="5dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12课堂"
+                        android:textColor="#82AA4C"/>
+                    <TextView
+                        android:id="@+id/tv_clickhot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2055"
+                        android:drawableLeft="@drawable/hot_icon"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/im_photo1"
+                    android:layout_width="170dp"
+                    android:layout_height="135dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_icon_rect" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/im_photo"
+                    android:layout_marginTop="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12课堂"
+                        android:textColor="#82AA4C"/>
+                    <TextView
+                        android:id="@+id/tv_clickhot1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2055"
+                        android:drawableLeft="@drawable/hot_icon"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
 </RelativeLayout>

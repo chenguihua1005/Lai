@@ -6,11 +6,11 @@ import java.lang.ref.WeakReference;
  * Created by jerry.guan on 2/28/2017.
  */
 
-public abstract class BasePersent<T extends BaseView> {
+public abstract class BasePresenter<T extends BaseView> {
 
     private WeakReference<T> weakReference;
 
-    public BasePersent(T baseView) {
+    public BasePresenter(T baseView) {
         setView(baseView);
     }
 

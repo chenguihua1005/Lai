@@ -45,9 +45,7 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
     @Override
     protected void lazyLoad() {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-
             @Override
-
             public void run() {
 
                 plv_collect.setRefreshing();
@@ -92,6 +90,7 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
                 pageindex--;
             }
         } else {
+            im_nomessage.setVisibility(View.VISIBLE);
             pageindex--;
         }
     }

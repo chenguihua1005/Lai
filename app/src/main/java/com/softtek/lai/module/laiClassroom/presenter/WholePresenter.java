@@ -2,7 +2,7 @@ package com.softtek.lai.module.laiClassroom.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.common.mvp.BasePersent;
+import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView1;
 import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
@@ -17,7 +17,7 @@ import zilla.libcore.api.ZillaApi;
  * Created by jerry.guan on 3/8/2017.
  */
 
-public class WholePresenter extends BasePersent<WholePresenter.WholeView>{
+public class WholePresenter extends BasePresenter<WholePresenter.WholeView> {
 
     private LaiClassroomService service;
 

@@ -3,7 +3,9 @@ package com.softtek.lai.module.laiClassroom.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.laiClassroom.model.ArticalList;
 import com.softtek.lai.module.laiClassroom.model.FilteData;
-import com.softtek.lai.module.laiClassroom.model.MonographicListModel;
+import com.softtek.lai.module.laiClassroom.model.SubjectModel;
+import com.softtek.lai.module.laiClassroom.model.VideoDetailModel;
+
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -30,12 +32,32 @@ public interface LaiClassroomService {
                         @Query("pageindex")int pageIndex,
                         @Query("pagesize")int pageSize,
                         Callback<ResponseData<ArticalList>> callback);
+    //获取专题
     @GET("/v1/LaiClassRoom/GetArticleTopic")
     void doGetArticleTopic(
             @Header("token") String token,
             @Query("pageindex")int pageindex,
             @Query("pagesize")int pagesize,
-            Callback<ResponseData<MonographicListModel>>callback
+            Callback<ResponseData<SubjectModel>>callback
     );
+
+    @GET("/v1/LaiClassRoom/GetLaiVideo")
+    void getVideoDetail(@Header("token")String token,
+                        @Query("accountid")long accountId,
+                        @Query("articleid")String articleId,
+                        Callback<ResponseData<VideoDetailModel>> callback);
+
+    //收藏
+    @GET("/v1/LaiClassRoom/BookmarkArticle")
+    void doLike(@Header("token")String token,
+                @Query("accountid")long accountId,
+                @Query("articleid")String articleId,
+                Callback<ResponseData> callback);
+    //取消收藏
+    @GET("/v1/LaiClassRoom/CancleBookmarkArticle")
+    void unLike(@Header("token")String token,
+                @Query("accountid")long accountId,
+                @Query("articleid")String articleId,
+                Callback<ResponseData> callback);
 
 }

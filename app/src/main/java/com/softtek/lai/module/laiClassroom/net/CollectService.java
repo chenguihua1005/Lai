@@ -4,8 +4,11 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.laiClassroom.model.CollectModel;
 
 import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -31,6 +34,16 @@ public interface CollectService {
             @Query("pageindex") int pageindex,
             @Query("pagesize") int pagesize,
             Callback<ResponseData<CollectModel>> callback
+    );
+
+    //莱课堂增加点击量与浏览记录
+    @FormUrlEncoded
+    @POST("/v1/LaiClassRoom/AddHotAndHistory")
+    void getAddHotAndHistory(
+            @Header("token") String token,
+            @Field("accountid") long accountid,
+            @Field("articleid") String articleid,
+            Callback<ResponseData> callback
     );
 
 }

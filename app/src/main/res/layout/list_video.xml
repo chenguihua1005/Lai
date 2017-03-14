@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
     <TextView
@@ -26,7 +27,8 @@
             android:id="@+id/iv_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/default_icon_square" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_icon_rect" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +77,7 @@
             android:text="0"
             android:textColor="#A1A1A1"
             android:textSize="10sp" />
-        <TextView
+        <com.softtek.lai.widgets.CommentTextView
             android:id="@+id/tv_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
