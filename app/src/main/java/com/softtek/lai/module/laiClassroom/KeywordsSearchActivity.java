@@ -39,7 +39,6 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
     TextView mTitle;
     private ChaosAdapter chaosAdapter;
     private SearchPresenter presenter;
-    //    private SearchModel searchModel = new SearchModel();
     private List<SearchModel.ArticleListBean> searchList = new ArrayList<>();
 
     private int page = 1;
@@ -74,11 +73,10 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
                 super.onScrollStateChanged(recyclerView, newState);
                 int count = chaosAdapter.getItemCount();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && count > LOADCOUNT && lastVisitableItem + 1 == count) {
-                    //加载更多数据
                     if (!isLoading) {
                         isLoading = true;
                         page++;
-                        presenter.updateChaosData(page, 6, searchKey);
+                        presenter.updateChaosData(page, 2, searchKey);
                     }
                 }
             }
@@ -113,11 +111,9 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
 
     @Override
     public void getData(List<SearchModel.ArticleListBean> data) {
-        if (data != null) {
-            searchList.clear();
-            searchList.addAll(data);
-            chaosAdapter.notifyDataSetChanged();
-        }
+        searchList.clear();
+        searchList.addAll(data);
+        chaosAdapter.notifyDataSetChanged();
         chaosAdapter.notifyItemRemoved(chaosAdapter.getItemCount());
     }
 
@@ -130,10 +126,9 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
 
     @Override
     public void updateSuccess(List<SearchModel.ArticleListBean> data) {
-        page--;
         isLoading = false;
         searchList.addAll(data);
-        chaosAdapter.notifyDataSetChanged();
+        chaosAdapter.notifyItemRemoved(chaosAdapter.getItemCount());
     }
 
     @Override
