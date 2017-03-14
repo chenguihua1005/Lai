@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.model.TopicModel;
@@ -61,9 +64,18 @@ public class SubjectAdapter extends BaseAdapter {
     }
     static class SubjectHoldel
     {
+        LinearLayout ll_subitem1,ll_subitem2;
+        ImageView im_photo,im_photo2;
+        TextView tv_subject_name1,tv_subject_name2;
 
         public SubjectHoldel(View view)
         {
+            ll_subitem1= (LinearLayout) view.findViewById(R.id.ll_subitem1);
+            ll_subitem2= (LinearLayout) view.findViewById(R.id.ll_subitem2);
+            im_photo= (ImageView) view.findViewById(R.id.im_photo);
+            im_photo2= (ImageView) view.findViewById(R.id.im_photo1);
+            tv_subject_name1= (TextView) view.findViewById(R.id.tv_subject_name1);
+            tv_subject_name2= (TextView) view.findViewById(R.id.tv_subject_name2);
 
         }
     }
