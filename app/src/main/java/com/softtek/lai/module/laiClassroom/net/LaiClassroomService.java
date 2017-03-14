@@ -32,6 +32,7 @@ public interface LaiClassroomService {
                         @Query("pageindex")int pageIndex,
                         @Query("pagesize")int pageSize,
                         Callback<ResponseData<ArticalList>> callback);
+    //获取专题
     @GET("/v1/LaiClassRoom/GetArticleTopic")
     void doGetArticleTopic(
             @Header("token") String token,

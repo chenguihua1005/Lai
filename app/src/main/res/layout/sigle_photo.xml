@@ -6,7 +6,8 @@
     android:paddingRight="15dp"
     android:paddingTop="12dp"
     android:paddingBottom="12dp"
-    android:background="@color/white"
+    android:background="@drawable/ll_selector_grey"
+    android:descendantFocusability="blocksDescendants"
     android:id="@+id/rl_single">
 
 
