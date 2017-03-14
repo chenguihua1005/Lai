@@ -107,32 +107,32 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         if (topicListModels.size()!=0||topicListModels!=null)
         {TopicModel topicModel;
             topicModel=new TopicModel();
-            if (topicListModels.size()%2==0)
-            {   int j=0;
-                for (int i=0;i<=topicListModels.size()/2;i=i+2)
-                {
-
-//                    topicModel.setTopicName();
-//                    topicModels.set(j).getTopicName().set(i,topicListModels.get(i).getTopicName());
-//                    topicModels.get(j).getTopicName().set(i+1,topicListModels.get(i+1).getTopicName());
-//                    j++;
-                }
-            }
-            else {
-                int j=0;
-                for (int i=1;i<=topicListModels.size();i=i+2) {
-                    if (i==topicListModels.size())
-                    {
-                        topicModels.get(j).getTopicName().set(i-1,topicListModels.get(i-1).getTopicName());
-                    }
-                    else {
-                        topicModels.get(j).getTopicName().set(i-1,topicListModels.get(i-1).getTopicName());
-                        topicModels.get(j).getTopicName().set(i,topicListModels.get(i).getTopicName());
-                        j++;
-                    }
-
-                }
-            }
+//            if (topicListModels.size()%2==0)
+//            {   int j=0;
+//                for (int i=0;i<=topicListModels.size()/2;i=i+2)
+//                {
+//
+////                    topicModel.setTopicName();
+////                    topicModels.set(j).getTopicName().set(i,topicListModels.get(i).getTopicName());
+////                    topicModels.get(j).getTopicName().set(i+1,topicListModels.get(i+1).getTopicName());
+////                    j++;
+//                }
+//            }
+//            else {
+//                int j=0;
+//                for (int i=1;i<=topicListModels.size();i=i+2) {
+//                    if (i==topicListModels.size())
+//                    {
+//                        topicModels.get(j).getTopicName().set(i-1,topicListModels.get(i-1).getTopicName());
+//                    }
+//                    else {
+//                        topicModels.get(j).getTopicName().set(i-1,topicListModels.get(i-1).getTopicName());
+//                        topicModels.get(j).getTopicName().set(i,topicListModels.get(i).getTopicName());
+//                        j++;
+//                    }
+//
+//                }
+//            }
             Log.i("3333",new Gson().toJson(topicModels));
 
         }
