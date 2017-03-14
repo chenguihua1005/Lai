@@ -4,6 +4,7 @@ package com.softtek.lai.module.bodygame3.graph;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -103,27 +104,32 @@ public class DimemsionFragment extends LazyBaseFragment2 {
 
     @Override
     protected void lazyLoad() {
-        ZillaApi.NormalRestAdapter.create(GraphService.class)
-                .getClassMemberGirthChart(
-                        UserInfoModel.getInstance().getToken(),
-                        getArguments().getLong("accountId"),
-                        getArguments().getString("classId"),
-                        new RequestCallback<ResponseData<List<GirthModel>>>() {
-                            @Override
-                            public void success(ResponseData<List<GirthModel>> data, Response response) {
-                                setContentEmpty(false);
-                                setContentShown(true);
-                                onSuccess(data.getData());
-                            }
+        if (!TextUtils.isEmpty(getArguments().getString("classId"))) {
+            ZillaApi.NormalRestAdapter.create(GraphService.class)
+                    .getClassMemberGirthChart(
+                            UserInfoModel.getInstance().getToken(),
+                            getArguments().getLong("accountId"),
+                            getArguments().getString("classId"),
+                            new RequestCallback<ResponseData<List<GirthModel>>>() {
+                                @Override
+                                public void success(ResponseData<List<GirthModel>> data, Response response) {
+                                    setContentEmpty(false);
+                                    setContentShown(true);
+                                    onSuccess(data.getData());
+                                }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                setContentEmpty(false);
-                                setContentShown(true);
-                                super.failure(error);
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    setContentEmpty(false);
+                                    setContentShown(true);
+                                    super.failure(error);
+                                }
                             }
-                        }
-                );
+                    );
+        }else {
+            setContentEmpty(true);
+            setContentShown(true);
+        }
     }
 
     List<String> leftXAsix;

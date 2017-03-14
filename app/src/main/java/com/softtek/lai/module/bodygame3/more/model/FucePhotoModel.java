@@ -5,14 +5,24 @@ package com.softtek.lai.module.bodygame3.more.model;
  */
 
 public class FucePhotoModel {
+    private String ACMId;//照片ID
     private String ImgUrl;//复测图片
     private String weekth;//图片显示体管周
     private boolean isSelect;//是否选中
 
-    public FucePhotoModel(String imgUrl, String weekth, boolean isSelect) {
+    public FucePhotoModel(String ACMId, String imgUrl, String weekth, boolean isSelect) {
+        this.ACMId = ACMId;
         ImgUrl = imgUrl;
         this.weekth = weekth;
         this.isSelect = isSelect;
+    }
+
+    public String getACMId() {
+        return ACMId;
+    }
+
+    public void setACMId(String ACMId) {
+        this.ACMId = ACMId;
     }
 
     public boolean isSelect() {
