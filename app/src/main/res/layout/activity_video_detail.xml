@@ -60,7 +60,6 @@
             android:button="@null"
             android:drawableTop="@drawable/like_selector"
             android:textColor="#333333"
-            android:checked="false"
             android:drawablePadding="2dp"
             android:textSize="13sp"
             android:text="收藏"/>

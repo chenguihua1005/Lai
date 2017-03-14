@@ -3,12 +3,13 @@
     android:id="@+id/rl_onclick"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/ll_selector_grey"
     android:orientation="vertical"
     android:paddingBottom="15dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="14dp">
+    android:paddingTop="14dp"
+    android:descendantFocusability="blocksDescendants">
 
 
     <TextView

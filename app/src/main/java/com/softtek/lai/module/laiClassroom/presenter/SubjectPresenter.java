@@ -2,7 +2,6 @@ package com.softtek.lai.module.laiClassroom.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
@@ -31,11 +30,9 @@ public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject>
         service.doGetArticleTopic(UserInfoModel.getInstance().getToken(), pageindex, pagesize, new Callback<ResponseData<SubjectModel>>() {
             @Override
             public void success(ResponseData<SubjectModel> subjectModelResponseData, Response response) {
-                int status=subjectModelResponseData.getStatus();
-                if (status==200)
-                {
-                    if (getView()!=null)
-                    {
+                int status = subjectModelResponseData.getStatus();
+                if (status == 200) {
+                    if (getView() != null) {
                         getView().getSubjectart(subjectModelResponseData.getData());
                     }
                 }
