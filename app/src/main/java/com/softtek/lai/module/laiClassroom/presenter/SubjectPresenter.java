@@ -2,6 +2,7 @@ package com.softtek.lai.module.laiClassroom.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
@@ -22,12 +23,11 @@ public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject>
 
     public SubjectPresenter(getSubject baseView) {
         super(baseView);
-        service = ZillaApi.NormalRestAdapter.create(LaiClassroomService.class);
     }
 
 
     public void getSubjectData(int pageindex, int pagesize) {
-
+        service = ZillaApi.NormalRestAdapter.create(LaiClassroomService.class);
         service.doGetArticleTopic(UserInfoModel.getInstance().getToken(), pageindex, pagesize, new Callback<ResponseData<SubjectModel>>() {
             @Override
             public void success(ResponseData<SubjectModel> subjectModelResponseData, Response response) {
