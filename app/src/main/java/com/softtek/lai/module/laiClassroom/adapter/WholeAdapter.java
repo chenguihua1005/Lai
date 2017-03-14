@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.ArticdetailActivity;
 import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.Artical;
 import com.softtek.lai.utils.DateUtil;
@@ -169,7 +170,7 @@ public class WholeAdapter extends BaseAdapter{
         }
     }
 
-    private void dealWithSingle(Artical artical,SinglePicHolder holder){
+    private void dealWithSingle(final Artical artical, SinglePicHolder holder){
         holder.tv_title.setText(artical.getTitle());
         holder.tv_relese.setText(getTime(artical.getCreateDate()));
         holder.tv_hotnum.setText(String.valueOf(artical.getClicks()));

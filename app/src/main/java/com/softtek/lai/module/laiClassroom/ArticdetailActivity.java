@@ -13,12 +13,13 @@ import android.widget.ProgressBar;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.laiClassroom.presenter.ArticalDetailPresenter;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_articdetail)
-public class ArticdetailActivity extends BaseActivity {
+public class ArticdetailActivity extends BaseActivity<ArticalDetailPresenter> implements ArticalDetailPresenter.getAddHotAndHistory {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.pb)
@@ -57,10 +58,12 @@ public class ArticdetailActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
+        setPresenter(new ArticalDetailPresenter(this));
+        getPresenter().UpdateAddHot();
         articalUrl = getIntent().getStringExtra("articalUrl");
         Log.i("文章地址", articalUrl);
         if (!TextUtils.isEmpty(articalUrl)) {
-            webView.loadUrl("http://"+articalUrl);
+            webView.loadUrl("http://" + articalUrl);
         }
     }
 
