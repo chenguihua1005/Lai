@@ -1,5 +1,6 @@
 package com.softtek.lai.module.laiClassroom;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
@@ -10,6 +11,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -34,7 +36,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_video_detail)
-public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> implements VideoDetailPresenter.VideoDetailView {
+public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> implements VideoDetailPresenter.VideoDetailView,AdapterView.OnItemClickListener {
 
     @InjectView(R.id.player_view)
     IjkPlayerView playerView;
@@ -47,14 +49,11 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     @InjectView(R.id.cb_shoucang)
     CheckBox cb_shoucang;
 
-
     @InjectView(R.id.lv)
     ListView lv;
     private EasyAdapter<VideoDetailModel.VideoList> adapter;
     private List<VideoDetailModel.VideoList> datas = new ArrayList<>();
 
-    //    private static final String VIDEO_URL = "http://flv2.bn.netease.com/videolib3/1611/28/GbgsL3639/SD/movie_index.m3u8";
-//    private static final String VIDEO_HD_URL = "http://flv2.bn.netease.com/videolib3/1611/28/GbgsL3639/HD/movie_index.m3u8";
     @Override
     protected void initViews() {
         String videoImage = getIntent().getStringExtra("cover");
@@ -113,6 +112,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
             }
         };
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(this);
         getPresenter().getVideoDetailData(getIntent().getStringExtra("articleId"));
     }
 
@@ -186,5 +186,16 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     @Override
     public void canLike() {
         cb_shoucang.setEnabled(true);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        VideoDetailModel.VideoList video=datas.get(position);
+        //跳转视频详情
+        Intent intent = new Intent(this, VideoDetailActivity.class);
+        intent.putExtra("articleId", video.getArticleId());
+        intent.putExtra("cover", AddressManager.get("photoHost") + video.getVideoImg());
+        intent.putExtra("videoUrl", AddressManager.get("videoHost")+video.getVideoUrl());
+        startActivity(intent);
     }
 }

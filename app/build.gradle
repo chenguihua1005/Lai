@@ -72,6 +72,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
 }
 
 dependencies {
@@ -96,6 +97,7 @@ dependencies {
     compile 'com.malinskiy:superrecyclerview:1.1.4'
 
 //    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+
 
     testCompile 'junit:junit:4.12'
 }
