@@ -62,7 +62,6 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         String videoUrl = getIntent().getStringExtra("videoUrl");
         Picasso.with(this).load(videoImage).fit().into(playerView.mPlayerThumb);
         playerView.init()
-                //.setTitle("这是个跑马灯TextView，标题要足够长才会跑。-(゜ -゜)つロ 乾杯~")
 //                .setSkipTip(1000*60*1)
                 .setVideoSource(null, videoUrl, null, null, null)
                 .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
