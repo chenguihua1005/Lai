@@ -104,14 +104,14 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         collectlistModels.clear();
         pageindex = 1;
-        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 5);
+        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10);
     }
 
     //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex++;
-        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 5);
+        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10);
 
 
     }

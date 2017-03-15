@@ -76,7 +76,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         }
         adapter = new EasyAdapter<VideoDetailModel.VideoList>(this, datas, R.layout.recommend_item) {
             @Override
-            public void convert(ViewHolder holder, VideoDetailModel.VideoList data, int position) {
+            public void convert(ViewHolder holder, final VideoDetailModel.VideoList data, int position) {
                 TextView tv_title = holder.getView(R.id.tv_title);
                 tv_title.setText(data.getTitle());
                 TextView tv_hotnum = holder.getView(R.id.tv_hotnum);
@@ -87,7 +87,10 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                 ss.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
-
+                        Intent intent = new Intent(VideoDetailActivity.this, SubjectdetailActivity.class);
+                        intent.putExtra("topictitle", data.getTopic());
+                        intent.putExtra("topicId", data.getTopicId());
+                        startActivity(intent);
                     }
 
                     @Override
