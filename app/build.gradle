@@ -25,7 +25,7 @@ android {
 //        jackOptions{
 //            enabled true
 //        }
-}
+    }
     lintOptions {
         // set to true to turn off analysis progress reporting by lint
         quiet true
@@ -83,6 +83,7 @@ dependencies {
     compile project(':widgets')
     compile project(':playerview')
 
+//    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 
 
     compile 'com.rainim:libzilla:1.0.59'
@@ -95,10 +96,7 @@ dependencies {
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.malinskiy:superrecyclerview:1.1.4'
-
-//    compile 'com.android.support.constraint:constraint-layout:1.0.1'
-
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
     testCompile 'junit:junit:4.12'
 }
 
