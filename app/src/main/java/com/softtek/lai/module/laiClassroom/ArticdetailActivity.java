@@ -66,7 +66,7 @@ public class ArticdetailActivity extends BaseActivity {
         articalUrl = getIntent().getStringExtra("articalUrl");
         Log.i("文章地址", articalUrl);
         if (!TextUtils.isEmpty(articalUrl)) {
-            webView.loadUrl("http://" + articalUrl);
+            webView.loadUrl(articalUrl);
         }
 
 //        setPresenter(new ArticalDetailPresenter(this));
@@ -83,8 +83,4 @@ public class ArticdetailActivity extends BaseActivity {
         super.onDestroy();
     }
 
-//    @Override
-//    public void getData() {
-//
-//    }
 }

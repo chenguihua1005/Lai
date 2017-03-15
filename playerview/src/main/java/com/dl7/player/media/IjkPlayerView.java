@@ -832,6 +832,7 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
         } else if (id == R.id.iv_back_window) {
             mAttachActivity.finish();
         } else if (id == R.id.iv_play || id == R.id.iv_play_circle) {
+
             _togglePlayStatus();
         } else if (id == R.id.iv_fullscreen) {
             _toggleFullScreen();
