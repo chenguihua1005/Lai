@@ -1,8 +1,10 @@
 package com.softtek.lai.module.laiClassroom;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -69,11 +71,6 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     @Override
     protected void initDatas() {
         setPresenter(new VideoDetailPresenter(this));
-        if (!getPresenter().isWifiConnected(this)) {
-            String str = "正在使用非 WIFI 网络, 播放将产生流量费用 视频时长 03:41 | 流量 约 XX MB \" 用户需点击\"继续播放\" 按钮, 才会播放视频. ";
-            Log.i(str);
-            tv_net.setVisibility(View.VISIBLE);
-        }
         adapter = new EasyAdapter<VideoDetailModel.VideoList>(this, datas, R.layout.recommend_item) {
             @Override
             public void convert(ViewHolder holder, final VideoDetailModel.VideoList data, int position) {
@@ -184,6 +181,28 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         });
         datas.addAll(data.getVideoList());
         adapter.notifyDataSetChanged();
+        if(!getPresenter().isWifiConnected(this)){
+            StringBuilder builder=new StringBuilder();
+            builder.append("正在使用非 WIFI 网络, 播放将产生流量费用 视频时长 ");
+            builder.append(data.getVideoTime());
+            builder.append(" | 流量 约 ");
+            builder.append(data.getVideoSize()+" MB");
+            builder.append("\"继续播放\" 按钮, 才会播放视频. ");
+            new AlertDialog.Builder(this).setMessage(builder)
+                    .setNegativeButton("稍后播放",null)
+                    .setPositiveButton("继续播放", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(playerView!=null){
+                                playerView.start();
+                            }
+                        }
+                    }).create().show();
+        }else {
+            if(playerView!=null){
+                playerView.start();
+            }
+        }
     }
 
     @Override
