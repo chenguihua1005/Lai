@@ -665,7 +665,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 btn_addguy.setVisibility(View.VISIBLE);//添加好友
                                 btn_addguy.setText("待确认");
                                 btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
-                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+//                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_assistant_refuse));
                                 iv_email.setVisibility(View.INVISIBLE);
                                 runOnUiThread(new Runnable() {
                                     @Override
