@@ -116,7 +116,8 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     protected void initDatas() {
       setPresenter(new SubjectPresenter(this));
-
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setPageMargin(10);
     }
 
 
@@ -247,6 +248,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                     @Override
                     public void onClick(View view) {
                         Intent intent=new Intent(getContext(),SubjectdetailActivity.class);
+                        intent.putExtra("topictitle",recommendModels.get(position).getTopicName());
                         intent.putExtra("topicId",recommendModels.get(position).getTopicId());
                         startActivity(intent);
                     }
