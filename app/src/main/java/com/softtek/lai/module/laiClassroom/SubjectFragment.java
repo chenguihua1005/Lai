@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laiClassroom;
 
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.PagerAdapter;
@@ -232,7 +233,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
             }
 
             @Override
-            public Object instantiateItem(ViewGroup container, int position) {
+            public Object instantiateItem(ViewGroup container, final int position) {
 
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.list_subjectremend_item, container, false);
                 container.addView(view);
@@ -241,6 +242,15 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 ImageView im_photo = (ImageView) container.findViewById(R.id.im_photo);
                 Picasso.with(getContext()).load(AddressManager.get("photoHost") + recommendModels.get(position).getTopicImg()).fit().error(R.drawable.default_icon_square)
                         .placeholder(R.drawable.default_icon_square).into(im_photo);
+                RelativeLayout re_remend= (RelativeLayout) container.findViewById(R.id.re_remend);
+                re_remend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent(getContext(),SubjectdetailActivity.class);
+                        intent.putExtra("topicId",recommendModels.get(position).getTopicId());
+                        startActivity(intent);
+                    }
+                });
 
                 return view;
             }
