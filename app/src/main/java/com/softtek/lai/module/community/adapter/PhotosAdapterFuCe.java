@@ -34,7 +34,7 @@ public class PhotosAdapterFuCe extends BaseAdapter {
     public PhotosAdapterFuCe(List<FucePhotoModel> images, Context context, Object tag) {
         this.images = images;
         this.context = context;
-        px = DisplayUtil.dip2px(context.getApplicationContext(), 85);
+        px = DisplayUtil.dip2px(context.getApplicationContext(), 90);
         this.tag = tag;
     }
 

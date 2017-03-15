@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingBottom="15dp"
-    android:paddingTop="14dp"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:paddingTop="14dp">
 
     <TextView
         android:id="@+id/tv_title"
@@ -16,22 +16,23 @@
         android:text="推荐：冬天适合吃的减肥食品"
         android:textColor="@color/word"
         android:textSize="15sp" />
+
     <LinearLayout
         android:id="@+id/ll_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp">
+        android:orientation="horizontal">
 
 
         <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_one"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
             android:layout_weight="1"
-            android:src="@drawable/icon_test_pic"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_icon_rect" />
 
         <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_two"
@@ -40,23 +41,18 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_test_pic"/>
+            android:src="@drawable/default_icon_rect" />
 
         <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_three"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:scaleType="centerCrop"
             android:layout_weight="1"
-            android:src="@drawable/icon_test_pic"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_icon_rect" />
     </LinearLayout>
-    <include layout="@layout/fever_layout"/>
-    <View
-        android:id="@+id/rule"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#F2F2F2"/>
+
+    <include layout="@layout/fever_layout" />
+
 </LinearLayout>
