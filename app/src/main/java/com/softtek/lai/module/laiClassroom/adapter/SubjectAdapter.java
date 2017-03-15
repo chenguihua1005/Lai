@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.model.TopicModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by lareina.qiao on 3/14/2017.
@@ -58,9 +62,48 @@ public class SubjectAdapter extends BaseAdapter {
         }
         else {
             holdel= (SubjectHoldel) view.getTag();
-
         }
-        return null;
+        TopicModel topicModel=topicModels.get(i);
+        if (topicModel.getTopicId().size()==2)
+        {
+            holdel.ll_subitem1.setVisibility(View.VISIBLE);
+            holdel.ll_subitem2.setVisibility(View.VISIBLE);
+            holdel.tv_subject_name1.setText(topicModel.getTopicName().get(0));
+            holdel.tv_subject_name2.setText(topicModel.getTopicName().get(1));
+            if (!TextUtils.isEmpty(topicModel.getTopicImg().get(0)))
+            {
+                Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(0)).centerCrop().placeholder(R.drawable.default_icon_rect)
+                .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo);
+            }
+            else {
+                Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
+                        .fit().into(holdel.im_photo);
+            }
+            if (!TextUtils.isEmpty(topicModel.getTopicImg().get(1)))
+            {
+                Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(1)).centerCrop().placeholder(R.drawable.default_icon_rect)
+                        .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo);
+            }
+            else {
+                Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
+                        .fit().into(holdel.im_photo);
+            }
+        }else {
+            holdel.ll_subitem1.setVisibility(View.VISIBLE);
+            holdel.tv_subject_name1.setText(topicModel.getTopicName().get(0));
+            if (!TextUtils.isEmpty(topicModel.getTopicImg().get(0)))
+            {
+                Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(0)).centerCrop().placeholder(R.drawable.default_icon_rect)
+                        .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo);
+            }
+            else {
+                Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
+                        .fit().into(holdel.im_photo);
+            }
+        }
+
+
+        return view;
     }
     static class SubjectHoldel
     {
