@@ -407,25 +407,33 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                     Log.i(TAG, "角色 = " + memberInfoModel.getClassRole() + "  classId = " + memberInfoModel.getClassId() + " getIsCurrClass =  " + memberInfoModel.getIsCurrClass() + memberInfoModel.getClassName());
                     if ("4".equals(memberInfoModel.getClassRole())) {
+                        ClassId = memberInfoModel.getClassId();
                         if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
                             ll_chart.setVisibility(View.VISIBLE);
                         }
 
                         if (Constants.FROM_CONTACT == comeFromClass) {
-                            ll_chart.setVisibility(View.VISIBLE);
 
-                            if (TextUtils.isEmpty(ClassId)) {
+                            if (memberInfoModel.getIsCurrClass() == 1) {
+                                ll_chart.setVisibility(View.VISIBLE);
                                 ClassId = memberInfoModel.getClassId();
+                            } else {
+                                ll_chart.setVisibility(View.GONE);
                             }
 
-                            if (TextUtils.isEmpty(memberInfoModel.getClassId())) {
-                                ClassId = "";
-                            }
 
-                            if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass()) {
-                                ClassId = "";
-                                className_tv.setText("");
-                            }
+//                            if (TextUtils.isEmpty(ClassId)) {
+//                                ClassId = memberInfoModel.getClassId();
+//                            }
+//
+//                            if (TextUtils.isEmpty(memberInfoModel.getClassId())) {
+//                                ClassId = "";
+//                            }
+//
+//                            if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass()) {
+//                                ClassId = "";
+//                                className_tv.setText("");
+//                            }
                         }
 
 //                        if (Constants.FROM_CONTACT == comeFromClass && TextUtils.isEmpty(memberInfoModel.getClassId())) {
