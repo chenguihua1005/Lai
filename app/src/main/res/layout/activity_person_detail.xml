@@ -357,7 +357,7 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingTop="20dp"
-                        android:text="查看我的曲线图"
+                        android:text="曲线图"
                         android:textColor="#333333"
                         android:textSize="14sp"
                         android:visibility="visible" />

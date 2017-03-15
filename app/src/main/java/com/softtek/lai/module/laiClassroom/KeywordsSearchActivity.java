@@ -109,7 +109,6 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
         searchList.clear();
         searchList.addAll(data);
         chaosAdapter.notifyDataSetChanged();
-        chaosAdapter.notifyItemRemoved(chaosAdapter.getItemCount());
     }
 
     @Override
@@ -123,7 +122,6 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
     public void updateSuccess(List<SearchModel.ArticleListBean> data) {
         isLoading = false;
         searchList.addAll(data);
-        chaosAdapter.notifyDataSetChanged();
         chaosAdapter.notifyItemRemoved(chaosAdapter.getItemCount());
     }
 

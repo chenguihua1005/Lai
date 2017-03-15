@@ -83,7 +83,7 @@ public class PhotosAdapterFuCe extends BaseAdapter {
             } else {
                 holder.img_select_button.setImageResource(R.drawable.circle_fuce_photo);
             }
-            holder.img_select_button.setOnClickListener(new View.OnClickListener() {
+            holder.black_bg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (model.isSelect()) {
@@ -110,11 +110,13 @@ public class PhotosAdapterFuCe extends BaseAdapter {
         public ImageView image;
         public ImageView img_select_button;
         public TextView weekth_tv;
+        public ImageView black_bg;
 
         public ViewHolder(View view) {
             image = (ImageView) view.findViewById(R.id.iv);
             weekth_tv = (TextView) view.findViewById(R.id.weekth_tv);
             img_select_button = (ImageView) view.findViewById(R.id.img_select_button);
+            black_bg = (ImageView) view.findViewById(R.id.black_bg);
         }
     }
 }

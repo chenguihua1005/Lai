@@ -2,6 +2,7 @@ package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,11 +83,12 @@ public class SubjectAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(topicModel.getTopicImg().get(1)))
             {
                 Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(1)).centerCrop().placeholder(R.drawable.default_icon_rect)
-                        .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo);
+                        .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo2);
+                Log.i("图片呢",AddressManager.get("photoHost")+topicModel.getTopicImg().get(1));
             }
             else {
                 Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
-                        .fit().into(holdel.im_photo);
+                        .fit().into(holdel.im_photo2);
             }
         }else {
             holdel.ll_subitem1.setVisibility(View.VISIBLE);
@@ -101,7 +103,6 @@ public class SubjectAdapter extends BaseAdapter {
                         .fit().into(holdel.im_photo);
             }
         }
-
 
         return view;
     }

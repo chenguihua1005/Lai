@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
     <TextView
-        android:id="@+id/tv_subject_name"
+        android:id="@+id/tv_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="专题"
-        android:padding="15dp"
-        />
+        android:text="推荐专题"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"/>
 
-</LinearLayout>
+    <com.softtek.lai.widgets.MyRelative
+        android:id="@+id/rl_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_subject"
+        android:background="@color/white"
+        android:clipChildren="false"
+        android:padding="10dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:clipChildren="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+    </com.softtek.lai.widgets.MyRelative>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e1e1e1"
+        android:layout_below="@id/rl_container"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_container"
+        android:text="全部推荐"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#333333"/>
+
+</RelativeLayout>
