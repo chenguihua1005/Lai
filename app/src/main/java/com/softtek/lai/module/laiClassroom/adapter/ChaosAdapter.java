@@ -1,10 +1,16 @@
 package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.ArticdetailActivity;
+import com.softtek.lai.module.laiClassroom.SubjectdetailActivity;
+import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.laiClassroom.model.SearchModel;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.widgets.CommentTextView;
 import com.softtek.lai.widgets.RectangleImage;
 import com.squareup.picasso.Picasso;
 
@@ -36,14 +46,13 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private Context context;
     private String searchKey;
 
-    public void updataKey(String searchKey) {
+    public void updateKey(String searchKey) {
         this.searchKey = searchKey;
     }
 
-    public ChaosAdapter(Context context, List<SearchModel.ArticleListBean> items, ItemListener listener, String searchKey) {
+    public ChaosAdapter(Context context, List<SearchModel.ArticleListBean> items, String searchKey) {
         this.context = context;
         myItems = items;
-        myListener = listener;
         this.searchKey = searchKey;
     }
 
@@ -120,8 +129,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private TextView mVideoTime;
         private TextView mRelese;
         private TextView mHotNum;
-        private TextView mSubject;
-        private SearchModel.ArticleListBean myitem;
+        private CommentTextView mSubject;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
@@ -130,18 +138,34 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mVideoTime = (TextView) itemView.findViewById(R.id.tv_video_time);
             mRelese = (TextView) itemView.findViewById(R.id.tv_relese);
             mHotNum = (TextView) itemView.findViewById(R.id.tv_hotnum);
-            mSubject = (TextView) itemView.findViewById(R.id.tv_subject);
+            mSubject = (CommentTextView) itemView.findViewById(R.id.tv_subject);
         }
 
-        public void setData(SearchModel.ArticleListBean item) {
-            this.myitem = item;
-            setKeyColor(mVideoTitle, item.getTitle(), true);
-//            mVideoTitle.setText(item.getTitle());
+        public void setData(final SearchModel.ArticleListBean item) {
+            setKeyColor(mVideoTitle, item, true);
             mVideoTime.setText(item.getVideoTime());
             mRelese.setText(getTime(item.getCreateDate()));
             mHotNum.setText(String.valueOf(item.getClicks()));
-            setKeyColor(mSubject, item.getTopic(), false);
-//            mSubject.setText(item.getTopic());
+            setKeyColor(mSubject, item, false);
+//            SpannableString ss = new SpannableString(item.getTopic());
+//            ss.setSpan(new ClickableSpan() {
+//                @Override
+//                public void onClick(View widget) {
+//                    Intent intent = new Intent(context, SubjectdetailActivity.class);
+//                    intent.putExtra("topictitle", item.getTopic());
+//                    intent.putExtra("topicId", item.getTopicId());
+//                    context.startActivity(intent);
+//                }
+//
+//                @Override
+//                public void updateDrawState(TextPaint ds) {
+//                    super.updateDrawState(ds);
+//                    ds.setColor(0xFF75BA2B);
+//                    ds.setUnderlineText(false);//去除超链接的下划线
+//                }
+//            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//            mSubject.setText(ss);
+//            mSubject.setMovementMethod(LinkMovementMethod.getInstance());
             String videoImage = null;
             if (item.getArticImg() != null && !item.getArticImg().isEmpty()) {
                 videoImage = item.getArticImg().get(0);
@@ -159,12 +183,15 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         .into(mVideoImage);
             }
             if (!TextUtils.isEmpty(item.getArticUrl())) {
+                final String finalVideoImage = videoImage;
                 mVideoImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (myListener != null)
-                            myListener.onItemClick(myitem, getAdapterPosition());
-                        //跳转视频详情
+                        Intent intent = new Intent(context, VideoDetailActivity.class);
+                        intent.putExtra("articleId", item.getArticleId());
+                        intent.putExtra("cover", AddressManager.get("photoHost") + finalVideoImage);
+                        intent.putExtra("videoUrl", AddressManager.get("videoHost") + item.getArticUrl());
+                        context.startActivity(intent);
                     }
                 });
             }
@@ -176,7 +203,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private RectangleImage mOnePicImage;
         private TextView mRelese;
         private TextView mHotNum;
-        private TextView mSubject;
+        private CommentTextView mSubject;
 
         public OnePicHolder(View view) {
             super(view);
@@ -184,17 +211,15 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mOnePicImage = (RectangleImage) view.findViewById(R.id.iv_one_pic);
             mRelese = (TextView) view.findViewById(R.id.tv_relese);
             mHotNum = (TextView) view.findViewById(R.id.tv_hotnum);
-            mSubject = (TextView) view.findViewById(R.id.tv_subject);
+            mSubject = (CommentTextView) view.findViewById(R.id.tv_subject);
 
         }
 
-        public void setData(SearchModel.ArticleListBean item) {
-            setKeyColor(mOnePicTitle, item.getTitle(), true);
-//            mOnePicTitle.setText(item.getTitle());
+        public void setData(final SearchModel.ArticleListBean item) {
+            setKeyColor(mOnePicTitle, item, true);
             mRelese.setText(getTime(item.getCreateDate()));
             mHotNum.setText(String.valueOf(item.getClicks()));
-            setKeyColor(mSubject, item.getTopic(), false);
-//            mSubject.setText(item.getTopic());
+            setKeyColor(mSubject, item, false);
             String videoImage = null;
             if (item.getArticImg() != null && !item.getArticImg().isEmpty()) {
                 videoImage = item.getArticImg().get(0);
@@ -211,10 +236,13 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         .error(R.drawable.default_icon_rect)
                         .into(mOnePicImage);
             }
-            mOnePicImage.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //跳转图文详情
+                    Intent intent = new Intent(context, ArticdetailActivity.class);
+                    intent.putExtra("articaltitle", item.getTitle());
+                    intent.putExtra("articalUrl", item.getArticUrl());
+                    context.startActivity(intent);
                 }
             });
         }
@@ -228,7 +256,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private LinearLayout mLLImgContainer;
         private TextView mRelese;
         private TextView mHotNum;
-        private TextView mSubject;
+        private CommentTextView mSubject;
 
         public ThreePicHolder(View view) {
             super(view);
@@ -239,16 +267,14 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mLLImgContainer = (LinearLayout) view.findViewById(R.id.ll_image);
             mRelese = (TextView) view.findViewById(R.id.tv_relese);
             mHotNum = (TextView) view.findViewById(R.id.tv_hotnum);
-            mSubject = (TextView) view.findViewById(R.id.tv_subject);
+            mSubject = (CommentTextView) view.findViewById(R.id.tv_subject);
         }
 
-        public void setData(SearchModel.ArticleListBean item) {
-            setKeyColor(mThreePicTitle, item.getTitle(), true);
-//            mThreePicTitle.setText(item.getTitle());
+        public void setData(final SearchModel.ArticleListBean item) {
+            setKeyColor(mThreePicTitle, item, true);
             mRelese.setText(getTime(item.getCreateDate()));
             mHotNum.setText(String.valueOf(item.getClicks()));
-            setKeyColor(mSubject, item.getTopic(), false);
-//            mSubject.setText(item.getTopic());
+            setKeyColor(mSubject, item, false);
             if (item.getArticImg() != null && !item.getArticImg().isEmpty()) {
                 for (int i = 0; i < item.getArticImg().size(); i++) {
                     String imgUrl = item.getArticImg().get(i);
@@ -282,6 +308,15 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else {
                 mLLImgContainer.setVisibility(View.GONE);
             }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ArticdetailActivity.class);
+                    intent.putExtra("articaltitle", item.getTitle());
+                    intent.putExtra("articalUrl", item.getArticUrl());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -304,8 +339,14 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return time;
     }
 
-    private void setKeyColor(TextView view, String changeString, boolean isTitle) {
-        if (changeString.equals(searchKey)){
+    private void setKeyColor(TextView view, final SearchModel.ArticleListBean item, boolean isTitle) {
+        String changeString;
+        if (isTitle) {
+            changeString = item.getTitle();
+        } else {
+            changeString = item.getTopic();
+        }
+        if (changeString.equals(searchKey)) {
             view.setText(changeString);
             view.setTextColor(context.getResources().getColor(R.color.red));
             return;
@@ -323,16 +364,53 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(blackSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             } else {
-                builder.setSpan(greenSpan, 0, index, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                builder.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        Intent intent = new Intent(context, SubjectdetailActivity.class);
+                        intent.putExtra("topicId", item.getTopicId());
+                        intent.putExtra("topictitle", item.getTopic());
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setColor(context.getResources().getColor(R.color.green));
+                        ds.setUnderlineText(false);
+                    }
+                }, 0, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(greenSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
             }
-            builder.setSpan(greenSpan, 0, index, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            builder.setSpan(greenSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             view.setText(builder);
+            if (!isTitle)
+                view.setMovementMethod(LinkMovementMethod.getInstance());
         } else {
-            view.setText(changeString);
+            if (!isTitle){
+                SpannableString ss = new SpannableString(item.getTopic());
+                ss.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        Intent intent = new Intent(context, SubjectdetailActivity.class);
+                        intent.putExtra("topicId", item.getTopicId());
+                        intent.putExtra("topictitle", item.getTopic());
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setColor(context.getResources().getColor(R.color.green));
+                        ds.setUnderlineText(false);
+                    }
+                }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                view.setText(ss);
+                view.setMovementMethod(LinkMovementMethod.getInstance());
+            }else {
+                view.setText(changeString);
+            }
         }
     }
 

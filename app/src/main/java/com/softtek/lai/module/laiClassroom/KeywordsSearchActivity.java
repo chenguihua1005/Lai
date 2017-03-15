@@ -60,12 +60,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
         mTitle.setText("关键字搜索");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        chaosAdapter = new ChaosAdapter(this, searchList, new ChaosAdapter.ItemListener() {
-            @Override
-            public void onItemClick(SearchModel.ArticleListBean item, int position) {
-                Log.d("position", String.valueOf(position));
-            }
-        }, "");
+        chaosAdapter = new ChaosAdapter(this, searchList, "");
         mRecyclerView.setAdapter(chaosAdapter);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -101,7 +96,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     SoftInputUtil.hidden(KeywordsSearchActivity.this);
                     searchKey = String.valueOf(mEditText.getText());
-                    chaosAdapter.updataKey(searchKey);
+                    chaosAdapter.updateKey(searchKey);
                     presenter.getChaosData(searchKey);
                 }
                 return false;
@@ -128,6 +123,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
     public void updateSuccess(List<SearchModel.ArticleListBean> data) {
         isLoading = false;
         searchList.addAll(data);
+        chaosAdapter.notifyDataSetChanged();
         chaosAdapter.notifyItemRemoved(chaosAdapter.getItemCount());
     }
 

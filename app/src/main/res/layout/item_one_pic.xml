@@ -32,21 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="end">
+
             <com.softtek.lai.widgets.RectangleImage
                 android:id="@+id/iv_one_pic"
                 android:layout_width="114dp"
                 android:layout_height="74dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_test_pic" />
+                android:src="@drawable/default_icon_rect" />
         </LinearLayout>
-
-        <View
-            android:id="@+id/rule"
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#F2F2F2"/>
-
-
 
 </LinearLayout>
