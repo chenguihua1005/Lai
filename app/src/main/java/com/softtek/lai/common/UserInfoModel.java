@@ -20,6 +20,8 @@ import com.umeng.analytics.MobclickAgent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import zilla.libcore.file.SharedPreferenceService;
 
@@ -124,6 +126,7 @@ public class UserInfoModel {
         //存入文件
         isVr=false;
         SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
+        user.setUpdate_time(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         setUser(user);
         setToken(user.getToken());
         //存储本地
@@ -223,7 +226,6 @@ public class UserInfoModel {
 
     public UserModel getUser() {
         if(user==null){
-//            user= (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
             user=dao.queryUser(String.valueOf(getUserId()));
         }
         return user;
