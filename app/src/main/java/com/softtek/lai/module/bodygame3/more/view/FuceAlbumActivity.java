@@ -244,6 +244,15 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
         public void onClick(View v) {
             menuWindow.dismiss();
 
+            if (count == 0) {
+                Util.toastMsg("请选择照片");
+                tv_right.setText("分享");
+                show_photo_circle = false;
+                adapter.notifyDataSetChanged();
+                flag = 0;
+                return;
+            }
+
             setShare(v);
 
         }
@@ -260,7 +269,7 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.fl_right: {
-                Log.i(TAG, "点击分享按钮。。。。。。。。。。。。。。。。。。 count = " + count);
+
                 if (flag == 0) {//点击分享按钮
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -282,7 +291,6 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                         }
                     } else {
 
-                        tv_right.setText("取消");
                         menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
                         //显示窗口
                         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -290,15 +298,14 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                         menuWindow.setBackgroundDrawable(new BitmapDrawable());
                         flag = 1;
 
+                        tv_right.setText("取消");
                         show_photo_circle = true;
-
                         adapter.notifyDataSetChanged();
 
                     }
 
 
                 } else {// flag = 1;  点击取消
-                    Log.i(TAG, "点击取消按钮。。。。。。。。。。。。。。。。。。");
                     count = 0;
                     tv_title.setText("复测相册");
                     tv_right.setText("分享");
@@ -321,32 +328,6 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                     flag = 0;
 
                 }
-//                if (count != 0) {
-//                    tv_right.setText("取消");
-//                    menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
-//                    //显示窗口
-//                    menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//                    menuWindow.showAtLocation(FuceAlbumActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-//                } else {
-//                    Log.i(TAG, "点击取消按钮。。。。。。。。。。。。。。。。。。");
-//                    count = 0;
-//                    tv_title.setText("复测相册");
-//                    tv_right.setText("");
-//                    tv_right.setVisibility(View.GONE);
-//                    if (menuWindow != null && menuWindow.isShowing()) {
-//                        menuWindow.dismiss();
-//                    }
-//
-//                    for (int i = 0; i < fucePhotos.size(); i++) {
-//                        FuceClassAlbumModel classAlbumModel = fucePhotos.get(i);
-//                        for (int j = 0; j < classAlbumModel.getPhotoList().size(); j++) {
-//                            FucePhotoModel fucePhotoModel = classAlbumModel.getPhotoList().get(j);
-//                            fucePhotoModel.setSelect(false);
-//                            Log.i(TAG, "model =" + new Gson().toJson(fucePhotoModel));
-//                        }
-//                    }
-//                    adapter.notifyDataSetChanged();
-//                }
             }
 
             break;

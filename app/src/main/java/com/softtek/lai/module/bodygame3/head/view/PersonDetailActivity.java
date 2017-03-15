@@ -43,6 +43,7 @@ import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -234,7 +235,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void doGetService(final long userid, long AccountId, String classid, String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
         if (!TextUtils.isEmpty(HXAccountId)) {
-            Log.i(TAG, "通过环信账号查  token = " + UserInfoModel.getInstance().getToken() + "  userid = " + userid + "  HXAccountId = " + HXAccountId + " classid = " + classid);
             headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
@@ -255,7 +255,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
             });
         } else {
-            Log.i(TAG, "token = " + UserInfoModel.getInstance().getToken() + "  userid = " + userid + "  HXAccountId = " + HXAccountId + " classid = " + classid);
             headService.doGetClassMemberInfo(classid, UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
@@ -301,11 +300,15 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
         try {
             if (memberInfoModel != null) {
-                Log.i(TAG,"111111112222222222222222 数据为 = "+ new Gson().toJson(memberInfoModel));
                 String url = AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+//                    Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+                    int px = DisplayUtil.dip2px(PersonDetailActivity.this, 45);
+                    Picasso.with(PersonDetailActivity.this).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_userimg);
+                } else {
+                    Picasso.with(PersonDetailActivity.this).load(R.drawable.img_default).placeholder(R.drawable.img_default).into(cir_userimg);
                 }
                 //用户名
                 tv_stuname.setText(memberInfoModel.getUserName());
@@ -557,7 +560,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //查看曲线图
                 break;
             case R.id.btn_chat:
-                Log.i(TAG, "userId = " + HXAccountId + " UserName = " + UserName);
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
                 if (!hxid.equals(HXAccountId)) {
                     Intent intent = new Intent(PersonDetailActivity.this, ChatActivity.class);
