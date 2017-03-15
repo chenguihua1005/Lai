@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -28,8 +27,6 @@ import com.softtek.lai.module.laiClassroom.model.RecommendModel;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
 import com.softtek.lai.module.laiClassroom.model.TopicModel;
 import com.softtek.lai.module.laiClassroom.presenter.SubjectPresenter;
-import com.softtek.lai.widgets.MyRelative;
-import com.softtek.lai.widgets.RoundImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,16 +45,13 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @InjectView(R.id.im_nomessage)
     ImageView im_nomessage;
 
-    EasyAdapter<ArticleTopicModel> adapter;
     List<ArticleTopicModel> topicListModels = new ArrayList<>();
     List<TopicModel> topicModels = new ArrayList<>();
     List<RecommendModel> recommendModels = new ArrayList<>();
-    private List<String> advList = new ArrayList<>();
 
     int pageindex = 1;
     SubjectAdapter subjectAdapter;
     ViewPager viewPager;
-    MyRelative rl_container;
 
 
     public SubjectFragment() {
@@ -97,18 +91,9 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         View headView = View.inflate(getContext(), R.layout.expandlist_subject_group, null);
         viewPager = (ViewPager) headView.findViewById(R.id.viewpager);
-        rl_container = (MyRelative) headView.findViewById(R.id.rl_container);
         ple_list.getRefreshableView().addHeaderView(headView);
         subjectAdapter = new SubjectAdapter(getContext(), topicModels);
 
-//        adapter=new EasyAdapter<ArticleTopicModel>(getContext(),topicListModels,R.layout.frag_girdlist_subject_item) {
-//            @Override
-//            public void convert(ViewHolder holder, ArticleTopicModel data, int position) {
-//                TextView tv_clickhot=holder.getView(R.id.tv_clickhot);
-//                tv_clickhot.setText(data.getClicks()+"");
-//                advList.add(data.getTopicImg());
-//            }
-//        };
         ple_list.setAdapter(subjectAdapter);
 
     }
@@ -122,11 +107,10 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
 
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
-        ple_list.onRefreshComplete();
         topicListModels.addAll(subjectModel.getArticleTopicList());
         ArticleTopicModel articleTopicModel = new ArticleTopicModel();
-//        articleTopicModel=topicListModels.get(0);
-//        topicListModels.add(articleTopicModel);
+        articleTopicModel=topicListModels.get(0);
+        topicListModels.add(articleTopicModel);
         topicModels.clear();
         if (topicListModels.size() != 0 || topicListModels != null) {
             TopicModel topicModel;
@@ -193,13 +177,12 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 }
             }
 
-            Log.i("3333", new Gson().toJson(topicModels));
-
         }
-        ple_list.setAdapter(subjectAdapter);
         ple_list.onRefreshComplete();
+        ple_list.setAdapter(subjectAdapter);
         if (subjectModel != null) {
             if (!subjectModel.getRecommendTopicList().isEmpty()) {
+                viewPager.setOffscreenPageLimit(subjectModel.getRecommendTopicList().size());
                 recommendModels.clear();
                 viewPager.removeAllViews();
                 recommendModels.addAll(subjectModel.getRecommendTopicList());
@@ -234,13 +217,12 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
             public Object instantiateItem(ViewGroup container, final int position) {
 
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.list_subjectremend_item, container, false);
-                container.addView(view);
-                TextView tv_clickhot = (TextView) container.findViewById(R.id.tv_clickhot);
-                tv_clickhot.setText(recommendModels.get(position).getClicks() + "");
-                ImageView im_photo = (ImageView) container.findViewById(R.id.im_photo);
+                TextView tv_clickhot = (TextView) view.findViewById(R.id.tv_clickhot);
+                tv_clickhot.setText(String.valueOf(recommendModels.get(position).getClicks()));
+                ImageView im_photo = (ImageView) view.findViewById(R.id.im_photo);
                 Picasso.with(getContext()).load(AddressManager.get("photoHost") + recommendModels.get(position).getTopicImg()).fit().error(R.drawable.default_icon_square)
                         .placeholder(R.drawable.default_icon_square).into(im_photo);
-                RelativeLayout re_remend = (RelativeLayout) container.findViewById(R.id.re_remend);
+                RelativeLayout re_remend = (RelativeLayout) view.findViewById(R.id.re_remend);
                 re_remend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -250,7 +232,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                         startActivity(intent);
                     }
                 });
-
+                container.addView(view);
                 return view;
             }
 
@@ -259,17 +241,13 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 return POSITION_NONE;
             }
 
-            @Override
-            public float getPageWidth(int position) {
-                return super.getPageWidth(position);
-            }
 
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
                 container.removeView((View) object);
             }
         };
-
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(pageradapter);
     }
 

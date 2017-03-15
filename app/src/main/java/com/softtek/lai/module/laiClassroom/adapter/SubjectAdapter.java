@@ -71,6 +71,8 @@ public class SubjectAdapter extends BaseAdapter {
             holdel.ll_subitem2.setVisibility(View.VISIBLE);
             holdel.tv_subject_name1.setText(topicModel.getTopicName().get(0));
             holdel.tv_subject_name2.setText(topicModel.getTopicName().get(1));
+            holdel.tv_clickhot1.setText(String.valueOf(topicModel.getClicks().get(0)));
+            holdel.tv_clickhot2.setText(String.valueOf(topicModel.getClicks().get(1)));
             if (!TextUtils.isEmpty(topicModel.getTopicImg().get(0)))
             {
                 Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(0)).centerCrop().placeholder(R.drawable.default_icon_rect)
@@ -84,7 +86,6 @@ public class SubjectAdapter extends BaseAdapter {
             {
                 Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(1)).centerCrop().placeholder(R.drawable.default_icon_rect)
                         .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo2);
-                Log.i("图片呢",AddressManager.get("photoHost")+topicModel.getTopicImg().get(1));
             }
             else {
                 Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
@@ -92,7 +93,9 @@ public class SubjectAdapter extends BaseAdapter {
             }
         }else {
             holdel.ll_subitem1.setVisibility(View.VISIBLE);
+            holdel.ll_subitem2.setVisibility(View.INVISIBLE);
             holdel.tv_subject_name1.setText(topicModel.getTopicName().get(0));
+            holdel.tv_clickhot1.setText(String.valueOf(topicModel.getClicks().get(0)));
             if (!TextUtils.isEmpty(topicModel.getTopicImg().get(0)))
             {
                 Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(0)).centerCrop().placeholder(R.drawable.default_icon_rect)
@@ -110,7 +113,7 @@ public class SubjectAdapter extends BaseAdapter {
     {
         LinearLayout ll_subitem1,ll_subitem2;
         ImageView im_photo,im_photo2;
-        TextView tv_subject_name1,tv_subject_name2;
+        TextView tv_subject_name1,tv_subject_name2,tv_clickhot1,tv_clickhot2;
 
         public SubjectHoldel(View view)
         {
@@ -120,6 +123,8 @@ public class SubjectAdapter extends BaseAdapter {
             im_photo2= (ImageView) view.findViewById(R.id.im_photo1);
             tv_subject_name1= (TextView) view.findViewById(R.id.tv_subject_name1);
             tv_subject_name2= (TextView) view.findViewById(R.id.tv_subject_name2);
+            tv_clickhot1= (TextView) view.findViewById(R.id.tv_clickhot1);
+            tv_clickhot2= (TextView) view.findViewById(R.id.tv_clickhot2);
 
         }
     }
