@@ -371,7 +371,6 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
         if (requestCode == GET_Sian && resultCode == getActivity().RESULT_OK) {
             if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
                 tv_editor_signature.setText(data.getStringExtra("sina"));
-//                tv_editor_signature.setCompoundDrawables(null, null, null, null);
                 myinfomodel.setSignature(data.getStringExtra("sina"));
             }
         }

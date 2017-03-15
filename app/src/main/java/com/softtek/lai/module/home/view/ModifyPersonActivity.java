@@ -240,7 +240,7 @@ import zilla.libcore.util.Util;
                                         ActivityCompat.requestPermissions(ModifyPersonActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
                                     }
                                 } else {
-                                    imageFileCropSelector.selectImage(ModifyPersonActivity.this);// 图库选择图片
+                                    imageFileCropSelector.selectSystemImage(ModifyPersonActivity.this);// 图库选择图片
                                 }
                             }
                         }
