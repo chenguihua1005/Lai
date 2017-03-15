@@ -41,20 +41,20 @@ import zilla.libcore.ui.InjectLayout;
 
 //专题页面
 @InjectLayout(R.layout.fragment_subject)
-public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implements SubjectPresenter.getSubject, PullToRefreshBase.OnRefreshListener2<ListView>{
+public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implements SubjectPresenter.getSubject, PullToRefreshBase.OnRefreshListener2<ListView> {
 
     @InjectView(R.id.ple_list)
     PullToRefreshListView ple_list;
     @InjectView(R.id.im_nomessage)
     ImageView im_nomessage;
 
-    EasyAdapter<ArticleTopicModel>adapter;
-    List<ArticleTopicModel> topicListModels= new ArrayList<>();
-    List<TopicModel> topicModels=new ArrayList<>();
-    List<RecommendModel>recommendModels=new ArrayList<>();
+    EasyAdapter<ArticleTopicModel> adapter;
+    List<ArticleTopicModel> topicListModels = new ArrayList<>();
+    List<TopicModel> topicModels = new ArrayList<>();
+    List<RecommendModel> recommendModels = new ArrayList<>();
     private List<String> advList = new ArrayList<>();
 
-    int pageindex=1;
+    int pageindex = 1;
     SubjectAdapter subjectAdapter;
     ViewPager viewPager;
     MyRelative rl_container;
@@ -63,7 +63,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     public SubjectFragment() {
         // Required empty public constructor
     }
-    
+
 
     @Override
     protected void lazyLoad() {
@@ -99,7 +99,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         viewPager = (ViewPager) headView.findViewById(R.id.viewpager);
         rl_container = (MyRelative) headView.findViewById(R.id.rl_container);
         ple_list.getRefreshableView().addHeaderView(headView);
-        subjectAdapter=new SubjectAdapter(getContext(),topicModels);
+        subjectAdapter = new SubjectAdapter(getContext(), topicModels);
 
 //        adapter=new EasyAdapter<ArticleTopicModel>(getContext(),topicListModels,R.layout.frag_girdlist_subject_item) {
 //            @Override
@@ -109,83 +109,80 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
 //                advList.add(data.getTopicImg());
 //            }
 //        };
-        ple_list.setAdapter( subjectAdapter);
+        ple_list.setAdapter(subjectAdapter);
 
     }
 
     @Override
     protected void initDatas() {
-      setPresenter(new SubjectPresenter(this));
+        setPresenter(new SubjectPresenter(this));
 
     }
 
 
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
+        ple_list.onRefreshComplete();
         topicListModels.addAll(subjectModel.getArticleTopicList());
-        ArticleTopicModel articleTopicModel=new ArticleTopicModel();
+        ArticleTopicModel articleTopicModel = new ArticleTopicModel();
 //        articleTopicModel=topicListModels.get(0);
 //        topicListModels.add(articleTopicModel);
         topicModels.clear();
-        if (topicListModels.size()!=0||topicListModels!=null)
-        {TopicModel topicModel;
-            topicModel=new TopicModel();
-            if (topicListModels.size()%2==0)
-            {
-                for (int i=0;i<topicListModels.size();i=i+2)
-                {
-                    List<String>topname=new ArrayList<>();
-                    List<String>topimage=new ArrayList<>();
-                    List<Integer>topclick=new ArrayList<>();
-                    List<String>topid=new ArrayList<>();
-                    topname.add(0,topicListModels.get(i).getTopicName());
-                    topname.add(1,topicListModels.get(i+1).getTopicName());
-                    topimage.add(0,topicListModels.get(i).getTopicImg());
-                    topimage.add(1,topicListModels.get(i+1).getTopicImg());
-                    topclick.add(0,topicListModels.get(i).getClicks());
-                    topclick.add(1,topicListModels.get(i+1).getClicks());
-                    topid.add(0,topicListModels.get(i).getTopicId());
-                    topid.add(1,topicListModels.get(i+1).getTopicId());
+        if (topicListModels.size() != 0 || topicListModels != null) {
+            TopicModel topicModel;
+            topicModel = new TopicModel();
+            if (topicListModels.size() % 2 == 0) {
+                for (int i = 0; i < topicListModels.size(); i = i + 2) {
+                    List<String> topname = new ArrayList<>();
+                    List<String> topimage = new ArrayList<>();
+                    List<Integer> topclick = new ArrayList<>();
+                    List<String> topid = new ArrayList<>();
+                    topname.add(0, topicListModels.get(i).getTopicName());
+                    topname.add(1, topicListModels.get(i + 1).getTopicName());
+                    topimage.add(0, topicListModels.get(i).getTopicImg());
+                    topimage.add(1, topicListModels.get(i + 1).getTopicImg());
+                    topclick.add(0, topicListModels.get(i).getClicks());
+                    topclick.add(1, topicListModels.get(i + 1).getClicks());
+                    topid.add(0, topicListModels.get(i).getTopicId());
+                    topid.add(1, topicListModels.get(i + 1).getTopicId());
                     topicModel.setTopicName(topname);
                     topicModel.setTopicImg(topimage);
                     topicModel.setTopicId(topid);
                     topicModel.setClicks(topclick);
                     topicModels.add(topicModel);
                 }
-            }
-            else {
-                for (int i=1;i<=topicListModels.size();i=i+2) {
-                    if (i!=topicListModels.size())
-                    {   topicModel=new TopicModel();
-                        List<String>topname=new ArrayList<>();
-                        List<String>topimage=new ArrayList<>();
-                        List<Integer>topclick=new ArrayList<>();
-                        List<String>topid=new ArrayList<>();
-                        topname.add(0,topicListModels.get(i-1).getTopicName());
-                        topname.add(1,topicListModels.get(i).getTopicName());
-                        topimage.add(0,topicListModels.get(i-1).getTopicImg());
-                        topimage.add(1,topicListModels.get(i).getTopicImg());
-                        topclick.add(0,topicListModels.get(i-1).getClicks());
-                        topclick.add(1,topicListModels.get(i).getClicks());
-                        topid.add(0,topicListModels.get(i-1).getTopicId());
-                        topid.add(1,topicListModels.get(i).getTopicId());
+            } else {
+                for (int i = 1; i <= topicListModels.size(); i = i + 2) {
+                    if (i != topicListModels.size()) {
+                        topicModel = new TopicModel();
+                        List<String> topname = new ArrayList<>();
+                        List<String> topimage = new ArrayList<>();
+                        List<Integer> topclick = new ArrayList<>();
+                        List<String> topid = new ArrayList<>();
+                        topname.add(0, topicListModels.get(i - 1).getTopicName());
+                        topname.add(1, topicListModels.get(i).getTopicName());
+                        topimage.add(0, topicListModels.get(i - 1).getTopicImg());
+                        topimage.add(1, topicListModels.get(i).getTopicImg());
+                        topclick.add(0, topicListModels.get(i - 1).getClicks());
+                        topclick.add(1, topicListModels.get(i).getClicks());
+                        topid.add(0, topicListModels.get(i - 1).getTopicId());
+                        topid.add(1, topicListModels.get(i).getTopicId());
                         topicModel.setTopicName(topname);
                         topicModel.setTopicImg(topimage);
                         topicModel.setTopicId(topid);
                         topicModel.setClicks(topclick);
                         topicModels.add(topicModel);
 
-                    }
-                    else {
-                        topicModel=new TopicModel();
-                        List<String>topname=new ArrayList<>();
-                        List<String>topimage=new ArrayList<>();
-                        List<Integer>topclick=new ArrayList<>();
-                        List<String>topid=new ArrayList<>();
-                        topname.add(0,topicListModels.get(i-1).getTopicName());
-                        topimage.add(0,topicListModels.get(i-1).getTopicImg());
-                        topclick.add(0,topicListModels.get(i-1).getClicks());
-                        topid.add(0,topicListModels.get(i-1).getTopicId());
+                    } else {
+                        topicModel = new TopicModel();
+                        List<String> topname = new ArrayList<>();
+                        List<String> topimage = new ArrayList<>();
+                        List<Integer> topclick = new ArrayList<>();
+                        List<String> topid = new ArrayList<>();
+                        topname.add(0, topicListModels.get(i - 1).getTopicName());
+                        topimage.add(0, topicListModels.get(i - 1).getTopicImg());
+                        topclick.add(0, topicListModels.get(i - 1).getClicks());
+                        topid.add(0, topicListModels.get(i - 1).getTopicId());
                         topicModel.setTopicName(topname);
                         topicModel.setClicks(topclick);
                         topicModel.setTopicId(topid);
@@ -196,7 +193,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 }
             }
 
-            Log.i("3333",new Gson().toJson(topicModels));
+            Log.i("3333", new Gson().toJson(topicModels));
 
         }
         ple_list.setAdapter(subjectAdapter);
@@ -219,6 +216,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     }
 
     private PagerAdapter pageradapter;
+
     private void adapterData() {
 
         pageradapter = new PagerAdapter() {
@@ -242,12 +240,13 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 ImageView im_photo = (ImageView) container.findViewById(R.id.im_photo);
                 Picasso.with(getContext()).load(AddressManager.get("photoHost") + recommendModels.get(position).getTopicImg()).fit().error(R.drawable.default_icon_square)
                         .placeholder(R.drawable.default_icon_square).into(im_photo);
-                RelativeLayout re_remend= (RelativeLayout) container.findViewById(R.id.re_remend);
+                RelativeLayout re_remend = (RelativeLayout) container.findViewById(R.id.re_remend);
                 re_remend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=new Intent(getContext(),SubjectdetailActivity.class);
-                        intent.putExtra("topicId",recommendModels.get(position).getTopicId());
+                        Intent intent = new Intent(getContext(), SubjectdetailActivity.class);
+                        intent.putExtra("topictitle", recommendModels.get(position).getTopicName());
+                        intent.putExtra("topicId", recommendModels.get(position).getTopicId());
                         startActivity(intent);
                     }
                 });
@@ -277,11 +276,11 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        getPresenter().getSubjectData(1,10);
+        getPresenter().getSubjectData(1, 10);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        getPresenter().getSubjectData(1,10);
+        getPresenter().getSubjectData(1, 10);
     }
 }

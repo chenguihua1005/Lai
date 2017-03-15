@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.softtek.lai">
 
-    <!--<uses-sdk
+    <!--
+        <uses-sdk
         android:minSdkVersion="17"
-        android:targetSdkVersion="25" />-->
+        android:targetSdkVersion="25" />
+    -->
 
     <permission
         android:name="com.softtek.lai.permission.JPUSH_MESSAGE"
@@ -802,7 +804,7 @@
             android:name=".module.laiClassroom.VideoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTransparentStatus" />
-        <activity android:name=".module.laiClassroom.SubjectdetailActivity"></activity>
+        <activity android:name=".module.laiClassroom.SubjectdetailActivity" />
     </application>
 
 </manifest>

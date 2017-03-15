@@ -31,6 +31,11 @@ public class ImageFileSelector {
             }
 
             @Override
+            public void onSystemImageSuccess(String img) {
+                handleResult(img, false);
+            }
+
+            @Override
             public void onError() {
                 handleError();
             }
