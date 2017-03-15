@@ -54,7 +54,7 @@ public class SubjectAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         SubjectHoldel holdel;
-        if (view!=null)
+        if (view==null)
         {
             view= LayoutInflater.from(context).inflate(R.layout.frag_girdlist_subject_item,viewGroup,false);
             holdel=new SubjectHoldel(view);
