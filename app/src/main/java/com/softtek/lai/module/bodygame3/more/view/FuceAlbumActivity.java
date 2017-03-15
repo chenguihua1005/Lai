@@ -1,12 +1,16 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,11 +30,14 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.more.adapter.FuceAlbumAdapter;
 import com.softtek.lai.module.bodygame3.more.model.FuceAlbumModel;
 import com.softtek.lai.module.bodygame3.more.model.FuceClassAlbumModel;
 import com.softtek.lai.module.bodygame3.more.model.FucePhotoModel;
+import com.softtek.lai.module.bodygame3.more.model.FuceShareModel;
+import com.softtek.lai.module.bodygame3.more.net.StudentService;
 import com.softtek.lai.module.bodygame3.more.present.FuceAlbumManager;
 import com.softtek.lai.widgets.FuCeSelectPicPopupWindow;
 import com.squareup.picasso.Picasso;
@@ -42,7 +49,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 3/9/2017.
@@ -231,40 +243,15 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         public void onClick(View v) {
             menuWindow.dismiss();
-            switch (v.getId()) {
-                case R.id.lin_weixin:
-                    new ShareAction(FuceAlbumActivity.this)
-                            .setPlatform(SHARE_MEDIA.WEIXIN)
-                            .withTitle(title_value)
-                            .withText(value)
-                            .withTargetUrl(url)
-                            .withMedia(new UMImage(FuceAlbumActivity.this, R.drawable.img_share_logo))
-                            .share();
-                    break;
-                case R.id.lin_circle:
-                    new ShareAction(FuceAlbumActivity.this)
-                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
-                            .withTitle(title_value)
-                            .withText(value)
-                            .withTargetUrl(url)
-                            .withMedia(new UMImage(FuceAlbumActivity.this, R.drawable.img_share_logo))
-                            .share();
-                    break;
-                case R.id.lin_sina:
-                    new ShareAction(FuceAlbumActivity.this)
-                            .setPlatform(SHARE_MEDIA.SINA)
-                            .withText(value + url)
-                            .withMedia(new UMImage(FuceAlbumActivity.this, R.drawable.img_share_logo))
-                            .share();
-                    break;
-                default:
-                    break;
-            }
+
+            setShare(v);
+
         }
     };
 
     int flag = 0;
     public static boolean show_photo_circle = false;
+    private static final int LOCATION_PREMISSION = 100;
 
     @Override
     public void onClick(View view) {
@@ -275,17 +262,39 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
             case R.id.fl_right: {
                 Log.i(TAG, "点击分享按钮。。。。。。。。。。。。。。。。。。 count = " + count);
                 if (flag == 0) {//点击分享按钮
-                    tv_right.setText("取消");
-                    menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
-                    //显示窗口
-                    menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                    menuWindow.showAtLocation(FuceAlbumActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-                    menuWindow.setBackgroundDrawable(new BitmapDrawable());
-                    flag = 1;
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        com.github.snowdream.android.util.Log.i("检查权限。。。。");
+                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                        if (
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            //允许弹出提示
+                            ActivityCompat.requestPermissions(this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    LOCATION_PREMISSION);
 
-                    show_photo_circle = true;
+                        } else {
+                            //不允许弹出提示
+                            ActivityCompat.requestPermissions(this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    LOCATION_PREMISSION);
+                        }
+                    } else {
 
-                    adapter.notifyDataSetChanged();
+                        tv_right.setText("取消");
+                        menuWindow = new FuCeSelectPicPopupWindow(FuceAlbumActivity.this, itemsOnClick);
+                        //显示窗口
+                        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        menuWindow.showAtLocation(FuceAlbumActivity.this.findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                        menuWindow.setBackgroundDrawable(new BitmapDrawable());
+                        flag = 1;
+
+                        show_photo_circle = true;
+
+                        adapter.notifyDataSetChanged();
+
+                    }
 
 
                 } else {// flag = 1;  点击取消
@@ -376,6 +385,98 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+//    private String ShareContent = "";//分享内容
+//    private String ShareLinkUrl = "";//分享链接
+
+    private void setShare(final View v) {
+        dialogShow("加载中");
+
+        String measuredIds = "";
+
+        for (int i = 0; i < fucePhotos.size(); i++) {
+            FuceClassAlbumModel classAlbumModel = fucePhotos.get(i);
+            total += classAlbumModel.getPhotoList().size();
+            for (int j = 0; j < classAlbumModel.getPhotoList().size(); j++) {
+                FucePhotoModel fucePhotoModel = classAlbumModel.getPhotoList().get(j);
+                if (fucePhotoModel.isSelect()) {
+                    measuredIds += fucePhotoModel.getACMId() + ",";
+                }
+            }
+        }
+
+        if (!TextUtils.isEmpty(measuredIds)) {
+            measuredIds.substring(0, measuredIds.length() - 1);
+        }
+
+        Log.i(TAG, "here =" + measuredIds);
+
+
+        StudentService service = ZillaApi.NormalRestAdapter.create(StudentService.class);
+        service.shareMeasurePhotos(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), measuredIds, new Callback<ResponseData<FuceShareModel>>() {
+            @Override
+            public void success(ResponseData<FuceShareModel> responseData, Response response) {
+                int status = responseData.getStatus();
+
+                Log.i(TAG, "数据 = " + new Gson().toJson(responseData));
+                switch (status) {
+                    case 200:
+                        dialogDissmiss();
+
+                        title_value = "";
+                        value = responseData.getData().getShareContent();//分享内容
+                        url = responseData.getData().getShareLinkUrl();//分享链接
+
+
+                        switch (v.getId()) {
+                            case R.id.lin_weixin:
+                                new ShareAction(FuceAlbumActivity.this)
+                                        .setPlatform(SHARE_MEDIA.WEIXIN)
+                                        .withTitle(title_value)
+                                        .withText(value)
+                                        .withTargetUrl(url)
+                                        .withMedia(new UMImage(FuceAlbumActivity.this, R.drawable.img_share_logo))
+                                        .share();
+                                break;
+                            case R.id.lin_circle:
+                                new ShareAction(FuceAlbumActivity.this)
+                                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                                        .withTitle(title_value)
+                                        .withText(value)
+                                        .withTargetUrl(url)
+                                        .withMedia(new UMImage(FuceAlbumActivity.this, R.drawable.img_share_logo))
+                                        .share();
+                                break;
+                            case R.id.lin_sina:
+                                new ShareAction(FuceAlbumActivity.this)
+                                        .setPlatform(SHARE_MEDIA.SINA)
+                                        .withText(value + url)
+                                        .withMedia(new UMImage(FuceAlbumActivity.this, R.drawable.img_share_logo))
+                                        .share();
+                                break;
+                            default:
+                                break;
+                        }
+
+
+                        break;
+                    default:
+                        dialogDissmiss();
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialogDissmiss();
+
+            }
+        });
+
 
     }
 
