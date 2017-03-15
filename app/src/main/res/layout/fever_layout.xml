@@ -25,7 +25,7 @@
         android:textColor="#A1A1A1"
         android:textSize="10sp" />
 
-    <TextView
+    <com.softtek.lai.widgets.CommentTextView
         android:id="@+id/tv_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
