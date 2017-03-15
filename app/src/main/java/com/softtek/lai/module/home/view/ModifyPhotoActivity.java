@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -184,7 +183,7 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectImage(ModifyPhotoActivity.this);
+                            imageFileCropSelector.selectSystemImage(ModifyPhotoActivity.this);
                         }
                     }
                 }).create().show();

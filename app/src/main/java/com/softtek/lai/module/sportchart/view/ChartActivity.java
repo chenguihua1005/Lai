@@ -407,7 +407,7 @@ public class ChartActivity extends BaseActivity implements ChartManager.ChartMan
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectImage(ChartActivity.this);
+                            imageFileCropSelector.selectSystemImage(ChartActivity.this);
                         }
                     }
                 }).create().show();

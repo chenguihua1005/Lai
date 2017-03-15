@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
@@ -297,8 +298,10 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void doGetData() {
+
         try {
             if (memberInfoModel != null) {
+                Log.i(TAG,"111111112222222222222222 数据为 = "+ new Gson().toJson(memberInfoModel));
                 String url = AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
@@ -455,7 +458,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             btn_addguy.setVisibility(View.VISIBLE);//添加好友
                             btn_addguy.setText("待确认");
                             btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
-                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_assistant_refuse));
                             iv_email.setVisibility(View.INVISIBLE);
                         } else {
                             btn_chat.setVisibility(View.VISIBLE);
