@@ -1,5 +1,7 @@
 package com.softtek.lai.module.bodygame3.more.present;
 
+import android.util.Log;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.more.model.FuceAlbumModel;
 import com.softtek.lai.module.bodygame3.more.net.StudentService;

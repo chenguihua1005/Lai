@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.common.ResponseData;
@@ -21,7 +20,6 @@ import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.InjectView;

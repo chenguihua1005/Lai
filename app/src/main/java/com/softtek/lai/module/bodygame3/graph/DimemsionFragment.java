@@ -20,7 +20,6 @@ import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.InjectView;

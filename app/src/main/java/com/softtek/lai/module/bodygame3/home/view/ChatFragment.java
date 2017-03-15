@@ -95,7 +95,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.lin, conversationListFragment).show(conversationListFragment)
                             .commit();
                 } else {
-                    Util.toastMsg(getContext().getString(R.string.conversation_starting));
+                    Util.toastMsg("网络异常，请重新登录后再试");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -158,8 +158,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                     .commit();
 
 
+
+
         } else {
-            Util.toastMsg(getContext().getString(R.string.conversation_starting));
+            Util.toastMsg("网络异常，请重新登录后再试");
         }
     }
 
@@ -286,7 +288,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         if (model != null) {
             String state = model.getState();
             if ("0".equals(state)) {
-                Util.toastMsg("会话功能开通中，请稍后再试");
+                Util.toastMsg("网络异常，请重新登录后再试");
             } else if ("-1".equals(state)) {
                 Util.toastMsg("开通会话功能需要身份认证");
             } else {
@@ -294,7 +296,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 loginChat(progressDialog, model.getHXAccountId());
             }
         } else {
-            Util.toastMsg(getContext().getString(R.string.conversation_starting));
+            Util.toastMsg("网络异常，请重新登录后再试");
         }
     }
 
