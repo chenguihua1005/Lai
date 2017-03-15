@@ -105,7 +105,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
         topicListModels.addAll(subjectModel.getArticleTopicList());
-        topicListModels.clear();
+        topicModels.clear();
         if (topicListModels.size()!=0||topicListModels!=null)
         {TopicModel topicModel;
             topicModel=new TopicModel();
