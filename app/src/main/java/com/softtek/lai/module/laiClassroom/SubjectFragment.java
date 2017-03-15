@@ -16,6 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.laiClassroom.adapter.SubjectAdapter;
 import com.softtek.lai.module.laiClassroom.model.ArticleTopicModel;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
 import com.softtek.lai.module.laiClassroom.model.TopicModel;
@@ -42,7 +43,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     private List<String> advList = new ArrayList<>();
 
     int pageindex=1;
-//    RelativeLayout re_photowall;
+    SubjectAdapter subjectAdapter;
 
     public SubjectFragment() {
         // Required empty public constructor
@@ -80,15 +81,17 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
 
-        adapter=new EasyAdapter<ArticleTopicModel>(getContext(),topicListModels,R.layout.frag_girdlist_subject_item) {
-            @Override
-            public void convert(ViewHolder holder, ArticleTopicModel data, int position) {
-                TextView tv_clickhot=holder.getView(R.id.tv_clickhot);
-                tv_clickhot.setText(data.getClicks()+"");
-                advList.add(data.getTopicImg());
-            }
-        };
-        ple_list.setAdapter( adapter);
+        subjectAdapter=new SubjectAdapter(getContext(),topicModels);
+
+//        adapter=new EasyAdapter<ArticleTopicModel>(getContext(),topicListModels,R.layout.frag_girdlist_subject_item) {
+//            @Override
+//            public void convert(ViewHolder holder, ArticleTopicModel data, int position) {
+//                TextView tv_clickhot=holder.getView(R.id.tv_clickhot);
+//                tv_clickhot.setText(data.getClicks()+"");
+//                advList.add(data.getTopicImg());
+//            }
+//        };
+        ple_list.setAdapter( subjectAdapter);
 
     }
 
@@ -96,14 +99,13 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     protected void initDatas() {
       setPresenter(new SubjectPresenter(this));
 
-
-
     }
 
 
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
         topicListModels.addAll(subjectModel.getArticleTopicList());
+        topicModels.clear();
         if (topicListModels.size()!=0||topicListModels!=null)
         {TopicModel topicModel;
             topicModel=new TopicModel();
@@ -115,14 +117,14 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                     List<String>topimage=new ArrayList<>();
                     List<Integer>topclick=new ArrayList<>();
                     List<String>topid=new ArrayList<>();
-                    topname.add(i,topicListModels.get(i).getTopicName());
-                    topname.add(i+1,topicListModels.get(i+1).getTopicName());
-                    topimage.add(i,topicListModels.get(i).getTopicImg());
-                    topimage.add(i+1,topicListModels.get(i+1).getTopicImg());
-                    topclick.add(i,topicListModels.get(i).getClicks());
-                    topclick.add(i+1,topicListModels.get(i+1).getClicks());
-                    topid.add(i,topicListModels.get(i).getTopicId());
-                    topid.add(i+1,topicListModels.get(i+1).getTopicId());
+                    topname.add(0,topicListModels.get(i).getTopicName());
+                    topname.add(1,topicListModels.get(i+1).getTopicName());
+                    topimage.add(0,topicListModels.get(i).getTopicImg());
+                    topimage.add(1,topicListModels.get(i+1).getTopicImg());
+                    topclick.add(0,topicListModels.get(i).getClicks());
+                    topclick.add(1,topicListModels.get(i+1).getClicks());
+                    topid.add(0,topicListModels.get(i).getTopicId());
+                    topid.add(1,topicListModels.get(i+1).getTopicId());
                     topicModel.setTopicName(topname);
                     topicModel.setTopicImg(topimage);
                     topicModel.setTopicId(topid);
@@ -139,10 +141,10 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                         List<String>topimage=new ArrayList<>();
                         List<Integer>topclick=new ArrayList<>();
                         List<String>topid=new ArrayList<>();
-                        topname.add(i-1,topicListModels.get(i-1).getTopicName());
-                        topimage.add(i-1,topicListModels.get(i-1).getTopicImg());
-                        topclick.add(i-1,topicListModels.get(i-1).getClicks());
-                        topid.add(i-1,topicListModels.get(i-1).getTopicId());
+                        topname.add(0,topicListModels.get(i-1).getTopicName());
+                        topimage.add(0,topicListModels.get(i-1).getTopicImg());
+                        topclick.add(0,topicListModels.get(i-1).getClicks());
+                        topid.add(0,topicListModels.get(i-1).getTopicId());
                         topicModel.setTopicName(topname);
                         topicModel.setClicks(topclick);
                         topicModel.setTopicId(topid);
@@ -154,14 +156,14 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                         List<String>topimage=new ArrayList<>();
                         List<Integer>topclick=new ArrayList<>();
                         List<String>topid=new ArrayList<>();
-                        topname.add(i-1,topicListModels.get(i-1).getTopicName());
-                        topname.add(i,topicListModels.get(i).getTopicName());
-                        topimage.add(i-1,topicListModels.get(i-1).getTopicImg());
-                        topimage.add(i,topicListModels.get(i).getTopicName());
-                        topclick.add(i-1,topicListModels.get(i-1).getClicks());
-                        topclick.add(i,topicListModels.get(i).getClicks());
-                        topid.add(i-1,topicListModels.get(i-1).getTopicId());
-                        topid.add(i,topicListModels.get(i).getTopicId());
+                        topname.add(0,topicListModels.get(i-1).getTopicName());
+                        topname.add(1,topicListModels.get(i).getTopicName());
+                        topimage.add(0,topicListModels.get(i-1).getTopicImg());
+                        topimage.add(1,topicListModels.get(i).getTopicName());
+                        topclick.add(0,topicListModels.get(i-1).getClicks());
+                        topclick.add(1,topicListModels.get(i).getClicks());
+                        topid.add(0,topicListModels.get(i-1).getTopicId());
+                        topid.add(1,topicListModels.get(i).getTopicId());
                         topicModel.setTopicName(topname);
                         topicModel.setTopicImg(topimage);
                         topicModel.setTopicId(topid);
@@ -171,10 +173,11 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
 
                 }
             }
+
             Log.i("3333",new Gson().toJson(topicModels));
 
         }
-        ple_list.setAdapter(adapter);
+        ple_list.setAdapter(subjectAdapter);
         ple_list.onRefreshComplete();
 
     }

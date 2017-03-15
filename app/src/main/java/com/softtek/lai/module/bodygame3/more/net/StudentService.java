@@ -2,13 +2,17 @@ package com.softtek.lai.module.bodygame3.more.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.more.model.FuceAlbumModel;
+import com.softtek.lai.module.bodygame3.more.model.FuceShareModel;
 import com.softtek.lai.module.bodygame3.more.model.HnumsModel;
 import com.softtek.lai.module.bodygame3.more.model.HonorModel;
 import com.softtek.lai.module.bodygame3.more.model.ServiceTeam;
 
 import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -47,6 +51,17 @@ public interface StudentService {
             @Query("accountId") long accountId,
             @Query("pageIndex") int pageIndex,
             Callback<ResponseData<FuceAlbumModel>> callback
+    );
+
+    //复测分享接口
+
+    @FormUrlEncoded
+    @POST("/V1/MeasuredRecordLog/ShareMeasurePhotos")
+    void shareMeasurePhotos(
+            @Header("token") String token,
+            @Field("AccountId") long AccountId,
+            @Field("MeasuredIds") String MeasuredIds,
+            Callback<ResponseData<FuceShareModel>> callback
     );
 
 

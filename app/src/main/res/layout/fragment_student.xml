@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:src="@drawable/st_exit" />
+            android:src="@drawable/album_fuce" />
 
         <TextView
             android:layout_width="wrap_content"
