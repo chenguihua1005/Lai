@@ -258,51 +258,6 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     }
 
 
-
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser)
-//        {
-//            model = UserInfoModel.getInstance().getUser();
-//            if (model == null) {
-//                return;
-//            }
-//            String userrole = model.getUserrole();
-//            if (String.valueOf(Constants.VR).equals(userrole)) {
-//                lin_not_vr.setVisibility(View.GONE);
-//                lin_is_vr.setVisibility(View.VISIBLE);
-//                return;
-//            } else {
-//                lin_not_vr.setVisibility(View.VISIBLE);
-//                lin_is_vr.setVisibility(View.GONE);
-//            }
-//            photo = model.getPhoto();
-//            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//            if (!TextUtils.isEmpty(photo)) {
-//                Picasso.with(getContext()).load(path + photo).fit().placeholder(R.drawable.img_default)
-//                        .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
-//            }
-//            if (StringUtils.isEmpty(model.getNickname())) {
-//                tv_username.setText(model.getMobile()+"");
-//            } else {
-//                tv_username.setText(model.getNickname()+"");
-//            }
-//
-//            String certification = model.getCertification();
-//            if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
-//                tv_renzh.setText("已认证");
-//                tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-//            } else {
-//                tv_renzh.setText("未认证");
-//                tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
-//            }
-//
-////        text_zgzh.setText(certification);
-//            GetMyInfo();
-//        }
-//    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -398,7 +353,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectImage(MineTwoFragment.this);
+                            imageFileCropSelector.selectSystemImage(MineTwoFragment.this);
                         }
                     }
                 }).create().show();
