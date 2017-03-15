@@ -83,7 +83,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         adapter=new EasyAdapter<ArticleTopicModel>(getContext(),topicListModels,R.layout.frag_girdlist_subject_item) {
             @Override
             public void convert(ViewHolder holder, ArticleTopicModel data, int position) {
-                TextView tv_clickhot=holder.getView(R.id.tv_clickhot);
+                TextView tv_clickhot=holder.getView(R.id.tv_clickhot2);
                 tv_clickhot.setText(data.getClicks()+"");
                 advList.add(data.getTopicImg());
             }
