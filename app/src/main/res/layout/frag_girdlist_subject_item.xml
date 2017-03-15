@@ -13,11 +13,13 @@
             android:layout_marginBottom="5dp"
             android:layout_centerInParent="true">
             <LinearLayout
+                android:id="@+id/ll_subitem1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center"
+                android:visibility="gone"
                 >
                 <ImageView
                     android:id="@+id/im_photo"
@@ -35,12 +37,13 @@
                     android:layout_marginTop="5dp"
                     >
                     <TextView
+                        android:id="@+id/tv_subject_name1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="12课堂"
                         android:textColor="#82AA4C"/>
                     <TextView
-                        android:id="@+id/tv_clickhot"
+                        android:id="@+id/tv_clickhot1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2055"
@@ -49,11 +52,14 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_subitem2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone"
+                >
 
                 <ImageView
                     android:id="@+id/im_photo1"
@@ -68,12 +74,13 @@
                     android:layout_below="@+id/im_photo"
                     android:layout_marginTop="5dp">
                     <TextView
+                        android:id="@+id/tv_subject_name2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="12课堂"
                         android:textColor="#82AA4C"/>
                     <TextView
-                        android:id="@+id/tv_clickhot1"
+                        android:id="@+id/tv_clickhot2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2055"

@@ -180,6 +180,9 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent!=null){
             isExit=intent.getBooleanExtra("isExit",false);
+            Log.i("onStartCommand来啦啦啦啦啦啊啦啦啦啦啦啦啦啦啦啦啦lalalallalalalalalallalalalalalallalalalal++++====="+isExit);
+        }else {
+            Log.i("onStartCommand是空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空");
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -262,10 +265,10 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             return;
         }
         //如果firstStep为0表示第一次开启应用 或者隔天了。
+        String now=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
         if(firstStep==0){
             firstStep=stepTemp;
             lastStep=0;
-            String now=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
             if(!isExit&&!isNextDay){//如果不是正常的情况下且不是跨天退出的则需要把中间的插值补上
                 String time=SharedPreferenceService.getInstance().get("recordTime","");
                 int phoneStep=SharedPreferenceService.getInstance().get("phoneStep",-1);
@@ -273,13 +276,13 @@ public class StepService extends Service implements SensorEventListener,TimeTick
                     firstStep=firstStep-(stepTemp-phoneStep);
                 }
             }
-            //存储本次启动计步器的时候手机的本身步数
-            SharedPreferenceService.getInstance().put("phoneStep",stepTemp);
-            SharedPreferenceService.getInstance().put("recordTime",now);
         }
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
+        //存储本次启动计步器的时候手机的本身步数
+        SharedPreferenceService.getInstance().put("phoneStep",stepTemp);
+        SharedPreferenceService.getInstance().put("recordTime",now);
         updateNotification(todayStep + "");
     }
     //模拟计步传感器所使用的计算方法

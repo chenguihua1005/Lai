@@ -31,6 +31,11 @@ public class Entry {
         return val;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "index=" + index +
+                ", val=" + val +
+                '}';
+    }
 }

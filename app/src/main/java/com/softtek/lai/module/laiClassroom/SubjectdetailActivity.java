@@ -100,7 +100,6 @@ public class SubjectdetailActivity extends BaseActivity<SubjectDetailPresenter> 
             im_nomessage.setVisibility(View.VISIBLE);
             pageindex--;
         }
-
     }
 
     @Override
