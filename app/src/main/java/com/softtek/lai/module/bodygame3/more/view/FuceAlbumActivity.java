@@ -388,8 +388,6 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-//    private String ShareContent = "";//分享内容
-//    private String ShareLinkUrl = "";//分享链接
 
     private void setShare(final View v) {
         dialogShow("加载中");
@@ -419,13 +417,12 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void success(ResponseData<FuceShareModel> responseData, Response response) {
                 int status = responseData.getStatus();
-
                 Log.i(TAG, "数据 = " + new Gson().toJson(responseData));
                 switch (status) {
                     case 200:
                         dialogDissmiss();
 
-                        title_value = "";
+                        title_value = responseData.getData().getShareTitle();
                         value = responseData.getData().getShareContent();//分享内容
                         url = responseData.getData().getShareLinkUrl();//分享链接
 
