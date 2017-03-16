@@ -1,38 +1,55 @@
 package com.softtek.lai.module.laiClassroom;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.ILoadingLayout;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.malinskiy.superrecyclerview.OnMoreListener;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
-import com.malinskiy.superrecyclerview.swipe.SwipeDismissRecyclerViewTouchListener;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.laiClassroom.adapter.HeaderFooterReAdapter;
+import com.softtek.lai.module.laiClassroom.model.ArticleTopicModel;
+import com.softtek.lai.module.laiClassroom.model.RecommendModel;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
 import com.softtek.lai.module.laiClassroom.presenter.SubjectPresenter;
+import com.squareup.picasso.Picasso;
+import com.superrecycleview.superlibrary.adapter.SuperBaseAdapter;
+import com.superrecycleview.superlibrary.recycleview.SuperRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by lareina.qiao on 3/16/2017.
  */
 @InjectLayout(R.layout.fragment_subjectnew)
-public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implements SubjectPresenter.getSubject, SwipeRefreshLayout.OnRefreshListener {
+public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implements SubjectPresenter.getSubject, SwipeRefreshLayout.OnRefreshListener, SuperRecyclerView.LoadingListener, SuperBaseAdapter.OnItemClickListener {
    @InjectView(R.id.ple_list)
    SuperRecyclerView ple_list;
-
-
+   private List<String> dataList = new ArrayList<>();
+   HeaderFooterReAdapter mAdapter;
+   private View headerView;
+   ViewPager viewPager;
+   List<RecommendModel> recommendModels = new ArrayList<>();
+   List<ArticleTopicModel>articleTopicModels=new ArrayList<>();
+   int pageindex=1;
     @Override
     protected void lazyLoad() {
-
      new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 
       @Override
@@ -41,70 +58,130 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
       }
 
      }, 300);
-
     }
 
     @Override
     protected void initViews() {
-     ple_list.setRefreshListener(this);
-     ple_list.setOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override
-      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-       super.onScrollStateChanged(recyclerView, newState);
-      }
-     });
-//     ple_list.dr();
-     ple_list.isLoadingMore();
-     ple_list.setBackground(getResources().getDrawable(R.drawable.refresh));
-     ple_list.setupMoreListener(new OnMoreListener() {
-      @Override
-      public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-       getPresenter().getSubjectData(1,10);
-      }
-     },10);
-     ple_list.setupSwipeToDismiss(new SwipeDismissRecyclerViewTouchListener.DismissCallbacks() {
-      @Override
-      public boolean canDismiss(int position) {
-       return true;
-      }
+     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+     layoutManager = new GridLayoutManager(getContext(), 2);
+     ple_list.setLayoutManager(layoutManager);
+     ple_list.setRefreshEnabled(true);
+     ple_list.setLoadMoreEnabled(true);
+     ple_list.setLoadingListener(this);
 
-      @Override
-      public void onDismiss(RecyclerView recyclerView, int[] reverseSortedPositions) {
 
-      }
-     });
-     ple_list.setRefreshingColor(R.color.green,R.color.green1,R.color.blue,R.color.blue);
-
-//        prsro.setEmptyView(im_nomessage);
-//     ple_list.setMode(PullToRefreshBase.Mode.BOTH);
-//     ILoadingLayout startLabelse = ple_list.getLoadingLayoutProxy(true, false);
-//     startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
-//     startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
-//     startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-//     ILoadingLayout endLabelsr = ple_list.getLoadingLayoutProxy(false, true);
-//     endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
-//     endLabelsr.setRefreshingLabel("正在刷新数据");
-//     endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-//     View headView = View.inflate(getContext(), R.layout.expandlist_subject_group, null);
-//     viewPager = (ViewPager) headView.findViewById(R.id.viewpager);
-//     ple_list.getRefreshableView().addHeaderView(headView);
+     headerView = getActivity().getLayoutInflater().inflate(R.layout.view_header_layout, (ViewGroup) ple_list.getParent(), false);
+     viewPager = (ViewPager) headerView.findViewById(R.id.viewpager);
     }
 
     @Override
     protected void initDatas() {
-
      setPresenter(new SubjectPresenter(this));
-
     }
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
-//     ple_list.showProgress();
-     ple_list.hideProgress();
-
+     ple_list.completeRefresh();
+     if (subjectModel != null) {
+      if (!subjectModel.getRecommendTopicList().isEmpty()) {
+       viewPager.setOffscreenPageLimit(subjectModel.getRecommendTopicList().size());
+       recommendModels.clear();
+       viewPager.removeAllViews();
+       recommendModels.addAll(subjectModel.getRecommendTopicList());
+       adapterData();
+      }
+      if (!subjectModel.getArticleTopicList().isEmpty())
+      {
+       articleTopicModels.addAll(subjectModel.getArticleTopicList());
+      }
+     }
     }
 
  @Override
+ public void onLoadMore() {
+  new Handler().postDelayed(new Runnable() {
+   @Override
+   public void run() {
+    pageindex++;
+    getPresenter().getSubjectData(pageindex,10);
+   }
+  },2000);
+ }
+
+ @Override
  public void onRefresh() {
-  getPresenter().getSubjectData(1,10);
+  new Handler().postDelayed(new Runnable() {
+   @Override
+   public void run() {
+    pageindex=1;
+    getPresenter().getSubjectData(pageindex,10);
+    articleTopicModels.clear();
+   }
+  },2000);
+ }
+ private void initAdapter(){
+  mAdapter = new HeaderFooterReAdapter(getContext(),articleTopicModels);
+  mAdapter.addHeaderView(headerView);
+  mAdapter.setOnItemClickListener(this);
+  ple_list.setAdapter(mAdapter);
+ }
+ private PagerAdapter pageradapter;
+
+ private void adapterData() {
+
+  pageradapter = new PagerAdapter() {
+   @Override
+   public int getCount() {
+    return recommendModels.size();
+   }
+
+   @Override
+   public boolean isViewFromObject(View view, Object object) {
+    return view == object;
+   }
+
+   @Override
+   public Object instantiateItem(ViewGroup container, final int position) {
+
+    View view = LayoutInflater.from(getContext()).inflate(R.layout.list_subjectremend_item, container, false);
+    TextView tv_clickhot = (TextView) view.findViewById(R.id.tv_clickhot);
+    tv_clickhot.setText(String.valueOf(recommendModels.get(position).getClicks()));
+    ImageView im_photo = (ImageView) view.findViewById(R.id.im_photo);
+    Picasso.with(getContext()).load(AddressManager.get("photoHost") + recommendModels.get(position).getTopicImg()).fit().error(R.drawable.default_icon_square)
+            .placeholder(R.drawable.default_icon_square).into(im_photo);
+    RelativeLayout re_remend = (RelativeLayout) view.findViewById(R.id.re_remend);
+    re_remend.setOnClickListener(new View.OnClickListener() {
+     @Override
+     public void onClick(View view) {
+      Intent intent = new Intent(getContext(), SubjectdetailActivity.class);
+      intent.putExtra("topictitle", recommendModels.get(position).getTopicName());
+      intent.putExtra("topicId", recommendModels.get(position).getTopicId());
+      startActivity(intent);
+     }
+    });
+    container.addView(view);
+    return view;
+   }
+
+   @Override
+   public int getItemPosition(Object object) {
+    return POSITION_NONE;
+   }
+
+
+   @Override
+   public void destroyItem(ViewGroup container, int position, Object object) {
+    container.removeView((View) object);
+   }
+  };
+  viewPager.setOffscreenPageLimit(3);
+  viewPager.setAdapter(pageradapter);
+ }
+ @Override
+ public void onItemClick(View view, Object item, int position) {
+  Intent intent = new Intent(getContext(), SubjectdetailActivity.class);
+  intent.putExtra("topictitle", articleTopicModels.get(position).getTopicName());
+  intent.putExtra("topicId", articleTopicModels.get(position).getTopicId());
+  startActivity(intent);
  }
 }
