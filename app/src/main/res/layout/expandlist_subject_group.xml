@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/viewpager"
-        android:text="全部推荐"
+        android:text="全部专题"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         android:textColor="#333333"
