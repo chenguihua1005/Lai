@@ -12,6 +12,7 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.malinskiy.superrecyclerview.swipe.SwipeDismissRecyclerViewTouchListener;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
@@ -31,15 +32,15 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
 
     @Override
     protected void lazyLoad() {
-//     ple_list.setRefreshing(true);
-//     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//
-//      @Override
-//      public void run() {
-//       ple_list.hideProgress();
-//      }
-//
-//     }, 1000);
+
+     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+      @Override
+      public void run() {
+       ple_list.setRefreshing(true);
+      }
+
+     }, 300);
 
     }
 
@@ -54,12 +55,25 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
      });
 //     ple_list.dr();
      ple_list.isLoadingMore();
+     ple_list.setBackground(getResources().getDrawable(R.drawable.refresh));
      ple_list.setupMoreListener(new OnMoreListener() {
       @Override
       public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-
+       getPresenter().getSubjectData(1,10);
       }
      },10);
+     ple_list.setupSwipeToDismiss(new SwipeDismissRecyclerViewTouchListener.DismissCallbacks() {
+      @Override
+      public boolean canDismiss(int position) {
+       return true;
+      }
+
+      @Override
+      public void onDismiss(RecyclerView recyclerView, int[] reverseSortedPositions) {
+
+      }
+     });
+     ple_list.setRefreshingColor(R.color.green,R.color.green1,R.color.blue,R.color.blue);
 
 //        prsro.setEmptyView(im_nomessage);
 //     ple_list.setMode(PullToRefreshBase.Mode.BOTH);
@@ -79,14 +93,18 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
     @Override
     protected void initDatas() {
 
+     setPresenter(new SubjectPresenter(this));
+
     }
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
+//     ple_list.showProgress();
+     ple_list.hideProgress();
 
     }
 
  @Override
  public void onRefresh() {
-
+  getPresenter().getSubjectData(1,10);
  }
 }

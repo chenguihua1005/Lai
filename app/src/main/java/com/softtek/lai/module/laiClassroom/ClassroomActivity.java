@@ -48,7 +48,7 @@ public class ClassroomActivity extends BaseActivity {
         fragmentModels.add(new FragmentModel("全部", new WholeFragment()));
         fragmentModels.add(new FragmentModel("收藏", new CollectionFragment()));
         fragmentModels.add(new FragmentModel("历史", new HistoryFragment()));
-        fragmentModels.add(new FragmentModel("专题", new SubjectFragment()));
+        fragmentModels.add(new FragmentModel("专题", new SubjectNewFragment()));
         content.setOffscreenPageLimit(3);
         content.setAdapter(new TabAdapter(getSupportFragmentManager(), fragmentModels));
         tab.setupWithViewPager(content);
