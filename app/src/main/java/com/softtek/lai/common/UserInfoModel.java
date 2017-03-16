@@ -126,7 +126,6 @@ public class UserInfoModel {
         //存入文件
         isVr=false;
         SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
-        user.setUpdate_time(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         setUser(user);
         setToken(user.getToken());
         //存储本地
