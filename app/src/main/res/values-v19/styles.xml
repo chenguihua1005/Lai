@@ -4,4 +4,7 @@
     <style name="AppTransparentStatus" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+    <style name="AppTransparent" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 </resources>
