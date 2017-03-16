@@ -16,7 +16,6 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
@@ -379,6 +378,7 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
     public void onPause() {
         Log.i("TTAG", "onPause");
         mCurPosition = mVideoView.getCurrentPosition();
+        Log.i("TTAG", "curPosition="+mCurPosition);
         mVideoView.pause();
         mIvPlay.setSelected(false);
         mOrientationListener.disable();
@@ -1261,6 +1261,8 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
         }
         // 视频播放的当前进度
         int position = mVideoView.getCurrentPosition();
+        mCurPosition=position;
+        Log.i("TTAG","当前位置是="+mCurPosition);
         // 视频总的时长
         int duration = mVideoView.getDuration();
         if (duration > 0) {
@@ -1493,7 +1495,7 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
      * @param status
      */
     private void _switchStatus(int status) {
-        Log.d("TTAG", "status " + status);
+        Log.i("TTAG", "status " + status);
         switch (status) {
             case IMediaPlayer.MEDIA_INFO_BUFFERING_START:
                 mIsBufferingStart = true;
@@ -1526,6 +1528,10 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
                 }
                 break;
             case MediaPlayerParams.STATE_ERROR:
+                mIvPlay.setSelected(false);
+                mVideoView.setRender(IjkVideoView.RENDER_TEXTURE_VIEW);
+                pause();
+                onResume();
                 _pauseDanmaku();
                 break;
 
