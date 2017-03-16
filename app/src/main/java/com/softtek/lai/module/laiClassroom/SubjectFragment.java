@@ -181,10 +181,6 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 recommendModels.clear();
                 viewPager.removeAllViews();
                 recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
                 adapterData();
             }
 
