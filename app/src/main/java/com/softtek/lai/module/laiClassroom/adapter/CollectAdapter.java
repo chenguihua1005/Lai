@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -89,10 +91,17 @@ public class CollectAdapter extends BaseAdapter {
             }
             viewHolderOne.tv_title.setText(collectModel.getTitle());
             viewHolderOne.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
-            Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
-                    .into(viewHolderOne.iv_video);
+            if (collectModel.getArticImg()!=null&&!collectModel.getArticImg().isEmpty()) {
+                Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
+                        .placeholder(R.drawable.default_icon_rect)
+                        .error(R.drawable.default_icon_rect)
+                        .into(viewHolderOne.iv_video);
+            } else {
+                Picasso.with(mContext).load(R.drawable.default_icon_rect)
+                        .placeholder(R.drawable.default_icon_rect)
+                        .error(R.drawable.default_icon_rect)
+                        .into(viewHolderOne.iv_video);
+            }
             SpannableString ss = new SpannableString(collectModel.getTopic());
             ss.setSpan(new ClickableSpan() {
                 @Override
@@ -120,7 +129,7 @@ public class CollectAdapter extends BaseAdapter {
                     Intent intent = new Intent(mContext, VideoDetailActivity.class);
                     intent.putExtra("articleId", collectModel.getArticleId());
                     intent.putExtra("cover", AddressManager.get("photoHost") + collectModel.getArticImg().get(0));
-                    intent.putExtra("videoUrl",AddressManager.get("photoHost")+ collectModel.getArticUrl());
+                    intent.putExtra("videoUrl", AddressManager.get("photoHost") + collectModel.getArticUrl());
                     mContext.startActivity(intent);
                 }
             });
@@ -141,10 +150,17 @@ public class CollectAdapter extends BaseAdapter {
             }
             viewHolderTwo.tv_title.setText(collectModel.getTitle());
             viewHolderTwo.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
-            Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
-                    .into(viewHolderTwo.iv_single);
+            if (collectModel.getArticImg()!=null&&!collectModel.getArticImg().isEmpty()) {
+                Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
+                        .placeholder(R.drawable.default_icon_rect)
+                        .error(R.drawable.default_icon_rect)
+                        .into(viewHolderTwo.iv_single);
+            } else {
+                Picasso.with(mContext).load(R.drawable.default_icon_rect)
+                        .placeholder(R.drawable.default_icon_rect)
+                        .error(R.drawable.default_icon_rect)
+                        .into(viewHolderTwo.iv_single);
+            }
             SpannableString ss = new SpannableString(collectModel.getTopic());
             ss.setSpan(new ClickableSpan() {
                 @Override
@@ -187,6 +203,7 @@ public class CollectAdapter extends BaseAdapter {
                 viewHolderThree.tv_release = (TextView) convertView.findViewById(R.id.tv_relese);
                 viewHolderThree.tv_hotnum = (TextView) convertView.findViewById(R.id.tv_hotnum);
                 viewHolderThree.tv_subject = (TextView) convertView.findViewById(R.id.tv_subject);
+                viewHolderThree.lin_image = (LinearLayout) convertView.findViewById(R.id.lin_image);
                 viewHolderThree.rl_onclick = (RelativeLayout) convertView.findViewById(R.id.rl_onclick);
                 convertView.setTag(viewHolderThree);
             } else {
@@ -213,18 +230,39 @@ public class CollectAdapter extends BaseAdapter {
             }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             viewHolderThree.tv_subject.setText(ss);
             viewHolderThree.tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
-            Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
-                    .into(viewHolderThree.iv_one);
-            Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(1))
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
-                    .into(viewHolderThree.iv_two);
-            Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(2))
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
-                    .into(viewHolderThree.iv_three);
+            if (collectModel.getArticImg() != null && !collectModel.getArticImg().isEmpty()) {
+                for (int i = 0; i < collectModel.getArticImg().size(); i++) {
+                    String imgUrl = collectModel.getArticImg().get(i);
+                    ImageView iv = null;
+                    switch (i) {
+                        case 0:
+                            iv = viewHolderThree.iv_one;
+                            break;
+                        case 1:
+                            iv = viewHolderThree.iv_two;
+                            break;
+                        case 2:
+                            iv = viewHolderThree.iv_three;
+                            break;
+                    }
+                    if (iv != null) {
+                        if (!TextUtils.isEmpty(imgUrl)) {
+                            Picasso.with(mContext).load(AddressManager.get("photoHost") + imgUrl)
+                                    .fit()
+                                    .placeholder(R.drawable.default_icon_rect)
+                                    .error(R.drawable.default_icon_rect)
+                                    .into(iv);
+                        } else {
+                            Picasso.with(mContext).load(R.drawable.default_icon_rect)
+                                    .placeholder(R.drawable.default_icon_rect)
+                                    .error(R.drawable.default_icon_rect)
+                                    .into(iv);
+                        }
+                    }
+                }
+            } else {
+                viewHolderThree.lin_image.setVisibility(View.GONE);
+            }
             viewHolderThree.tv_release.setText(getTime(collectModel.getCreateDate()));//日期
 
             viewHolderThree.rl_onclick.setOnClickListener(new View.OnClickListener() {
@@ -309,6 +347,7 @@ public class CollectAdapter extends BaseAdapter {
         TextView tv_release;
         TextView tv_hotnum;
         TextView tv_subject;
+        LinearLayout lin_image;
         RelativeLayout rl_onclick;
     }
 }
