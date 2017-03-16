@@ -216,7 +216,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         Intent intent = new Intent(this, VideoDetailActivity.class);
         intent.putExtra("articleId", video.getArticleId());
         intent.putExtra("cover", AddressManager.get("photoHost") + video.getVideoImg());
-        intent.putExtra("videoUrl", AddressManager.get("videoHost")+video.getVideoUrl());
+        intent.putExtra("videoUrl", AddressManager.get("photoHost")+video.getVideoUrl());
         startActivity(intent);
     }
 }

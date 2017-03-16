@@ -1262,7 +1262,7 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
         // 视频播放的当前进度
         int position = mVideoView.getCurrentPosition();
         mCurPosition=position;
-        Log.i("TTAG","当前位置是="+mCurPosition);
+//        Log.i("TTAG","当前位置是="+mCurPosition);
         // 视频总的时长
         int duration = mVideoView.getDuration();
         if (duration > 0) {
