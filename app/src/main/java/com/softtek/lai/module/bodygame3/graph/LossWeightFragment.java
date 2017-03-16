@@ -14,6 +14,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.graph.model.WeightModel;
 import com.softtek.lai.module.bodygame3.graph.net.GraphService;
+import com.softtek.lai.module.bodygame3.graph.presenter.GraphPresenter;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.chart.Chart;
@@ -33,7 +34,7 @@ import zilla.libcore.ui.InjectLayout;
  * A simple {@link Fragment} subclass.
  */
 @InjectLayout(R.layout.fragment_loss_weight)
-public class LossWeightFragment extends LazyBaseFragment2 {
+public class LossWeightFragment extends LazyBaseFragment2<GraphPresenter> implements GraphPresenter.GraphView {
 
     @InjectView(R.id.weight_chart)
     Chart weight_chart;
@@ -82,29 +83,8 @@ public class LossWeightFragment extends LazyBaseFragment2 {
     @Override
     protected void lazyLoad() {
         if (!TextUtils.isEmpty(getArguments().getString("classId"))) {
-            ZillaApi.NormalRestAdapter.create(GraphService.class)
-                    .getClassMemberWeightChart(
-
-                            UserInfoModel.getInstance().getToken(),
-                            getArguments().getLong("accountId"),
-                            getArguments().getString("classId"),
-                            new RequestCallback<ResponseData<List<WeightModel>>>() {
-                                @Override
-                                public void success(ResponseData<List<WeightModel>> data, Response response) {
-                                    setContentEmpty(false);
-                                    setContentShown(true);
-                                    onSuccess(data.getData());
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    setContentEmpty(false);
-                                    setContentShown(true);
-                                    onSuccess(new ArrayList<WeightModel>());
-                                    super.failure(error);
-                                }
-                            }
-                    );
+            getPresenter().getGraph(getArguments().getLong("accountId"),
+                    getArguments().getString("classId"));
         } else {
             setContentEmpty(true);
             setContentShown(true);
@@ -114,58 +94,64 @@ public class LossWeightFragment extends LazyBaseFragment2 {
     List<String> leftXAsix;
     List<String> rightXAsix;
 
-    private void onSuccess(List<WeightModel> data) {
-        try {
-            if (data != null) {
-                for (int i = 0, j = data.size(); i < j; i++) {
-                    WeightModel model = data.get(i);
-                    if(model.getWeekDay()==0){
-                        xAsix.add("初始");
-                    } else {
-                        xAsix.add("第" + model.getWeekDay() + "周");
-                    }
-                    float weightValue = Float.valueOf(model.getWeight());
-                    float bfatValue = Float.valueOf(model.getPysical());
-                    float fatValue = Float.valueOf(model.getFat());
-                    maxWeight = weightValue > maxWeight ? weightValue : maxWeight;
-                    maxBFat = bfatValue > maxBFat ? bfatValue : maxBFat;
-                    maxFat = fatValue > maxFat ? fatValue : maxFat;
+    @Override
+    public void onFaile() {
+        setContentEmpty(true);
+        setContentShown(false);
+    }
 
-                    int middle = j / 2;
-                    if (i < middle) {
-                        int index = model.getWeekDay();
-                        if (weightValue != 0) {
-                            weightL.add(new Entry(index, weightValue));
-                        }
-                        if (bfatValue != 0) {
-                            bfatL.add(new Entry(index, bfatValue));
-                        }
-                        if (fatValue != 0) {
-                            fatL.add(new Entry(index, fatValue));
-                        }
-                    } else {
-                        if (weightValue != 0) {
-                            weightR.add(new Entry(model.getWeekDay() - middle, weightValue));
-                        }
-                        if (bfatValue != 0) {
-                            bfatR.add(new Entry(model.getWeekDay() - middle, bfatValue));
-                        }
-                        if (fatValue != 0) {
-                            fatR.add(new Entry(model.getWeekDay() - middle, fatValue));
-                        }
+
+    @Override
+    public void onSuccess(List<WeightModel> data) {
+        setContentEmpty(false);
+        setContentShown(true);
+        if (data != null) {
+            for (int i = 0, j = data.size(); i < j; i++) {
+                WeightModel model = data.get(i);
+                if(model.getWeekDay()==0){
+                    xAsix.add("初始");
+                } else {
+                    xAsix.add("第" + model.getWeekDay() + "周");
+                }
+                float weightValue = Float.valueOf(model.getWeight());
+                float bfatValue = Float.valueOf(model.getPysical());
+                float fatValue = Float.valueOf(model.getFat());
+                maxWeight = weightValue > maxWeight ? weightValue : maxWeight;
+                maxBFat = bfatValue > maxBFat ? bfatValue : maxBFat;
+                maxFat = fatValue > maxFat ? fatValue : maxFat;
+
+                int middle = j / 2;
+                if (i < middle) {
+                    int index = model.getWeekDay();
+                    if (weightValue != 0) {
+                        weightL.add(new Entry(index, weightValue));
+                    }
+                    if (bfatValue != 0) {
+                        bfatL.add(new Entry(index, bfatValue));
+                    }
+                    if (fatValue != 0) {
+                        fatL.add(new Entry(index, fatValue));
+                    }
+                } else {
+                    if (weightValue != 0) {
+                        weightR.add(new Entry(model.getWeekDay() - middle, weightValue));
+                    }
+                    if (bfatValue != 0) {
+                        bfatR.add(new Entry(model.getWeekDay() - middle, bfatValue));
+                    }
+                    if (fatValue != 0) {
+                        fatR.add(new Entry(model.getWeekDay() - middle, fatValue));
                     }
                 }
-                leftXAsix = xAsix.subList(0, xAsix.size() / 2);
-                rightXAsix = xAsix.subList(xAsix.size() / 2, xAsix.size());
-                weight_chart.setDate(leftXAsix,weightL, maxWeight);
-                bfat_chart.setDate(leftXAsix,bfatL , maxBFat);
-                fat_chart.setDate(leftXAsix, fatL, maxFat);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            leftXAsix = xAsix.subList(0, xAsix.size() / 2);
+            rightXAsix = xAsix.subList(xAsix.size() / 2, xAsix.size());
+            weight_chart.setDate(leftXAsix,weightL, maxWeight);
+            bfat_chart.setDate(leftXAsix,bfatL , maxBFat);
+            fat_chart.setDate(leftXAsix, fatL, maxFat);
         }
     }
+
 
     @Override
     protected void initViews() {
@@ -186,13 +172,7 @@ public class LossWeightFragment extends LazyBaseFragment2 {
 
     @Override
     protected void initDatas() {
-//        btn_weight_left.setOnClickListener(this);
-//        btn_weight_right.setOnClickListener(this);
-//        btn_bfat_left.setOnClickListener(this);
-//        btn_bfat_right.setOnClickListener(this);
-//        btn_fat_left.setOnClickListener(this);
-//        btn_fat_right.setOnClickListener(this);
-
+        setPresenter(new GraphPresenter(this));
     }
 
     @OnClick({R.id.btn_weight_right, R.id.btn_weight_left, R.id.btn_bfat_left, R.id.btn_bfat_right, R.id.btn_fat_right, R.id.btn_fat_left})
@@ -230,4 +210,6 @@ public class LossWeightFragment extends LazyBaseFragment2 {
                 break;
         }
     }
+
+
 }

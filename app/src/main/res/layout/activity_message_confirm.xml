@@ -252,6 +252,13 @@
                         android:drawableRight="@drawable/bodygame3_arrow"/>
                 </RelativeLayout>
             </android.support.v7.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/tip_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FDC36F"
+                android:padding="15dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

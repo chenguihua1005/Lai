@@ -3,8 +3,12 @@ package com.softtek.lai.module.bodygame3.conversation.view;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -61,6 +65,9 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @InjectView(R.id.tip_tv)
+    TextView tip_tv;
+
 
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -95,6 +102,12 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         ll_left.setVisibility(View.VISIBLE);
         ll_left.setOnClickListener(this);
         tv_title.setText("新朋友");
+
+        SpannableString spannableString = new SpannableString(this.getResources().getString(R.string.tip));
+        Drawable drawable = getResources().getDrawable(R.drawable.law_tip_gray);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        spannableString.setSpan(new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE), 0, 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tip_tv.setText(spannableString);
     }
 
     @Override

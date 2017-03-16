@@ -242,17 +242,17 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         public void onClick(View v) {
-            menuWindow.dismiss();
+
 
             if (count == 0) {
                 Util.toastMsg("请选择照片");
-                tv_right.setText("分享");
-                show_photo_circle = false;
-                adapter.notifyDataSetChanged();
-                flag = 0;
+//                tv_right.setText("分享");
+//                show_photo_circle = false;
+//                adapter.notifyDataSetChanged();
+//                flag = 0;
                 return;
             }
-
+            menuWindow.dismiss();
             setShare(v);
 
         }
