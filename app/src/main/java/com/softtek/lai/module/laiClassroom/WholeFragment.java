@@ -69,7 +69,7 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     protected void lazyLoad() {
         dialogShow("正在加载");
         getPresenter().getFilterData();
-        getPresenter().getArticleList("0","0","1",1,0);
+
     }
 
     @Override
@@ -186,6 +186,9 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
         sortAdapter=new FilterAdapter(getContext(),data.getOrderByList(),FilterAdapter.SINGLE);
         typeAdapter=new FilterAdapter(getContext(),data.getMediaTypeList(),FilterAdapter.MULTI);
         subjectAdapter=new FilterAdapter(getContext(),data.getCategoryList(),FilterAdapter.MULTI);
+        getPresenter().getArticleList(typeAdapter.getKey(),
+                subjectAdapter.getKey(),
+                sortAdapter.getKey(),1,0);
         rv_sort.setAdapter(sortAdapter);
         rv_type.setAdapter(typeAdapter);
         rv_subject.setAdapter(subjectAdapter);
