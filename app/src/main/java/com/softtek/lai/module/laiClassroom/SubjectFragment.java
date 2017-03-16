@@ -108,11 +108,8 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
         topicListModels.addAll(subjectModel.getArticleTopicList());
-        ArticleTopicModel articleTopicModel = new ArticleTopicModel();
-        articleTopicModel=topicListModels.get(0);
-        topicListModels.add(articleTopicModel);
-        topicModels.clear();
-        if (topicListModels.size() != 0 || topicListModels != null) {
+
+        if (topicListModels.size() != 0 || topicListModels != null||!subjectModel.getArticleTopicList().isEmpty()) {
             TopicModel topicModel;
             topicModel = new TopicModel();
             if (topicListModels.size() % 2 == 0) {
@@ -255,10 +252,14 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         getPresenter().getSubjectData(1, 10);
+        topicListModels.clear();
+        topicModels.clear();
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        getPresenter().getSubjectData(1, 10);
+        pageindex++;
+        topicModels.clear();
+        getPresenter().getSubjectData(pageindex, 10);
     }
 }

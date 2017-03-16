@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.SubjectdetailActivity;
 import com.softtek.lai.module.laiClassroom.model.TopicModel;
 import com.squareup.picasso.Picasso;
 
@@ -26,6 +28,7 @@ import zilla.libcore.file.AddressManager;
 public class SubjectAdapter extends BaseAdapter {
     private Context context;
     private List<TopicModel> topicModels;
+
 
     public SubjectAdapter(Context context,List<TopicModel> topicModels)
     {
@@ -64,7 +67,7 @@ public class SubjectAdapter extends BaseAdapter {
         else {
             holdel= (SubjectHoldel) view.getTag();
         }
-        TopicModel topicModel=topicModels.get(i);
+        final TopicModel topicModel=topicModels.get(i);
         if (topicModel.getTopicId().size()==2)
         {
             holdel.ll_subitem1.setVisibility(View.VISIBLE);
@@ -91,6 +94,24 @@ public class SubjectAdapter extends BaseAdapter {
                 Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
                         .fit().into(holdel.im_photo2);
             }
+            holdel. ll_subitem1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, SubjectdetailActivity.class);
+                    intent.putExtra("topictitle", topicModel.getTopicName().get(0));
+                    intent.putExtra("topicId", topicModel.getTopicId().get(0));
+                    context.startActivity(intent);
+                }
+            });
+            holdel. ll_subitem2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, SubjectdetailActivity.class);
+                    intent.putExtra("topictitle", topicModel.getTopicName().get(1));
+                    intent.putExtra("topicId", topicModel.getTopicId().get(1));
+                    context.startActivity(intent);
+                }
+            });
         }else {
             holdel.ll_subitem1.setVisibility(View.VISIBLE);
             holdel.ll_subitem2.setVisibility(View.INVISIBLE);
@@ -105,6 +126,7 @@ public class SubjectAdapter extends BaseAdapter {
                 Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
                         .fit().into(holdel.im_photo);
             }
+
         }
 
         return view;
