@@ -34,15 +34,7 @@ public class UserModel implements Serializable {
     private int HasThClass;//0无班级，1有班级
     private int DoingClass;//0没有进行中的班级,1有
     private boolean exit;
-    private String update_time;//每次更新本地用户信息的时候会更新此事件
 
-    public String getUpdate_time() {
-        return update_time;
-    }
-
-    public void setUpdate_time(String update_time) {
-        this.update_time = update_time;
-    }
 
     public boolean getExit() {
         return exit;

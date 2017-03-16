@@ -89,6 +89,7 @@ public class HistoryFragment extends LazyBaseFragment<HistoryPresenter> implemen
                 if (pageindex == 1) {
                     im_nomessage.setVisibility(View.VISIBLE);
                 } else {
+                    im_nomessage.setVisibility(View.GONE);
                     pageindex--;
                 }
             }

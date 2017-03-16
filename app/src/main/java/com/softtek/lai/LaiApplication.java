@@ -222,9 +222,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             case 4:
                 Log.i("创建用户信息表");
                 db.execSQL(CREATE_USER_INFO);
-            case 5:
-                Log.i("更新用户表");
-                db.execSQL(ADD_UPDATE_TIME_FOR_USER);
                 break;
         }
 

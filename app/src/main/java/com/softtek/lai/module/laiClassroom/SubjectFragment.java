@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -108,11 +106,8 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
         topicListModels.addAll(subjectModel.getArticleTopicList());
-        ArticleTopicModel articleTopicModel = new ArticleTopicModel();
-        articleTopicModel=topicListModels.get(0);
-        topicListModels.add(articleTopicModel);
-        topicModels.clear();
-        if (topicListModels.size() != 0 || topicListModels != null) {
+
+        if (topicListModels.size() != 0 || topicListModels != null||!subjectModel.getArticleTopicList().isEmpty()) {
             TopicModel topicModel;
             topicModel = new TopicModel();
             if (topicListModels.size() % 2 == 0) {
@@ -186,10 +181,6 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 recommendModels.clear();
                 viewPager.removeAllViews();
                 recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
-                recommendModels.addAll(subjectModel.getRecommendTopicList());
                 adapterData();
             }
 
@@ -255,10 +246,14 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         getPresenter().getSubjectData(1, 10);
+        topicListModels.clear();
+        topicModels.clear();
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        getPresenter().getSubjectData(1, 10);
+        pageindex++;
+        topicModels.clear();
+        getPresenter().getSubjectData(pageindex, 10);
     }
 }

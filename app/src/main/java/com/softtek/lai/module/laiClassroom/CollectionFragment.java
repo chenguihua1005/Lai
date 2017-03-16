@@ -90,6 +90,7 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
                 if (pageindex == 1) {
                     im_nomessage.setVisibility(View.VISIBLE);
                 } else {
+                    im_nomessage.setVisibility(View.GONE);
                     pageindex--;
                 }
             }

@@ -21,6 +21,7 @@
     <style name="AppTransparentStatus" parent="Theme.AppCompat.Light.NoActionBar">
 
     </style>
+    <style name="AppTransparent" parent="@android:style/Theme.Translucent.NoTitleBar"/>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

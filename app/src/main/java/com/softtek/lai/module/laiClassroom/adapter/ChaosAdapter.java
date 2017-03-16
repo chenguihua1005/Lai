@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +46,12 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private ItemListener myListener;
     private Context context;
     private String searchKey;
+    private boolean isEmpty;
 
     public void updateKey(String searchKey) {
         this.searchKey = searchKey;
     }
+
 
     public ChaosAdapter(Context context, List<SearchModel.ArticleListBean> items, String searchKey) {
         this.context = context;
@@ -85,6 +88,19 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         int result = 0;//默认没有
         if (position + 1 == getItemCount()) {
+            if (getItemCount() == 6){
+                return EMPTY;
+            }
+//            if (getItemCount() < 6){
+//                return EMPTY;
+//            }else {
+//                if (isEmpty){
+//                    isEmpty = false;
+//                    return EMPTY;
+//                }else {
+//                    return FOOTER;
+//                }
+//            }
             return getItemCount() < 6 ? EMPTY : FOOTER;
         } else {
             int itemType = myItems.get(position).getMediaType();
@@ -147,25 +163,6 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mRelese.setText(getTime(item.getCreateDate()));
             mHotNum.setText(String.valueOf(item.getClicks()));
             setKeyColor(mSubject, item, false);
-//            SpannableString ss = new SpannableString(item.getTopic());
-//            ss.setSpan(new ClickableSpan() {
-//                @Override
-//                public void onClick(View widget) {
-//                    Intent intent = new Intent(context, SubjectdetailActivity.class);
-//                    intent.putExtra("topictitle", item.getTopic());
-//                    intent.putExtra("topicId", item.getTopicId());
-//                    context.startActivity(intent);
-//                }
-//
-//                @Override
-//                public void updateDrawState(TextPaint ds) {
-//                    super.updateDrawState(ds);
-//                    ds.setColor(0xFF75BA2B);
-//                    ds.setUnderlineText(false);//去除超链接的下划线
-//                }
-//            }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-//            mSubject.setText(ss);
-//            mSubject.setMovementMethod(LinkMovementMethod.getInstance());
             String videoImage = null;
             if (item.getArticImg() != null && !item.getArticImg().isEmpty()) {
                 videoImage = item.getArticImg().get(0);
@@ -190,7 +187,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         Intent intent = new Intent(context, VideoDetailActivity.class);
                         intent.putExtra("articleId", item.getArticleId());
                         intent.putExtra("cover", AddressManager.get("photoHost") + finalVideoImage);
-                        intent.putExtra("videoUrl", AddressManager.get("videoHost") + item.getArticUrl());
+                        intent.putExtra("videoUrl", AddressManager.get("photoHost") + item.getArticUrl());
                         context.startActivity(intent);
                     }
                 });
@@ -346,72 +343,55 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         } else {
             changeString = item.getTopic();
         }
-        if (changeString.equals(searchKey)) {
-            view.setText(changeString);
-            view.setTextColor(context.getResources().getColor(R.color.red));
-            return;
-        }
         int index = changeString.indexOf(searchKey);
-        if (index > 0) {
-            int titleLength = changeString.length();
-            int length = searchKey.length();
-            SpannableStringBuilder builder = new SpannableStringBuilder(changeString);
-            ForegroundColorSpan redSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.red));
-            ForegroundColorSpan greenSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.green));
-            ForegroundColorSpan blackSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.black));
+        SpannableStringBuilder builder = new SpannableStringBuilder(changeString);
+        ForegroundColorSpan redSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.red));
+        ForegroundColorSpan greenSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.green));
+        ForegroundColorSpan blackSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.black));
+        int titleLength = changeString.length();
+        int length = searchKey.length();
+        if (index >= 0) {
             if (isTitle) {
                 builder.setSpan(blackSpan, 0, index, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(blackSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             } else {
-                builder.setSpan(new ClickableSpan() {
-                    @Override
-                    public void onClick(View widget) {
-                        Intent intent = new Intent(context, SubjectdetailActivity.class);
-                        intent.putExtra("topicId", item.getTopicId());
-                        intent.putExtra("topictitle", item.getTopic());
-                        context.startActivity(intent);
-                    }
-
-                    @Override
-                    public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setColor(context.getResources().getColor(R.color.green));
-                        ds.setUnderlineText(false);
-                    }
-                }, 0, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                setGreenSpan(builder, item.getTopicId());
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(greenSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
             }
             view.setText(builder);
             if (!isTitle)
                 view.setMovementMethod(LinkMovementMethod.getInstance());
         } else {
-            if (!isTitle){
-                SpannableString ss = new SpannableString(item.getTopic());
-                ss.setSpan(new ClickableSpan() {
-                    @Override
-                    public void onClick(View widget) {
-                        Intent intent = new Intent(context, SubjectdetailActivity.class);
-                        intent.putExtra("topicId", item.getTopicId());
-                        intent.putExtra("topictitle", item.getTopic());
-                        context.startActivity(intent);
-                    }
-
-                    @Override
-                    public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setColor(context.getResources().getColor(R.color.green));
-                        ds.setUnderlineText(false);
-                    }
-                }, 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                view.setText(ss);
+            if (!isTitle) {
+                setGreenSpan(builder, item.getTopicId());
+                view.setText(builder);
                 view.setMovementMethod(LinkMovementMethod.getInstance());
-            }else {
+            } else {
                 view.setText(changeString);
+                view.setTextColor(context.getResources().getColor(R.color.black));
             }
         }
+    }
+
+    private void setGreenSpan(SpannableStringBuilder builder, final String topicId) {
+        builder.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(context, SubjectdetailActivity.class);
+                intent.putExtra("topicId", topicId);
+                intent.putExtra("topictitle", topicId);
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(context.getResources().getColor(R.color.green));
+                ds.setUnderlineText(false);
+            }
+        }, 0, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
     public class FooterHolder extends RecyclerView.ViewHolder {

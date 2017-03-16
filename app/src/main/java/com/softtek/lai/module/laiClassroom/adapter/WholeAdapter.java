@@ -166,7 +166,7 @@ public class WholeAdapter extends BaseAdapter {
                     Intent intent = new Intent(context, VideoDetailActivity.class);
                     intent.putExtra("articleId", artical.getArticleId());
                     intent.putExtra("cover", AddressManager.get("photoHost") + finalVideoImage);
-                    intent.putExtra("videoUrl", AddressManager.get("videoHost") + artical.getArticUrl());
+                    intent.putExtra("videoUrl", AddressManager.get("photoHost") + artical.getArticUrl());
                     context.startActivity(intent);
                 }
             });
