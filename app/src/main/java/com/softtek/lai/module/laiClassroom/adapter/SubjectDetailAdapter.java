@@ -101,7 +101,7 @@ public class SubjectDetailAdapter extends BaseAdapter {
                     Intent intent = new Intent(mContext, VideoDetailActivity.class);
                     intent.putExtra("articleId", collectModel.getArticleId());
                     intent.putExtra("cover", AddressManager.get("photoHost") + collectModel.getArticImg().get(0));
-                    intent.putExtra("videoUrl",AddressManager.get("photoHost")+ collectModel.getArticUrl());
+                    intent.putExtra("videoUrl",AddressManager.get("photoHost")+collectModel.getArticUrl());
                     mContext.startActivity(intent);
                 }
             });
