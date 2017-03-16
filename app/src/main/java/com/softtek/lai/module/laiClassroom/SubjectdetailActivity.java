@@ -93,6 +93,7 @@ public class SubjectdetailActivity extends BaseActivity<SubjectDetailPresenter> 
                 if (pageindex == 1) {
                     im_nomessage.setVisibility(View.VISIBLE);
                 } else {
+                    im_nomessage.setVisibility(View.GONE);
                     pageindex--;
                 }
             }
