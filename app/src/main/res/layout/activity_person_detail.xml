@@ -43,7 +43,7 @@
                         android:id="@+id/tv_stuname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="dfsdf"
+                        android:text=""
                         android:textColor="#333333"
                         android:textSize="14sp" />
 
