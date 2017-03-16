@@ -31,7 +31,6 @@ import com.softtek.lai.picture.util.BigPicService;
 import com.softtek.lai.picture.util.EvaluateUtil;
 import com.softtek.lai.picture.view.HackyViewPager;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.SystemUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
