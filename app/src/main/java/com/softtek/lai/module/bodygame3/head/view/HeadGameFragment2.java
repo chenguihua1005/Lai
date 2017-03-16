@@ -47,6 +47,8 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
+import com.softtek.lai.module.laiClassroom.ClassroomActivity;
+import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.picture.LookBigPicActivity;
 import com.softtek.lai.picture.bean.EaluationPicBean;
@@ -211,6 +213,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         week_rel.setOnClickListener(this);
         honor_lin.setOnClickListener(this);
         re_photowall.setOnClickListener(this);
+
     }
 
     private static final int EMPTY = 0;
@@ -463,10 +466,10 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         jianzhongbi_tv.setText("总减重比 %");
                                     }
 
-                                    if(!TextUtils.isEmpty(rongyuModel.getClassWeek())){
-                                        week_group.setText("第"+rongyuModel.getClassWeek()+"周小组第一");
-                                        week_stu.setText("第"+rongyuModel.getClassWeek()+"周优秀学员");
-                                    }else {
+                                    if (!TextUtils.isEmpty(rongyuModel.getClassWeek())) {
+                                        week_group.setText("第" + rongyuModel.getClassWeek() + "周小组第一");
+                                        week_stu.setText("第" + rongyuModel.getClassWeek() + "周优秀学员");
+                                    } else {
                                         week_group.setText("第 周小组第一");
                                         week_stu.setText("第 周优秀学员");
                                     }
@@ -514,9 +517,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                Intent it = new Intent(Intent.ACTION_VIEW);
-                                                it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
-                                                startActivity(it);
+                                                Intent intent3 = new Intent(getContext(), VideoDetailActivity.class);
+                                                intent3.putExtra("articleId", tuijianModels.get(0).getVideoId());
+                                                intent3.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(0).getPhoto());
+                                                intent3.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(0).getVideoUrl());
+                                                startActivity(intent3);
                                             }
                                         });
                                         video_type2.setText(tuijianModels.get(1).getVideoType());
@@ -527,9 +532,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         iv_imagevideo2.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                Intent it = new Intent(Intent.ACTION_VIEW);
-                                                it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
-                                                startActivity(it);
+                                                Intent intent4 = new Intent(getContext(), VideoDetailActivity.class);
+                                                intent4.putExtra("articleId", tuijianModels.get(1).getVideoId());
+                                                intent4.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(1).getPhoto());
+                                                intent4.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(1).getVideoUrl());
+                                                startActivity(intent4);
                                             }
                                         });
                                     } else if (tuijianModels.size() == 1) {
@@ -598,7 +605,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 HonorActivity.startHonorActivity(getContext(), classId_first);
                 break;
             case R.id.week_rel:
-                Intent intent1 = new Intent(getContext(), VideomoreActivity.class);//本周推荐（更多视频）
+                Intent intent1 = new Intent(getContext(), ClassroomActivity.class);//本周推荐（更多视频）
                 startActivity(intent1);
                 break;
             case R.id.fl_right:
@@ -802,10 +809,10 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                             } else {
                                 jianzhongbi_tv.setText("总减重比 %");
                             }
-                            if(!TextUtils.isEmpty(rongyuModel.getClassWeek())){
-                                week_group.setText("第"+rongyuModel.getClassWeek()+"周小组第一");
-                                week_stu.setText("第"+rongyuModel.getClassWeek()+"周优秀学员");
-                            }else {
+                            if (!TextUtils.isEmpty(rongyuModel.getClassWeek())) {
+                                week_group.setText("第" + rongyuModel.getClassWeek() + "周小组第一");
+                                week_stu.setText("第" + rongyuModel.getClassWeek() + "周优秀学员");
+                            } else {
                                 week_group.setText("第 周小组第一");
                                 week_stu.setText("第 周优秀学员");
                             }
@@ -841,9 +848,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent it = new Intent(Intent.ACTION_VIEW);
-                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
-                                        startActivity(it);
+                                        Intent intent3 = new Intent(getContext(), VideoDetailActivity.class);
+                                        intent3.putExtra("articleId", tuijianModels.get(0).getVideoId());
+                                        intent3.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(0).getPhoto());
+                                        intent3.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(0).getVideoUrl());
+                                        startActivity(intent3);
                                     }
                                 });
                                 video_type2.setText(tuijianModels.get(1).getVideoType());
@@ -865,9 +874,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent it = new Intent(Intent.ACTION_VIEW);
-                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
-                                        startActivity(it);
+                                        Intent intent4 = new Intent(getContext(), VideoDetailActivity.class);
+                                        intent4.putExtra("articleId", tuijianModels.get(1).getVideoId());
+                                        intent4.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(1).getPhoto());
+                                        intent4.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(1).getVideoUrl());
+                                        startActivity(intent4);
                                     }
                                 });
                             }
@@ -954,12 +965,12 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 //                        ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
                         Intent intent = new Intent(getContext(), LookBigPicActivity.class);
                         Bundle bundle = new Bundle();
-                        List<EaluationPicBean> list= EvaluateUtil.setupCoords4(getContext(),(ImageView) v,photos,position);
+                        List<EaluationPicBean> list = EvaluateUtil.setupCoords4(getContext(), (ImageView) v, photos, position);
                         bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
                         intent.putExtras(bundle);
                         intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
                         startActivity(intent);
-                        ((AppCompatActivity) getContext()).overridePendingTransition(0,0);
+                        ((AppCompatActivity) getContext()).overridePendingTransition(0, 0);
                     }
                 });
                 container.addView(imageView);
