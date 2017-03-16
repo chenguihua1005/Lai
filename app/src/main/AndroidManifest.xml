@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.softtek.lai">
 
-    <!--<uses-sdk
+    <!--
+        <uses-sdk
         android:minSdkVersion="17"
-        android:targetSdkVersion="25" />-->
+        android:targetSdkVersion="25" />
+    -->
 
     <permission
         android:name="com.softtek.lai.permission.JPUSH_MESSAGE"
@@ -785,24 +787,30 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".module.community.view.DynamicDetailActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".picture.LookBigPicActivity"
             android:process=":picture"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".module.bodygame3.photowall.PhotoWall2Activity" />
-        <activity android:name=".module.bodygame3.more.view.SearchFriendActivity" />
-        <activity android:name=".module.laiClassroom.ClassroomActivity" />
+             android:theme="@style/AppTransparent"/>
+        <activity android:name=".module.bodygame3.photowall.PhotoWall2Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.SearchFriendActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.laiClassroom.ClassroomActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.bodygame3.more.view.FuceAlbumActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.laiClassroom.ArticdetailActivity" />
+        <activity android:name=".module.laiClassroom.ArticdetailActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.laiClassroom.VideoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTransparentStatus" />
-        <activity android:name=".module.laiClassroom.SubjectdetailActivity"></activity>
+        <activity android:name=".module.laiClassroom.SubjectdetailActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

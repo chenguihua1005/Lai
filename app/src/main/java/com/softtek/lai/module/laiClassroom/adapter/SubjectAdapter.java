@@ -1,7 +1,9 @@
 package com.softtek.lai.module.laiClassroom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.laiClassroom.SubjectdetailActivity;
 import com.softtek.lai.module.laiClassroom.model.TopicModel;
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +28,7 @@ import zilla.libcore.file.AddressManager;
 public class SubjectAdapter extends BaseAdapter {
     private Context context;
     private List<TopicModel> topicModels;
+
 
     public SubjectAdapter(Context context,List<TopicModel> topicModels)
     {
@@ -63,13 +67,15 @@ public class SubjectAdapter extends BaseAdapter {
         else {
             holdel= (SubjectHoldel) view.getTag();
         }
-        TopicModel topicModel=topicModels.get(i);
+        final TopicModel topicModel=topicModels.get(i);
         if (topicModel.getTopicId().size()==2)
         {
             holdel.ll_subitem1.setVisibility(View.VISIBLE);
             holdel.ll_subitem2.setVisibility(View.VISIBLE);
             holdel.tv_subject_name1.setText(topicModel.getTopicName().get(0));
             holdel.tv_subject_name2.setText(topicModel.getTopicName().get(1));
+            holdel.tv_clickhot1.setText(String.valueOf(topicModel.getClicks().get(0)));
+            holdel.tv_clickhot2.setText(String.valueOf(topicModel.getClicks().get(1)));
             if (!TextUtils.isEmpty(topicModel.getTopicImg().get(0)))
             {
                 Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(0)).centerCrop().placeholder(R.drawable.default_icon_rect)
@@ -82,15 +88,35 @@ public class SubjectAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(topicModel.getTopicImg().get(1)))
             {
                 Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(1)).centerCrop().placeholder(R.drawable.default_icon_rect)
-                        .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo);
+                        .fit().error(R.drawable.default_icon_rect).into(holdel.im_photo2);
             }
             else {
                 Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
-                        .fit().into(holdel.im_photo);
+                        .fit().into(holdel.im_photo2);
             }
+            holdel. ll_subitem1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, SubjectdetailActivity.class);
+                    intent.putExtra("topictitle", topicModel.getTopicName().get(0));
+                    intent.putExtra("topicId", topicModel.getTopicId().get(0));
+                    context.startActivity(intent);
+                }
+            });
+            holdel. ll_subitem2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, SubjectdetailActivity.class);
+                    intent.putExtra("topictitle", topicModel.getTopicName().get(1));
+                    intent.putExtra("topicId", topicModel.getTopicId().get(1));
+                    context.startActivity(intent);
+                }
+            });
         }else {
             holdel.ll_subitem1.setVisibility(View.VISIBLE);
+            holdel.ll_subitem2.setVisibility(View.INVISIBLE);
             holdel.tv_subject_name1.setText(topicModel.getTopicName().get(0));
+            holdel.tv_clickhot1.setText(String.valueOf(topicModel.getClicks().get(0)));
             if (!TextUtils.isEmpty(topicModel.getTopicImg().get(0)))
             {
                 Picasso.with(context).load(AddressManager.get("photoHost")+topicModel.getTopicImg().get(0)).centerCrop().placeholder(R.drawable.default_icon_rect)
@@ -100,8 +126,8 @@ public class SubjectAdapter extends BaseAdapter {
                 Picasso.with(context).load(R.drawable.default_icon_rect).centerCrop().centerCrop()
                         .fit().into(holdel.im_photo);
             }
-        }
 
+        }
 
         return view;
     }
@@ -109,7 +135,7 @@ public class SubjectAdapter extends BaseAdapter {
     {
         LinearLayout ll_subitem1,ll_subitem2;
         ImageView im_photo,im_photo2;
-        TextView tv_subject_name1,tv_subject_name2;
+        TextView tv_subject_name1,tv_subject_name2,tv_clickhot1,tv_clickhot2;
 
         public SubjectHoldel(View view)
         {
@@ -119,6 +145,8 @@ public class SubjectAdapter extends BaseAdapter {
             im_photo2= (ImageView) view.findViewById(R.id.im_photo1);
             tv_subject_name1= (TextView) view.findViewById(R.id.tv_subject_name1);
             tv_subject_name2= (TextView) view.findViewById(R.id.tv_subject_name2);
+            tv_clickhot1= (TextView) view.findViewById(R.id.tv_clickhot1);
+            tv_clickhot2= (TextView) view.findViewById(R.id.tv_clickhot2);
 
         }
     }

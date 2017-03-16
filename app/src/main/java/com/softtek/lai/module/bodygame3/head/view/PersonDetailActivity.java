@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
@@ -42,6 +43,7 @@ import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -233,7 +235,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private void doGetService(final long userid, long AccountId, String classid, String HXAccountId) {
         headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
         if (!TextUtils.isEmpty(HXAccountId)) {
-            Log.i(TAG, "通过环信账号查  token = " + UserInfoModel.getInstance().getToken() + "  userid = " + userid + "  HXAccountId = " + HXAccountId + " classid = " + classid);
             headService.doGetClassMemberInfoByHx(UserInfoModel.getInstance().getToken(), userid, HXAccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
@@ -254,7 +255,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
             });
         } else {
-            Log.i(TAG, "token = " + UserInfoModel.getInstance().getToken() + "  userid = " + userid + "  HXAccountId = " + HXAccountId + " classid = " + classid);
             headService.doGetClassMemberInfo(classid, UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
@@ -297,12 +297,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void doGetData() {
+
         try {
             if (memberInfoModel != null) {
                 String url = AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+//                    Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+                    int px = DisplayUtil.dip2px(PersonDetailActivity.this, 45);
+                    Picasso.with(PersonDetailActivity.this).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_userimg);
+                } else {
+                    Picasso.with(PersonDetailActivity.this).load(R.drawable.img_default).placeholder(R.drawable.img_default).into(cir_userimg);
                 }
                 //用户名
                 tv_stuname.setText(memberInfoModel.getUserName());
@@ -401,25 +407,33 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                     Log.i(TAG, "角色 = " + memberInfoModel.getClassRole() + "  classId = " + memberInfoModel.getClassId() + " getIsCurrClass =  " + memberInfoModel.getIsCurrClass() + memberInfoModel.getClassName());
                     if ("4".equals(memberInfoModel.getClassRole())) {
+                        ClassId = memberInfoModel.getClassId();
                         if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
                             ll_chart.setVisibility(View.VISIBLE);
                         }
 
                         if (Constants.FROM_CONTACT == comeFromClass) {
-                            ll_chart.setVisibility(View.VISIBLE);
 
-                            if (TextUtils.isEmpty(ClassId)) {
+                            if (memberInfoModel.getIsCurrClass() == 1) {
+                                ll_chart.setVisibility(View.VISIBLE);
                                 ClassId = memberInfoModel.getClassId();
+                            } else {
+                                ll_chart.setVisibility(View.GONE);
                             }
 
-                            if (TextUtils.isEmpty(memberInfoModel.getClassId())) {
-                                ClassId = "";
-                            }
 
-                            if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass()) {
-                                ClassId = "";
-                                className_tv.setText("");
-                            }
+//                            if (TextUtils.isEmpty(ClassId)) {
+//                                ClassId = memberInfoModel.getClassId();
+//                            }
+//
+//                            if (TextUtils.isEmpty(memberInfoModel.getClassId())) {
+//                                ClassId = "";
+//                            }
+//
+//                            if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass()) {
+//                                ClassId = "";
+//                                className_tv.setText("");
+//                            }
                         }
 
 //                        if (Constants.FROM_CONTACT == comeFromClass && TextUtils.isEmpty(memberInfoModel.getClassId())) {
@@ -455,7 +469,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             btn_addguy.setVisibility(View.VISIBLE);//添加好友
                             btn_addguy.setText("待确认");
                             btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
-                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_assistant_refuse));
                             iv_email.setVisibility(View.INVISIBLE);
                         } else {
                             btn_chat.setVisibility(View.VISIBLE);
@@ -554,7 +568,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //查看曲线图
                 break;
             case R.id.btn_chat:
-                Log.i(TAG, "userId = " + HXAccountId + " UserName = " + UserName);
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
                 if (!hxid.equals(HXAccountId)) {
                     Intent intent = new Intent(PersonDetailActivity.this, ChatActivity.class);
@@ -660,7 +673,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 btn_addguy.setVisibility(View.VISIBLE);//添加好友
                                 btn_addguy.setText("待确认");
                                 btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
-                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+//                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_assistant_refuse));
                                 iv_email.setVisibility(View.INVISIBLE);
                                 runOnUiThread(new Runnable() {
                                     @Override

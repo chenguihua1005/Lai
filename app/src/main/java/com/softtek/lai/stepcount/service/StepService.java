@@ -180,9 +180,6 @@ public class StepService extends Service implements SensorEventListener,TimeTick
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent!=null){
             isExit=intent.getBooleanExtra("isExit",false);
-            Log.i("onStartCommand来啦啦啦啦啦啊啦啦啦啦啦啦啦啦啦啦啦lalalallalalalalalallalalalalalallalalalal++++====="+isExit);
-        }else {
-            Log.i("onStartCommand是空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空");
         }
         return super.onStartCommand(intent, flags, startId);
     }

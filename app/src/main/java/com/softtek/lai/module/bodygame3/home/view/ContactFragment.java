@@ -106,7 +106,6 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     private List<String> groups = new ArrayList<>();
 
     public static final int REFRESH_UI = 0x001;
-
     public int count = 0;
 
     public static final String UPDATE_CONTACT_MSG = "MESSAGE_UPDATE_CONTACT";//用于删除好友后，更新联系人列表
@@ -226,11 +225,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     intent.putExtra("HXAccountId", model.getHXAccountId());
                     intent.putExtra("UserName", model.getUserName());
                     intent.putExtra("AFriendId", model.getAFriendId());
-
                     intent.putExtra("comeFrom", Constants.FROM_CONTACT);
                     startActivity(intent);
                 } else {
-                    Util.toastMsg(getContext().getString(R.string.conversation_starting));
+                    Util.toastMsg("网络异常，请重新登录后再试");
                 }
                 return false;
 

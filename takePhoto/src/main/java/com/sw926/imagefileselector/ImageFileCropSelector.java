@@ -38,6 +38,11 @@ public class ImageFileCropSelector {
                 handleMutilResult(imgs,false);
             }
 
+            @Override
+            public void onSystemImageSuccess(String img) {
+                handleResult(img, false);
+            }
+
 
             @Override
             public void onError() {
@@ -155,6 +160,16 @@ public class ImageFileCropSelector {
 
     public void selectImage(Fragment fragment) {
         mImagePickHelper.selectorMutilImage(fragment,1);
+        mImageCropperHelper.imageCropper(fragment);
+    }
+
+    public void selectSystemImage(Activity activity){
+        mImagePickHelper.selectorSystemImage(activity);
+        mImageCropperHelper.imageCropper(activity);
+    }
+
+    public void selectSystemImage(Fragment fragment){
+        mImagePickHelper.selectorSystemImage(fragment);
         mImageCropperHelper.imageCropper(fragment);
     }
 

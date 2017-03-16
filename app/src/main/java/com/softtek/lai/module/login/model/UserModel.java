@@ -35,6 +35,7 @@ public class UserModel implements Serializable {
     private int DoingClass;//0没有进行中的班级,1有
     private boolean exit;
 
+
     public boolean getExit() {
         return exit;
     }
