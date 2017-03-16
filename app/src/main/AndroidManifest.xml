@@ -794,7 +794,9 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".module.bodygame3.photowall.PhotoWall2Activity" />
-        <activity android:name=".module.bodygame3.more.view.SearchFriendActivity" />
+        <activity
+            android:name=".module.bodygame3.more.view.SearchFriendActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".module.laiClassroom.ClassroomActivity" />
         <activity
             android:name=".module.bodygame3.more.view.FuceAlbumActivity"

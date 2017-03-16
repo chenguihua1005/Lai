@@ -2,8 +2,12 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -82,10 +86,19 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
     private String inviterHXId;
 
+    @InjectView(R.id.tip_tv)
+    TextView tip_tv;
+
     @Override
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
         ll_left.setOnClickListener(this);
+
+        SpannableString spannableString = new SpannableString(this.getResources().getString(R.string.tip));
+        Drawable drawable = getResources().getDrawable(R.drawable.law_tip);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        spannableString.setSpan(new ImageSpan(drawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tip_tv.setText(spannableString);
 
     }
 
