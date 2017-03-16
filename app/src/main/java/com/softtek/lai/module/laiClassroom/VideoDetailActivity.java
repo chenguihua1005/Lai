@@ -182,11 +182,10 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         adapter.notifyDataSetChanged();
         if(!getPresenter().isWifiConnected(this)){
             StringBuilder builder=new StringBuilder();
-            builder.append("正在使用非 WIFI 网络, 播放将产生流量费用 视频时长 ");
+            builder.append("正在使用非 WIFI 网络, 播放将产生流量费用\n视频时长 ");
             builder.append(data.getVideoTime());
             builder.append(" | 流量 约 ");
-            builder.append(data.getVideoSize()+" MB");
-            builder.append("\"继续播放\" 按钮, 才会播放视频. ");
+            builder.append(data.getVideoSize());
             new AlertDialog.Builder(this).setMessage(builder)
                     .setNegativeButton("稍后播放",null)
                     .setPositiveButton("继续播放", new DialogInterface.OnClickListener() {
