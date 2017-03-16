@@ -5,15 +5,12 @@
 package com.softtek.lai.module.welcome.view;
 
 import android.app.ActivityManager;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.RelativeLayout;
 
@@ -27,7 +24,6 @@ import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -36,7 +32,6 @@ import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.MD5;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -171,7 +166,12 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        UserInfoModel.getInstance().visitorLogin();
+                        UserModel user=UserInfoModel.getInstance().getUser();
+                        if(user!=null&&"1".equals(user.getIsJoin())){
+                            //启动计步器服务
+                            startService(new Intent(WelcomeActivity.this.getApplicationContext(), StepService.class));
+                            startService(new Intent(WelcomeActivity.this.getApplicationContext(), DaemonService.class));
+                        }
                         finish();
                         Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                         startActivity(intent);

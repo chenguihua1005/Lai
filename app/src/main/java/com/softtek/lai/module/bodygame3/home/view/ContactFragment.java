@@ -25,6 +25,7 @@ import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactExpandableAdapter;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
@@ -224,6 +225,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     intent.putExtra("HXAccountId", model.getHXAccountId());
                     intent.putExtra("UserName", model.getUserName());
                     intent.putExtra("AFriendId", model.getAFriendId());
+                    intent.putExtra("comeFrom", Constants.FROM_CONTACT);
                     startActivity(intent);
                 } else {
                     Util.toastMsg("网络异常，请重新登录后再试");
