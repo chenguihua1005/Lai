@@ -187,7 +187,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         Intent intent = new Intent(context, VideoDetailActivity.class);
                         intent.putExtra("articleId", item.getArticleId());
                         intent.putExtra("cover", AddressManager.get("photoHost") + finalVideoImage);
-                        intent.putExtra("videoUrl", AddressManager.get("videoHost") + item.getArticUrl());
+                        intent.putExtra("videoUrl", AddressManager.get("photoHost") + item.getArticUrl());
                         context.startActivity(intent);
                     }
                 });
