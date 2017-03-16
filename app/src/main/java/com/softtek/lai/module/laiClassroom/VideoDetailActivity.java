@@ -128,6 +128,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         playerView.onPause();
     }
 
+
     @Override
     protected void onDestroy() {
         playerView.onDestroy();
