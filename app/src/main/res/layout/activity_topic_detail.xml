@@ -46,11 +46,13 @@
                 android:visibility="gone"/>
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="话题详情"
                 android:textSize="18sp"
+                android:alpha="0"
                 android:textColor="#FFFFFF"
                 android:layout_marginLeft="5dp" />
 

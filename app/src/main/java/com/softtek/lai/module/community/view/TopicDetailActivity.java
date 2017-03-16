@@ -110,6 +110,8 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
 
     @InjectView(R.id.rl_content)
     RelativeLayout rl_content;
@@ -246,6 +248,7 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 int top = c.getTop();
                 int y= -top + firstVisiblePosition * c.getHeight() ;
                 fl_bg.setAlpha(y*0.3f/1000.0f);
+                tv_title.setAlpha(y*0.3f/1000.0f);
             }
         });
     }

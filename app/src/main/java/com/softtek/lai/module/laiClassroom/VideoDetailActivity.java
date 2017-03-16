@@ -143,10 +143,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (playerView.handleVolumeKey(keyCode)) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+        return playerView.handleVolumeKey(keyCode) || super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -167,13 +164,14 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
             @Override
             public void onClick(View v) {
                 cb_shoucang.setEnabled(false);
-                Log.i("选中状态" + cb_shoucang.isChecked());
                 if (!cb_shoucang.isChecked()) {
                     cb_shoucang.setChecked(false);
+                    cb_shoucang.setText("收藏");
                     Log.i("取消收藏");
                     getPresenter().unLike(getIntent().getStringExtra("articleId"));
                 } else {
                     cb_shoucang.setChecked(true);
+                    cb_shoucang.setText("已收藏");
                     Log.i("加入收藏");
                     getPresenter().doLike(getIntent().getStringExtra("articleId"));
                 }
