@@ -378,8 +378,8 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, SubjectdetailActivity.class);
-                intent.putExtra("topictitle", item.getTopic());
                 intent.putExtra("topicId", item.getTopicId());
+                intent.putExtra("topictitle", item.getTopic());
                 context.startActivity(intent);
             }
 
