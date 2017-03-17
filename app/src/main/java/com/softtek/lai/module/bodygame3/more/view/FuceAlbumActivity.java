@@ -107,7 +107,6 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         tv_title.setText("复测相册");
-        tv_right.setText("分享");
 
 
 //        refresh.setOnRefreshListener(this);
@@ -141,6 +140,13 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
         account = getIntent().getStringExtra("account");
 
+        if (String.valueOf(UserInfoModel.getInstance().getUserId()).equals(account)) {
+            tv_right.setText("分享");
+            fl_right.setEnabled(true);
+        } else {
+            tv_right.setVisibility(View.GONE);
+            fl_right.setEnabled(false);
+        }
 
         registerBroadcastReceiver();//注册
 
