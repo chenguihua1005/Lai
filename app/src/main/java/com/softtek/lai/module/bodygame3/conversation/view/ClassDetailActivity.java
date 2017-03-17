@@ -145,7 +145,7 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
 
             if (!TextUtils.isEmpty(photo)) {
-                Picasso.with(this).load(path + photo).resize(DisplayUtil.dip2px(this,40),DisplayUtil.dip2px(this,20)).centerCrop().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
+                Picasso.with(this).load(path + photo).resize(DisplayUtil.dip2px(this,40),DisplayUtil.dip2px(this,40)).centerCrop().placeholder(com.hyphenate.easeui.R.drawable.ease_default_avatar)
                         .error(com.hyphenate.easeui.R.drawable.ease_default_avatar).into(coach_img);
             }
 //            if ("".equals(photo)) {

@@ -124,8 +124,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     TextView no_photowalll;
     ImageView iv_video2_bg;
     ImageView iv_video1_bg;
-
-
+    TextView no_tuijian;
+    LinearLayout lin_tuijian;
     private List<PartnersModel> partnersModels = new ArrayList<>();
     private List<TuijianModel> tuijianModels = new ArrayList<>();
     public int typecode;
@@ -205,6 +205,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         no_photowalll = (TextView) headView.findViewById(R.id.no_photowalll);
         iv_video2_bg = (ImageView) headView.findViewById(R.id.iv_video2_bg);
         iv_video1_bg = (ImageView) headView.findViewById(R.id.iv_video1_bg);
+        no_tuijian = (TextView) headView.findViewById(R.id.no_tuijian);
+        lin_tuijian = (LinearLayout) headView.findViewById(R.id.lin_tuijian);
 
         ptrlv.getRefreshableView().addHeaderView(headView);
         service = ZillaApi.NormalRestAdapter.create(HeadService.class);
@@ -237,16 +239,16 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 partnersModels.clear();
                 String typename = dataset.get(i);
-                if ("按减重斤数".equals(typename)) {
+                if ("累计减重斤数".equals(typename)) {
                     typecode = 0;
                     iv_types.setImageResource(R.drawable.weightphoto);
 
-                } else if ("按减重比".equals(typename)) {
+                } else if ("累计减重比".equals(typename)) {
                     typecode = 1;
                     iv_types.setImageResource(R.drawable.jianzhong_iv);
 
 
-                } else if ("按体脂比".equals(typename)) {
+                } else if ("累计体脂比".equals(typename)) {
                     typecode = 2;
                     iv_types.setImageResource(R.drawable.jianzhiphoto);
 
@@ -290,15 +292,15 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                     TextView jianzhong_tv = holder.getView(R.id.jianzhong_tv);
                     TextView jianzhong_tv2 = holder.getView(R.id.jianzhong_tv2);
                     if (typecode == 0) {//Int	排序类型：0:体重,1:减重比,2:体脂比
-                        tv_bi.setText("减重斤数");
+                        tv_bi.setText("累计减重斤数");
                         jianzhong_tv.setText(partnersModel.getLoss());
                         jianzhong_tv2.setText("斤");
                     } else if (typecode == 1) {
-                        tv_bi.setText("减重比");
+                        tv_bi.setText("累计减重比");
                         jianzhong_tv.setText(partnersModel.getLoss());
                         jianzhong_tv2.setText("%");
                     } else {
-                        tv_bi.setText("体脂比");
+                        tv_bi.setText("累计体脂比");
                         weight_first.setText("初始体脂" + partnersModel.getWeight() + "%");
                         jianzhong_tv.setText(partnersModel.getLoss());
                         jianzhong_tv2.setText("%");
@@ -505,6 +507,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
                                 //本周推荐
                                 if (classinfoModel.getListRec() != null) {
+                                    lin_tuijian.setVisibility(View.VISIBLE);
+                                    no_tuijian.setVisibility(View.GONE);
                                     tuijianModels.addAll(classinfoModel.getListRec());
                                     if (tuijianModels.size() >= 2) {
                                         iv_imagevideo2.setVisibility(View.VISIBLE);
@@ -526,9 +530,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         });
                                         video_type2.setText(tuijianModels.get(1).getVideoType());
                                         video_name2.setText(tuijianModels.get(1).getTitle());
+                                        video_type2.setBackgroundResource(R.drawable.background_tuijian2);
                                         Picasso.with(getContext()).load(path + tuijianModels.get(1).getPhoto()).fit().error(R.drawable.default_icon_rect)
                                                 .error(R.drawable.default_icon_rect).into(iv_video2_bg);
-
                                         iv_imagevideo2.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -553,9 +557,12 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                                 startActivity(intent4);
                                             }
                                         });
-                                        Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
-                                        iv_imagevideo2.setVisibility(View.GONE);
+//                                        Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
+//
                                     }
+                                } else {
+                                    no_tuijian.setVisibility(View.VISIBLE);
+                                    lin_tuijian.setVisibility(View.GONE);
                                 }
                                 //照片墙
                                 if (classinfoModel.getPhotoWall() != null) {
@@ -842,6 +849,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
                         //本周推荐
                         if (classinfoModel.getListRec() != null) {
+                            lin_tuijian.setVisibility(View.VISIBLE);
+                            no_tuijian.setVisibility(View.GONE);
+                            iv_imagevideo2.setVisibility(View.VISIBLE);
                             tuijianModels.clear();
                             tuijianModels.addAll(classinfoModel.getListRec());
                             if (tuijianModels.size() >= 2) {
@@ -860,6 +870,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 });
                                 video_type2.setText(tuijianModels.get(1).getVideoType());
                                 video_name2.setText(tuijianModels.get(1).getTitle());
+                                video_type2.setBackgroundResource(R.drawable.background_tuijian2);
                                 Picasso.with(getContext()).load(path + tuijianModels.get(1).getPhoto()).fit().error(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_video2_bg);
                                 iv_imagevideo2.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -875,7 +886,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 video_type1.setText(tuijianModels.get(0).getVideoType());
                                 video_name1.setText(tuijianModels.get(0).getTitle());
                                 Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_video1_bg);
-                                Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
+//                                Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
                                 iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -886,7 +897,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         startActivity(intent4);
                                     }
                                 });
+//                                iv_imagevideo2.setVisibility(View.GONE);
                             }
+                        } else {
+                            lin_tuijian.setVisibility(View.GONE);
+                            no_tuijian.setVisibility(View.VISIBLE);
                         }
                         //照片墙
                         if (classinfoModel.getPhotoWall() != null) {
