@@ -43,6 +43,10 @@ public class SubjectDetailPresenter extends BasePresenter<SubjectDetailPresenter
 
             @Override
             public void failure(RetrofitError error) {
+                if(getView()!=null){
+                    getView().dialogDissmiss();
+                    getView().dissmiss();
+                }
                 super.failure(error);
             }
         });

@@ -178,6 +178,7 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
             break;
             case R.id.rl_fuce_album: {
                 Intent intent = new Intent(getContext(), FuceAlbumActivity.class);
+                intent.putExtra("account", String.valueOf(UserInfoModel.getInstance().getUserId()));
                 intent.putExtra("classId", model.getClassId());
                 startActivity(intent);
             }

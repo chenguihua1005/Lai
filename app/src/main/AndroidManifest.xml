@@ -727,10 +727,6 @@
             android:process=":picture"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygame3.head.view.VideomoreActivity"
-            android:configChanges="screenSize"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.bodygame3.head.view.GroupRankingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
@@ -817,7 +813,6 @@
         <activity
             android:name=".module.laiClassroom.SubjectdetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.home.view.TestActivity"></activity>
     </application>
 
 </manifest>

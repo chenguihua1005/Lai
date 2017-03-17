@@ -4,16 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.softtek.lai.module.laiClassroom.WholeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <com.superrecycleview.superlibrary.recycleview.SuperRecyclerView
-        android:id="@+id/ple_list"
+    <com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        >
-
-    </com.superrecycleview.superlibrary.recycleview.SuperRecyclerView>
+        android:layout_height="match_parent" />
 
 
     <ImageView

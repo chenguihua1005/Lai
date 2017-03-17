@@ -241,6 +241,7 @@
             android:background="#e1e1e1" />
 
         <LinearLayout
+            android:id="@+id/lin_tuijian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -255,6 +256,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_weight="1">
+
+                <com.softtek.lai.widgets.RoundImageView
+                    android:id="@+id/iv_video1_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    />
 
                 <TextView
                     android:id="@+id/video_type1"
@@ -276,13 +284,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
-                <com.softtek.lai.widgets.RoundImageView
-                    android:id="@+id/iv_video1_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -291,7 +293,7 @@
                 android:layout_height="100dp"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+               >
 
                 <com.softtek.lai.widgets.RoundImageView
                     android:id="@+id/iv_video2_bg"
@@ -303,9 +305,8 @@
                     android:id="@+id/video_type2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_tuijian2"
                     android:gravity="center_vertical"
-                    android:text="TextView"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="11sp" />
 
@@ -316,13 +317,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="5dp"
-                    android:text="TextView"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
 
             </RelativeLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/no_tuijian"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#EFECED"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:visibility="gone"
+            android:paddingRight="10dp"
+            android:text="暂无动态" />
 
         <!--照片墙-->
         <RelativeLayout

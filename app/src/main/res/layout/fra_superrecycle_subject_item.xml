@@ -10,10 +10,10 @@
     android:orientation="vertical"
     >
 
-    <ImageView
+    <com.softtek.lai.widgets.RectangleImage
         android:id="@+id/im_photo"
         android:layout_width="175dp"
-        android:layout_height="135dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/default_icon_rect"
         android:scaleType="centerCrop"
         />
