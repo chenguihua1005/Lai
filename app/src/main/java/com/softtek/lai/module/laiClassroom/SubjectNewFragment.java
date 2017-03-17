@@ -29,6 +29,7 @@ import com.superrecycleview.superlibrary.recycleview.SuperRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
@@ -41,8 +42,8 @@ import zilla.libcore.ui.InjectLayout;
 public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implements SubjectPresenter.getSubject, SwipeRefreshLayout.OnRefreshListener, SuperRecyclerView.LoadingListener, SuperBaseAdapter.OnItemClickListener {
    @InjectView(R.id.ple_list)
    SuperRecyclerView ple_list;
-   private List<String> dataList = new ArrayList<>();
    HeaderFooterReAdapter mAdapter;
+
    private View headerView;
    ViewPager viewPager;
    List<RecommendModel> recommendModels = new ArrayList<>();
@@ -62,26 +63,26 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
 
     @Override
     protected void initViews() {
+
      LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
      layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-     layoutManager = new GridLayoutManager(getContext(), 2);
+     layoutManager=new GridLayoutManager(getContext(),1);
      ple_list.setLayoutManager(layoutManager);
      ple_list.setRefreshEnabled(true);
      ple_list.setLoadMoreEnabled(true);
      ple_list.setLoadingListener(this);
+     headerView = LayoutInflater.from(getContext()).inflate(R.layout.view_header_layout, null);
 
-
-     headerView = getActivity().getLayoutInflater().inflate(R.layout.view_header_layout, (ViewGroup) ple_list.getParent(), false);
      viewPager = (ViewPager) headerView.findViewById(R.id.viewpager);
     }
 
     @Override
     protected void initDatas() {
      setPresenter(new SubjectPresenter(this));
+     initAdapter();
     }
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
-     ple_list.completeRefresh();
      if (subjectModel != null) {
       if (!subjectModel.getRecommendTopicList().isEmpty()) {
        viewPager.setOffscreenPageLimit(subjectModel.getRecommendTopicList().size());
@@ -104,6 +105,8 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
    public void run() {
     pageindex++;
     getPresenter().getSubjectData(pageindex,10);
+    ple_list.completeLoadMore();
+
    }
   },2000);
  }
@@ -116,6 +119,8 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
     pageindex=1;
     getPresenter().getSubjectData(pageindex,10);
     articleTopicModels.clear();
+    ple_list.completeRefresh();
+
    }
   },2000);
  }
@@ -125,6 +130,7 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
   mAdapter.setOnItemClickListener(this);
   ple_list.setAdapter(mAdapter);
  }
+
  private PagerAdapter pageradapter;
 
  private void adapterData() {
@@ -184,4 +190,5 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
   intent.putExtra("topicId", articleTopicModels.get(position).getTopicId());
   startActivity(intent);
  }
+
 }

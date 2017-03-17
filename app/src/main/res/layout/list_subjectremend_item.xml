@@ -13,7 +13,7 @@
         android:src="@drawable/default_icon_rect"
         android:scaleType="centerCrop" />
         <LinearLayout
-            android:layout_width="175dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/im_photo"
             android:orientation="horizontal"
