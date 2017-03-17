@@ -218,6 +218,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#FDC36F"
+                android:textSize="13sp"
                 android:padding="15dp"/>
 
             <TextView
