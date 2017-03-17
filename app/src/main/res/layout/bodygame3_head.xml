@@ -241,6 +241,7 @@
             android:background="#e1e1e1" />
 
         <LinearLayout
+            android:id="@+id/lin_tuijian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -304,9 +305,8 @@
                     android:id="@+id/video_type2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_tuijian2"
                     android:gravity="center_vertical"
-                    android:text="TextView"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="11sp" />
 
@@ -317,13 +317,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="5dp"
-                    android:text="TextView"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
 
             </RelativeLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/no_tuijian"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#EFECED"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:visibility="gone"
+            android:paddingRight="10dp"
+            android:text="暂无动态" />
 
         <!--照片墙-->
         <RelativeLayout
