@@ -38,7 +38,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_video_detail)
-public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> implements VideoDetailPresenter.VideoDetailView,AdapterView.OnItemClickListener {
+public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> implements VideoDetailPresenter.VideoDetailView, AdapterView.OnItemClickListener {
 
     @InjectView(R.id.player_view)
     IjkPlayerView playerView;
@@ -51,6 +51,8 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     @InjectView(R.id.cb_shoucang)
     CheckBox cb_shoucang;
 
+    @InjectView(R.id.tv_notuijian)
+    TextView tv_notuijian;
     @InjectView(R.id.lv)
     ListView lv;
     private EasyAdapter<VideoDetailModel.VideoList> adapter;
@@ -177,26 +179,34 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                 }
             }
         });
-        datas.addAll(data.getVideoList());
-        adapter.notifyDataSetChanged();
-        if(!getPresenter().isWifiConnected(this)){
-            StringBuilder builder=new StringBuilder();
+        if(data.getVideoList()!=null&&!data.getVideoList().isEmpty()){
+            lv.setVisibility(View.VISIBLE);
+            tv_notuijian.setVisibility(View.GONE);
+            datas.addAll(data.getVideoList());
+            adapter.notifyDataSetChanged();
+        }else{
+            tv_notuijian.setVisibility(View.VISIBLE);
+            lv.setVisibility(View.GONE);
+        }
+
+        if (!getPresenter().isWifiConnected(this)) {
+            StringBuilder builder = new StringBuilder();
             builder.append("正在使用非 WIFI 网络, 播放将产生流量费用\n视频时长 ");
             builder.append(data.getVideoTime());
             builder.append(" | 流量 约 ");
             builder.append(data.getVideoSize());
             new AlertDialog.Builder(this).setMessage(builder)
-                    .setNegativeButton("稍后播放",null)
+                    .setNegativeButton("稍后播放", null)
                     .setPositiveButton("继续播放", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(playerView!=null){
+                            if (playerView != null) {
                                 playerView.start();
                             }
                         }
                     }).create().show();
-        }else {
-            if(playerView!=null){
+        } else {
+            if (playerView != null) {
                 playerView.start();
             }
         }
@@ -209,12 +219,12 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        VideoDetailModel.VideoList video=datas.get(position);
+        VideoDetailModel.VideoList video = datas.get(position);
         //跳转视频详情
         Intent intent = new Intent(this, VideoDetailActivity.class);
         intent.putExtra("articleId", video.getArticleId());
         intent.putExtra("cover", AddressManager.get("photoHost") + video.getVideoImg());
-        intent.putExtra("videoUrl", AddressManager.get("photoHost")+video.getVideoUrl());
+        intent.putExtra("videoUrl", AddressManager.get("photoHost") + video.getVideoUrl());
         startActivity(intent);
     }
 }
