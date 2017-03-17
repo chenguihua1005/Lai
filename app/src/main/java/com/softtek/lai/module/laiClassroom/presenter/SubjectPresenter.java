@@ -22,18 +22,18 @@ public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject>
 
     public SubjectPresenter(getSubject baseView) {
         super(baseView);
+        service = ZillaApi.NormalRestAdapter.create(LaiClassroomService.class);
     }
 
 
-    public void getSubjectData(int pageindex, int pagesize) {
-        service = ZillaApi.NormalRestAdapter.create(LaiClassroomService.class);
+    public void getSubjectData(int pageindex, int pagesize, final int upOrLoad) {
         service.doGetArticleTopic(UserInfoModel.getInstance().getToken(), pageindex, pagesize, new Callback<ResponseData<SubjectModel>>() {
             @Override
             public void success(ResponseData<SubjectModel> subjectModelResponseData, Response response) {
                 int status = subjectModelResponseData.getStatus();
                 if (status == 200) {
                     if (getView() != null) {
-                        getView().getSubjectart(subjectModelResponseData.getData());
+                        getView().getSubjectart(subjectModelResponseData.getData(),upOrLoad);
                     }
                 }
             }
@@ -48,6 +48,6 @@ public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject>
     }
 
     public interface getSubject extends BaseView {
-        void getSubjectart(SubjectModel subjectModel);
+        void getSubjectart(SubjectModel subjectModel,int upOrLoad);
     }
 }

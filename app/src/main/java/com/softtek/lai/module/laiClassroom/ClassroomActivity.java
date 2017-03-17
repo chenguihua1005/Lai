@@ -1,16 +1,8 @@
 package com.softtek.lai.module.laiClassroom;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.softtek.lai.R;
@@ -48,7 +40,7 @@ public class ClassroomActivity extends BaseActivity {
         fragmentModels.add(new FragmentModel("全部", new WholeFragment()));
         fragmentModels.add(new FragmentModel("收藏", new CollectionFragment()));
         fragmentModels.add(new FragmentModel("历史", new HistoryFragment()));
-        fragmentModels.add(new FragmentModel("专题", new SubjectNewFragment()));
+        fragmentModels.add(new FragmentModel("专题", new SubjectFragment()));
         content.setOffscreenPageLimit(3);
         content.setAdapter(new TabAdapter(getSupportFragmentManager(), fragmentModels));
         tab.setupWithViewPager(content);
