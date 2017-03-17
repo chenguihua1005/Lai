@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.mvp.BasePresenter;
+import com.softtek.lai.common.mvp.BaseView;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
@@ -16,13 +18,22 @@ import zilla.libcore.ui.LayoutInjectUtil;
 /**
  * Created by jerry.guan on 7/7/2016.
  */
-public abstract class LazyBaseFragment2 extends ProgressFragment{
+public abstract class LazyBaseFragment2<T extends BasePresenter> extends ProgressFragment implements BaseView{
 
     private boolean isVisible=false;//可否可见
     protected boolean isPrepared=false;//是否加载过
     private boolean isCreatedView=false;//是否加载完成试图
 
     protected View contentView;
+    private T presenter;
+
+    public T getPresenter() {
+        return presenter;
+    }
+
+    public void setPresenter(T presenter) {
+        this.presenter = presenter;
+    }
 
     @Nullable
     @Override
@@ -54,6 +65,9 @@ public abstract class LazyBaseFragment2 extends ProgressFragment{
     @Override
     public void onDestroyView() {
         isCreatedView=false;
+        if(presenter!=null){
+            presenter.recycle();
+        }
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
         super.onDestroyView();
@@ -123,4 +137,15 @@ public abstract class LazyBaseFragment2 extends ProgressFragment{
     protected abstract void initViews();
 
     protected abstract void initDatas();
+
+    @Override
+    public void dialogShow(String message) {
+
+    }
+
+    @Override
+    public void dialogDissmiss() {
+
+    }
+
 }
