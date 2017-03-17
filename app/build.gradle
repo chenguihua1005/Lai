@@ -97,7 +97,7 @@ dependencies {
     compile 'com.malinskiy:superrecyclerview:1.1.4'
 
     compile 'com.supercwn.superrecycleview:superlibrary:1.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.1'
     testCompile 'junit:junit:4.12'
 }
 

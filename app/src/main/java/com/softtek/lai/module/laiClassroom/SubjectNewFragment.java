@@ -66,7 +66,8 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
 
      LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
      layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-     layoutManager=new GridLayoutManager(getContext(),1);
+     layoutManager=new GridLayoutManager(getContext(),2);
+//     GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
      ple_list.setLayoutManager(layoutManager);
      ple_list.setRefreshEnabled(true);
      ple_list.setLoadMoreEnabled(true);
