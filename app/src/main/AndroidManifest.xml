@@ -799,6 +799,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.more.view.SearchFriendActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.laiClassroom.ClassroomActivity"
