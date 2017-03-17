@@ -413,7 +413,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         }
 
                         if (Constants.FROM_CONTACT == comeFromClass) {
-
                             if (memberInfoModel.getIsCurrClass() == 1) {
                                 ll_chart.setVisibility(View.VISIBLE);
                                 ClassId = memberInfoModel.getClassId();
@@ -436,22 +435,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 //                            }
                         }
 
-//                        if (Constants.FROM_CONTACT == comeFromClass && TextUtils.isEmpty(memberInfoModel.getClassId())) {
-//                            ll_chart.setVisibility(View.VISIBLE);
-//                        }
-//
-//                        if ((!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass() && Constants.FROM_CONTACT == comeFromClass)) {
-//                            ll_chart.setVisibility(View.GONE);
-//                        }
 
-
-//                        if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 1 == memberInfoModel.getIsCurrClass() && Constants.FROM_CONTACT == comeFromClass) {
-//                            ll_chart.setVisibility(View.VISIBLE);
-//                        } else if (Constants.FROM_CONTACT == comeFromClass && TextUtils.isEmpty(memberInfoModel.getClassId())) {
-//                            ll_chart.setVisibility(View.VISIBLE);
-//                        } else {
-//
-//                        }
                     }
 
 
@@ -490,23 +474,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                         im_guanzhu.setChecked(true);
 
                     }
-
-//                   曲线图对同班级的人可见
-//                    SaveClassModel temp = (SaveClassModel) ACache.get(this, HeadGameFragment2.SAVE_CLASS_DIR).getAsObject(HeadGameFragment2.SAVE_CLASS);
-//                    if (temp != null) {
-//                        if (!TextUtils.isEmpty(temp.classId) && !TextUtils.isEmpty(ClassId.trim()) && temp.classId.equals(ClassId.trim())) {
-//                            ll_chart.setVisibility(View.VISIBLE);
-//                        }
-//                    }
-
-
-//                    if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && ("4".equals(memberInfoModel.getClassRole()))) {
-//                        ll_chart.setVisibility(View.VISIBLE);
-//
-//                        ClassId = memberInfoModel.getClassId();
-//                    } else {
-////                        Util.toastMsg("班级ID为空.....");
-//                    }
                 }
                 doGetPhotoView();//展示图片
             }

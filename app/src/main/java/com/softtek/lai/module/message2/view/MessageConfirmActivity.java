@@ -7,7 +7,11 @@ package com.softtek.lai.module.message2.view;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -82,10 +86,16 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.btn_no)
     Button btn_no;
 
+    @InjectView(R.id.tip_tv)
+    TextView tip_tv;
+
     InvitationConfirmShow show;
     Message2Service service;
     String msgId;
     long introducerId;
+
+
+
 
     @Override
     protected void initViews() {
@@ -109,6 +119,13 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
+        SpannableString spannableString = new SpannableString(this.getResources().getString(R.string.tip));
+        Drawable drawable = getResources().getDrawable(R.drawable.law_tip);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        spannableString.setSpan(new ImageSpan(drawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tip_tv.setText(spannableString);
+
+
         msgId = getIntent().getStringExtra("msgId");
         service = ZillaApi.NormalRestAdapter.create(Message2Service.class);
         dialogShow("信息拉取");

@@ -6,14 +6,14 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
+    <com.superrecycleview.superlibrary.recycleview.SuperRecyclerView
         android:id="@+id/ple_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
         >
 
-    </com.malinskiy.superrecyclerview.SuperRecyclerView>
+    </com.superrecycleview.superlibrary.recycleview.SuperRecyclerView>
 
 
     <ImageView

@@ -10,12 +10,9 @@ import android.widget.Button;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.graph.model.GirthModel;
-import com.softtek.lai.module.bodygame3.graph.net.GraphService;
+import com.softtek.lai.module.bodygame3.graph.presenter.GraphDimemsionPresenter;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.chart.Chart;
 import com.softtek.lai.widgets.chart.Entry;
 
@@ -24,16 +21,13 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 @InjectLayout(R.layout.fragment_dimemsion)
-public class DimemsionFragment extends LazyBaseFragment2 {
+public class DimemsionFragment extends LazyBaseFragment2<GraphDimemsionPresenter> implements GraphDimemsionPresenter.GraphGirthView {
 
     @InjectView(R.id.bust_chart)
     Chart bust_chart;
@@ -111,27 +105,8 @@ public class DimemsionFragment extends LazyBaseFragment2 {
     @Override
     protected void lazyLoad() {
         if (!TextUtils.isEmpty(getArguments().getString("classId"))) {
-            ZillaApi.NormalRestAdapter.create(GraphService.class)
-                    .getClassMemberGirthChart(
-                            UserInfoModel.getInstance().getToken(),
-                            getArguments().getLong("accountId"),
-                            getArguments().getString("classId"),
-                            new RequestCallback<ResponseData<List<GirthModel>>>() {
-                                @Override
-                                public void success(ResponseData<List<GirthModel>> data, Response response) {
-                                    setContentEmpty(false);
-                                    setContentShown(true);
-                                    onSuccess(data.getData());
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    setContentEmpty(false);
-                                    setContentShown(true);
-                                    super.failure(error);
-                                }
-                            }
-                    );
+            getPresenter().getGraph(getArguments().getLong("accountId"),
+                    getArguments().getString("classId"));
         }else {
             setContentEmpty(true);
             setContentShown(true);
@@ -140,74 +115,76 @@ public class DimemsionFragment extends LazyBaseFragment2 {
 
     List<String> leftXAsix;
     List<String> rightXAsix;
-    private void onSuccess(List<GirthModel> data){
-        try {
-            
-            if (data!=null) {
-                for (int i = 0, j = data.size(); i < j; i++) {
-                    GirthModel model = data.get(i);
-                    if(model.getWeekDay()==0){
-                        xAsix.add("初始");
-                    }else {
-                        xAsix.add("第" + model.getWeekDay() + "周");
-                    }
-                    float bustValue = Float.valueOf(model.getCircum());
-                    float waistValue = Float.valueOf(model.getWaistline());
-                    float hiplineValue = Float.valueOf(model.getHiplie());
-                    float upperValue = Float.valueOf(model.getUpArmGirth());
-                    float datuiValue = Float.valueOf(model.getUpLegGirth());
-                    float xiaotuiValue = Float.valueOf(model.getDoLegGirth());
-                    maxBust = bustValue > maxBust ? bustValue : maxBust;
-                    maxWaist = waistValue > maxWaist ? waistValue : maxWaist;
-                    maxHipline = hiplineValue > maxHipline ? hiplineValue : maxHipline;
-                    maxUpper = upperValue > maxUpper ? upperValue : maxUpper;
-                    maxDatui = datuiValue > maxDatui ? datuiValue : maxDatui;
-                    maxXiaotui = xiaotuiValue > maxXiaotui ? xiaotuiValue : maxXiaotui;
 
-                    int middle=j/2;
-                    int index=i<middle?model.getWeekDay():model.getWeekDay()-middle;
-                    if(i<middle){
-                        if(bustValue!=0){
-                            bust.add(new Entry(index, bustValue));
-                        }
-                        if(waistValue!=0){
-                            waist.add(new Entry(index, waistValue));
-                        }
-                        if(hiplineValue!=0){
-                            hipline.add(new Entry(index, hiplineValue));
-                        }
-                        if(upperValue!=0){
-                            upper.add(new Entry(index, upperValue));
-                        }
-                        if(datuiValue!=0){
-                            datui.add(new Entry(index, datuiValue));
-                        }
-                        if(waistValue!=0){
-                            xiaotui.add(new Entry(index, xiaotuiValue));
-                        }
+    @Override
+    public void onSuccess(List<GirthModel> data){
 
-                    }else {
-                        if(bustValue!=0){
-                            bustR.add(new Entry(model.getWeekDay() - middle, bustValue));
-                        }
-                        if(waistValue!=0){
-                            waistR.add(new Entry(model.getWeekDay() - middle, waistValue));
-                        }
-                        if(hiplineValue!=0){
-                            hiplineR.add(new Entry(model.getWeekDay() - middle, hiplineValue));
-                        }
-                        if(upperValue!=0){
-                            upperR.add(new Entry(model.getWeekDay() - middle, upperValue));
-                        }
-                        if(datuiValue!=0){
-                            datuiR.add(new Entry(model.getWeekDay() - middle, datuiValue));
-                        }
-                        if(waistValue!=0){
-                            xiaotuiR.add(new Entry(model.getWeekDay() - middle, xiaotuiValue));
-                        }
-                    }
-
+        setContentEmpty(false);
+        setContentShown(true);
+        if (data!=null) {
+            for (int i = 0, j = data.size(); i < j; i++) {
+                GirthModel model = data.get(i);
+                if(model.getWeekDay()==0){
+                    xAsix.add("初始");
+                }else {
+                    xAsix.add("第" + model.getWeekDay() + "周");
                 }
+                float bustValue = Float.valueOf(model.getCircum());
+                float waistValue = Float.valueOf(model.getWaistline());
+                float hiplineValue = Float.valueOf(model.getHiplie());
+                float upperValue = Float.valueOf(model.getUpArmGirth());
+                float datuiValue = Float.valueOf(model.getUpLegGirth());
+                float xiaotuiValue = Float.valueOf(model.getDoLegGirth());
+                maxBust = bustValue > maxBust ? bustValue : maxBust;
+                maxWaist = waistValue > maxWaist ? waistValue : maxWaist;
+                maxHipline = hiplineValue > maxHipline ? hiplineValue : maxHipline;
+                maxUpper = upperValue > maxUpper ? upperValue : maxUpper;
+                maxDatui = datuiValue > maxDatui ? datuiValue : maxDatui;
+                maxXiaotui = xiaotuiValue > maxXiaotui ? xiaotuiValue : maxXiaotui;
+
+                int middle=j/2;
+                int index=i<middle?model.getWeekDay():model.getWeekDay()-middle;
+                if(i<middle){
+                    if(bustValue!=0){
+                        bust.add(new Entry(index, bustValue));
+                    }
+                    if(waistValue!=0){
+                        waist.add(new Entry(index, waistValue));
+                    }
+                    if(hiplineValue!=0){
+                        hipline.add(new Entry(index, hiplineValue));
+                    }
+                    if(upperValue!=0){
+                        upper.add(new Entry(index, upperValue));
+                    }
+                    if(datuiValue!=0){
+                        datui.add(new Entry(index, datuiValue));
+                    }
+                    if(waistValue!=0){
+                        xiaotui.add(new Entry(index, xiaotuiValue));
+                    }
+
+                }else {
+                    if(bustValue!=0){
+                        bustR.add(new Entry(model.getWeekDay() - middle, bustValue));
+                    }
+                    if(waistValue!=0){
+                        waistR.add(new Entry(model.getWeekDay() - middle, waistValue));
+                    }
+                    if(hiplineValue!=0){
+                        hiplineR.add(new Entry(model.getWeekDay() - middle, hiplineValue));
+                    }
+                    if(upperValue!=0){
+                        upperR.add(new Entry(model.getWeekDay() - middle, upperValue));
+                    }
+                    if(datuiValue!=0){
+                        datuiR.add(new Entry(model.getWeekDay() - middle, datuiValue));
+                    }
+                    if(waistValue!=0){
+                        xiaotuiR.add(new Entry(model.getWeekDay() - middle, xiaotuiValue));
+                    }
+                }
+
             }
             leftXAsix=xAsix.subList(0,xAsix.size()/2);
             rightXAsix=xAsix.subList(xAsix.size()/2,xAsix.size());
@@ -217,10 +194,14 @@ public class DimemsionFragment extends LazyBaseFragment2 {
             upper_chart.setDate(leftXAsix,upper ,maxUpper);
             datui_chart.setDate(leftXAsix,datui ,maxDatui);
             xiaotui_chart.setDate(leftXAsix,xiaotui,maxXiaotui);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onFaile() {
+        setContentEmpty(false);
+        setContentShown(true);
     }
 
     @Override
@@ -247,7 +228,7 @@ public class DimemsionFragment extends LazyBaseFragment2 {
 
     @Override
     protected void initDatas() {
-
+        setPresenter(new GraphDimemsionPresenter(this));
     }
 
     @OnClick({R.id.btn_bust_left,
