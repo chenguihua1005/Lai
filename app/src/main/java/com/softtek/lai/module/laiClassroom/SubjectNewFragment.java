@@ -7,7 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.gson.annotations.Until;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.malinskiy.superrecyclerview.OnMoreListener;
@@ -17,6 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
 import com.softtek.lai.module.laiClassroom.presenter.SubjectPresenter;
+import com.softtek.lai.widgets.PopUpWindow.Util;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -37,7 +40,7 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
 
       @Override
       public void run() {
-       ple_list.setRefreshing(true);
+       ple_list.showProgress();
       }
 
      }, 300);
@@ -47,6 +50,7 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
     @Override
     protected void initViews() {
      ple_list.setRefreshListener(this);
+     ple_list.setLoadingMore(true);
      ple_list.setOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override
       public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -54,7 +58,6 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
       }
      });
 //     ple_list.dr();
-     ple_list.isLoadingMore();
      ple_list.setBackground(getResources().getDrawable(R.drawable.refresh));
      ple_list.setupMoreListener(new OnMoreListener() {
       @Override
@@ -73,7 +76,10 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
 
       }
      });
-     ple_list.setRefreshingColor(R.color.green,R.color.green1,R.color.blue,R.color.blue);
+     ple_list.setRefreshingColor(R.color.blue,
+             R.color.holo_red_light,
+             R.color.holo_orange_light,
+             R.color.holo_green_light);
 
 //        prsro.setEmptyView(im_nomessage);
 //     ple_list.setMode(PullToRefreshBase.Mode.BOTH);
@@ -95,16 +101,21 @@ public class SubjectNewFragment extends LazyBaseFragment<SubjectPresenter>implem
 
      setPresenter(new SubjectPresenter(this));
 
+
     }
     @Override
     public void getSubjectart(SubjectModel subjectModel) {
 //     ple_list.showProgress();
+     zilla.libcore.util.Util.toastMsg("翻翻翻");
      ple_list.hideProgress();
+
+
 
     }
 
  @Override
  public void onRefresh() {
+
   getPresenter().getSubjectData(1,10);
  }
 }
