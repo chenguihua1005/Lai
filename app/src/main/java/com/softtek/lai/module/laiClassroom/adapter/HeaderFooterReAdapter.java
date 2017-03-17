@@ -56,7 +56,7 @@ public class HeaderFooterReAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return;
         }
         ArticalViewHolder ah= (ArticalViewHolder) holder;
-        ArticleTopicModel item=models.get(position);
+        ArticleTopicModel item=models.get(position-1);
         ah.tv_subject_name1.setText(item.getTopicName());
         ah.tv_clickhot1.setText(String.valueOf(item.getClicks()));
         Picasso.with(contex).load(AddressManager.get("photoHost")+item.getTopicImg()).fit()
@@ -75,7 +75,7 @@ public class HeaderFooterReAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return models.size();
+        return models.size()+1;
     }
 
     public class ArticalViewHolder extends RecyclerView.ViewHolder{

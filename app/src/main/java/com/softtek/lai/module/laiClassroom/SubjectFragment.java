@@ -135,9 +135,11 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.list_subjectremend_item, container, false);
                 TextView tv_clickhot = (TextView) view.findViewById(R.id.tv_clickhot);
                 tv_clickhot.setText(String.valueOf(recommendModels.get(position).getClicks()));
+                TextView tv_subject_name1= (TextView) view.findViewById(R.id.tv_subject_name1);
+                tv_subject_name1.setText(recommendModels.get(position).getTopicName());
                 ImageView im_photo = (ImageView) view.findViewById(R.id.im_photo);
-                Picasso.with(getContext()).load(AddressManager.get("photoHost") + recommendModels.get(position).getTopicImg()).fit().error(R.drawable.default_icon_square)
-                        .placeholder(R.drawable.default_icon_square).into(im_photo);
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + recommendModels.get(position).getTopicImg()).fit().error(R.drawable.default_icon_rect)
+                        .placeholder(R.drawable.default_icon_rect).into(im_photo);
                 RelativeLayout re_remend = (RelativeLayout) view.findViewById(R.id.re_remend);
                 re_remend.setOnClickListener(new View.OnClickListener() {
                     @Override
