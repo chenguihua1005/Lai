@@ -165,12 +165,7 @@ public interface HeadService {
 
     );
 
-    //更多视频请求路径:Api/V1/LaiClassRoom/GetLaiClassRoom
-    @GET("/V1/LaiClassRoom/GetLaiClassRoom")
-    void getvideo(
-            @Header("token") String token,
-            Callback<ResponseData<List<VideoModel>>> callback
-    );
+
 
     //请求路径:Api/V1/HerbalifeClass/AddMineLovePC
     @GET("/V1/HerbalifeClass/AddMineLovePC")
