@@ -41,6 +41,7 @@ public class ArticdetailActivity extends BaseActivity {
             }
         });
         tv_title.setText(getIntent().getStringExtra("articaltitle"));
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
