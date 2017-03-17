@@ -415,6 +415,7 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                         value = responseData.getData().getShareContent();//分享内容
                         url = responseData.getData().getShareLinkUrl();//分享链接
 
+                        tv_right.setText("分享");
                         show_photo_circle = false;
                         adapter.notifyDataSetChanged();
                         flag = 0;
