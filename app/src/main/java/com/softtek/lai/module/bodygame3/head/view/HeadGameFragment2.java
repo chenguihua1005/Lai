@@ -700,6 +700,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 saveClassModel.classId = classId_first;
                 saveClassModel.classWeek = classnum;
                 ACache.get(getContext(), SAVE_CLASS_DIR).put(SAVE_CLASS, saveClassModel);
+                EventBus.getDefault().post(saveClassModel);
 
             } else {
                 if (deleteClass != null) {
