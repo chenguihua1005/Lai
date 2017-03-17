@@ -554,7 +554,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                             }
                                         });
                                         Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
-                                        iv_imagevideo2.setVisibility(View.GONE);
+//                                        iv_imagevideo2.setVisibility(View.GONE);
                                     }
                                 }
                                 //照片墙
@@ -841,6 +841,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
                         //本周推荐
                         if (classinfoModel.getListRec() != null) {
+                            iv_imagevideo2.setVisibility(View.VISIBLE);
                             tuijianModels.clear();
                             tuijianModels.addAll(classinfoModel.getListRec());
                             if (tuijianModels.size() >= 2) {
@@ -885,6 +886,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         startActivity(intent4);
                                     }
                                 });
+//                                iv_imagevideo2.setVisibility(View.GONE);
                             }
                         }
                         //照片墙
