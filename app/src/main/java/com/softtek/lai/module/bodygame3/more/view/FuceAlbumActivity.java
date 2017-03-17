@@ -140,6 +140,8 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
         account = getIntent().getStringExtra("account");
 
+
+
         if (String.valueOf(UserInfoModel.getInstance().getUserId()).equals(account)) {
             tv_right.setText("分享");
             fl_right.setEnabled(true);
