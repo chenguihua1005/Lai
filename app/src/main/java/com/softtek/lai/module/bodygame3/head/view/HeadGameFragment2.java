@@ -239,16 +239,16 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 partnersModels.clear();
                 String typename = dataset.get(i);
-                if ("按减重斤数".equals(typename)) {
+                if ("累计减重斤数".equals(typename)) {
                     typecode = 0;
                     iv_types.setImageResource(R.drawable.weightphoto);
 
-                } else if ("按减重比".equals(typename)) {
+                } else if ("累计减重比".equals(typename)) {
                     typecode = 1;
                     iv_types.setImageResource(R.drawable.jianzhong_iv);
 
 
-                } else if ("按体脂比".equals(typename)) {
+                } else if ("累计体脂比".equals(typename)) {
                     typecode = 2;
                     iv_types.setImageResource(R.drawable.jianzhiphoto);
 
@@ -292,15 +292,15 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                     TextView jianzhong_tv = holder.getView(R.id.jianzhong_tv);
                     TextView jianzhong_tv2 = holder.getView(R.id.jianzhong_tv2);
                     if (typecode == 0) {//Int	排序类型：0:体重,1:减重比,2:体脂比
-                        tv_bi.setText("减重斤数");
+                        tv_bi.setText("累计减重斤数");
                         jianzhong_tv.setText(partnersModel.getLoss());
                         jianzhong_tv2.setText("斤");
                     } else if (typecode == 1) {
-                        tv_bi.setText("减重比");
+                        tv_bi.setText("累计减重比");
                         jianzhong_tv.setText(partnersModel.getLoss());
                         jianzhong_tv2.setText("%");
                     } else {
-                        tv_bi.setText("体脂比");
+                        tv_bi.setText("累计体脂比");
                         weight_first.setText("初始体脂" + partnersModel.getWeight() + "%");
                         jianzhong_tv.setText(partnersModel.getLoss());
                         jianzhong_tv2.setText("%");
@@ -560,7 +560,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 //                                        Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
 //
                                     }
-                                }else{
+                                } else {
                                     no_tuijian.setVisibility(View.VISIBLE);
                                     lin_tuijian.setVisibility(View.GONE);
                                 }
@@ -900,7 +900,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 //                                iv_imagevideo2.setVisibility(View.GONE);
                             }
                         } else {
-                             lin_tuijian.setVisibility(View.GONE);
+                            lin_tuijian.setVisibility(View.GONE);
                             no_tuijian.setVisibility(View.VISIBLE);
                         }
                         //照片墙
