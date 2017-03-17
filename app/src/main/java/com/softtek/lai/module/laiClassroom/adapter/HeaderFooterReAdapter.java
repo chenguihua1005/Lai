@@ -66,8 +66,8 @@ public class HeaderFooterReAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(contex, SubjectdetailActivity.class);
-                intent.putExtra("topictitle", models.get(position).getTopicName());
-                intent.putExtra("topicId", models.get(position).getTopicId());
+                intent.putExtra("topictitle", models.get(position-1).getTopicName());
+                intent.putExtra("topicId", models.get(position-1).getTopicId());
                 contex.startActivity(intent);
             }
         });
@@ -75,8 +75,8 @@ public class HeaderFooterReAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(contex, SubjectdetailActivity.class);
-                intent.putExtra("topictitle", models.get(position).getTopicName());
-                intent.putExtra("topicId", models.get(position).getTopicId());
+                intent.putExtra("topictitle", models.get(position-1).getTopicName());
+                intent.putExtra("topicId", models.get(position-1).getTopicId());
                 contex.startActivity(intent);
             }
         });
