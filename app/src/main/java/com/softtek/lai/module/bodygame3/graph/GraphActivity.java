@@ -37,7 +37,7 @@ public class GraphActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        tv_title.setText("我的曲线图");
+        tv_title.setText("曲线图");
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
