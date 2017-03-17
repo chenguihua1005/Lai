@@ -34,9 +34,6 @@ public class HeaderFooterReAdapter extends SuperBaseAdapter<ArticleTopicModel> {
     }
 
 
-
-
-
     @Override
     protected void convert(BaseViewHolder holder, ArticleTopicModel item, int position) {
         holder.setText(R.id.tv_subject_name1,item.getTopicName());
@@ -67,8 +64,6 @@ public class HeaderFooterReAdapter extends SuperBaseAdapter<ArticleTopicModel> {
             });
         }
     }
-
-
 
 
 }
