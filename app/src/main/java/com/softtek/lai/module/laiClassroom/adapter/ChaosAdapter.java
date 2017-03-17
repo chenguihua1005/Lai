@@ -356,7 +356,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(blackSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             } else {
-                setGreenSpan(builder, item.getTopicId());
+                setGreenSpan(builder, item);
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(greenSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             }
@@ -365,7 +365,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 view.setMovementMethod(LinkMovementMethod.getInstance());
         } else {
             if (!isTitle) {
-                setGreenSpan(builder, item.getTopicId());
+                setGreenSpan(builder, item);
                 view.setText(builder);
                 view.setMovementMethod(LinkMovementMethod.getInstance());
             } else {
@@ -375,13 +375,13 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    private void setGreenSpan(SpannableStringBuilder builder, final String topicId) {
+    private void setGreenSpan(SpannableStringBuilder builder, final SearchModel.ArticleListBean item) {
         builder.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, SubjectdetailActivity.class);
-                intent.putExtra("topicId", topicId);
-                intent.putExtra("topictitle", topicId);
+                intent.putExtra("topictitle", item.getTopic());
+                intent.putExtra("topicId", item.getTopicId());
                 context.startActivity(intent);
             }
 
