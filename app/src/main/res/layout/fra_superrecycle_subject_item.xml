@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:text="2055"
             android:drawableLeft="@drawable/hot_icon"
+            android:drawablePadding="5dp"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
 

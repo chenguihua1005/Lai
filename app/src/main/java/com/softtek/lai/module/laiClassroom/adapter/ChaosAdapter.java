@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -12,7 +11,6 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -356,7 +354,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(blackSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             } else {
-                setGreenSpan(builder, item.getTopicId());
+                setGreenSpan(builder, item);
                 builder.setSpan(redSpan, index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(greenSpan, index + length, titleLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             }
@@ -365,7 +363,7 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 view.setMovementMethod(LinkMovementMethod.getInstance());
         } else {
             if (!isTitle) {
-                setGreenSpan(builder, item.getTopicId());
+                setGreenSpan(builder, item);
                 view.setText(builder);
                 view.setMovementMethod(LinkMovementMethod.getInstance());
             } else {
@@ -375,13 +373,13 @@ public class ChaosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    private void setGreenSpan(SpannableStringBuilder builder, final String topicId) {
+    private void setGreenSpan(SpannableStringBuilder builder, final SearchModel.ArticleListBean item) {
         builder.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, SubjectdetailActivity.class);
-                intent.putExtra("topicId", topicId);
-                intent.putExtra("topictitle", topicId);
+                intent.putExtra("topicId", item.getTopicId());
+                intent.putExtra("topictitle", item.getTopic());
                 context.startActivity(intent);
             }
 

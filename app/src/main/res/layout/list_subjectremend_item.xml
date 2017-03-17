@@ -23,13 +23,11 @@
                 android:id="@+id/tv_subject_name1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12课堂"
                 android:textColor="#82AA4C"/>
             <TextView
                 android:id="@+id/tv_clickhot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2055"
                 android:drawableLeft="@drawable/hot_icon"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
