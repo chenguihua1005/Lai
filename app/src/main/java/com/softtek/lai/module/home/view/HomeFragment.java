@@ -37,6 +37,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame3.home.view.TestActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
@@ -296,7 +297,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
             // 提示新消息
-            Log.i("啊哈哈哈哈哈哈哈");
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
             Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
             msgIntent.putExtra("count", unreadNum);
@@ -366,6 +366,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(), "LaiClassEvent");
                     break;
                 case Constants.LAI_EXCLE:
+//                    startActivity(new Intent(getContext(), TestActivity.class));
+//                    break;
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
