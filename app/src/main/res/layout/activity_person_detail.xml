@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity">
 
-    <com.softtek.lai.module.bodygame3.activity.view.MyScrollview
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
@@ -330,8 +330,8 @@
                 android:id="@+id/ll_chart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="#ffffff"
+                android:orientation="vertical"
                 android:visibility="gone">
 
                 <View
@@ -342,9 +342,9 @@
                     android:background="#eeeeee" />
 
                 <RelativeLayout
+                    android:id="@+id/tv_chart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_chart"
                     android:orientation="horizontal">
 
                     <TextView
@@ -433,7 +433,7 @@
                 android:textSize="18sp"
                 android:visibility="gone" />
         </LinearLayout>
-    </com.softtek.lai.module.bodygame3.activity.view.MyScrollview>
+    </ScrollView>
 
     <include
         android:id="@+id/toolbar"
