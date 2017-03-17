@@ -546,9 +546,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                Intent it = new Intent(Intent.ACTION_VIEW);
-                                                it.setDataAndType(Uri.parse(path + tuijianModels.get(0).getVideoUrl()), "video/mp4");
-                                                startActivity(it);
+                                                Intent intent4 = new Intent(getContext(), VideoDetailActivity.class);
+                                                intent4.putExtra("articleId", tuijianModels.get(0).getVideoId());
+                                                intent4.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(0).getPhoto());
+                                                intent4.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(0).getVideoUrl());
+                                                startActivity(intent4);
                                             }
                                         });
                                         Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
@@ -698,6 +700,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 saveClassModel.classId = classId_first;
                 saveClassModel.classWeek = classnum;
                 ACache.get(getContext(), SAVE_CLASS_DIR).put(SAVE_CLASS, saveClassModel);
+                EventBus.getDefault().post(saveClassModel);
 
             } else {
                 if (deleteClass != null) {
@@ -861,9 +864,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 iv_imagevideo2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent it = new Intent(Intent.ACTION_VIEW);
-                                        it.setDataAndType(Uri.parse(path + tuijianModels.get(1).getVideoUrl()), "video/mp4");
-                                        startActivity(it);
+                                        Intent intent4 = new Intent(getContext(), VideoDetailActivity.class);
+                                        intent4.putExtra("articleId", tuijianModels.get(1).getVideoId());
+                                        intent4.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(1).getPhoto());
+                                        intent4.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(1).getVideoUrl());
+                                        startActivity(intent4);
                                     }
                                 });
                             } else if (tuijianModels.size() == 1) {
@@ -875,9 +880,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                     @Override
                                     public void onClick(View view) {
                                         Intent intent4 = new Intent(getContext(), VideoDetailActivity.class);
-                                        intent4.putExtra("articleId", tuijianModels.get(1).getVideoId());
-                                        intent4.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(1).getPhoto());
-                                        intent4.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(1).getVideoUrl());
+                                        intent4.putExtra("articleId", tuijianModels.get(0).getVideoId());
+                                        intent4.putExtra("cover", AddressManager.get("photoHost") + tuijianModels.get(0).getPhoto());
+                                        intent4.putExtra("videoUrl", AddressManager.get("photoHost") + tuijianModels.get(0).getVideoUrl());
                                         startActivity(intent4);
                                     }
                                 });

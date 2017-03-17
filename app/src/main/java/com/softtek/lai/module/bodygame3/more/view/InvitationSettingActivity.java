@@ -96,7 +96,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
         SpannableString spannableString = new SpannableString(this.getResources().getString(R.string.tip));
         Drawable drawable = getResources().getDrawable(R.drawable.law_tip);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.setBounds(0, 0, 50, 50);
         spannableString.setSpan(new ImageSpan(drawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tip_tv.setText(spannableString);
 

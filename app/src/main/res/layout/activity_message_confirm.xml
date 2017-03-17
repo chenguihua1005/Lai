@@ -257,6 +257,7 @@
                 android:id="@+id/tip_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="13sp"
                 android:textColor="#FDC36F"
                 android:padding="15dp"/>
             <LinearLayout

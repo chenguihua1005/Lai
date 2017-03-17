@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.Log;
@@ -105,9 +106,15 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
 
         SpannableString spannableString = new SpannableString(this.getResources().getString(R.string.tip));
         Drawable drawable = getResources().getDrawable(R.drawable.law_tip_gray);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        spannableString.setSpan(new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE), 0, 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        drawable.setBounds(0, 0, 50, 50);
+        spannableString.setSpan(new ImageSpan(drawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tip_tv.setText(spannableString);
+
+
+//        SpannableStringBuilder builder = new SpannableStringBuilder(this.getResources().getString(R.string.tip));
+//        builder.setSpan(new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//        tip_tv.setText(builder);
+
     }
 
     @Override
