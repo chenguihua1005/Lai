@@ -6,7 +6,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
 
         <include layout="@layout/toolbar" />
 
@@ -70,7 +71,8 @@
             android:id="@+id/lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/ll" />
+            android:layout_below="@id/ll"
+            android:layout_marginBottom="50dp" />
 
         <ProgressBar
             android:id="@+id/pb"
@@ -85,8 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:textSize="13sp"
         android:layout_marginBottom="1dp"
         android:padding="15dp"
-         />
+        android:textSize="13sp" />
 </FrameLayout>

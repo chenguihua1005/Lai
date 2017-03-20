@@ -1,12 +1,12 @@
 package com.softtek.lai.module.laiClassroom;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laiClassroom.presenter.ArticalDetailPresenter;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -59,7 +57,29 @@ public class ArticdetailActivity extends BaseActivity {
                 }
                 super.onProgressChanged(view, newProgress);
             }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                tv_title.setText(title);
+            }
         });
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                webView.loadUrl(url);
+                return true;
+            }
+
+        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+            webView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -69,9 +89,6 @@ public class ArticdetailActivity extends BaseActivity {
         if (!TextUtils.isEmpty(articalUrl)) {
             webView.loadUrl(articalUrl);
         }
-
-//        setPresenter(new ArticalDetailPresenter(this));
-//        getPresenter().UpdateAddHot(UserInfoModel.getInstance().getToken(),UserInfoModel.getInstance().getUserId(),getIntent().getStringExtra("articalId"));
     }
 
     @Override

@@ -24,7 +24,7 @@ public class CollectPresenter extends BasePresenter<CollectPresenter.getcollect>
         super(baseView);
     }
 
-    public void getcollectarticle(String token, long userId, int pageindex, int pagesize) {
+    public void getcollectarticle(String token, long userId, int pageindex, int pagesize, final int from) {
         service = ZillaApi.NormalRestAdapter.create(CollectService.class);
         service.getBookmarkArticle(token, userId, pageindex, pagesize, new RequestCallback<ResponseData<CollectModel>>() {
             @Override
@@ -34,7 +34,7 @@ public class CollectPresenter extends BasePresenter<CollectPresenter.getcollect>
                     if (Data.getData() != null) {
                         collectModel = Data.getData();
                         if (getView() != null) {
-                            getView().getcollects(collectModel);
+                            getView().getcollects(collectModel,from);
                         }
                     }
 
@@ -52,6 +52,6 @@ public class CollectPresenter extends BasePresenter<CollectPresenter.getcollect>
     }
 
     public interface getcollect extends BaseView {
-        void getcollects(CollectModel collectModel);
+        void getcollects(CollectModel collectModel,int from);
     }
 }

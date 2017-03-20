@@ -848,7 +848,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                         }
 
                         //本周推荐
-                        if (classinfoModel.getListRec() != null) {
+                        if (classinfoModel.getListRec() != null&&!classinfoModel.getListRec().isEmpty()) {
                             lin_tuijian.setVisibility(View.VISIBLE);
                             no_tuijian.setVisibility(View.GONE);
                             iv_imagevideo2.setVisibility(View.VISIBLE);

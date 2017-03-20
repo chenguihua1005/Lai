@@ -270,7 +270,6 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_tuijian"
                     android:gravity="center_vertical"
-                    android:text="TextView"
                     android:textColor="@color/white"
                     android:textSize="11sp" />
 
@@ -334,7 +333,7 @@
             android:paddingLeft="10dp"
             android:visibility="gone"
             android:paddingRight="10dp"
-            android:text="暂无动态" />
+            android:text="暂无推荐" />
 
         <!--照片墙-->
         <RelativeLayout

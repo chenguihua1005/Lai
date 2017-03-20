@@ -78,13 +78,16 @@ public class HistoryFragment extends LazyBaseFragment<HistoryPresenter> implemen
     }
 
     @Override
-    public void gethistorydata(CollectModel collectModel) {
+    public void gethistorydata(CollectModel collectModel,int from) {
         plv_history.onRefreshComplete();
         if (collectModel != null) {
             im_nomessage.setVisibility(View.GONE);
             if (!collectModel.getArticleList().isEmpty()) {
+                if(from==0){
+                    collectlistModels.clear();
+                }
                 collectlistModels.addAll(collectModel.getArticleList());
-                adapter.updateCollect(collectlistModels);
+               adapter.notifyDataSetChanged();
             } else {
                 if (pageindex == 1) {
                     im_nomessage.setVisibility(View.VISIBLE);
@@ -101,15 +104,15 @@ public class HistoryFragment extends LazyBaseFragment<HistoryPresenter> implemen
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        collectlistModels.clear();
+
         pageindex = 1;
-        getPresenter().getVisitHistory(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10);
+        getPresenter().getVisitHistory(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10,0);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex++;
-        getPresenter().getVisitHistory(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10);
+        getPresenter().getVisitHistory(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10,1);
 
     }
 }

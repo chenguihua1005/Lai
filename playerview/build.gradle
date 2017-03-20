@@ -19,13 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-//        all32 { minSdkVersion 17 }
-//        all64 { minSdkVersion 21 }
-        // armv5 {}
-        // armv7a {}
-        // arm64 { minSdkVersion 21 }
-        // x86 {}
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 
@@ -37,11 +34,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.2.0'
     testCompile 'junit:junit:4.12'
     // ijkplayer
-    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.6'
-    compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.6'
-    compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.7.6'
-    compile project(':ijkplayer-x86_64')
-    compile project(':ijkplayer-arm64')
+    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.5'
     // Danmaku
     compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
 }
