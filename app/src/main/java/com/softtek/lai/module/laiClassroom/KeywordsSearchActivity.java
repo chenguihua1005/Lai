@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -57,7 +58,7 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initViews() {
-        mTitle.setText("关键字搜索");
+        mTitle.setText("搜索");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         chaosAdapter = new ChaosAdapter(this, searchList, "");
@@ -106,6 +107,9 @@ public class KeywordsSearchActivity extends BaseActivity<SearchPresenter> implem
 
     @Override
     public void getData(List<SearchModel.ArticleListBean> data) {
+        if (data.size() == 0){
+            Toast.makeText(KeywordsSearchActivity.this,"暂无数据",Toast.LENGTH_SHORT).show();
+        }
         searchList.clear();
         searchList.addAll(data);
         chaosAdapter.notifyDataSetChanged();
