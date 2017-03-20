@@ -19,7 +19,16 @@
         android:layout_height="230dp"
         android:clipChildren="false"
         android:layout_below="@+id/tv_subject"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="gone"
+        />
+    <com.softtek.lai.widgets.RollHeaderView
+        android:id="@+id/rhv_adv"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_below="@+id/tv_subject"
+        >
+        </com.softtek.lai.widgets.RollHeaderView>
 
     <View
         android:layout_width="match_parent"
@@ -34,6 +43,7 @@
         android:text="全部专题"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>
