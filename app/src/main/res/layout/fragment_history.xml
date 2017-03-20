@@ -2,13 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.softtek.lai.module.laiClassroom.WholeFragment">
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/plv_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null">
+        android:divider="#ececec"
+        android:dividerHeight="0.5dp"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false"
+        android:animateLayoutChanges="true"
+      >
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 

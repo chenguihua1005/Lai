@@ -79,14 +79,17 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
     }
 
     @Override
-    public void getcollects(CollectModel collectModel) {
+    public void getcollects(CollectModel collectModel,int from) {
         plv_collect.onRefreshComplete();
         if (collectModel != null) {
             im_nomessage.setVisibility(View.GONE);
-            if (!collectModel.getArticleList().isEmpty()) {
+            if(!collectModel.getArticleList().isEmpty()){
+                if(from==0){
+                    collectlistModels.clear();
+                }
                 collectlistModels.addAll(collectModel.getArticleList());
-                adapter.updateCollect(collectlistModels);
-            } else {
+                adapter.notifyDataSetChanged();
+            }else {
                 if (pageindex == 1) {
                     im_nomessage.setVisibility(View.VISIBLE);
                 } else {
@@ -103,16 +106,15 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        collectlistModels.clear();
         pageindex = 1;
-        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10);
+        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10,0);
     }
 
     //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex++;
-        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10);
+        getPresenter().getcollectarticle(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10,1);
 
 
     }

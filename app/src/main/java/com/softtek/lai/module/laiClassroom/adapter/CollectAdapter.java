@@ -48,19 +48,15 @@ public class CollectAdapter extends BaseAdapter {
         this.collectlistModels = collectlistModelList;
     }
 
-    public void updateCollect(List<CollectlistModel> collectlistModelList) {
-        this.collectlistModels = collectlistModelList;
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getCount() {
-        return collectlistModels.size();
+        return collectlistModels == null ? 0 : collectlistModels.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return collectlistModels.get(position);
+        return collectlistModels == null ? null : collectlistModels.get(position);
     }
 
     @Override
@@ -91,7 +87,7 @@ public class CollectAdapter extends BaseAdapter {
             }
             viewHolderOne.tv_title.setText(collectModel.getTitle());
             viewHolderOne.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
-            if (collectModel.getArticImg()!=null&&!collectModel.getArticImg().isEmpty()) {
+            if (collectModel.getArticImg() != null && !collectModel.getArticImg().isEmpty()) {
                 Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
                         .placeholder(R.drawable.default_icon_rect)
                         .error(R.drawable.default_icon_rect)
@@ -150,7 +146,7 @@ public class CollectAdapter extends BaseAdapter {
             }
             viewHolderTwo.tv_title.setText(collectModel.getTitle());
             viewHolderTwo.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
-            if (collectModel.getArticImg()!=null&&!collectModel.getArticImg().isEmpty()) {
+            if (collectModel.getArticImg() != null && !collectModel.getArticImg().isEmpty()) {
                 Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
                         .placeholder(R.drawable.default_icon_rect)
                         .error(R.drawable.default_icon_rect)

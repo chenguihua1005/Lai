@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "D:\\android workspace\\laiAndroid\\ijkplayer-arm64\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 100,
+                    "endColumn": 65,
+                    "endOffset": 161
+                },
+                "from": {
+                    "file": "D:\\android workspace\\laiAndroid\\ijkplayer-arm64\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 100,
+                        "endColumn": 65,
+                        "endOffset": 161
+                    }
+                }
+            }
+        ]
+    }
+]
