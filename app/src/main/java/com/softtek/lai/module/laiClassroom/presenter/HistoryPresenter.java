@@ -22,7 +22,7 @@ public class HistoryPresenter extends BasePresenter<HistoryPresenter.getHistoryd
     public HistoryPresenter(getHistorydata baseView) {
         super(baseView);
     }
-    public void getVisitHistory(String token,long userid,int pageindex,int pagesize){
+    public void getVisitHistory(String token, long userid, int pageindex, int pagesize, final int from){
         service= ZillaApi.NormalRestAdapter.create(CollectService.class);
         service.getVisitArticleHistory(token, userid, pageindex, pagesize, new Callback<ResponseData<CollectModel>>() {
             @Override
@@ -32,7 +32,7 @@ public class HistoryPresenter extends BasePresenter<HistoryPresenter.getHistoryd
                     if(Data.getData()!=null){
                         collectModel=Data.getData();
                         if(getView()!=null){
-                            getView().gethistorydata(collectModel);
+                            getView().gethistorydata(collectModel,from);
                         }
                     }
                 }
@@ -46,6 +46,6 @@ public class HistoryPresenter extends BasePresenter<HistoryPresenter.getHistoryd
     }
 
     public interface getHistorydata extends BaseView{
-          void gethistorydata(CollectModel collectModel);
+          void gethistorydata(CollectModel collectModel,int from);
     }
 }
