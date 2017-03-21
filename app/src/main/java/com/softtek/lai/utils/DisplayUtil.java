@@ -14,6 +14,8 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.github.snowdream.android.util.Log;
+
 /**
  * dp、sp 转换为 px 的工具类
  * @author fxsky 2012.11.12

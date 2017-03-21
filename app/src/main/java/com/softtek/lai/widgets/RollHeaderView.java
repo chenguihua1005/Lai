@@ -77,7 +77,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
     //初始化数据
     private void initData() {
-        dotList = new ArrayList<ImageView>();
+        dotList = new ArrayList<>();
         mAutoRollRunnable = new AutoRollRunnable();
         mHandler = new Handler();
         mAdapter = new MyAdapter();
