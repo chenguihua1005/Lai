@@ -228,8 +228,9 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
     private class MyAdapter extends PagerAdapter {
 
+        private List<LinearLayout> llCache=new ArrayList<LinearLayout>();
         //为了复用
-        private List<ImageView> imgCache = new ArrayList<ImageView>();
+        private List<RectangleImage> imgCache = new ArrayList<RectangleImage>();
 
         @Override
         public int getCount() {
@@ -245,15 +246,16 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
 
-            ImageView iv;
+            RectangleImage iv;
 
             //获取ImageView对象
             if (imgCache.size() > 0) {
                 iv = imgCache.remove(0);
             } else {
-                iv = new ImageView(mContext);
+                iv = new RectangleImage(mContext);
             }
             iv.setScaleType(ScaleType.FIT_XY);
+            iv.setPadding(10,0,10,0);
 
 
             iv.setOnTouchListener(new OnTouchListener() {
@@ -299,15 +301,7 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
                         .error(R.drawable.default_icon_rect).into(iv);
             }
             ((ViewPager) container).addView(iv);
-            iv.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), SubjectdetailActivity.class);
-                    intent.putExtra("topictitle", recommendModels.get(prePosition).getTopicName());
-                    intent.putExtra("topicId", recommendModels.get(prePosition).getTopicId());
-                    mContext.startActivity(intent);
-                }
-            });
+
 
             return iv;
         }
@@ -315,11 +309,12 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             if (object != null && object instanceof ImageView) {
-                ImageView iv = (ImageView) object;
+                RectangleImage iv = (RectangleImage) object;
                 ((ViewPager) container).removeView(iv);
                 imgCache.add(iv);
             }
         }
+
     }
 
     @Override

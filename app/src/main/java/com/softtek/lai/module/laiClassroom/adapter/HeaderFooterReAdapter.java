@@ -60,6 +60,7 @@ public class HeaderFooterReAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ah.tv_subject_name1.setText(item.getTopicName());
         ah.tv_clickhot1.setText(String.valueOf(item.getClicks()));
         Picasso.with(contex).load(AddressManager.get("photoHost")+item.getTopicImg()).fit()
+                .centerCrop()
                 .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
                 .into(ah.im_photo);
         ah.im_photo.setOnClickListener(new View.OnClickListener() {
