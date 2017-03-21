@@ -10,7 +10,7 @@
     android:orientation="vertical"
     >
 
-    <com.softtek.lai.widgets.RectangleImage
+    <com.softtek.lai.widgets.RectangleImageView
         android:id="@+id/im_photo"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
