@@ -18,7 +18,7 @@ import com.softtek.lai.module.laiClassroom.model.ArticleTopicModel;
 import com.softtek.lai.module.laiClassroom.model.RecommendModel;
 import com.softtek.lai.module.laiClassroom.model.SubjectModel;
 import com.softtek.lai.module.laiClassroom.presenter.SubjectPresenter;
-import com.softtek.lai.widgets.RollHeaderView;
+import com.softtek.lai.widgets.RollHeaderViewT;
 import com.squareup.picasso.Picasso;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
@@ -43,7 +43,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
 
     private View headerView;
     private ViewPager viewPager;
-    private RollHeaderView rhv_adv;
+    private RollHeaderViewT rhv_adv;
 
     List<RecommendModel> recommendModels = new ArrayList<>();
     List<ArticleTopicModel> articleTopicModels = new ArrayList<>();
@@ -74,7 +74,7 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         recyclerView.getRecyclerView().setLayoutManager(glm);
         headerView = LayoutInflater.from(getContext()).inflate(R.layout.view_header_layout, (ViewGroup) recyclerView.getParent(), false);
         viewPager = (ViewPager) headerView.findViewById(R.id.viewpager);
-        rhv_adv= (RollHeaderView) headerView.findViewById(R.id.rhv_adv);
+        rhv_adv= (RollHeaderViewT) headerView.findViewById(R.id.rhv_adv);
         mAdapter = new HeaderFooterReAdapter(headerView,getContext(), articleTopicModels);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setOnPullLoadMoreListener(this);
@@ -92,12 +92,13 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
             if(subjectModel.getRecommendTopicList()!=null&&!subjectModel.getRecommendTopicList().isEmpty()){
                 recommendModels.clear();
                 viewPager.removeAllViews();
+                advList.clear();
                 recommendModels.addAll(subjectModel.getRecommendTopicList());
                 for (int i=0;i<recommendModels.size();i++) {
 
                     advList.add(AddressManager.get("photoHost")+recommendModels.get(i).getTopicImg());
 
-                }rhv_adv.setImgUrlData(advList);
+                }rhv_adv.setImgUrlData(recommendModels);
                 adapterData();
             }
             if (!subjectModel.getArticleTopicList().isEmpty()) {
