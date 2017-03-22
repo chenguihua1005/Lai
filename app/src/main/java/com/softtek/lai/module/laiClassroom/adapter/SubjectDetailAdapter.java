@@ -48,11 +48,6 @@ public class SubjectDetailAdapter extends BaseAdapter {
         this.collectlistModels = collectlistModelList;
     }
 
-    public void updateCollect(List<CollectlistModel> collectlistModelList) {
-        this.collectlistModels = collectlistModelList;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
         return collectlistModels.size();
@@ -134,13 +129,13 @@ public class SubjectDetailAdapter extends BaseAdapter {
             viewHolderTwo.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
             if (collectModel.getArticImg()!=null&&!collectModel.getArticImg().isEmpty()) {
                 Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
-                        .placeholder(R.drawable.default_laiclass_15)
-                        .error(R.drawable.default_laiclass_15)
+                        .placeholder(R.drawable.default_laiclass12)
+                        .error(R.drawable.default_laiclass12)
                         .into(viewHolderTwo.iv_single);
             } else {
-                Picasso.with(mContext).load(R.drawable.default_laiclass_15)
-                        .placeholder(R.drawable.default_laiclass_15)
-                        .error(R.drawable.default_laiclass_15)
+                Picasso.with(mContext).load(R.drawable.default_laiclass12)
+                        .placeholder(R.drawable.default_laiclass12)
+                        .error(R.drawable.default_laiclass12)
                         .into(viewHolderTwo.iv_single);
             }
             viewHolderTwo.tv_relese.setText(getTime(collectModel.getCreateDate()));//日期
@@ -193,13 +188,13 @@ public class SubjectDetailAdapter extends BaseAdapter {
                         if (!TextUtils.isEmpty(imgUrl)) {
                             Picasso.with(mContext).load(AddressManager.get("photoHost") + imgUrl)
                                     .fit()
-                                    .placeholder(R.drawable.default_laiclass_15)
-                                    .error(R.drawable.default_laiclass_15)
+                                    .placeholder(R.drawable.default_laiclass12)
+                                    .error(R.drawable.default_laiclass12)
                                     .into(iv);
                         } else {
-                            Picasso.with(mContext).load(R.drawable.default_laiclass_15)
-                                    .placeholder(R.drawable.default_laiclass_15)
-                                    .error(R.drawable.default_laiclass_15)
+                            Picasso.with(mContext).load(R.drawable.default_laiclass12)
+                                    .placeholder(R.drawable.default_laiclass12)
+                                    .error(R.drawable.default_laiclass12)
                                     .into(iv);
                         }
                     }
