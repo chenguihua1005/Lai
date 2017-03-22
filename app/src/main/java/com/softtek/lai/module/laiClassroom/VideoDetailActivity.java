@@ -102,12 +102,12 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                 tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
                 ImageView iv_single = holder.getView(R.id.iv_single);
                 if (TextUtils.isEmpty(data.getVideoImg())) {
-                    Picasso.with(VideoDetailActivity.this).load(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_single);
+                    Picasso.with(VideoDetailActivity.this).load(R.mipmap.default_laiclass12).placeholder(R.mipmap.default_laiclass12).into(iv_single);
                 } else {
                     Picasso.with(VideoDetailActivity.this).load(AddressManager.get("photoHost") + data.getVideoImg())
                             .fit()
-                            .placeholder(R.drawable.default_icon_rect)
-                            .error(R.drawable.default_icon_rect)
+                            .placeholder(R.mipmap.default_laiclass12)
+                            .error(R.mipmap.default_laiclass12)
                             .into(iv_single);
                 }
             }
