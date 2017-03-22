@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -232,6 +233,20 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         //为了复用
         private List<RectangleImage> imgCache = new ArrayList<RectangleImage>();
 
+
+
+//        public LinearLayout getLl_subject() {
+//            return ll_subject;
+//        }
+//
+//        public void setLl_subject(LinearLayout ll_subject) {
+//            this.ll_subject = ll_subject;
+//        }
+//
+//        public void setLlCache(List<LinearLayout> llCache) {
+//            this.llCache = llCache;
+//        }
+
         @Override
         public int getCount() {
             //无限滑动
@@ -245,13 +260,15 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-
+            LinearLayout ll_subject;
             RectangleImage iv;
 
             //获取ImageView对象
             if (imgCache.size() > 0) {
                 iv = imgCache.remove(0);
+                ll_subject=llCache.remove(0);
             } else {
+                ll_subject=new LinearLayout(mContext);
                 iv = new RectangleImage(mContext);
             }
             iv.setScaleType(ScaleType.FIT_XY);
@@ -299,19 +316,23 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
             if (mUrlList.size() > 0) {
                 Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size())).fit().placeholder(R.drawable.default_icon_rect)
                         .error(R.drawable.default_icon_rect).into(iv);
+                ll_subject.setBackgroundColor(getResources().getColor(R.color.blue));
+                View vi= LayoutInflater.from(mContext).inflate(R.layout.contain_subject_layout,null,false);
+                ll_subject= (LinearLayout) vi;
             }
-            ((ViewPager) container).addView(iv);
+            ((ViewPager) container).addView(ll_subject);
 
 
-            return iv;
+            return ll_subject;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             if (object != null && object instanceof ImageView) {
                 RectangleImage iv = (RectangleImage) object;
-                ((ViewPager) container).removeView(iv);
-                imgCache.add(iv);
+                LinearLayout ll_subject=(LinearLayout)object;
+                ((ViewPager) container).removeView(ll_subject);
+                llCache.add(ll_subject);
             }
         }
 
