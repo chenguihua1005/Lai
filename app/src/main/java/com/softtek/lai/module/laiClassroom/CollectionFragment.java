@@ -118,4 +118,9 @@ public class CollectionFragment extends LazyBaseFragment<CollectPresenter> imple
 
 
     }
+
+    @Override
+    public void dialogDissmiss() {
+        plv_collect.onRefreshComplete();
+    }
 }
