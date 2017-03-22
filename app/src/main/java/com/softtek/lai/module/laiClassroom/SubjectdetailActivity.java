@@ -77,18 +77,20 @@ public class SubjectdetailActivity extends BaseActivity<SubjectDetailPresenter> 
         adapter = new SubjectDetailAdapter(this, collectlistModels);
         plv_subject.setAdapter(adapter);
         dialogShow("正在加载");
-        getPresenter().UpdateSubjectData(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), topicId, pageindex, 10);
+        getPresenter().UpdateSubjectData(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), topicId, pageindex, 10,0);
     }
 
     @Override
-    public void getSubjectData(CollectModel collectModel) {
+    public void getSubjectData(CollectModel collectModel,int from) {
         plv_subject.onRefreshComplete();
         if (collectModel != null) {
             im_nomessage.setVisibility(View.GONE);
             if (!collectModel.getArticleList().isEmpty()) {
-                collectlistModels.clear();
+                if(from==0){
+                    collectlistModels.clear();
+                }
                 collectlistModels.addAll(collectModel.getArticleList());
-                adapter.updateCollect(collectlistModels);
+                adapter.notifyDataSetChanged();
             } else {
                 if (pageindex == 1) {
                     im_nomessage.setVisibility(View.VISIBLE);
@@ -110,16 +112,15 @@ public class SubjectdetailActivity extends BaseActivity<SubjectDetailPresenter> 
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        collectlistModels.clear();
         pageindex = 1;
-        getPresenter().UpdateSubjectData(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), topicId, pageindex, 10);
+        getPresenter().UpdateSubjectData(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), topicId, pageindex, 10,0);
 
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex++;
-        getPresenter().UpdateSubjectData(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), topicId, pageindex, 10);
+        getPresenter().UpdateSubjectData(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), topicId, pageindex, 10,1);
 
     }
 }

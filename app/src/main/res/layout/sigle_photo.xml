@@ -61,7 +61,7 @@
         android:id="@+id/iv_single"
         android:layout_width="114dp"
         android:layout_height="74dp"
-        android:src="@drawable/default_icon_rect"
+        android:src="@drawable/default_laiclass12"
         android:scaleType="centerCrop"
         android:layout_centerInParent="true"
         android:layout_alignParentRight="true"/>

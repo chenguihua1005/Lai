@@ -40,7 +40,9 @@ public class HistoryPresenter extends BasePresenter<HistoryPresenter.getHistoryd
 
             @Override
             public void failure(RetrofitError error) {
-
+                if(getView()!=null){
+                    getView().dialogDissmiss();
+                }
             }
         });
     }

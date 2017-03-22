@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laiClassroom.SubjectdetailActivity;
 import com.softtek.lai.module.laiClassroom.model.ArticleTopicModel;
-import com.softtek.lai.widgets.RectangleImage;
+import com.softtek.lai.widgets.RectangleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -60,7 +60,8 @@ public class HeaderFooterReAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ah.tv_subject_name1.setText(item.getTopicName());
         ah.tv_clickhot1.setText(String.valueOf(item.getClicks()));
         Picasso.with(contex).load(AddressManager.get("photoHost")+item.getTopicImg()).fit()
-                .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                .centerCrop()
+                .placeholder(R.drawable.default_laiclass_15).error(R.drawable.default_laiclass_15)
                 .into(ah.im_photo);
         ah.im_photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,13 +90,13 @@ public class HeaderFooterReAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public class ArticalViewHolder extends RecyclerView.ViewHolder{
 
-        RectangleImage im_photo;
+        RectangleImageView im_photo;
         TextView tv_subject_name1;
         TextView tv_clickhot1;
 
         public ArticalViewHolder(View itemView) {
             super(itemView);
-            im_photo= (RectangleImage) itemView.findViewById(R.id.im_photo);
+            im_photo= (RectangleImageView) itemView.findViewById(R.id.im_photo);
             tv_subject_name1= (TextView) itemView.findViewById(R.id.tv_subject_name1);
             tv_clickhot1= (TextView) itemView.findViewById(R.id.tv_clickhot1);
 

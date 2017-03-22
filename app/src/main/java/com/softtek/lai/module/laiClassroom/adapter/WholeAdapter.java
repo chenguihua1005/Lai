@@ -148,13 +148,13 @@ public class WholeAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(videoImage)) {
             Picasso.with(context).load(AddressManager.get("photoHost") + videoImage)
                     .fit()
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
+                    .placeholder(R.drawable.default_laiclass12)
+                    .error(R.drawable.default_laiclass12)
                     .into(holder.iv_video);
         } else {
-            Picasso.with(context).load(R.drawable.default_icon_rect)
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
+            Picasso.with(context).load(R.drawable.default_laiclass12)
+                    .placeholder(R.drawable.default_laiclass12)
+                    .error(R.drawable.default_laiclass12)
                     .into(holder.iv_video);
         }
         if (!TextUtils.isEmpty(artical.getArticUrl())) {
@@ -204,13 +204,13 @@ public class WholeAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(videoImage)) {
             Picasso.with(context).load(AddressManager.get("photoHost") + videoImage)
                     .fit()
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
+                    .placeholder(R.drawable.default_laiclass12)
+                    .error(R.drawable.default_laiclass12)
                     .into(holder.iv_single);
         } else {
-            Picasso.with(context).load(R.drawable.default_icon_rect)
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
+            Picasso.with(context).load(R.drawable.default_laiclass12)
+                    .placeholder(R.drawable.default_laiclass12)
+                    .error(R.drawable.default_laiclass12)
                     .into(holder.iv_single);
         }
         holder.rl_single.setOnClickListener(new View.OnClickListener() {
@@ -268,13 +268,13 @@ public class WholeAdapter extends BaseAdapter {
                     if (!TextUtils.isEmpty(imgUrl)) {
                         Picasso.with(context).load(AddressManager.get("photoHost") + imgUrl)
                                 .fit()
-                                .placeholder(R.drawable.default_icon_rect)
-                                .error(R.drawable.default_icon_rect)
+                                .placeholder(R.drawable.default_laiclass12)
+                                .error(R.drawable.default_laiclass12)
                                 .into(iv);
                     } else {
-                        Picasso.with(context).load(R.drawable.default_icon_rect)
-                                .placeholder(R.drawable.default_icon_rect)
-                                .error(R.drawable.default_icon_rect)
+                        Picasso.with(context).load(R.drawable.default_laiclass12)
+                                .placeholder(R.drawable.default_laiclass12)
+                                .error(R.drawable.default_laiclass12)
                                 .into(iv);
                     }
                 }

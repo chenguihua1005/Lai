@@ -62,7 +62,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     protected void initViews() {
         String videoImage = getIntent().getStringExtra("cover");
         String videoUrl = getIntent().getStringExtra("videoUrl");
-        Picasso.with(this).load(videoImage).fit().into(playerView.mPlayerThumb);
+        Picasso.with(this).load(videoImage).fit().placeholder(R.drawable.default_laiclass12).error(R.drawable.default_laiclass12).into(playerView.mPlayerThumb);
         playerView.init()
 //                .setSkipTip(1000*60*1)
                 .setVideoSource(null, videoUrl, null, null, null)
@@ -102,12 +102,12 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                 tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
                 ImageView iv_single = holder.getView(R.id.iv_single);
                 if (TextUtils.isEmpty(data.getVideoImg())) {
-                    Picasso.with(VideoDetailActivity.this).load(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_single);
+                    Picasso.with(VideoDetailActivity.this).load(R.drawable.default_laiclass12).placeholder(R.drawable.default_laiclass12).into(iv_single);
                 } else {
                     Picasso.with(VideoDetailActivity.this).load(AddressManager.get("photoHost") + data.getVideoImg())
                             .fit()
-                            .placeholder(R.drawable.default_icon_rect)
-                            .error(R.drawable.default_icon_rect)
+                            .placeholder(R.drawable.default_laiclass12)
+                            .error(R.drawable.default_laiclass12)
                             .into(iv_single);
                 }
             }
@@ -162,6 +162,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         video_title.setText(data.getTitle());
         tv_hot.setText(String.valueOf(data.getClicks()));
         cb_shoucang.setChecked(data.getIsMark() == 1);
+        cb_shoucang.setText(data.getIsMark()==1?"已收藏":"收藏");
         cb_shoucang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
