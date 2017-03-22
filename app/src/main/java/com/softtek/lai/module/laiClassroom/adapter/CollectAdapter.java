@@ -89,13 +89,13 @@ public class CollectAdapter extends BaseAdapter {
             viewHolderOne.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
             if (collectModel.getArticImg() != null && !collectModel.getArticImg().isEmpty()) {
                 Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
-                        .placeholder(R.mipmap.default_laiclass12)
-                        .error(R.mipmap.default_laiclass12)
+                        .placeholder(R.drawable.default_laiclass12)
+                        .error(R.drawable.default_laiclass12)
                         .into(viewHolderOne.iv_video);
             } else {
-                Picasso.with(mContext).load(R.mipmap.default_laiclass12)
-                        .placeholder(R.mipmap.default_laiclass12)
-                        .error(R.mipmap.default_laiclass12)
+                Picasso.with(mContext).load(R.drawable.default_laiclass12)
+                        .placeholder(R.drawable.default_laiclass12)
+                        .error(R.drawable.default_laiclass12)
                         .into(viewHolderOne.iv_video);
             }
             SpannableString ss = new SpannableString(collectModel.getTopic());
@@ -148,13 +148,13 @@ public class CollectAdapter extends BaseAdapter {
             viewHolderTwo.tv_hotnum.setText(String.valueOf(collectModel.getClicks()));
             if (collectModel.getArticImg() != null && !collectModel.getArticImg().isEmpty()) {
                 Picasso.with(mContext).load(AddressManager.get("photoHost") + collectModel.getArticImg().get(0))
-                        .placeholder(R.mipmap.default_laiclass12)
-                        .error(R.mipmap.default_laiclass12)
+                        .placeholder(R.drawable.default_laiclass12)
+                        .error(R.drawable.default_laiclass12)
                         .into(viewHolderTwo.iv_single);
             } else {
-                Picasso.with(mContext).load(R.mipmap.default_laiclass12)
-                        .placeholder(R.mipmap.default_laiclass12)
-                        .error(R.mipmap.default_laiclass12)
+                Picasso.with(mContext).load(R.drawable.default_laiclass12)
+                        .placeholder(R.drawable.default_laiclass12)
+                        .error(R.drawable.default_laiclass12)
                         .into(viewHolderTwo.iv_single);
             }
             SpannableString ss = new SpannableString(collectModel.getTopic());
@@ -245,13 +245,13 @@ public class CollectAdapter extends BaseAdapter {
                         if (!TextUtils.isEmpty(imgUrl)) {
                             Picasso.with(mContext).load(AddressManager.get("photoHost") + imgUrl)
                                     .fit()
-                                    .placeholder(R.mipmap.default_laiclass12)
-                                    .error(R.mipmap.default_laiclass12)
+                                    .placeholder(R.drawable.default_laiclass12)
+                                    .error(R.drawable.default_laiclass12)
                                     .into(iv);
                         } else {
-                            Picasso.with(mContext).load(R.mipmap.default_laiclass12)
-                                    .placeholder(R.mipmap.default_laiclass12)
-                                    .error(R.mipmap.default_laiclass12)
+                            Picasso.with(mContext).load(R.drawable.default_laiclass12)
+                                    .placeholder(R.drawable.default_laiclass12)
+                                    .error(R.drawable.default_laiclass12)
                                     .into(iv);
                         }
                     }
