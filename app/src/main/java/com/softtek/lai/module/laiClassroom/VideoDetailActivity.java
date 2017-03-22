@@ -62,7 +62,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     protected void initViews() {
         String videoImage = getIntent().getStringExtra("cover");
         String videoUrl = getIntent().getStringExtra("videoUrl");
-        Picasso.with(this).load(videoImage).fit().into(playerView.mPlayerThumb);
+        Picasso.with(this).load(videoImage).fit().placeholder(R.mipmap.default_laiclass12).error(R.mipmap.default_laiclass12).into(playerView.mPlayerThumb);
         playerView.init()
 //                .setSkipTip(1000*60*1)
                 .setVideoSource(null, videoUrl, null, null, null)
