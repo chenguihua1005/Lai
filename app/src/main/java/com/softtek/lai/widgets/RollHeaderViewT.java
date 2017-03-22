@@ -248,17 +248,17 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            LinearLayout ll_subject;
+//            LinearLayout ll_subject;
             RectangleImage iv;
-            RectangleImage image;
-//            image=container.findViewById(R.id.im_)
+//            RectangleImage image;
+//            image= (RectangleImage) container.findViewById(R.id.reim_sub);
 
             //获取ImageView对象
             if (imgCache.size() > 0) {
                 iv = imgCache.remove(0);
-                ll_subject=llCache.remove(0);
+//                ll_subject=llCache.remove(0);
             } else {
-                ll_subject=new LinearLayout(mContext);
+//                ll_subject=new LinearLayout(mContext);
                 iv = new RectangleImage(mContext);
             }
             iv.setScaleType(ScaleType.FIT_XY);
@@ -306,23 +306,26 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
             if (mUrlList.size() > 0) {
                 Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size())).fit().placeholder(R.drawable.default_icon_rect)
                         .error(R.drawable.default_icon_rect).into(iv);
-                ll_subject.setBackgroundColor(getResources().getColor(R.color.blue));
-                View vi= LayoutInflater.from(mContext).inflate(R.layout.contain_subject_layout,null,false);
-                ll_subject= (LinearLayout) vi;
+//                View vi= LayoutInflater.from(mContext).inflate(R.layout.contain_subject_layout,null,false);
+//                ll_subject= (LinearLayout) vi;
             }
-            ((ViewPager) container).addView(ll_subject);
+            ((ViewPager) container).addView(iv);
+//            ((ViewPager) container).addView(ll_subject);
 
 
-            return ll_subject;
+            return iv;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             if (object != null && object instanceof ImageView) {
                 RectangleImage iv = (RectangleImage) object;
-                LinearLayout ll_subject=(LinearLayout)object;
-                ((ViewPager) container).removeView(ll_subject);
-                llCache.add(ll_subject);
+                ((ViewPager) container).removeView(iv);
+                imgCache.add(iv);
+//                LinearLayout ll_subject=(LinearLayout)object;
+//
+//                ((ViewPager) container).removeView(ll_subject);
+//                llCache.add(ll_subject);
             }
         }
 
