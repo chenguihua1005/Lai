@@ -119,6 +119,7 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
      * @param recommendModels
      */
     public void setImgUrlData(List<RecommendModel>recommendModels) {
+        prePosition=0;
         this.recommendModels=recommendModels;
         List<String>urlList=new ArrayList<>();
         List<String>nameList=new ArrayList<>();
@@ -291,7 +292,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
         dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
         prePosition = position % dotList.size();
-        Log.i("position",prePosition+"");
         tv_subject_name.setText(mNameList.get(prePosition));
         tv_hotclick.setText(mHotList.get(prePosition));
 
