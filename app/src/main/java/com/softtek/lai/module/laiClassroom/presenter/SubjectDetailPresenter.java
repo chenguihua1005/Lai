@@ -24,7 +24,7 @@ public class SubjectDetailPresenter extends BasePresenter<SubjectDetailPresenter
         super(baseView);
     }
 
-    public void UpdateSubjectData(String token, long userId, String topicId, int pageindex, int pagesize) {
+    public void UpdateSubjectData(String token, long userId, String topicId, int pageindex, int pagesize, final int from) {
         service = ZillaApi.NormalRestAdapter.create(CollectService.class);
         service.getSubjectdetail(token, userId, topicId, pageindex, pagesize, new RequestCallback<ResponseData<CollectModel>>() {
             @Override
@@ -32,7 +32,7 @@ public class SubjectDetailPresenter extends BasePresenter<SubjectDetailPresenter
                 int status = Data.getStatus();
                 if (200 == status) {
                     if (getView() != null) {
-                        getView().getSubjectData(Data.getData());
+                        getView().getSubjectData(Data.getData(),from);
                         getView().dialogDissmiss();
                         getView().dissmiss();
                     }
@@ -53,7 +53,7 @@ public class SubjectDetailPresenter extends BasePresenter<SubjectDetailPresenter
     }
 
     public interface getSubjectdetail extends BaseView {
-        void getSubjectData(CollectModel collectModel);
+        void getSubjectData(CollectModel collectModel,int from);
 
         void dissmiss();
     }

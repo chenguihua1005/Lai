@@ -162,6 +162,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         video_title.setText(data.getTitle());
         tv_hot.setText(String.valueOf(data.getClicks()));
         cb_shoucang.setChecked(data.getIsMark() == 1);
+        cb_shoucang.setText(data.getIsMark()==1?"已收藏":"收藏");
         cb_shoucang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
