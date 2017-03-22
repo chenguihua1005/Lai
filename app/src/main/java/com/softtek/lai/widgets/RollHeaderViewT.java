@@ -85,21 +85,21 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
         //让banner的高度是屏幕的1/4
         ViewGroup.LayoutParams vParams = mViewPager.getLayoutParams();
-        vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.5);
+        vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.25);
         mViewPager.setLayoutParams(vParams);
         tv_subject_name.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mViewPager.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), SubjectdetailActivity.class);
                 intent.putExtra("topictitle", recommendModels.get(prePosition).getTopicName());
                 intent.putExtra("topicId", recommendModels.get(prePosition).getTopicId());
                 mContext.startActivity(intent);
-            }
-        });
-        mViewPager.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
     }

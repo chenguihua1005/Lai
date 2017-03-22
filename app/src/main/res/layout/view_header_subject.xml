@@ -6,19 +6,19 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="wrap_content"
-             android:layout_height="250dp"
+             android:layout_height="230dp"
              android:orientation="vertical"
              android:paddingLeft="10dp"
              android:paddingRight="10dp">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="210dp"
         >
 
     <android.support.v4.view.ViewPager
             android:id="@+id/vp"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="210dp"
             android:focusable="true"
             android:focusableInTouchMode="true"/>
 
@@ -44,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="12莱课堂"
+        android:layout_gravity="center_vertical"
         android:textColor="#82AA4C"
         />
         <TextView
