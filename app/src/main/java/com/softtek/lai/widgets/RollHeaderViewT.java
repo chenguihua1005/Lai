@@ -51,8 +51,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
     private List<ImageView> dotList = null;
     private MyAdapter mAdapter = null;
-    private Handler mHandler = null;
-//    private AutoRollRunnable mAutoRollRunnable = null;
 
     private int prePosition = 0;
 
@@ -107,8 +105,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
     //初始化数据
     private void initData() {
         dotList = new ArrayList<ImageView>();
-//        mAutoRollRunnable = new AutoRollRunnable();
-        mHandler = new Handler();
         mAdapter = new MyAdapter();
     }
 
@@ -166,9 +162,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         mAdapter = new MyAdapter();
         mViewPager.setAdapter(mAdapter);
 
-        //设置viewpager初始位置, +10000就够了
-        mViewPager.setCurrentItem(mUrlList.size() + 10000);
-//        startRoll();
     }
 
 
@@ -182,46 +175,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
     }
 
-//
-//    //开始轮播
-//    public void startRoll() {
-//        mAutoRollRunnable.start();
-//    }
-//
-//    // 停止轮播
-//    public void stopRoll() {
-//        mAutoRollRunnable.stop();
-//    }
-
-//    private class AutoRollRunnable implements Runnable {
-//
-//        //是否在轮播的标志
-//        boolean isRunning = false;
-//
-//        public void start() {
-//            if (!isRunning) {
-//                isRunning = true;
-//                mHandler.removeCallbacks(this);
-//                mHandler.postDelayed(this, 3000);
-//            }
-//        }
-//
-//        public void stop() {
-//            if (isRunning) {
-//                mHandler.removeCallbacks(this);
-//                isRunning = false;
-//            }
-//        }
-//
-//        @Override
-//        public void run() {
-//            if (isRunning) {
-//                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-//                mHandler.postDelayed(this, 4000);
-//            }
-//        }
-//    }
-
     public interface HeaderViewClickListener {
         void HeaderViewClick(int position);
 
@@ -229,7 +182,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
     private class MyAdapter extends PagerAdapter {
 
-        private List<LinearLayout> llCache=new ArrayList<LinearLayout>();
         //为了复用
         private List<RectangleImage> imgCache = new ArrayList<RectangleImage>();
 
@@ -237,8 +189,7 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
         @Override
         public int getCount() {
-            //无限滑动
-            return Integer.MAX_VALUE;
+            return mUrlList.size();
         }
 
         @Override
@@ -250,6 +201,8 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         public Object instantiateItem(ViewGroup container, final int position) {
 //            LinearLayout ll_subject;
             RectangleImage iv;
+            Log.i("position",position%2+"");
+//            final int positon=0;
 //            RectangleImage image;
 //            image= (RectangleImage) container.findViewById(R.id.reim_sub);
 
@@ -259,7 +212,7 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 //                ll_subject=llCache.remove(0);
             } else {
 //                ll_subject=new LinearLayout(mContext);
-                iv = new RectangleImage(mContext);
+            iv = new RectangleImage(mContext);
             }
             iv.setScaleType(ScaleType.FIT_XY);
             iv.setPadding(10,0,10,0);
@@ -304,8 +257,9 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
             //加载图片
             if (mUrlList.size() > 0) {
+                Log.i("positionmUrlList.size()",position % mUrlList.size()+"");
                 Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size())).fit().placeholder(R.drawable.default_laiclass12)
-                        .error(R.drawable.default_laiclass12).into(iv);
+                        .error(R.drawable.default_laiclass12).centerCrop().into(iv);
 //                View vi= LayoutInflater.from(mContext).inflate(R.layout.contain_subject_layout,null,false);
 //                ll_subject= (LinearLayout) vi;
             }

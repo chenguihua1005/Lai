@@ -27,10 +27,18 @@ public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject>
 
 
     public void getSubjectData(int pageindex, int pagesize, final int upOrLoad) {
-        service.doGetArticleTopic(UserInfoModel.getInstance().getToken(), pageindex, pagesize, new Callback<ResponseData<SubjectModel>>() {
+        service.doGetArticleTopic(UserInfoModel.getInstance().getToken(),
+                pageindex, pagesize, new Callback<ResponseData<SubjectModel>>() {
             @Override
             public void success(ResponseData<SubjectModel> subjectModelResponseData, Response response) {
                 int status = subjectModelResponseData.getStatus();
+                if(getView()!=null){
+                    if(upOrLoad==0){
+                        getView().onRefreshCompleted();
+                    }else {
+                        getView().onLoadMoreCompleted();
+                    }
+                }
                 if (status == 200) {
                     if (getView() != null) {
                         getView().getSubjectart(subjectModelResponseData.getData(),upOrLoad);
@@ -40,7 +48,13 @@ public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject>
 
             @Override
             public void failure(RetrofitError error) {
-
+                if(getView()!=null){
+                    if(upOrLoad==0){
+                        getView().onRefreshCompleted();
+                    }else {
+                        getView().onLoadMoreCompleted();
+                    }
+                }
             }
         });
 
@@ -49,5 +63,7 @@ public class SubjectPresenter extends BasePresenter<SubjectPresenter.getSubject>
 
     public interface getSubject extends BaseView {
         void getSubjectart(SubjectModel subjectModel,int upOrLoad);
+        void onRefreshCompleted();
+        void onLoadMoreCompleted();
     }
 }

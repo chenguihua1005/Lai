@@ -42,12 +42,10 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
     HeaderFooterReAdapter mAdapter;
 
     private View headerView;
-    private ViewPager viewPager;
     private RollHeaderViewT rhv_adv;
 
     List<RecommendModel> recommendModels = new ArrayList<>();
     List<ArticleTopicModel> articleTopicModels = new ArrayList<>();
-    private List<String> advList = new ArrayList<>();
 
     int pageindex = 1;
 
@@ -73,7 +71,6 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         });
         recyclerView.getRecyclerView().setLayoutManager(glm);
         headerView = LayoutInflater.from(getContext()).inflate(R.layout.view_header_layout, (ViewGroup) recyclerView.getParent(), false);
-        viewPager = (ViewPager) headerView.findViewById(R.id.viewpager);
         rhv_adv= (RollHeaderViewT) headerView.findViewById(R.id.rhv_adv);
         mAdapter = new HeaderFooterReAdapter(headerView,getContext(), articleTopicModels);
         recyclerView.setAdapter(mAdapter);
@@ -87,30 +84,36 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
 
     @Override
     public void getSubjectart(SubjectModel subjectModel,int upOrLoad) {
-        recyclerView.setPullLoadMoreCompleted();
+
         if(upOrLoad==0){
             if(subjectModel.getRecommendTopicList()!=null&&!subjectModel.getRecommendTopicList().isEmpty()){
                 recommendModels.clear();
-                viewPager.removeAllViews();
-                advList.clear();
                 recommendModels.addAll(subjectModel.getRecommendTopicList());
-                for (int i=0;i<recommendModels.size();i++) {
-
-                    advList.add(AddressManager.get("photoHost")+recommendModels.get(i).getTopicImg());
-
-                }rhv_adv.setImgUrlData(recommendModels);
-                adapterData();
+                rhv_adv.setImgUrlData(recommendModels);
             }
             if (!subjectModel.getArticleTopicList().isEmpty()) {
                 articleTopicModels.clear();
                 articleTopicModels.addAll(subjectModel.getArticleTopicList());
+                mAdapter.notifyDataSetChanged();
             }
         }else {
             if (!subjectModel.getArticleTopicList().isEmpty()) {
                 articleTopicModels.addAll(subjectModel.getArticleTopicList());
+                mAdapter.notifyDataSetChanged();
             }
         }
-        mAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onRefreshCompleted() {
+//        recyclerView.setRefreshing(false);
+        recyclerView.setPullLoadMoreCompleted();
+    }
+
+    @Override
+    public void onLoadMoreCompleted() {
+        recyclerView.setPullLoadMoreCompleted();
     }
 
     @Override
@@ -125,59 +128,5 @@ public class SubjectFragment extends LazyBaseFragment<SubjectPresenter> implemen
         getPresenter().getSubjectData(pageindex, 10,1);
     }
 
-    private PagerAdapter pageradapter;
 
-    private void adapterData() {
-
-
-        pageradapter = new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return recommendModels.size();
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, final int position) {
-
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.list_subjectremend_item, container, false);
-                TextView tv_clickhot = (TextView) view.findViewById(R.id.tv_clickhot);
-                tv_clickhot.setText(String.valueOf(recommendModels.get(position).getClicks()));
-                TextView tv_subject_name1= (TextView) view.findViewById(R.id.tv_subject_name1);
-                tv_subject_name1.setText(recommendModels.get(position).getTopicName());
-                ImageView im_photo = (ImageView) view.findViewById(R.id.im_photo);
-                Picasso.with(getContext()).load(AddressManager.get("photoHost") + recommendModels.get(position).getTopicImg()).fit().error(R.drawable.default_icon_rect)
-                        .placeholder(R.drawable.default_icon_rect).into(im_photo);
-                RelativeLayout re_remend = (RelativeLayout) view.findViewById(R.id.re_remend);
-                re_remend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), SubjectdetailActivity.class);
-                        intent.putExtra("topictitle", recommendModels.get(position).getTopicName());
-                        intent.putExtra("topicId", recommendModels.get(position).getTopicId());
-                        startActivity(intent);
-                    }
-                });
-                container.addView(view);
-                return view;
-            }
-
-            @Override
-            public int getItemPosition(Object object) {
-                return POSITION_NONE;
-            }
-
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView((View) object);
-            }
-        };
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.setAdapter(pageradapter);
-    }
 }
