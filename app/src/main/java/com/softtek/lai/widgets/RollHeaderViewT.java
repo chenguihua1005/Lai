@@ -85,7 +85,7 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
         //让banner的高度是屏幕的1/4
         ViewGroup.LayoutParams vParams = mViewPager.getLayoutParams();
-        vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.25);
+        vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.5);
         mViewPager.setLayoutParams(vParams);
         tv_subject_name.setOnClickListener(new OnClickListener() {
             @Override
@@ -235,18 +235,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
 
 
-//        public LinearLayout getLl_subject() {
-//            return ll_subject;
-//        }
-//
-//        public void setLl_subject(LinearLayout ll_subject) {
-//            this.ll_subject = ll_subject;
-//        }
-//
-//        public void setLlCache(List<LinearLayout> llCache) {
-//            this.llCache = llCache;
-//        }
-
         @Override
         public int getCount() {
             //无限滑动
@@ -262,6 +250,8 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         public Object instantiateItem(ViewGroup container, final int position) {
             LinearLayout ll_subject;
             RectangleImage iv;
+            RectangleImage image;
+//            image=container.findViewById(R.id.im_)
 
             //获取ImageView对象
             if (imgCache.size() > 0) {

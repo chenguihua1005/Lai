@@ -7,16 +7,16 @@
     android:paddingRight="5dp">
 
     <com.softtek.lai.widgets.RectangleImage
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/default_icon_rect"
+        android:src="@drawable/default_laiclass12"
         android:scaleType="centerCrop"
-
         />
     <TextView
         android:id="@+id/tv_haha"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="haha"
+
         />
 </LinearLayout>
