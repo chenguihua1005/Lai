@@ -62,7 +62,7 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     protected void initViews() {
         String videoImage = getIntent().getStringExtra("cover");
         String videoUrl = getIntent().getStringExtra("videoUrl");
-        Picasso.with(this).load(videoImage).fit().placeholder(R.mipmap.default_laiclass12).error(R.mipmap.default_laiclass12).into(playerView.mPlayerThumb);
+        Picasso.with(this).load(videoImage).fit().placeholder(R.drawable.default_laiclass12).error(R.drawable.default_laiclass12).into(playerView.mPlayerThumb);
         playerView.init()
 //                .setSkipTip(1000*60*1)
                 .setVideoSource(null, videoUrl, null, null, null)
@@ -102,12 +102,12 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
                 tv_subject.setMovementMethod(LinkMovementMethod.getInstance());
                 ImageView iv_single = holder.getView(R.id.iv_single);
                 if (TextUtils.isEmpty(data.getVideoImg())) {
-                    Picasso.with(VideoDetailActivity.this).load(R.mipmap.default_laiclass12).placeholder(R.mipmap.default_laiclass12).into(iv_single);
+                    Picasso.with(VideoDetailActivity.this).load(R.drawable.default_laiclass12).placeholder(R.drawable.default_laiclass12).into(iv_single);
                 } else {
                     Picasso.with(VideoDetailActivity.this).load(AddressManager.get("photoHost") + data.getVideoImg())
                             .fit()
-                            .placeholder(R.mipmap.default_laiclass12)
-                            .error(R.mipmap.default_laiclass12)
+                            .placeholder(R.drawable.default_laiclass12)
+                            .error(R.drawable.default_laiclass12)
                             .into(iv_single);
                 }
             }

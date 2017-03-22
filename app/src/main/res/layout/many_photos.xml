@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@mipmap/default_laiclass12" />
+            android:src="@drawable/default_laiclass12" />
 
         <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_two"
@@ -44,7 +44,7 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@mipmap/default_laiclass12" />
+            android:src="@drawable/default_laiclass12" />
 
         <com.softtek.lai.widgets.RectangleImage
             android:id="@+id/iv_three"
@@ -53,7 +53,7 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@mipmap/default_laiclass12" />
+            android:src="@drawable/default_laiclass12" />
     </LinearLayout>
 
     <TextView
