@@ -38,7 +38,15 @@ public class WholePresenter extends BasePresenter<WholePresenter.WholeView> {
                     }
                 }
             }
-        });
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if(getView()!=null){
+                            getView().dialogDissmiss();
+                        }
+                        super.failure(error);
+                    }
+                });
     }
 
     public void getArticleList(String type, String subjectId, String order, int pageIndex, final int upOrDown){

@@ -45,6 +45,9 @@ public class CollectPresenter extends BasePresenter<CollectPresenter.getcollect>
 
             @Override
             public void failure(RetrofitError error) {
+                if(getView()!=null){
+                    getView().dialogDissmiss();
+                }
                 super.failure(error);
             }
         });

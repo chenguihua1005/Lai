@@ -115,4 +115,9 @@ public class HistoryFragment extends LazyBaseFragment<HistoryPresenter> implemen
         getPresenter().getVisitHistory(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), pageindex, 10,1);
 
     }
+
+    @Override
+    public void dialogDissmiss() {
+        plv_history.onRefreshComplete();
+    }
 }

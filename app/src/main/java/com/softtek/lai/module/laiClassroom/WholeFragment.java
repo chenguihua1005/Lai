@@ -199,6 +199,10 @@ public class WholeFragment extends LazyBaseFragment<WholePresenter> implements W
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex=1;
+        if(sortAdapter==null||typeAdapter==null||subjectAdapter==null){
+            lazyLoad();
+            return;
+        }
         String sort;
         String type;
         String subject;
