@@ -1,6 +1,5 @@
 package com.softtek.lai.module.laiClassroom.presenter;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
@@ -34,7 +33,6 @@ public class HistoryPresenter extends BasePresenter<HistoryPresenter.getHistoryd
                         collectModel=Data.getData();
                         if(getView()!=null){
                             getView().gethistorydata(collectModel,from);
-                            Log.i();
                         }
                     }
                 }
