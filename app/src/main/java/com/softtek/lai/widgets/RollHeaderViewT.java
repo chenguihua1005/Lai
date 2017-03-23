@@ -85,13 +85,19 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
         ViewGroup.LayoutParams vParams = mViewPager.getLayoutParams();
         vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.25);
         mViewPager.setLayoutParams(vParams);
-        mViewPager.setOnClickListener(new OnClickListener() {
+        tv_subject_name.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), SubjectdetailActivity.class);
                 intent.putExtra("topictitle", recommendModels.get(prePosition).getTopicName());
                 intent.putExtra("topicId", recommendModels.get(prePosition).getTopicId());
                 mContext.startActivity(intent);
+            }
+        });
+        mViewPager.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
