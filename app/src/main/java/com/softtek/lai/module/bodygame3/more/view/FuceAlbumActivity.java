@@ -381,28 +381,27 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     private void setShare(final View v) {
         dialogShow("加载中");
 
-        String measuredIds = "";
-
+        StringBuilder sb=new StringBuilder();
         for (int i = 0; i < fucePhotos.size(); i++) {
             FuceClassAlbumModel classAlbumModel = fucePhotos.get(i);
             total += classAlbumModel.getPhotoList().size();
             for (int j = 0; j < classAlbumModel.getPhotoList().size(); j++) {
                 FucePhotoModel fucePhotoModel = classAlbumModel.getPhotoList().get(j);
                 if (fucePhotoModel.isSelect()) {
-                    measuredIds += fucePhotoModel.getACMId() + ",";
+                    sb.append(fucePhotoModel.getACMId());
+                    if(j!=classAlbumModel.getPhotoList().size()-1){
+                        sb.append(",");
+                    }
                 }
             }
         }
 
-        if (!TextUtils.isEmpty(measuredIds)) {
-            measuredIds.substring(0, measuredIds.length() - 1);
-        }
 
-        Log.i(TAG, "here =" + measuredIds);
+        Log.i(TAG, "here =" + sb);
 
 
         StudentService service = ZillaApi.NormalRestAdapter.create(StudentService.class);
-        service.shareMeasurePhotos(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), measuredIds, new Callback<ResponseData<FuceShareModel>>() {
+        service.shareMeasurePhotos(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), sb.toString(), new Callback<ResponseData<FuceShareModel>>() {
             @Override
             public void success(ResponseData<FuceShareModel> responseData, Response response) {
                 int status = responseData.getStatus();
