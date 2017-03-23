@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,6 +21,7 @@ import android.widget.Toast;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
@@ -31,16 +30,20 @@ import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
+import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
+import com.softtek.lai.module.bodygame3.more.view.FuceAlbumActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.utils.ACache;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -106,7 +109,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.tv_initWeit)
     TextView tv_initWeit;//初始体重
     @InjectView(R.id.tv_chart)
-    TextView tv_chart;
+    RelativeLayout tv_chart;
+
+    @InjectView(R.id.className_tv)  //班级名称
+            TextView className_tv;
+
     @InjectView(R.id.tv_currenweight)
     TextView tv_currenweight;
     @InjectView(R.id.im_InitImage)
@@ -146,6 +153,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     private static final int GET_Sian = 1;//发布签名
     private String IsFriend;//是否是好友
 
+    private int comeFromClass = 1;//来自于哪一个班级   1  当前班级   0 往期
+
     @Override
     protected void initViews() {
 //        tv_dynamic.setOnClickListener(this);
@@ -153,6 +162,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         ll_chart.setOnClickListener(this);
         tv_chart.setOnClickListener(this);
         im_guanzhu.setOnClickListener(this);
+        ll_weigh.setOnClickListener(this);
+
         ll_news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,7 +180,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         //实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         titlePopup.setItemOnClickListener(this);
-
     }
 
 
@@ -180,9 +190,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             public void convert(ViewHolder holder, NewsTopFourModel data, int position) {
                 ImageView img = holder.getView(R.id.img);
                 if (!TextUtils.isEmpty(data.getThumbnailImgUrl())) {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().centerCrop().into(img);
+                    Picasso.with(PersonDetailActivity.this).load(AddressManager.get("photoHost") + data.getThumbnailImgUrl()).fit().centerCrop().into(img);
                 } else if (!TextUtils.isEmpty(data.getImgUrl())) {
-                    Picasso.with(getParent()).load(AddressManager.get("photoHost") + data.getImgUrl()).fit().centerCrop().into(img);
+                    Picasso.with(PersonDetailActivity.this).load(AddressManager.get("photoHost") + data.getImgUrl()).fit().centerCrop().into(img);
 
                 }
             }
@@ -199,6 +209,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         HXAccountId = getIntent().getStringExtra("HXAccountId");
         UserName = getIntent().getStringExtra("UserName");
         AFriendId = getIntent().getStringExtra("AFriendId");//好友关系id
+
+        comeFromClass = getIntent().getIntExtra("comeFrom", 1);//默认当前班级
 
         Log.i(TAG, "isFriend =" + isFriend + " AccountId=" + AccountId + " HXAccountId=" + HXAccountId + " UserName= " + UserName + " AFriendId= " + AFriendId + " ClassId = " + ClassId);
 
@@ -243,7 +255,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
             });
         } else {
-            headService.doGetClassMemberInfo(classid,UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+            headService.doGetClassMemberInfo(classid, UserInfoModel.getInstance().getToken(), userid, AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
                 @Override
                 public void success(ResponseData<MemberInfoModel> memberInfoModelResponseData, Response response) {
                     int status = memberInfoModelResponseData.getStatus();
@@ -285,12 +297,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void doGetData() {
+
         try {
             if (memberInfoModel != null) {
                 String url = AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-                    Picasso.with(getParent()).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+//                    Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
+                    int px = DisplayUtil.dip2px(PersonDetailActivity.this, 45);
+                    Picasso.with(PersonDetailActivity.this).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_userimg);
+                } else {
+                    Picasso.with(PersonDetailActivity.this).load(R.drawable.img_default).placeholder(R.drawable.img_default).into(cir_userimg);
                 }
                 //用户名
                 tv_stuname.setText(memberInfoModel.getUserName());
@@ -299,12 +317,26 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 AccountId = memberInfoModel.getAccountid();
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
-                tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                if (UserInfoModel.getInstance().getUserId() == memberInfoModel.getAccountid()) {
+
+                    if (UserInfoModel.getInstance().getUser().getUserrole().equals("3")) {
+                    } else {
+                        tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                        tv_angle.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    if ("1".equals(memberInfoModel.getClassRole())) {
+
+                    } else {
+                        tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
+                        tv_angle.setVisibility(View.VISIBLE);
+                    }
+                }
+
                 if (!"4".equals(memberInfoModel.getClassRole())) {
                     fl_right.setVisibility(View.INVISIBLE);
-                }
-                else
-                {
+                } else {
                     tv_love.setVisibility(View.VISIBLE);
                     tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                     if (AccountId == userid) {
@@ -327,14 +359,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
                     if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
                     {
-                        Picasso.with(getParent()).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+                        Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
                     }
                     if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-                        Picasso.with(getParent()).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
+                        Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
                     }
                 }
+
+                className_tv.setText(memberInfoModel.getClassName());
+
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
                 {   //是本人可编辑个性签名
+
                     tv_personlityName.setEnabled(true);
                     //个性签名已存在现实个性签名内容并隐藏图标
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
@@ -344,8 +380,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
-                    if ("4".equals(memberInfoModel.getClassRole()))
-                    {
+                    if ("4".equals(memberInfoModel.getClassRole())) {
+                        Log.i(TAG, "本人且 身份是学员......");
                         ll_chart.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -358,18 +394,58 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         tv_personlityName.setText("暂无个性签名");
                     }
-                    if ((memberInfoModel.getIntroducerId()).equals(userid+""))//如果是登陆id是该学员的爱心学员，显示查看曲线图
+                    if ((memberInfoModel.getIntroducerId()).equals(userid + ""))//如果是登陆id是该学员的爱心学员，显示查看曲线图
                     {
                         ll_chart.setVisibility(View.VISIBLE);
                     }
 
                     issendFriend = memberInfoModel.getIsSendFriend();
                     IsFriend = memberInfoModel.getIsFriend();
+
+                    //如果是好友的话，并且对方是学员时候，可查看当前班级 曲线图放开
+
+
+                    Log.i(TAG, "角色 = " + memberInfoModel.getClassRole() + "  classId = " + memberInfoModel.getClassId() + " getIsCurrClass =  " + memberInfoModel.getIsCurrClass() + memberInfoModel.getClassName());
+                    if ("4".equals(memberInfoModel.getClassRole())) {
+                        ClassId = memberInfoModel.getClassId();
+                        if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
+                            ll_chart.setVisibility(View.VISIBLE);
+                        }
+
+                        if (Constants.FROM_CONTACT == comeFromClass) {
+                            if (memberInfoModel.getIsCurrClass() == 1) {
+                                ll_chart.setVisibility(View.VISIBLE);
+                                ClassId = memberInfoModel.getClassId();
+                            } else {
+                                ll_chart.setVisibility(View.GONE);
+                            }
+
+
+//                            if (TextUtils.isEmpty(ClassId)) {
+//                                ClassId = memberInfoModel.getClassId();
+//                            }
+//
+//                            if (TextUtils.isEmpty(memberInfoModel.getClassId())) {
+//                                ClassId = "";
+//                            }
+//
+//                            if (!TextUtils.isEmpty(memberInfoModel.getClassId()) && 0 == memberInfoModel.getIsCurrClass()) {
+//                                ClassId = "";
+//                                className_tv.setText("");
+//                            }
+                        }
+
+
+                    }
+
+
                     if ("1".equals(IsFriend))//如果是好友，显示发起聊天
                     {
                         btn_chat.setVisibility(View.VISIBLE);
                         titlePopup.addAction(new ActionItem(PersonDetailActivity.this, "删除好友", R.drawable.deletefriend));
                         fl_right.setVisibility(View.VISIBLE);
+
+
                     } else {//不是好友，可发起临时会话，显示添加好友
                         if (issendFriend > 0) {//如果大于0，则为已发送过该好友请求
                             btn_chat.setVisibility(View.VISIBLE);
@@ -377,14 +453,18 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             btn_addguy.setVisibility(View.VISIBLE);//添加好友
                             btn_addguy.setText("待确认");
                             btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
-                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_assistant_refuse));
                             iv_email.setVisibility(View.INVISIBLE);
                         } else {
                             btn_chat.setVisibility(View.VISIBLE);
                             btn_chat.setText("发起临时会话");
                             btn_addguy.setVisibility(View.VISIBLE);//添加好友
                             iv_email.setVisibility(View.INVISIBLE);
+
                         }
+
+                        //如果不是好友的话，曲线图隐藏
+//                        ll_chart.setVisibility(View.GONE);
 
                     }
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
@@ -443,6 +523,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 //                startActivityForResult(personal, PERSONDY);
 //                break;
             case R.id.tv_chart:
+                Log.i(TAG, "ClassId = " + ClassId);
+//                if (View.VISIBLE == ll_chart.getVisibility() && TextUtils.isEmpty(ClassId)) {
+//                    ClassId = memberInfoModel.getClassId();
+//                }
+
                 Intent graph = new Intent(this, GraphActivity.class);
                 graph.putExtra("accountId", AccountId);
                 graph.putExtra("classId", ClassId);
@@ -450,7 +535,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 //查看曲线图
                 break;
             case R.id.btn_chat:
-                Log.i(TAG, "userId = " + HXAccountId + " UserName = " + UserName);
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
                 if (!hxid.equals(HXAccountId)) {
                     Intent intent = new Intent(PersonDetailActivity.this, ChatActivity.class);
@@ -480,6 +564,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.fl_right:
                 titlePopup.show(view);
+                break;
+            case R.id.ll_weigh:
+                Intent intent = new Intent(PersonDetailActivity.this, FuceAlbumActivity.class);
+                intent.putExtra("account", String.valueOf(memberInfoModel.getAccountid()));
+                startActivity(intent);
                 break;
             case R.id.im_guanzhu:
                 headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
@@ -526,11 +615,8 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 
     //加好友请求
     private void sentFriendApply() {
-        progressDialog = new ProgressDialog(this);
         String stri = getResources().getString(R.string.Is_sending_a_request);
-        progressDialog.setMessage(stri);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+        dialogShow(stri);
         Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
 
 
@@ -542,7 +628,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     EMClient.getInstance().contactManager().addContact(HXAccountId, s);
 
                     ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                    service.sentFriendApply(UserInfoModel.getInstance().getToken(),TextUtils.isEmpty(ClassId) ? " " : ClassId, UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
+                    service.sentFriendApply(UserInfoModel.getInstance().getToken(), TextUtils.isEmpty(ClassId) ? " " : ClassId, UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
                         @Override
                         public void success(final ResponseData responseData, Response response) {
                             int status = responseData.getStatus();
@@ -554,12 +640,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                                 btn_addguy.setVisibility(View.VISIBLE);//添加好友
                                 btn_addguy.setText("待确认");
                                 btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity.this, R.color.white));
-                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+//                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
+                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_assistant_refuse));
                                 iv_email.setVisibility(View.INVISIBLE);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        progressDialog.dismiss();
+                                        dialogDissmiss();
                                         Util.toastMsg(getResources().getString(R.string.send_successful));
                                     }
                                 });
@@ -567,7 +654,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             } else {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        progressDialog.dismiss();
+                                        dialogDissmiss();
                                         Toast.makeText(getApplicationContext(), responseData.getMsg(), Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -579,7 +666,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                             ZillaApi.dealNetError(error);
                             runOnUiThread(new Runnable() {
                                 public void run() {
-                                    progressDialog.dismiss();
+                                    dialogDissmiss();
                                 }
                             });
                         }
@@ -589,7 +676,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            progressDialog.dismiss();
+                            dialogDissmiss();
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -692,10 +779,9 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
                 tv_personlityName.setText(data.getStringExtra("sina"));
                 tv_personlityName.setCompoundDrawables(null, null, null, null);
-            }
-            else {
+            } else {
                 tv_personlityName.setText("编辑个性签名");
-                Drawable drawable=getResources().getDrawable(R.drawable.lable);
+                Drawable drawable = getResources().getDrawable(R.drawable.lable);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
                 tv_personlityName.setCompoundDrawables(drawable, null, null, null);//画在右边
             }
@@ -728,7 +814,6 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
             startActivityForResult(intent, SetLove);
         }
 
-
     }
 
 
@@ -745,4 +830,11 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
 //        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
 //        ActivityCompat.startActivity(this, intent1, optionsCompat.toBundle());
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
 }

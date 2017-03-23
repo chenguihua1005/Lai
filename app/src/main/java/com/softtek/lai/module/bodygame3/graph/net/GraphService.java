@@ -20,7 +20,7 @@ public interface GraphService {
 
     //获取体重变化曲线图
     @GET("/V1/HerbalifeClass/GetClassMemberWeightChart")
-    void getClassMemberWeightChart(@Header("classid") String cId,
+    void getClassMemberWeightChart(
                                    @Header("token") String token,
                                    @Query("accountId") long accountId,
                                    @Query("classid") String classId,
@@ -28,7 +28,7 @@ public interface GraphService {
 
     //获取维度变化曲线图
     @GET("/V1/HerbalifeClass/GetClassMemberGirthChart")
-    void getClassMemberGirthChart(@Header("classid") String cId,
+    void getClassMemberGirthChart(
                                   @Header("token") String token,
                                   @Query("accountId") long accountId,
                                   @Query("classid") String classId,

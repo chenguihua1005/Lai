@@ -8,21 +8,17 @@ package com.softtek.lai.module.home.presenter;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.google.gson.Gson;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.eventModel.ActivityEvent;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.eventModel.ProductEvent;
 import com.softtek.lai.module.home.eventModel.SaleEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.net.HomeService;
-import com.softtek.lai.utils.ACache;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -37,11 +33,9 @@ import zilla.libcore.util.Util;
 public class HomeInfoImpl implements IHomeInfoPresenter {
 
     private HomeService homeService;
-    private ACache aCache;
 
     public HomeInfoImpl(Context context) {
         homeService = ZillaApi.NormalRestAdapter.create(HomeService.class);
-        aCache = ACache.get(context, Constants.HOME_CACHE_DATA_DIR);
     }
 
     @Override
@@ -53,7 +47,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
                 int status = data.getStatus();
                 switch (status) {
                     case 200:
-                        aCache.put(Constants.HOEM_ACACHE_KEY, new Gson().toJson(new HomeInfoCache(data.getData())));
                         EventBus.getDefault().post(new HomeEvent(data.getData()));
                         break;
                     default:
@@ -109,12 +102,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
 
     @Override
     public List<HomeInfoModel> loadActivityCacheDate(String key) {
-        String json = aCache.getAsString(key);
-        if (json != null && !json.equals("")) {
-            Gson gson = new Gson();
-            HomeInfoCache infoCache = gson.fromJson(json, HomeInfoCache.class);
-            return infoCache.getInfos();
-        }
         return null;
     }
 

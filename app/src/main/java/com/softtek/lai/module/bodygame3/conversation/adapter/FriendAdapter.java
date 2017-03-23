@@ -114,22 +114,22 @@ public class FriendAdapter extends BaseAdapter {
             int classRole = friendModel.getClassRole();//班级角色：1：开班教练，2：组别教练， 3：组别助教 4：学员
             String classRole_name = "";
             if (1 == classRole) {
-                classRole_name = "总教练";
+                classRole_name = "（"+"总教练"+")";
             } else if (2 == classRole) {
-                classRole_name = "教练";
+                classRole_name = "（"+"教练"+"）";
             } else if (3 == classRole) {
-                classRole_name = "助教";
+                classRole_name = "（"+"助教"+"）";
             } else if (4 == classRole) {
-                classRole_name = "学员";
+                classRole_name = "（"+"学员"+"）";
             } else {
-                classRole_name = "未知";
+                classRole_name = " ";
             }
 
-            holder.tv_role.setText("(" + classRole_name + ")");
+            holder.tv_role.setText( classRole_name );
 
             String className = "";
             if (TextUtils.isEmpty(friendModel.getClassName())) {
-                className = "未知";
+                className = " ";
             } else {
                 className = friendModel.getClassName();
             }

@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -47,7 +46,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_modify_person)
-public class ModifyPersonActivity extends BaseActivity implements View.OnClickListener {
+    public class ModifyPersonActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -69,6 +68,15 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
 
     @InjectView(R.id.rel_modofy_name)
     RelativeLayout rel_modofy_name;
+
+    @InjectView(R.id.tv_birth)
+    TextView tv_birth;
+
+    @InjectView(R.id.tv_height)
+    TextView tv_height;
+
+    @InjectView(R.id.tv_weight)
+    TextView tv_weight;
 
     @InjectView(R.id.img)
     ImageView img;
@@ -149,11 +157,11 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         model = UserInfoModel.getInstance().getUser();
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost");
-        Log.i("用户的头像是？==="+model.getPhoto());
         if (TextUtils.isEmpty(photo)) {
-            Picasso.with(this).load(R.drawable.img_default).into(img);
+            Picasso.with(this).load(R.drawable.img_default).placeholder(R.drawable.img_default).into(img);
         } else {
-            Picasso.with(this).load(path + photo).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img);
+            Picasso.with(this).load(path + photo).fit().placeholder(R.drawable.img_default).
+                    centerCrop().error(R.drawable.img_default).into(img);
         }
 
         if (TextUtils.isEmpty(model.getNickname())) {
@@ -171,12 +179,18 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         } else {
             text_sex.setText("");
         }
+        tv_birth.setText(model.getBirthday());
+        if (!TextUtils.isEmpty(model.getHight()))
+        {
+            tv_height.setText(model.getHight()+"cm");
+        }
+        tv_weight.setText(model.getWeight()+"斤");
 
     }
 
     @Override
     protected void initViews() {
-        tv_title.setText("个人信息");
+        tv_title.setText("详细资料");
     }
 
     @Override
@@ -186,16 +200,13 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
-
             case R.id.rel_modofy_name:
                 startActivity(new Intent(this, ModifyNameActivity.class));
                 break;
-
             case R.id.rel_modofy_photo:
                 if (TextUtils.isEmpty(photo)) {
                     //弹出dialog
@@ -229,7 +240,7 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
                                         ActivityCompat.requestPermissions(ModifyPersonActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
                                     }
                                 } else {
-                                    imageFileCropSelector.selectImage(ModifyPersonActivity.this);// 图库选择图片
+                                    imageFileCropSelector.selectSystemImage(ModifyPersonActivity.this);// 图库选择图片
                                 }
                             }
                         }

@@ -17,8 +17,6 @@ import com.softtek.lai.premission.Role;
 import com.softtek.lai.utils.ACache;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,6 +38,7 @@ public class UserInfoModel {
     private ACache classCache;
     private Role role;
     private boolean isVr=true;
+    private UserDao dao;
 
     private UserInfoModel(Context context){
         aCache=ACache.get(context,Constants.USER_ACACHE_DATA_DIR);
@@ -47,6 +46,7 @@ public class UserInfoModel {
         token=SharedPreferenceService.getInstance().get(Constants.TOKEN, "");
         //载入权限数据
         role=loadingRole(context);
+        dao=UserDao.getInstance();
     }
 
     private Role loadingRole(Context context){
@@ -91,20 +91,26 @@ public class UserInfoModel {
      * 退出登录
      */
     public void loginOut(){
+        clear();
+        JpushSet set = new JpushSet(LaiApplication.getInstance());
+        set.setAlias("");
+        MobclickAgent.onProfileSignOff();
+    }
+    /**
+     * 退出登录
+     */
+    public void clear(){
         //请出用户数据
-        setUser(null);
         token=null;
         //清除token
         SharedPreferenceService.getInstance().put("token", "");
         SharedPreferenceService.getInstance().put(Constants.USER, "");
         SharedPreferenceService.getInstance().put(Constants.PDW, "");
-        //清除本地用户
-        aCache.remove(Constants.USER_ACACHE_KEY);
-        classCache.remove(HeadGameFragment2.SAVE_CLASS);
-        JpushSet set = new JpushSet(LaiApplication.getInstance());
-        set.setAlias("");
-        MobclickAgent.onProfileSignOff();
+        SharedPreferenceService.getInstance().get(USER_ID,-1L);
         isVr=true;
+        //清除本地用户
+        setUser(null);
+        classCache.remove(HeadGameFragment2.SAVE_CLASS);
     }
     public long getUserId(){
         return SharedPreferenceService.getInstance().get(USER_ID,0L);
@@ -122,7 +128,7 @@ public class UserInfoModel {
         setToken(user.getToken());
         //存储本地
         aCache.remove(Constants.USER_ACACHE_KEY);
-        aCache.put(Constants.USER_ACACHE_KEY,user);
+        dao.saveUserOrUpdate(user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
         MobclickAgent.onProfileSignIn(user.getUserid());
     }
@@ -147,7 +153,8 @@ public class UserInfoModel {
         user.setHasEmchat("0");
         setUser(user);
         //存储本地
-        aCache.put(Constants.USER_ACACHE_KEY,user);
+        dao.saveUserOrUpdate(user);
+//        aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
         SharedPreferenceService.getInstance().put(USER_ID, Long.parseLong(user.getUserid()));
     }
@@ -216,7 +223,7 @@ public class UserInfoModel {
 
     public UserModel getUser() {
         if(user==null){
-            user= (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+            user=dao.queryUser(String.valueOf(getUserId()));
         }
         return user;
     }

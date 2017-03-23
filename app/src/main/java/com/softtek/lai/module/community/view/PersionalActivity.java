@@ -20,7 +20,9 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.DynamicRecyclerViewAdapter;
 import com.softtek.lai.module.community.eventModel.DeleteFocusEvent;
-import com.softtek.lai.module.community.eventModel.RefreshRecommedEvent;
+import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
+import com.softtek.lai.module.community.eventModel.FocusEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.model.PersonalListModel;
 import com.softtek.lai.module.community.model.PersonalRecommendModel;
 import com.softtek.lai.module.community.net.CommunityService;
@@ -34,8 +36,10 @@ import com.softtek.lai.widgets.LinearLayoutManagerWrapper;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -83,6 +87,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     private int total;
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +140,39 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
     }
 
     boolean isMine=false;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        personalId=Long.parseLong(intent.getStringExtra("personalId"));
+        if(personalId == UserInfoModel.getInstance().getUserId()){
+            cb_attention.setVisibility(View.GONE);
+            tv_title.setText("我");
+            UserModel user=UserInfoModel.getInstance().getUser();
+            if(user!=null){
+                tv_name.setText(StringUtil.showName(user.getNickname(),user.getMobile()));
+            }else {
+                tv_name.setText("我");
+            }
+            isMine=true;
+        }else {
+            String userName=intent.getStringExtra("personalName");
+            tv_title.setText(userName);
+            tv_name.setText(userName);
+            cb_attention.setVisibility(View.VISIBLE);
+            isMine=false;
+        }
+        tv_title.append("的动态");
+        isFocus=intent.getIntExtra("isFocus",0);
+        if(isFocus==0){
+            cb_attention.setChecked(false);
+        }else {
+            cb_attention.setChecked(true);
+        }
+        refresh.setRefreshing(true);
+        manager.getHealthyMine(personalId,1);
+    }
+
     @Override
     protected void initDatas() {
         personalId=Long.parseLong(getIntent().getStringExtra("personalId"));
@@ -188,7 +226,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 }else {
                     UserInfoModel infoModel = UserInfoModel.getInstance();
                     if (cb_attention.isChecked()) {
-                        EventBus.getDefault().post(new RefreshRecommedEvent(personalId + "", 1));
+                        EventBus.getDefault().post(new FocusEvent(personalId + "", 1,Where.PERSONAL_DYNAMIC_LIST));
                         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                                 .focusAccount(infoModel.getToken(),
                                         infoModel.getUserId(),
@@ -207,7 +245,7 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                                         });
 
                     } else {
-                        EventBus.getDefault().post(new RefreshRecommedEvent(personalId + "", 0));
+                        EventBus.getDefault().post(new FocusEvent(personalId + "", 0,Where.PERSONAL_DYNAMIC_LIST));
                         EventBus.getDefault().post(new DeleteFocusEvent(personalId+""));
                         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                                 .cancleFocusAccount(infoModel.getToken(),
@@ -229,7 +267,6 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
                 }
             }
         });
-
         refresh.setRefreshing(true);
         manager.getHealthyMine(personalId,1);
     }
@@ -299,4 +336,40 @@ public class PersionalActivity extends BaseActivity implements CommunityManager.
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void refreshList(FocusEvent event) {
+        if(event.getWhere()!=Where.PERSONAL_DYNAMIC_LIST){
+            if(personalId==Long.parseLong(event.getAccountId())){
+                isFocus=event.getFocusStatus();
+                if(isFocus==0){
+                    cb_attention.setChecked(false);
+                }else {
+                    cb_attention.setChecked(true);
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Subscribe
+    public void refreshListDelete(DeleteRecommedEvent event) {
+        if(event.getWhere()!= Where.PERSONAL_DYNAMIC_LIST){
+            Iterator<PersonalListModel> iterator=dynamics.iterator();
+            while (iterator.hasNext()){
+                PersonalListModel model=iterator.next();
+                if (model.getID().equals(event.getDynamicId())) {
+                    iterator.remove();
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
+
+        }
+    }
 }

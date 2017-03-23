@@ -144,5 +144,8 @@
     <dimen name="textSize9">5sp</dimen>
     <dimen name="textSize10">10sp</dimen>
     <dimen name="textSize12">9sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
+    <dimen name="head">70dp</dimen>
 </resources>

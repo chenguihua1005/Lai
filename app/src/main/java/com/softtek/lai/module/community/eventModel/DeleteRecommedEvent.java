@@ -7,9 +7,19 @@ package com.softtek.lai.module.community.eventModel;
 public class DeleteRecommedEvent {
 
     private String dynamicId;
+    private Where where;
 
-    public DeleteRecommedEvent(String dynamicId) {
+    public DeleteRecommedEvent(String dynamicId, Where where) {
         this.dynamicId = dynamicId;
+        this.where = where;
+    }
+
+    public Where getWhere() {
+        return where;
+    }
+
+    public void setWhere(Where where) {
+        this.where = where;
     }
 
     public String getDynamicId() {

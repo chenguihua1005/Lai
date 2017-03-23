@@ -44,10 +44,9 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_creatfile)
 public class CreatFlleActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener {
-    private List<String> gradeList = new ArrayList<String>();
-    private List<String> gradeIDList = new ArrayList<String>();
+    private List<String> gradeList = new ArrayList<>();
+    private List<String> gradeIDList = new ArrayList<>();
     private String select_grade = "";
-    private String grade_id = "";
     private ICreateFilepresenter ICreateFilepresenter;
 
     @LifeCircleInject
@@ -244,7 +243,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             }
 
             file.setNickname(nick);
-            file.setBrithday(birthday);
+            file.setBirthday(birthday);
             file.setGender(gender.equals("男") ? 0 : 1);
 
             String heights = height.split("cm")[0];
@@ -304,7 +303,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 if (np1.getValue() == myear && np2.getValue() == (mmonth + 1) && np3.getValue() > mday) {
                     show_warn_dialog();
                 } else {
-                    tv_birth.setText(String.valueOf(np1.getValue()) + "-" + String.valueOf(np2.getValue()) + "-" + String.valueOf(np3.getValue()));
+                    tv_birth.setText(String.valueOf(np1.getValue()) + "-"
+                            + (np2.getValue()<10?"0"+String.valueOf(np2.getValue())
+                            :String.valueOf(np2.getValue()))+ "-" + (np3.getValue()<10?"0"+String.valueOf(np3.getValue()):String.valueOf(np3.getValue())));
                     tv_birth.setError(null);
                 }
                 dialog.dismiss();
@@ -452,7 +453,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onSelected(int selectedIndex, String item) {
                 select_grade = item;
-                grade_id = gradeIDList.get(selectedIndex - 1);
             }
         });
         birdialog.setTitle("选择性别").setView(view)
@@ -461,7 +461,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         if ("".equals(select_grade)) {
                             select_grade = gradeList.get(0);
-                            grade_id = gradeIDList.get(0);
                         }
                         tv_sex.setText(select_grade);
                         tv_sex.setError(null);

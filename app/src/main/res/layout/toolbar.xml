@@ -13,13 +13,13 @@
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:gravity="center|left">
+        android:gravity="center"
+        android:background="@drawable/back_selector">
         <ImageView
             android:id="@+id/iv_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            />
+            android:src="@drawable/back" />
     </LinearLayout>
 
     <TextView
@@ -47,7 +47,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center|right"
-            android:text=""
             android:textColor="#ffffff"
             android:textSize="16sp"
             />

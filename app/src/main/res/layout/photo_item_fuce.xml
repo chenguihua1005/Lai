@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="90dp"
+    android:layout_height="90dp">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/black_bg"
+        android:layout_width="90dp"
+        android:layout_height="25dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:src="@drawable/fuce_phto_shadow" />
+
+    <TextView
+        android:id="@+id/weekth_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:paddingBottom="4dp"
+        android:paddingLeft="5dp"
+        android:text="aaa"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/img_select_button"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="2dp"
+        android:src="@drawable/circle_fuce_photo"
+        android:visibility="gone" />
+
+
+</FrameLayout>
+

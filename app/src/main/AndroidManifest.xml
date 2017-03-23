@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.softtek.lai">
 
-    <uses-sdk
+    <!--
+        <uses-sdk
         android:minSdkVersion="17"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="25" />
+    -->
 
     <permission
         android:name="com.softtek.lai.permission.JPUSH_MESSAGE"
@@ -102,31 +104,37 @@
             android:value="developer-default" />
 
         <!-- 正式 -->
-        <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="5728545a67e58ea7cf001701" />-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5728545a67e58ea7cf001701" />
         <!-- 测试 -->
+<!--
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="57d60ab167e58ec4f60000cb" />
+-->
 
         <!-- 正式 -->
-         <!--<meta-data-->
-             <!--android:name="JPUSH_APPKEY"-->
-             <!--android:value="1a3bbb691bfbfca0d0676e9f" />-->
+            <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="1a3bbb691bfbfca0d0676e9f" />
         <!-- 测试54 -->
+<!--
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="f04fa77453f2b3894d05b894" />
+-->
 
         <!-- 正式 -->
-        <!--<meta-data-->
-            <!--android:name="EASEMOB_APPKEY"-->
-            <!--android:value="herbalife#laiju" />-->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="herbalife#laiju" />
         <!-- uat设置环信应用的appkey -->
+<!--
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalifeuat#laiapp" />
+-->
 
         <!-- ============================================================================== -->
         <activity
@@ -162,7 +170,6 @@
             android:name=".chat.ui.SeceltGroupSentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".chat.ui.ContextMenuActivity"
             android:screenOrientation="portrait"
@@ -308,17 +315,11 @@
             android:name=".module.health.view.HealthyRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.community.view.EditPersonalDynamicActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.healthrecords.view.HealthEntryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.community.view.PreviewImageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.community.view.HealthyDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.message2.view.Message2Activity"
@@ -330,6 +331,21 @@
         <activity
             android:name=".module.bodygame3.history.view.ClassInfoActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".module.laijumine.view.MySettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.HealthyRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laijumine.view.FansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laijumine.view.FocusActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laiClassroom.KeywordsSearchActivity"
+            android:screenOrientation="portrait" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -599,6 +615,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.community.view.PersionalActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport2.view.LaiSportActivity"
@@ -710,10 +727,6 @@
             android:process=":picture"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygame3.head.view.VideomoreActivity"
-            android:configChanges="screenSize"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.bodygame3.head.view.GroupRankingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
@@ -751,13 +764,54 @@
         <activity
             android:name=".module.bodygame3.activity.view.PreViewPicActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame3.activity.view.ResetStuActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".module.bodygame3.activity.view.ResetStuActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.more.view.LoveStudentActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.more.view.SupportTeamActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.community.view.TopicListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.community.view.TopicDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".module.community.view.DynamicDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".picture.LookBigPicActivity"
+            android:process=":picture"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTransparent" />
+        <activity
+            android:name=".module.bodygame3.photowall.PhotoWall2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.more.view.SearchFriendActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".module.laiClassroom.ClassroomActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame3.more.view.FuceAlbumActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laiClassroom.ArticdetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laiClassroom.VideoDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTransparentStatus" />
+        <activity
+            android:name=".module.laiClassroom.SubjectdetailActivity"
             android:screenOrientation="portrait" />
     </application>
 

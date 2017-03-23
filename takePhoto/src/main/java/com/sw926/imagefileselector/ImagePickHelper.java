@@ -2,8 +2,10 @@ package com.sw926.imagefileselector;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,6 @@ class ImagePickHelper {
     private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 0x11;
 
     private Callback mCallback;
-//    private Context mContext;
 
     private WeakReference<Activity> mActivityWeakReference;
     private WeakReference<Fragment> mFragmentWeakReference;
@@ -36,38 +37,6 @@ class ImagePickHelper {
         mCallback = callback;
     }
 
-//    public void selectImage(Fragment fragment) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                mFragmentWeakReference = new WeakReference<>(fragment);
-//                fragment.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
-//
-//            } else {
-//                doSelect(fragment);
-//            }
-//        } else {
-//            doSelect(fragment);
-//        }
-//    }
-
-//    public void selectorImage(Activity activity) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                //申请WRITE_EXTERNAL_STORAGE权限
-//                mActivityWeakReference = new WeakReference<>(activity);
-//                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
-//
-//            } else {
-//                doSelect(activity);
-//            }
-//        } else {
-//            doSelect(activity);
-//        }
-//    }
 
     public void selectorMutilImage(Fragment fragment,int limit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -104,6 +73,38 @@ class ImagePickHelper {
             doSelect(activity,limit);
         }
 
+    }
+
+    public void selectorSystemImage(Activity activity){
+        mActivityWeakReference = new WeakReference<>(activity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                //申请WRITE_EXTERNAL_STORAGE权限
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
+
+            } else {
+                doSelect(activity);
+            }
+        } else {
+            doSelect(activity);
+        }
+    }
+    public void selectorSystemImage(Fragment fragment){
+        mFragmentWeakReference = new WeakReference<>(fragment);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                fragment.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        READ_EXTERNAL_STORAGE_REQUEST_CODE);
+
+            } else {
+                doSelect(fragment);
+            }
+        } else {
+            doSelect(fragment);
+        }
     }
 
     private void doSelect(Activity activity,int limit){
@@ -147,19 +148,25 @@ class ImagePickHelper {
         }
         if (requestCode == SELECT_PIC) {
             List<String> imgs=intent.getStringArrayListExtra("imgs");
-            if (mCallback != null) {
-                mCallback.onMutilSussess(imgs);
+            if(imgs!=null){
+                if (mCallback != null) {
+                    mCallback.onMutilSussess(imgs);
+                }
+            }else {
+                Uri uri = intent.getData();
+                Context context = null;
+                if(mActivityWeakReference!=null&&mActivityWeakReference.get()!=null){
+                    context=mActivityWeakReference.get();
+                }else if(mFragmentWeakReference!=null&&mFragmentWeakReference.get()!=null){
+                    context=mFragmentWeakReference.get().getContext();
+                }
+                if(context!=null){
+                    String path = Compatibility.getPath(context, uri);
+                    if (mCallback != null) {
+                        mCallback.onSystemImageSuccess(path);
+                    }
+                }
             }
-//            if(!isMutilSelected){
-//                Uri uri = intent.getData();
-//                String path = Compatibility.getPath(mContext, uri);
-//                if (mCallback != null) {
-//                    mCallback.onSuccess(path);
-//                }
-//
-//            }else {//是多选
-//
-//            }
         }
     }
 
@@ -191,6 +198,7 @@ class ImagePickHelper {
 
         void onMutilSussess(List<String> imgs);
 
+        void onSystemImageSuccess(String img);
         void onError();
     }
 

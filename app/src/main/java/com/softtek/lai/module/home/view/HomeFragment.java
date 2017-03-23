@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -46,6 +45,7 @@ import com.softtek.lai.module.home.model.ModelName;
 import com.softtek.lai.module.home.model.UnReadMsg;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
+import com.softtek.lai.module.laiClassroom.ClassroomActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.net.Message2Service;
@@ -181,7 +181,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         homeInfoPresenter = new HomeInfoImpl(getContext());
         models.add(new ModelName("体管赛",0));
         models.add(new ModelName("莱运动",0));
-        models.add(new ModelName("开发中",0));
+        models.add(new ModelName("莱课堂",0));
         models.add(new ModelName("开发中",0));
         models.add(new ModelName("开发中",0));
         modelAdapter = new ModelAdapter(getContext(),models);
@@ -295,7 +295,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
             // 提示新消息
-            Log.i("啊哈哈哈哈哈哈哈");
             int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
             Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
             msgIntent.putExtra("count", unreadNum);
@@ -316,16 +315,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         public void onMessageDelivered(List<EMMessage> list) {
 
         }
-
-//        @Override
-//        public void onMessageReadAckReceived(List<EMMessage> list) {
-//
-//        }
-//
-//        @Override
-//        public void onMessageDeliveryAckReceived(List<EMMessage> list) {
-//
-//        }
 
         @Override
         public void onMessageChanged(EMMessage emMessage, Object o) {
@@ -371,6 +360,9 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(), "LaiSportEvent");
                     break;
                 case Constants.LAI_CLASS:
+                    startActivity(new Intent(getContext(), ClassroomActivity.class));
+                    MobclickAgent.onEvent(getContext(), "LaiClassEvent");
+                    break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();

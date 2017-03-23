@@ -123,6 +123,17 @@ public interface ContactService {
             @Query("classId") String classId,
             Callback<ResponseData> callback
     );
+    //加好友(通讯录全局搜索)
+    @POST("/v1/HerbUser/SentFriendApply")
+    void doSentFriendApply(
+            @Header("token") String token,
+            @Header("classid") String CId,
+            @Query("senderId") long senderId,
+            @Query("receiverId") long receiverId,
+            @Query("classId") String classId,
+            @Query("from")int from,
+            Callback<ResponseData> callback
+    );
 
     // 移除好友
     @POST("/v1/HerbUser/RemoveFriend")

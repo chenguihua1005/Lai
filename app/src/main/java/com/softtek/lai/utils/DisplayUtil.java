@@ -12,6 +12,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.view.View;
+
+import com.github.snowdream.android.util.Log;
 
 /**
  * dp、sp 转换为 px 的工具类
@@ -80,6 +83,19 @@ public class DisplayUtil {
             }
         }
         return statusHeight;
+    }
+
+    /** 获取状态栏高度
+     * @param v
+     * @return
+     */
+    public static int getStatusBarHeight(View v) {
+        if (v == null) {
+            return 0;
+        }
+        Rect frame = new Rect();
+        v.getWindowVisibleDisplayFrame(frame);
+        return frame.top;
     }
 
     /**

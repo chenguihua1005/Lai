@@ -214,12 +214,21 @@
                 android:background="#e1e1e1" />
 
             <TextView
+                android:id="@+id/tip_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FDC36F"
+                android:textSize="13sp"
+                android:padding="15dp"/>
+
+            <TextView
                 android:id="@+id/tv_invitation"
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/bg_next_btn"
                 android:gravity="center"
                 android:text="给小伙伴发送邀请吧"

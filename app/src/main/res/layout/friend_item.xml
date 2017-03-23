@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
 
         <LinearLayout
@@ -70,17 +72,13 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="来自班级:" />
-
-                    <TextView
                         android:id="@+id/tv_classname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="复仇者联盟" />
+                        android:text="复仇者联盟"
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <LinearLayout

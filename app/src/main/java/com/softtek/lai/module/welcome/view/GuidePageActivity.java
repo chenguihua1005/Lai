@@ -50,7 +50,6 @@ public class GuidePageActivity extends BaseActivity implements OnPageChangeListe
     protected void initViews() {
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         LayoutInflater inflater = LayoutInflater.from(this);
-        //views = new ArrayList<View>();
         // 初始化引导图片列表
         views.add(inflater.inflate(R.layout.guideonelayout, null));
         views.add(inflater.inflate(R.layout.guidetwolayout, null));

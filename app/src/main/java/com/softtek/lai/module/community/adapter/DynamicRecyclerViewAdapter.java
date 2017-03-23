@@ -8,35 +8,47 @@ package com.softtek.lai.module.community.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.eventModel.DeleteRecommedEvent;
+import com.softtek.lai.module.community.eventModel.Where;
 import com.softtek.lai.module.community.model.PersonalListModel;
+import com.softtek.lai.module.community.model.TopicList;
 import com.softtek.lai.module.community.net.CommunityService;
-import com.softtek.lai.module.community.view.HealthyDetailActivity;
+import com.softtek.lai.module.community.view.DynamicDetailActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
-import com.softtek.lai.module.picture.view.PictureMoreActivity;
+import com.softtek.lai.module.community.view.TopicDetailActivity;
+import com.softtek.lai.picture.LookBigPicActivity;
+import com.softtek.lai.picture.bean.EaluationPicBean;
+import com.softtek.lai.picture.util.EvaluateUtil;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.TextViewExpandableAnimation;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,14 +102,66 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View v) {
                     if ("0".equals(model.getMinetype())) {//动态
-                        Intent logDetail = new Intent(context, HealthyDetailActivity.class);
-                        logDetail.putExtra("type", "1");
-                        logDetail.putExtra("logId", model.getID());
+                        Intent logDetail = new Intent(context, DynamicDetailActivity.class);
+                        logDetail.putExtra("dynamicId", model.getID());
                         context.startActivity(logDetail);
                     }
                 }
             });
-            ((ViewHolder) holder).tv_content.setText(model.getContent());
+            final String content=model.getContent();
+            SpannableStringBuilder builder=new SpannableStringBuilder(content);
+            if(model.getIsTopic()==1&&model.getTopicList()!=null){
+                /**
+                 * 0  1 2 3 4 5   6 7  8  9 10
+                 * 哈哈哈哈 # 金 彩 踢 馆 赛 #
+                 */
+                int from=0;
+                int lastIndex=content.lastIndexOf("#");
+                do {
+                    //先获取第一个#号出现的下标
+                    int firstIndex=content.indexOf("#",from);
+                    //然后获取下一个#号出现的位置
+                    int next=content.indexOf("#",firstIndex+1);
+                    if(next==-1){
+                        break;
+                    }
+                    //截取两个#号之间的字符
+                    String sub=content.substring(firstIndex+1,next);
+                    //将开始下标移动至下一个#号出现的位置
+                    from=next;
+                    for (final TopicList topic:model.getTopicList()){
+                        if(sub.equals(topic.getTopicName())){
+                            from=next+1;
+                            builder.setSpan(new ClickableSpan() {
+                                @Override
+                                public void onClick(View widget) {
+                                    Intent intent=new Intent(context, TopicDetailActivity.class);
+                                    intent.putExtra("topicId",topic.getTopicType());
+                                    context.startActivity(intent);
+                                }
+
+                                @Override
+                                public void updateDrawState(TextPaint ds) {
+                                    super.updateDrawState(ds);
+                                    ds.setColor(0xFFFFA202);
+                                    ds.setUnderlineText(false);//去除超链接的下划线
+                                }
+                            }, firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                            break;
+                        }
+                    }
+                }while (from<lastIndex);
+            }
+            ((ViewHolder) holder).tv_content.getTextView().setHighlightColor(ContextCompat.getColor(context,android.R.color.transparent));
+            ((ViewHolder) holder).tv_content.setText(builder);
+            ((ViewHolder) holder).tv_content.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
+            ((ViewHolder) holder).tv_content.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                @Override
+                public void onStateChange(boolean isShrink) {
+                    model.setOpen(!isShrink);
+                }
+            });
+            ((ViewHolder) holder).tv_content.resetState(!model.isOpen());
             int[] dates=DateUtil.getInstance().getDates(model.getCreateDate());
             if(position==0){//第一条
                 ((ViewHolder) holder).tv_month.setVisibility(View.VISIBLE);
@@ -138,20 +202,19 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             }
             ((ViewHolder) holder).tv_time.setText(dates[6]==0?"上午":"下午");
             ((ViewHolder) holder).tv_time.append(dates[3]+":"+(dates[4]<10?"0"+dates[4]:dates[4]));
-            final String[] imgs = model.getImgCollection().split(",");
-            ((ViewHolder) holder).photos.setAdapter(new PhotosAdapter(Arrays.asList(imgs), context));
-            final ArrayList<String> list = new ArrayList<>();
-            for (int i = 0; i < imgs.length; i++) {
-                list.add(imgs[i]);
-            }
+            final List<String> listImg=Arrays.asList(model.getImgCollection().split(","));
+            ((ViewHolder) holder).photos.setAdapter(new PhotosAdapter(listImg, context,new Object()));
             ((ViewHolder) holder).photos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    Intent in = new Intent(context, PictureMoreActivity.class);
-                    in.putStringArrayListExtra("images", list);
-                    in.putExtra("position", position);
-                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-                    ActivityCompat.startActivity( context, in, optionsCompat.toBundle());
+                    Intent intent = new Intent(context, LookBigPicActivity.class);
+                    Bundle bundle = new Bundle();
+                    List<EaluationPicBean> list= EvaluateUtil.setupCoords(context,(ImageView) v,listImg,position);
+                    bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
+                    intent.putExtras(bundle);
+                    intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
+                    context.startActivity(intent);
+                    ((AppCompatActivity) context).overridePendingTransition(0,0);
                 }
             });
             if(isMine&&"0".equals(model.getMinetype())){
@@ -169,7 +232,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                                                     @Override
                                                     public void success(ResponseData responseData, Response response) {
                                                         if (responseData.getStatus() == 200) {
-                                                            EventBus.getDefault().post(new DeleteRecommedEvent(model.getID()));
+                                                            EventBus.getDefault().post(new DeleteRecommedEvent(model.getID(), Where.PERSONAL_DYNAMIC_LIST));
                                                             infos.remove(model);
                                                             notifyDataSetChanged();
                                                             if(context instanceof PersionalActivity){
@@ -190,6 +253,7 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             }else {
                 ((ViewHolder) holder).tv_delete.setVisibility(View.GONE);
             }
+
             //将数据保存在itemView的Tag中，以便点击时进行获取
             /*holder.itemView.setTag(position);*/
         }
@@ -228,13 +292,14 @@ public class DynamicRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv_month,tv_time,tv_content,tv_delete;
+        public TextView tv_month,tv_time,tv_delete;
         public CustomGridView photos;
+        public TextViewExpandableAnimation tv_content;
 
         public ViewHolder(View view) {
             super(view);
             tv_month= (TextView) view.findViewById(R.id.tv_month);
-            tv_content= (TextView) view.findViewById(R.id.tv_content);
+            tv_content= (TextViewExpandableAnimation) view.findViewById(R.id.tv_content);
             tv_time= (TextView) view.findViewById(R.id.tv_time);
             tv_delete= (TextView) view.findViewById(R.id.tv_delete);
             photos= (CustomGridView) view.findViewById(R.id.photos);

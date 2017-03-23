@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactExpandableAdapter;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
@@ -37,6 +40,7 @@ import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.NewFriendActivity;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.more.view.SearchFriendActivity;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.io.Serializable;
@@ -61,6 +65,11 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @InjectView(R.id.list_contant)
     PullToRefreshExpandableListView list_contant;
@@ -106,6 +115,8 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
+        fl_right.setOnClickListener(this);
+        tv_right.setText("添加");
         tv_title.setText("通讯录");
         tip_search.setVisibility(View.GONE);
         search_hint.setText("请输入姓名或手机号进行搜索");
@@ -214,9 +225,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                     intent.putExtra("HXAccountId", model.getHXAccountId());
                     intent.putExtra("UserName", model.getUserName());
                     intent.putExtra("AFriendId", model.getAFriendId());
+                    intent.putExtra("comeFrom", Constants.FROM_CONTACT);
                     startActivity(intent);
                 } else {
-                    Util.toastMsg("会话功能开通中，请稍后再试");
+                    Util.toastMsg("网络异常，请重新登录后再试");
                 }
                 return false;
 
@@ -270,6 +282,9 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
             case R.id.ll_search:
                 Intent intent = new Intent(getContext(), ContactSearchActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.fl_right:
+                startActivity(new Intent(getContext(), SearchFriendActivity.class));
                 break;
         }
     }

@@ -6,21 +6,21 @@ package com.softtek.lai.common;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.common.mvp.BasePresenter;
+import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.utils.SystemBarTintManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -29,33 +29,29 @@ import java.lang.ref.WeakReference;
 import butterknife.ButterKnife;
 import zilla.libcore.Zilla;
 import zilla.libcore.lifecircle.LifeCircle;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.exit.AppExitLife;
 import zilla.libcore.ui.LayoutInjectUtil;
 
 /**
  * Created by zilla on 14/12/1.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView{
 
-    /**
-     * 生命周期管理
-     */
-    @LifeCircleInject
-    public AppExitLife lifeCicleExit;
     /**
      * Toobar
      */
+    public static String TAG;
     protected Toolbar mToolbar;
     protected SystemBarTintManager tintManager;
 
     protected ProgressDialog progressDialog;
+    private T presenter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+        TAG=getClass().getCanonicalName();
         setContentView(LayoutInjectUtil.getInjectLayoutId(this));
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
@@ -75,11 +71,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 //            Log.w("feelyou.info", "Could not access FLAG_NEEDS_MENU_KEY in addLegacyOverflowButton()", e);
 //        }
         ButterKnife.inject(this);
-        //LogManager.getManager(getApplicationContext()).registerActivity(this);
         initViews();
         initDatas();
         //有盟统计
-        MobclickAgent.setDebugMode(true);
+        MobclickAgent.setDebugMode(false);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
         Log.i("当前界面名称=" + getClass().getCanonicalName());
 
@@ -113,11 +108,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         return res;
     }
 
+    @Override
     public void dialogShow(String value) {
         if (progressDialog == null || !progressDialog.isShowing()) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setCanceledOnTouchOutside(false);
-            //progressDialog.setCancelable(false);
+//            progressDialog.setCancelable(false);
             progressDialog.setMessage(value);
             progressDialog.show();
         }
@@ -131,38 +127,36 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
+//            progressDialog.setCancelable(false);
             progressDialog.setMessage("载入中");
             progressDialog.show();
         }
     }
-
+    @Override
     public void dialogDissmiss() {
-        if (progressDialog != null) {
+        if (progressDialog != null&&progressDialog.isShowing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }
     }
 
+    public T getPresenter() {
+        return presenter;
+    }
+
+    public void setPresenter(T presenter) {
+        this.presenter = presenter;
+    }
+
+
     @Override
     protected void onDestroy() {
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
-        //LogManager.getManager(getApplicationContext()).unregisterActivity(this);
-        super.onDestroy();
-        //LaiApplication.getInstance().getContext().clear();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
+        if(presenter!=null){
+            presenter.recycle();
         }
-        return super.onOptionsItemSelected(item);
+        super.onDestroy();
     }
 
     protected void initToolbars() {
@@ -172,6 +166,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             mToolbar.setTitle("");
             mToolbar.setSubtitle("");
             mToolbar.setLogo(null);
+            //去除内间距
+            mToolbar.setContentInsetsAbsolute(0, 0);
             //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             setSupportActionBar(mToolbar);
 
@@ -181,22 +177,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initViews();
 
     protected abstract void initDatas();
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            //showPopupWindow();
-            //do something
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
 
 }

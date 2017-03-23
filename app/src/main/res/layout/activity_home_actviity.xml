@@ -1,77 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                tools:context=".module.home.view.HomeActviity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".module.home.view.HomeActviity">
 
     <android.support.v4.view.ViewPager
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="53dp">
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="53dp">
 
     </android.support.v4.view.ViewPager>
 
 
     <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/white"
-            android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <com.softtek.lai.widgets.SimpleButton
-                android:id="@+id/btn_home"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                app:normalBitmap="@drawable/rehome"
-                app:pitchBitmap="@drawable/home"
-                app:wx_alpha="true"
-                app:text="@string/home"
-                />
+            android:id="@+id/btn_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:normalBitmap="@drawable/rehome"
+            app:pitchBitmap="@drawable/home"
+            app:text="@string/home"
+            app:wx_alpha="true" />
 
         <com.softtek.lai.widgets.SimpleButton
-                android:id="@+id/btn_healthy"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                app:normalBitmap="@drawable/rehealthy"
-                app:pitchBitmap="@drawable/healthy"
-                app:wx_alpha="true"
-                app:text="健康圈"/>
+            android:id="@+id/btn_healthy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:normalBitmap="@drawable/ic_dynamic"
+            app:pitchBitmap="@drawable/ic_redynamic"
+            app:text="动态"
+            app:wx_alpha="true" />
 
         <com.softtek.lai.widgets.SimpleButton
-                android:id="@+id/btn_healthy_record"
-                android:layout_width="0dp"
-                android:layout_weight="1" 
-                android:layout_height="match_parent"
-                app:normalBitmap="@drawable/hrecord"
-                app:pitchBitmap="@drawable/rehrecord"
-                app:wx_alpha="true"
-                app:text="健康记录"/>
+            android:id="@+id/btn_healthy_record"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:normalBitmap="@drawable/ic_focus"
+            app:pitchBitmap="@drawable/ic_refocus"
+            app:text="关注"
+            app:wx_alpha="true" />
 
         <com.softtek.lai.widgets.SimpleButton
-                android:id="@+id/btn_mine"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                app:normalBitmap="@drawable/remine"
-                app:pitchBitmap="@drawable/mine"
-                app:wx_alpha="true"
-                app:text="@string/mine"/>
+            android:id="@+id/btn_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:normalBitmap="@drawable/ic_mine"
+            app:pitchBitmap="@drawable/ic_remine"
+            app:text="@string/mine"
+            app:wx_alpha="true" />
 
     </LinearLayout>
 
     <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignTop="@id/ll"
+        android:background="#c0c0c0" />
+    <RelativeLayout
+        android:id="@+id/rl_send"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="6dp"
+        android:background="#e1e1e1"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="发送"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_green_status"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:enabled="false"
+            android:layout_alignParentRight="true"/>
+        <EditText
+            android:id="@+id/et_input"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#c0c0c0"
-            android:layout_alignTop="@id/ll"/>
-
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_toLeftOf="@id/btn_send"
+            android:layout_marginRight="10dp" />
+    </RelativeLayout>
 </RelativeLayout>

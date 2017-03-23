@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:background="@drawable/ll_selector_grey"
+    android:descendantFocusability="blocksDescendants"
+    android:id="@+id/rl_single">
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="17dp"
+        android:text="如何正确理解体脂率"
+        android:textColor="@color/word"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/tv_hotnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_below="@id/tv_title"
+        android:drawableLeft="@drawable/hot_icon"
+        android:drawablePadding="2dp"
+        android:textColor="#a1a1a1"
+        android:textSize="10sp"
+        android:text="300" />
+    <com.softtek.lai.widgets.CommentTextView
+        android:id="@+id/tv_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/tv_title"
+        android:layout_toRightOf="@id/tv_hotnum"
+        android:layout_marginTop="12dp"
+        android:text="12课堂"
+        android:textColor="#75ba2b"
+        android:textSize="10sp" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true">
+        <ImageView
+            android:id="@+id/iv_single"
+            android:layout_width="114dp"
+            android:layout_height="74dp"
+            android:src="@drawable/default_icon_rect"
+            android:scaleType="centerCrop"
+            />
+        <ImageView
+            android:id="@+id/video_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/video_start"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+</RelativeLayout>

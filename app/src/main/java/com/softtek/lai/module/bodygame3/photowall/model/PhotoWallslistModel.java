@@ -1,5 +1,7 @@
 package com.softtek.lai.module.bodygame3.photowall.model;
 
+import com.softtek.lai.module.community.model.TopicList;
+
 import java.util.List;
 
 /**
@@ -23,6 +25,33 @@ public class PhotoWallslistModel {
     private List<String> ThumbnailPhotoList;//照片列表缩略图
     private int CommendsNum;//评论数
     private List<CommentModel> PhotoWallCommendsList;
+    private int CurrWeek;//第几体管周
+    private List<TopicList> TopicList;
+    private boolean isOpen;
+
+    public List<com.softtek.lai.module.community.model.TopicList> getTopicList() {
+        return TopicList;
+    }
+
+    public void setTopicList(List<com.softtek.lai.module.community.model.TopicList> topicList) {
+        TopicList = topicList;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public int getCurrWeek() {
+        return CurrWeek;
+    }
+
+    public void setCurrWeek(int currWeek) {
+        CurrWeek = currWeek;
+    }
 
     public String getThemeName() {
         return ThemeName;

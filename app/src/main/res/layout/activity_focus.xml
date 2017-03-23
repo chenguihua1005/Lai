@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_focus"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.softtek.lai.module.laijumine.view.FocusActivity">
+<include layout="@layout/toolbar"
+    android:id="@+id/toolbar"/>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/list_focus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:divider="@null"
+        >
+
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    <RelativeLayout
+        android:id="@+id/ll_nomessage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/toolbar">
+        <ImageView
+            android:id="@+id/im_nomessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/no_message"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+</RelativeLayout>

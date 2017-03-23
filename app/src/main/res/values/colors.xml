@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#7FAB11</color>
     <color name="colorPrimaryDark">#74BB2A</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#74BB2A</color>
     <color name="orange">#FFA101</color>
     <color name="sc_transparent_background">#ffffffff</color>
     <color name="mytoolbar_green">#74BB2A</color>
@@ -43,4 +43,7 @@
     <color name="comment_content">#333333</color>
     <color name="btn_grey_true">#a99f9f</color>
     <color name="btn_grey_false">#666666</color>
+    <color name="blue">#3E6790</color>
+    <color name="backPressTrue">#c64b8311</color>
+    <color name="backPressFalse">#0074BB2A</color>
 </resources>

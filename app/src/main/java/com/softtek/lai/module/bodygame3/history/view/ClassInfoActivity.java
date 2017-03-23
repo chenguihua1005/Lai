@@ -493,7 +493,6 @@ public class ClassInfoActivity extends BaseActivity {
                             wallsList.addAll(responseData.getData().getPhotoWallslist());
                             mInfoAdapter.notifyDataSetChanged();
 
-
                         } else if (responseData.getStatus() == 100) {
                             mRecyclerNoData.setVisibility(View.VISIBLE);
                         }

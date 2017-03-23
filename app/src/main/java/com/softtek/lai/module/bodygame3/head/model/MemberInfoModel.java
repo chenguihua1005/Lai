@@ -20,6 +20,33 @@ public class MemberInfoModel {
     private String IsFocus;//是否关注（true关注，false未关注）
     private String IsFriend;//是否为好友（1.是）
     private String AFriendId;//好友关系id
+    private String ClassId;//班级ID
+    private int IsCurrClass;//是否是当前班级 1：当前班级	0：往期班级	-1：无班级
+    private String ClassName;//班级名称
+
+    public String getClassName() {
+        return ClassName;
+    }
+
+    public void setClassName(String className) {
+        ClassName = className;
+    }
+
+    public int getIsCurrClass() {
+        return IsCurrClass;
+    }
+
+    public void setIsCurrClass(int isCurrClass) {
+        IsCurrClass = isCurrClass;
+    }
+
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
 
     public String getAFriendId() {
         return AFriendId;

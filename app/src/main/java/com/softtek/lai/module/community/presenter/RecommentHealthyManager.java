@@ -23,10 +23,9 @@ public class RecommentHealthyManager {
     }
 
     public void getRecommendDynamic(long accountId,int pageIndex) {
-        service.getrecommendHealthyContent(accountId,pageIndex,new RequestCallback<ResponseData<HealthyRecommendModel>>() {
+        service.getDynamicList(accountId,pageIndex,10,new RequestCallback<ResponseData<HealthyRecommendModel>>() {
             @Override
             public void success(ResponseData<HealthyRecommendModel> listResponseData, Response response) {
-                //Log.i(listResponseData.toString());
                 if(cb!=null){
                     cb.getRecommendDynamic(listResponseData.getData());
                 }

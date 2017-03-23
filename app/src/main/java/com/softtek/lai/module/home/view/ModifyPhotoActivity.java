@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -128,7 +127,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
                             e.printStackTrace();
                         }
                     }
-
                     @Override
                     public void failure(RetrofitError error) {
                         dialogDissmiss();
@@ -145,7 +143,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-
         model = UserInfoModel.getInstance().getUser();
         photo = model.getPhoto();
         String path = AddressManager.get("photoHost");
@@ -153,7 +150,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
                 .resize(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileHeight(this)).centerInside()
                 .placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_image);
     }
-
     @Override
     public void onClick(View v) {
 
@@ -187,7 +183,7 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectImage(ModifyPhotoActivity.this);
+                            imageFileCropSelector.selectSystemImage(ModifyPhotoActivity.this);
                         }
                     }
                 }).create().show();

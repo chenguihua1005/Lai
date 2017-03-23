@@ -1,7 +1,9 @@
 package com.softtek.lai.module.home.view;
 
 
-import android.app.ProgressDialog;
+import android.content.Intent;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -76,6 +78,9 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         edit_password.setText("");
         edit_account.setText("");
         setData();
+
+        Intent intent=new Intent(this, HomeActviity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -102,7 +107,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     private void setData() {
         model = UserInfoModel.getInstance().getUser();
-        if (model.getCertTime() == null || "".equals(model.getCertTime())) {
+        if (TextUtils.isEmpty(model.getCertTime())) {
             text_time.setText("");
         } else {
             text_time.setText("(上次认证时间：" + model.getCertTime().split(" ")[0] + ")");
@@ -117,6 +122,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
                 validateLife.validate();
                 break;
             case R.id.ll_left:
+                startActivity(new Intent(this, HomeActviity.class));
                 finish();
                 break;
         }
@@ -128,10 +134,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
         String memberId = edit_account.getText().toString();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("认证中...");
-        progressDialog.show();
+        dialogShow("认证中...");
         loginPresenter.alidateCertification(memberId, password, account, progressDialog);
     }
 
@@ -150,6 +153,15 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         return super.dispatchTouchEvent(ev);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            startActivity(new Intent(this, HomeActviity.class));
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);

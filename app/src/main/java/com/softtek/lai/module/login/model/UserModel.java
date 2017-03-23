@@ -20,11 +20,12 @@ public class UserModel implements Serializable {
     private String nickname;
     private String gender;
     private String weight;
-    private String height;
+    private String hight;
     private String Photo;
     private String Certification;
     private String CertTime;
     private String Mobile;
+    private String birthday;
     private String IsJoin;//是否加入跑团
     private String TodayStepCnt;//当天最新步数
     private String IsCreatInfo;//该用户是否创建过档案
@@ -32,22 +33,43 @@ public class UserModel implements Serializable {
     private String HasEmchat;//0：未注册，1：已注册
     private int HasThClass;//0无班级，1有班级
     private int DoingClass;//0没有进行中的班级,1有
+    private boolean exit;
 
+
+    public boolean getExit() {
+        return exit;
+    }
+
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
+
+    public String getHight() {
+        return hight==null?"":hight;
+    }
+
+    public void setHight(String height) {
+        this.hight = height;
+    }
+
+    public String getBirthday() {
+        return birthday==null?"":birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
     public String getRoleName() {
-        return RoleName;
+        return RoleName==null?"":RoleName;
     }
 
     public void setRoleName(String roleName) {
         RoleName = roleName;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
     public String getHXAccountId() {
-        return HXAccountId;
+        return HXAccountId==null?"":HXAccountId;
     }
 
     public void setHXAccountId(String HXAccountId) {
@@ -55,7 +77,7 @@ public class UserModel implements Serializable {
     }
 
     public String getHasEmchat() {
-        return HasEmchat;
+        return HasEmchat==null?"0":HasEmchat;
     }
 
     public void setHasEmchat(String hasEmchat) {
@@ -70,7 +92,7 @@ public class UserModel implements Serializable {
     private boolean hasGender;
 
     public String getMobile() {
-        return Mobile;
+        return Mobile==null?"":Mobile;
     }
 
     public void setMobile(String mobile) {
@@ -78,7 +100,7 @@ public class UserModel implements Serializable {
     }
 
     public String getPhoto() {
-        return Photo;
+        return Photo==null?"":Photo;
     }
 
     public void setPhoto(String photo) {
@@ -86,7 +108,7 @@ public class UserModel implements Serializable {
     }
 
     public String getCertification() {
-        return Certification;
+        return Certification==null?"":Certification;
     }
 
     public void setCertification(String certification) {
@@ -94,7 +116,7 @@ public class UserModel implements Serializable {
     }
 
     public String getCertTime() {
-        return CertTime;
+        return CertTime==null?"":CertTime;
     }
 
     public void setCertTime(String certTime) {
@@ -102,7 +124,7 @@ public class UserModel implements Serializable {
     }
 
     public String getToken() {
-        return token;
+        return token==null?"":token;
     }
 
     public void setToken(String token) {
@@ -110,7 +132,7 @@ public class UserModel implements Serializable {
     }
 
     public String getUserid() {
-        return userid;
+        return userid==null?"":userid;
     }
 
     public void setUserid(String userid) {
@@ -118,7 +140,7 @@ public class UserModel implements Serializable {
     }
 
     public String getUserrole() {
-        return userrole;
+        return userrole==null?"":userrole;
     }
 
     public void setUserrole(String userrole) {
@@ -126,7 +148,7 @@ public class UserModel implements Serializable {
     }
 
     public String getNickname() {
-        return nickname;
+        return nickname==null?"":nickname;
     }
 
     public void setNickname(String nickname) {
@@ -146,23 +168,16 @@ public class UserModel implements Serializable {
     }
 
     public String getWeight() {
-        return weight;
+        return weight==null?"":weight;
     }
 
     public void setWeight(String weight) {
         this.weight = weight;
     }
 
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
 
     public String getIsJoin() {
-        return IsJoin;
+        return IsJoin==null?"0":IsJoin;
     }
 
     public void setIsJoin(String isJoin) {
@@ -170,7 +185,7 @@ public class UserModel implements Serializable {
     }
 
     public String getTodayStepCnt() {
-        return TodayStepCnt;
+        return TodayStepCnt==null?"0":TodayStepCnt;
     }
 
     public void setTodayStepCnt(String todayStepCnt) {
@@ -178,7 +193,7 @@ public class UserModel implements Serializable {
     }
 
     public String getIsCreatInfo() {
-        return IsCreatInfo;
+        return IsCreatInfo==null?"":IsCreatInfo;
     }
 
     public void setIsCreatInfo(String isCreatInfo) {
@@ -199,5 +214,33 @@ public class UserModel implements Serializable {
 
     public void setDoingClass(int doingClass) {
         DoingClass = doingClass;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "token='" + token + '\'' +
+                ", userid='" + userid + '\'' +
+                ", userrole='" + userrole + '\'' +
+                ", RoleName='" + RoleName + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", gender='" + gender + '\'' +
+                ", weight='" + weight + '\'' +
+                ", hight='" + hight + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Certification='" + Certification + '\'' +
+                ", CertTime='" + CertTime + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", IsJoin='" + IsJoin + '\'' +
+                ", TodayStepCnt='" + TodayStepCnt + '\'' +
+                ", IsCreatInfo='" + IsCreatInfo + '\'' +
+                ", HXAccountId='" + HXAccountId + '\'' +
+                ", HasEmchat='" + HasEmchat + '\'' +
+                ", HasThClass=" + HasThClass +
+                ", DoingClass=" + DoingClass +
+                ", exit=" + exit +
+                ", hasGender=" + hasGender +
+                '}';
     }
 }

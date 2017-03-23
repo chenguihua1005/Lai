@@ -3,11 +3,13 @@ package com.softtek.lai.module.community.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.model.DoZan;
+import com.softtek.lai.module.community.model.DynamicModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.model.ImageResponse;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.model.PersonalRecommendModel;
+import com.softtek.lai.module.community.model.TopicInfo;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -26,32 +28,52 @@ import retrofit.mime.TypedFile;
  */
 public interface CommunityService {
 
-    //获取推荐健康圈内容
-    @GET("/HealthyCircle/NewHealthRecommend")
-    void getrecommendHealthyContent(@Query("accountid")long accountId,
-                                    @Query("pageIndex")int pageIndex,
-                                    RequestCallback<ResponseData<HealthyRecommendModel>> callback);
+    //获取动态列表
+    @GET("/v1/HealthyCircle/GetDynamicList")
+    void getDynamicList(@Query("Loginaccid")long accountId,
+                        @Query("PageIndex")int pageIndex,
+                        @Query("PageSize")int pageSize,
+                        RequestCallback<ResponseData<HealthyRecommendModel>> callback);
+    //获取热门话题信息
+    @GET("/v1/HealthyCircle/GetHotTopicInfo")
+    void getHotTopicInfo(RequestCallback<ResponseData<TopicInfo>> callback);
 
-    //获取健康圈关注内容
-    @GET("/HealthyCircle/NewHealthMine")
-    void getHealthyMine(@Header("token")String token,
-                        @Query("loginaccid")long loginaccid,
+    //获取话题列表
+    @GET("/v1/HealthyCircle/GetTopicList")
+    void getTopicList(RequestCallback<ResponseData<List<TopicInfo>>> callback);
+
+    //获取某用户的发的动态列表
+    @GET("/V1/HealthyCircle/MinePhotoWalls")
+    void getHealthyMine(
+                        @Query("Loginaccid")long loginaccid,
                         @Query("accountid")long accountId,
-                        @Query("pageIndex")int pageIndex,
+                        @Query("PageIndex")int pageIndex,
+                        @Query("PageSize")int pageSize,
                         RequestCallback<ResponseData<PersonalRecommendModel>> callback);
-    //请求路径:Api/V1/HealthyCircle/CreatePhotoWall
+
     //保存我健康圈我的动态
-//    @POST("/HealthyCircle/GetReleaseDynamic")
     @POST("/V1/HealthyCircle/CreatePhotoWall")
     void saveDynamic(@Header("token")String token,
                      @Body CommunityModel model,
                      RequestCallback<ResponseData> callback);
 
-    //健康圈动态详情
-    @GET("/HealthyCircle/GetHealthDetail")
-    void getHealthyDynamciDetail(@Query("accountid")long accountId,
-                                 @Query("HealthId")String healthyId,
-                                 RequestCallback<ResponseData<HealthyDynamicModel>> callback);
+    //获取话题详情列表
+    @GET("/v1/HealthyCircle/GetTopicDetailList")
+    void getTopicDetail(@Query("Loginaccid")long accountId,
+                        @Query("TopicType")String topicId,
+                        @Query("PageIndex")int pageIndex,
+                        @Query("PageSize")int pageSize,
+                        RequestCallback<ResponseData<HealthyRecommendModel>> callback);
+    //获取话题详情封面
+    @GET("/v1/HealthyCircle/GetTopicCover")
+    void getTopicCover(@Query("TopicType")String topicId,
+                       RequestCallback<ResponseData<TopicInfo>> callback);
+
+    //获取动态详情
+    @GET("/V1/HealthyCircle/GetHealthDetial")
+    void getHealthyDynamciDetail(@Query("Loginaccid")long accountId,
+                                 @Query("Healthid")String healthyId,
+                                 RequestCallback<ResponseData<DynamicModel>> callback);
 
     //健康圈点赞
     @POST("/HealthyCircle/InsertThumbUp")
@@ -79,7 +101,7 @@ public interface CommunityService {
                      RequestCallback<ResponseData<List<ImageResponse2>>> callback);
 
     //删除动态
-    @POST("/HealthyCircle/DeleteHealth")
+    @POST("/V1/HealthyCircle/DeletePhotoWall")
     void deleteHealth(@Header("token")String token,
                       @Query("healthid") String healthId,
                       RequestCallback<ResponseData> callback);
@@ -98,9 +120,10 @@ public interface CommunityService {
                             @Query("focusaccid")long focusAccount,
                             RequestCallback<ResponseData> callback);
     //关注列表
-    @GET("/HealthyCircle/HealthFocus")
+    @GET("/v1/HealthyCircle/GetFocusDynamicList")
     void healthyFocus(@Header("token")String token,
-                      @Query("accountid")long accountId,
-                      @Query("pageIndex")int pageIndex,
+                      @Query("Loginaccid")long accountId,
+                      @Query("PageIndex")int pageIndex,
+                      @Query("PageSize")int pageSize,
                       RequestCallback<ResponseData<HealthyRecommendModel>> callback);
 }

@@ -1,6 +1,5 @@
 package com.softtek.lai.module.community.presenter;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
@@ -29,13 +28,12 @@ public class CommunityManager{
 
 
     public void getHealthyMine(long selectorUserId,int pageIndex) {
-        String token= UserInfoModel.getInstance().getToken();
         UserModel model=UserInfoModel.getInstance().getUser();
         if(model==null){
             return;
         }
         int accountId=Integer.parseInt(model.getUserid());
-        service.getHealthyMine(token,accountId,selectorUserId,pageIndex, new RequestCallback<ResponseData<PersonalRecommendModel>>() {
+        service.getHealthyMine(accountId,selectorUserId,pageIndex,10, new RequestCallback<ResponseData<PersonalRecommendModel>>() {
             @Override
             public void success(ResponseData<PersonalRecommendModel> listResponseData, Response response) {
 
@@ -51,12 +49,7 @@ public class CommunityManager{
     }
     public void getHealthyFocus(int pageIndex) {
         String token= UserInfoModel.getInstance().getToken();
-        UserModel model=UserInfoModel.getInstance().getUser();
-        if(model==null){
-            return;
-        }
-        int accountId=Integer.parseInt(model.getUserid());
-        service.healthyFocus(token,accountId,pageIndex, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
+        service.healthyFocus(token,UserInfoModel.getInstance().getUserId(),pageIndex,10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
             @Override
             public void success(ResponseData<HealthyRecommendModel> listResponseData, Response response) {
                 if(cb!=null)cb.getMineDynamic(listResponseData.getData());

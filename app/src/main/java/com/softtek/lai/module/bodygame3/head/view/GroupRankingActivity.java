@@ -15,6 +15,7 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.model.HonorGroupRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupRankingModel;
@@ -43,6 +44,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     private String SortTimeType = "ByWeek";
     private int WhichTime = 7;
     private String GroupId;
+
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -125,6 +127,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 if (honorGroupRankModel != null && i != honorGroupRankModel.getGrouplist().size()) {
                     Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
                     intent.putExtra("ClassId", ClassId);
+                    intent.putExtra("comeFrom", Constants.FROM_OLD_CLASS);
                     intent.putExtra("AccountId", Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()));
                     startActivity(intent);
                 }

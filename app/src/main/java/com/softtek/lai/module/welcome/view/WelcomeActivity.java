@@ -5,19 +5,15 @@
 package com.softtek.lai.module.welcome.view;
 
 import android.app.ActivityManager;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.RelativeLayout;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -28,7 +24,6 @@ import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -37,7 +32,6 @@ import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.DaemonService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.MD5;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -60,7 +54,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initViews() {
-        //overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         Constants.IS_LOGINIMG="0";
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
@@ -92,7 +85,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
             String token=UserInfoModel.getInstance().getToken();
             if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
-                UserInfoModel.getInstance().loginOut();
+                UserInfoModel.getInstance().clear();
                 Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -136,7 +129,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     intent.putExtra("token",token);
                                     finish();
                                     startActivity(intent);
-                                }else if(MD5.md5WithEncoder("000000").equals(password)){
+                                }/*else if(MD5.md5WithEncoder("000000").equals(password)){
                                     UserInfoModel.getInstance().setToken("");
                                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(WelcomeActivity.this)
                                             .setTitle(getString(R.string.login_out_title))
@@ -155,7 +148,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     Dialog dialog=dialogBuilder.create();
                                     dialog.setCancelable(false);
                                     dialog.show();
-                                }else {
+                                }*/else {
                                     finish();
                                     Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
                                     startActivity(start);
@@ -163,7 +156,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 }
                                 break;
                             default:
-                                UserInfoModel.getInstance().loginOut();
+                                UserInfoModel.getInstance().clear();
                                 Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -173,7 +166,12 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        UserInfoModel.getInstance().visitorLogin();
+                        UserModel user=UserInfoModel.getInstance().getUser();
+                        if(user!=null&&"1".equals(user.getIsJoin())){
+                            //启动计步器服务
+                            startService(new Intent(WelcomeActivity.this.getApplicationContext(), StepService.class));
+                            startService(new Intent(WelcomeActivity.this.getApplicationContext(), DaemonService.class));
+                        }
                         finish();
                         Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                         startActivity(intent);

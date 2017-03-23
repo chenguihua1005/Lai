@@ -12,7 +12,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.photowall.model.PublicDyModel;
 import com.softtek.lai.module.community.model.ImageResponse2;
-import com.softtek.lai.module.community.net.UploadImageService;
 import com.softtek.lai.module.community.net.UploadImageService2;
 import com.softtek.lai.module.picture.model.UploadImage;
 import com.softtek.lai.utils.RequestCallback;
@@ -89,7 +88,7 @@ public class PublicDynamicManager2 implements Runnable,UploadImageService2.Uploa
             }else{
                 model.setPhotos(photo.substring(0, photo.lastIndexOf(",")));
             }
-            Log.i("上传的图片"+model.getPhotos());
+            Log.i("上传的数据"+model.toString());
             Log.i("开始上传第二阶段");
             service.doCreatePhotoWall(token, model, new RequestCallback<ResponseData>() {
                 @Override
@@ -105,7 +104,6 @@ public class PublicDynamicManager2 implements Runnable,UploadImageService2.Uploa
                         progressDialog.dismiss();
                     }
                     Intent intent=((AppCompatActivity)context).getIntent();
-                    intent.putExtra("uploadImage",new UploadImage());
                     ((AppCompatActivity)context).setResult(-1,intent);
                     ((AppCompatActivity)context).finish();
                 }

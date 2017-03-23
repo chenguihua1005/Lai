@@ -5,19 +5,35 @@ package com.softtek.lai.module.bodygame3.head.model;
  */
 
 public class TuijianModel {
+//"VideoId": "19",
+//        "VideoType": "营养课程",
+//        "Photo": null,			————视频图片
+//        "Title": "8",
+//                "VideoUrl": "456.img",
+//                "ClickCount": 8,
 
      private String VideoId;
     private String VideoType;
     private String Photo;//视频图片
     private String Title;
     private String VideoUrl;
+    private int ClickCount;
 
-    public TuijianModel(String videoId, String videoType, String photo, String title, String videoUrl) {
+    public TuijianModel(String videoId, String videoType, String photo, String title, String videoUrl, int clickCount) {
         VideoId = videoId;
         VideoType = videoType;
         Photo = photo;
         Title = title;
         VideoUrl = videoUrl;
+        ClickCount = clickCount;
+    }
+
+    public int getClickCount() {
+        return ClickCount;
+    }
+
+    public void setClickCount(int clickCount) {
+        ClickCount = clickCount;
     }
 
     public String getVideoId() {

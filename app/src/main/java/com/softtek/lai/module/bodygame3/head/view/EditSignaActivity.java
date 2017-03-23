@@ -3,7 +3,9 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -52,6 +54,16 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
             }
         });
         bt_sina.setOnClickListener(this);
+        edit_content.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i==keyEvent.KEYCODE_ENTER)
+                {
+                    doPostService();
+                }
+                return false;
+            }
+        });
 
 
     }
@@ -65,30 +77,31 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_sina:
-
-                editSignaModel.setPName(edit_content.getText().toString());
-                headService.doCommitSina(UserInfoModel.getInstance().getToken(),editSignaModel, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        int status = responseData.getStatus();
-                        switch (status) {
-                            case 200:
-                                Util.toastMsg(responseData.getMsg());
-                                Intent intent = new Intent();
-                                intent.putExtra("sina", edit_content.getText().toString());
-                                setResult(RESULT_OK, intent);
-                                finish();
-                                break;
-                            default:
-                                Util.toastMsg(responseData.getMsg());
-                                break;
-                        }
-
-                    }
-                });
-
+                doPostService();
                 break;
         }
 
+    }
+    private void doPostService()
+    {
+        editSignaModel.setPName(edit_content.getText().toString().trim());
+        headService.doCommitSina(UserInfoModel.getInstance().getToken(),editSignaModel, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        Intent intent = new Intent();
+                        intent.putExtra("sina", edit_content.getText().toString());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+
+            }
+        });
     }
 }
