@@ -74,23 +74,17 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
     //初始化view
     private void initView() {
-//        LayoutInflater.from(mContext).inflate(R.layout.view_header,this,false);
         View.inflate(mContext, R.layout.view_header_subject, this);
         mViewPager = (ViewPager) findViewById(R.id.vp);
         mDotLl = (LinearLayout) findViewById(R.id.ll_dot);
         tv_subject_name= (TextView) findViewById(R.id.tv_subject_name);
         tv_hotclick= (TextView) findViewById(R.id.tv_hotclick);
 
+
         //让banner的高度是屏幕的1/4
         ViewGroup.LayoutParams vParams = mViewPager.getLayoutParams();
         vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.25);
         mViewPager.setLayoutParams(vParams);
-        tv_subject_name.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         mViewPager.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +100,7 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
     private void initData() {
         dotList = new ArrayList<ImageView>();
         mAdapter = new MyAdapter();
+
     }
 
     private void initListener() {
@@ -162,6 +157,9 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
         mAdapter = new MyAdapter();
         mViewPager.setAdapter(mAdapter);
+        tv_subject_name.setText(recommendModels.get(prePosition).getTopicName());
+        tv_hotclick.setText(String.valueOf(recommendModels.get(prePosition).getClicks()));
+
 
     }
 
@@ -288,14 +286,12 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
 
     @Override
     public void onPageSelected(int position) {
-        // if(dotList.size()>position){
         dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
         dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
         prePosition = position % dotList.size();
         tv_subject_name.setText(mNameList.get(prePosition));
         tv_hotclick.setText(mHotList.get(prePosition));
 
-        //}
     }
 
     @Override
@@ -312,7 +308,6 @@ public class RollHeaderViewT extends FrameLayout implements OnPageChangeListener
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-//        stopRoll();
     }
 }
 

@@ -45,7 +45,6 @@
         android:id="@+id/tv_subject_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12莱课堂"
         android:layout_gravity="center_vertical"
         android:textColor="#82AA4C"
         />
@@ -53,7 +52,6 @@
             android:id="@+id/tv_hotclick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="123"
             android:layout_marginLeft="10dp"
             android:drawableLeft="@drawable/hot_icon"
             android:drawablePadding="5dp"/>

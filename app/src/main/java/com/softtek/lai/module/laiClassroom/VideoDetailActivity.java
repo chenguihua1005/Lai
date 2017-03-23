@@ -62,6 +62,8 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     protected void initViews() {
         String videoImage = getIntent().getStringExtra("cover");
         String videoUrl = getIntent().getStringExtra("videoUrl");
+        videoUrl=videoUrl.replace("https://","http://");
+        Log.i("视频地址="+videoUrl);
         Picasso.with(this).load(videoImage).fit().placeholder(R.drawable.default_laiclass12).error(R.drawable.default_laiclass12).into(playerView.mPlayerThumb);
         playerView.init()
 //                .setSkipTip(1000*60*1)
