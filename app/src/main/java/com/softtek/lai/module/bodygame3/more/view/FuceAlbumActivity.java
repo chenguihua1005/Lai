@@ -141,7 +141,6 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
         account = getIntent().getStringExtra("account");
 
 
-
         if (String.valueOf(UserInfoModel.getInstance().getUserId()).equals(account)) {
             tv_right.setText("分享");
             fl_right.setEnabled(true);
@@ -381,24 +380,21 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
     private void setShare(final View v) {
         dialogShow("加载中");
 
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < fucePhotos.size(); i++) {
             FuceClassAlbumModel classAlbumModel = fucePhotos.get(i);
             total += classAlbumModel.getPhotoList().size();
             for (int j = 0; j < classAlbumModel.getPhotoList().size(); j++) {
                 FucePhotoModel fucePhotoModel = classAlbumModel.getPhotoList().get(j);
                 if (fucePhotoModel.isSelect()) {
+                    Log.i(TAG, "one item = " + fucePhotoModel.getACMId());
                     sb.append(fucePhotoModel.getACMId());
-                    if(j!=classAlbumModel.getPhotoList().size()-1){
-                        sb.append(",");
-                    }
+                    sb.append(",");
                 }
             }
         }
 
-
-        Log.i(TAG, "here =" + sb);
-
+        sb.deleteCharAt(sb.length() - 1);
 
         StudentService service = ZillaApi.NormalRestAdapter.create(StudentService.class);
         service.shareMeasurePhotos(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), sb.toString(), new Callback<ResponseData<FuceShareModel>>() {
@@ -415,6 +411,7 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                         url = responseData.getData().getShareLinkUrl();//分享链接
 
                         tv_right.setText("分享");
+                        tv_title.setText("复测相册");
                         show_photo_circle = false;
                         adapter.notifyDataSetChanged();
                         flag = 0;
