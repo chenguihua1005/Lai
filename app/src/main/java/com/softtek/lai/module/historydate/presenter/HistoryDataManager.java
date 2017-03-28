@@ -3,6 +3,8 @@ package com.softtek.lai.module.historydate.presenter;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.common.mvp.BasePresenter;
+import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.historydate.model.HistoryData;
 import com.softtek.lai.module.historydate.model.HistoryDataModel;
 import com.softtek.lai.module.historydate.model.ID;
@@ -19,14 +21,13 @@ import zilla.libcore.util.Util;
 /**
  * Created by jerry.guan on 4/20/2016.
  */
-public class HistoryDataManager {
+public class HistoryDataManager extends BasePresenter<HistoryDataManager.HistoryDataManagerCallback>{
 
     private HistoryDataService service;
     private String token;
-    private HistoryDataManagerCallback cb;
 
     public HistoryDataManager(HistoryDataManagerCallback cb) {
-        this.cb = cb;
+        super(cb);
         service = ZillaApi.NormalRestAdapter.create(HistoryDataService.class);
         token = UserInfoModel.getInstance().getToken();
     }
@@ -40,18 +41,25 @@ public class HistoryDataManager {
                     @Override
                     public void success(ResponseData<HistoryDataModel> historyDataModelResponseData, Response response) {
                         Log.i("历史数据" + historyDataModelResponseData);
+                        if(getView()!=null){
+                            getView().hidenPull();
+                        }
                         if (historyDataModelResponseData.getStatus() == 200) {
-                            cb.historyDataCallback(historyDataModelResponseData.getData());
+                            if(getView()!=null){
+                                getView().historyDataCallback(historyDataModelResponseData.getData());
+                            }
                         } else if (historyDataModelResponseData.getStatus() == 100) {
-                            cb.historyDataCallback(new HistoryDataModel("0", new ArrayList<HistoryData>()));
-                        } else {
-                            cb.historyDataCallback(null);
+                            if(getView()!=null){
+                                getView().historyDataCallback(new HistoryDataModel("0", new ArrayList<HistoryData>()));
+                            }
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        cb.historyDataCallback(null);
+                        if(getView()!=null){
+                            getView().hidenPull();
+                        }
                         super.failure(error);
 
                     }
@@ -64,27 +72,33 @@ public class HistoryDataManager {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.i(responseData.toString());
+                if(getView()!=null){
+                    getView().dialogDissmiss();
+                }
                 if (responseData.getStatus() == 200) {
-                    cb.deleteResult(true);
+                    if(getView()!=null){
+                        getView().deleteResult();
+                    }
                 } else {
                     Util.toastMsg(responseData.getMsg());
-                    cb.deleteResult(false);
                 }
 
             }
 
             @Override
             public void failure(RetrofitError error) {
+                if(getView()!=null){
+                    getView().dialogDissmiss();
+                }
                 super.failure(error);
-                cb.deleteResult(false);
             }
         });
     }
 
 
-    public interface HistoryDataManagerCallback {
+    public interface HistoryDataManagerCallback extends BaseView{
         void historyDataCallback(HistoryDataModel model);
-
-        void deleteResult(boolean result);
+        void deleteResult();
+        void hidenPull();
     }
 }
