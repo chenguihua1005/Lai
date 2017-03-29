@@ -615,7 +615,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         });
         TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
         //点击删除按钮
-        if(Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
+        if(String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())
+                ||Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
             tv_delete.setVisibility(View.VISIBLE);
             tv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -844,14 +845,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                             //拍照
                             if (ActivityCompat.checkSelfPermission(PhotoWallActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                    //允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                } else {
-                                    //不允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                }
+                                //允许弹出提示
+                                ActivityCompat.requestPermissions(PhotoWallActivity.this,new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                             } else {
                                 imageFileSelector.takePhoto(PhotoWallActivity.this);
                             }
@@ -881,8 +876,6 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        Log.i("旧的="+oldBottom);
-        Log.i("新的="+bottom);
         if(rl_send.getVisibility()==View.VISIBLE){
             if(oldBottom-bottom<0){
                 //键盘收起来

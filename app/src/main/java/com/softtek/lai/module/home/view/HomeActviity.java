@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -22,6 +23,7 @@ import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.softtek.lai.module.laijumine.view.FansActivity;
 import com.softtek.lai.module.laijumine.view.MineTwoFragment;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.SimpleButton;
