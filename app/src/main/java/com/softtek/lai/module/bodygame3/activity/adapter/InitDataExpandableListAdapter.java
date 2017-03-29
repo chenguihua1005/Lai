@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.view.FormData;
-import com.softtek.lai.module.health.view.DateForm;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -29,7 +28,7 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by lareina.qiao on 1/4/2017.
  */
-public class MyExpandableListAdapter implements ExpandableListAdapter {
+public class InitDataExpandableListAdapter implements ExpandableListAdapter {
     Context context;
     Activity activity;
     String filest,images;
@@ -39,8 +38,8 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     private FcStDataModel fcStDataModel;
 
 
-    public MyExpandableListAdapter(Activity activity,Context context,List<List<String>>childArray,FcStDataModel fcStDataModel,String filest,String images,int
-            isWhatePic,int firststatus,int IsEdit  )
+    public InitDataExpandableListAdapter(Activity activity, Context context, List<List<String>>childArray, FcStDataModel fcStDataModel, String filest, String images, int
+            isWhatePic, int firststatus, int IsEdit  )
     {
         this.activity=activity;
         this.context=context;
@@ -119,8 +118,6 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder.im_state= (ImageView) view.findViewById(R.id.im_state);
             holder.im_right5= (ImageView) view.findViewById(R.id.im_right5);
             holder.tv_retest_write_weekth= (TextView) view.findViewById(R.id.tv_retest_write_weekth);
-            holder.tv_data= (TextView) view.findViewById(R.id.tv_data);
-            holder.ll_data= (LinearLayout) view.findViewById(R.id.ll_data);
             view.setTag(holder);
         }else{
             holder = (GroupHolder)view.getTag();
@@ -133,16 +130,6 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 holder.group3.setVisibility(View.GONE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
                 holder.tv_write_nick.setText(fcStDataModel.getUserName());
-                if (IsEdit==1)
-                {
-                    holder.ll_data.setVisibility(View.VISIBLE);
-                    holder.tv_data.setText(fcStDataModel.getUpdateTips());
-                }
-                else
-                {
-                    holder.ll_data.setVisibility(View.GONE);
-
-                }
                 if (!TextUtils.isEmpty(fcStDataModel.getPhoto()))
                 {
                     Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getPhoto()).placeholder(R.drawable.img_default).centerCrop()
@@ -386,13 +373,11 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     class GroupHolder{
         public TextView groupName,tv_retest_write_weekth;
         public TextView tv_takepho_guide,tv_write_nick;
-        public TextView tv_data;
         public ImageView arrow,im_pic_icon,im_pic,iv_write_head,
                 im_state,im_right5;
         public LinearLayout group1;
         public LinearLayout group2;
         public LinearLayout group3;
-        public LinearLayout ll_data;
     }
 
     class ChildHolder{

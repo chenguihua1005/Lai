@@ -29,6 +29,7 @@ public class FcStDataModel implements Serializable {
     private String Img;//图片
     private String ImgThumbnail;//图片缩略图
     private String Status;
+    private String UpdateTips;
 
     @Override
     public String toString() {
@@ -55,7 +56,16 @@ public class FcStDataModel implements Serializable {
                 ", Img='" + Img + '\'' +
                 ", ImgThumbnail='" + ImgThumbnail + '\'' +
                 ", Status='" + Status + '\'' +
+                ", UpdateTips='" + UpdateTips + '\'' +
                 '}';
+    }
+
+    public String getUpdateTips() {
+        return UpdateTips;
+    }
+
+    public void setUpdateTips(String updateTips) {
+        UpdateTips = updateTips;
     }
 
     public String getStatus() {
