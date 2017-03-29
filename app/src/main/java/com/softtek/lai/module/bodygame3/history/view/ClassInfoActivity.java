@@ -226,24 +226,32 @@ public class ClassInfoActivity extends BaseActivity {
                         @Override
                         public void success(ResponseData<DynamicBean> responseData, Response response) {
                             isLoading = false;
-                            mInfoAdapter.notifyItemRemoved(mInfoAdapter.getItemCount());
-                            if (responseData.getStatus() == 200) {
-                                if (responseData.getData().getPhotoWallslist() != null) {
-                                    wallsList.addAll(responseData.getData().getPhotoWallslist());
+                            try {
+                                mInfoAdapter.notifyItemRemoved(mInfoAdapter.getItemCount());
+                                if (responseData.getStatus() == 200) {
+                                    if (responseData.getData().getPhotoWallslist() != null) {
+                                        wallsList.addAll(responseData.getData().getPhotoWallslist());
+                                    }
+                                    mInfoAdapter.notifyDataSetChanged();
+                                } else {
+                                    page--;
+                                    Util.toastMsg(responseData.getMsg());
                                 }
-                                mInfoAdapter.notifyDataSetChanged();
-                            } else {
-                                page--;
-                                Util.toastMsg(responseData.getMsg());
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
                             isLoading = false;
-                            mInfoAdapter.notifyItemRemoved(mInfoAdapter.getItemCount());
-                            if (mPull.isRefreshing()) {
-                                mPull.setRefreshing(false);
+                            try {
+                                mInfoAdapter.notifyItemRemoved(mInfoAdapter.getItemCount());
+                                if (mPull.isRefreshing()) {
+                                    mPull.setRefreshing(false);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                             super.failure(error);
                         }
@@ -353,26 +361,34 @@ public class ClassInfoActivity extends BaseActivity {
                         @SuppressLint("LongLogTag")
                         @Override
                         public void success(ResponseData<HistoryDetailsBean> responseData, Response response) {
-                            if (mPull.isRefreshing()) {
-                                mPull.setRefreshing(false);
-                            }
-                            if (responseData.getStatus() == 200) {
-                                initViewpager(responseData.getData());
-                                if (responseData.getData().getList_Top1() != null && !responseData.getData().getList_Top1().isEmpty()) {
-                                    initHonor(responseData.getData().getList_Top1());
-                                } else {
-                                    initFailedView();
+                            try {
+                                if (mPull.isRefreshing()) {
+                                    mPull.setRefreshing(false);
                                 }
+                                if (responseData.getStatus() == 200) {
+                                    initViewpager(responseData.getData());
+                                    if (responseData.getData().getList_Top1() != null && !responseData.getData().getList_Top1().isEmpty()) {
+                                        initHonor(responseData.getData().getList_Top1());
+                                    } else {
+                                        initFailedView();
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
-                            if (mPull.isRefreshing()) {
-                                mPull.setRefreshing(false);
+                            try {
+                                if (mPull.isRefreshing()) {
+                                    mPull.setRefreshing(false);
+                                }
+                                initViewpager(new HistoryDetailsBean());
+                                initFailedView();
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            initViewpager(new HistoryDetailsBean());
-                            initFailedView();
                             super.failure(error);
                         }
                     });
@@ -427,21 +443,29 @@ public class ClassInfoActivity extends BaseActivity {
                             new RequestCallback<ResponseData>() {
                                 @Override
                                 public void success(ResponseData responseData, Response response) {
-                                    if (responseData.getStatus() == 200) {
-                                        TextView commentText = new TextView(ClassInfoActivity.this);
-                                        String commentName = UserInfoModel.getInstance().getUser().getNickname();
-                                        SpannableString ss = new SpannableString(commentName + "：");
-                                        ss.setSpan(new ForegroundColorSpan(0xFF576A80), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                                        commentText.setText(ss);
-                                        commentText.append(mEdtComment.getText().toString());
-                                        mPersonCommentLayout.addView(commentText);
-                                        mEdtComment.setText("");
+                                    try {
+                                        if (responseData.getStatus() == 200) {
+                                            TextView commentText = new TextView(ClassInfoActivity.this);
+                                            String commentName = UserInfoModel.getInstance().getUser().getNickname();
+                                            SpannableString ss = new SpannableString(commentName + "：");
+                                            ss.setSpan(new ForegroundColorSpan(0xFF576A80), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            commentText.setText(ss);
+                                            commentText.append(mEdtComment.getText().toString());
+                                            mPersonCommentLayout.addView(commentText);
+                                            mEdtComment.setText("");
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
                                 }
 
                                 @Override
                                 public void failure(RetrofitError error) {
-                                    mEdtComment.setText("");
+                                    try {
+                                        mEdtComment.setText("");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                     Log.d("comment---------------", error.toString());
                                     super.failure(error);
                                 }
@@ -485,25 +509,33 @@ public class ClassInfoActivity extends BaseActivity {
                 new RequestCallback<ResponseData<DynamicBean>>() {
                     @Override
                     public void success(ResponseData<DynamicBean> responseData, Response response) {
-                        if (mPull.isRefreshing()) {
+                        try {
+                            if (mPull.isRefreshing()) {
+                                mPull.setRefreshing(false);
+                            }
                             mPull.setRefreshing(false);
-                        }
-                        mPull.setRefreshing(false);
-                        if (responseData.getStatus() == 200) {
-                            wallsList.addAll(responseData.getData().getPhotoWallslist());
-                            mInfoAdapter.notifyDataSetChanged();
+                            if (responseData.getStatus() == 200) {
+                                wallsList.addAll(responseData.getData().getPhotoWallslist());
+                                mInfoAdapter.notifyDataSetChanged();
 
-                        } else if (responseData.getStatus() == 100) {
-                            mRecyclerNoData.setVisibility(View.VISIBLE);
+                            } else if (responseData.getStatus() == 100) {
+                                mRecyclerNoData.setVisibility(View.VISIBLE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if (mPull.isRefreshing()) {
-                            mPull.setRefreshing(false);
+                        try {
+                            if (mPull.isRefreshing()) {
+                                mPull.setRefreshing(false);
+                            }
+                            mRecyclerNoData.setVisibility(View.VISIBLE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        mRecyclerNoData.setVisibility(View.VISIBLE);
                         super.failure(error);
                     }
                 });
