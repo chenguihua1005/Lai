@@ -67,6 +67,10 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
     @InjectView(R.id.tv_role_name)
     TextView tv_role_name;
 
+    @InjectView(R.id.group_total_tv)
+    TextView group_total_tv;
+
+
     EasyAdapter<ListGroupRankingModel> honorGroupRankAdapter;
     private List<ListGroupRankingModel> groupRankingModelList = new ArrayList<>();
 
@@ -99,7 +103,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 tv_group_name.setText(listGroupModel.getGroupName());
                 TextView tv_init = holder.getView(tv_init_weight);
-                String init = data.getInitWeight();
+                String init = TextUtils.isEmpty(data.getInitWeight()) ? "--" : data.getInitWeight();
                 if ("ByFatRatio".equals(ByWhichRatio)) {
                     tv_init.setText(getString(R.string.init_fat, init));
                 } else {
@@ -114,6 +118,10 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 }
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
                 tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_per) : getString(R.string.lose_fat_per));
+
+                TextView loss_tv = holder.getView(R.id.loss_tv);
+                loss_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "斤" : getString(R.string.lose_fat_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "%");
+
             }
         };
         list_group_ranking.setAdapter(honorGroupRankAdapter);
@@ -192,6 +200,10 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         groupRankingModelList.addAll(model.getGrouplist());
         honorGroupRankAdapter.notifyDataSetChanged();
         tv_ranking_date.setText(getString(R.string.ranking_date) + model.getStartDate() + "～" + model.getEndDate());
+
+        if (group_total_tv != null) {
+            group_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "( 总减重" + model.getTotalLoss() + "斤" + "  人均减重" + model.getAvgLoss() + "斤 )" : "( 总减脂" + model.getAvgLoss() + "%" + "  人均减脂" + model.getAvgLoss() + "%" + " )");
+        }
     }
 
     private void setImage(CircleImageView civ, String endUrl) {

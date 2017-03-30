@@ -9,6 +9,7 @@ public class ListTopModel {
     private String UserIconUrl;//用户头像
     private String Ranking;//排名
     private String LossPer;//减比
+    private String Loss;//减重、脂
 
     @Override
     public String toString() {
@@ -18,8 +19,18 @@ public class ListTopModel {
                 ", UserIconUrl='" + UserIconUrl + '\'' +
                 ", Ranking='" + Ranking + '\'' +
                 ", LossPer='" + LossPer + '\'' +
+                ", Loss='" + Loss + '\'' +
                 '}';
     }
+
+    public String getLoss() {
+        return Loss;
+    }
+
+    public void setLoss(String loss) {
+        Loss = loss;
+    }
+
 
     public String getUserId() {
         return UserId;
