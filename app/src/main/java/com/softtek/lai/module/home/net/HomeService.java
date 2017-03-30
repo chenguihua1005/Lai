@@ -9,10 +9,14 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.model.Version;
 import com.softtek.lai.utils.RequestCallback;
+import com.squareup.okhttp.ResponseBody;
 
 import retrofit.Callback;
+import retrofit.client.Response;
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.Streaming;
 
 import java.util.List;
 
@@ -31,4 +35,8 @@ public interface HomeService {
 
     @GET("/AppVisionLog/GetNewAppVisionInfo")
     void checkNew(RequestCallback<ResponseData<Version>> callback);
+
+    //下载最新apk
+    @GET("/UpFiles/apk/{apk}")
+    void downloadFile(@Path("apk")String apk,Callback<Response> callback);
 }

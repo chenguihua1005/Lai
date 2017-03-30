@@ -804,6 +804,7 @@
         <activity
             android:name=".module.laiClassroom.SubjectdetailActivity"
             android:screenOrientation="portrait" />
+        <service android:name=".module.home.service.UpdateService"/>
     </application>
 
 </manifest>
