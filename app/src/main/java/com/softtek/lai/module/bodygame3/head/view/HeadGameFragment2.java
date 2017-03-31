@@ -342,7 +342,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 }
                 String stu_id = partnersModel.getAccountId();
                 long stu_ids = Long.parseLong(stu_id);
-                Intent intent = new Intent(getContext(), PersonDetailActivity.class);
+                Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
                 intent.putExtra("AccountId", stu_ids);
                 intent.putExtra("ClassId", classId_first);
                 startActivity(intent);

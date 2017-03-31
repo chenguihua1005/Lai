@@ -18,7 +18,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity2;
 import com.softtek.lai.module.bodygame3.more.model.ServiceTeam;
 import com.softtek.lai.module.bodygame3.more.net.StudentService;
 import com.softtek.lai.utils.DisplayUtil;
@@ -111,7 +111,7 @@ public class SupportTeamActivity extends BaseActivity {
                             civ_head_image.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
+                                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity2.class);
                                     intent.putExtra("ClassId", classId);
                                     intent.putExtra("AccountId", serviceTeam.getCoachId());
                                     startActivity(intent);
@@ -247,7 +247,7 @@ public class SupportTeamActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Long waiterAccount = waiter.getWaiterAccount();
-                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity.class);
+                    Intent intent = new Intent(SupportTeamActivity.this, PersonDetailActivity2.class);
                     intent.putExtra("ClassId", classId);
                     intent.putExtra("AccountId", waiterAccount);
                     startActivity(intent);

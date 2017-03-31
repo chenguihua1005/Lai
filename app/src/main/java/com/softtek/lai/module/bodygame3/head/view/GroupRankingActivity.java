@@ -133,7 +133,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //不为null&&不让点击FooterView
                 if (honorGroupRankModel != null && i != honorGroupRankModel.getGrouplist().size()) {
-                    Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity.class);
+                    Intent intent = new Intent(GroupRankingActivity.this, PersonDetailActivity2.class);
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("comeFrom", Constants.FROM_OLD_CLASS);
                     intent.putExtra("AccountId", Long.parseLong(honorGroupRankModel.getGrouplist().get(i).getAccountId()));
