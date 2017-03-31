@@ -32,7 +32,7 @@ public class GroupRankingManager {
                 new Callback<ResponseData<HonorGroupRankModel>>() {
                     @Override
                     public void success(ResponseData<HonorGroupRankModel> honorGroupRankModelData, Response response) {
-                        int status = honorGroupRankModelData.getStatus();
+                        int status = ho norGroupRankModelData.getStatus();
                         switch (status) {
                             case 200:
                                 HonorGroupRankModel honorRankModel = honorGroupRankModelData.getData();

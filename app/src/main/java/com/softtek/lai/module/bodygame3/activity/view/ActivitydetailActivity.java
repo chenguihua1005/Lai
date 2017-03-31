@@ -22,7 +22,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
 import com.softtek.lai.module.bodygame3.activity.model.UseredModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
-import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity2;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
@@ -128,7 +128,7 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 UseredModel model = useredModels.get(i);
-                Intent intent = new Intent(ActivitydetailActivity.this, PersonDetailActivity.class);
+                Intent intent = new Intent(ActivitydetailActivity.this, PersonDetailActivity2.class);
                 intent.putExtra("AccountId", model.getUserId());
                 intent.putExtra("ClassId", model.getClassId());
                 startActivity(intent);
