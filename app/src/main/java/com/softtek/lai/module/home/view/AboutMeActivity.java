@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
@@ -78,37 +79,8 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
                     ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
                 }else {
                     //启动更新服务
+                    startService(new Intent(getApplicationContext(),UpdateService.class));
                 }
-                startService(new Intent(this,UpdateService.class));
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        downLoadFile(AddressManager.get("photoHost")+"apk/app-release_221.apk");
-//                    }
-//                }).start();
-//                ZillaApi.getCustomRESTAdapter(AddressManager.get("photoBase"), new RequestInterceptor() {
-//                    @Override
-//                    public void intercept(RequestFacade request) {
-//
-//                    }
-//                }).create(HomeService.class)
-//                        .downloadFile("app-release_221.apk",new Callback<Response>() {
-//                            @Override
-//                            public void success(Response responseBody, final Response response) {
-//                                Log.i("请求成功");
-//                                new Thread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        writeFile2Disk(response,createFile());
-//                                    }
-//                                }).start();
-//                            }
-//
-//                            @Override
-//                            public void failure(RetrofitError error) {
-//                                ZillaApi.dealNetError(error);
-//                            }
-//                        });
 //                ZillaApi.NormalRestAdapter.create(HomeService.class)
 //                        .checkNew(new RequestCallback<ResponseData<Version>>() {
 //                            @Override
@@ -127,6 +99,17 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
 
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100){
+            if(grantResults.length>0&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                startService(new Intent(getApplicationContext(),UpdateService.class));
+            }
+        }
+    }
+
     private void show(Version version){
         int v_code=DisplayUtil.getAppVersionCode(this);
         if(v_code<version.getAppVisionCode()){

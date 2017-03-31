@@ -3,10 +3,11 @@ package com.softtek.lai.module.home.service;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
@@ -39,17 +40,29 @@ public class UpdateService extends IntentService {
         super("test");
     }
 
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    int per=msg.arg1;
+                    updateNotification(per+"%",per);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
     /**
      * 更新通知
      */
-    private NotificationCompat.Builder builder;
     private NotificationManager nm;
     private void updateNotification(String per,int num) {
-        PendingIntent contentIntent = PendingIntent.getBroadcast(this,0,new Intent("com.soffteck.lai.step_notify"),0);
-        builder = new NotificationCompat.Builder(this);
-        builder.setPriority(Notification.PRIORITY_MAX)
-                .setContentIntent(contentIntent)
-                .setSmallIcon(R.mipmap.ic_launcher)
+//        PendingIntent contentIntent = PendingIntent.getBroadcast(this,0,new Intent("com.soffteck.lai.step_notify"),0);
+        NotificationCompat.Builder  builder = new NotificationCompat.Builder(this);
+        builder.setPriority(Notification.PRIORITY_HIGH)
+//                .setContentIntent(contentIntent)
+                .setSmallIcon(android.R.drawable.stat_sys_download_done)
                 .setOngoing(true);//设置不可清除
         //加载自定义布局
         RemoteViews contentView=new RemoteViews(getPackageName(),R.layout.notification_item);
@@ -78,9 +91,16 @@ public class UpdateService extends IntentService {
         super(name);
     }
 
+    private  void sendHandler(int per){
+        Message msg=new Message();
+        msg.what=1;
+        msg.arg1=per;
+        handler.sendMessage(msg);
+    }
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        updateNotification("0%",0);
+//        updateNotification("0%",0);
+        sendHandler(0);
         File file = createFile();
         try {
             URL url = new URL(AddressManager.get("photoHost") + "apk/app-release_221.apk");
@@ -126,11 +146,14 @@ public class UpdateService extends IntentService {
                 os.write(buff, 0, len);
                 currentLength += len;
                 double tempresult = currentLength*1.0d / total;
-                DecimalFormat df1 = new DecimalFormat("0.00"); // ##.00%
+                DecimalFormat df1 = new DecimalFormat("#0.00"); // ##.00%
                 // 百分比格式，后面不足2位的用0补齐
                 String result = df1.format(tempresult);
-                updateNotification((int) (Float.parseFloat(result) * 100) + "%",(int) (Float.parseFloat(result) * 100));
-                Log.i("vivi", "当前进度:" + tempresult);
+                int num=(int) (Float.parseFloat(result) * 100);
+                if(num%4==0){
+                    sendHandler(num);
+                }
+//                Log.i("vivi", "当前进度:" + result+"；已读取多少="+currentLength+"；总共"+total);
             }
             openFile(file);
         } catch (FileNotFoundException e) {
@@ -167,6 +190,8 @@ public class UpdateService extends IntentService {
     @Override
     public void onDestroy() {
         Log.i("更新服务结束啦啊啦啦啦");
+        stopForeground(true);
+        nm.cancelAll();
         super.onDestroy();
     }
 }
