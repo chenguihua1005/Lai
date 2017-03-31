@@ -804,6 +804,7 @@
         <activity
             android:name=".module.bodygame3.head.view.PersonDetailActivity2"
             android:screenOrientation="portrait" />
+        <service android:name=".module.home.service.UpdateService"/>
     </application>
 
 </manifest>
