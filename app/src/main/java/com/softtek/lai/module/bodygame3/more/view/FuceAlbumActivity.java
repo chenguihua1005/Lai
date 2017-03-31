@@ -326,7 +326,6 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
                         for (int j = 0; j < classAlbumModel.getPhotoList().size(); j++) {
                             FucePhotoModel fucePhotoModel = classAlbumModel.getPhotoList().get(j);
                             fucePhotoModel.setSelect(false);
-                            Log.i(TAG, "model =" + new Gson().toJson(fucePhotoModel));
                         }
                     }
                     show_photo_circle = false;
@@ -344,7 +343,6 @@ public class FuceAlbumActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getFuceAlbum(FuceAlbumModel model) {
-        Log.i(TAG, "接口获取数据 = " + new Gson().toJson(model));
         try {
             ptrlv.onRefreshComplete();
             if (model == null) {

@@ -2,10 +2,8 @@ package com.softtek.lai.module.bodygame3.love;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.common.ResponseData;
@@ -55,19 +53,26 @@ public class CurrentClassFrament extends LazyBaseFragment2 {
         service.getIntroducerList(classId,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, 1, new RequestCallback<ResponseData<List<LoverModel>>>() {
             @Override
             public void success(ResponseData<List<LoverModel>> listResponseData, Response response) {
-                setContentEmpty(false);
-                setContentShown(true);
-                Log.i(TAG, "获取数据 = " + new Gson().toJson(listResponseData));
-                loverModels.addAll(listResponseData.getData());
-                if (loverModels != null) {
-                    adapter.updateData(loverModels);
+                try {
+                    setContentEmpty(false);
+                    setContentShown(true);
+                    loverModels.addAll(listResponseData.getData());
+                    if (loverModels != null) {
+                        adapter.updateData(loverModels);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                setContentEmpty(true);
-                setContentShown(false);
+                try {
+                    setContentEmpty(true);
+                    setContentShown(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 super.failure(error);
             }
         });

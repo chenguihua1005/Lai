@@ -23,10 +23,8 @@ import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
-import android.text.TextUtils;
 import android.widget.RemoteViews;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -269,11 +267,14 @@ public class StepService extends Service implements SensorEventListener,TimeTick
             if(!isExit&&!isNextDay){//如果不是正常的情况下且不是跨天退出的则需要把中间的插值补上
                 String time=SharedPreferenceService.getInstance().get("recordTime","");
                 int phoneStep=SharedPreferenceService.getInstance().get("phoneStep",-1);
-                if (time.length()>0&&now.compareTo(time)==0&&phoneStep>0){//表示当天有记录过手机本身步数
+                //首先判断是否是同一天,只有是同一天的才会补足
+                if (phoneStep>=0&&now.compareTo(time)==0&&stepTemp>=phoneStep){
                     firstStep=firstStep-(stepTemp-phoneStep);
                 }
+
             }
         }
+        //first=first -temp;if step<first 123-1234
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
