@@ -21,9 +21,12 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.model.Version;
+import com.softtek.lai.module.home.net.HomeService;
 import com.softtek.lai.module.home.service.UpdateService;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import java.io.File;
@@ -37,7 +40,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import butterknife.InjectView;
-import zilla.libcore.file.AddressManager;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_about_me)
@@ -68,7 +72,6 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();

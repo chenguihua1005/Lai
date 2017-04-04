@@ -143,15 +143,13 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
     private ImageFileSelector imageFileSelector;
 
     private String classId;//班级id
-
-    //屏幕高度
-    private int screenHeight = 0;
+    private int classRole;
 
     @Override
     protected void initViews() {
-        screenHeight=DisplayUtil.getMobileHeight(this);
         //阀值设置为屏幕高度的1/3
         classId=getIntent().getStringExtra("classId");
+        classRole=getIntent().getIntExtra("classRole",-1);
         tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
         iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.camera));
@@ -613,8 +611,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
             }
         });
         TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
-        //点击删除按钮
-        if(String.valueOf(Constants.SP).equals(UserInfoModel.getInstance().getUser().getUserrole())
+        //点击删除按钮只有总教练或者自己发的动态才可以有删除功能
+        if(classRole==1
                 ||Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
             tv_delete.setVisibility(View.VISIBLE);
             tv_delete.setOnClickListener(new View.OnClickListener() {
