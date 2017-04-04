@@ -40,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
@@ -77,27 +78,28 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_right:
-                if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
-                }else {
-                    //启动更新服务
-                    startService(new Intent(getApplicationContext(),UpdateService.class));
-                }
-//                ZillaApi.NormalRestAdapter.create(HomeService.class)
-//                        .checkNew(new RequestCallback<ResponseData<Version>>() {
-//                            @Override
-//                            public void success(ResponseData<Version> versionResponseData, Response response) {
-//                                if(versionResponseData.getStatus()==200){
-//                                    Version version=versionResponseData.getData();
-//                                    try {
-//                                        show(version);
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }
-//                        });
+                dialogShow("检查版本");
+                ZillaApi.NormalRestAdapter.create(HomeService.class)
+                        .checkNew(new RequestCallback<ResponseData<Version>>() {
+                            @Override
+                            public void success(ResponseData<Version> versionResponseData, Response response) {
+                                dialogDissmiss();
+                                if(versionResponseData.getStatus()==200){
+                                    Version version=versionResponseData.getData();
+                                    try {
+                                        show(version);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
+                            }
+                        });
                 break;
 
         }
@@ -120,10 +122,14 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
             new AlertDialog.Builder(this)
                     .setTitle("版本有更新")
                     .setMessage(str)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("稍后更新",null)
+                    .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            if(hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                                //启动更新服务
+                                startService(new Intent(getApplicationContext(),UpdateService.class));
+                            }
                         }
                     }).create().show();
         }else {
@@ -136,6 +142,15 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
                         }
                     }).create().show();
         }
+    }
+
+    private boolean hasPermission(String permission){
+        if(ActivityCompat.checkSelfPermission(getApplicationContext(), permission)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{permission},100);
+            return false;
+        }
+        return true;
     }
 
     /**
