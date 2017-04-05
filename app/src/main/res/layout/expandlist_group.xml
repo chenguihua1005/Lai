@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +56,31 @@
                 />
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e6e6e6"/>
+            <TextView
+                android:id="@+id/tv_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="数据来源"
+                android:textColor="#74BB2A"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

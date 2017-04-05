@@ -11,6 +11,15 @@ public class Version {
     private int AppVisionId;
     private String AppVisionNum;
     private String UpdateTime;
+    private String AppFileUrl;
+
+    public String getAppFileUrl() {
+        return AppFileUrl;
+    }
+
+    public void setAppFileUrl(String appFileUrl) {
+        AppFileUrl = appFileUrl;
+    }
 
     public String getAppName() {
         return AppName;

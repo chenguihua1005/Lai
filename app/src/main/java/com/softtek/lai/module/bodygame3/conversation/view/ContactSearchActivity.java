@@ -15,14 +15,12 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
-import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity2;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -128,7 +126,7 @@ public class ContactSearchActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ChatContactModel model = contacts.get(i);
-                Intent intent = new Intent(ContactSearchActivity.this, PersonDetailActivity.class);
+                Intent intent = new Intent(ContactSearchActivity.this, PersonDetailActivity2.class);
                 intent.putExtra("isFriend", 1);//1： 好友
                 intent.putExtra("AccountId", model.getAccountId());
                 intent.putExtra("HXAccountId", model.getHXAccountId());

@@ -395,55 +395,53 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
     }
 
     private void doSetData() {
-        if (myinfomodel == null) {
-            return;
-        } else {
-            if (!TextUtils.isEmpty(myinfomodel.getSignature())) {
-                tv_editor_signature.setText(myinfomodel.getSignature());
-//                tv_editor_signature.setCompoundDrawables(null, null, null, null);
-            }
-            else {
-                tv_editor_signature.setText("编辑个性签名");
-//                Drawable drawable= getResources().getDrawable(R.drawable.edit_grey_icon);
-//                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
-//                tv_editor_signature.setCompoundDrawables(null,
-//                        null, drawable,
-//                        null);
-            }
-            if (!TextUtils.isEmpty(myinfomodel.getAcBanner())) {
-                Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).placeholder(R.drawable.default_icon_rect).fit().centerCrop().into(im_banner);
-            }
-            else {
-                Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
-            }
-            tv_dynum.setText(myinfomodel.getDynamicNum());
-            tv_guanzhunum.setText(myinfomodel.getFocusNum());
-            tv_fansnum.setText(myinfomodel.getLoveNum());
-            if (!TextUtils.isEmpty(myinfomodel.getRecordTime())) {
-                String[] date = myinfomodel.getRecordTime().split("-");
-                tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
-            }
-            if ("0".equals(myinfomodel.getLossLevel()))
-            {
-                tv_level.setText("暂无减重等级");
-            }
-            else {
-                tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
-            }
-            tv_sportlevelnum.setText("开发中，敬请期待");
-//            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
-            if ("0".equals(myinfomodel.getUnReadMsgNum()))
-            {
-                tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
-            }
-            else {
-                String strs="您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
-                int length=myinfomodel.getUnReadMsgNum().length();
-                SpannableStringBuilder style=new SpannableStringBuilder(strs);
-                style.setSpan(new ForegroundColorSpan(Color.RED),2,2+length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                tv_news.setText(style);
-            }
+        try {
+            if (myinfomodel == null) {
+                return;
+            } else {
+                if (!TextUtils.isEmpty(myinfomodel.getSignature())) {
+                    tv_editor_signature.setText(myinfomodel.getSignature());
+                }
+                else {
+                    tv_editor_signature.setText("编辑个性签名");
+                }
+                if (!TextUtils.isEmpty(myinfomodel.getAcBanner())) {
+                    Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).placeholder(R.drawable.default_icon_rect).fit().centerCrop().into(im_banner);
+                }
+                else {
+                    Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
+                }
+                tv_dynum.setText(myinfomodel.getDynamicNum());
+                tv_guanzhunum.setText(myinfomodel.getFocusNum());
+                tv_fansnum.setText(myinfomodel.getLoveNum());
+                if (!TextUtils.isEmpty(myinfomodel.getRecordTime())) {
+                    String[] date = myinfomodel.getRecordTime().split("-");
+                    tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
+                }
+                if ("0".equals(myinfomodel.getLossLevel()))
+                {
+                    tv_level.setText("暂无减重等级");
+                }
+                else {
+                    tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
+                }
+                tv_sportlevelnum.setText("开发中，敬请期待");
+    //            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
+                if ("0".equals(myinfomodel.getUnReadMsgNum()))
+                {
+                    tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
+                }
+                else {
+                    String strs="您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
+                    int length=myinfomodel.getUnReadMsgNum().length();
+                    SpannableStringBuilder style=new SpannableStringBuilder(strs);
+                    style.setSpan(new ForegroundColorSpan(Color.RED),2,2+length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tv_news.setText(style);
+                }
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

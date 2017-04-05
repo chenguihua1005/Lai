@@ -21,7 +21,7 @@ import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.PathUtil;
-import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity2;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -187,7 +187,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //头像点击事件
-        Intent intent = new Intent(getContext(), PersonDetailActivity.class);
+        Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
         intent.putExtra("HXAccountId",username);
         intent.putExtra("ClassId","");
         startActivity(intent);

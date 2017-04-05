@@ -342,7 +342,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 }
                 String stu_id = partnersModel.getAccountId();
                 long stu_ids = Long.parseLong(stu_id);
-                Intent intent = new Intent(getContext(), PersonDetailActivity.class);
+                Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
                 intent.putExtra("AccountId", stu_ids);
                 intent.putExtra("ClassId", classId_first);
                 startActivity(intent);
@@ -624,6 +624,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             case R.id.re_photowall:
                 Intent photowall = new Intent(getContext(), PhotoWallActivity.class);
                 photowall.putExtra("classId", classId_first);
+                if(saveclassModel!=null){
+                    photowall.putExtra("classRole",saveclassModel.getClassRole());
+                }
                 startActivityForResult(photowall, 1);
                 break;
             case R.id.honor_lin:
@@ -793,6 +796,12 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 for (int i = 0, j = classModels.size(); i < j; i++) {
                                     ClassModel model = classModels.get(i);
                                     if (model.getClassId().equals(saveClassModel.classId)) {
+                                        saveclassModel = new SaveclassModel();
+                                        saveclassModel.setClassName(classModels.get(i).getClassName());
+                                        saveclassModel.setClassCode(classModels.get(i).getClassCode());
+                                        saveclassModel.setClassId(classModels.get(i).getClassId());
+                                        saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
+                                        saveclassModel.setClassRole(classModels.get(i).getClassRole());
                                         tv_title.setSelected(i);
                                         classId_first = saveClassModel.classId;
                                         EventBus.getDefault().post(saveClassModel);
@@ -800,6 +809,12 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                     }
                                 }
                             } else {
+                                saveclassModel = new SaveclassModel();
+                                saveclassModel.setClassName(classModels.get(0).getClassName());
+                                saveclassModel.setClassCode(classModels.get(0).getClassCode());
+                                saveclassModel.setClassId(classModels.get(0).getClassId());
+                                saveclassModel.setClassWeek(classModels.get(0).getClassWeek());
+                                saveclassModel.setClassRole(classModels.get(0).getClassRole());
                                 saveClassModel = new SaveClassModel();
                                 saveClassModel.classId = classId_first;
                                 ACache.get(getContext(), SAVE_CLASS_DIR).put(SAVE_CLASS, saveClassModel);
