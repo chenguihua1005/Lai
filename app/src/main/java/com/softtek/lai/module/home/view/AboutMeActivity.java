@@ -110,12 +110,12 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==100){
             if(grantResults.length>0&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                startService(new Intent(getApplicationContext(),UpdateService.class));
+                UpdateService.startUpdate(getApplicationContext(),apkUrl);
             }
         }
     }
-
-    private void show(Version version){
+private String apkUrl;
+    private void show(final Version version){
         int v_code=DisplayUtil.getAppVersionCode(this);
         if(v_code<version.getAppVisionCode()){
             String str="莱聚+ v "+version.getAppVisionNum()+"版本\n最新的版本！请前去下载。\n更新于："+version.getUpdateTime();
@@ -126,9 +126,10 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
                     .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            apkUrl=version.getAppFileUrl();
                             if(hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                                 //启动更新服务
-                                startService(new Intent(getApplicationContext(),UpdateService.class));
+                                UpdateService.startUpdate(getApplicationContext(),version.getAppFileUrl());
                             }
                         }
                     }).create().show();
