@@ -503,7 +503,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 
     private void parseOriginalData() {
         Log.d("parseOriginalData", "进入上传服务器数据");
-        com.forlong401.log.transaction.log.manager.LogManager.getManager(getApplicationContext()).log("parseOriginalData", "进入上传服务器数据", 3);
+        Log.d("parseOriginalData", "进入上传服务器数据");
         int size = Integer.parseInt(mFrequency04Data.substring(4, 6), 16);//数据长度
         String data04 = mFrequency04Data.substring(8, 10 + size * 2 - 2);
         float weight = MathUtils.hexStrToFloat(MathUtils.calcSmallModeData(data04.substring(2, 10)));
