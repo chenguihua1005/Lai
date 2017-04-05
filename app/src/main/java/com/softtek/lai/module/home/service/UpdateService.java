@@ -186,7 +186,6 @@ public class UpdateService extends Service implements Runnable{
 
     @Override
     public void onDestroy() {
-        Log.i("更新服务结束啦啊啦啦啦");
         doing=false;
         stopForeground(true);
         nm.cancelAll();
