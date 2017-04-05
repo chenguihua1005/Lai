@@ -378,18 +378,21 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         civ_top1.setImageResource(R.drawable.img_default);
         tv_top1_name.setText("");
         tv_top1_per.setText(R.string.waiting);
+        tv_top1_loss.setText("");
     }
 
     private void setTop2Wating() {
         civ_top2.setImageResource(R.drawable.img_default);
         tv_top2_name.setText("");
         tv_top2_per.setText(R.string.waiting);
+        tv_top2_loss.setText("");
     }
 
     private void setTop3Wating() {
         civ_top3.setImageResource(R.drawable.img_default);
         tv_top3_name.setText("");
         tv_top3_per.setText(R.string.waiting);
+        tv_top3_loss.setText("");
     }
 
     @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})

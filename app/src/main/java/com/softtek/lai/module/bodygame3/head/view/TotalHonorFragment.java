@@ -188,7 +188,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
                 //减重、脂
                 TextView loss_total_tv = holder.getView(R.id.loss_total_tv);
-                loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + data.getLoss() + "斤" : "减脂" + data.getLoss()+ "%");
+                loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + data.getLoss() + "斤" : "减脂" + data.getLoss() + "%");
 
                 CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
                 setImage(civ_trainer_header, data.getCoachIco());
@@ -288,18 +288,21 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         civ_top1.setImageResource(R.drawable.img_default);
         tv_top1_name.setText("");
         tv_top1_per.setText(R.string.waiting);
+        tv_top1_jianzhong.setText("");
     }
 
     private void setTop2Wating() {
         civ_top2.setImageResource(R.drawable.img_default);
         tv_top2_name.setText("");
         tv_top2_per.setText(R.string.waiting);
+        tv_top2_jianzhong.setText("");
     }
 
     private void setTop3Wating() {
         civ_top3.setImageResource(R.drawable.img_default);
         tv_top3_name.setText("");
         tv_top3_per.setText(R.string.waiting);
+        tv_top3_jianzhong.setText("");
     }
 
     @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})

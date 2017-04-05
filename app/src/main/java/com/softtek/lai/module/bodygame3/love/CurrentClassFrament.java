@@ -2,6 +2,8 @@ package com.softtek.lai.module.bodygame3.love;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.softtek.lai.R;
@@ -21,6 +23,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 1/5/2017.
@@ -31,10 +34,13 @@ public class CurrentClassFrament extends LazyBaseFragment2 {
     private static final String TAG = "CurrentClassFrament";
 
     private LoverMemberAdapter adapter;
-    private List<LoverModel> loverModels;
+    private List<LoverModel> loverModels = new ArrayList<LoverModel>();
 
     @InjectView(R.id.currentClass_listview)
     ListView listview;
+
+    @InjectView(R.id.empty)
+    FrameLayout empty;
 
     public static Fragment getInstance(long accountId, String classId) {
         Fragment fragment = new CurrentClassFrament();
@@ -49,16 +55,30 @@ public class CurrentClassFrament extends LazyBaseFragment2 {
     protected void lazyLoad() {
         setEmptyText("暂无数据");
         LoverService service = ZillaApi.NormalRestAdapter.create(LoverService.class);
-        String classId=getArguments().getString("classId");
-        service.getIntroducerList(classId,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, 1, new RequestCallback<ResponseData<List<LoverModel>>>() {
+        String classId = getArguments().getString("classId");
+        service.getIntroducerList(classId, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, 1, new RequestCallback<ResponseData<List<LoverModel>>>() {
             @Override
             public void success(ResponseData<List<LoverModel>> listResponseData, Response response) {
                 try {
                     setContentEmpty(false);
                     setContentShown(true);
-                    loverModels.addAll(listResponseData.getData());
-                    if (loverModels != null) {
-                        adapter.updateData(loverModels);
+
+                    int status = listResponseData.getStatus();
+                    if (200 == status) {
+                        loverModels.clear();
+                        if (listResponseData.getData() != null) {
+                            loverModels.addAll(listResponseData.getData());
+                        }
+                        if (loverModels != null && loverModels.size() > 0) {
+                            listview.setVisibility(View.VISIBLE);
+                            empty.setVisibility(View.GONE);
+                            adapter.updateData(loverModels);
+                        } else {
+                            listview.setVisibility(View.GONE);
+                            empty.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        Util.toastMsg(listResponseData.getMsg());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
