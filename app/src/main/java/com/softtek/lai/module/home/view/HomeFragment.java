@@ -46,6 +46,7 @@ import com.softtek.lai.module.home.model.UnReadMsg;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
+import com.softtek.lai.module.laibalance.LaibalanceActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.net.Message2Service;
@@ -182,7 +183,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         models.add(new ModelName("体管赛",0));
         models.add(new ModelName("莱运动",0));
         models.add(new ModelName("莱课堂",0));
-        models.add(new ModelName("开发中",0));
+        models.add(new ModelName("莱秤",0));
         models.add(new ModelName("开发中",0));
         modelAdapter = new ModelAdapter(getContext(),models);
         gv_model.setAdapter(modelAdapter);
@@ -364,6 +365,9 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(), "LaiClassEvent");
                     break;
                 case Constants.LAI_EXCLE:
+                    startActivity(new Intent(getContext(), LaibalanceActivity.class));
+                    MobclickAgent.onEvent(getContext(),"BalanceEvent");
+                    break;
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
