@@ -36,9 +36,9 @@
                     android:id="@+id/tv_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:maxEms="4"
                     android:singleLine="true"
-                    android:ellipsize="end"
                     android:textColor="#333333"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -86,9 +86,9 @@
                     android:id="@+id/tv_trainer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:maxEms="6"
                     android:singleLine="true"
-                    android:ellipsize="end"
                     android:textColor="#424242"
                     android:textSize="11sp" />
 
@@ -162,14 +162,30 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:text="@string/group_ranking" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:text="@string/group_ranking" />
+
+            <TextView
+                android:id="@+id/group_total_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="#424242"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"

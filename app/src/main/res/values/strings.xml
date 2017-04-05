@@ -214,7 +214,9 @@
     <string name="physical_manage11">第十一体管周</string>
     <string name="physical_manage12">第十二体管周</string>
     <string name="lose_weight">减重比</string>
+    <string name="lose_weight_ratio">减重</string>
     <string name="lose_fat">减脂比</string>
+    <string name="lose_fat_ratio">减脂</string>
     <string name="lose_weight_per">减重比</string>
     <string name="lose_fat_per">减脂比</string>
     <string name="physical_manage_month1">第一体馆月</string>

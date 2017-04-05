@@ -15,6 +15,8 @@ public class ListGroupModel implements Serializable{
     private String LossPer;//减比
     private String CoachType;//
 
+    private String Loss;//减重、脂
+
     @Override
     public String toString() {
         return "ListGroupModel{" +
@@ -26,7 +28,16 @@ public class ListGroupModel implements Serializable{
                 ", Ranking='" + Ranking + '\'' +
                 ", LossPer='" + LossPer + '\'' +
                 ", CoachType='" + CoachType + '\'' +
+                ", Loss='" + Loss + '\'' +
                 '}';
+    }
+
+    public String getLoss() {
+        return Loss;
+    }
+
+    public void setLoss(String loss) {
+        Loss = loss;
     }
 
     public String getCoachType() {
