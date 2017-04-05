@@ -5,14 +5,17 @@
 
 package com.softtek.lai.module.home.view;
 
-import android.app.ProgressDialog;
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -43,8 +46,11 @@ import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.model.ModelName;
 import com.softtek.lai.module.home.model.UnReadMsg;
+import com.softtek.lai.module.home.model.Version;
+import com.softtek.lai.module.home.net.HomeService;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
+import com.softtek.lai.module.home.service.UpdateService;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -52,6 +58,7 @@ import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.module.sport2.view.LaiSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.RollHeaderView;
 import com.umeng.analytics.MobclickAgent;
@@ -121,7 +128,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     FragementAdapter fragementAdapter;
     private MessageReceiver mMessageReceiver;
     UserModel user;
-    private ProgressDialog progressDialog;
+
 
 
     @Override
@@ -167,9 +174,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 }
             }
         });
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
 
     }
 
@@ -187,7 +191,51 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         modelAdapter = new ModelAdapter(getContext(),models);
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
+
     }
+
+
+    private String apkUrl;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100){
+            if(grantResults.length>0&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                UpdateService.startUpdate(getContext().getApplicationContext(),apkUrl);
+            }
+        }
+    }
+
+    private void show(final Version version){
+        int v_code=DisplayUtil.getAppVersionCode(getContext());
+        if(v_code<version.getAppVisionCode()){
+            String str="莱聚+ v "+version.getAppVisionNum()+"版本\n最新的版本！请前去下载。\n更新于："+version.getUpdateTime();
+            new AlertDialog.Builder(getContext())
+                    .setTitle("版本有更新")
+                    .setMessage(str)
+                    .setNegativeButton("稍后更新",null)
+                    .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            apkUrl=version.getAppFileUrl();
+                            if(hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                                //启动更新服务
+                                UpdateService.startUpdate(getContext().getApplicationContext(),version.getAppFileUrl());
+                            }
+                        }
+                    }).create().show();
+        }
+    }
+
+    private boolean hasPermission(String permission){
+        if(ActivityCompat.checkSelfPermission(getContext().getApplicationContext(), permission)
+                != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{permission},100);
+            return false;
+        }
+        return true;
+    }
+
 
 
     @Subscribe
@@ -230,9 +278,32 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
     @Override
     protected void lazyLoad() {
+        //检查新版本更新
+        ZillaApi.NormalRestAdapter.create(HomeService.class)
+                .checkNew(new RequestCallback<ResponseData<Version>>() {
+                    @Override
+                    public void success(ResponseData<Version> versionResponseData, Response response) {
+                        dialogDissmiss();
+                        if(versionResponseData.getStatus()==200){
+                            Version version=versionResponseData.getData();
+                            try {
+                                show(version);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        super.failure(error);
+                    }
+                });
         //第一次加载自动刷新
         pull.setRefreshing(true);
         homeInfoPresenter.getHomeInfoData(pull);
+
     }
     private int laiNum;
     private int tiNum;
