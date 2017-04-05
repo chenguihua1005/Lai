@@ -1,12 +1,13 @@
 package com.softtek.lai.module.home.service;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
@@ -33,12 +34,8 @@ import zilla.libcore.file.AddressManager;
  * Created by jerry.guan on 3/30/2017.
  */
 
-public class UpdateService extends IntentService {
+public class UpdateService extends Service implements Runnable{
 
-
-    public UpdateService() {
-        super("test");
-    }
 
     Handler handler=new Handler(){
         @Override
@@ -82,24 +79,24 @@ public class UpdateService extends IntentService {
     }
 
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
-    public UpdateService(String name) {
-        super(name);
-    }
-
     private  void sendHandler(int per){
         Message msg=new Message();
         msg.what=1;
         msg.arg1=per;
         handler.sendMessage(msg);
     }
+
+    private boolean doing=false;
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-//        updateNotification("0%",0);
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if(!doing){
+            doing=true;
+            new Thread(this).start();
+        }
+        return super.onStartCommand(intent, flags, startId);
+    }
+    @Override
+    public void run() {
         sendHandler(0);
         File file = createFile();
         try {
@@ -117,6 +114,7 @@ public class UpdateService extends IntentService {
             e.printStackTrace();
         }
     }
+
 
     public File createFile() {
         File file;
@@ -153,7 +151,6 @@ public class UpdateService extends IntentService {
                 if(num%4==0){
                     sendHandler(num);
                 }
-//                Log.i("vivi", "当前进度:" + result+"；已读取多少="+currentLength+"；总共"+total);
             }
             openFile(file);
         } catch (FileNotFoundException e) {
@@ -178,20 +175,29 @@ public class UpdateService extends IntentService {
         }
     }
     private void openFile(File file) {
-        Log.e("OpenFile", file.getName());
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(android.content.Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(file),
                 "application/vnd.android.package-archive");
         startActivity(intent);
+        stopSelf();
     }
 
     @Override
     public void onDestroy() {
         Log.i("更新服务结束啦啊啦啦啦");
+        doing=false;
         stopForeground(true);
         nm.cancelAll();
         super.onDestroy();
     }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+
 }
