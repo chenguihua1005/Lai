@@ -118,7 +118,7 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
     private void show(Version version){
         int v_code=DisplayUtil.getAppVersionCode(this);
         if(v_code<version.getAppVisionCode()){
-            String str="莱聚+ v "+version.getAppVisionNum()+"版本\n新版本已发布快去应用市场更新吧！\n更新于："+version.getUpdateTime();
+            String str="莱聚+ v "+version.getAppVisionNum()+"版本\n最新的版本！请前去下载。\n更新于："+version.getUpdateTime();
             new AlertDialog.Builder(this)
                     .setTitle("版本有更新")
                     .setMessage(str)

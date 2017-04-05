@@ -3,14 +3,17 @@ package com.softtek.lai.module.home.service;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
+import android.text.TextUtils;
 import android.widget.RemoteViews;
 
 import com.github.snowdream.android.util.Log;
@@ -36,6 +39,13 @@ import zilla.libcore.file.AddressManager;
 
 public class UpdateService extends Service implements Runnable{
 
+    private static final String APK_URL="apkUrl";
+
+    public static void startUpdate(Context context,String apkUrl){
+        Intent intent = new Intent(context, UpdateService.class);
+        intent.putExtra(APK_URL,apkUrl);
+        context.startService(intent);
+    }
 
     Handler handler=new Handler(){
         @Override
@@ -43,7 +53,10 @@ public class UpdateService extends Service implements Runnable{
             switch (msg.what){
                 case 1:
                     int per=msg.arg1;
-                    updateNotification(per+"%",per);
+                    updateNotification(1,per+"%",per);
+                    break;
+                case 2:
+                    updateNotification(2,0+"%",0);
                     break;
             }
             super.handleMessage(msg);
@@ -54,7 +67,7 @@ public class UpdateService extends Service implements Runnable{
      * 更新通知
      */
     private NotificationManager nm;
-    private void updateNotification(String per,int num) {
+    private void updateNotification(int what,String per,int num) {
 //        PendingIntent contentIntent = PendingIntent.getBroadcast(this,0,new Intent("com.soffteck.lai.step_notify"),0);
         NotificationCompat.Builder  builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_HIGH)
@@ -63,7 +76,17 @@ public class UpdateService extends Service implements Runnable{
                 .setOngoing(true);//设置不可清除
         //加载自定义布局
         RemoteViews contentView=new RemoteViews(getPackageName(),R.layout.notification_item);
-        contentView.setTextViewText(R.id.notificationTitle, "正在下载");
+        String str="";
+        switch (what){
+            case 1:str="正在下载";
+                break;
+            case 2:str="最新apk链接异常";
+                break;
+            case 3:
+                str="下载失败";
+                break;
+        }
+        contentView.setTextViewText(R.id.notificationTitle, str);
         contentView.setTextViewText(R.id.notificationPercent, per);
         contentView.setProgressBar(R.id.notificationProgress, 100, num, false);
         builder.setContent(contentView);
@@ -79,34 +102,51 @@ public class UpdateService extends Service implements Runnable{
     }
 
 
-    private  void sendHandler(int per){
+    private  void sendHandler(int what,int per){
         Message msg=new Message();
-        msg.what=1;
+        msg.what=what;
         msg.arg1=per;
+        handler.sendMessage(msg);
+    }
+    private  void sendHandler(int what){
+        Message msg=new Message();
+        msg.what=what;
         handler.sendMessage(msg);
     }
 
     private boolean doing=false;
+    private String apkUrl;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(!doing){
             doing=true;
+            apkUrl=intent.getStringExtra(APK_URL);
             new Thread(this).start();
         }
         return super.onStartCommand(intent, flags, startId);
     }
     @Override
     public void run() {
-        sendHandler(0);
+        sendHandler(1,0);
+        if(TextUtils.isEmpty(apkUrl)){
+            sendHandler(2);
+            return;
+        }
         File file = createFile();
         try {
-            URL url = new URL(AddressManager.get("photoHost") + "apk/app-release_221.apk");
+            //AddressManager.get("photoHost") + "apk/app-release_221.apk"
+            URL url = new URL(apkUrl);
             try {
                 HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection();
                 InputStream is = conn.getInputStream();
                 conn.connect();
-                writeFile2Disk(is, file,conn.getContentLength());
+                if(conn.getResponseCode()==200){
+                    writeFile2Disk(is, file,conn.getContentLength());
+                }else {
+                    sendHandler(3);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,13 +158,14 @@ public class UpdateService extends Service implements Runnable{
 
     public File createFile() {
         File file;
-        String state = Environment.getExternalStorageState();
 
+        String state = Environment.getExternalStorageState();
+        String apkName= SystemClock.currentThreadTimeMillis()+"-com-soffteck-lai.apk";
         if (state.equals(Environment.MEDIA_MOUNTED)) {
 
-            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com-soffteck-lai.apk");
+            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +File.separator+ apkName);
         } else {
-            file = new File(getCacheDir().getAbsolutePath() + "/com-soffteck-lai.apk");
+            file = new File(getExternalCacheDir().getAbsolutePath() +File.separator+ apkName);
         }
         Log.i("vivi", "file " + file.getAbsolutePath());
 
@@ -149,7 +190,7 @@ public class UpdateService extends Service implements Runnable{
                 String result = df1.format(tempresult);
                 int num=(int) (Float.parseFloat(result) * 100);
                 if(num%4==0){
-                    sendHandler(num);
+                    sendHandler(1,num);
                 }
             }
             openFile(file);
