@@ -12,7 +12,26 @@ import java.util.List;
 public class HonorGroupRankModel {
     private String StartDate;
     private String EndDate;
+    private String TotalLoss;//总减重/脂
+    private String AvgLoss;//平均减重/脂
+
     private List<ListGroupRankingModel> grouplist;
+
+    public String getTotalLoss() {
+        return TotalLoss;
+    }
+
+    public void setTotalLoss(String totalLoss) {
+        TotalLoss = totalLoss;
+    }
+
+    public String getAvgLoss() {
+        return AvgLoss;
+    }
+
+    public void setAvgLoss(String avgLoss) {
+        AvgLoss = avgLoss;
+    }
 
     public String getStartDate() {
         return StartDate;
@@ -43,6 +62,8 @@ public class HonorGroupRankModel {
         return "HonorGroupRankModel{" +
                 "StartDate='" + StartDate + '\'' +
                 ", EndDate='" + EndDate + '\'' +
+                ", TotalLoss='" + TotalLoss + '\'' +
+                ", AvgLoss='" + AvgLoss + '\'' +
                 ", grouplist=" + grouplist +
                 '}';
     }

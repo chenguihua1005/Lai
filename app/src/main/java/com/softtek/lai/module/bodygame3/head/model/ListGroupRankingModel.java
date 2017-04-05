@@ -16,6 +16,16 @@ public class ListGroupRankingModel {
     private String InitWeight;
     private String Gender;
 
+    private String Loss;//减重/脂
+
+    public String getLoss() {
+        return Loss;
+    }
+
+    public void setLoss(String loss) {
+        Loss = loss;
+    }
+
     public String getNum() {
         return Num;
     }
@@ -82,6 +92,7 @@ public class ListGroupRankingModel {
                 ", LossPer='" + LossPer + '\'' +
                 ", InitWeight='" + InitWeight + '\'' +
                 ", Gender='" + Gender + '\'' +
+                ", Loss='" + Loss + '\'' +
                 '}';
     }
 }

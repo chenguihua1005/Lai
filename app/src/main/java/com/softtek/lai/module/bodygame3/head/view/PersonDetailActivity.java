@@ -477,9 +477,7 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 doGetPhotoView();//展示图片
             }
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

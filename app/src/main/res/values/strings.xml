@@ -214,7 +214,9 @@
     <string name="physical_manage11">第十一体管周</string>
     <string name="physical_manage12">第十二体管周</string>
     <string name="lose_weight">减重比</string>
+    <string name="lose_weight_ratio">减重</string>
     <string name="lose_fat">减脂比</string>
+    <string name="lose_fat_ratio">减脂</string>
     <string name="lose_weight_per">减重比</string>
     <string name="lose_fat_per">减脂比</string>
     <string name="physical_manage_month1">第一体馆月</string>
@@ -330,5 +332,6 @@
     <string name="title_activity_dynamic_detail">DynamicDetailActivity</string>
     <string name="tip">  我    温馨提示：莱聚+会自动向好友开放并允许其查看可能含有本人个人信息（隐私）的以下数据：包括但不限于体重、体脂、内脂、胸围、腰围、臀围、上臂围、大腿围、小腿围以及所有复测照片等，由此产生的法律后果由本人承担。</string>
 
+    <string name="select_device">选择蓝牙设备</string>
 
 </resources>

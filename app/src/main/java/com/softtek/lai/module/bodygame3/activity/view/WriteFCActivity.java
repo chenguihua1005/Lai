@@ -29,6 +29,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
@@ -98,7 +99,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     private List<String> child=new ArrayList<>();
     private List<String> child2=new ArrayList<>();
     private List<String> child3=new ArrayList<>();
-    MyExpandableListAdapter adapter;
+    InitDataExpandableListAdapter adapter;
 
 
     @Override
@@ -141,7 +142,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             public void onSuccess(String file) {
                 filest = file;
                 isExistP = 2;
-                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel
+                adapter=new InitDataExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel
                         ,filest,photoname,isExistP,firststatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
@@ -164,7 +165,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 file = new File(files.get(0));
                 filest = file.toString();
                 isExistP = 2;
-                adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel
+                adapter=new InitDataExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel
                         ,filest,photoname,isExistP,firststatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
@@ -350,7 +351,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             else {
                 isExistP=2;
             }
-            adapter=new MyExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus,IsEdit);
+            adapter=new InitDataExpandableListAdapter(WriteFCActivity.this,WriteFCActivity.this,childArray,fcStDataModel,filest,photoname,isExistP,firststatus,IsEdit);
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
             for (int i=0; i<groupCount; i++)
@@ -669,7 +670,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     photoname = fcStDataModel.getImg();
                 }
                 gender = fcStDataModel.getGender();
-                adapter= new MyExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,
+                adapter= new InitDataExpandableListAdapter(this,this,childArray,fcStDataModel,filest,photoname,
                         isExistP,firststatus,IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();

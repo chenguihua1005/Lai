@@ -119,6 +119,8 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
             holder.im_state= (ImageView) view.findViewById(R.id.im_state);
             holder.im_right5= (ImageView) view.findViewById(R.id.im_right5);
             holder.tv_retest_write_weekth= (TextView) view.findViewById(R.id.tv_retest_write_weekth);
+            holder.tv_data= (TextView) view.findViewById(R.id.tv_data);
+            holder.ll_data= (LinearLayout) view.findViewById(R.id.ll_data);
             view.setTag(holder);
         }else{
             holder = (GroupHolder)view.getTag();
@@ -131,6 +133,16 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                 holder.group3.setVisibility(View.GONE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
                 holder.tv_write_nick.setText(fcStDataModel.getUserName());
+                if (IsEdit==1)
+                {
+                    holder.ll_data.setVisibility(View.VISIBLE);
+                    holder.tv_data.setText(fcStDataModel.getUpdateTips());
+                }
+                else
+                {
+                    holder.ll_data.setVisibility(View.GONE);
+
+                }
                 if (!TextUtils.isEmpty(fcStDataModel.getPhoto()))
                 {
                     Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getPhoto()).placeholder(R.drawable.img_default).centerCrop()
@@ -374,11 +386,13 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     class GroupHolder{
         public TextView groupName,tv_retest_write_weekth;
         public TextView tv_takepho_guide,tv_write_nick;
+        public TextView tv_data;
         public ImageView arrow,im_pic_icon,im_pic,iv_write_head,
                 im_state,im_right5;
         public LinearLayout group1;
         public LinearLayout group2;
         public LinearLayout group3;
+        public LinearLayout ll_data;
     }
 
     class ChildHolder{

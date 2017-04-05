@@ -10,7 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.chat.EMGroup;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -19,13 +18,11 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.MemberAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberUtil;
-import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
-import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassListInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
-import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity2;
 import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.ArrayList;
@@ -111,7 +108,7 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
             group_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(GroupDetailsActivity.this, PersonDetailActivity.class);
+                    Intent intent = new Intent(GroupDetailsActivity.this, PersonDetailActivity2.class);
                     ClassMemberModel classMemberModel = memberAdapter.getItem(i);
 
                     intent.putExtra("isFriend", classMemberModel.getIsFriend());//1： 好友

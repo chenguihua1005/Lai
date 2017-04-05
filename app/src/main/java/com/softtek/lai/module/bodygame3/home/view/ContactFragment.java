@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +27,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactExpandableAdapter;
 import com.softtek.lai.module.bodygame3.conversation.adapter.ContactMenuAdapter;
-import com.softtek.lai.module.bodygame3.conversation.database.ContactDao;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
@@ -38,8 +36,7 @@ import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
 import com.softtek.lai.module.bodygame3.conversation.view.GroupsActivity;
-import com.softtek.lai.module.bodygame3.conversation.view.NewFriendActivity;
-import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity;
+import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity2;
 import com.softtek.lai.module.bodygame3.more.view.SearchFriendActivity;
 import com.softtek.lai.widgets.CustomGridView;
 
@@ -219,7 +216,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                 Log.i(TAG, "是否登錄 = " + isLogin);
                 if (isLogin) {
                     ChatContactModel model = datas.get(groups.get(i)).get(i1);
-                    Intent intent = new Intent(getActivity(), PersonDetailActivity.class);
+                    Intent intent = new Intent(getActivity(), PersonDetailActivity2.class);
                     intent.putExtra("isFriend", 1);//1： 好友
                     intent.putExtra("AccountId", model.getAccountId());
                     intent.putExtra("HXAccountId", model.getHXAccountId());

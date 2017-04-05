@@ -86,6 +86,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private ArrowSpinner4 spinner;
     private HonorRankModel honorRankModel;
 
+    private TextView tv_top2_loss;//减重、脂数
+    private TextView tv_top1_loss;
+    private TextView tv_top3_loss;
+    private TextView group_info_tv;//小组排名总信息
+
+
     List<ListdateModel> spinnerData = new ArrayList<>();
     List<String> spinnerData2 = new ArrayList<>();
     private ArrowSpinnerAdapter spinnerAdapter;
@@ -119,6 +125,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         tv_top1_per = (TextView) view.findViewById(R.id.tv_top1_per);
         tv_top2_per = (TextView) view.findViewById(R.id.tv_top2_per);
         tv_top3_per = (TextView) view.findViewById(R.id.tv_top3_per);
+
+        tv_top2_loss = (TextView) view.findViewById(R.id.tv_top2_loss);
+        tv_top1_loss = (TextView) view.findViewById(R.id.tv_top1_loss);
+        tv_top3_loss = (TextView) view.findViewById(R.id.tv_top3_loss);
+        group_info_tv = (TextView) view.findViewById(R.id.group_info_tv);
+
         spinner = (ArrowSpinner4) view.findViewById(R.id.spinner);
 
         refreshableView.addHeaderView(view);
@@ -140,9 +152,9 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     intent.putExtra("SortTimeType", SortTimeType);
-                    ListdateModel listdateModel=spinnerData.get(selectedSpinner);
-                    intent.putExtra("listDataModel",listdateModel);
-                    ListGroupModel model=groupModelList.get(i - 2);
+                    ListdateModel listdateModel = spinnerData.get(selectedSpinner);
+                    intent.putExtra("listDataModel", listdateModel);
+                    ListGroupModel model = groupModelList.get(i - 2);
                     intent.putExtra("ListGroupModel", model);
 
                     startActivity(intent);
@@ -192,7 +204,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         // 以后的请求都是一次一次来的，要有刷新效果，所以都用setRefreshing()，调用这个方法后，会自动调用他的刷新方法，网络请求在刷新方法里。
         if (is_first) {
             weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
-        }else {
+        } else {
             try {
                 listHonorrank.setRefreshing();
             } catch (Exception e) {
@@ -211,12 +223,17 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 }
                 TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
                 tv_rank_number.setText(data.getRanking());
-                TextView tv_coach_type=holder.getView(R.id.tv_coach_type);
+                TextView tv_coach_type = holder.getView(R.id.tv_coach_type);
                 tv_coach_type.setText(data.getCoachType());
                 TextView tv_group_name = holder.getView(R.id.tv_group_name);
                 //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
 //                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
                 tv_group_name.setText(data.getGroupName());
+
+                //减重、脂
+                TextView loss_total_tv = holder.getView(R.id.loss_total_tv);
+                loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + data.getLoss() + "斤" : "减脂" + data.getLoss()+ "%");
+
                 CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
                 setImage(civ_trainer_header, data.getCoachIco());
 //                Log.e("curry", "convert: " + data.getCoachIco());
@@ -301,23 +318,28 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 groupModelList.addAll(model.getList_group());
                 newAdapter();
                 listHonorrank.setAdapter(honorGroupRankAdapter);
-    //            honorGroupRankAdapter.notifyDataSetChanged();
+                //            honorGroupRankAdapter.notifyDataSetChanged();
                 //list中显示减脂还是减重
                 for (ListTopModel topModel : model.getList_top3()) {
                     switch (topModel.getRanking()) {
                         case "1":
                             tv_top1_name.setText(topModel.getUserName());
                             tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                            tv_top1_loss.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
+
                             setImage(civ_top1, topModel.getUserIconUrl());
                             break;
                         case "2":
                             tv_top2_name.setText(topModel.getUserName());
                             tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                            tv_top2_loss.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
+
                             setImage(civ_top2, topModel.getUserIconUrl());
                             break;
                         case "3":
                             tv_top3_name.setText(topModel.getUserName());
                             tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+                            tv_top3_loss.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
                             setImage(civ_top3, topModel.getUserIconUrl());
                             break;
                     }
@@ -331,7 +353,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 if (model.getList_top3().size() == 2) {
                     setTop3Wating();
                 }
+
             }
+
+//            group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + model.getTotalLoss() + "斤" + " 人均减重" + model.getAvgLoss() + "斤" : "本班共减脂" + model.getTotalLoss() + "  人均减脂" + model.getAvgLoss());
+            group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -342,7 +369,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         if (StringUtils.isNotEmpty(endUrl)) {
 //            Picasso.with(getContext()).load(basePath + endUrl).into(civ);
             Picasso.with(getContext()).load(basePath + endUrl).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ);
-        }else {
+        } else {
             Picasso.with(getContext()).load(R.drawable.img_default).into(civ);
         }
     }

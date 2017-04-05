@@ -46,7 +46,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -144,15 +143,13 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
     private ImageFileSelector imageFileSelector;
 
     private String classId;//班级id
-
-    //屏幕高度
-    private int screenHeight = 0;
+    private int classRole;
 
     @Override
     protected void initViews() {
-        screenHeight=DisplayUtil.getMobileHeight(this);
         //阀值设置为屏幕高度的1/3
         classId=getIntent().getStringExtra("classId");
+        classRole=getIntent().getIntExtra("classRole",-1);
         tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
         iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.camera));
@@ -614,8 +611,9 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
             }
         });
         TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
-        //点击删除按钮
-        if(Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
+        //点击删除按钮只有总教练或者自己发的动态才可以有删除功能
+        if(classRole==1
+                ||Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
             tv_delete.setVisibility(View.VISIBLE);
             tv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -844,14 +842,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                             //拍照
                             if (ActivityCompat.checkSelfPermission(PhotoWallActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                    //允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                } else {
-                                    //不允许弹出提示
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                }
+                                //允许弹出提示
+                                ActivityCompat.requestPermissions(PhotoWallActivity.this,new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                             } else {
                                 imageFileSelector.takePhoto(PhotoWallActivity.this);
                             }
@@ -881,8 +873,6 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        Log.i("旧的="+oldBottom);
-        Log.i("新的="+bottom);
         if(rl_send.getVisibility()==View.VISIBLE){
             if(oldBottom-bottom<0){
                 //键盘收起来
