@@ -5,58 +5,58 @@ package com.softtek.lai.module.laicheng.model;
  */
 
 public class DataModel {
-
+    //体重
     private int bodytype;
     private String bodytypedescription;//肥胖型
     private WeightModel weight_con;
     private WeightitemModel weight_item;
 
-//超重
+    //BMI
     private int bmi;
     private WeightModel bmi_con;
     private WeightitemModel bmi_item;
 
-
+    //体脂肪
     private int bodyfat;
     private WeightitemModel bodyfat_item;
 
-
+    //体脂率
     private int bodyfatrate;
     private WeightModel bodyfatrate_con;
     private WeightitemModel bodyfatrate_item;
-
+    //去脂体重
     private int fatfreemass;
     private WeightModel fatfreemass_con;
     private WeightitemModel fatfreemass_item;
-
+    //身体水分
     private int watercontent;
     private WeightitemModel watercontent_item;
 
-    //达标
+    //身体水分率
     private int watercontentrate;
     private WeightModel watercontentrate_con;
     private WeightitemModel watercontentrate_item;
 
-    //一般
+    //内脏脂肪指数
     private int visceralfatindex;
     private WeightModel visceralfatindex_con;
     private WeightitemModel visceralfatindex_item;
 
-    //偏低
+    //骨量
     private int bonemass;
     private WeightModel bonemass_con;
     private WeightitemModel bonemass_item;
 
-    //理想
+    //肌肉量
     private int musclemass;
     private WeightModel musclemass_con;
     private WeightitemModel musclemass_item;
 
-    //代谢偏慢
+    //基础代谢
     private int basalmetabolicrate;
     private WeightModel basalmetabolicrate_con;
     private WeightitemModel basalmetabolicrate_item;
-
+    //身体年龄
     private int physicalage;
     private WeightModel physicalage_con;
     private WeightitemModel physicalage_item;
@@ -66,7 +66,7 @@ public class DataModel {
                      WeightModel bodyfatrate_con, WeightitemModel bodyfatrate_item, int fatfreemass, WeightModel fatfreemass_con,
                      WeightitemModel fatfreemass_item, int watercontent, WeightitemModel watercontent_item, int watercontentrate, WeightModel watercontentrate_con,
                      WeightitemModel watercontentrate_item, int visceralfatindex, WeightModel visceralfatindex_con, WeightitemModel visceralfatindex_item,
-                     int bonemass, WeightModel bonemass_con, WeightitemModel bonemass_item, int musclemass, WeightModel musclemass_con,WeightitemModel musclemass_item,
+                     int bonemass, WeightModel bonemass_con, WeightitemModel bonemass_item, int musclemass, WeightModel musclemass_con, WeightitemModel musclemass_item,
                      int basalmetabolicrate, WeightModel basalmetabolicrate_con, WeightitemModel basalmetabolicrate_item, int physicalage,
                      WeightModel physicalage_con, WeightitemModel physicalage_item) {
         this.bodytype = bodytype;
