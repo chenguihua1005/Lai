@@ -65,8 +65,6 @@ public class StandardLine extends View {
                     lineHeight / 2, //x轴的半径
                     lineHeight / 2, //y轴的半径
                     paintLine);
-
-            super.onDraw(canvas);
             return;
         }
         valueWidth = getWidth()/rangeValue;
@@ -133,7 +131,7 @@ public class StandardLine extends View {
             path.lineTo(width+lineHeight/2, lineTop-lineHeight);
             path.lineTo(width, lineTop-lineHeight/2);
             canvas.drawPath(path, paintLine);
-
+            //写当前数值
             String value = StringMath.fourRemoveFiveAdd1(""+curValue)+unit;
             if(isInt)
                 value = ((int) curValue)+unit;
@@ -147,8 +145,6 @@ public class StandardLine extends View {
             else
                 canvas.drawText(value, width-textWidth/2, lineTop - lineHeight*2 , textPaint);
         }
-
-        super.onDraw(canvas);
     }
 
     @Override
