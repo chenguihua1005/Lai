@@ -46,7 +46,7 @@ import com.softtek.lai.module.home.model.UnReadMsg;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
-import com.softtek.lai.module.laibalance.LaibalanceActivity;
+import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.net.Message2Service;

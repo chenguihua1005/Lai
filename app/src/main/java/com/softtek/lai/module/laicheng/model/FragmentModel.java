@@ -1,4 +1,4 @@
-package com.softtek.lai.module.laibalance.model;
+package com.softtek.lai.module.laicheng.model;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
