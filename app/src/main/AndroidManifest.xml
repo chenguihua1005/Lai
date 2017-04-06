@@ -610,6 +610,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport2.view.LaiSportActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport2.view.CountDownActivity"
