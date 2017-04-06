@@ -8,10 +8,7 @@ import com.softtek.lai.utils.RequestCallback;
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Header;
 import retrofit.http.POST;
-import retrofit.http.Query;
 
 /**
  * Created by jia.lu on 2017/3/29.

@@ -14,13 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
-import com.softtek.lai.mpermission.MPermission;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
@@ -53,11 +51,13 @@ public class LaibalanceActivity extends MainBaseActivity {
     @PermissionOK(id = 1)
     private void initPermissionSuccess() {
         setBleStateListener(bleStateListener);
+        mShakeListener.start();
         Log.d("enter bleStateListener --------","bleStateListener");
     }
 
     @PermissionFail(id = 1)
     private void initPermissionFail() {
+        mShakeListener.stop();
         new AlertDialog.Builder(this)
                 .setMessage("拒绝授权将无法正常运行软件！")
                 .setNegativeButton("确定", new DialogInterface.OnClickListener() {
@@ -73,10 +73,8 @@ public class LaibalanceActivity extends MainBaseActivity {
 
     @Override
     public void initUi() {
-        permission = MPermission.with(this);
-        permission.apply(1, Manifest.permission.BLUETOOTH,
-                Manifest.permission.BLUETOOTH_ADMIN,
-                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        permission.apply(1,Manifest.permission.ACCESS_COARSE_LOCATION);
         fragmentModels.add(new FragmentModel("给自己测", new SelftestFragment()));
         fragmentModels.add(new FragmentModel("给访客测", new VisitortestFragment()));
         content.setOffscreenPageLimit(1);

@@ -1,6 +1,5 @@
 package com.softtek.lai.module.laicheng;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
@@ -8,17 +7,13 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.softtek.lai.R;
@@ -34,16 +29,12 @@ import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.BleStateListener;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.MathUtils;
-import com.softtek.lai.module.laicheng.util.PermissionHelper;
 import com.softtek.lai.module.laicheng.util.StringMath;
 import com.softtek.lai.mpermission.MPermission;
-import com.softtek.lai.mpermission.PermissionFail;
-import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 
 import retrofit.RequestInterceptor;
 import retrofit.RetrofitError;
@@ -92,7 +83,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
     private int bluetoothPosition;
     private boolean needReDraw;
 
-    private ShakeListener mShakeListener;
+    protected ShakeListener mShakeListener;
     private Vibrator vibrator;
 
     private String BASE_URL = "http://qa-api.yunyingyang.com/";
@@ -114,9 +105,9 @@ public abstract class MainBaseActivity extends BleBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        permission = MPermission.with(this);
         isGuest = isGuested();
         mShakeListener = new ShakeListener(this);
-        initUi();
         SoundPlay.getInstance().init(this);
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
@@ -130,6 +121,8 @@ public abstract class MainBaseActivity extends BleBaseActivity {
             }
         });
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        //选择的蓝牙的对话框
         deviceListDialog = new DeviceListDialog(MainBaseActivity.this, R.style.ActivityDialogStyle);
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
@@ -167,6 +160,8 @@ public abstract class MainBaseActivity extends BleBaseActivity {
             }
         });
 
+
+        //蓝牙回调
         bleStateListener = new BleStateListener() {
             @Override
             public void unableBleModule() {
@@ -277,6 +272,8 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                 }
             }
         };
+
+        //请求token
         ZillaApi.getCustomRESTAdapter(BASE_URL + "oauth/token/", new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
@@ -287,7 +284,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                     @Override
                     public void success(BleTokenResponse bleTokenResponse, Response response) {
                         token = bleTokenResponse.getAccess_token();
-//                        storeOrSendCalcRsData(74.2f, 288.5f, 293.8f, 27.0f, 251.3f, 244.4f, 255.2f, 260.5f, 23.4f, 216.0f, 211.0f);
+                        storeOrSendCalcRsData(74.2f, 288.5f, 293.8f, 27.0f, 251.3f, 244.4f, 255.2f, 260.5f, 23.4f, 216.0f, 211.0f);
                     }
 
                     @Override
@@ -297,6 +294,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                         token = "";
                     }
                 });
+        initUi();
     }
 
     Handler handler = new Handler() {
