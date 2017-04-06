@@ -53,6 +53,7 @@ import butterknife.InjectView;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_sport_mine)
@@ -195,7 +196,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void lazyLoad() {
-        getActivity().bindService(new Intent(getContext(),StepService.class),connection, Context.BIND_AUTO_CREATE);
+//        getActivity().bindService(new Intent(getContext(),StepService.class),connection, Context.BIND_AUTO_CREATE);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -215,23 +216,19 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         ll_left.setOnClickListener(this);
         ll_step.setOnClickListener(this);
         ll_calorie.setOnClickListener(this);
-        pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        pull_sroll.setMode(PullToRefreshBase.Mode.MANUAL_REFRESH_ONLY);
         pull_sroll.setOnRefreshListener(this);
         ILoadingLayout startLabelse = pull_sroll.getLoadingLayoutProxy(true,false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-        ILoadingLayout endLabelsr = pull_sroll.getLoadingLayoutProxy(false, true);
-        endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
-        endLabelsr.setRefreshingLabel("正在加载数据");
-        endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
-
         rl_day_rank.setOnClickListener(this);
         rl_week_rank.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
+        currentStep=SharedPreferenceService.getInstance().get("currentStep",0);
         tv_title.setText("步数");
         manager=new SportManager(this);
     }
@@ -296,7 +293,7 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
         buffer.append(",");
         buffer.append(tv_step.getText().toString());
         StepNetService stepNetService=ZillaApi.NormalRestAdapter.create(StepNetService.class);
-        stepNetService.synStepCount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), buffer+"", new RequestCallback<ResponseData>() {
+        stepNetService.synStepCount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), buffer.toString(), new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.d("请求成功"+responseData.getMsg());
@@ -373,9 +370,11 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
             if(todayStepCnt-currentTemp>0){
                 //用服务器上的步数减去本地第一次同步的服务器上的步数获取误差值
                 deviation=todayStepCnt-serverStep;
+                tv_step.setText(String.valueOf(todayStepCnt));
+            }else {
+                tv_step.setText(String.valueOf(currentStep));
             }
             tv_name.setText(result.getUsername());
-            tv_step.setText(String.valueOf(result.getTodayStepCnt()));
             tv_calorie.setText(String.valueOf(result.getTodayKaluliCnt()));
             SpannableString ss=new SpannableString("大卡");
             ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -417,7 +416,6 @@ public class SportMineFragment extends LazyBaseFragment implements View.OnClickL
 
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-        Log.i("正在加载");
         String str = DateUtil.getInstance().getCurrentDate() + "," +currentStep;
         manager.getMineData(UserInfoModel.getInstance().getUserId(),str);
     }
