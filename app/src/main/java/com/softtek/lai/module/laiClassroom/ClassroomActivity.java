@@ -9,6 +9,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laiClassroom.adapter.TabAdapter;
 import com.softtek.lai.module.laiClassroom.model.FragmentModel;
+import com.softtek.lai.module.laicheng.MainBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class ClassroomActivity extends BaseActivity {
     @OnClick(R.id.fl_right)
     public void doSearch() {
         Intent intent = new Intent(this, KeywordsSearchActivity.class);
+        //Intent intent = new Intent(this, MainBaseActivity.class);
         startActivity(intent);
         overridePendingTransition(0, 0);
     }

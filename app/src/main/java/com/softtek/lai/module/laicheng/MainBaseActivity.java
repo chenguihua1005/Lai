@@ -51,7 +51,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_main_page)
-public abstract class MainBaseActivity extends BleBaseActivity {
+public class MainBaseActivity extends BleBaseActivity {
     @InjectView(R.id.link)
     Button mLink;
 
@@ -339,7 +339,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);
-                        Toast.makeText(getApplicationContext(),"获取token失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "获取token失败", Toast.LENGTH_SHORT).show();
                         token = "";
                     }
                 });
@@ -502,7 +502,6 @@ public abstract class MainBaseActivity extends BleBaseActivity {
     }
 
     private void parseOriginalData() {
-        Log.d("parseOriginalData", "进入上传服务器数据");
         Log.d("parseOriginalData", "进入上传服务器数据");
         int size = Integer.parseInt(mFrequency04Data.substring(4, 6), 16);//数据长度
         String data04 = mFrequency04Data.substring(8, 10 + size * 2 - 2);
@@ -706,10 +705,10 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 //                } catch (Exception e) {
 //                    testFailDialog = null;
 //                } finally {
-                    newData = "";
-                    mHandData = "";
-                    mFrequency04Data = "";
-                    mFrequency07Data = "";
+                newData = "";
+                mHandData = "";
+                mFrequency04Data = "";
+                mFrequency07Data = "";
 //                }
                 break;
 
@@ -722,9 +721,9 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         Log.d("sendUserInfo---------", "sendUserInfo");
         UserInfoEntity user = new UserInfoEntity();
         user.setId(556383);
-        user.setGender(1);
-        user.setHeight(170);
-        user.setBirthdate("1996-09-20T00:00:00.000Z");
+        user.setGender(Integer.valueOf(UserInfoModel.getInstance().getUser().getGender()));
+        user.setHeight(Float.valueOf(UserInfoModel.getInstance().getUser().getHight()));
+        user.setBirthdate(UserInfoModel.getInstance().getUser().getBirthday());
         user.setId(556383);
         user.setPhone("13093096152");
         user.setUsername("test");
@@ -787,20 +786,20 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         model.setR22(String.valueOf(f07RS3));
         model.setR23(String.valueOf(f07RS4));
         model.setR24(String.valueOf(f07RS5));
-        if (isGuest){
+        if (isGuest) {
             model.setWeight(String.valueOf(getGuestInfo().getWeight()));
             model.setHeight(String.valueOf(getGuestInfo().getHeight()));
-            model.setBirthdata(String.valueOf(getGuestInfo().getBirthdate()));
+            model.setBirthdate(String.valueOf(getGuestInfo().getBirthdate()));
             model.setGender(getGuestInfo().getGender());
-        }else {
+        } else {
             model.setWeight(String.valueOf(weight));
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());
-            model.setBirthdata(String.valueOf(UserInfoModel.getInstance().getUser().getBirthday()));
-            model.setGender(Integer.valueOf(UserInfoModel.getInstance().getUser().getGender()));
+            model.setBirthdate(String.valueOf(UserInfoModel.getInstance().getUser().getBirthday()));
+            model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 2 : 1);
         }
 
 
-        ZillaApi.getCustomRESTAdapter(BASE_URL + "DataSync/ UploadData", new RequestInterceptor() {
+        ZillaApi.getCustomRESTAdapter(BASE_URL + "DataSync/UploadData", new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
 
@@ -809,6 +808,8 @@ public abstract class MainBaseActivity extends BleBaseActivity {
             @Override
             public void success(UploadImpedanceModel impedanceModel, Response response) {
                 initUiByBleSuccess(impedanceModel);
+                sendFatRateToDevice(2.333f);
+
             }
 
             @Override
@@ -819,7 +820,6 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         });
         Log.d("上传给服务器的逻辑------------", "storeOrSendCalcRsData上传");
 
-        sendFatRateToDevice(0.0f);
 
     }
 
@@ -849,11 +849,27 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         mShakeListener.start();
     }
 
-    public abstract void initUiByBleSuccess(UploadImpedanceModel impedanceModel);
+    public void initUiByBleSuccess(UploadImpedanceModel impedanceModel) {
+        Log.d("initUiByBleSuccess", "上传服务器服务器返回体脂率成功 + ： " + String.valueOf(impedanceModel));
+    }
 
-    public abstract void initUiByBleFailed();
+    ;
 
-    public abstract boolean isGuested();
+    public void initUiByBleFailed() {
+        Log.d("initUiByBleFailed", "上传给服务器返回体脂率失败！！！");
+    }
 
-    public abstract UserInfoEntity getGuestInfo();
+    ;
+
+    public boolean isGuested() {
+        return false;
+    }
+
+    ;
+
+    public UserInfoEntity getGuestInfo() {
+        return new UserInfoEntity();
+    }
+
+    ;
 }

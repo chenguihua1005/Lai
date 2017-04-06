@@ -20,11 +20,12 @@ import retrofit.http.Query;
 
 public interface BleService {
     @FormUrlEncoded
-    @POST("")
+    @POST("/")
     void getBleToken(@Field("grant_type") String type,
                      @Field("client_id") String clientId,
                      @Field("client_secret") String client_secret,
                      RequestCallback<BleTokenResponse> callback);
 
+    @POST("/")
     void uploadImpedance(@Body UploadImpedanceModel model,RequestCallback<UploadImpedanceModel> callback);
 }

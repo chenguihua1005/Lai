@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.forlong401.log.transaction.log.manager.LogManager;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.BleStateListener;
@@ -32,14 +31,11 @@ public abstract class BleBaseActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogManager.getManager(getApplicationContext()).registerActivity(this);
-        LogManager.getManager(getApplicationContext()).log("test", "测试", 2);
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onDestroy() {
-        LogManager.getManager(getApplicationContext()).unregisterActivity(this);
         cancelDiscoveryBluetooth();
         try {
             unregisterReceiver(mBleManager.getSettingStateReceiver());

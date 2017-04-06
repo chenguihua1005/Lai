@@ -22,7 +22,7 @@ public class UploadImpedanceModel {
     private String RE20;
     private String RE21;
     private String height;
-    private String birthdata;
+    private String birthdate;
     private int gender;
 
     public String getAccess_token() {
@@ -161,19 +161,19 @@ public class UploadImpedanceModel {
         this.height = height;
     }
 
-    public String getBirthdata() {
-        return birthdata;
-    }
-
-    public void setBirthdata(String birthdata) {
-        this.birthdata = birthdata;
-    }
-
     public int getGender() {
         return gender;
     }
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
     }
 }
