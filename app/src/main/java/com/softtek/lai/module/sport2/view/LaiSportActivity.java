@@ -111,7 +111,7 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type = getIntent().getIntExtra("type", 0);
+        int type = intent.getIntExtra("type", 0);
         current = type;
         restoreState();
         switch (type) {
@@ -207,7 +207,9 @@ public class LaiSportActivity extends BaseActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            startActivity(new Intent(this, HomeActviity.class));
+            Intent intent=new Intent(this, HomeActviity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);

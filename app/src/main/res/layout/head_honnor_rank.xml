@@ -230,7 +230,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
-                    android:text="aaa"
                     android:textColor="#ffffff"
                     android:textSize="11dp" />
 
@@ -242,7 +241,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
-                    android:text="aaa"
                     android:textColor="#ffffff"
                     android:textSize="11dp" />
             </LinearLayout>
