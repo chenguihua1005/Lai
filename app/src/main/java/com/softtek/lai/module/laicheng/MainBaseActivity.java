@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
@@ -35,25 +36,22 @@ import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.MathUtils;
 import com.softtek.lai.module.laicheng.util.PermissionHelper;
 import com.softtek.lai.module.laicheng.util.StringMath;
+import com.softtek.lai.mpermission.MPermission;
+import com.softtek.lai.mpermission.PermissionFail;
+import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.InjectView;
 import retrofit.RequestInterceptor;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import uk.co.senab.photoview.log.LogManager;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_main_page)
-public class MainBaseActivity extends BleBaseActivity {
-    @InjectView(R.id.link)
-    Button mLink;
+public abstract class MainBaseActivity extends BleBaseActivity {
 
     private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
     private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
@@ -84,15 +82,7 @@ public class MainBaseActivity extends BleBaseActivity {
     private static final int CONNECTED_STATE_UPLOADING_FAIL = 7;//计算数据失败
     private static final int CONNECTED_STATE_UPLOADING_TIMEOUT = 8;//连接超时
 
-    private final String[] MUST_PERMISSIONS = {
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };
-    private AlertDialog dialog;
-
-    private BleStateListener bleStateListener;
+    protected BleStateListener bleStateListener;
 
     private boolean isCheckPermission = false;
 
@@ -108,57 +98,25 @@ public class MainBaseActivity extends BleBaseActivity {
     private String BASE_URL = "http://qa-api.yunyingyang.com/";
     private String token;
 
-    private void initPermission() {
-        isCheckPermission = PermissionHelper.checkPermission(this, MUST_PERMISSIONS);
-        Log.d("isHas", String.valueOf(isCheckPermission));
-    }
+    protected MPermission permission;
 
     private void shake() {
         openBluetoothSetting();
         mShakeListener.stop();
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PermissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults, new PermissionHelper.OnPermissionHandleOverListener() {
-            @Override
-            public void onHandleOver(boolean isOkExactly, Map<String, Integer> result) {
-                if (!isOkExactly) {
-                    if (dialog == null) {
-                        dialog = new AlertDialog.Builder(MainBaseActivity.this)
-                                .setMessage("拒绝授权将无法正常运行软件！")
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
-                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                                        startActivity(intent);
-                                        dialog.dismiss();
-                                        dialog = null;
-                                    }
-                                })
-                                .setPositiveButton("授权", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        setBleStateListener(bleStateListener);
-                                    }
-                                }).create();
-                    }
-                    if (dialog.isShowing()) return;
-                    dialog.show();
-                } else {
-                    setBleStateListener(bleStateListener);
-                }
-            }
-        });
+        permission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isGuest = isGuested();
         mShakeListener = new ShakeListener(this);
+        initUi();
         SoundPlay.getInstance().init(this);
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
@@ -319,11 +277,6 @@ public class MainBaseActivity extends BleBaseActivity {
                 }
             }
         };
-
-        initPermission();
-        if (isCheckPermission) {
-            setBleStateListener(bleStateListener);
-        }
         ZillaApi.getCustomRESTAdapter(BASE_URL + "oauth/token/", new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
@@ -334,6 +287,7 @@ public class MainBaseActivity extends BleBaseActivity {
                     @Override
                     public void success(BleTokenResponse bleTokenResponse, Response response) {
                         token = bleTokenResponse.getAccess_token();
+//                        storeOrSendCalcRsData(74.2f, 288.5f, 293.8f, 27.0f, 251.3f, 244.4f, 255.2f, 260.5f, 23.4f, 216.0f, 211.0f);
                     }
 
                     @Override
@@ -804,10 +758,10 @@ public class MainBaseActivity extends BleBaseActivity {
             public void intercept(RequestFacade request) {
 
             }
-        }).create(BleService.class).uploadImpedance(model, new RequestCallback<UploadImpedanceModel>() {
+        }).create(BleService.class).uploadImpedance(model, new RequestCallback<BleMainData>() {
             @Override
-            public void success(UploadImpedanceModel impedanceModel, Response response) {
-                initUiByBleSuccess(impedanceModel);
+            public void success(BleMainData data, Response response) {
+                initUiByBleSuccess(data);
                 sendFatRateToDevice(2.333f);
 
             }
@@ -829,6 +783,7 @@ public class MainBaseActivity extends BleBaseActivity {
         disconnectBluetooth();
         deviceListDialog = null;
         SoundPlay.getInstance().release();
+        permission.recycle();
     }
 
     @Override
@@ -849,27 +804,13 @@ public class MainBaseActivity extends BleBaseActivity {
         mShakeListener.start();
     }
 
-    public void initUiByBleSuccess(UploadImpedanceModel impedanceModel) {
-        Log.d("initUiByBleSuccess", "上传服务器服务器返回体脂率成功 + ： " + String.valueOf(impedanceModel));
-    }
+    public abstract void initUi();
 
-    ;
+    public abstract void initUiByBleSuccess(BleMainData data);
 
-    public void initUiByBleFailed() {
-        Log.d("initUiByBleFailed", "上传给服务器返回体脂率失败！！！");
-    }
+    public abstract void initUiByBleFailed();
 
-    ;
+    public abstract boolean isGuested();
 
-    public boolean isGuested() {
-        return false;
-    }
-
-    ;
-
-    public UserInfoEntity getGuestInfo() {
-        return new UserInfoEntity();
-    }
-
-    ;
+    public abstract UserInfoEntity getGuestInfo();
 }

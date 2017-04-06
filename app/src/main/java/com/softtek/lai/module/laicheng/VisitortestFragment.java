@@ -1,4 +1,4 @@
-package com.softtek.lai.module.laibalance;
+package com.softtek.lai.module.laicheng;
 
 import android.content.Context;
 import android.net.Uri;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.softtek.lai.module.laibalance.LaibalanceActivity">
+    tools:context="com.softtek.lai.module.laicheng.LaibalanceActivity">
 
     <include layout="@layout/toolbar_laiclassbalance" />
 

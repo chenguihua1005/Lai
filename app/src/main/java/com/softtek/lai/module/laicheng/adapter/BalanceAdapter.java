@@ -1,27 +1,12 @@
-package com.softtek.lai.module.laibalance.adapter;
+package com.softtek.lai.module.laicheng.adapter;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
-import android.util.Log;
 
-import com.softtek.lai.R;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laibalance.model.FragmentModel;
-import com.softtek.lai.widgets.CircleImageDrawable;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.softtek.lai.module.laicheng.model.FragmentModel;
 
 import java.util.List;
-
-import zilla.libcore.file.AddressManager;
 
 /**
  * Created by shelly.xu on 4/5/2017.

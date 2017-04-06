@@ -1,7 +1,6 @@
 package com.softtek.lai.module.laicheng.net;
 
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.laiClassroom.model.SearchModel;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.utils.RequestCallback;
@@ -27,5 +26,5 @@ public interface BleService {
                      RequestCallback<BleTokenResponse> callback);
 
     @POST("/")
-    void uploadImpedance(@Body UploadImpedanceModel model,RequestCallback<UploadImpedanceModel> callback);
+    void uploadImpedance(@Body UploadImpedanceModel impedanceModel, RequestCallback<BleMainData> callback);
 }

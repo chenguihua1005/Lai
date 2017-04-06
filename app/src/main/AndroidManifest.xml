@@ -807,7 +807,7 @@
             android:name=".module.bodygame3.head.view.PersonDetailActivity2"
             android:screenOrientation="portrait" />
         <service android:name=".module.home.service.UpdateService"/>
-        <activity android:name=".module.laibalance.LaibalanceActivity"
+        <activity android:name=".module.laicheng.LaibalanceActivity"
             android:screenOrientation="portrait"
             ></activity>
     </application>
