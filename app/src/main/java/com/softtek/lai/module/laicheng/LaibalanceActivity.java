@@ -73,7 +73,6 @@ public class LaibalanceActivity extends MainBaseActivity {
 
     @Override
     public void initUi() {
-
         permission.apply(1,Manifest.permission.ACCESS_COARSE_LOCATION);
         fragmentModels.add(new FragmentModel("给自己测", new SelftestFragment()));
         fragmentModels.add(new FragmentModel("给访客测", new VisitortestFragment()));

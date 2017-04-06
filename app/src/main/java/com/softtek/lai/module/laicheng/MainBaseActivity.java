@@ -24,13 +24,13 @@ import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
 import com.softtek.lai.module.laicheng.net.BleService;
 import com.softtek.lai.module.laicheng.shake.ShakeListener;
-import com.softtek.lai.module.laicheng.sound.SoundPlay;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.BleStateListener;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.MathUtils;
 import com.softtek.lai.module.laicheng.util.StringMath;
 import com.softtek.lai.mpermission.MPermission;
+import com.softtek.lai.sound.SoundHelper;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.text.SimpleDateFormat;
@@ -91,6 +91,8 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 
     protected MPermission permission;
 
+    protected SoundHelper soundHelper;
+
     private void shake() {
         openBluetoothSetting();
         mShakeListener.stop();
@@ -108,7 +110,17 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         permission = MPermission.with(this);
         isGuest = isGuested();
         mShakeListener = new ShakeListener(this);
-        SoundPlay.getInstance().init(this);
+        soundHelper = new SoundHelper(this,6);
+        soundHelper.addAudio("one",R.raw.help_one);
+        soundHelper.addAudio("two",R.raw.help_two);
+        soundHelper.addAudio("three",R.raw.help_three);
+        soundHelper.addAudio("four",R.raw.help_four);
+        soundHelper.addAudio("five",R.raw.help_five);
+        soundHelper.addAudio("six",R.raw.help_six);
+//        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
+//        if (state_current == CONNECTED_STATE_SHAKE_IT ){
+            soundHelper.play("one");
+//        }
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
@@ -254,7 +266,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 //                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
 //                    animationDrawable.stop();
 //                    cVoice.setImageResource(R.drawable.voice_four);
-                    SoundPlay.getInstance().stop();
+//                    soundHelper.stop();
                 }
                 mShakeListener.start();
             }
@@ -284,7 +296,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                     @Override
                     public void success(BleTokenResponse bleTokenResponse, Response response) {
                         token = bleTokenResponse.getAccess_token();
-                        storeOrSendCalcRsData(74.2f, 288.5f, 293.8f, 27.0f, 251.3f, 244.4f, 255.2f, 260.5f, 23.4f, 216.0f, 211.0f);
+//                        storeOrSendCalcRsData(74.2f, 288.5f, 293.8f, 27.0f, 251.3f, 244.4f, 255.2f, 260.5f, 23.4f, 216.0f, 211.0f);
                     }
 
                     @Override
@@ -549,20 +561,19 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 //                tv_connect_state.setText(R.string.mainpage_connection_success);
                 if (isVoiceHelp) {
                     mCloseVoiceTimeOut = 60;
-                    SoundPlay.getInstance().play(R.raw.help_two);
+                    soundHelper.play("two");
                 }
                 break;
             case CONNECTED_STATE_WEIGHT:
 //                showNoCancelLoadingDialog("亲，请稍等，测量中...");
                 state_current = CONNECTED_STATE_WEIGHT;
                 if (isVoiceHelp) {
-                    SoundPlay.getInstance().play(R.raw.help_three);
-
+                    soundHelper.play("three");
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (isVoiceHelp && state_current == CONNECTED_STATE_WEIGHT) {
-                                SoundPlay.getInstance().playWait(R.raw.help_four);
+                                soundHelper.play("four");
                                 handler.postDelayed(this, 2000);
                             }
                         }
@@ -586,11 +597,11 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
                 state_current = CONNECTED_STATE_SUCCESS;
-                SoundPlay.getInstance().stop();
+//                SoundPlay.getInstance().stop();
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
 //                tv_connect_state.setText(R.string.mainpage_connection_success);
                 if (isVoiceHelp) {
-                    SoundPlay.getInstance().playAndStop(R.raw.help_five);
+                    soundHelper.play("five");
                     isVoiceHelp = false;
 //                    cVoice.setImageResource(R.drawable.animation_voice);
 //                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
@@ -600,11 +611,11 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                 break;
             case CONNECTED_STATE_UPLOADING_FAIL:
                 state_current = CONNECTED_STATE_SUCCESS;
-                SoundPlay.getInstance().stop();
+//                SoundPlay.getInstance().stop();
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
 //                tv_connect_state.setText(R.string.mainpage_connection_success);
                 if (isVoiceHelp) {
-                    SoundPlay.getInstance().playAndStop(R.raw.help_six);
+                    soundHelper.play("six");
                     isVoiceHelp = false;
 //                    cVoice.setImageResource(R.drawable.animation_voice);
 //                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
@@ -630,11 +641,11 @@ public abstract class MainBaseActivity extends BleBaseActivity {
             case CONNECTED_STATE_UPLOADING_TIMEOUT:
                 state_current = CONNECTED_STATE_SUCCESS;
 //                dismissLoadingDialog();
-                SoundPlay.getInstance().stop();
+//                SoundPlay.getInstance().stop();
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
 //                tv_connect_state.setText(R.string.mainpage_connection_success);
                 if (isVoiceHelp) {
-                    SoundPlay.getInstance().playAndStop(R.raw.help_six);
+                    soundHelper.play("six");
                     isVoiceHelp = false;
 //                    cVoice.setImageResource(R.drawable.animation_voice);
 //                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
@@ -760,7 +771,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
             @Override
             public void success(BleMainData data, Response response) {
                 initUiByBleSuccess(data);
-                sendFatRateToDevice(2.333f);
+//                sendFatRateToDevice(2.333f);
 
             }
 
@@ -780,7 +791,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         super.onDestroy();
         disconnectBluetooth();
         deviceListDialog = null;
-        SoundPlay.getInstance().release();
+        soundHelper.release();
         permission.recycle();
     }
 
@@ -793,7 +804,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        SoundPlay.getInstance().stop();
+        soundHelper.release();
     }
 
     @Override
