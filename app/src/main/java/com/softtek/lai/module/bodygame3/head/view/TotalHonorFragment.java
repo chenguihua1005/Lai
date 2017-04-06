@@ -208,6 +208,12 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     public void getModel(HonorRankModel model) {
         try {
             listHonorrank.onRefreshComplete();
+
+            //前三名状态重置
+            setTop1Wating();
+            setTop2Wating();
+            setTop3Wating();
+
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
                 groupModelList.clear();
@@ -217,22 +223,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 return;
             }
 
-            //不为null，list数据为零，显示“虚位以待”。要显示头部
-            if (model.getList_top3() == null || model.getList_top3().size() == 0) {
-                setTop1Wating();
-                setTop2Wating();
-                setTop3Wating();
-                groupModelList.clear();
-                newAdapter();
-                listHonorrank.setAdapter(honorGroupRankAdapter);
-                listHonorrank.setEmptyView(ll_no_data);
-            } else {
-                //更新list数据
-                groupModelList.clear();
-                groupModelList.addAll(model.getList_group());
-                newAdapter();
-                listHonorrank.setAdapter(honorGroupRankAdapter);
-                //            honorGroupRankAdapter.notifyDataSetChanged();
+            if (model.getList_top3() != null && model.getList_top3().size() > 0) {
                 //list中显示减脂还是减重
                 for (ListTopModel topModel : model.getList_top3()) {
                     switch (topModel.getRanking()) {
@@ -256,20 +247,22 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                             break;
                     }
                 }
-
-                //只有第一名时，剩下两个显示虚位以待
-                if (model.getList_top3().size() == 1) {
-                    setTop2Wating();
-                    setTop3Wating();
-                }
-                //只有前两名时，剩下一个显示虚位以待
-                if (model.getList_top3().size() == 2) {
-                    setTop3Wating();
-                }
             }
-            group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%");
 
-//            group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + model.getTotalLoss() + "斤" + " 人均减重" + model.getAvgLoss() + "斤" : "本班共减脂" + model.getTotalLoss() + "  人均减脂" + model.getAvgLoss());
+
+            if (model.getList_group() != null && model.getList_group().size() > 0) {
+                //更新list数据
+                groupModelList.clear();
+                groupModelList.addAll(model.getList_group());
+                newAdapter();
+                listHonorrank.setAdapter(honorGroupRankAdapter);
+            } else {
+                groupModelList.clear();
+                groupModelList.add(new ListGroupModel());
+                honorGroupRankAdapter.notifyDataSetChanged();
+            }
+
+            group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%");
         } catch (Exception e) {
             e.printStackTrace();
         }

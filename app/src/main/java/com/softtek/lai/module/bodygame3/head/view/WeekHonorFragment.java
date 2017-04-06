@@ -305,18 +305,13 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 setTop1Wating();
                 setTop2Wating();
                 setTop3Wating();
-                groupModelList.clear();
-                groupModelList.add(new ListGroupModel());
-                honorGroupRankAdapter.notifyDataSetChanged();
 
             } else {
-                honorRankModel = model;
-                //更新list数据
-                groupModelList.clear();
-                groupModelList.addAll(model.getList_group());
-                newAdapter();
-                listHonorrank.setAdapter(honorGroupRankAdapter);
-                //list中显示减脂还是减重
+                //前三名状态重置
+                setTop1Wating();
+                setTop2Wating();
+                setTop3Wating();
+
                 for (ListTopModel topModel : model.getList_top3()) {
                     switch (topModel.getRanking()) {
                         case "1":
@@ -339,15 +334,19 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                             break;
                     }
                 }
-                //只有第一名时，剩下两个显示虚位以待
-                if (model.getList_top3().size() == 1) {
-                    setTop2Wating();
-                    setTop3Wating();
-                }
-                //只有前两名时，剩下一个显示虚位以待
-                if (model.getList_top3().size() == 2) {
-                    setTop3Wating();
-                }
+            }
+
+            if (model.getList_group() != null && model.getList_group().size() > 0) {
+                honorRankModel = model;
+                //更新list数据
+                groupModelList.clear();
+                groupModelList.addAll(model.getList_group());
+                newAdapter();
+                listHonorrank.setAdapter(honorGroupRankAdapter);
+            } else {
+                groupModelList.clear();
+                groupModelList.add(new ListGroupModel());
+                honorGroupRankAdapter.notifyDataSetChanged();
             }
             group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%");
 

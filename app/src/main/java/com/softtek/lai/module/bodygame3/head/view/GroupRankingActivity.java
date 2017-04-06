@@ -202,7 +202,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         tv_ranking_date.setText(getString(R.string.ranking_date) + model.getStartDate() + "～" + model.getEndDate());
 
         if (group_total_tv != null) {
-            group_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "( 总减重" + model.getTotalLoss() + "斤" + "  人均减重" + model.getAvgLoss() + "斤 )" : "( 总减脂" + model.getAvgLoss() + "%" + "  人均减脂" + model.getAvgLoss() + "%" + " )");
+            group_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "( 总减重" + model.getTotalLoss() + "斤" + "  人均减重" + model.getAvgLoss() + "斤 )" : "( 总减脂" + model.getTotalLoss() + "%" + "  人均减脂" + model.getAvgLoss() + "%" + " )");
         }
     }
 
