@@ -15,7 +15,6 @@
 
     <!-- Required  一些系统要求的权限，如访问网络等 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
     <uses-permission android:name="com.softtek.lai.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
@@ -807,7 +806,9 @@
             android:name=".module.bodygame3.head.view.PersonDetailActivity2"
             android:screenOrientation="portrait" />
         <service android:name=".module.home.service.UpdateService"/>
-        <activity android:name=".module.laicheng.MainBaseActivity"/>
+        <activity android:name=".module.laibalance.LaibalanceActivity"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>
