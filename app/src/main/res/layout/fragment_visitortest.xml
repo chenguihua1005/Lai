@@ -1,40 +1,135 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:background="#E4FEFD"
+    android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.laicheng.SelftestFragment">
 
 
-    <LinearLayout
-        android:id="@+id/lin_chen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="65dp"
 
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="#DDDDDD"
         android:orientation="horizontal">
 
-        <!--<Button-->
-            <!--android:id="@+id/btn_input"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="请输入访客信息" />-->
+        <TextView
+            android:id="@+id/tv_again"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="重新测量" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="新建测量" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="测量历史" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="22dp"
-        android:drawableRight="@drawable/action_right"
-        android:text="查看访客历史记录"
-        android:textColor="@color/black"
-        android:textSize="11sp" />
+        android:layout_above="@id/ll"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--秤图-->
+
+            <include
+                android:id="@+id/cheng_in"
+                layout="@layout/cheng_layout" />
+
+            <LinearLayout
+                android:id="@+id/mid_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/health_report_sharp"
+                    android:drawableLeft="@drawable/health_report"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="健康报告"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:background="@drawable/share_sharp"
+                    android:drawableLeft="@drawable/share_icon"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="分享成果"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mid_lay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/health_report_sharp"
+                    android:drawableLeft="@drawable/health_report"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="健康报告"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:background="@drawable/share_sharp"
+                    android:drawableLeft="@drawable/share_icon"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="分享成果"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
 

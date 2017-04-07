@@ -1,13 +1,286 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E4FEFD"
     tools:context="com.softtek.lai.module.laicheng.SelftestFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/steelyard_bg"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0斤"
+                android:textColor="@color/white"
+                android:textSize="45sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标 准"
+                android:textSize="20sp"
+                android:textColor="#75BA2B"
+                android:background="@drawable/bg_back_btn"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="96dp">
+
+            <LinearLayout
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="体脂率"
+                    android:gravity="center"
+                    android:textColor="@color/white"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="0.0%"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="BMI"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="0.0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="内脂率"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="0.0%"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="使用说明书"
+            android:textSize="16sp"
+            android:textColor="#278B69"
+            android:gravity="center"
+            android:drawableLeft="@drawable/using_instructions"
+            android:drawablePadding="4dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/voice_icon" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:text="健康报告"
+            android:drawablePadding="8dp"
+            android:padding="12dp"
+            android:drawableLeft="@drawable/health_report"
+            android:background="@drawable/health_report_sharp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="分享成果"
+            android:gravity="center"
+            android:drawablePadding="8dp"
+            android:padding="12dp"
+            android:drawableLeft="@drawable/share_icon"
+            android:background="@drawable/share_sharp"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:textColor="#666666"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:paddingStart="40dp"
+                android:text="时间"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textColor="#666666"
+                android:text="我的历史记录"
+                android:textSize="15sp"
+                android:drawableRight="@drawable/arrow_copy"
+                android:paddingRight="30dp"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
 
-</FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:text="体重"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0斤"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:text="体脂"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0%"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:text="BMI"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:text="内脂率"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0%"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

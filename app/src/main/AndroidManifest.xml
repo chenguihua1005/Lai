@@ -809,6 +809,9 @@
 
         <activity
             android:name=".module.laicheng.LaibalanceActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".module.bodygame3.activity.view.MeasureListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.laicheng.HealthyReportActivity"></activity>
     </application>
