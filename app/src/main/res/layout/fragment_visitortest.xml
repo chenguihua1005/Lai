@@ -1,7 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.laicheng.VisitortestFragment">
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.laicheng.SelftestFragment">
 
-</FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_chen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="65dp"
+
+        android:orientation="horizontal">
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_input"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="请输入访客信息" />-->
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:drawableRight="@drawable/action_right"
+        android:text="查看访客历史记录"
+        android:textColor="@color/black"
+        android:textSize="11sp" />
+
+</RelativeLayout>
+

@@ -12,16 +12,20 @@ import android.view.ViewGroup;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 
+import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
-public class SelftestFragment extends Fragment {
-    private static final String ARGUMENTS = "SelftestFragment";
+@InjectLayout(R.layout.fragment_selftest)
+public class SelftestFragment extends LazyBaseFragment {
+    private static final String ARGUMENTS = "mainFragment";
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_selftest, container, false);
-        initView(view);
-        return view;
+    public interface voiceListener {
+        void onVoiceLinstener();
+    }
+
+    private voiceListener voiceListener;
+    public SelftestFragment() {
+        // Required empty public constructor
     }
 
     public static SelftestFragment newInstance(@Nullable String attrs) {
@@ -32,8 +36,21 @@ public class SelftestFragment extends Fragment {
         return fragment;
     }
 
-    private void initView(View view){
+
+    @Override
+    protected void lazyLoad() {
 
     }
 
+    @Override
+    protected void initViews() {
+
+    }
+
+    @Override
+    protected void initDatas() {
+
+    }
+
+//    @OnClick(R.id.voice)
 }
