@@ -38,6 +38,7 @@ import com.softtek.lai.module.bodygame3.activity.view.FcAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.FcStuActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InputView;
+import com.softtek.lai.module.bodygame3.activity.view.MeasureListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
@@ -112,6 +113,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @InjectView(R.id.ll_task)
     LinearLayout ll_task;
 
+    @InjectView(R.id.ll_for_stu)
+    LinearLayout ll_for_stu;
+    @InjectView(R.id.uncheckNum_tv)
+    TextView uncheckNum_tv;
+
     private SaveclassModel saveclassModel;
 
     private List<ActCalendarModel> calendarModels = new ArrayList<>();
@@ -159,6 +165,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+
+        ll_for_stu.setOnClickListener(this);
+
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
@@ -280,6 +289,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         dateStr = sdf.format(date.getDate());
         saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
+        ll_for_stu.setVisibility(View.GONE);
+
         ll_task.removeAllViews();
         if (!TextUtils.isEmpty(classid)) {
             gettodaydata(dateStr);
@@ -290,7 +301,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     private void gettodaydata(final String datestr) {
         pull.setRefreshing(false);
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(classid,UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).gettoday(classid, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(),
                 classid, datestr, new RequestCallback<ResponseData<TodaysModel>>() {
                     @Override
                     public void success(ResponseData<TodaysModel> data, Response response) {
@@ -303,9 +314,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 tag.date = datestr;
                                 if (model.getClassRole() == Constants.STUDENT) {//如果这个人是学员
                                     reset_name.setText("复测录入");
+                                    ll_for_stu.setVisibility(View.GONE);
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
+
                                             if (model.getIsRetest() == 1) {
                                                 ll_fuce.setEnabled(false);
                                                 reset_time.setText("未复测");
@@ -353,16 +366,27 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     ll_fuce.setTag(tag);
                                 } else {//非学员
                                     reset_name.setText("复测审核");
+
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             ll_fuce.setEnabled(true);
                                             reset_time.setText("待审核" + model.getNum());
+
+                                            ll_for_stu.setVisibility(View.VISIBLE);
+                                            ll_for_stu.setEnabled(true);
+                                            uncheckNum_tv.setText("未测量X人");
+
                                             tag.status = FUCE_FINISH;
                                             break;
                                         case 2://进行中的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             ll_fuce.setEnabled(true);
+
+                                            ll_for_stu.setVisibility(View.VISIBLE);
+                                            ll_for_stu.setEnabled(true);
+                                            uncheckNum_tv.setText("未测量X人");
+
                                             reset_time.setText("待审核" + model.getNum() + "人");
                                             tag.status = FUCEING;
                                             break;
@@ -370,14 +394,22 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             ll_fuce.setEnabled(false);
                                             reset_time.setText("未开始");
+
+                                            ll_for_stu.setVisibility(View.VISIBLE);
+                                            ll_for_stu.setEnabled(false);
+                                            uncheckNum_tv.setText("未开始");
+
                                             tag.status = FUCE_NOT_START;
                                             break;
                                         default:
                                             ll_fuce.setVisibility(View.GONE);
+                                            ll_for_stu.setVisibility(View.GONE);
                                             break;
                                     }
                                 }
                                 ll_fuce.setTag(tag);
+                                ll_for_stu.setTag(tag);
+
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
                                     ll_task.setVisibility(View.VISIBLE);
@@ -458,6 +490,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     fuce.putExtra("typeDate", tag.date);
                     startActivityForResult(fuce, 3);
                 }
+            }
+            break;
+            case R.id.ll_for_stu: {
+                Intent intent1 = new Intent(getContext(), MeasureListActivity.class);
+                intent1.putExtra("classId", classid);
+                startActivity(intent1);
             }
             break;
 
@@ -580,7 +618,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         material_calendar.removeDecorator(decorator_act);
         material_calendar.removeDecorator(decorator_create);
         material_calendar.removeDecorator(decorator_free);
-        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(classid,UserInfoModel.getInstance().getToken(),
+        ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(classid, UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), classid, saveclassModel.getDates(), new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> data, Response response) {
@@ -706,6 +744,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 }
                                                 ll_fuce.setTag(tag);
                                             } else {//非学员
+                                                ll_for_stu.setVisibility(View.VISIBLE);
+
                                                 BtnTag tag = new BtnTag();
                                                 tag.role = activitydataModel.getClassRole();
                                                 if (activitydataModel.getRetestStatus() == 3) {
@@ -916,9 +956,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             tv_title.notifChange();
         } else if (clazz.getStatus() == 2) {
             //删除班级
-            Iterator<ClassModel> iter=classModels.iterator();
-            while (iter.hasNext()){
-                ClassModel model=iter.next();
+            Iterator<ClassModel> iter = classModels.iterator();
+            while (iter.hasNext()) {
+                ClassModel model = iter.next();
                 if (model.getClassId().equals(clazz.getModel().getClassId())) {
                     iter.remove();
                     break;
