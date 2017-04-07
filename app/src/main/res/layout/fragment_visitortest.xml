@@ -2,18 +2,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#E4FEFD"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.laicheng.SelftestFragment">
 
-    <ScrollView
+
+
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="#DDDDDD"
+        android:orientation="horizontal">
 
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/tv_again"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#E4FEFD">
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="重新测量" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="新建测量" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="测量历史" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <!--秤图-->
 
@@ -25,7 +66,6 @@
                 android:id="@+id/mid_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cheng_in"
                 android:gravity="center">
 
                 <TextView
@@ -54,47 +94,42 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/mid_lay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:gravity="center_horizontal">
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/health_report_sharp"
+                    android:drawableLeft="@drawable/health_report"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="健康报告"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:background="@drawable/share_sharp"
+                    android:drawableLeft="@drawable/share_icon"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="分享成果"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="8dp"
-        android:background="#DDDDDD"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="重新测量" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="新建测量" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="测量历史" />
-    </LinearLayout>
-
 
 </RelativeLayout>
 

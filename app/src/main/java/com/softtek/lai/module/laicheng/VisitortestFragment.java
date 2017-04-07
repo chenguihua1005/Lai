@@ -1,6 +1,8 @@
 package com.softtek.lai.module.laicheng;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -30,10 +33,13 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_visitortest)
 public class VisitortestFragment extends LazyBaseFragment implements View.OnClickListener {
 
-//    @InjectView(R.id.btn_input)
+    //    @InjectView(R.id.btn_input)
 //    Button btn_input;
-
+    @InjectView(R.id.tv_again)
+    TextView tv_again;
     private LinearLayout.LayoutParams parm;
+    @InjectView(R.id.tv_weight)
+    TextView tv_weight;
 
     public VisitortestFragment() {
         // Required empty public constructor
@@ -52,8 +58,9 @@ public class VisitortestFragment extends LazyBaseFragment implements View.OnClic
 
     @Override
     protected void initDatas() {
-
-
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
+        tv_again.setTypeface(tf);
+        tv_weight.setTypeface(tf);
     }
 
     private void showTypeDialog() {
