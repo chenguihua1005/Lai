@@ -48,4 +48,6 @@
     <color name="backPressFalse">#0074BB2A</color>
     <color name="background_green">#78bc27</color><!--背景绿色-->
     <color name="transparent">#00000000</color>
+
+    <color name="history_chart_text_color">#adadad</color>
 </resources>
