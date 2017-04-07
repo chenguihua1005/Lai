@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -52,6 +53,7 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.home.service.UpdateService;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
+import com.softtek.lai.module.laicheng.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -424,7 +426,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     break;
                 case Constants.LAI_YUNDONG:
                     String isJoin = userInfoModel.getUser().getIsJoin();
-                    if (StringUtils.isEmpty(isJoin) || "0".equals(isJoin)) {
+                    if (TextUtils.isEmpty(isJoin) || "0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
                         startActivity(new Intent(getContext(), LaiSportActivity.class));
@@ -440,7 +442,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(),"BalanceEvent");
                     break;
                 case Constants.LAI_SHOP:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    startActivity(new Intent(getContext(), HealthyReportActivity.class));
+                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
             }
 
