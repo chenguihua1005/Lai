@@ -2,19 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.softtek.lai.module.laicheng.SelftestFragment">
 
-<!--    <ScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">-->
+        android:layout_height="wrap_content">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#E4FEFD"
-            >
+            android:background="#E4FEFD">
 
             <!--秤图-->
 
@@ -58,9 +58,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
-                android:layout_below="@id/mid_lay"
                 android:layout_marginBottom="8dp"
                 android:background="#DDDDDD"
                 android:orientation="horizontal">
@@ -95,6 +94,8 @@
 
         </RelativeLayout>
 
-  <!--  </ScrollView>-->
+    </ScrollView>
+
+
 </LinearLayout>
 
