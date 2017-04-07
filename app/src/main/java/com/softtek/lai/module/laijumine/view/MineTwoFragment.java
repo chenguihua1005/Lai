@@ -31,6 +31,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
 import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
+import com.softtek.lai.module.historydate.view.HistoryDataActivity;
 import com.softtek.lai.module.home.view.HealthyRecordActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
@@ -299,9 +300,9 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                 focusintent.putExtra("fansnum", Integer.parseInt(tv_fansnum.getText().toString()));
                 startActivity(focusintent);
                 break;
-            //跳转健康记录
+            //跳转历史测量数据
             case R.id.re_health:
-                startActivity(new Intent(getContext(), HealthyRecordActivity.class));
+                startActivity(new Intent(getContext(), HistoryDataActivity.class));
                 break;
             //跳转减重等级
             case R.id.re_losslevel:
