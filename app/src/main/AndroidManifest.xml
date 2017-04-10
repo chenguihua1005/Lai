@@ -814,6 +814,10 @@
             android:name=".module.bodygame3.activity.view.MeasureListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.laicheng.HealthyReportActivity"></activity>
+
+        <activity
+            android:name=".module.bodygame3.activity.view.FuceForStuActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

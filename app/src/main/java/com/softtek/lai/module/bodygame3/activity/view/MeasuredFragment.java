@@ -114,7 +114,8 @@ public class MeasuredFragment extends LazyBaseFragment<MesurePresenter> implemen
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        Intent intent = new Intent(getActivity(), FuceForStuActivity.class);
+        startActivity(intent);
     }
 
     @Override
