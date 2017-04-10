@@ -98,6 +98,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private void shake() {
         openBluetoothSetting();
+        soundHelper.play("one");
+        voiceTemp = "one";
         mShakeListener.stop();
     }
 
@@ -791,8 +793,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mShakeListener.start();
     }
 
-    public void stopVioce(){
-
+    public void stopVoice(){
+        soundHelper.stop(voiceTemp);
     }
 
     public abstract void initUi();
