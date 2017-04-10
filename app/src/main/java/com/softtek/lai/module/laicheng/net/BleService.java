@@ -4,6 +4,7 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.utils.RequestCallback;
+import com.squareup.okhttp.Response;
 
 import retrofit.http.Body;
 import retrofit.http.Field;
@@ -24,4 +25,8 @@ public interface BleService {
 
     @POST("/")
     void uploadImpedance(@Body UploadImpedanceModel impedanceModel, RequestCallback<BleMainData> callback);
+
+    @FormUrlEncoded
+    @POST("/")
+    void checkMac(@Field("access_token")String token,@Field("macid") String mac,RequestCallback<retrofit.client.Response> callback);
 }

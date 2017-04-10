@@ -31,25 +31,24 @@ import zilla.libcore.file.AddressManager;
 public class InitDataExpandableListAdapter implements ExpandableListAdapter {
     Context context;
     Activity activity;
-    String filest,images;
-    int isWhatePic,firststatus,IsEdit;
-    private String[] groupArray = new String[] {"group1","group2","group3","group4"};
+    String filest, images;
+    int isWhatePic, firststatus, IsEdit;
+    private String[] groupArray = new String[]{"group1", "group2", "group3", "group4"};
     private List<List<String>> childArray;
     private FcStDataModel fcStDataModel;
 
 
-    public InitDataExpandableListAdapter(Activity activity, Context context, List<List<String>>childArray, FcStDataModel fcStDataModel, String filest, String images, int
-            isWhatePic, int firststatus, int IsEdit  )
-    {
-        this.activity=activity;
-        this.context=context;
-        this.childArray=childArray;
-        this.fcStDataModel=fcStDataModel;
-        this.filest=filest;
-        this.images=images;
-        this.isWhatePic=isWhatePic;
-        this.firststatus=firststatus;
-        this.IsEdit=IsEdit;
+    public InitDataExpandableListAdapter(Activity activity, Context context, List<List<String>> childArray, FcStDataModel fcStDataModel, String filest, String images, int
+            isWhatePic, int firststatus, int IsEdit) {
+        this.activity = activity;
+        this.context = context;
+        this.childArray = childArray;
+        this.fcStDataModel = fcStDataModel;
+        this.filest = filest;
+        this.images = images;
+        this.isWhatePic = isWhatePic;
+        this.firststatus = firststatus;
+        this.IsEdit = IsEdit;
 
     }
 
@@ -102,59 +101,51 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View view = convertView;
         GroupHolder holder = null;
-        if(view == null){
+        if (view == null) {
             holder = new GroupHolder();
             view = LayoutInflater.from(context).inflate(R.layout.expandlist_group, null);
-            holder.groupName = (TextView)view.findViewById(R.id.tv_group_name);
-            holder.arrow = (ImageView)view.findViewById(R.id.arrow);
-            holder.im_pic_icon= (ImageView) view.findViewById(R.id.im_pic_icon);
-            holder.im_pic= (ImageView) view.findViewById(R.id.im_pic);
-            holder.group1= (LinearLayout) view.findViewById(R.id.group1);
-            holder.group2= (LinearLayout) view.findViewById(R.id.group2);
-            holder.group3= (LinearLayout) view.findViewById(R.id.group3);
-            holder.tv_takepho_guide= (TextView) view.findViewById(R.id.tv_takepho_guide);
-            holder.tv_write_nick= (TextView) view.findViewById(R.id.tv_write_nick);
-            holder.iv_write_head= (ImageView) view.findViewById(R.id.iv_write_head);
-            holder.im_state= (ImageView) view.findViewById(R.id.im_state);
-            holder.im_right5= (ImageView) view.findViewById(R.id.im_right5);
-            holder.tv_retest_write_weekth= (TextView) view.findViewById(R.id.tv_retest_write_weekth);
+            holder.groupName = (TextView) view.findViewById(R.id.tv_group_name);
+            holder.arrow = (ImageView) view.findViewById(R.id.arrow);
+            holder.im_pic_icon = (ImageView) view.findViewById(R.id.im_pic_icon);//拍照相机
+            holder.im_pic = (ImageView) view.findViewById(R.id.im_pic);
+            holder.group1 = (LinearLayout) view.findViewById(R.id.group1);
+            holder.group2 = (LinearLayout) view.findViewById(R.id.group2);
+            holder.group3 = (LinearLayout) view.findViewById(R.id.group3);
+            holder.tv_takepho_guide = (TextView) view.findViewById(R.id.tv_takepho_guide);//拍照指南
+            holder.tv_write_nick = (TextView) view.findViewById(R.id.tv_write_nick);//昵称
+            holder.iv_write_head = (ImageView) view.findViewById(R.id.iv_write_head);//头像
+            holder.im_state = (ImageView) view.findViewById(R.id.im_state); // 初始录入状态  （如 已通过）
+            holder.im_right5 = (ImageView) view.findViewById(R.id.im_right5); //拍照上传后面的 箭头
+            holder.tv_retest_write_weekth = (TextView) view.findViewById(R.id.tv_retest_write_weekth);//第几周
             view.setTag(holder);
-        }else{
-            holder = (GroupHolder)view.getTag();
+        } else {
+            holder = (GroupHolder) view.getTag();
         }
-        switch (groupPosition)
-        {
+        switch (groupPosition) {
             case 0:
                 holder.group1.setVisibility(View.VISIBLE);
                 holder.group2.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
                 holder.tv_write_nick.setText(fcStDataModel.getUserName());
-                if (!TextUtils.isEmpty(fcStDataModel.getPhoto()))
-                {
-                    Picasso.with(context).load(AddressManager.get("photoHost")+fcStDataModel.getPhoto()).placeholder(R.drawable.img_default).centerCrop()
+                if (!TextUtils.isEmpty(fcStDataModel.getPhoto())) {
+                    Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getPhoto()).placeholder(R.drawable.img_default).centerCrop()
                             .fit().into(holder.iv_write_head);
-                }
-                else {
+                } else {
                     Picasso.with(context).load(R.drawable.img_default).centerCrop()
                             .fit().into(holder.iv_write_head);
                 }
-                if (childArray.get(groupPosition).size()==3)
-                {
+                if (childArray.get(groupPosition).size() == 3) {
                     holder.tv_retest_write_weekth.setVisibility(View.GONE);
-                }
-                else {
-                    FormData formData=new FormData();
-                    if (TextUtils.isEmpty(formData.formdata(fcStDataModel.getWeekNum())))
-                    {
+                } else {
+                    FormData formData = new FormData();
+                    if (TextUtils.isEmpty(formData.formdata(fcStDataModel.getWeekNum()))) {
                         holder.tv_retest_write_weekth.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         holder.tv_retest_write_weekth.setText("(第" + formData.formdata(fcStDataModel.getWeekNum()) + "周)");
                     }
                 }
-                switch (firststatus)
-                {
+                switch (firststatus) {
                     case 1:
                         //未录入
                         holder.im_state.setImageResource(R.drawable.nocomit_fc_icon);
@@ -175,11 +166,10 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
                 holder.group1.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
-                if (IsEdit!=1)
-                {
+                if (IsEdit != 1) {
                     holder.im_right5.setVisibility(View.INVISIBLE);
                 }
-                switch (isWhatePic)
+                switch (isWhatePic)  ////0没有图片1网络图片2文件图片
                 {
                     case 0:
                         //不存在图片
@@ -189,7 +179,7 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
                     case 1:
                         holder.im_pic_icon.setVisibility(View.GONE);
                         holder.im_pic.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(AddressManager.get("photoHost")+images).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                        Picasso.with(context).load(AddressManager.get("photoHost") + images).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
                         break;
                     case 2:
                         holder.im_pic_icon.setVisibility(View.GONE);
@@ -210,9 +200,9 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
                 holder.group3.setVisibility(View.VISIBLE);
                 holder.tv_takepho_guide.setVisibility(View.GONE);
                 //判断是否已经打开列表
-                if(isExpanded){
+                if (isExpanded) {
                     holder.arrow.setBackgroundResource(R.drawable.arrow_up_icon);
-                }else{
+                } else {
                     holder.arrow.setBackgroundResource(R.drawable.arrow_down_icon);
                 }
                 break;
@@ -225,26 +215,24 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View view = convertView;
         ChildHolder holder = null;
-        if(view == null){
+        if (view == null) {
             holder = new ChildHolder();
             view = LayoutInflater.from(context).inflate(R.layout.expandlist_item, null);
-            holder.childName = (TextView)view.findViewById(R.id.tv_child_name);
-            holder.tv_value = (TextView)view.findViewById(R.id.tv_value);
-            holder.im_aciton = (ImageView)view.findViewById(R.id.im_aciton);
-            holder.re_body= (RelativeLayout) view.findViewById(R.id.re_body);
-            holder.tv_danwei= (TextView) view.findViewById(R.id.tv_danwei);
+            holder.childName = (TextView) view.findViewById(R.id.tv_child_name);
+            holder.tv_value = (TextView) view.findViewById(R.id.tv_value);
+            holder.im_aciton = (ImageView) view.findViewById(R.id.im_aciton);
+            holder.re_body = (RelativeLayout) view.findViewById(R.id.re_body);
+            holder.tv_danwei = (TextView) view.findViewById(R.id.tv_danwei);
             view.setTag(holder);
-        }else{
-            holder = (ChildHolder)view.getTag();
+        } else {
+            holder = (ChildHolder) view.getTag();
         }
-        if (IsEdit==1)
-        {
+        if (IsEdit == 1) {
             holder.im_aciton.setBackgroundResource(R.drawable.action_right);
         }
-        switch (groupPosition)
-        {
+        switch (groupPosition) {
             case 0:
-                if (childArray.get(groupPosition).size()==3) {
+                if (childArray.get(groupPosition).size() == 3) {
                     switch (childPosition) {
                         case 0:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
@@ -259,8 +247,7 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
                             holder.tv_danwei.setText("    ");
                             break;
                     }
-                }
-                else {
+                } else {
                     switch (childPosition) {
                         case 0:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getInitWeight()) ? "" : fcStDataModel.getInitWeight());
@@ -282,8 +269,7 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
                 }
                 break;
             case 3:
-                switch (childPosition)
-                {
+                switch (childPosition) {
                     case 0:
                         holder.tv_value.setText(fcStDataModel.getCircum());
                         holder.tv_danwei.setText("cm");
@@ -312,8 +298,44 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
                     case 5:
                         holder.tv_value.setText(fcStDataModel.getDoLegGirth());
                         holder.tv_danwei.setText("cm");
-
                         break;
+                    case 6: //BMI
+                        holder.tv_value.setText(fcStDataModel.getBMI());
+                        holder.tv_danwei.setText("斤/平方米");
+                        break;
+                    case 7://去脂体重
+                        holder.tv_value.setText(fcStDataModel.getFatFreeMass());
+                        holder.tv_danwei.setText("斤/平方米");
+                        break;
+                    case 8://内脏脂肪指数
+                        holder.tv_value.setText(fcStDataModel.getViscusFatIndex());
+                        holder.tv_danwei.setText("");
+                        break;
+                    case 9://身体水分率
+                        holder.tv_value.setText(fcStDataModel.getBodyWaterRate());
+                        holder.tv_danwei.setText("%");
+                        break;
+                    case 10: //身体水分
+                        holder.tv_value.setText(fcStDataModel.getBodyWater());
+                        holder.tv_danwei.setText("斤");
+                        break;
+                    case 11: //肌肉量
+                        holder.tv_value.setText(fcStDataModel.getMuscleMass());
+                        holder.tv_danwei.setText("斤");
+                        break;
+                    case 12: //骨量
+                        holder.tv_value.setText(fcStDataModel.getBoneMass());
+                        holder.tv_danwei.setText("斤");
+                        break;
+                    case 13: //基础代谢
+                        holder.tv_value.setText(fcStDataModel.getBasalMetabolism());
+                        holder.tv_danwei.setText("千卡/天");
+                        break;
+                    case 14: //身体年龄
+                        holder.tv_value.setText(fcStDataModel.getPhysicalAge());
+                        holder.tv_danwei.setText("");
+                        break;
+
                 }
                 break;
         }
@@ -370,17 +392,18 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
         textView.setTextSize(20);
         return textView;
     }
-    class GroupHolder{
-        public TextView groupName,tv_retest_write_weekth;
-        public TextView tv_takepho_guide,tv_write_nick;
-        public ImageView arrow,im_pic_icon,im_pic,iv_write_head,
-                im_state,im_right5;
+
+    class GroupHolder {
+        public TextView groupName, tv_retest_write_weekth;
+        public TextView tv_takepho_guide, tv_write_nick;
+        public ImageView arrow, im_pic_icon, im_pic, iv_write_head,
+                im_state, im_right5;
         public LinearLayout group1;
         public LinearLayout group2;
         public LinearLayout group3;
     }
 
-    class ChildHolder{
+    class ChildHolder {
         public TextView childName;
         public TextView tv_value;
         public TextView tv_danwei;

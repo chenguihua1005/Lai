@@ -23,6 +23,7 @@ import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
 import com.softtek.lai.module.laicheng.net.BleService;
+import com.softtek.lai.module.laicheng.presenter.BleBasePresenter;
 import com.softtek.lai.module.laicheng.shake.ShakeListener;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.BleStateListener;
@@ -42,7 +43,7 @@ import retrofit.client.Response;
 import uk.co.senab.photoview.log.LogManager;
 import zilla.libcore.api.ZillaApi;
 
-public abstract class MainBaseActivity extends BleBaseActivity {
+public abstract class MainBaseActivity extends BleBaseActivity implements BleBasePresenter.BleBaseView {
 
     private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
     private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
@@ -75,8 +76,6 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 
     protected BleStateListener bleStateListener;
 
-    private boolean isCheckPermission = false;
-
     private DeviceListDialog deviceListDialog;
 
     private int position;
@@ -93,9 +92,21 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 
     protected SoundHelper soundHelper;
 
+    private BleBasePresenter presenter;
+
+    private String voiceTemp;
+
     private void shake() {
         openBluetoothSetting();
         mShakeListener.stop();
+    }
+
+    protected void setGuest(boolean isGuest) {
+        this.isGuest = isGuest;
+    }
+
+    private boolean getGuest() {
+        return isGuest;
     }
 
     @Override
@@ -108,15 +119,17 @@ public abstract class MainBaseActivity extends BleBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         permission = MPermission.with(this);
-        isGuest = isGuested();
         mShakeListener = new ShakeListener(this);
-        soundHelper = new SoundHelper(this,6);
-        soundHelper.addAudio("one",R.raw.help_one);
-        soundHelper.addAudio("two",R.raw.help_two);
-        soundHelper.addAudio("three",R.raw.help_three);
-        soundHelper.addAudio("four",R.raw.help_four);
-        soundHelper.addAudio("five",R.raw.help_five);
-        soundHelper.addAudio("six",R.raw.help_six);
+        soundHelper = new SoundHelper(this, 6);
+        soundHelper.addAudio("one", R.raw.help_one);
+        soundHelper.addAudio("two", R.raw.help_two);
+        soundHelper.addAudio("three", R.raw.help_three);
+        soundHelper.addAudio("four", R.raw.help_four);
+        soundHelper.addAudio("five", R.raw.help_five);
+        soundHelper.addAudio("six", R.raw.help_six);
+
+        presenter = new BleBasePresenter(this);
+
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
@@ -138,11 +151,8 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                 bluetoothPosition = positions;
                 if (deviceListDialog.getBluetoothDevice(bluetoothPosition) != null && deviceListDialog.getBluetoothDevice(bluetoothPosition).getName() != null &&
                         deviceListDialog.getBluetoothDevice(bluetoothPosition).getAddress() != null) {
-//                    dialogShow("正在校验设备");
-                    connectBluetooth(deviceListDialog.getBluetoothDevice(bluetoothPosition));
-                    deviceListDialog.dismiss();
-//                    GetExistEquipment getExistEquipment = new GetExistEquipment(MainBaseActivity.this, httpListener);
-//                    getExistEquipment.request(deviceListDialog.getBluetoothDevice(bluetoothPosition).getAddress());
+                    dialogShow("正在校验设备");
+                    presenter.checkMac(token,deviceListDialog.getBluetoothDevice(positions).getAddress());
                 }
             }
 
@@ -280,28 +290,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                 }
             }
         };
-
-        //请求token
-        ZillaApi.getCustomRESTAdapter(BASE_URL + "oauth/token/", new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-
-            }
-        }).create(BleService.class)
-                .getBleToken("client_credentials", "shhcieurjfn734js", "qieow8572jkcv", new RequestCallback<BleTokenResponse>() {
-                    @Override
-                    public void success(BleTokenResponse bleTokenResponse, Response response) {
-                        token = bleTokenResponse.getAccess_token();
-//                        storeOrSendCalcRsData(74.2f, 288.5f, 293.8f, 27.0f, 251.3f, 244.4f, 255.2f, 260.5f, 23.4f, 216.0f, 211.0f);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                        Toast.makeText(getApplicationContext(), "获取token失败", Toast.LENGTH_SHORT).show();
-                        token = "";
-                    }
-                });
+        presenter.getToken();
         initUi();
     }
 
@@ -532,12 +521,15 @@ public abstract class MainBaseActivity extends BleBaseActivity {
             case CONNECTED_STATE_SHAKE_IT:
                 //称前摇一摇
                 state_current = CONNECTED_STATE_SHAKE_IT;
+                setStateTip("摇一摇，链接莱秤");
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_shake_it);
 //                tv_connect_state.setText(R.string.mainpage_connection_shake_it);
+
                 break;
             case CONNECTED_STATE_LOADING:
                 state_current = CONNECTED_STATE_LOADING;
                 //正在连接中，请稍后...
+                setStateTip("正在连接中，请稍候...");
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_loading);
 //                Animation anim = AnimationUtils.loadAnimation(this, R.anim.rotate_aways);
 //                anim.setInterpolator(new LinearInterpolator());
@@ -547,29 +539,34 @@ public abstract class MainBaseActivity extends BleBaseActivity {
             case CONNECTED_STATE_FAILED:
                 //连接失败，请重试
                 state_current = CONNECTED_STATE_FAILED;
+                setStateTip("链接失败，请重试");
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_failed);
 //                tv_connect_state.setText(R.string.mainpage_connection_faild);
                 break;
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤
+                setStateTip("已链接，请上秤");
                 state_current = CONNECTED_STATE_SUCCESS;
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
 //                tv_connect_state.setText(R.string.mainpage_connection_success);
                 if (isVoiceHelp) {
                     mCloseVoiceTimeOut = 60;
                     soundHelper.play("two");
+                    voiceTemp = "two";
                 }
                 break;
             case CONNECTED_STATE_WEIGHT:
-//                showNoCancelLoadingDialog("亲，请稍等，测量中...");
+                dialogShow("亲，请稍等，测量中...");
                 state_current = CONNECTED_STATE_WEIGHT;
                 if (isVoiceHelp) {
                     soundHelper.play("three");
+                    voiceTemp = "three";
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (isVoiceHelp && state_current == CONNECTED_STATE_WEIGHT) {
                                 soundHelper.play("four");
+                                voiceTemp = "four";
                                 handler.postDelayed(this, 2000);
                             }
                         }
@@ -592,12 +589,14 @@ public abstract class MainBaseActivity extends BleBaseActivity {
 //                tv_connect_state.setText(R.string.mainpage_connection_uploading);
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
+                dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
 //                SoundPlay.getInstance().stop();
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
 //                tv_connect_state.setText(R.string.mainpage_connection_success);
                 if (isVoiceHelp) {
                     soundHelper.play("five");
+                    voiceTemp = "five";
                     isVoiceHelp = false;
 //                    cVoice.setImageResource(R.drawable.animation_voice);
 //                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
@@ -606,6 +605,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                 }
                 break;
             case CONNECTED_STATE_UPLOADING_FAIL:
+                setStateTip("测量失败，请重新测量");
                 state_current = CONNECTED_STATE_SUCCESS;
 //                SoundPlay.getInstance().stop();
 //                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
@@ -613,6 +613,7 @@ public abstract class MainBaseActivity extends BleBaseActivity {
                 if (isVoiceHelp) {
                     soundHelper.play("six");
                     isVoiceHelp = false;
+                    voiceTemp = "six";
 //                    cVoice.setImageResource(R.drawable.animation_voice);
 //                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
 //                    animationDrawable.stop();
@@ -745,38 +746,19 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         model.setR22(String.valueOf(f07RS3));
         model.setR23(String.valueOf(f07RS4));
         model.setR24(String.valueOf(f07RS5));
-        if (isGuest) {
-            model.setWeight(String.valueOf(getGuestInfo().getWeight()));
+        model.setWeight(String.valueOf(weight));
+        if (getGuest()) {
             model.setHeight(String.valueOf(getGuestInfo().getHeight()));
             model.setBirthdate(String.valueOf(getGuestInfo().getBirthdate()));
             model.setGender(getGuestInfo().getGender());
         } else {
-            model.setWeight(String.valueOf(weight));
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());
             model.setBirthdate(String.valueOf(UserInfoModel.getInstance().getUser().getBirthday()));
             model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 2 : 1);
         }
 
+        presenter.upLoadImpedance(model);
 
-        ZillaApi.getCustomRESTAdapter(BASE_URL + "DataSync/UploadData", new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-
-            }
-        }).create(BleService.class).uploadImpedance(model, new RequestCallback<BleMainData>() {
-            @Override
-            public void success(BleMainData data, Response response) {
-                initUiByBleSuccess(data);
-//                sendFatRateToDevice(2.333f);
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                super.failure(error);
-                initUiByBleFailed();
-            }
-        });
         Log.d("上传给服务器的逻辑------------", "storeOrSendCalcRsData上传");
 
 
@@ -809,13 +791,53 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         mShakeListener.start();
     }
 
+    public void stopVioce(){
+
+    }
+
     public abstract void initUi();
 
     public abstract void initUiByBleSuccess(BleMainData data);
 
     public abstract void initUiByBleFailed();
 
-    public abstract boolean isGuested();
-
     public abstract UserInfoEntity getGuestInfo();
+
+    public abstract void setStateTip(String state);
+
+    @Override
+    public void checkMacSuccess() {
+        connectBluetooth(deviceListDialog.getBluetoothDevice(bluetoothPosition));
+        deviceListDialog.dismiss();
+        dialogDissmiss();
+    }
+
+    @Override
+    public void checkMacFailed() {
+        dialogDissmiss();
+    }
+
+    @Override
+    public void getTokenSuccess(BleTokenResponse response) {
+        token = response.getAccess_token();
+    }
+
+    @Override
+    public void getTokenFailed() {
+        token = "";
+    }
+
+    @Override
+    public void upLoadImpedanceSuccess(BleMainData data) {
+        changeConnectionState(CONNECTED_STATE_UPLOADING_SUCCESS);
+        sendFatRateToDevice((float) data.getBodyfatrate());
+        isResultTest = true;
+        initUiByBleSuccess(data);
+    }
+
+    @Override
+    public void upLoadImpedanceFailed() {
+        initUiByBleFailed();
+        changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+    }
 }
