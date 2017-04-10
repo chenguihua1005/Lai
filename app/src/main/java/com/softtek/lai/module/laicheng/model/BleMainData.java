@@ -1,12 +1,13 @@
 package com.softtek.lai.module.laicheng.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by jia.lu on 2017/4/5.
  */
 
-public class BleMainData {
+public class BleMainData implements Serializable{
 
     /**
      * bodytype : 3
@@ -362,7 +363,7 @@ public class BleMainData {
         this.physicalage_item = physicalage_item;
     }
 
-    public static class WeightConBean {
+    public static class WeightConBean implements Serializable{
         /**
          * caption : 超重
          * color : ff6666
@@ -388,7 +389,7 @@ public class BleMainData {
         }
     }
 
-    public static class WeightItemBean {
+    public static class WeightItemBean implements Serializable{
         /**
          * value : 74.2
          * unit : kg
@@ -455,7 +456,7 @@ public class BleMainData {
 
     }
 
-    public static class BmiConBean {
+    public static class BmiConBean implements Serializable{
         /**
          * caption : 肥胖
          * color : ff6666
@@ -481,7 +482,7 @@ public class BleMainData {
         }
     }
 
-    public static class BmiItemBean {
+    public static class BmiItemBean implements Serializable{
         /**
          * value : 25.7
          * unit : kg/m2
@@ -547,7 +548,7 @@ public class BleMainData {
         }
     }
 
-    public static class BodyfatItemBean {
+    public static class BodyfatItemBean implements Serializable{
         /**
          * value : 24
          * unit : kg
@@ -613,7 +614,7 @@ public class BleMainData {
         }
     }
 
-    public static class BodyfatrateConBean {
+    public static class BodyfatrateConBean implements Serializable{
         /**
          * caption : 过度肥胖
          * color : ff6666
@@ -639,7 +640,7 @@ public class BleMainData {
         }
     }
 
-    public static class BodyfatrateItemBean {
+    public static class BodyfatrateItemBean implements Serializable{
         /**
          * value : 32.4
          * unit : %
@@ -705,7 +706,7 @@ public class BleMainData {
         }
     }
 
-    public static class FatfreemassConBean {
+    public static class FatfreemassConBean implements Serializable{
         /**
          * caption : 理想
          * color : 93c952
@@ -731,7 +732,7 @@ public class BleMainData {
         }
     }
 
-    public static class FatfreemassItemBean {
+    public static class FatfreemassItemBean implements Serializable{
         /**
          * value : 50.2
          * unit : kg
@@ -797,7 +798,7 @@ public class BleMainData {
         }
     }
 
-    public static class WatercontentItemBean {
+    public static class WatercontentItemBean implements Serializable{
         /**
          * value : 37
          * unit : kg
@@ -863,7 +864,7 @@ public class BleMainData {
         }
     }
 
-    public static class WatercontentrateConBean {
+    public static class WatercontentrateConBean implements Serializable{
         /**
          * caption : 偏低
          * color : ff6666
@@ -889,7 +890,7 @@ public class BleMainData {
         }
     }
 
-    public static class WatercontentrateItemBean {
+    public static class WatercontentrateItemBean implements Serializable{
         /**
          * value : 49.8
          * unit : %
@@ -955,7 +956,7 @@ public class BleMainData {
         }
     }
 
-    public static class VisceralfatindexConBean {
+    public static class VisceralfatindexConBean implements Serializable{
         /**
          * caption : 超标
          * color : ff6666
@@ -981,7 +982,7 @@ public class BleMainData {
         }
     }
 
-    public static class VisceralfatindexItemBean {
+    public static class VisceralfatindexItemBean implements Serializable{
         /**
          * value : 10
          * color : ee8a17
@@ -1037,7 +1038,7 @@ public class BleMainData {
         }
     }
 
-    public static class BonemassConBean {
+    public static class BonemassConBean implements Serializable{
         /**
          * caption : ⼀般
          * color : 93c952
@@ -1063,7 +1064,7 @@ public class BleMainData {
         }
     }
 
-    public static class BonemassItemBean {
+    public static class BonemassItemBean implements Serializable{
         /**
          * value : 2.8
          * unit : kg
@@ -1129,7 +1130,7 @@ public class BleMainData {
         }
     }
 
-    public static class MusclemassConBean {
+    public static class MusclemassConBean implements Serializable{
         /**
          * caption : 一般
          * color : 93c952
@@ -1155,7 +1156,7 @@ public class BleMainData {
         }
     }
 
-    public static class MusclemassItemBean {
+    public static class MusclemassItemBean implements Serializable{
         /**
          * value : 46.7
          * unit : kg
@@ -1221,7 +1222,7 @@ public class BleMainData {
         }
     }
 
-    public static class BasalmetabolicrateConBean {
+    public static class BasalmetabolicrateConBean implements Serializable{
         /**
          * caption : 代谢偏慢
          * color : ff6666
@@ -1247,7 +1248,7 @@ public class BleMainData {
         }
     }
 
-    public static class BasalmetabolicrateItemBean {
+    public static class BasalmetabolicrateItemBean implements Serializable{
         /**
          * value : 1456.3
          * unit : kcal/day
@@ -1313,7 +1314,7 @@ public class BleMainData {
         }
     }
 
-    public static class PhysicalageConBean {
+    public static class PhysicalageConBean implements Serializable{
         /**
          * color : ff6666
          */
@@ -1329,7 +1330,7 @@ public class BleMainData {
         }
     }
 
-    public static class PhysicalageItemBean {
+    public static class PhysicalageItemBean implements Serializable{
         /**
          * value : 33.8
          * unit :
@@ -1395,7 +1396,7 @@ public class BleMainData {
         }
     }
 
-    public static class RangeBean {
+    public static class RangeBean implements Serializable{
         /**
          * value : 35
          * color : 66b3ff

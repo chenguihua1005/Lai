@@ -33,14 +33,19 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_laibalance)
-public class LaibalanceActivity extends MainBaseActivity {
+public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener {
 
     @InjectView(R.id.tab_balance)
     TabLayout tab_balance;
     @InjectView(R.id.content)
     ViewPager content;
 
+    private int pageIndex;
+
     List<FragmentModel> fragmentModels = new ArrayList<>();
+
+    SelftestFragment selftestFragment;
+    VisitortestFragment visitortestFragment;
 
     @OnClick(R.id.fl_left)
     public void doBack() {
@@ -52,7 +57,7 @@ public class LaibalanceActivity extends MainBaseActivity {
     private void initPermissionSuccess() {
         setBleStateListener(bleStateListener);
         mShakeListener.start();
-        Log.d("enter bleStateListener --------","bleStateListener");
+        Log.d("enter bleStateListener --------", "bleStateListener");
     }
 
     @PermissionFail(id = 1)
@@ -73,9 +78,12 @@ public class LaibalanceActivity extends MainBaseActivity {
 
     @Override
     public void initUi() {
-        permission.apply(1,Manifest.permission.ACCESS_COARSE_LOCATION);
-        fragmentModels.add(new FragmentModel("给自己测", new SelftestFragment()));
-        fragmentModels.add(new FragmentModel("给访客测", new VisitortestFragment()));
+        selftestFragment = SelftestFragment.newInstance(null);
+        visitortestFragment = new VisitortestFragment();
+        pageIndex = content.getCurrentItem();
+        permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION);
+        fragmentModels.add(new FragmentModel("给自己测", selftestFragment));
+        fragmentModels.add(new FragmentModel("给访客测", visitortestFragment));
         content.setOffscreenPageLimit(1);
         content.setAdapter(new BalanceAdapter(getSupportFragmentManager(), fragmentModels));
         tab_balance.setupWithViewPager(content);
@@ -89,25 +97,61 @@ public class LaibalanceActivity extends MainBaseActivity {
             Picasso.with(this).load(AddressManager.get("photoHost") + UserInfoModel.getInstance().getUser().getPhoto())
                     .fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ);
         }
+        content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pageIndex = position;
+                Log.d("index-------------", String.valueOf(pageIndex));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     @Override
     public void initUiByBleSuccess(BleMainData data) {
+        if (pageIndex == 0) {
+
+        } else {
+
+        }
         Toast.makeText(getApplicationContext(), "上传体脂率成功回调", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void initUiByBleFailed() {
+        if (pageIndex == 0) {
 
+        } else {
+
+        }
     }
+
 
     @Override
     public boolean isGuested() {
-        return false;
+        if (pageIndex == 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public UserInfoEntity getGuestInfo() {
         return null;
+    }
+
+    @Override
+    public void onVoiceListener() {
+        soundHelper.play("one");
     }
 }
