@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.view.FormData;
-import com.softtek.lai.module.health.view.DateForm;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

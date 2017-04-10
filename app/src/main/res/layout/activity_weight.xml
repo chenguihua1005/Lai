@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".module.health.view.HealthyRecordActivity">
+    tools:context=".module.healthchart.view.HealthyRecordActivity">
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
 

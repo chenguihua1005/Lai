@@ -441,7 +441,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 intent.putExtra("classid", classid);
                 startActivityForResult(intent, 0);
                 break;
-            case R.id.ll_chuDate: {
+            case R.id.ll_chuDate: { //学员：初始数据录入   其他角色：初始数据审核
                 BtnTag tag = (BtnTag) view.getTag();
                 if (tag == null) {
                     return;
@@ -467,7 +467,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             case R.id.ll_left:
                 getActivity().finish();
                 break;
-            case R.id.ll_fuce://复测审核
+            case R.id.ll_fuce://学员：复测录入    其他：复测审核
             {
                 BtnTag tag = (BtnTag) view.getTag();
                 if (tag == null) {

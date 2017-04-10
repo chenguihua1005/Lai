@@ -53,7 +53,7 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.home.service.UpdateService;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
-import com.softtek.lai.module.laicheng.HealthyReportActivity;
+import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -66,7 +66,6 @@ import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.RollHeaderView;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
