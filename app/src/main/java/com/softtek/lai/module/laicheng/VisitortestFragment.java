@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laicheng;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -56,7 +57,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
 
     @InjectView(R.id.bt_create)
     Button bt_create;//
-
+    @InjectView(R.id.bt_history)
+    Button bt_history;
 
     @InjectView(R.id.ll_visitor)
     LinearLayout ll_visitor;//访客信息
@@ -89,6 +91,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     protected void initViews() {
         bt_again.setOnClickListener(this);
         bt_create.setOnClickListener(this);
+        bt_history.setOnClickListener(this);
     }
 
     @Override
@@ -172,6 +175,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
                 break;
             case R.id.bt_create:
                 showTypeDialog();
+                break;
+            case R.id.bt_history:
+                Intent intent=new Intent(getActivity(),VisithistoryActivity.class);
+                startActivity(intent);
                 break;
         }
     }
