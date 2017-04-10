@@ -1,6 +1,5 @@
 package com.softtek.lai.module.historydate.view;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.KeyEvent;
@@ -85,10 +84,6 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        HistoryData data = dataItemModels.get(position - 1).getDataModel();
-        Intent intent = new Intent(this, HistoryDataDetailActivity.class);
-        intent.putExtra("historyData", data);
-        startActivity(intent);
     }
 
     private boolean editOrCompleted = false;

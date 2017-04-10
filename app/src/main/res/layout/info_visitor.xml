@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:id="@+id/rl_area"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="25dp"
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
     <TextView
@@ -15,36 +16,133 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="14dp"
         android:layout_marginTop="14dp"
-        android:textSize="14sp"
+        android:text="访客信息"
         android:textColor="#57B495"
-        android:text="访客信息" />
+        android:textSize="14sp" />
 
     <View
-        android:layout_below="@id/textView8"
-        android:background="#57B495"
-        android:layout_marginTop="5dp"
+        android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:id="@+id/view3"></View>
+        android:layout_below="@id/textView8"
+        android:layout_marginTop="5dp"
+        android:background="#57B495"></View>
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:text="姓名"
+        android:layout_alignStart="@+id/textView8"
         android:layout_below="@+id/view3"
-        android:layout_alignStart="@+id/textView8" />
+        android:layout_marginTop="31dp"
+        android:text="姓名" />
 
     <EditText
         android:id="@+id/et_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:layout_alignBaseline="@+id/textView9"
         android:layout_alignBottom="@+id/textView9"
-        android:layout_toEndOf="@+id/textView8" />
+        android:layout_toEndOf="@+id/textView8"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_below="@+id/et_name"
+        android:layout_marginTop="18dp"
+        android:text="年龄" />
+
+    <EditText
+        android:id="@+id/et_old"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/et_name"
+        android:layout_below="@+id/et_name"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView11"
+        android:layout_below="@+id/et_old"
+        android:layout_marginTop="18dp"
+        android:text="身高" />
+
+    <EditText
+        android:id="@+id/et_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/et_old"
+        android:layout_below="@+id/et_old"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView12"
+        android:layout_below="@+id/et_height"
+        android:layout_marginTop="18dp"
+        android:text="性别" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView14"
+        android:layout_alignStart="@+id/et_height"
+        android:orientation="horizontal"
+        android:layout_marginStart="19dp"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男" />
+
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女" />
+
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="手机号"
+        android:layout_below="@+id/textView14"
+        android:layout_alignStart="@+id/textView14" />
+
+    <EditText
+        android:id="@+id/editText6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/et_height"
+        android:layout_below="@+id/radioGroup"
+        android:ems="10"
+        android:inputType="textPersonName"
+         />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/radioGroup"
+        android:layout_below="@+id/editText6"
+        android:layout_marginTop="27dp"
+        android:text="提交" />
 
 
 </RelativeLayout>
