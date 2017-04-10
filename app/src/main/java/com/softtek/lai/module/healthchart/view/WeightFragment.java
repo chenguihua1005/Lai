@@ -9,15 +9,7 @@ import android.widget.RadioGroup;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.healthchart.model.HealthCircrumModel;
-import com.softtek.lai.module.healthchart.model.HealthFatModel;
-import com.softtek.lai.module.healthchart.model.HealthHiplieModel;
-import com.softtek.lai.module.healthchart.model.HealthUpArmGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthWaistlineModel;
 import com.softtek.lai.module.healthchart.model.HealthWeightModel;
-import com.softtek.lai.module.healthchart.model.HealthdoLegGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthupLegGirthModel;
-import com.softtek.lai.module.healthchart.model.PysicalModel;
 import com.softtek.lai.module.healthchart.model.WeightlistModel;
 import com.softtek.lai.module.healthchart.presenter.HealthRecordManager;
 import com.softtek.lai.utils.DisplayUtil;
@@ -36,7 +28,8 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_weight)
-public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthRecordManager.HealthRecordCallBack, View.OnClickListener {
+public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,
+        HealthRecordManager.HealthRecordCallBack<HealthWeightModel>, View.OnClickListener {
 
     @InjectView(R.id.chart)
     Chart chart;
@@ -65,7 +58,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
 
     private ProgressDialog progressDialog;
 
-    HealthRecordManager healthRecordManager;
+    HealthRecordManager<HealthWeightModel> healthRecordManager;
 
     @Override
     protected void initViews() {
@@ -87,7 +80,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        healthRecordManager = new HealthRecordManager(this);
+        healthRecordManager = new HealthRecordManager<>(this);
 
         dates.clear();
 
@@ -186,69 +179,6 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         return nowdate.substring(0, 4) + "-"
                 + nowdate.substring(4, 6) + "-"
                 + nowdate.substring(6, 8);
-
-    }
-
-
-    @Override
-    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
-
-    }
-
-    @Override
-    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
-        try {
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            if (healthWeightModel == null) {
-                return;
-            }
-            List<WeightlistModel> models=healthWeightModel.getweightlist();
-            float max=0;
-            for (int i = 0; i < models.size(); i++) {
-                float weight=Float.parseFloat(models.get(i).getWeight());
-                max=weight>max?weight:max;
-                Entry entry=new Entry(i,weight);
-                dates.add(entry);
-            }
-            chart.setDate(days,dates, max);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void getHealthfatRecords(HealthFatModel healthFatModel) {
-
-    }
-
-    @Override
-    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
-
-    }
-
-    @Override
-    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
-
-    }
-
-    @Override
-    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
-
-    }
-
-    @Override
-    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
-
-    }
-
-    @Override
-    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
-
-    }
-
-    @Override
-    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
 
     }
 
@@ -584,5 +514,27 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         days.add(formdate(weekdate7));
         progressDialog.show();
         healthRecordManager.doGetHealthWeightRecords(getDateform(weekdate1), getDateform(weekdate7), 1);
+    }
+
+    @Override
+    public void getHealthyData(HealthWeightModel data) {
+        try {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            if (data == null) {
+                return;
+            }
+            List<WeightlistModel> models=data.getweightlist();
+            float max=0;
+            for (int i = 0; i < models.size(); i++) {
+                float weight=Float.parseFloat(models.get(i).getWeight());
+                max=weight>max?weight:max;
+                Entry entry=new Entry(i,weight);
+                dates.add(entry);
+            }
+            chart.setDate(days,dates, max);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

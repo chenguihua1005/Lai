@@ -35,7 +35,8 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener, HealthRecordManager.HealthRecordCallBack {
+public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener,
+        HealthRecordManager.HealthRecordCallBack<PysicalModel> {
 
     @InjectView(R.id.chart)
     Chart chart;
@@ -63,7 +64,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     boolean state = true;
     int flag = 0;
     private ProgressDialog progressDialog;
-    HealthRecordManager healthRecordManager;
+    HealthRecordManager<PysicalModel> healthRecordManager;
     DateForm dateForm;
 
 
@@ -90,7 +91,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        healthRecordManager = new HealthRecordManager(this);
+        healthRecordManager = new HealthRecordManager<>(this);
         dates.clear();
         String nowdate7 = getPeriodDate(type, 0).toString();
         String nowdate6 = getPeriodDate(type, 1).toString();
@@ -491,14 +492,14 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
 
     @Override
-    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
+    public void getHealthyData(PysicalModel data) {
         try {
             if (progressDialog != null)
                 progressDialog.dismiss();
-            if (pysicalModel == null) {
+            if (data == null) {
                 return;
             }
-            List<PysicallistModel> models=pysicalModel.getPysicallist();
+            List<PysicallistModel> models=data.getPysicallist();
             float max=0;
             for (int i = 0; i < models.size(); i++) {
                 float weight=Float.parseFloat(models.get(i).getPysical());
@@ -510,47 +511,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    }
-
-    @Override
-    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
-
-    }
-
-    @Override
-    public void getHealthfatRecords(HealthFatModel healthFatModel) {
-
-    }
-
-    @Override
-    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
-
-    }
-
-    @Override
-    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
-
-    }
-
-    @Override
-    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
-
-    }
-
-    @Override
-    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
-
-    }
-
-    @Override
-    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
-
-    }
-
-    @Override
-    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
-
     }
 
     public void updateBodyFatStatus() {

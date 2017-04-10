@@ -10,15 +10,7 @@ import android.widget.RadioGroup;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.healthchart.model.DoLegGirthlistModel;
-import com.softtek.lai.module.healthchart.model.HealthCircrumModel;
-import com.softtek.lai.module.healthchart.model.HealthFatModel;
-import com.softtek.lai.module.healthchart.model.HealthHiplieModel;
-import com.softtek.lai.module.healthchart.model.HealthUpArmGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthWaistlineModel;
-import com.softtek.lai.module.healthchart.model.HealthWeightModel;
 import com.softtek.lai.module.healthchart.model.HealthdoLegGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthupLegGirthModel;
-import com.softtek.lai.module.healthchart.model.PysicalModel;
 import com.softtek.lai.module.healthchart.presenter.HealthRecordManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.chart.Chart;
@@ -35,7 +27,8 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthRecordManager.HealthRecordCallBack, View.OnClickListener {
+public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,
+        HealthRecordManager.HealthRecordCallBack<HealthdoLegGirthModel>, View.OnClickListener {
 
     @InjectView(R.id.chart)
     Chart chart;
@@ -65,7 +58,7 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     int flag = 0;
 
     private ProgressDialog progressDialog;
-    HealthRecordManager healthRecordManager;
+    HealthRecordManager<HealthdoLegGirthModel> healthRecordManager;
 
     @Override
     protected void initViews() {
@@ -86,7 +79,7 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        healthRecordManager = new HealthRecordManager(this);
+        healthRecordManager = new HealthRecordManager<>(this);
         dates.clear();
 
         String nowdate7 = getPeriodDate(type, 0).toString();
@@ -184,68 +177,6 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         date = nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
         return date;
 
-    }
-
-    @Override
-    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
-
-    }
-
-    @Override
-    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
-
-    }
-
-    @Override
-    public void getHealthfatRecords(HealthFatModel healthFatModel) {
-
-    }
-
-    @Override
-    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
-
-    }
-
-    @Override
-    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
-
-    }
-
-    @Override
-    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
-
-    }
-
-    @Override
-    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
-
-    }
-
-    @Override
-    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
-
-    }
-
-    @Override
-    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
-        try {
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            if (healthdoLegGirthModel == null) {
-                return;
-            }
-            List<DoLegGirthlistModel> models = healthdoLegGirthModel.getDoLegGirthlist();
-            float max = 0;
-            for (int i = 0; i < models.size(); i++) {
-                float shin = Float.parseFloat(models.get(i).getDoLegGirth());
-                max = shin > max ? shin : max;
-                Entry entry = new Entry(i, shin);
-                dates.add(entry);
-            }
-            chart.setDate(days, dates, max);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -580,5 +511,27 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         days.add(formdate(weekdate7));
         progressDialog.show();
         healthRecordManager.doGetHealthdoLegGirthRecords(getDateform(weekdate1), getDateform(weekdate7), 1);
+    }
+
+    @Override
+    public void getHealthyData(HealthdoLegGirthModel data) {
+        try {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            if (data == null) {
+                return;
+            }
+            List<DoLegGirthlistModel> models = data.getDoLegGirthlist();
+            float max = 0;
+            for (int i = 0; i < models.size(); i++) {
+                float shin = Float.parseFloat(models.get(i).getDoLegGirth());
+                max = shin > max ? shin : max;
+                Entry entry = new Entry(i, shin);
+                dates.add(entry);
+            }
+            chart.setDate(days, dates, max);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

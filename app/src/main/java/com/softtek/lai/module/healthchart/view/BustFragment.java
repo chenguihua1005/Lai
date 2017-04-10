@@ -11,14 +11,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.healthchart.model.CircumlistModel;
 import com.softtek.lai.module.healthchart.model.HealthCircrumModel;
-import com.softtek.lai.module.healthchart.model.HealthFatModel;
-import com.softtek.lai.module.healthchart.model.HealthHiplieModel;
-import com.softtek.lai.module.healthchart.model.HealthUpArmGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthWaistlineModel;
-import com.softtek.lai.module.healthchart.model.HealthWeightModel;
-import com.softtek.lai.module.healthchart.model.HealthdoLegGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthupLegGirthModel;
-import com.softtek.lai.module.healthchart.model.PysicalModel;
 import com.softtek.lai.module.healthchart.presenter.HealthRecordManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.chart.Chart;
@@ -36,7 +28,8 @@ import zilla.libcore.ui.InjectLayout;
  *         Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthRecordManager.HealthRecordCallBack, View.OnClickListener {
+public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthRecordManager.HealthRecordCallBack<HealthCircrumModel>,
+        View.OnClickListener {
 
     @InjectView(R.id.chart)
     Chart chart;
@@ -69,7 +62,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String date = sDateFormat.format(new java.util.Date());
     String[] datetime = date.split(" ");
-    HealthRecordManager healthRecordManager;
+    HealthRecordManager<HealthCircrumModel> healthRecordManager;
 
     @Override
     protected void initViews() {
@@ -92,7 +85,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        healthRecordManager = new HealthRecordManager(this);
+        healthRecordManager = new HealthRecordManager<>(this);
         dates.clear();
         String nowdate7 = DateForm.getPeriodDate(type, 0).toString();
         String nowdate6 = DateForm.getPeriodDate(type, 1).toString();
@@ -117,68 +110,6 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
 
     }
 
-
-    @Override
-    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
-
-    }
-
-    @Override
-    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
-
-    }
-
-    @Override
-    public void getHealthfatRecords(HealthFatModel healthFatModel) {
-
-    }
-
-    @Override
-    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
-        try {
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            if (healthCircrumModel == null) {
-                return;
-            }
-            List<CircumlistModel> models = healthCircrumModel.getCircumlist();
-            float max = 0;
-            for (int i = 0; i < models.size(); i++) {
-                float weight = Float.parseFloat(models.get(i).getCircum());
-                max = weight > max ? weight : max;
-                Entry entry = new Entry(i, weight);
-                dates.add(entry);
-            }
-            chart.setDate(days, dates, max);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
-
-    }
-
-    @Override
-    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
-
-    }
-
-    @Override
-    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
-
-    }
-
-    @Override
-    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
-
-    }
-
-    @Override
-    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -512,5 +443,27 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         days.add(dateForm.formdate(weekdate7));
         progressDialog.show();
         healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(weekdate1), dateForm.getDateform(weekdate7), 1);
+    }
+
+    @Override
+    public void getHealthyData(HealthCircrumModel data) {
+        try {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            if (data == null) {
+                return;
+            }
+            List<CircumlistModel> models = data.getCircumlist();
+            float max = 0;
+            for (int i = 0; i < models.size(); i++) {
+                float weight = Float.parseFloat(models.get(i).getCircum());
+                max = weight > max ? weight : max;
+                Entry entry = new Entry(i, weight);
+                dates.add(entry);
+            }
+            chart.setDate(days, dates, max);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

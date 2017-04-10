@@ -9,16 +9,8 @@ import android.widget.RadioGroup;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.healthchart.model.HealthCircrumModel;
-import com.softtek.lai.module.healthchart.model.HealthFatModel;
 import com.softtek.lai.module.healthchart.model.HealthHiplieModel;
-import com.softtek.lai.module.healthchart.model.HealthUpArmGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthWaistlineModel;
-import com.softtek.lai.module.healthchart.model.HealthWeightModel;
-import com.softtek.lai.module.healthchart.model.HealthdoLegGirthModel;
-import com.softtek.lai.module.healthchart.model.HealthupLegGirthModel;
 import com.softtek.lai.module.healthchart.model.HiplielistModel;
-import com.softtek.lai.module.healthchart.model.PysicalModel;
 import com.softtek.lai.module.healthchart.presenter.HealthRecordManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.chart.Chart;
@@ -35,7 +27,8 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class HiplineFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthRecordManager.HealthRecordCallBack, View.OnClickListener {
+public class HiplineFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,
+        HealthRecordManager.HealthRecordCallBack<HealthHiplieModel>, View.OnClickListener {
 
     @InjectView(R.id.chart)
     Chart chart;
@@ -62,7 +55,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
     boolean state = true;
     int flag = 0;
     private ProgressDialog progressDialog;
-    HealthRecordManager healthRecordManager;
+    HealthRecordManager<HealthHiplieModel> healthRecordManager;
 
     @Override
     protected void initViews() {
@@ -84,7 +77,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
-        healthRecordManager = new HealthRecordManager(this);
+        healthRecordManager = new HealthRecordManager<>(this);
         dates.clear();
 
         String nowdate7 = getPeriodDate(type, 0) + "";
@@ -178,70 +171,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
 
     public String getDateform(String nowdate) {
         return nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
-
-    }
-
-
-    @Override
-    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
-
-    }
-
-    @Override
-    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
-
-    }
-
-    @Override
-    public void getHealthfatRecords(HealthFatModel healthFatModel) {
-
-    }
-
-    @Override
-    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
-
-    }
-
-    @Override
-    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
-
-    }
-
-    @Override
-    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
-        try {
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            if (healthHiplieModel == null) {
-                return;
-            }
-            List<HiplielistModel> models = healthHiplieModel.getHiplielist();
-            float max = 0;
-            for (int i = 0; i < models.size(); i++) {
-                float hiplie = Float.parseFloat(models.get(i).getHiplie());
-                max = hiplie > max ? hiplie : max;
-                Entry entry = new Entry(i, hiplie);
-                dates.add(entry);
-            }
-            chart.setDate(days, dates, max);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
-
-    }
-
-    @Override
-    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
-
-    }
-
-    @Override
-    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
 
     }
 
@@ -578,4 +507,26 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate1), getDateform(weekdate7), 1);
     }
 
+    @Override
+    public void getHealthyData(HealthHiplieModel data) {
+        try {
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            if (data == null) {
+                return;
+            }
+            List<HiplielistModel> models = data.getHiplielist();
+            float max = 0;
+            for (int i = 0; i < models.size(); i++) {
+                float hiplie = Float.parseFloat(models.get(i).getHiplie());
+                max = hiplie > max ? hiplie : max;
+                Entry entry = new Entry(i, hiplie);
+                dates.add(entry);
+            }
+            chart.setDate(days, dates, max);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

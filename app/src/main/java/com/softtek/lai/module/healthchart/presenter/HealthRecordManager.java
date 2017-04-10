@@ -23,13 +23,13 @@ import zilla.libcore.util.Util;
 /**
  * Created by jerry.guan on 4/8/2016.
  */
-public class HealthRecordManager {
+public class HealthRecordManager<T> {
 
     private String token;
     private HealthyService service;
-    private HealthRecordCallBack cb;
+    private HealthRecordCallBack<T> cb;
 
-    public HealthRecordManager(HealthRecordCallBack context) {
+    public HealthRecordManager(HealthRecordCallBack<T> context) {
         cb= context;
         token= UserInfoModel.getInstance().getToken();
         service= ZillaApi.NormalRestAdapter.create(HealthyService.class);
@@ -41,14 +41,14 @@ public class HealthRecordManager {
             public void success(ResponseData<PysicalModel> pysicalModelResponseData, Response response) {
                 Log.i(pysicalModelResponseData.toString());
                 if (pysicalModelResponseData.getStatus()==200) {
-                    cb.getHealthPysicalRecords(pysicalModelResponseData.getData());
+                    cb.getHealthyData((T) pysicalModelResponseData.getData());
                 }else {
                     Util.toastMsg(pysicalModelResponseData.getMsg());
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthPysicalRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -61,7 +61,8 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthWeightModel> healthWeightModelResponseData, Response response) {
                 Log.i(healthWeightModelResponseData.toString());
                 if (healthWeightModelResponseData.getStatus()==200) {
-                    cb.getHealthWeightRecords(healthWeightModelResponseData.getData());
+                    cb.getHealthyData((T) healthWeightModelResponseData.getData());
+//                    cb.getHealthWeightRecords(healthWeightModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthWeightModelResponseData.getMsg());
                 }
@@ -69,7 +70,7 @@ public class HealthRecordManager {
 
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -82,14 +83,15 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthFatModel> healthFatModelResponseData, Response response) {
                 Log.i(healthFatModelResponseData.toString());
                 if (healthFatModelResponseData.getStatus()==200) {
-                    cb.getHealthfatRecords(healthFatModelResponseData.getData());
+                    cb.getHealthyData((T) healthFatModelResponseData.getData());
+//                    cb.getHealthfatRecords(healthFatModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthFatModelResponseData.getMsg());
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthfatRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -103,14 +105,15 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthCircrumModel> healthCircrumModelResponseData, Response response) {
                 Log.i(healthCircrumModelResponseData.toString());
                 if (healthCircrumModelResponseData.getStatus()==200) {
-                    cb.getHealthcircumRecords(healthCircrumModelResponseData.getData());
+                    cb.getHealthyData((T) healthCircrumModelResponseData.getData());
+//                    cb.getHealthcircumRecords(healthCircrumModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthCircrumModelResponseData.getMsg());
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthcircumRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -123,14 +126,15 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthWaistlineModel> healthWaistlineModelResponseData, Response response) {
                 Log.i(healthWaistlineModelResponseData.toString());
                 if (healthWaistlineModelResponseData.getStatus()==200) {
-                    cb.getHealthwaistlineRecords(healthWaistlineModelResponseData.getData());
+                    cb.getHealthyData((T) healthWaistlineModelResponseData.getData());
+//                    cb.getHealthwaistlineRecords(healthWaistlineModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthWaistlineModelResponseData.getMsg());
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthwaistlineRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -143,7 +147,8 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthHiplieModel> healthHiplieModelResponseData, Response response) {
                 Log.i(healthHiplieModelResponseData.toString());
                 if (healthHiplieModelResponseData.getStatus()==200) {
-                    cb.getHealthhiplieRecords(healthHiplieModelResponseData.getData());
+                    cb.getHealthyData((T) healthHiplieModelResponseData.getData());
+//                    cb.getHealthhiplieRecords(healthHiplieModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthHiplieModelResponseData.getMsg());
 
@@ -151,7 +156,7 @@ public class HealthRecordManager {
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthhiplieRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -165,14 +170,15 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthUpArmGirthModel> healthUpArmGirthModelResponseData, Response response) {
                 Log.i(healthUpArmGirthModelResponseData.toString());
                 if (healthUpArmGirthModelResponseData.getStatus()==200) {
-                    cb.getHealthupArmGirthRecords(healthUpArmGirthModelResponseData.getData());
+                    cb.getHealthyData((T) healthUpArmGirthModelResponseData.getData());
+//                    cb.getHealthupArmGirthRecords(healthUpArmGirthModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthUpArmGirthModelResponseData.getMsg());
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthupArmGirthRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -185,14 +191,15 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthupLegGirthModel> healthupLegGirthModelResponseData, Response response) {
                 Log.i(healthupLegGirthModelResponseData.toString());
                 if (healthupLegGirthModelResponseData.getStatus()==200) {
-                    cb.getGetHealthupLegGirthRecords(healthupLegGirthModelResponseData.getData());
+                    cb.getHealthyData((T) healthupLegGirthModelResponseData.getData());
+//                    cb.getGetHealthupLegGirthRecords(healthupLegGirthModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthupLegGirthModelResponseData.getMsg());
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getGetHealthupLegGirthRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
@@ -206,29 +213,21 @@ public class HealthRecordManager {
                 Log.i(healthdoLegGirthModelResponseData.toString());
                 if (healthdoLegGirthModelResponseData.getStatus()==200)
                 {
-                    cb.getHealthdoLegGirthRecords(healthdoLegGirthModelResponseData.getData());
+                    cb.getHealthyData((T) healthdoLegGirthModelResponseData.getData());
+//                    cb.getHealthdoLegGirthRecords(healthdoLegGirthModelResponseData.getData());
                 }else {
                     Util.toastMsg(healthdoLegGirthModelResponseData.getMsg());
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthdoLegGirthRecords(null);
+                cb.getHealthyData(null);
                 super.failure(error);
 
             }
         });
     }
-    public interface HealthRecordCallBack{
-
-        void getHealthPysicalRecords(PysicalModel pysicalModel);
-        void getHealthWeightRecords(HealthWeightModel healthWeightModel);
-        void getHealthfatRecords(HealthFatModel healthFatModel);
-        void getHealthcircumRecords(HealthCircrumModel healthCircrumModel);
-        void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel);
-        void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel);
-        void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel);
-        void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel);
-        void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel);
+    public interface HealthRecordCallBack<T>{
+        void getHealthyData(T data);
     }
 }
