@@ -305,7 +305,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".module.health.view.HealthyRecordActivity"
+            android:name=".module.healthchart.view.HealthyRecordActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.healthyreport.HealthEntryActivity"
@@ -810,7 +810,7 @@
         <activity
             android:name=".module.bodygame3.activity.view.MeasureListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.laicheng.HealthyReportActivity"></activity>
+        <activity android:name=".module.healthyreport.HealthyReportActivity"></activity>
 
         <activity
             android:name=".module.bodygame3.activity.view.FuceForStuActivity"

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.ptrlv)
@@ -57,6 +60,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     protected void initViews() {
         tv_title.setText("历史测量数据");
         tv_right.setText("编辑");
+        iv_right.setBackgroundResource(R.drawable.healthedit);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
