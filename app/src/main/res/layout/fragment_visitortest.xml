@@ -74,8 +74,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="64dp"
                     android:layout_marginBottom="15dp"
+                    android:layout_marginEnd="64dp"
                     android:layout_marginStart="64dp"
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal">
@@ -98,13 +98,15 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
+                    android:layout_marginLeft="64dp"
+                    android:layout_marginRight="64dp"
                     android:background="#9EE3CE" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_marginTop="15dp">
 
 
                     <TextView
@@ -113,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="59dp"
+                        android:layout_marginStart="64dp"
                         android:text="年龄：" />
 
                     <TextView
@@ -165,6 +167,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginBottom="20dp"
                 android:background="#9EE3CE" />
 
             <LinearLayout
@@ -172,39 +175,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/health_report_sharp"
-                    android:drawableLeft="@drawable/health_report"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="健康报告"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:background="@drawable/share_sharp"
-                    android:drawableLeft="@drawable/share_icon"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="分享成果"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/mid_lay1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:gravity="center_horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"

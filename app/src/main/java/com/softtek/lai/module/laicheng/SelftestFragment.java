@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 
 import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
@@ -18,19 +19,25 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_selftest)
 public class SelftestFragment extends LazyBaseFragment {
     private static final String ARGUMENTS = "mainFragment";
+    private VoiceListener listener;
 
-    public interface voiceListener {
-        void onVoiceLinstener();
+    public interface VoiceListener {
+        void onVoiceListener();
     }
 
-    private voiceListener voiceListener;
-    public SelftestFragment() {
-        // Required empty public constructor
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof VoiceListener) {
+            listener = (SelftestFragment.VoiceListener) context;
+        }
     }
 
-    public static SelftestFragment newInstance(@Nullable String attrs) {
+    private VoiceListener voiceListener;
+
+    public static SelftestFragment newInstance(@Nullable BleMainData data) {
         Bundle arguments = new Bundle();
-        arguments.putString(ARGUMENTS, attrs);
+        arguments.putSerializable(ARGUMENTS, data);
         SelftestFragment fragment = new SelftestFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -52,5 +59,10 @@ public class SelftestFragment extends LazyBaseFragment {
 
     }
 
-//    @OnClick(R.id.voice)
+    @OnClick(R.id.iv_voice)
+    public void onClick() {
+        if (listener != null) {
+            listener.onVoiceListener();
+        }
+    }
 }

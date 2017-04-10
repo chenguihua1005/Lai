@@ -117,10 +117,6 @@ public abstract class MainBaseActivity extends BleBaseActivity {
         soundHelper.addAudio("four",R.raw.help_four);
         soundHelper.addAudio("five",R.raw.help_five);
         soundHelper.addAudio("six",R.raw.help_six);
-//        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
-//        if (state_current == CONNECTED_STATE_SHAKE_IT ){
-            soundHelper.play("one");
-//        }
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
