@@ -1,13 +1,12 @@
-package com.softtek.lai.module.healthrecords.presenter;
+package com.softtek.lai.module.healthyreport.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.healthrecords.EventModel.RecordEvent;
-import com.softtek.lai.module.healthrecords.model.HealthModel;
-import com.softtek.lai.module.healthrecords.model.LastestRecordModel;
-import com.softtek.lai.module.healthrecords.net.HealthRecordService;
-
-import org.greenrobot.eventbus.EventBus;
+import com.softtek.lai.common.mvp.BasePresenter;
+import com.softtek.lai.common.mvp.BaseView1;
+import com.softtek.lai.module.healthyreport.model.HealthModel;
+import com.softtek.lai.module.healthyreport.model.LastestRecordModel;
+import com.softtek.lai.module.healthyreport.net.HealthRecordService;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -16,34 +15,39 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
 /**
- * Created by zcy on 2016/4/18.
+ *
+ * Created by jerry.guan on 4/10/2017.
  */
-public class EntryHealthImpl implements IEntryHealthpresenter {
+public class HealthyEntryPresenter extends BasePresenter<HealthyEntryPresenter.HealthyEntryView>{
 
     private HealthRecordService healthRecordService;
-    private EntryHealthyCallback  cb;
     private String token;
 
-    public EntryHealthImpl(EntryHealthyCallback cb) {
+    public HealthyEntryPresenter(HealthyEntryView baseView) {
+        super(baseView);
         healthRecordService = ZillaApi.NormalRestAdapter.create(HealthRecordService.class);
-        this.cb=cb;
         token= UserInfoModel.getInstance().getToken();
     }
 
     //手动录入健康记录
-    @Override
     public void entryhealthrecord(HealthModel healthModel) {
-
+        if (getView()!=null){
+            getView().dialogShow("正在提交");
+        }
         healthRecordService.entryhealthrecord(token,healthModel,new Callback<ResponseData>() {
             @Override
             public void success(ResponseData healthModelResponseData,Response response) {
                 int status = healthModelResponseData.getStatus();
+                if (getView()!=null){
+                    getView().dialogDissmiss();
+                }
                 switch (status) {
                     case 200:
-                       if(cb!=null)cb.saveSuccess(true);
+                        if(getView()!=null){
+                            getView().commitSuccess();
+                        }
                         break;
                     case 201:
-                        if(cb!=null)cb.saveSuccess(false);
                         Util.toastMsg("健康记录保存失败");
                         break;
                 }
@@ -51,41 +55,48 @@ public class EntryHealthImpl implements IEntryHealthpresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                if(cb!=null)cb.saveSuccess(false);
+                if (getView()!=null){
+                    getView().dialogDissmiss();
+                }
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
 
     //获取最新健康记录
-    @Override
     public void doGetLastestRecord(long accountid) {
+        if (getView()!=null){
+            getView().dialogShow("获取数据中...");
+        }
         healthRecordService.doGetLastestRecord(token,accountid, new Callback<ResponseData<LastestRecordModel>>() {
             @Override
-            public void success(ResponseData<LastestRecordModel> lastestRecordModelResponseData, Response response) {
-                int status = lastestRecordModelResponseData.getStatus();
+            public void success(ResponseData<LastestRecordModel> data, Response response) {
+                int status = data.getStatus();
+                if (getView()!=null){
+                    getView().dialogDissmiss();
+                }
                 switch (status) {
                     case 200:
-                        EventBus.getDefault().post(new RecordEvent(lastestRecordModelResponseData.getData()));
+                        if(getView()!=null){
+                            getView().getData(data.getData());
+                        }
                         break;
                     case 100:
-                        EventBus.getDefault().post(new RecordEvent(null));
                         Util.toastMsg("暂无健康记录数据");
                         break;
                 }
             }
             @Override
             public void failure(RetrofitError error) {
-                EventBus.getDefault().post(new RecordEvent(null));
-                    ZillaApi.dealNetError(error);
+                if (getView()!=null){
+                    getView().dialogDissmiss();
+                }
+                ZillaApi.dealNetError(error);
             }
         });
     }
 
-    public interface EntryHealthyCallback{
-
-        void saveSuccess(boolean res);
+    public interface HealthyEntryView extends BaseView1<LastestRecordModel> {
+        void commitSuccess();
     }
-
 }

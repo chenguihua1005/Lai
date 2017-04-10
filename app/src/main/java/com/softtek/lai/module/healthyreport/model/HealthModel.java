@@ -1,4 +1,4 @@
-package com.softtek.lai.module.healthrecords.model;
+package com.softtek.lai.module.healthyreport.model;
 
 /**
  * Created by zcy on 2016/4/18.

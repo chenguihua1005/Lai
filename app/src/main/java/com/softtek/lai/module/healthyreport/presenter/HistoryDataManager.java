@@ -1,14 +1,14 @@
-package com.softtek.lai.module.historydate.presenter;
+package com.softtek.lai.module.healthyreport.presenter;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
-import com.softtek.lai.module.historydate.model.HistoryData;
-import com.softtek.lai.module.historydate.model.HistoryDataModel;
-import com.softtek.lai.module.historydate.model.ID;
-import com.softtek.lai.module.historydate.net.HistoryDataService;
+import com.softtek.lai.module.healthyreport.model.HistoryData;
+import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
+import com.softtek.lai.module.healthyreport.model.ID;
+import com.softtek.lai.module.healthyreport.net.HistoryDataService;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;

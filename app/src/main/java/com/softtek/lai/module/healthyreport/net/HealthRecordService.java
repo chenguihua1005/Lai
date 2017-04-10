@@ -1,10 +1,8 @@
-package com.softtek.lai.module.healthrecords.net;
-
-import android.support.v7.util.SortedList;
+package com.softtek.lai.module.healthyreport.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.healthrecords.model.HealthModel;
-import com.softtek.lai.module.healthrecords.model.LastestRecordModel;
+import com.softtek.lai.module.healthyreport.model.HealthModel;
+import com.softtek.lai.module.healthyreport.model.LastestRecordModel;
 
 import retrofit.Callback;
 import retrofit.http.Body;

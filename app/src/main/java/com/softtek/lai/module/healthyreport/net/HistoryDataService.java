@@ -1,8 +1,8 @@
-package com.softtek.lai.module.historydate.net;
+package com.softtek.lai.module.healthyreport.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.historydate.model.HistoryDataModel;
-import com.softtek.lai.module.historydate.model.ID;
+import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
+import com.softtek.lai.module.healthyreport.model.ID;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.http.Body;

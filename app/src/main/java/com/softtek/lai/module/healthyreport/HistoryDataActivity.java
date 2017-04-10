@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.view;
+package com.softtek.lai.module.healthyreport;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -15,11 +15,11 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.historydate.adapter.HistoryDataAdapter;
-import com.softtek.lai.module.historydate.model.HistoryData;
-import com.softtek.lai.module.historydate.model.HistoryDataItemModel;
-import com.softtek.lai.module.historydate.model.HistoryDataModel;
-import com.softtek.lai.module.historydate.presenter.HistoryDataManager;
+import com.softtek.lai.module.healthyreport.adapter.HistoryDataAdapter;
+import com.softtek.lai.module.healthyreport.model.HistoryData;
+import com.softtek.lai.module.healthyreport.model.HistoryDataItemModel;
+import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
+import com.softtek.lai.module.healthyreport.presenter.HistoryDataManager;
 
 import java.util.ArrayList;
 import java.util.List;

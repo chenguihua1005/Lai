@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.adapter;
+package com.softtek.lai.module.healthyreport.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.historydate.model.HistoryData;
-import com.softtek.lai.module.historydate.model.HistoryDataItemModel;
+import com.softtek.lai.module.healthyreport.model.HistoryData;
+import com.softtek.lai.module.healthyreport.model.HistoryDataItemModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.StringUtil;
 

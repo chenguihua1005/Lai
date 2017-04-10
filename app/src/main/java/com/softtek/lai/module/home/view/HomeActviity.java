@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -23,8 +22,7 @@ import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
-import com.softtek.lai.module.laijumine.view.FansActivity;
-import com.softtek.lai.module.laijumine.view.MineTwoFragment;
+import com.softtek.lai.module.laijumine.view.MineFragment;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
@@ -123,7 +121,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         fragments.add(new HomeFragment());
         fragments.add(DynamicFragment.getInstance(this));
         fragments.add(FocusFragment.getInstance(this));//关注
-        fragments.add(new MineTwoFragment());
+        fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

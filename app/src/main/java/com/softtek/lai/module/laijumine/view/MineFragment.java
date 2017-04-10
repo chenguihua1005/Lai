@@ -31,8 +31,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
 import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
-import com.softtek.lai.module.historydate.view.HistoryDataActivity;
-import com.softtek.lai.module.home.view.HealthyRecordActivity;
+import com.softtek.lai.module.healthyreport.HistoryDataActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
 import com.softtek.lai.module.laijumine.net.MineSevice;
@@ -65,7 +64,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_mine_fragment)
-public class MineTwoFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MineFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private UserModel model;
     private MyInfoModel myinfomodel;
@@ -350,11 +349,11 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                                             new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
                                 }
                             }else {
-                                imageFileCropSelector.takePhoto(MineTwoFragment.this);
+                                imageFileCropSelector.takePhoto(MineFragment.this);
                             }
                         } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectSystemImage(MineTwoFragment.this);
+                            imageFileCropSelector.selectSystemImage(MineFragment.this);
                         }
                     }
                 }).create().show();
@@ -521,7 +520,7 @@ public class MineTwoFragment extends LazyBaseFragment implements View.OnClickLis
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
-                imageFileCropSelector.takePhoto(MineTwoFragment.this);
+                imageFileCropSelector.takePhoto(MineFragment.this);
 
             } else {
 

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.model;
+package com.softtek.lai.module.healthyreport.model;
 
 import java.util.List;
 

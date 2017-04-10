@@ -1,4 +1,4 @@
-package com.softtek.lai.module.healthrecords.model;
+package com.softtek.lai.module.healthyreport.model;
 
 import com.softtek.lai.utils.StringUtil;
 
