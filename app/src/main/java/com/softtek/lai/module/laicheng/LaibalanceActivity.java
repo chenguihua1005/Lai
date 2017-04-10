@@ -47,6 +47,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private SelftestFragment selftestFragment;
     private VisitortestFragment visitortestFragment;
 
+    private boolean isPlay = true;
+
     @OnClick(R.id.fl_left)
     public void doBack() {
         finish();
@@ -164,7 +166,12 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void onVoiceListener() {
-        soundHelper.play("one");
+        if (isPlay) {
+            stopVoice();
+            isPlay = false;
+        }else {
+            isPlay = true;
+        }
     }
 
     @Override
