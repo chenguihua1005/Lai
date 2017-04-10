@@ -42,10 +42,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     private int pageIndex;
 
-    List<FragmentModel> fragmentModels = new ArrayList<>();
+    private List<FragmentModel> fragmentModels = new ArrayList<>();
 
-    SelftestFragment selftestFragment;
-    VisitortestFragment visitortestFragment;
+    private SelftestFragment selftestFragment;
+    private VisitortestFragment visitortestFragment;
 
     @OnClick(R.id.fl_left)
     public void doBack() {
@@ -106,6 +106,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             @Override
             public void onPageSelected(int position) {
                 pageIndex = position;
+                if (pageIndex == 0){
+                    setGuest(false);
+                }else {
+                    setGuest(true);
+                }
                 Log.d("index-------------", String.valueOf(pageIndex));
             }
 
@@ -120,6 +125,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
+            selftestFragment.updateUI(data);
 
         } else {
 
@@ -130,7 +136,16 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void initUiByBleFailed() {
         if (pageIndex == 0) {
-
+            dialogDissmiss();
+            AlertDialog.Builder timeOutBuilder = new AlertDialog.Builder(LaibalanceActivity.this, R.style.whiteDialog);
+            timeOutBuilder.setMessage("测量超时，请重新测量");
+            timeOutBuilder.setTitle("提示");
+            timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
         } else {
 
         }
@@ -138,20 +153,22 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
 
     @Override
-    public boolean isGuested() {
-        if (pageIndex == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public UserInfoEntity getGuestInfo() {
         return null;
     }
 
     @Override
+    public void setStateTip(String state) {
+        selftestFragment.setStateTip(state);
+    }
+
+    @Override
     public void onVoiceListener() {
         soundHelper.play("one");
+    }
+
+    @Override
+    public void getData(Object data) {
+
     }
 }
