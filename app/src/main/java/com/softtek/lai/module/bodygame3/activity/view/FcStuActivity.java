@@ -219,6 +219,19 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         child3.add(3, "上臂围");
         child3.add(4, "大腿围");
         child3.add(5, "小腿围");
+
+        //jessica
+        child3.add(6, "BMI");
+        child3.add(7, "去脂体重");
+        child3.add(8, "内脏脂肪指数");
+        child3.add(9, "身体水分率");
+        child3.add(10, "身体水分");
+
+        child3.add(11, "肌肉量");
+        child3.add(12, "骨量");
+        child3.add(13, "基础代谢");
+        child3.add(14, "身体年龄");
+        //jessica
         childArray.add(1, child2);
         childArray.add(2, child2);
         childArray.add(3, child3);
@@ -322,6 +335,35 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 case 5:
                                     show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
                                     break;
+                                // jessica
+                                case 6:
+                                    show_information("BMI", 200, 90, 50, 9, 0, 0, 10);
+                                    break;
+                                case 7:
+                                    show_information("去脂体重", 200, 80, 40, 9, 0, 0, 11);
+                                    break;
+                                case 8:
+                                    show_information("内脏脂肪指数", 250, 90, 50, 9, 0, 0, 12);
+                                    break;
+                                case 9:
+                                    show_information("身体水分率", 70, 50, 10, 9, 0, 0, 13);
+                                    break;
+                                case 10:
+                                    show_information("身体水分", 90, 50, 10, 9, 0, 0, 14);
+                                    break;
+                                case 11:
+                                    show_information("肌肉量", 70, 50, 10, 9, 0, 0, 15);
+                                    break;
+                                case 12:
+                                    show_information("骨量", 70, 50, 10, 9, 0, 0, 16);
+                                    break;
+                                case 13:
+                                    show_information("基础代谢", 90, 50, 10, 9, 0, 0, 17);
+                                    break;
+                                case 14:
+                                    show_information("身体年龄", 70, 50, 10, 9, 0, 0, 18);
+                                    break;
+                                //jessica
 
                             }
                             break;
@@ -670,6 +712,151 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                         ;
                         break;
+
+                    case 10: { //BMI
+                        fcStDataModel.setBMI(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 11: {// fatFreeMass;//去脂体重
+                        fcStDataModel.setFatFreeMass(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 12: {//viscusFatIndex;     //内脏脂肪指数
+                        fcStDataModel.setViscusFatIndex(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 13: {//bodyWaterRate;//身体水分率
+                        fcStDataModel.setBodyWaterRate(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 14: {//bodyWater;//身体水分
+                        fcStDataModel.setBodyWater(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 15: {//muscleMass;//肌肉量
+                        fcStDataModel.setMuscleMass(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 16: {//boneMass;//骨量
+                        fcStDataModel.setBoneMass(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 17: {//basalMetabolism;//基础代谢
+                        fcStDataModel.setBasalMetabolism(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case 18: {//physicalAge;//身体年龄
+                        fcStDataModel.setPhysicalAge(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        exlisview_body.setAdapter(adapter);
+                        groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
+                    break;
                 }
 
             }
