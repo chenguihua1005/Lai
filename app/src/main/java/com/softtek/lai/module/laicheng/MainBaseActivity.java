@@ -718,20 +718,28 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     }
 
+    //初始化页面
     public abstract void initUi();
 
+    //获取最后上传的数据成功
     public abstract void initUiByBleSuccess(BleMainData data);
 
+    //获取最后上传到数据失败
     public abstract void initUiByBleFailed();
 
+    //获取非自己的人员信息
     public abstract UserInfoEntity getGuestInfo();
 
+    //设置蓝牙状态提示
     public abstract void setStateTip(String state);
 
+    //进入测量的时候显示dialog
     public abstract void showProgressDialog();
 
+    //超时对话框
     public abstract void showTimeoutDialog();
 
+    //上传数据失败对话框
     public abstract void showUploadFailedDialog();
 
     @Override
