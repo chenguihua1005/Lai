@@ -148,4 +148,8 @@ public abstract class LazyBaseFragment2<T extends BasePresenter> extends Progres
 
     }
 
+    @Override
+    public void dialogShow() {
+
+    }
 }

@@ -24,18 +24,17 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.login.presenter.IPasswordPresenter;
-import com.softtek.lai.module.login.presenter.PasswordPresnter;
+import com.softtek.lai.module.login.presenter.ChangePasswordPresenter;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_forget2)
-public class ForgetActivity2 extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
+public class ForgetActivity2 extends BaseActivity<ChangePasswordPresenter> implements View.OnClickListener, Validator.ValidationListener
+,ChangePasswordPresenter.ChangePasswordView{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -62,7 +61,6 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.btn_submit)
     Button btn_submit;
 
-    private IPasswordPresenter passwordPresenter;
     private String phone = "";
     private String identify = "";
 
@@ -81,7 +79,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        passwordPresenter = new PasswordPresnter(this);
+        setPresenter(new ChangePasswordPresenter(this));
         phone = getIntent().getStringExtra("phone");
         identify = getIntent().getStringExtra("identify");
         Log.i("phone:" + phone + ";identify:" + identify);
@@ -128,7 +126,8 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         String psd = et_password.getText().toString();
-        passwordPresenter.resetPassword(phone, MD5.md5WithEncoder(psd), identify);
+
+        getPresenter().resetPassword(phone, MD5.md5WithEncoder(psd), identify);
     }
 
     @Override
@@ -140,5 +139,11 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
         }else {
             validateLife.onValidationFailed(failedView, failedRule);
         }
+    }
+
+    @Override
+    public void changeSuccess() {
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }

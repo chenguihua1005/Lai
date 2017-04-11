@@ -22,10 +22,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.login.presenter.IPasswordPresenter;
-import com.softtek.lai.module.login.presenter.IRegistPresenter;
-import com.softtek.lai.module.login.presenter.PasswordPresnter;
-import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
+import com.softtek.lai.module.login.presenter.ForgetPasswordPresenter;
 import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -36,7 +33,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_forget)
-public class ForgetActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, RegistPresenterImpl.IdentifyCallBack {
+public class ForgetActivity extends BaseActivity<ForgetPasswordPresenter> implements View.OnClickListener, Validator.ValidationListener,ForgetPasswordPresenter.ForgetPasswordView {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -62,9 +59,6 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-
-    private IRegistPresenter registPresenter;
-    private IPasswordPresenter passwordPresenter;
     private CountDown countDown;
 
 
@@ -79,8 +73,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initDatas() {
         countDown = new CountDown(60000, 1000);
-        registPresenter = new RegistPresenterImpl(this, this);
-        passwordPresenter = new PasswordPresnter(this);
+        setPresenter(new ForgetPasswordPresenter(this));
     }
     /** 点击屏幕隐藏软键盘**/
     @Override
@@ -107,7 +100,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
                 countDown.start();
                 tv_get_identify.setEnabled(false);
-                registPresenter.getIdentify(phone, Constants.RESET_PASSWORD_IDENTIFY);
+                getPresenter().getIdentify(phone, Constants.RESET_PASSWORD_IDENTIFY);
                 break;
             case R.id.ll_left:
                 finish();
@@ -147,7 +140,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     public void onValidationSucceeded() {
         String identify = et_identify.getText().toString();
         String phone = et_phone.getText().toString();
-        passwordPresenter.checkIdentify(phone, identify);
+        getPresenter().checkIdentify(phone, identify);
 
     }
 
@@ -164,6 +157,15 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
                 countDown.onFinish();
             }
         }
+    }
+
+    @Override
+    public void checkIdentifySuccess(String phone,String identify) {
+        Intent intent = new Intent(this, ForgetActivity2.class);
+        intent.putExtra("phone", phone);
+        intent.putExtra("identify", identify);
+        finish();
+        startActivity(intent);
     }
 
     @Override
@@ -188,8 +190,10 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onFinish() {
-            tv_get_identify.setText("发送验证码");
-            tv_get_identify.setEnabled(true);
+            if (tv_get_identify!=null){
+                tv_get_identify.setText("发送验证码");
+                tv_get_identify.setEnabled(true);
+            }
         }
     }
 }

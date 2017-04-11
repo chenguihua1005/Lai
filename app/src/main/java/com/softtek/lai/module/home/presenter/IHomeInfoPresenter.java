@@ -20,9 +20,4 @@ public interface IHomeInfoPresenter {
 
     //分页查询活动等信息flag=0表示更新1表示加载
     void getContentByPage( int page, int img_type);
-
-    /*
-    3个活动缓存
-     */
-    List<HomeInfoModel> loadActivityCacheDate(String key);
 }

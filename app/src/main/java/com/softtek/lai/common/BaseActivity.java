@@ -4,7 +4,6 @@
  */
 package com.softtek.lai.common;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -15,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.ggx.widgets.view.CustomProgress;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -42,7 +42,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected Toolbar mToolbar;
     protected SystemBarTintManager tintManager;
 
-    protected ProgressDialog progressDialog;
+    protected CustomProgress progressDialog;
     private T presenter;
 
 
@@ -74,6 +74,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         //有盟统计
         MobclickAgent.setDebugMode(false);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
+        CrashHandler.getInstance().init(this);
         Log.i("当前界面名称=" + getClass().getCanonicalName());
 
     }
@@ -109,24 +110,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     public void dialogShow(String value) {
         if (progressDialog == null || !progressDialog.isShowing()) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setCanceledOnTouchOutside(false);
-//            progressDialog.setCancelable(false);
-            progressDialog.setMessage(value);
+            progressDialog =CustomProgress.build(this,value);
             progressDialog.show();
         }
     }
 
-    public void setProgressValue(String value) {
-        progressDialog.setMessage(value);
-    }
-
     public void dialogShow() {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setCanceledOnTouchOutside(false);
-//            progressDialog.setCancelable(false);
-            progressDialog.setMessage("载入中");
+            progressDialog = CustomProgress.build(this,null);
             progressDialog.show();
         }
     }
