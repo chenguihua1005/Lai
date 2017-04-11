@@ -62,8 +62,6 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
     @Override
     public void getLastInfoSuccess(BleMainData data) {
         updateUI(data);
-        mBleStateContent.setVisibility(View.VISIBLE);
-        mInfoDataContent.setVisibility(View.GONE);
     }
 
     @Override
@@ -101,8 +99,8 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
 
     @Override
     protected void initViews() {
-//        mBleStateContent.setVisibility(View.VISIBLE);
-//        mInfoDataContent.setVisibility(View.GONE);
+        mBleStateContent.setVisibility(View.VISIBLE);
+        mInfoDataContent.setVisibility(View.GONE);
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         presenter = new VisitortestPresenter(this);
@@ -144,6 +142,8 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
     }
 
     public void setStateTip(String state) {
-        mBleState.setText(state);
+        if (mBleState != null) {
+            mBleState.setText(state);
+        }
     }
 }
