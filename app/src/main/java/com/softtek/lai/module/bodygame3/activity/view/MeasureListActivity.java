@@ -132,8 +132,6 @@ public class MeasureListActivity extends BaseActivity<MesurePresenter> implement
                 String str2 = "已复测学员(" + number_checked + ")";
                 tv_title.setText(str);
 
-                Log.i(TAG, "number_uncheck= " + number_uncheck + " number_checked=" + number_checked);
-
                 TabLayout.Tab tab1 = tab.getTabAt(0);
                 tab1.setText(str);
                 TabLayout.Tab tab2 = tab.getTabAt(1);

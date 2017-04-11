@@ -16,6 +16,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by Terry on 2016/11/29.
  */
 @InjectLayout(R.layout.activity_honorranking)
-public class InitAuditListActivity extends BaseActivity{
+public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> implements InitAuditPresenter.InitAuditView {
 
     @InjectView(R.id.tab)
     TabLayout tab;
@@ -44,64 +45,68 @@ public class InitAuditListActivity extends BaseActivity{
     TextView tv_title;
     List<Fragment> fragments;
     FuceSevice fuceSevice;
-    String[] tabtitle={"未审核","已审核"};
+    String[] tabtitle = {"未审核", "已审核"};
     String classId;
-    int Auditnum=0;
-    int Auditednum=0;
+    int Auditnum = 0;
+    int Auditednum = 0;
+
     @Override
     protected void initViews() {
         tv_title.setText("初始数据审核");
-        classId=getIntent().getStringExtra("classId");
-        fragments=new ArrayList<>();
+        classId = getIntent().getStringExtra("classId");
+        fragments = new ArrayList<>();
         fragments.add(InitAuditFragment.getInstance(classId));
         fragments.add(InitAuditedFragment.getInstance(classId));
-        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(),fragments,tabtitle));
+        content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.putExtra("Auditnum",Auditnum);
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("Auditnum", Auditnum);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
+
+
+        setPresenter(new InitAuditPresenter(this));
     }
 
     @Override
     protected void initDatas() {
-        fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
-        doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
+//        doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
 
+        getPresenter().getInitAuditList(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
     }
+
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid,  int pageIndex, int pageSize) {
-        fuceSevice.dogetInitAuditList(classid,UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+    private void doGetData(Long accountid, String classid, int pageIndex, int pageSize) {
+        fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
+                int status = listResponseData.getStatus();
                 try {
-                    switch (status)
-                    {
+                    switch (status) {
                         case 200:
-                            if(listResponseData.getData().size()==0)
-                            {
-                                tabtitle[0] = "未审核(" + "0"+ ")";
+                            if (listResponseData.getData().size() == 0) {
+                                tabtitle[0] = "未审核(" + "0" + ")";
                                 tabtitle[1] = "已审核(" + "0" + ")";
-                                TabLayout.Tab tab1=tab.getTabAt(0);
+                                TabLayout.Tab tab1 = tab.getTabAt(0);
                                 tab1.setText(tabtitle[0]);
-                                TabLayout.Tab tab2=tab.getTabAt(1);
+                                TabLayout.Tab tab2 = tab.getTabAt(1);
                                 tab2.setText(tabtitle[1]);
                             } else {
-                                Auditnum=Integer.parseInt(listResponseData.getData().get(0).getCount());
-                                Auditednum=Integer.parseInt(listResponseData.getData().get(1).getCount());
+                                Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
+                                Auditednum = Integer.parseInt(listResponseData.getData().get(1).getCount());
                                 tabtitle[0] = "未审核(" + Auditnum + ")";
                                 tabtitle[1] = "已审核(" + Auditednum + ")";
-                                TabLayout.Tab tab1=tab.getTabAt(0);
+                                TabLayout.Tab tab1 = tab.getTabAt(0);
                                 tab1.setText(tabtitle[0]);
-                                TabLayout.Tab tab2=tab.getTabAt(1);
+                                TabLayout.Tab tab2 = tab.getTabAt(1);
                                 tab2.setText(tabtitle[1]);
                             }
                             break;
@@ -114,33 +119,65 @@ public class InitAuditListActivity extends BaseActivity{
             }
         });
     }
-    public  void update(){
-        tabtitle[0] = "未审核(" + (--Auditnum )+ ")";
+
+    public void update() {
+        tabtitle[0] = "未审核(" + (--Auditnum) + ")";
         tabtitle[1] = "已审核(" + (++Auditednum) + ")";
-        TabLayout.Tab tab1=tab.getTabAt(0);
+        TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
-        TabLayout.Tab tab2=tab.getTabAt(1);
+        TabLayout.Tab tab2 = tab.getTabAt(1);
         tab2.setText(tabtitle[1]);
     }
-    public  void updates(int Auditnu){
-        Auditnum=Auditnu;
-        tabtitle[0] = "未审核(" + Auditnum+ ")";
-        tabtitle[1] = "已审核(" + Auditednum+ ")";
-        TabLayout.Tab tab1=tab.getTabAt(0);
+
+    public void updates(int Auditnu) {
+        Auditnum = Auditnu;
+        tabtitle[0] = "未审核(" + Auditnum + ")";
+        tabtitle[1] = "已审核(" + Auditednum + ")";
+        TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
-        TabLayout.Tab tab2=tab.getTabAt(1);
+        TabLayout.Tab tab2 = tab.getTabAt(1);
         tab2.setText(tabtitle[1]);
     }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             //do something...
-            Intent intent=new Intent();
-            intent.putExtra("Auditnum",Auditnum);
-            setResult(RESULT_OK,intent);
+            Intent intent = new Intent();
+            intent.putExtra("Auditnum", Auditnum);
+            setResult(RESULT_OK, intent);
 //            return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void getInitAuditList(List<AuditListModel> list) {
+        if (list != null) {
+            if (list.size() == 0) {
+                tabtitle[0] = "未审核(" + "0" + ")";
+                tabtitle[1] = "已审核(" + "0" + ")";
+                TabLayout.Tab tab1 = tab.getTabAt(0);
+                tab1.setText(tabtitle[0]);
+                TabLayout.Tab tab2 = tab.getTabAt(1);
+                tab2.setText(tabtitle[1]);
+            } else {
+                Auditnum = Integer.parseInt(list.get(0).getCount());
+                Auditednum = Integer.parseInt(list.get(1).getCount());
+                tabtitle[0] = "未审核(" + Auditnum + ")";
+                tabtitle[1] = "已审核(" + Auditednum + ")";
+                TabLayout.Tab tab1 = tab.getTabAt(0);
+                tab1.setText(tabtitle[0]);
+                TabLayout.Tab tab2 = tab.getTabAt(1);
+                tab2.setText(tabtitle[1]);
+            }
+
+        }
+    }
+
+    @Override
+    public void hidenLoading() {
+
     }
 }
