@@ -6,6 +6,7 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -194,11 +195,15 @@ public class RegistActivity extends BaseActivity<RegistPresenter> implements Vie
                 // call method in SDK
                 try {
                     EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
+                    Looper.prepare();
                     getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
+                    Looper.loop();
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                     if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
+                        Looper.prepare();
                         getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
+                        Looper.loop();
                     }
                 }
 

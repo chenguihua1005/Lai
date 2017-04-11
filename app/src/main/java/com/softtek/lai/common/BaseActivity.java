@@ -4,7 +4,6 @@
  */
 package com.softtek.lai.common;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -75,6 +74,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         //有盟统计
         MobclickAgent.setDebugMode(false);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
+        CrashHandler.getInstance().init(this);
         Log.i("当前界面名称=" + getClass().getCanonicalName());
 
     }
@@ -113,10 +113,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             progressDialog =CustomProgress.build(this,value);
             progressDialog.show();
         }
-    }
-
-    public void setProgressValue(String value) {
-        progressDialog.setMessage(value);
     }
 
     public void dialogShow() {

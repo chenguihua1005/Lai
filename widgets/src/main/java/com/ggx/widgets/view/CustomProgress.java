@@ -66,10 +66,12 @@ public class CustomProgress extends Dialog{
         if (TextUtils.isEmpty(message)) {
             dialog.findViewById(R.id.message).setVisibility(View.GONE);
         } else {
+            dialog.findViewById(R.id.message).setVisibility(View.VISIBLE);
             TextView txt = (TextView) dialog.findViewById(R.id.message);
             txt.setText(message);
         }
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         // 设置居中
         dialog.getWindow().getAttributes().gravity = Gravity.CENTER;
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
