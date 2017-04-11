@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.ggx.widgets.view.CustomProgress;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -27,7 +28,6 @@ import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
-import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.stepcount.db.StepUtil;
@@ -58,57 +58,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
         this.context = context;
         service = ZillaApi.NormalRestAdapter.create(LoginService.class);
     }
-
-    @Override
-    public void alidateCertification(String memberId, String password, String accountId, final ProgressDialog progressDialog) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        service.alidateCertification(token, memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
-            @Override
-            public void success(ResponseData<RoleInfo> userResponseData, Response response) {
-                int status = userResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        UserModel model = UserInfoModel.getInstance().getUser();
-                        model.setCertTime(userResponseData.getData().getCertTime());
-                        model.setCertification(userResponseData.getData().getCertification());
-                        String role = userResponseData.getData().getRole();
-                        model.setRoleName(role);
-                        if ("NC".equals(role)) {
-                            model.setUserrole("0");
-                        } else if ("PC".equals(role)) {
-                            model.setUserrole("1");
-                        } else if ("SR".equals(role)) {
-                            model.setUserrole("2");
-                        } else if ("SP".equals(role)) {
-                            model.setUserrole("3");
-                        } else if ("INC".equals(role)) {
-                            model.setUserrole("4");
-                        } else if ("VR".equals(role)) {
-                            model.setUserrole("5");
-                        }
-                        UserInfoModel.getInstance().saveUserCache(model);
-                        EventBus.getDefault().post(userResponseData.getData());
-                        Util.toastMsg("认证成功");
-                        break;
-                    default:
-                        if (progressDialog != null) {
-                            progressDialog.dismiss();
-                        }
-                        Util.toastMsg(userResponseData.getMsg());
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-            }
-        });
-    }
-
     @Override
     public void getEMChatAccount(final ProgressDialog dialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
@@ -177,7 +126,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void doLogin(final String userName, final String password, final ProgressDialog dialog, final TextView tv) {
+    public void doLogin(final String userName, final String password, final CustomProgress dialog, final TextView tv) {
         PackageManager pm = LaiApplication.getInstance().getPackageManager();
         StringBuffer buffer = new StringBuffer();
         if (pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)) {

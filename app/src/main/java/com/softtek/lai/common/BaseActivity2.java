@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.ggx.widgets.view.CustomProgress;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -40,7 +41,7 @@ public abstract class BaseActivity2<T extends BasePresenter> extends AppCompatAc
     protected Toolbar mToolbar;
     protected SystemBarTintManager tintManager;
 
-    protected ProgressDialog progressDialog;
+    protected CustomProgress progressDialog;
     private T presenter;
 
 
@@ -101,10 +102,7 @@ public abstract class BaseActivity2<T extends BasePresenter> extends AppCompatAc
     @Override
     public void dialogShow(String value) {
         if (progressDialog == null || !progressDialog.isShowing()) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setCanceledOnTouchOutside(false);
-//            progressDialog.setCancelable(false);
-            progressDialog.setMessage(value);
+            progressDialog = CustomProgress.build(this,value);
             progressDialog.show();
         }
     }
@@ -115,13 +113,11 @@ public abstract class BaseActivity2<T extends BasePresenter> extends AppCompatAc
 
     public void dialogShow() {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setCanceledOnTouchOutside(false);
-//            progressDialog.setCancelable(false);
-            progressDialog.setMessage("载入中");
+            progressDialog = CustomProgress.build(this,null);
             progressDialog.show();
         }
     }
+
     @Override
     public void dialogDissmiss() {
         if (progressDialog != null&&progressDialog.isShowing()) {

@@ -1,22 +1,14 @@
-/*
- * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
- * Date:2016-03-31
- */
-
 package com.softtek.lai.module.login.presenter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
+import com.softtek.lai.common.mvp.BasePresenter;
+import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
@@ -29,44 +21,37 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
 /**
- * Created by jerry.guan on 3/3/2016.
+ * Created by jerry.guan on 4/11/2017.
  */
-public class RegistPresenterImpl implements IRegistPresenter {
+
+public class RegistPresenter extends BasePresenter<RegistPresenter.RegistView>{
 
     private LoginService service;
-    private Context context;
-    private IdentifyCallBack callBack;
-
-    public RegistPresenterImpl(Context context, IdentifyCallBack callBack) {
+    public RegistPresenter(RegistView baseView) {
+        super(baseView);
         service = ZillaApi.NormalRestAdapter.create(LoginService.class);
-        this.context = context;
-        this.callBack = callBack;
     }
 
-    @Override
-    public void doRegist(String userName, String password, String HxAccountId, String identify, final Button btn_regist) {
+    public void doRegist(final String userName, String password, String HxAccountId, String identify) {
+        if(getView()!=null){
+            getView().dialogShow("注册中");
+        }
         service.doRegist(userName, password, HxAccountId, identify, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(ResponseData<UserModel> userResponseData, Response response) {
-                try {
-                    btn_regist.setEnabled(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 Log.i(userResponseData.toString());
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        UserModel model = userResponseData.getData();
-                        model.setIsJoin("0");
-                        UserInfoModel.getInstance().saveUserCache(model);
-                        UserInfoModel.getInstance().setToken("");
-                        Intent intent = new Intent(context, CreatFlleActivity.class);
-                        intent.putExtra("token", model.getToken());
-                        ((AppCompatActivity) context).finish();
-                        context.startActivity(intent);
+                        if(getView()!=null){
+                            getView().registSuccess(userResponseData.getData());
+                        }
+
                         break;
                     default:
+                        if(getView()!=null){
+                            getView().registFail();
+                        }
                         Util.toastMsg(userResponseData.getMsg());
                         break;
                 }
@@ -75,10 +60,8 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                try {
-                    btn_regist.setEnabled(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (getView()!=null){
+                    getView().registFail();
                 }
                 ZillaApi.dealNetError(error);
 
@@ -87,16 +70,19 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
     }
 
-    @Override
     public void getIdentify(String phone, String state) {
         service.getIdentify(phone, state, new Callback<ResponseData<IdentifyModel>>() {
             @Override
             public void success(ResponseData<IdentifyModel> stringResponseData, Response response) {
                 if (stringResponseData.getStatus() != 200) {
-                    callBack.getIdentifyCallback(false);
+                    if(getView()!=null){
+                        getView().getIdentifyCallback(false);
+                    }
                     Util.toastMsg(stringResponseData.getMsg());
                 } else {
-                    callBack.getIdentifyCallback(true);
+                    if(getView()!=null){
+                        getView().getIdentifyCallback(true);
+                    }
                 }
                 Log.i("验证码获取结果>>>>" + stringResponseData.toString());
 
@@ -104,14 +90,15 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                if(getView()!=null){
+                    getView().getIdentifyCallback(false);
+                }
                 ZillaApi.dealNetError(error);
-                callBack.getIdentifyCallback(false);
             }
         });
     }
 
-    @Override
-    public boolean validateGetIdentify(EditText et_phone, EditText et_password, EditText et_rePassword) {
+    public boolean validateGetIdentify(Context context, EditText et_phone, EditText et_password, EditText et_rePassword) {
         String phone = et_phone.getText().toString();
 
         if ("".equals(phone)) {
@@ -149,8 +136,10 @@ public class RegistPresenterImpl implements IRegistPresenter {
         return true;
     }
 
-    public interface IdentifyCallBack {
 
+    public interface RegistView extends BaseView{
+        void registSuccess(UserModel model);
+        void registFail();
         void getIdentifyCallback(boolean result);
     }
 }

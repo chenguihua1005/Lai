@@ -7,5 +7,6 @@ package com.softtek.lai.common.mvp;
 public interface BaseView {
 
     void dialogShow(String message);
+    void dialogShow();
     void dialogDissmiss();
 }

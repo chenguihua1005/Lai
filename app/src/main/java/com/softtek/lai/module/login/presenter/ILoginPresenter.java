@@ -9,17 +9,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.widget.TextView;
 
+import com.ggx.widgets.view.CustomProgress;
+
 /**
  * Created by jerry.guan on 3/3/2016.
  */
 public interface ILoginPresenter {
 
     //登录
-    void doLogin(String userName, String password, ProgressDialog dialog, TextView tv);
-
-    //资格认证
-    void alidateCertification(String memberId, String password, String accountId, ProgressDialog progressDialog);
-
+    void doLogin(String userName, String password, CustomProgress dialog, TextView tv);
 
     //修改昵称
     void getUpdateName(String accountId, String userName, ProgressDialog dialog);

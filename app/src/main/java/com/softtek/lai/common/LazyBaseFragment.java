@@ -1,6 +1,5 @@
 package com.softtek.lai.common;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ggx.widgets.view.CustomProgress;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.umeng.analytics.MobclickAgent;
@@ -26,7 +26,7 @@ public abstract class LazyBaseFragment<T extends BasePresenter> extends Fragment
     private boolean isCreatedView=false;//是否加载完成试图
 
 //    protected View contentView;
-    protected ProgressDialog progressDialogs;
+    protected CustomProgress progressDialogs;
     private T presenter;
 
 
@@ -69,13 +69,19 @@ public abstract class LazyBaseFragment<T extends BasePresenter> extends Fragment
     @Override
     public void dialogShow(String value) {
         if (progressDialogs == null) {
-            progressDialogs = new ProgressDialog(getContext());
-            progressDialogs.setCanceledOnTouchOutside(false);
-//            progressDialogs.setCancelable(false);
-            progressDialogs.setMessage(value);
+            progressDialogs = CustomProgress.build(getContext(),value);
             progressDialogs.show();
         }
     }
+
+    @Override
+    public void dialogShow() {
+        if (progressDialogs == null) {
+            progressDialogs = CustomProgress.build(getContext(),null);
+            progressDialogs.show();
+        }
+    }
+
     @Override
     public void dialogDissmiss() {
         if (progressDialogs != null&&progressDialogs.isShowing()) {

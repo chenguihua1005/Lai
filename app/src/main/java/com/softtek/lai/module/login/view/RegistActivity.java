@@ -6,6 +6,7 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,9 +27,11 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.login.presenter.IRegistPresenter;
-import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.presenter.RegistPresenter;
 import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -40,10 +43,9 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_regist)
-public class RegistActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, RegistPresenterImpl.IdentifyCallBack {
-    private static final String TAG = "RegistActivity";
+public class RegistActivity extends BaseActivity<RegistPresenter> implements View.OnClickListener,
+        Validator.ValidationListener,RegistPresenter.RegistView{
 
-    private IRegistPresenter registPresenter;
     private MyCountDown countDown;
 
     @LifeCircleInject
@@ -71,7 +73,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_get_identify)
     TextView tv_get_identify;
 
-    //    @Checked(order = 8)
     @InjectView(R.id.cb_term)
     CheckBox cb_term;
 
@@ -95,17 +96,13 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-//        if (!isTaskRoot()) {
-//            finish();
-//            return;
-//        }
     }
 
     @Override
     protected void initDatas() {
         //初始化倒计时
+        setPresenter(new RegistPresenter(this));
         countDown = new MyCountDown(60000, 1000);
-        registPresenter = new RegistPresenterImpl(this, this);
     }
 
     /**
@@ -128,7 +125,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()) {
             case R.id.tv_get_identify:
                 String phone = et_phone.getText().toString();
-                boolean validate = registPresenter.validateGetIdentify(et_phone, et_password, et_repassword);
+                boolean validate = getPresenter().validateGetIdentify(this,et_phone, et_password, et_repassword);
                 if (!validate) {
                     return;
                 }
@@ -136,7 +133,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 et_repassword.setError(null);
                 countDown.start();
                 tv_get_identify.setEnabled(false);
-                registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
+                getPresenter().getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;
             case R.id.btn_regist:
                 et_password.setError(null);
@@ -198,11 +195,15 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 // call method in SDK
                 try {
                     EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
-                    registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString(),btn_regist);
+                    Looper.prepare();
+                    getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
+                    Looper.loop();
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                     if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
-                        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString(),btn_regist);
+                        Looper.prepare();
+                        getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
+                        Looper.loop();
                     }
                 }
 
@@ -225,6 +226,25 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 countDown.onFinish();
             }
         }
+    }
+
+    @Override
+    public void registSuccess(UserModel model) {
+        dialogDissmiss();
+        btn_regist.setEnabled(true);
+        model.setIsJoin("0");
+        UserInfoModel.getInstance().saveUserCache(model);
+        UserInfoModel.getInstance().setToken("");
+        Intent intent = new Intent(this, CreatFlleActivity.class);
+        intent.putExtra("token", model.getToken());
+        finish();
+        startActivity(intent);
+    }
+
+    @Override
+    public void registFail() {
+        dialogDissmiss();
+        btn_regist.setEnabled(true);
     }
 
     public class MyCountDown extends JCountDownTimer {

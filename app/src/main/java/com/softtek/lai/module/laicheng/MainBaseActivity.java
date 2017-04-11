@@ -22,7 +22,6 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
-import com.softtek.lai.module.laicheng.net.BleService;
 import com.softtek.lai.module.laicheng.presenter.BleBasePresenter;
 import com.softtek.lai.module.laicheng.shake.ShakeListener;
 import com.softtek.lai.module.laicheng.util.BleManager;
@@ -32,16 +31,11 @@ import com.softtek.lai.module.laicheng.util.MathUtils;
 import com.softtek.lai.module.laicheng.util.StringMath;
 import com.softtek.lai.mpermission.MPermission;
 import com.softtek.lai.sound.SoundHelper;
-import com.softtek.lai.utils.RequestCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import retrofit.RequestInterceptor;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import uk.co.senab.photoview.log.LogManager;
-import zilla.libcore.api.ZillaApi;
 
 public abstract class MainBaseActivity extends BleBaseActivity implements BleBasePresenter.BleBaseView {
 
@@ -52,9 +46,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private String scaleId = "";//访客模式称量后的id
     private boolean isGuest = false;//以前的访客模式的称量页和这个页面合成一个，方便以后维护
     private int shareType;
-    private boolean isVoiceHelp = false;
+    protected boolean isVoiceHelp = true;
 
-    private int mCloseVoiceTimeOut = 60;
+//    private int mCloseVoiceTimeOut = 60;
 
     private String newData = "";//蓝牙临时数据
     private String mHandData = "";//握手数据
@@ -94,12 +88,14 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private BleBasePresenter presenter;
 
-    private String voiceTemp;
+    private volatile int voiceIndex = 0;
 
     private void shake() {
         openBluetoothSetting();
-        soundHelper.play("one");
-        voiceTemp = "one";
+        if (voiceIndex != 1) {
+            voiceIndex = 1;
+            soundHelper.play("one");
+        }
         mShakeListener.stop();
     }
 
@@ -122,13 +118,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         super.onCreate(savedInstanceState);
         permission = MPermission.with(this);
         mShakeListener = new ShakeListener(this);
-        soundHelper = new SoundHelper(this, 6);
-        soundHelper.addAudio("one", R.raw.help_one);
-        soundHelper.addAudio("two", R.raw.help_two);
-        soundHelper.addAudio("three", R.raw.help_three);
-        soundHelper.addAudio("four", R.raw.help_four);
-        soundHelper.addAudio("five", R.raw.help_five);
-        soundHelper.addAudio("six", R.raw.help_six);
+        addVoice();
 
         presenter = new BleBasePresenter(this);
 
@@ -154,7 +144,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 if (deviceListDialog.getBluetoothDevice(bluetoothPosition) != null && deviceListDialog.getBluetoothDevice(bluetoothPosition).getName() != null &&
                         deviceListDialog.getBluetoothDevice(bluetoothPosition).getAddress() != null) {
                     dialogShow("正在校验设备");
-                    presenter.checkMac(token,deviceListDialog.getBluetoothDevice(positions).getAddress());
+                    presenter.checkMac(token, deviceListDialog.getBluetoothDevice(positions).getAddress());
                 }
             }
 
@@ -228,9 +218,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 }
             }
 
+            @SuppressLint("LongLogTag")
             @Override
             public void BleConnectSuccess() {
                 changeConnectionState(CONNECTED_STATE_SUCCESS);
+                Log.e("CONNECTED_STATE_SUCCESS-----", "CONNECTED_STATE_SUCCESS");
                 mShakeListener.stop();
             }
 
@@ -262,26 +254,17 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void BleConnectLost() {
                 if (state_current == CONNECTED_STATE_WEIGHT) {
-//                    dismissLoadingDialog();
+                    dialogDissmiss();
                     changeConnectionState(CONNECTED_STATE_FAILED);
                 } else {
                     changeConnectionState(CONNECTED_STATE_SHAKE_IT);
                 }
-//                showExceptionMessage("设备连接断开，请重新连接");
-                if (isVoiceHelp) {//如果语音打开
-                    isVoiceHelp = false;
-//                    cVoice.setImageResource(R.drawable.animation_voice);
-//                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
-//                    animationDrawable.stop();
-//                    cVoice.setImageResource(R.drawable.voice_four);
-//                    soundHelper.stop();
-                }
+                Toast.makeText(getApplicationContext(), "设备连接断开，请重新连接", Toast.LENGTH_SHORT).show();
                 mShakeListener.start();
             }
 
             @Override
             public void BleRead(byte[] datas) {
-                Toast.makeText(MainBaseActivity.this, "读取蓝牙数据", Toast.LENGTH_SHORT).show();
                 if (state_current == CONNECTED_STATE_SUCCESS || state_current == CONNECTED_STATE_WEIGHT) {//只有称量的时候才会接收数据
                     String readMessage = MathUtils.bytesToHexString(datas);
                     newData += readMessage;
@@ -295,6 +278,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         presenter.getToken();
         initUi();
     }
+
 
     Handler handler = new Handler() {
 
@@ -431,17 +415,21 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             testTimeOut = 60;
             isResultTest = false;//是否有测量结果
             handler.postDelayed(new Runnable() {
+                @SuppressLint("LongLogTag")
                 @Override
                 public void run() {
                     if (testTimeOut == 0) {
                         if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
                             changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
-                            Log.d("sendFatRateToDevice", "发送给莱称0.0f的数据");
+                            Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
                             sendFatRateToDevice(0.0f);
                         }
                     } else {
                         testTimeOut--;
                         handler.postDelayed(this, 1000);
+                        if (!isConnected) {
+                            testTimeOut = 0;
+                        }
                     }
                 }
             }, 1000);//超时时间1分钟
@@ -515,158 +503,81 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         }
     }
 
-    private void changeConnectionState(int state) {
-        if (state != CONNECTED_STATE_LOADING) {
-//            iv_connect_state.clearAnimation();
-        }
+    protected void changeConnectionState(int state) {
         switch (state) {
             case CONNECTED_STATE_SHAKE_IT:
                 //称前摇一摇
                 state_current = CONNECTED_STATE_SHAKE_IT;
                 setStateTip("摇一摇，链接莱秤");
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_shake_it);
-//                tv_connect_state.setText(R.string.mainpage_connection_shake_it);
 
                 break;
             case CONNECTED_STATE_LOADING:
                 state_current = CONNECTED_STATE_LOADING;
                 //正在连接中，请稍后...
-                setStateTip("正在连接中，请稍候...");
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_loading);
-//                Animation anim = AnimationUtils.loadAnimation(this, R.anim.rotate_aways);
-//                anim.setInterpolator(new LinearInterpolator());
-//                iv_connect_state.startAnimation(anim);
-//                tv_connect_state.setText(R.string.mainpage_connection_loading);
                 break;
             case CONNECTED_STATE_FAILED:
                 //连接失败，请重试
                 state_current = CONNECTED_STATE_FAILED;
-                setStateTip("链接失败，请重试");
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_failed);
-//                tv_connect_state.setText(R.string.mainpage_connection_faild);
                 break;
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤
                 setStateTip("已链接，请上秤");
                 state_current = CONNECTED_STATE_SUCCESS;
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
-//                tv_connect_state.setText(R.string.mainpage_connection_success);
-                if (isVoiceHelp) {
-                    mCloseVoiceTimeOut = 60;
+                if (voiceIndex != 2) {
+                    voiceIndex = 2;
                     soundHelper.play("two");
-                    voiceTemp = "two";
                 }
                 break;
             case CONNECTED_STATE_WEIGHT:
-                dialogShow("亲，请稍等，测量中...");
+                showProgressDialog();
                 state_current = CONNECTED_STATE_WEIGHT;
-                if (isVoiceHelp) {
+                if (voiceIndex != 3) {
+                    voiceIndex = 3;
                     soundHelper.play("three");
-                    voiceTemp = "three";
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isVoiceHelp && state_current == CONNECTED_STATE_WEIGHT) {
-                                soundHelper.play("four");
-                                voiceTemp = "four";
-                                handler.postDelayed(this, 2000);
-                            }
-                        }
-                    }, 2000);
                 }
-//                if (testSuccessDialog != null && testSuccessDialog.isShowing()) {
-//                    testSuccessDialog.dismiss();
-//                }
-//                if (testErrorDialog != null && testErrorDialog.isShowing()) {
-//                    testErrorDialog.dismiss();
-//                }
-//                if (testFailDialog != null && testFailDialog.isShowing()) {
-//                    testFailDialog.dismiss();
-//                }
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (state_current == CONNECTED_STATE_WEIGHT) {
+                            voiceIndex = 4;
+                            soundHelper.play("four");
+                            handler.postDelayed(this, 2000);
+                        }
+                    }
+                }, 2000);
                 break;
             case CONNECTED_STATE_UPLOADING:
                 //阻抗数据上传
                 state_current = CONNECTED_STATE_UPLOADING;
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_loading);
-//                tv_connect_state.setText(R.string.mainpage_connection_uploading);
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
-//                SoundPlay.getInstance().stop();
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
-//                tv_connect_state.setText(R.string.mainpage_connection_success);
-                if (isVoiceHelp) {
+                if (voiceIndex != 5) {
+                    voiceIndex = 5;
                     soundHelper.play("five");
-                    voiceTemp = "five";
-                    isVoiceHelp = false;
-//                    cVoice.setImageResource(R.drawable.animation_voice);
-//                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
-//                    animationDrawable.stop();
-//                    cVoice.setImageResource(R.drawable.voice_four);
                 }
                 break;
             case CONNECTED_STATE_UPLOADING_FAIL:
                 setStateTip("测量失败，请重新测量");
+                dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
-//                SoundPlay.getInstance().stop();
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
-//                tv_connect_state.setText(R.string.mainpage_connection_success);
-                if (isVoiceHelp) {
+                if (voiceIndex != 6) {
+                    voiceIndex = 6;
                     soundHelper.play("six");
-                    isVoiceHelp = false;
-                    voiceTemp = "six";
-//                    cVoice.setImageResource(R.drawable.animation_voice);
-//                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
-//                    animationDrawable.stop();
-//                    cVoice.setImageResource(R.drawable.voice_four);
                 }
-                AlertDialog.Builder failBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
-                failBuilder.setMessage("测量失败，请重新测量");
-                failBuilder.setTitle("提示");
-                failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-//                testFailDialog = failBuilder.create();
-//                try {
-//                    testFailDialog.show();
-//                } catch (Exception e) {
-//                    testFailDialog = null;
-//                }
+                showUploadFailedDialog();
                 break;
             case CONNECTED_STATE_UPLOADING_TIMEOUT:
                 state_current = CONNECTED_STATE_SUCCESS;
-//                dismissLoadingDialog();
-//                SoundPlay.getInstance().stop();
-//                iv_connect_state.setBackgroundResource(R.drawable.pic_mainpage_connect_success);
-//                tv_connect_state.setText(R.string.mainpage_connection_success);
-                if (isVoiceHelp) {
+                setStateTip("测量失败，请重新测量");
+                dialogDissmiss();
+                if (voiceIndex != 6) {
+                    voiceIndex = 6;
                     soundHelper.play("six");
-                    isVoiceHelp = false;
-//                    cVoice.setImageResource(R.drawable.animation_voice);
-//                    AnimationDrawable animationDrawable = (AnimationDrawable) cVoice.getDrawable();
-//                    animationDrawable.stop();
-//                    cVoice.setImageResource(R.drawable.voice_four);
                 }
-//
-                AlertDialog.Builder timeOutBuilder = new AlertDialog.Builder(MainBaseActivity.this, R.style.whiteDialog);
-                timeOutBuilder.setMessage("测量超时，请重新测量");
-                timeOutBuilder.setTitle("提示");
-                timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-//                testFailDialog = timeOutBuilder.create();
-//                try {
-//                    testFailDialog.show();
-//                } catch (Exception e) {
-//                    testFailDialog = null;
-//                } finally {
+                showTimeoutDialog();
+
                 newData = "";
                 mHandData = "";
                 mFrequency04Data = "";
@@ -784,7 +695,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onStop() {
         super.onStop();
-        soundHelper.release();
     }
 
     @Override
@@ -793,8 +703,19 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mShakeListener.start();
     }
 
-    public void stopVoice(){
-        soundHelper.stop(voiceTemp);
+    public void stopVoice() {
+        soundHelper.release();
+    }
+
+    public void addVoice() {
+        soundHelper = new SoundHelper(this, 6);
+        soundHelper.addAudio("one", R.raw.help_one);
+        soundHelper.addAudio("two", R.raw.help_two);
+        soundHelper.addAudio("three", R.raw.help_three);
+        soundHelper.addAudio("four", R.raw.help_four);
+        soundHelper.addAudio("five", R.raw.help_five);
+        soundHelper.addAudio("six", R.raw.help_six);
+
     }
 
     public abstract void initUi();
@@ -806,6 +727,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public abstract UserInfoEntity getGuestInfo();
 
     public abstract void setStateTip(String state);
+
+    public abstract void showProgressDialog();
+
+    public abstract void showTimeoutDialog();
+
+    public abstract void showUploadFailedDialog();
 
     @Override
     public void checkMacSuccess() {

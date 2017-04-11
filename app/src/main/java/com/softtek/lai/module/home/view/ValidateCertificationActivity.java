@@ -17,6 +17,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.home.presenter.CertificationPresenter;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -36,7 +37,8 @@ import zilla.libcore.ui.InjectLayout;
  * 资格号认证
  */
 @InjectLayout(R.layout.activity_validate_certification)
-public class ValidateCertificationActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener{
+public class ValidateCertificationActivity extends BaseActivity<CertificationPresenter> implements View.OnClickListener,
+        Validator.ValidationListener,CertificationPresenter.CertificationView{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -65,16 +67,11 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @InjectView(R.id.text_value)
     TextView text_value;
 
-
-    private ILoginPresenter loginPresenter;
-
-
     private UserModel model;
 
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(RoleInfo roleInfo) {
+    @Override
+    public void getData(RoleInfo data) {
         edit_password.setText("");
         edit_account.setText("");
         setData();
@@ -86,20 +83,14 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
         tv_title.setText("身份认证");
         ll_left.setOnClickListener(this);
         but_validate.setOnClickListener(this);
     }
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 
     @Override
     protected void initDatas() {
-        loginPresenter = new LoginPresenterImpl(this);
+        setPresenter(new CertificationPresenter(this));
         setData();
         edit_password.setText("");
         edit_account.setText("");
@@ -135,7 +126,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         String password = edit_password.getText().toString();
         String memberId = edit_account.getText().toString();
         dialogShow("认证中...");
-        loginPresenter.alidateCertification(memberId, password, account, progressDialog);
+        getPresenter().validateCertification(memberId, password, account);
     }
 
     /**
@@ -166,5 +157,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
     }
+
 
 }

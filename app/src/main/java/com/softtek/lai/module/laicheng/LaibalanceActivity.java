@@ -47,7 +47,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private SelftestFragment selftestFragment;
     private VisitortestFragment visitortestFragment;
 
-    private boolean isPlay = true;
+    private AlertDialog.Builder timeOutBuilder;
+    private AlertDialog.Builder failBuilder;
+
 
     @OnClick(R.id.fl_left)
     public void doBack() {
@@ -108,9 +110,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             @Override
             public void onPageSelected(int position) {
                 pageIndex = position;
-                if (pageIndex == 0){
+                if (pageIndex == 0) {
                     setGuest(false);
-                }else {
+                } else {
                     setGuest(true);
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
@@ -139,15 +141,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void initUiByBleFailed() {
         if (pageIndex == 0) {
             dialogDissmiss();
-            AlertDialog.Builder timeOutBuilder = new AlertDialog.Builder(LaibalanceActivity.this, R.style.whiteDialog);
-            timeOutBuilder.setMessage("测量超时，请重新测量");
-            timeOutBuilder.setTitle("提示");
-            timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+           changeConnectionState(7);
         } else {
 
         }
@@ -165,12 +159,56 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
+    public void showTimeoutDialog() {
+        if (timeOutBuilder == null) {
+            timeOutBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
+        }
+        timeOutBuilder.setMessage("测量超时，请重新测量");
+        timeOutBuilder.setTitle("提示");
+        timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!isConnected){
+                    mShakeListener.start();
+                    changeConnectionState(0);
+                }
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
+    @Override
+    public void showUploadFailedDialog() {
+        if (failBuilder == null) {
+            failBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
+        }
+        failBuilder.setMessage("测量失败，请重新测量");
+        failBuilder.setTitle("提示");
+        failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!isConnected){
+                    mShakeListener.start();
+                    changeConnectionState(0);
+                }
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
+    @Override
+    public void showProgressDialog() {
+        dialogShow("亲，请稍等，测量中...");
+    }
+
+    @Override
     public void onVoiceListener() {
-        if (isPlay) {
+        if (isVoiceHelp) {
             stopVoice();
-            isPlay = false;
-        }else {
-            isPlay = true;
+            isVoiceHelp = false;
+        } else {
+            addVoice();
+            isVoiceHelp = true;
         }
     }
 

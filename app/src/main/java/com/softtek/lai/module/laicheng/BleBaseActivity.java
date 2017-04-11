@@ -29,6 +29,8 @@ public abstract class BleBaseActivity extends BaseActivity {
     private BleManager mBleManager;
     private BleStateListener bleStateListener;
 
+    protected boolean isConnected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,12 +134,16 @@ public abstract class BleBaseActivity extends BaseActivity {
                 @Override
                 public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
                     if (newState == BluetoothProfile.STATE_CONNECTED) {//当蓝牙设备已经连接
-                        sendMessage(BleManager.BLUETOOTH_STATE_CONNECTED);
+                        if (!isConnected) {
+                            sendMessage(BleManager.BLUETOOTH_STATE_CONNECTED);
+                            isConnected = true;
+                        }
                         mBleManager.getBluetoothGatt().discoverServices();
                     } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {//当设备无法连接
                         if (mBleManager.isReconnect()) {
 //                            mBleManager.reConnectBluetooth(this);
                         } else {
+                            isConnected = false;
                             sendMessage(BleManager.BLUETOOTH_STATE_CONNECT_LOST);
                         }
                     }
@@ -247,7 +253,6 @@ public abstract class BleBaseActivity extends BaseActivity {
                 case BleManager.BLUETOOTH_STATE_CONNECT_LOST:
                     if (bleStateListener != null) {
                         bleStateListener.BleConnectLost();
-                        Toast.makeText(BleBaseActivity.this,"链接断开",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES:
