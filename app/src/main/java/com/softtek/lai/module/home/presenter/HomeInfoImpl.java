@@ -100,10 +100,5 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
         });
     }
 
-    @Override
-    public List<HomeInfoModel> loadActivityCacheDate(String key) {
-        return null;
-    }
-
 
 }

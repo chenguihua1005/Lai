@@ -24,8 +24,7 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.login.presenter.IPasswordPresenter;
-import com.softtek.lai.module.login.presenter.PasswordPresnter;
+import com.softtek.lai.module.home.presenter.ModifyPasswordPresenter;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -35,7 +34,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_modify_password)
-public class ModifyPasswordActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
+public class ModifyPasswordActivity extends BaseActivity<ModifyPasswordPresenter> implements View.OnClickListener, Validator.ValidationListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -67,8 +66,6 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.btn_submit)
     Button btn_submit;
 
-    private IPasswordPresenter passwordPresenter;
-
     private String old_psd;
     private String new_psd;
     String token;
@@ -94,7 +91,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         }else {
             ll_left.setOnClickListener(this);
         }
-        passwordPresenter = new PasswordPresnter(this);
+        setPresenter(new ModifyPasswordPresenter(this));
     }
 
     @Override
@@ -131,9 +128,9 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         new_psd = et_password.getText().toString();
         String type=getIntent().getStringExtra("type");
         if("1".equals(type)){
-            passwordPresenter.changePsd(MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd),token,"1");
+            getPresenter().changePsd(this,MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd),token,"1");
         }else {
-            passwordPresenter.changePsd(MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd),token,"2");
+            getPresenter().changePsd(this,MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd),token,"2");
         }
     }
 

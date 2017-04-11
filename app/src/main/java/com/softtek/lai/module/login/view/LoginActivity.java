@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.login.view;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -15,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ggx.widgets.view.CustomProgress;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -61,7 +61,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     LinearLayout ll_visitor;
 
 
-    private ProgressDialog progressDialog;
+    private CustomProgress progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +73,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void initViews() {
 
         tintManager.setStatusBarTintResource(R.drawable.grey_white);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("登录中，请稍候...");
+        progressDialog = CustomProgress.build(this,"登录中...");
         tv_login.setOnClickListener(this);
         tv_forgetpsd.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
