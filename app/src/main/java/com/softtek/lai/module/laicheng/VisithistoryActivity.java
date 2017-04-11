@@ -17,7 +17,7 @@ public class VisithistoryActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-     
+
     }
 
     @Override

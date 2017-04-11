@@ -130,11 +130,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
             selftestFragment.updateUI(data);
-
         } else {
-
+         visitortestFragment.UpdateData(data);
         }
-        Toast.makeText(getApplicationContext(), "上传体脂率成功回调", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "上传体脂率成功回调", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -143,7 +142,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             dialogDissmiss();
            changeConnectionState(7);
         } else {
-
+            dialogDissmiss();
+            changeConnectionState(7);
         }
     }
 
