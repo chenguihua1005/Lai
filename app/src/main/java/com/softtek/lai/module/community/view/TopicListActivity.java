@@ -92,12 +92,16 @@ public class TopicListActivity extends BaseActivity implements PullToRefreshBase
                 startActivity(intent);
             }
         });
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        ptrlv.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ptrlv.setRefreshing();
+                try {
+                    ptrlv.setRefreshing();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }, 300);
+        },300);
     }
 
     @OnClick(R.id.ll_left)

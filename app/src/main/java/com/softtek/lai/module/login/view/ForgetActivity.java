@@ -190,8 +190,10 @@ public class ForgetActivity extends BaseActivity<ForgetPasswordPresenter> implem
 
         @Override
         public void onFinish() {
-            tv_get_identify.setText("发送验证码");
-            tv_get_identify.setEnabled(true);
+            if (tv_get_identify!=null){
+                tv_get_identify.setText("发送验证码");
+                tv_get_identify.setEnabled(true);
+            }
         }
     }
 }

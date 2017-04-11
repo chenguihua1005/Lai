@@ -233,14 +233,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                         //拍照
                                         if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                             //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                                //允许弹出提示
-                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                            } else {
-                                                //不允许弹出提示
-                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                            }
+                                            //允许弹出提示
+                                            ActivityCompat.requestPermissions(WriteFCActivity.this,new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                         } else {
                                             imageFileSelector.takePhoto(WriteFCActivity.this);
                                         }
