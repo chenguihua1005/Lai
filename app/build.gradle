@@ -94,7 +94,6 @@ dependencies {
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
     testCompile 'junit:junit:4.12'
 }
 
