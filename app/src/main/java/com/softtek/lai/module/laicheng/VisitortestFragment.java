@@ -1,21 +1,28 @@
 package com.softtek.lai.module.laicheng;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -36,11 +43,16 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.model.Visitsmodel;
 import com.softtek.lai.module.laicheng.presenter.VisitorPresenter;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.ShareUtils;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CustomDialog;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
@@ -53,15 +65,25 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     Button bt_again;
     private LinearLayout.LayoutParams parm;
     @InjectView(R.id.tv_weight)
-    TextView tv_weight;
+    TextView tv_weight;//体重
+    @InjectView(R.id.tv_weight_caption)
+    TextView tv_weight_caption;//状态
+    @InjectView(R.id.tv_body_fat_rate)
+    TextView tv_body_fat_rate;//体脂率
+    @InjectView(R.id.tv_bmi)
+    TextView tv_bmi;//BMI;
+    @InjectView(R.id.tv_internal_fat_rate)
+    TextView tv_internal_fat_rate;//内脂率
+
 
     @InjectView(R.id.bt_create)
     Button bt_create;//
     @InjectView(R.id.bt_history)
     Button bt_history;
 
+    //访客信息
     @InjectView(R.id.ll_visitor)
-    LinearLayout ll_visitor;//访客信息
+    LinearLayout ll_visitor;
     @InjectView(R.id.tv_name)
     TextView tv_name;
     @InjectView(R.id.tv_phoneNo)
@@ -76,6 +98,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     VisitorModel visitorModel = new VisitorModel();
     private int gender = 0;
     private int visitorId;
+    private String date;
 
     public VisitortestFragment() {
         // Required empty public constructor
@@ -101,25 +124,36 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         tv_weight.setTypeface(tf);
     }
 
+
+    //    访客基本信息弹框
+    EditText et_old;
+
     private void showTypeDialog() {
         final CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.info_visitor, null);
         RelativeLayout ll_area = (RelativeLayout) view.findViewById(R.id.rl_area);
         final EditText et_name = (EditText) view.findViewById(R.id.et_name);
-        final EditText et_old = (EditText) view.findViewById(R.id.et_old);
+        et_old = (EditText) view.findViewById(R.id.et_old);
         final EditText et_height = (EditText) view.findViewById(R.id.et_height);
         final EditText et_mobile = (EditText) view.findViewById(R.id.et_mobile);
         RadioGroup rg_up = (RadioGroup) view.findViewById(R.id.rg_up);
         Button btn_commit = (Button) view.findViewById(R.id.btn_commit);
         parm = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT);
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
         parm.gravity = Gravity.CENTER;
-
         builder.setView(view);
         builder.show();
 
+        et_old.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et_old.getWindowToken(), 0);
+                showDate();
+            }
+        });
 
         rg_up.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -159,9 +193,42 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     }
 
 
-    public VisitorModel getVisitorModel() {
-        return visitorModel;
+    //日期控件
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
+    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+    String str = formatter.format(curDate);
+
+    private void showDate() {
+        final Calendar c = Calendar.getInstance();
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(c.getTime().getTime());
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                datePickerDialog.cancel();
+            }
+        });
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                DatePicker datePicker = datePickerDialog.getDatePicker();
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth() + 1;
+                int day = datePicker.getDayOfMonth();
+                date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
+                Log.i("日期", date);
+                int compare = date.compareTo(str);
+                Log.e("132", compare + "");
+                if (compare <= 0) {
+                    Log.i("日期", date);
+                    et_old.setText(date);
+                }
+
+            }
+        });
+        datePickerDialog.show();
     }
+
 
     public void setVisitorModel(VisitorModel visitorModel) {
         this.visitorModel = visitorModel;
@@ -177,7 +244,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
                 showTypeDialog();
                 break;
             case R.id.bt_history:
-                Intent intent=new Intent(getActivity(),VisithistoryActivity.class);
+                Intent intent = new Intent(getActivity(), VisithistoryActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -199,9 +266,17 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
             tv_height.setText(model.getGender());
 
         }
-
         if (visitsmodel != null) {
             visitorId = visitsmodel.getVisitorId();
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void UpdateData(BleMainData data) {
+        tv_weight.setText(data.getWeight_item().getValue() + "");//体重
+        tv_weight_caption.setText(data.getWeight_con().getCaption());//状态
+        tv_body_fat_rate.setText(data.getBodyfatrate()+"%");
+        tv_bmi.setText(data.getBmi()+"");
+        tv_internal_fat_rate.setText(data.getVisceralfatindex()+"%");
     }
 }
