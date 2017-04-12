@@ -22,6 +22,7 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.BleBasePresenter;
 import com.softtek.lai.module.laicheng.shake.ShakeListener;
 import com.softtek.lai.module.laicheng.util.BleManager;
@@ -159,6 +160,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
+                voiceIndex = 0;
                 mShakeListener.start();
             }
         });
@@ -166,6 +168,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
+                voiceIndex = 0;
                 mShakeListener.start();
             }
         });
@@ -662,7 +665,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         model.setWeight(String.valueOf(weight));
         if (getGuest()) {
             model.setHeight(String.valueOf(getGuestInfo().getHeight()));
-            model.setBirthdate(String.valueOf(getGuestInfo().getBirthdate()));
+            model.setBirthdate(String.valueOf(getGuestInfo().getAge()));
             model.setGender(getGuestInfo().getGender());
         } else {
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());
@@ -728,7 +731,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public abstract void initUiByBleFailed();
 
     //获取非自己的人员信息
-    public abstract UserInfoEntity getGuestInfo();
+    public abstract VisitorModel getGuestInfo();
 
     //设置蓝牙状态提示
     public abstract void setStateTip(String state);

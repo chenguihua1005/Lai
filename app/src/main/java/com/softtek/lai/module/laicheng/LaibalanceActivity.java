@@ -19,6 +19,7 @@ import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
@@ -131,7 +132,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         if (pageIndex == 0) {
             selftestFragment.updateUI(data);
         } else {
-         visitortestFragment.UpdateData(data);
+            visitortestFragment.UpdateData(data);
         }
 //        Toast.makeText(getApplicationContext(), "上传体脂率成功回调", Toast.LENGTH_SHORT).show();
     }
@@ -140,18 +141,22 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void initUiByBleFailed() {
         if (pageIndex == 0) {
             dialogDissmiss();
-           changeConnectionState(7);
+            changeConnectionState(7);
         } else {
             dialogDissmiss();
             changeConnectionState(7);
         }
     }
 
+    VisitorModel visitorModel;
 
     @Override
-    public UserInfoEntity getGuestInfo() {
-        return null;
+    public VisitorModel getGuestInfo() {
+        visitorModel= visitortestFragment.getVisitorModel();
+        Log.i("获取访客信息",visitorModel.toString());
+        return visitorModel;
     }
+
 
     @Override
     public void setStateTip(String state) {
@@ -168,7 +173,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected){
+                if (!isConnected) {
                     mShakeListener.start();
                     changeConnectionState(0);
                 }
@@ -187,7 +192,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected){
+                if (!isConnected) {
                     mShakeListener.start();
                     changeConnectionState(0);
                 }
@@ -212,8 +217,5 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         }
     }
 
-    @Override
-    public void getData(Object data) {
 
-    }
 }
