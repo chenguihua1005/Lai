@@ -69,6 +69,15 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     String tag;
 
+    public void changeStatusColor(){
+        TypedValue typedValue = new  TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(typedValue.data);
+        }
+        tintManager.setStatusBarTintResource(typedValue.resourceId);
+    }
+
     @Override
     protected void initViews() {
         btn_home.setOnClickListener(this);
@@ -140,18 +149,20 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void onPageSelected(int position) {
                 //页面切换了
                 isClick = false;
-                if(position==3){
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(Color.TRANSPARENT);
+                if (!UserInfoModel.getInstance().isVr()){
+                    if(position==3){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor(Color.TRANSPARENT);
+                        }
+                        tintManager.setStatusBarTintColor(Color.TRANSPARENT);
+                    }else {
+                        TypedValue typedValue = new  TypedValue();
+                        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor(typedValue.data);
+                        }
+                        tintManager.setStatusBarTintResource(typedValue.resourceId);
                     }
-                    tintManager.setStatusBarTintColor(Color.TRANSPARENT);
-                }else {
-                    TypedValue typedValue = new  TypedValue();
-                    getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(typedValue.data);
-                    }
-                    tintManager.setStatusBarTintResource(typedValue.resourceId);
                 }
             }
 

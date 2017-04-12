@@ -33,7 +33,6 @@ import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
 import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.healthyreport.HistoryDataActivity;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
 import com.softtek.lai.module.laijumine.net.MineSevice;
