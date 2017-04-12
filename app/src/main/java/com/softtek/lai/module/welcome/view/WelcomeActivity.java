@@ -8,6 +8,8 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
@@ -55,6 +57,9 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     @Override
     protected void initViews() {
         Constants.IS_LOGINIMG="0";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         if (!isTaskRoot()) {
             finish();
@@ -67,7 +72,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         if(isServiceStarted(getApplicationContext(),"com.softtek.lai.stepcount.service.StepService")){
             LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
         }
-        new Handler(Looper.getMainLooper()).postDelayed(this,500);
+        guide.postDelayed(this,500);
 
     }
 

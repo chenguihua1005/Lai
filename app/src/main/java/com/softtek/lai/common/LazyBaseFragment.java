@@ -2,14 +2,18 @@ package com.softtek.lai.common;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ggx.widgets.view.CustomProgress;
+import com.softtek.lai.R;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
+import com.softtek.lai.utils.DisplayUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;

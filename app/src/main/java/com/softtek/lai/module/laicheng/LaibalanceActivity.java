@@ -19,6 +19,7 @@ import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
@@ -33,7 +34,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_laibalance)
-public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener {
+public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener,VisitortestFragment.ShakeOFF,VisitortestFragment.VisitorVoiceListener {
 
     @InjectView(R.id.tab_balance)
     TabLayout tab_balance;
@@ -47,8 +48,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private SelftestFragment selftestFragment;
     private VisitortestFragment visitortestFragment;
 
-    private AlertDialog.Builder timeOutBuilder;
-    private AlertDialog.Builder failBuilder;
+    private AlertDialog.Builder builder;
 
 
     @OnClick(R.id.fl_left)
@@ -112,8 +112,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 pageIndex = position;
                 if (pageIndex == 0) {
                     setGuest(false);
+                    mShakeListener.start();
                 } else {
                     setGuest(true);
+                    mShakeListener.stop();
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
             }
@@ -126,83 +128,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     }
 
-    @Override
-    public void initUiByBleSuccess(BleMainData data) {
-        if (pageIndex == 0) {
-            selftestFragment.updateUI(data);
-        } else {
-         visitortestFragment.UpdateData(data);
-        }
-//        Toast.makeText(getApplicationContext(), "上传体脂率成功回调", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void initUiByBleFailed() {
-        if (pageIndex == 0) {
-            dialogDissmiss();
-           changeConnectionState(7);
-        } else {
-            dialogDissmiss();
-            changeConnectionState(7);
-        }
-    }
-
-
-    @Override
-    public UserInfoEntity getGuestInfo() {
-        return null;
-    }
-
-    @Override
-    public void setStateTip(String state) {
-        selftestFragment.setStateTip(state);
-    }
-
-    @Override
-    public void showTimeoutDialog() {
-        if (timeOutBuilder == null) {
-            timeOutBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
-        }
-        timeOutBuilder.setMessage("测量超时，请重新测量");
-        timeOutBuilder.setTitle("提示");
-        timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected){
-                    mShakeListener.start();
-                    changeConnectionState(0);
-                }
-                dialog.dismiss();
-            }
-        }).create().show();
-    }
-
-    @Override
-    public void showUploadFailedDialog() {
-        if (failBuilder == null) {
-            failBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
-        }
-        failBuilder.setMessage("测量失败，请重新测量");
-        failBuilder.setTitle("提示");
-        failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected){
-                    mShakeListener.start();
-                    changeConnectionState(0);
-                }
-                dialog.dismiss();
-            }
-        }).create().show();
-    }
-
-    @Override
-    public void showProgressDialog() {
-        dialogShow("亲，请稍等，测量中...");
-    }
-
-    @Override
-    public void onVoiceListener() {
+    private void setVoice(){
         if (isVoiceHelp) {
             stopVoice();
             isVoiceHelp = false;
@@ -213,7 +139,92 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
-    public void getData(Object data) {
+    public void initUiByBleSuccess(BleMainData data) {
+        if (pageIndex == 0) {
+            selftestFragment.updateUI(data);
+        } else {
+            visitortestFragment.UpdateData(data);
+        }
+//        Toast.makeText(getApplicationContext(), "上传体脂率成功回调", Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void initUiByBleFailed() {
+        if (pageIndex == 0) {
+            dialogDissmiss();
+            changeConnectionState(7);
+        } else {
+            dialogDissmiss();
+            changeConnectionState(7);
+        }
+    }
+
+    VisitorModel visitorModel;
+
+    @Override
+    public VisitorModel getGuestInfo() {
+        visitorModel= visitortestFragment.getVisitorModel();
+        Log.i("获取访客信息",visitorModel.toString());
+        return visitorModel;
+    }
+
+
+    @Override
+    public void setStateTip(String state) {
+        selftestFragment.setStateTip(state);
+    }
+
+    private void createDialog(boolean isTimeout){
+        if (builder == null) {
+            builder = new AlertDialog.Builder(this, R.style.whiteDialog);
+        }
+        if (isTimeout){
+            builder.setMessage("测量超时，请重新测量");
+        }else {
+            builder.setMessage("测量失败，请重新测量");
+        }
+        builder.setTitle("提示");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!isConnected) {
+                    mShakeListener.start();
+                    changeConnectionState(0);
+                }
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
+    @Override
+    public void showTimeoutDialog() {
+       createDialog(true);
+    }
+
+    @Override
+    public void showUploadFailedDialog() {
+     createDialog(false);
+    }
+
+    @Override
+    public void showProgressDialog() {
+        dialogShow("亲，请稍等，测量中...");
+    }
+
+    @Override
+    public void onVoiceListener() {
+        setVoice();
+    }
+
+
+
+    @Override
+    public void setOnShakeOFF() {
+        mShakeListener.start();
+    }
+
+    @Override
+    public void onVisitorVoiceListener() {
+        setVoice();
     }
 }

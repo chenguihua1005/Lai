@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_visittime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -28,6 +29,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_visitor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -46,6 +48,7 @@
             android:paddingTop="5dp">
 
             <TextView
+                android:id="@+id/tv_phoneNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -61,6 +64,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -69,6 +73,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -77,6 +82,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_height"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="176cm"

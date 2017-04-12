@@ -2,6 +2,7 @@ package com.softtek.lai.module.laicheng.presenter;
 
 import android.widget.Toast;
 
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.common.mvp.BaseView1;
@@ -75,15 +76,15 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
     }
 
     public void upLoadImpedance(UploadImpedanceModel model) {
-        ZillaApi.getCustomRESTAdapter(BASE_URL + "DataSync/UploadData", new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
+//        ZillaApi.getCustomRESTAdapter(BASE_URL + "DataSync/UploadData", new RequestInterceptor() {
+//            @Override
+//            public void intercept(RequestFacade request) {
+//
+//            }
+//        })
 
-            }
-        })
-
-//        ZillaApi.NormalRestAdapter
-                .create(BleService.class).uploadImpedance(model, new RequestCallback<BleMainData>() {
+        ZillaApi.NormalRestAdapter
+                .create(BleService.class).uploadImpedance(model, UserInfoModel.getInstance().getUserId(), 1, new RequestCallback<BleMainData>() {
             @Override
             public void success(BleMainData data, Response response) {
                 getView().upLoadImpedanceSuccess(data);
@@ -99,7 +100,7 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
     }
 
 
-    public interface BleBaseView extends BaseView1 {
+    public interface BleBaseView extends BaseView {
         void checkMacSuccess();
 
         void checkMacFailed();

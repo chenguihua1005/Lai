@@ -100,6 +100,60 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.im_audit_states)
     ImageView im_audit_states;
 
+    //BMI
+    @InjectView(R.id.ll_doBMI)
+    RelativeLayout ll_doBMI;
+    @InjectView(R.id.tv_doBMI)
+    TextView tv_doBMI;
+
+    //去脂体重
+    @InjectView(R.id.ll_fatFreeMass)
+    RelativeLayout ll_fatFreeMass;
+    @InjectView(R.id.tv_fatFreeMass)
+    TextView tv_fatFreeMass;
+
+    //内脏脂肪指数
+    @InjectView(R.id.ll_viscusFatIndex)
+    RelativeLayout ll_viscusFatIndex;
+    @InjectView(R.id.tv_viscusFatIndex)
+    TextView tv_viscusFatIndex;
+
+    //身体水分率
+    @InjectView(R.id.ll_bodyWaterRate)
+    RelativeLayout ll_bodyWaterRate;
+    @InjectView(R.id.tv_bodyWaterRate)
+    TextView tv_bodyWaterRate;
+
+    //身体水分
+    @InjectView(R.id.ll_bodyWater)
+    RelativeLayout ll_bodyWater;
+    @InjectView(R.id.tv_bodyWater)
+    TextView tv_bodyWater;
+
+    //肌肉量
+    @InjectView(R.id.ll_muscleMass)
+    RelativeLayout ll_muscleMass;
+    @InjectView(R.id.tv_muscleMass)
+    TextView tv_muscleMass;
+
+    //骨量
+    @InjectView(R.id.ll_boneMass)
+    RelativeLayout ll_boneMass;
+    @InjectView(R.id.tv_boneMass)
+    TextView tv_boneMass;
+
+    //基础代谢
+    @InjectView(R.id.ll_basalMetabolism)
+    RelativeLayout ll_basalMetabolism;
+    @InjectView(R.id.tv_basalMetabolism)
+    TextView tv_basalMetabolism;
+
+    //身体年龄
+    @InjectView(R.id.ll_physicalAge)
+    RelativeLayout ll_physicalAge;
+    @InjectView(R.id.tv_physicalAge)
+    TextView tv_physicalAge;
+
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -118,17 +172,17 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
     private int IsAudit = 0;
     String gender = "0";
-    int resetdatestatus=1;//复测状态
+    int resetdatestatus = 1;//复测状态
     Long accountId;
     String acmId, classId;
-    String filest,photoname;
+    String filest, photoname;
     File file;
 
     @Override
     protected void initViews() {
         tv_write.setText("初始体重：");
         tv_right.setText("审核通过");
-        progressDialog =new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
         ll_retestWrite_crium.setOnClickListener(this);
         ll_retestWrite_waisline.setOnClickListener(this);
         ll_retestWrite_hiplie.setOnClickListener(this);
@@ -141,9 +195,8 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             tv_right.setVisibility(View.INVISIBLE);
             im_audit_states.setImageResource(R.drawable.passed);
         } else {
-            resetdatestatus=getIntent().getIntExtra("resetdatestatus",resetdatestatus);
-            switch (resetdatestatus)
-            {
+            resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
+            switch (resetdatestatus) {
                 //过去复测日，只能查看
                 case 1:
                     tv_right.setVisibility(View.INVISIBLE);
@@ -159,6 +212,16 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
+
+        ll_doBMI.setOnClickListener(this);
+        ll_fatFreeMass.setOnClickListener(this);
+        ll_viscusFatIndex.setOnClickListener(this);
+        ll_bodyWaterRate.setOnClickListener(this);
+        ll_bodyWater.setOnClickListener(this);
+        ll_muscleMass.setOnClickListener(this);
+        ll_boneMass.setOnClickListener(this);
+        ll_basalMetabolism.setOnClickListener(this);
+        ll_physicalAge.setOnClickListener(this);
 
     }
 
@@ -200,51 +263,46 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
             if (!TextUtils.isEmpty(measuredDetailsModel.getImgThumbnail())) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).centerCrop().into(im_retestwrite_showphoto);
-                Log.i("图片测试啦"+url+measuredDetailsModel.getImgThumbnail());
-            }
-            else if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
-            {
+                Log.i("图片测试啦" + url + measuredDetailsModel.getImgThumbnail());
+            } else if (!TextUtils.isEmpty(measuredDetailsModel.getImg())) {
                 im_retestwrite_showphoto.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(url + measuredDetailsModel.getImgThumbnail()).fit().placeholder(R.drawable.default_icon_square).centerCrop().into(im_retestwrite_showphoto);
-                Log.i("加载原图啦"+url+measuredDetailsModel.getImg());
+                Log.i("加载原图啦" + url + measuredDetailsModel.getImg());
             }
-            if (!TextUtils.isEmpty(measuredDetailsModel.getImg()))
-            {
-                photoname=measuredDetailsModel.getImg();
+            if (!TextUtils.isEmpty(measuredDetailsModel.getImg())) {
+                photoname = measuredDetailsModel.getImg();
             }
 
-            tv_write_class.setText("所属班级："+measuredDetailsModel.getClassName());
+            tv_write_class.setText("所属班级：" + measuredDetailsModel.getClassName());
             tv_write_nick.setText(measuredDetailsModel.getUserName());
             tv_write_phone.setText(measuredDetailsModel.getMobile());
-            FormData formData=new FormData();
-            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(measuredDetailsModel.getWeekNum()))))
-            {
+            FormData formData = new FormData();
+            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(measuredDetailsModel.getWeekNum())))) {
                 tv_title.setText("复测审核");
 
-            }
-            else {
+            } else {
                 tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(measuredDetailsModel.getWeekNum())) + "周)");
             }
             if (!TextUtils.isEmpty(measuredDetailsModel.getStartDate())) {
                 String[] stardate = measuredDetailsModel.getStartDate().split("-");
                 String[] stardate1 = stardate[2].split(" ");
-                tv_write_star.setText(stardate[0]+"."+Long.parseLong(stardate[1]) + "."+Long.parseLong(stardate1[0]));
+                tv_write_star.setText(stardate[0] + "." + Long.parseLong(stardate[1]) + "." + Long.parseLong(stardate1[0]));
             }
             if (!TextUtils.isEmpty(measuredDetailsModel.getEndDate())) {
                 String[] enddate = measuredDetailsModel.getEndDate().split("-");
                 String[] enddate1 = enddate[2].split(" ");
-                tv_write_end.setText(enddate[0]+"."+Long.parseLong(enddate[1]) + "."+Long.parseLong(enddate1[0]));
+                tv_write_end.setText(enddate[0] + "." + Long.parseLong(enddate[1]) + "." + Long.parseLong(enddate1[0]));
             }
             tv_write_chu_weight.setText("0.0".equals(measuredDetailsModel.getInitWeight()) ? "" : measuredDetailsModel.getInitWeight());
             tv_retestWrite_nowweight.setText("0.0".equals(measuredDetailsModel.getWeight()) ? "" : measuredDetailsModel.getWeight());
             tv_retestWrite_tizhi.setText("0.0".equals(measuredDetailsModel.getPysical()) ? "" : measuredDetailsModel.getPysical());
             tv_retestWrite_neizhi.setText("0.0".equals(measuredDetailsModel.getFat()) ? "" : measuredDetailsModel.getFat());
-            tv_retestWrite_crium.setText("0.0".equals(measuredDetailsModel.getCircum())?"":measuredDetailsModel.getCircum());
-            tv_retestWrite_waisline.setText("0.0".equals(measuredDetailsModel.getWaistline())?"":measuredDetailsModel.getWaistline());
-            tv_retestWrite_hiplie.setText("0.0".equals(measuredDetailsModel.getHiplie())?"":measuredDetailsModel.getHiplie());
-            tv_retestWrite_Uparm.setText("0.0".equals(measuredDetailsModel.getUpArmGirth())?"":measuredDetailsModel.getUpArmGirth());
-            tv_retestWrite_UpLeg.setText("0.0".equals(measuredDetailsModel.getUpLegGirth())?"":measuredDetailsModel.getUpLegGirth());
-            tv_retestWrite_doleg.setText("0.0".equals(measuredDetailsModel.getDoLegGirth())?"":measuredDetailsModel.getDoLegGirth());
+            tv_retestWrite_crium.setText("0.0".equals(measuredDetailsModel.getCircum()) ? "" : measuredDetailsModel.getCircum());
+            tv_retestWrite_waisline.setText("0.0".equals(measuredDetailsModel.getWaistline()) ? "" : measuredDetailsModel.getWaistline());
+            tv_retestWrite_hiplie.setText("0.0".equals(measuredDetailsModel.getHiplie()) ? "" : measuredDetailsModel.getHiplie());
+            tv_retestWrite_Uparm.setText("0.0".equals(measuredDetailsModel.getUpArmGirth()) ? "" : measuredDetailsModel.getUpArmGirth());
+            tv_retestWrite_UpLeg.setText("0.0".equals(measuredDetailsModel.getUpLegGirth()) ? "" : measuredDetailsModel.getUpLegGirth());
+            tv_retestWrite_doleg.setText("0.0".equals(measuredDetailsModel.getDoLegGirth()) ? "" : measuredDetailsModel.getDoLegGirth());
 
         }
 
@@ -282,7 +340,7 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll_retestWrite_nowweight:
                 if (IsAudit == 0) {
-                    if (resetdatestatus==2) {
+                    if (resetdatestatus == 2) {
                         if (gender.equals("1")) {
                             show_information("当前体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                         } else {
@@ -293,72 +351,149 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll_retestWrite_tizhi:
                 if (IsAudit == 0) {
-                    if (resetdatestatus==2) {
+                    if (resetdatestatus == 2) {
                         show_information("体脂（%）", 50, 25, 1, 9, 0, 0, 2);
                     }
                 }
                 break;
             case R.id.ll_retestWrite_neizhi:
                 if (IsAudit == 0) {
-                    if (resetdatestatus==2) {
+                    if (resetdatestatus == 2) {
                         show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                     }
                 }
                 break;
             case R.id.ll_retestWrite_crium:
-                if (IsAudit!=1) {
-                    if (resetdatestatus==2) {
+                if (IsAudit != 1) {
+                    if (resetdatestatus == 2) {
                         //最大值，默认值，最小值；最大值，默认值，最小值
                         show_information("胸围", 200, 90, 50, 9, 0, 0, 4);
                     }
                 }
                 break;
             case R.id.ll_retestWrite_waisline:
-                if (IsAudit!=1) {
-                    if (resetdatestatus==2) {
+                if (IsAudit != 1) {
+                    if (resetdatestatus == 2) {
                         show_information("腰围", 200, 80, 40, 9, 0, 0, 5);
                     }
                 }
                 break;
             case R.id.ll_retestWrite_hiplie:
-                if (IsAudit!=1) {
-                    if (resetdatestatus==2) {
+                if (IsAudit != 1) {
+                    if (resetdatestatus == 2) {
                         show_information("臀围", 250, 90, 50, 9, 0, 0, 6);
                     }
                 }
                 break;
             case R.id.ll_retestWrite_Uparm:
-                if (IsAudit!=1) {
-                    if (resetdatestatus==2) {
+                if (IsAudit != 1) {
+                    if (resetdatestatus == 2) {
                         show_information("上臂围", 70, 50, 10, 9, 0, 0, 7);
                     }
                 }
                 break;
             case R.id.ll_retestWrite_UpLeg:
-                if (IsAudit!=1) {
-                    if (resetdatestatus==2) {
+                if (IsAudit != 1) {
+                    if (resetdatestatus == 2) {
                         show_information("大腿围", 90, 50, 10, 9, 0, 0, 8);
                     }
                 }
                 break;
             case R.id.ll_retestWrite_doleg:
-                if (IsAudit!=1) {
-                    if (resetdatestatus==2) {
+                if (IsAudit != 1) {
+                    if (resetdatestatus == 2) {
                         show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
                     }
                 }
                 break;
             case R.id.im_retestwrite_showphoto:
-                Intent intent1=new Intent(this, PreViewPicActivity.class);
+                Intent intent1 = new Intent(this, PreViewPicActivity.class);
 //                ArrayList<String> images=new ArrayList<>();
-                intent1.putExtra("photoname",photoname);
-                intent1.putExtra("position",1);
+                intent1.putExtra("photoname", photoname);
+                intent1.putExtra("position", 1);
                 startActivity(intent1);
+                break;
+
+            case R.id.ll_doBMI:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("BMI", 50, 25, 0, 9, 0, 0, 10);
+                    } else {
+                        show_information("BMI", 50, 27, 0, 9, 0, 0, 10);
+                    }
+                }
+                break;
+            case R.id.ll_fatFreeMass:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("去脂体重", 180, 40, 0, 9, 0, 0, 11);
+                    } else {
+                        show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
+                    }
+                }
+                break;
+            case R.id.ll_viscusFatIndex:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+                    } else {
+                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+                    }
+                }
+                break;
+            case R.id.ll_bodyWaterRate:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
+                    } else {
+                        show_information("身体水分率", 80, 55, 0, 9, 0, 0, 13);
+                    }
+                }
+                break;
+            case R.id.ll_bodyWater:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("身体水分", 160, 30, 0, 9, 0, 0, 14);
+                    } else {
+                        show_information("身体水分", 160, 40, 0, 9, 0, 0, 14);
+                    }
+                }
+                break;
+            case R.id.ll_muscleMass:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("肌肉量", 180, 40, 0, 9, 0, 0, 15);
+                    } else {
+                        show_information("肌肉量", 180, 60, 0, 9, 0, 0, 15);
+                    }
+                }
+                break;
+            case R.id.ll_boneMass:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("骨量", 6, 2, 0, 9, 5, 0, 16);
+                    } else {
+                        show_information("骨量", 6, 3, 0, 9, 0, 0, 16);
+                    }
+                }
+                break;
+            case R.id.ll_basalMetabolism:
+                if (IsAudit != 1) {
+                    if ("1".equals(gender)) { //女的
+                        show_information("基础代谢", 2500, 1280, 0, 0, 0, 0, 17);
+                    } else {
+                        show_information("基础代谢", 2500, 1700, 0, 0, 0, 0, 17);
+                    }
+                }
+                break;
+            case R.id.ll_physicalAge:
+                if (IsAudit != 1) {
+                    show_information("身体年龄", 150, 30, 0, 0, 0, 0, 18);
+                }
                 break;
 
         }
     }
-
 
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
@@ -391,34 +526,22 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                 } else if (num == 3) {
                     tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                }
-                else if(num==4)
-                {
+                } else if (num == 4) {
                     tv_retestWrite_crium.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                }
-                else if(num==5)
-                {
+                } else if (num == 5) {
                     tv_retestWrite_waisline.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                }
-                else if(num==6)
-                {
+                } else if (num == 6) {
                     tv_retestWrite_hiplie.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                }
-                else if(num==7)
-                {
+                } else if (num == 7) {
                     tv_retestWrite_Uparm.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                }
-                else if(num==8)
-                {
+                } else if (num == 8) {
                     tv_retestWrite_UpLeg.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
-                }
-                else if(num==9)
-                {
+                } else if (num == 9) {
                     tv_retestWrite_doleg.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
 
                 }
@@ -477,9 +600,9 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
                     switch (status) {
                         case 200:
                             progressDialog.dismiss();
-                            Intent intent=new Intent();
-                            intent.putExtra("ACMID",acmId);
-                            setResult(RESULT_OK,intent);
+                            Intent intent = new Intent();
+                            intent.putExtra("ACMID", acmId);
+                            setResult(RESULT_OK, intent);
                             finish();
                             break;
                         default:

@@ -1,12 +1,15 @@
 package com.softtek.lai.module.home.view;
 
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -65,6 +68,15 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     Button btn_send;
 
     String tag;
+
+    public void changeStatusColor(){
+        TypedValue typedValue = new  TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(typedValue.data);
+        }
+        tintManager.setStatusBarTintResource(typedValue.resourceId);
+    }
 
     @Override
     protected void initViews() {
@@ -137,7 +149,21 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void onPageSelected(int position) {
                 //页面切换了
                 isClick = false;
-
+                if (!UserInfoModel.getInstance().isVr()){
+                    if(position==3){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor(Color.TRANSPARENT);
+                        }
+                        tintManager.setStatusBarTintColor(Color.TRANSPARENT);
+                    }else {
+                        TypedValue typedValue = new  TypedValue();
+                        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor(typedValue.data);
+                        }
+                        tintManager.setStatusBarTintResource(typedValue.resourceId);
+                    }
+                }
             }
 
             @Override
@@ -292,4 +318,5 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
         }
     }
+
 }
