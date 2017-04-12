@@ -814,8 +814,7 @@
         <activity
             android:name=".module.bodygame3.activity.view.FuceForStuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.laicheng.VisithistoryActivity"></activity>
-
+        <activity android:name=".module.laicheng.VisithistoryActivity" />
     </application>
 
 </manifest>

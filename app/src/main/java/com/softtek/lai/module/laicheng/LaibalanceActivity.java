@@ -34,7 +34,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_laibalance)
-public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener {
+public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener,VisitortestFragment.ShakeOFF,VisitortestFragment.VisitorVoiceListener {
 
     @InjectView(R.id.tab_balance)
     TabLayout tab_balance;
@@ -48,8 +48,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private SelftestFragment selftestFragment;
     private VisitortestFragment visitortestFragment;
 
-    private AlertDialog.Builder timeOutBuilder;
-    private AlertDialog.Builder failBuilder;
+    private AlertDialog.Builder builder;
 
 
     @OnClick(R.id.fl_left)
@@ -113,8 +112,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 pageIndex = position;
                 if (pageIndex == 0) {
                     setGuest(false);
+                    mShakeListener.start();
                 } else {
                     setGuest(true);
+                    mShakeListener.stop();
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
             }
@@ -125,6 +126,16 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             }
         });
 
+    }
+
+    private void setVoice(){
+        if (isVoiceHelp) {
+            stopVoice();
+            isVoiceHelp = false;
+        } else {
+            addVoice();
+            isVoiceHelp = true;
+        }
     }
 
     @Override
@@ -163,14 +174,17 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         selftestFragment.setStateTip(state);
     }
 
-    @Override
-    public void showTimeoutDialog() {
-        if (timeOutBuilder == null) {
-            timeOutBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
+    private void createDialog(boolean isTimeout){
+        if (builder == null) {
+            builder = new AlertDialog.Builder(this, R.style.whiteDialog);
         }
-        timeOutBuilder.setMessage("测量超时，请重新测量");
-        timeOutBuilder.setTitle("提示");
-        timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        if (isTimeout){
+            builder.setMessage("测量超时，请重新测量");
+        }else {
+            builder.setMessage("测量失败，请重新测量");
+        }
+        builder.setTitle("提示");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (!isConnected) {
@@ -183,22 +197,13 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
+    public void showTimeoutDialog() {
+       createDialog(true);
+    }
+
+    @Override
     public void showUploadFailedDialog() {
-        if (failBuilder == null) {
-            failBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
-        }
-        failBuilder.setMessage("测量失败，请重新测量");
-        failBuilder.setTitle("提示");
-        failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected) {
-                    mShakeListener.start();
-                    changeConnectionState(0);
-                }
-                dialog.dismiss();
-            }
-        }).create().show();
+     createDialog(false);
     }
 
     @Override
@@ -208,14 +213,18 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void onVoiceListener() {
-        if (isVoiceHelp) {
-            stopVoice();
-            isVoiceHelp = false;
-        } else {
-            addVoice();
-            isVoiceHelp = true;
-        }
+        setVoice();
     }
 
 
+
+    @Override
+    public void setOnShakeOFF() {
+        mShakeListener.start();
+    }
+
+    @Override
+    public void onVisitorVoiceListener() {
+        setVoice();
+    }
 }

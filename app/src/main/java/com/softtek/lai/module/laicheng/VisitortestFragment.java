@@ -2,6 +2,7 @@ package com.softtek.lai.module.laicheng;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,8 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -57,11 +61,17 @@ import java.util.Date;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_visitortest)
-public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> implements VisitorPresenter.VisitorView, View.OnClickListener {
-    private VisitortestFragment.VoiceListener listener;
+public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> implements VisitorPresenter.VisitorView, View.OnClickListener,Validator.ValidationListener{
+    private VisitortestFragment.VisitorVoiceListener listener;
+    private VisitortestFragment.ShakeOFF shakeOFF;
+
+    @LifeCircleInject
+    ValidateLife validateLife;
     @InjectView(R.id.bt_again)
     Button bt_again;
     private LinearLayout.LayoutParams parm;
@@ -100,6 +110,14 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     @InjectView(R.id.tv_height)
     TextView tv_height;
 
+    //访客基本信息录入
+//    final EditText et_name = (EditText) view.findViewById(R.id.et_name);
+//    et_old = (EditText) view.findViewById(R.id.et_old);
+//    final EditText et_height = (EditText) view.findViewById(R.id.et_height);
+//    final EditText et_mobile = (EditText) view.findViewById(R.id.et_mobile);
+//    RadioGroup rg_up = (RadioGroup) view.findViewById(R.id.rg_up);
+//    Button btn_commit = (Button) view.findViewById(R.id.btn_commit);
+
     VisitorModel visitorModel = new VisitorModel();
     private int gender = 0;
     private int visitorId;
@@ -116,15 +134,30 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
 
     }
 
-    public interface VoiceListener {
-        void onVoiceListener();
+    @Override
+    public void onValidationSucceeded() {
+
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+
+    }
+
+    public interface VisitorVoiceListener {
+        void onVisitorVoiceListener();
+    }
+
+    public interface ShakeOFF{
+        void setOnShakeOFF();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof VisitortestFragment.VoiceListener) {
-            listener = (VisitortestFragment.VoiceListener) context;
+        if (context instanceof VisitortestFragment.VisitorVoiceListener) {
+            listener = (VisitortestFragment.VisitorVoiceListener) context;
+            shakeOFF = (VisitortestFragment.ShakeOFF)context;
         }
     }
 
@@ -153,15 +186,16 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
             iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
         }
         if (listener != null) {
-            listener.onVoiceListener();
+            listener.onVisitorVoiceListener();
         }
     }
 
     //    访客基本信息弹框
     EditText et_old;
     private void showTypeDialog() {
-        final CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final Dialog dialog = new Dialog(getContext(), R.style.Dialog);
+        dialog.show();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.info_visitor, null);
         RelativeLayout ll_area = (RelativeLayout) view.findViewById(R.id.rl_area);
         final EditText et_name = (EditText) view.findViewById(R.id.et_name);
@@ -170,13 +204,12 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         final EditText et_mobile = (EditText) view.findViewById(R.id.et_mobile);
         RadioGroup rg_up = (RadioGroup) view.findViewById(R.id.rg_up);
         Button btn_commit = (Button) view.findViewById(R.id.btn_commit);
-        parm = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        parm.gravity = Gravity.CENTER;
-        builder.setView(view);
-        builder.show();
-
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        //设置dialog的宽高为屏幕的宽高
+        ViewGroup.LayoutParams layoutParams = new  ViewGroup.LayoutParams(width, height);
+        dialog.setContentView(view, layoutParams);
         et_old.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,19 +242,18 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
                 visitorModel.setAge(et_old.getText().toString());
                 visitorModel.setPhoneNo(et_mobile.getText().toString());
                 visitorModel.setGender(gender);
-                setVisitorModel(visitorModel);
 //                getPresenter().commitData(UserInfoModel.getInstance().getToken(), visitorModel);
-                builder.dismiss();
+                dialog.dismiss();
+                shakeOFF.setOnShakeOFF();
             }
         });
         ll_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder.dismiss();
+                dialog.dismiss();
             }
         });
     }
-
 
     //日期控件
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
@@ -263,10 +295,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         return visitorModel;
     }
 
-    public void setVisitorModel(VisitorModel visitorModel) {
-        this.visitorModel = visitorModel;
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -301,6 +329,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         }
         if (visitsmodel != null) {
             visitorId = visitsmodel.getVisitorId();
+            model.setVisitorId(visitorId);
         }
     }
 
