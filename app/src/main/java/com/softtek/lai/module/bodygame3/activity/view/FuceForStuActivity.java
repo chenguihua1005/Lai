@@ -127,9 +127,18 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         entity.setAge("1990-11-11");
         entity.setHeight(170);
         entity.setGender(2);
-
         return entity ;
     }
+
+//    @Override
+//    public UserInfoEntity getGuestInfo() {
+//        UserInfoEntity entity = new UserInfoEntity();
+//        entity.setBirthdate("1990-11-11");
+//        entity.setHeight(170);
+//        entity.setGender(2);
+//
+//        return entity ;
+//    }
 
     @Override
     public void setStateTip(String state) {
