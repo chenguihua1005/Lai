@@ -14,9 +14,16 @@ public class VisitorModel  {
     private String Age;//年龄
     private float Height;//身高
     private int Gender;//性别
-    private String PhoneNo;//手机号
+    private String PhoneNo;//
+    private int visitorId;
 
+    public int getVisitorId() {
+        return visitorId;
+    }
 
+    public void setVisitorId(int visitorId) {
+        this.visitorId = visitorId;
+    }
 
     public VisitorModel(String name, String age, float height, int gender, String phoneNo) {
         Name = name;

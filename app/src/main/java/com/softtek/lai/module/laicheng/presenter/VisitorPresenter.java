@@ -26,14 +26,14 @@ public class VisitorPresenter extends BasePresenter<VisitorPresenter.VisitorView
     }
 
     public void commitData(String token, final VisitorModel visitorModel) {
-        service= ZillaApi.NormalRestAdapter.create(VisitorService.class);
+        service = ZillaApi.NormalRestAdapter.create(VisitorService.class);
         service.commitvisit(token, visitorModel, new RequestCallback<ResponseData<Visitsmodel>>() {
             @Override
             public void success(ResponseData<Visitsmodel> Data, Response response) {
-                int status=Data.getStatus();
-                if(200==status){
-                    if(getView()!=null){
-                        getView().commit(Data.getData(),visitorModel);
+                int status = Data.getStatus();
+                if (200 == status) {
+                    if (getView() != null) {
+                        getView().commit(Data.getData(), visitorModel);
                     }
                 }
             }
@@ -46,6 +46,6 @@ public class VisitorPresenter extends BasePresenter<VisitorPresenter.VisitorView
     }
 
     public interface VisitorView extends BaseView {
-         void commit(Visitsmodel visitsmodel,VisitorModel visitorModel);
+        void commit(Visitsmodel visitsmodel, VisitorModel visitorModel);
     }
 }
