@@ -47,7 +47,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         UserInfoModel.getInstance(this);
         JPushInterface.init(this);
         ChatHelper.getInstance().init(getApplicationContext());
-//        CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
 
     }
 

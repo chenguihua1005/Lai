@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -59,7 +60,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        TypedValue typedValue = new  TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+//        tintManager.setStatusBarTintColor(typedValue.data);
+        tintManager.setStatusBarTintResource(typedValue.resourceId);
         //设置显示系统菜单键
 //        try {
 //            getWindow().addFlags(WindowManager.LayoutParams.class.getField("FLAG_NEEDS_MENU_KEY").getInt(null));

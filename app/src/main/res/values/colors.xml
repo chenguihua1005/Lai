@@ -3,6 +3,11 @@
     <color name="colorPrimary">#7FAB11</color>
     <color name="colorPrimaryDark">#74BB2A</color>
     <color name="colorAccent">#74BB2A</color>
+
+    <color name="colorPrimaryDark2">#55BF9B</color>
+    <color name="colorPrimary2">#55BF9B</color>
+    <color name="colorAccent2">#55BF9B</color>
+
     <color name="orange">#FFA101</color>
     <color name="sc_transparent_background">#ffffffff</color>
     <color name="mytoolbar_green">#74BB2A</color>
