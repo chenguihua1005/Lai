@@ -145,7 +145,7 @@
 
     <style name="myTabLayout2" parent="Widget.Design.TabLayout">
         <!--<item name="tabMaxWidth">36dp</item> --><!--TAB最大宽度-->
-        <item name="tabIndicatorColor">#FF75BC3B</item>
+        <item name="tabIndicatorColor">?colorPrimary</item>
         <!--TAB底部滑块颜色-->
         <!--<item name="tabIndicatorHeight">4dp</item>-->
         <!--TAB底部滑块高度-->
@@ -157,7 +157,7 @@
         <!--TAB背景色-->
         <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
         <!--TAB文字样式-->
-        <item name="tabSelectedTextColor">#75BC3B</item>
+        <item name="tabSelectedTextColor">?colorPrimary</item>
         <!--TAB选中文字颜色-->
     </style>
 

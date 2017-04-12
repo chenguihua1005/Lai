@@ -6,6 +6,8 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -71,7 +73,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         tintManager.setStatusBarTintResource(R.drawable.grey_white);
         progressDialog = CustomProgress.build(this,"登录中...");
         tv_login.setOnClickListener(this);

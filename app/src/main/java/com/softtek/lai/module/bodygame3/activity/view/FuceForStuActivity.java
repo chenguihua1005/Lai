@@ -123,9 +123,13 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public VisitorModel getGuestInfo() {
-        return null;
+        VisitorModel entity = new VisitorModel();
+        entity.setAge("1990-11-11");
+        entity.setHeight(170);
+        entity.setGender(2);
+        return entity ;
     }
-//
+
 //    @Override
 //    public UserInfoEntity getGuestInfo() {
 //        UserInfoEntity entity = new UserInfoEntity();
