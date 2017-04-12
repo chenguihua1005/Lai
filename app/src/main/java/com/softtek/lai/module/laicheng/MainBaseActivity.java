@@ -159,6 +159,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
+                voiceIndex = 0;
                 mShakeListener.start();
             }
         });
@@ -166,6 +167,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
+                voiceIndex = 0;
                 mShakeListener.start();
             }
         });
