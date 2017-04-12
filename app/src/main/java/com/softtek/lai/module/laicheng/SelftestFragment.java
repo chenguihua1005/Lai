@@ -54,6 +54,8 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
     TextView mInternalFatRateBottom;
     @InjectView(R.id.iv_voice)
     ImageView mVoice;
+    @InjectView(R.id.tv_share)
+    TextView mShare;
 
     private VisitortestPresenter presenter;
 
@@ -119,6 +121,11 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
         if (listener != null) {
             listener.onVoiceListener();
         }
+    }
+
+    @OnClick(R.id.tv_share)
+    public void onShareClick(){
+
     }
 
     @SuppressLint("SetTextI18n")

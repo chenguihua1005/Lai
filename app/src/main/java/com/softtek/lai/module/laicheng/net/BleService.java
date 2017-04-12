@@ -10,6 +10,7 @@ import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
+import retrofit.http.Query;
 
 /**
  * Created by jia.lu on 2017/3/29.
@@ -23,8 +24,11 @@ public interface BleService {
                      @Field("client_secret") String client_secret,
                      RequestCallback<BleTokenResponse> callback);
 
-    @POST("/")
-    void uploadImpedance(@Body UploadImpedanceModel impedanceModel, RequestCallback<BleMainData> callback);
+    @POST("/DataSync/UploadData")
+    void uploadImpedance(@Body UploadImpedanceModel impedanceModel,
+                         @Query("accountId") Long accountId,
+                         @Query("type") int type,
+                         RequestCallback<BleMainData> callback);
 
     @FormUrlEncoded
     @POST("/")

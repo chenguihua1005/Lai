@@ -806,7 +806,8 @@
 
         <activity
             android:name=".module.laicheng.LaibalanceActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"/>
         <activity
             android:name=".module.bodygame3.activity.view.MeasureListActivity"
             android:screenOrientation="portrait" />
