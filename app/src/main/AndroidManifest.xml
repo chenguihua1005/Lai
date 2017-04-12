@@ -807,7 +807,7 @@
         <activity
             android:name=".module.laicheng.LaibalanceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2"/>
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".module.bodygame3.activity.view.MeasureListActivity"
             android:screenOrientation="portrait" />
@@ -815,8 +815,11 @@
         <activity
             android:name=".module.bodygame3.activity.view.FuceForStuActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".module.healthyreport.HealthyChartActivity"
+        <activity
+            android:name=".module.laicheng.VisithistoryActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".module.healthyreport.HealthyChartActivity"
             android:theme="@style/AppTheme2"></activity>
     </application>
 
