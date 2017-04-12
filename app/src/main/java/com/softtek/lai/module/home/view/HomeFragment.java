@@ -41,6 +41,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
+import com.softtek.lai.module.healthyreport.HealthyChartActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -441,7 +442,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(),"BalanceEvent");
                     break;
                 case Constants.LAI_SHOP:
-                    startActivity(new Intent(getContext(), HealthyReportActivity.class));
+                    startActivity(new Intent(getContext(), HealthyChartActivity.class));
                     //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
             }

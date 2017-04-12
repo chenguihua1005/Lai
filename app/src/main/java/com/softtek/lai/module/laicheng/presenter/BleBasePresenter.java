@@ -99,7 +99,7 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
     }
 
 
-    public interface BleBaseView extends BaseView1 {
+    public interface BleBaseView extends BaseView {
         void checkMacSuccess();
 
         void checkMacFailed();

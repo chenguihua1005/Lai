@@ -55,12 +55,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_visitortest)
 public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> implements VisitorPresenter.VisitorView, View.OnClickListener {
-
+    private VisitortestFragment.VoiceListener listener;
     @InjectView(R.id.bt_again)
     Button bt_again;
     private LinearLayout.LayoutParams parm;
@@ -74,6 +75,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     TextView tv_bmi;//BMI;
     @InjectView(R.id.tv_internal_fat_rate)
     TextView tv_internal_fat_rate;//内脂率
+    @InjectView(R.id.iv_voice)
+    ImageView iv_voice;
+    @InjectView(R.id.tv_info_state)
+    TextView mBleState;
 
 
     @InjectView(R.id.bt_create)
@@ -99,6 +104,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     private int gender = 0;
     private int visitorId;
     private String date;
+    private boolean isPlay = true;
 
     public VisitortestFragment() {
         // Required empty public constructor
@@ -108,6 +114,18 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     @Override
     protected void lazyLoad() {
 
+    }
+
+    public interface VoiceListener {
+        void onVoiceListener();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof VisitortestFragment.VoiceListener) {
+            listener = (VisitortestFragment.VoiceListener) context;
+        }
     }
 
     @Override
@@ -124,10 +142,23 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         tv_weight.setTypeface(tf);
     }
 
+    //语音
+    @OnClick(R.id.iv_voice)
+    public void onClick() {
+        if (isPlay) {
+            isPlay = false;
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+        } else {
+            isPlay = true;
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+        }
+        if (listener != null) {
+            listener.onVoiceListener();
+        }
+    }
 
     //    访客基本信息弹框
     EditText et_old;
-
     private void showTypeDialog() {
         final CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -175,12 +206,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
             public void onClick(View v) {
                 visitorModel.setName(et_name.getText().toString());
                 visitorModel.setHeight(Float.parseFloat(et_height.getText().toString()));
-                visitorModel.setAge(Integer.parseInt(et_old.getText().toString()));
+                visitorModel.setAge(et_old.getText().toString());
                 visitorModel.setPhoneNo(et_mobile.getText().toString());
                 visitorModel.setGender(gender);
-                Log.i("访客信息", visitorModel.toString());
                 setVisitorModel(visitorModel);
-                getPresenter().commitData(UserInfoModel.getInstance().getToken(), visitorModel);
+//                getPresenter().commitData(UserInfoModel.getInstance().getToken(), visitorModel);
                 builder.dismiss();
             }
         });
@@ -229,6 +259,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         datePickerDialog.show();
     }
 
+    public VisitorModel getVisitorModel() {
+        return visitorModel;
+    }
 
     public void setVisitorModel(VisitorModel visitorModel) {
         this.visitorModel = visitorModel;
@@ -275,8 +308,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     public void UpdateData(BleMainData data) {
         tv_weight.setText(data.getWeight_item().getValue() + "");//体重
         tv_weight_caption.setText(data.getWeight_con().getCaption());//状态
-        tv_body_fat_rate.setText(data.getBodyfatrate()+"%");
-        tv_bmi.setText(data.getBmi()+"");
-        tv_internal_fat_rate.setText(data.getVisceralfatindex()+"%");
+        tv_body_fat_rate.setText(data.getBodyfatrate() + "%");
+        tv_bmi.setText(data.getBmi() + "");
+        tv_internal_fat_rate.setText(data.getVisceralfatindex() + "%");
     }
 }
