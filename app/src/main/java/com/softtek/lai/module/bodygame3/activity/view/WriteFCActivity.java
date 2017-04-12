@@ -234,7 +234,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                         if (ActivityCompat.checkSelfPermission(WriteFCActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                             //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
                                             //允许弹出提示
-                                            ActivityCompat.requestPermissions(WriteFCActivity.this,new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            ActivityCompat.requestPermissions(WriteFCActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                         } else {
                                             imageFileSelector.takePhoto(WriteFCActivity.this);
                                         }
@@ -275,7 +275,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                         case 0:
                             switch (i1) {
                                 case 0:
-                                    if ("1".equals(gender)) {
+                                    if ("1".equals(gender)) { //女的
                                         show_information("初始体重", 600, 100, 50, 9, 0, 0, 0);
                                     } else {
                                         show_information("初始体重", 600, 150, 50, 9, 0, 0, 0);
@@ -312,31 +312,64 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                     break;
 // jessica
                                 case 6:
-                                    show_information("BMI", 200, 90, 50, 9, 0, 0, 10);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("BMI", 50, 25, 0, 9, 0, 0, 10);
+                                    } else {
+                                        show_information("BMI", 50, 27, 0, 9, 0, 0, 10);
+                                    }
                                     break;
                                 case 7:
-                                    show_information("去脂体重", 200, 80, 40, 9, 0, 0, 11);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("去脂体重", 180, 40, 0, 9, 0, 0, 11);
+                                    } else {
+                                        show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
+                                    }
                                     break;
                                 case 8:
-                                    show_information("内脏脂肪指数", 250, 90, 50, 9, 0, 0, 12);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+                                    } else {
+                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+                                    }
                                     break;
                                 case 9:
-                                    show_information("身体水分率", 70, 50, 10, 9, 0, 0, 13);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
+                                    } else {
+                                        show_information("身体水分率", 80, 55, 0, 9, 0, 0, 13);
+                                    }
                                     break;
                                 case 10:
-                                    show_information("身体水分", 90, 50, 10, 9, 0, 0, 14);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("身体水分", 160, 30, 0, 9, 0, 0, 14);
+                                    } else {
+                                        show_information("身体水分", 160, 40, 0, 9, 0, 0, 14);
+                                    }
                                     break;
                                 case 11:
-                                    show_information("肌肉量", 70, 50, 10, 9, 0, 0, 15);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("肌肉量", 180, 40, 0, 9, 0, 0, 15);
+                                    } else {
+                                        show_information("肌肉量", 180, 60, 0, 9, 0, 0, 15);
+                                    }
                                     break;
                                 case 12:
-                                    show_information("骨量", 70, 50, 10, 9, 0, 0, 16);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("骨量", 6, 2, 0, 9, 5, 0, 16);
+                                    } else {
+                                        show_information("骨量", 6, 3, 0, 9, 0, 0, 16);
+                                    }
+
                                     break;
                                 case 13:
-                                    show_information("基础代谢", 90, 50, 10, 9, 0, 0, 17);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("基础代谢", 2500, 1280, 0, 0, 0, 0, 17);
+                                    } else {
+                                        show_information("基础代谢", 2500, 1700, 0, 0, 0, 0, 17);
+                                    }
                                     break;
                                 case 14:
-                                    show_information("身体年龄", 70, 50, 10, 9, 0, 0, 18);
+                                    show_information("身体年龄", 150, 30, 0, 0, 0, 0, 18);
                                     break;
 
                             }
