@@ -18,6 +18,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
 
@@ -135,14 +136,25 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     }
 
     @Override
-    public UserInfoEntity getGuestInfo() {
-        UserInfoEntity entity = new UserInfoEntity();
-        entity.setBirthdate("1990-11-11");
+    public VisitorModel getGuestInfo() {
+        VisitorModel entity = new VisitorModel();
+        entity.setAge("1990-11-11");
         entity.setHeight(170);
         entity.setGender(2);
 
         return entity;
+
     }
+
+//    @Override
+//    public UserInfoEntity getGuestInfo() {
+//        UserInfoEntity entity = new UserInfoEntity();
+//        entity.setBirthdate("1990-11-11");
+//        entity.setHeight(170);
+//        entity.setGender(2);
+//
+//        return entity ;
+//    }
 
     @Override
     public void setStateTip(String state) {
