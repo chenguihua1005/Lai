@@ -217,8 +217,5 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         }
     }
 
-    @Override
-    public void getData(Object data) {
 
-    }
 }
