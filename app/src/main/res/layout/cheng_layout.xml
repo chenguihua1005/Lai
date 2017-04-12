@@ -54,7 +54,7 @@
                 android:paddingBottom="4dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
-                android:paddingTop="4dp"
+                android:paddingTop="8dp"
                 android:text="标 准"
                 android:textColor="#75BA2B"
                 android:textSize="20sp"
