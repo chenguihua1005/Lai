@@ -30,8 +30,8 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
     private VoiceListener listener;
     @InjectView(R.id.tv_weight_caption)
     TextView mWeightCaption;
-    @InjectView(R.id.ll_info_state)
-    LinearLayout mBleStateContent;
+//    @InjectView(R.id.ll_info_state)
+//    LinearLayout mBleStateContent;
     @InjectView(R.id.tv_info_state)
     TextView mBleState;
     @InjectView(R.id.ll_info_data)
@@ -54,6 +54,8 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
     TextView mInternalFatRateBottom;
     @InjectView(R.id.iv_voice)
     ImageView mVoice;
+    @InjectView(R.id.tv_share)
+    TextView mShare;
 
     private VisitortestPresenter presenter;
 
@@ -66,8 +68,6 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
 
     @Override
     public void getLastInfoFailed() {
-        mBleStateContent.setVisibility(View.VISIBLE);
-        mInfoDataContent.setVisibility(View.GONE);
     }
 
 
@@ -99,8 +99,6 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
 
     @Override
     protected void initViews() {
-        mBleStateContent.setVisibility(View.VISIBLE);
-        mInfoDataContent.setVisibility(View.GONE);
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         presenter = new VisitortestPresenter(this);
@@ -125,13 +123,16 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
         }
     }
 
+    @OnClick(R.id.tv_share)
+    public void onShareClick(){
+
+    }
+
     @SuppressLint("SetTextI18n")
     public void updateUI(BleMainData data) {
-        mBleStateContent.setVisibility(View.GONE);
-        mInfoDataContent.setVisibility(View.VISIBLE);
         mWeight.setText(data.getWeight_item().getValue() + "");
         mWeightCaption.setText(data.getWeight_con().getCaption());
-//        mWeightCaption.setTextColor(Color.parseColor(data.getWeight_item().getColor()));
+//        mWeightCaption.setTextColor(Color.parseColor("#" + data.getWeight_item().getColor()));
         mBodyFatRate.setText(data.getBodyfatrate() + "%");
         mBmi.setText(data.getBmi() + "");
         mInternalFatRate.setText(data.getVisceralfatindex() + "%");

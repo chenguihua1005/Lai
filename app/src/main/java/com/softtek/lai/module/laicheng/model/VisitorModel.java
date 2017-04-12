@@ -11,14 +11,21 @@ import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 
 public class VisitorModel  {
     private String Name;
-    private int Age;//年龄
+    private String Age;//年龄
     private float Height;//身高
     private int Gender;//性别
-    private String PhoneNo;//手机号
+    private String PhoneNo;//
+    private int visitorId;
 
+    public int getVisitorId() {
+        return visitorId;
+    }
 
+    public void setVisitorId(int visitorId) {
+        this.visitorId = visitorId;
+    }
 
-    public VisitorModel(String name, int age, float height, int gender, String phoneNo) {
+    public VisitorModel(String name, String age, float height, int gender, String phoneNo) {
         Name = name;
         Age = age;
         Height = height;
@@ -38,11 +45,11 @@ public class VisitorModel  {
         Name = name;
     }
 
-    public int getAge() {
+    public String getAge() {
         return Age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         Age = age;
     }
 

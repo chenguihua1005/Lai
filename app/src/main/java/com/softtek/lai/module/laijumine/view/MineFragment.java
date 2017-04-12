@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -135,6 +136,11 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
     @InjectView(R.id.scro)
     ScrollView scro;
 
+    @InjectView(R.id.rl_toolbar)
+    RelativeLayout rl_toolbar;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
+
     private int GET_Sian = 1;//个人签名
     MineSevice mineSevice;
     String photo;
@@ -146,6 +152,16 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void initViews() {
+        if(rl_toolbar!=null){
+            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) rl_toolbar.getLayoutParams();
+            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+            rl_toolbar.setLayoutParams(params);
+        }
+        if(toolbar!=null){
+            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+            toolbar.setLayoutParams(params);
+        }
         srl_refresh.setEnabled(false);
         srl_refresh.setOnRefreshListener(this);
         srl_refresh.setColorSchemeColors(getResources().getColor(R.color.btn_blue_normal));
@@ -215,9 +231,11 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         mineSevice = ZillaApi.NormalRestAdapter.create(MineSevice.class);
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;

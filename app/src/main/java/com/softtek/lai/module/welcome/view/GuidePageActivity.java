@@ -5,6 +5,8 @@
 
 package com.softtek.lai.module.welcome.view;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -48,6 +50,9 @@ public class GuidePageActivity extends BaseActivity implements OnPageChangeListe
 
     @Override
     protected void initViews() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         LayoutInflater inflater = LayoutInflater.from(this);
         // 初始化引导图片列表

@@ -22,6 +22,7 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.BleBasePresenter;
 import com.softtek.lai.module.laicheng.shake.ShakeListener;
 import com.softtek.lai.module.laicheng.util.BleManager;
@@ -159,6 +160,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
+                voiceIndex = 0;
                 mShakeListener.start();
             }
         });
@@ -166,6 +168,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
+                voiceIndex = 0;
                 mShakeListener.start();
             }
         });
@@ -662,7 +665,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         model.setWeight(String.valueOf(weight));
         if (getGuest()) {
             model.setHeight(String.valueOf(getGuestInfo().getHeight()));
-            model.setBirthdate(String.valueOf(getGuestInfo().getBirthdate()));
+            model.setBirthdate(String.valueOf(getGuestInfo().getAge()));
             model.setGender(getGuestInfo().getGender());
         } else {
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());
@@ -718,20 +721,28 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     }
 
+    //初始化页面
     public abstract void initUi();
 
+    //获取最后上传的数据成功
     public abstract void initUiByBleSuccess(BleMainData data);
 
+    //获取最后上传到数据失败
     public abstract void initUiByBleFailed();
 
-    public abstract UserInfoEntity getGuestInfo();
+    //获取非自己的人员信息
+    public abstract VisitorModel getGuestInfo();
 
+    //设置蓝牙状态提示
     public abstract void setStateTip(String state);
 
+    //进入测量的时候显示dialog
     public abstract void showProgressDialog();
 
+    //超时对话框
     public abstract void showTimeoutDialog();
 
+    //上传数据失败对话框
     public abstract void showUploadFailedDialog();
 
     @Override

@@ -163,7 +163,6 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="10dp"
                             android:layout_toStartOf="@+id/search_btn"
-                            android:background="@drawable/btn_search"
                             android:visibility="visible">
 
                             <ImageView

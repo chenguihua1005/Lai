@@ -52,7 +52,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
         getPresenter().GetData();
         ptrlv.setEmptyView(im_nomessage);
         ptrlv.setTextFilterEnabled(true);
-        adapter = new HistoryAdapter(this, historyModelList);
+        adapter = new HistoryAdapter(this, historyModelList,et_input);
         ptrlv.setAdapter(adapter);
     }
 

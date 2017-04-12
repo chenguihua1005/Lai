@@ -54,7 +54,7 @@
                 android:paddingBottom="4dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
-                android:paddingTop="4dp"
+                android:paddingTop="8dp"
                 android:text="标 准"
                 android:textColor="#75BA2B"
                 android:textSize="20sp"
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="0.0%"
+                    android:text="- -%"
                     android:textColor="@color/white" />
             </LinearLayout>
 
@@ -110,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="0.0"
+                    android:text="- -"
                     android:textColor="@color/white" />
             </LinearLayout>
 
@@ -131,34 +131,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="0.0%"
+                    android:text="- -%"
                     android:textColor="@color/white" />
             </LinearLayout>
 
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/ll_info_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="96dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/iv_voice_shake"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_info_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="摇一摇，连接莱秤"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
         </LinearLayout>
 
     </FrameLayout>
@@ -172,15 +148,15 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/use_description"
+            android:id="@+id/tv_info_state"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/using_instructions"
-            android:drawablePadding="4dp"
             android:gravity="center"
-            android:text="使用说明书"
+            android:text="摇一摇，连接莱秤"
+            android:drawableStart="@drawable/shake"
+            android:drawablePadding="4dp"
             android:textColor="#278B69"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
