@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -132,10 +133,16 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     private MessageReceiver mMessageReceiver;
     UserModel user;
 
-
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void initViews() {
+        if(toolbar!=null){
+            AppBarLayout.LayoutParams params= (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+            toolbar.setLayoutParams(params);
+        }
         EventBus.getDefault().register(this);
         registerMessageReceiver();
         ll_left.setVisibility(View.INVISIBLE);

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -85,6 +87,9 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     @InjectView(R.id.empty)
     FrameLayout empty;
 
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
+
     private CommunityManager community;
     private HealthyCommunityFocusAdapter adapter;
     private List<DynamicModel> communityModels=new ArrayList<>();
@@ -123,6 +128,11 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Override
     protected void initViews() {
+        if(toolbar!=null){
+            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+            toolbar.setLayoutParams(params);
+        }
         tv_title.setText("关注");
         iv_left.setVisibility(View.INVISIBLE);
         EventBus.getDefault().register(this);
