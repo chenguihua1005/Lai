@@ -1,5 +1,7 @@
 package com.softtek.lai.module.laicheng.presenter;
 
+import android.util.Log;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
@@ -30,6 +32,7 @@ public class VisitorPresenter extends BasePresenter<VisitorPresenter.VisitorView
         service.commitvisit(token, visitorModel, new RequestCallback<ResponseData<Visitsmodel>>() {
             @Override
             public void success(ResponseData<Visitsmodel> Data, Response response) {
+                Log.i("成功",visitorModel.toString());
                 int status = Data.getStatus();
                 if (200 == status) {
                     if (getView() != null) {
