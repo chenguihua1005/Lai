@@ -63,7 +63,7 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
 
     @Override
     public void getLastInfoSuccess(BleMainData data) {
-        updateUI(data);
+        refreshUi();
     }
 
     @Override
@@ -102,6 +102,7 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         presenter = new VisitortestPresenter(this);
+
     }
 
     @Override
@@ -111,11 +112,9 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
 
     @OnClick(R.id.iv_voice)
     public void onClick() {
-        if (isPlay) {
-            isPlay = false;
+        if (MainBaseActivity.isVoiceHelp) {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         } else {
-            isPlay = true;
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
         }
         if (listener != null) {
@@ -142,9 +141,24 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
         mInternalFatRateBottom.setText(data.getVisceralfatindex() + "%");
     }
 
+    public void refreshUi(){
+        mWeight.setText("0.0");
+        mBodyFatRate.setText("- -");
+        mBmi.setText("- -");
+        mInternalFatRate.setText("- -");
+    }
+
     public void setStateTip(String state) {
         if (mBleState != null) {
             mBleState.setText(state);
+        }
+    }
+
+    public void refreshVoiceIcon(){
+        if (MainBaseActivity.isVoiceHelp) {
+            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+        }else {
+            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }
     }
 }

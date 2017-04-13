@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="?colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    app:layout_scrollFlags="scroll|snap">
+
+    <LinearLayout
+        android:id="@+id/ll_left"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:background="@drawable/back_selector">
+        <ImageView
+            android:id="@+id/iv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:ellipsize="end"
+        android:text="访客信息"
+        android:maxLines="1"
+        android:layout_marginRight="70dp"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:id="@+id/fl_right"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="right">
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|right"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_email"
+            android:src="@drawable/close_visitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right" />
+
+        <ImageView
+            android:id="@+id/img_red"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="11dip"
+            android:src="@drawable/img_red"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</android.support.v7.widget.Toolbar>

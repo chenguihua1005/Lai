@@ -137,7 +137,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @Override
     public VisitorModel getGuestInfo() {
         VisitorModel entity = new VisitorModel();
-        entity.setAge("1990-11-11");
+        entity.setBirthDate("1990-11-11");
         entity.setHeight(170);
         entity.setGender(2);
 
@@ -206,5 +206,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 dialog.dismiss();
             }
         }).create().show();
+    }
+
+    @Override
+    public void showSearchBleDialog() {
+
+    }
+
+    @Override
+    public void refreshUi() {
+
     }
 }
