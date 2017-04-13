@@ -11,7 +11,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
 
 public class VisitorModel  {
     private String Name;
-    private String Age;//年龄
+    private String BirthDate;//年龄
     private float Height;//身高
     private int Gender;//性别
     private String PhoneNo;//
@@ -25,9 +25,9 @@ public class VisitorModel  {
         this.visitorId = visitorId;
     }
 
-    public VisitorModel(String name, String age, float height, int gender, String phoneNo) {
+    public VisitorModel(String name, String BirthDate, float height, int gender, String phoneNo) {
         Name = name;
-        Age = age;
+        BirthDate = BirthDate;
         Height = height;
         Gender = gender;
         PhoneNo = phoneNo;
@@ -45,12 +45,12 @@ public class VisitorModel  {
         Name = name;
     }
 
-    public String getAge() {
-        return Age;
+    public String getBirthDate() {
+        return BirthDate;
     }
 
-    public void setAge(String age) {
-        Age = age;
+    public void setBirthDate(String birthDate) {
+        BirthDate = birthDate;
     }
 
     public float getHeight() {
@@ -81,7 +81,7 @@ public class VisitorModel  {
     public String toString() {
         return "VisitorModel{" +
                 "Name='" + Name + '\'' +
-                ", Age=" + Age +
+                ", BirthDate=" + BirthDate +
                 ", Height=" + Height +
                 ", Gender=" + Gender +
                 ", PhoneNo='" + PhoneNo + '\'' +

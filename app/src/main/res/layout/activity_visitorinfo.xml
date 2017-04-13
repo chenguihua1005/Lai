@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar_visitor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,6 +33,7 @@
             android:textColor="@color/red" />
 
         <EditText
+            android:id="@+id/et_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -51,19 +52,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="性别" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="@color/red" />
 
         <RadioGroup
+            android:id="@+id/rg_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/rb_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="男" />
 
             <RadioButton
+                android:id="@+id/rb_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -83,8 +93,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="生日" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="@color/red" />
 
         <EditText
+            android:id="@+id/et_old"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -102,8 +118,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="身高(cm)" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="@color/red" />
 
         <EditText
+            android:id="@+id/et_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -123,6 +145,7 @@
             android:text="手机号" />
 
         <EditText
+            android:id="@+id/et_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"

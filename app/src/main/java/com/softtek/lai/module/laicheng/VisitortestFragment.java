@@ -276,7 +276,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     }
 
     //日期控件
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date curDate = new Date(System.currentTimeMillis());//获取当前时间
     String str = formatter.format(curDate);
 
@@ -297,7 +297,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
                 int year = datePicker.getYear();
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
-                date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
+                date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                 Log.i("日期", date);
                 int compare = date.compareTo(str);
                 Log.e("132", compare + "");
@@ -323,7 +323,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
                 break;
             case R.id.bt_create:
 //                showTypeDialog();
-                startActivity(new Intent(getActivity(),VisitorinfoActivity.class));
+//                startActivity(new Intent(getActivity(),VisitorinfoActivity.class));
+                Intent in=new Intent(getActivity(),VisitorinfoActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(in);
                 break;
             case R.id.bt_history:
                 Intent intent = new Intent(getActivity(), VisithistoryActivity.class);
@@ -339,7 +342,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
             ll_visitor.setVisibility(View.VISIBLE);
             tv_name.setText(model.getName());
             tv_phoneNo.setText(model.getPhoneNo());
-            tv_age.setText(model.getAge());
+            tv_age.setText(model.getBirthDate());
             if (0 == model.getGender()) {
                 tv_gender.setText("男");
             } else {

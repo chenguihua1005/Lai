@@ -665,7 +665,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         model.setWeight(String.valueOf(weight));
         if (getGuest()) {
             model.setHeight(String.valueOf(getGuestInfo().getHeight()));
-            model.setBirthdate(String.valueOf(getGuestInfo().getAge()));
+            model.setBirthdate(String.valueOf(getGuestInfo().getBirthDate()));
             model.setGender(getGuestInfo().getGender());
         } else {
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());

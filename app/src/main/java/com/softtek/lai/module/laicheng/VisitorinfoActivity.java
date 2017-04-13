@@ -10,18 +10,25 @@ import android.text.style.BackgroundColorSpan;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
+import com.softtek.lai.module.laicheng.model.Visitsmodel;
+import com.softtek.lai.module.laicheng.presenter.VisitorPresenter;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_visitorinfo)
-public class VisitorinfoActivity extends BaseActivity {
+public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implements VisitorPresenter.VisitorView, View.OnClickListener {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -30,40 +37,48 @@ public class VisitorinfoActivity extends BaseActivity {
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
-    @InjectView(R.id.tv_name)
-    TextView tv_name;
 
-
+    @InjectView(R.id.et_name)
+    EditText et_name;
+    @InjectView(R.id.et_old)
+    EditText et_old;
+    @InjectView(R.id.et_mobile)
+    EditText et_mobile;
+    @InjectView(R.id.et_height)
+    EditText et_height;
+    @InjectView(R.id.rg_up)
+    RadioGroup rg_up;
+    @InjectView(R.id.btn_commit)
+    Button btn_commit;
+    VisitorModel visitorModel = new VisitorModel();
     @Override
     protected void initViews() {
         tv_title.setText("访客信息");
-        ll_left.setVisibility(View.INVISIBLE);
-
-        String name = "姓名*";
-        SpannableStringBuilder builder = new SpannableStringBuilder(name);
-        builder.setSpan(new BackgroundColorSpan(Color.RED), 1, 2, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        tv_name.setText(builder);
-
+        btn_commit.setOnClickListener(this);
 
     }
 
     @Override
     protected void initDatas() {
-//        /** 设置宽度为屏幕的0.9*/
-//        WindowManager windowManager = getWindowManager();
-//    /* 获取屏幕宽、高 */
-//        Display display = windowManager.getDefaultDisplay();
-//    /* 获取对话框当前的参数值 */
-//        WindowManager.LayoutParams p = getWindow().getAttributes();
-//    /* 宽度设置为屏幕的0.9 */
-//        p.width = display.getWidth();
-//    /* 设置透明度,0.0为完全透明，1.0为完全不透明 */
-//        p.height = display.getHeight();
-//    /* 设置布局参数 */
-//        getWindow().setAttributes(p);
-////    getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
-////        ViewGroup.LayoutParams.WRAP_CONTENT);
-//    /* 设置点击弹框外部不可消失 */
-////        setFinishOnTouchOutside(false);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_commit:
+                                visitorModel.setName(et_name.getText().toString());
+                visitorModel.setHeight(Float.parseFloat(et_height.getText().toString()));
+                visitorModel.setBirthDate(et_old.getText().toString());
+                visitorModel.setPhoneNo(et_mobile.getText().toString());
+//                visitorModel.setGender(gender);
+                getPresenter().commitData(UserInfoModel.getInstance().getToken(), visitorModel);
+                break;
+        }
+    }
+
+    @Override
+    public void commit(Visitsmodel visitsmodel, VisitorModel visitorModel) {
+
     }
 }
