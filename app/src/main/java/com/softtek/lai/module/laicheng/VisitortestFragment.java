@@ -120,7 +120,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     private int gender = 0;
     private int visitorId;
     private String date;
-    private boolean isPlay = true;
+//    private boolean isPlay = true;
 
     public VisitortestFragment() {
         // Required empty public constructor
@@ -191,11 +191,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     //语音
     @OnClick(R.id.iv_voice)
     public void onClick() {
-        if (isPlay) {
-            isPlay = false;
+        if (MainBaseActivity.isVoiceHelp) {
             iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         } else {
-            isPlay = true;
             iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
         }
         if (listener != null) {
@@ -364,5 +362,13 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         tv_body_fat_rate.setText(data.getBodyfatrate() + "%");
         tv_bmi.setText(data.getBmi() + "");
         tv_internal_fat_rate.setText(data.getVisceralfatindex() + "%");
+    }
+
+    public void refreshVoiceIcon(){
+        if (MainBaseActivity.isVoiceHelp) {
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+        }else {
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+        }
     }
 }
