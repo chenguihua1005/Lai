@@ -72,9 +72,6 @@ public class MeasureListActivity extends BaseActivity<MesurePresenter> implement
 
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATENUMBER_MEASURE));
-//        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter().addAction(UPDATENUMBER_MEASURE));
-
-
     }
 
     @Override

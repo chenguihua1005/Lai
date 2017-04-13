@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
-import com.softtek.lai.module.laicheng.model.UserInfoEntity;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
