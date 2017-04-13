@@ -116,7 +116,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                     }
                 }
-                ;
             }
 
             @Override
@@ -138,8 +137,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                     }
                 }
-                ;
-
             }
 
             @Override
@@ -337,31 +334,64 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                     break;
                                 // jessica
                                 case 6:
-                                    show_information("BMI", 200, 90, 50, 9, 0, 0, 10);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("BMI", 50, 25, 0, 9, 0, 0, 10);
+                                    } else {
+                                        show_information("BMI", 50, 27, 0, 9, 0, 0, 10);
+                                    }
                                     break;
                                 case 7:
-                                    show_information("去脂体重", 200, 80, 40, 9, 0, 0, 11);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("去脂体重", 180, 40, 0, 9, 0, 0, 11);
+                                    } else {
+                                        show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
+                                    }
                                     break;
                                 case 8:
-                                    show_information("内脏脂肪指数", 250, 90, 50, 9, 0, 0, 12);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+                                    } else {
+                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+                                    }
                                     break;
                                 case 9:
-                                    show_information("身体水分率", 70, 50, 10, 9, 0, 0, 13);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
+                                    } else {
+                                        show_information("身体水分率", 80, 55, 0, 9, 0, 0, 13);
+                                    }
                                     break;
                                 case 10:
-                                    show_information("身体水分", 90, 50, 10, 9, 0, 0, 14);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("身体水分", 160, 30, 0, 9, 0, 0, 14);
+                                    } else {
+                                        show_information("身体水分", 160, 40, 0, 9, 0, 0, 14);
+                                    }
                                     break;
                                 case 11:
-                                    show_information("肌肉量", 70, 50, 10, 9, 0, 0, 15);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("肌肉量", 180, 40, 0, 9, 0, 0, 15);
+                                    } else {
+                                        show_information("肌肉量", 180, 60, 0, 9, 0, 0, 15);
+                                    }
                                     break;
                                 case 12:
-                                    show_information("骨量", 70, 50, 10, 9, 0, 0, 16);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("骨量", 6, 2, 0, 9, 5, 0, 16);
+                                    } else {
+                                        show_information("骨量", 6, 3, 0, 9, 0, 0, 16);
+                                    }
+
                                     break;
                                 case 13:
-                                    show_information("基础代谢", 90, 50, 10, 9, 0, 0, 17);
+                                    if ("1".equals(gender)) { //女的
+                                        show_information("基础代谢", 2500, 1280, 0, 0, 0, 0, 17);
+                                    } else {
+                                        show_information("基础代谢", 2500, 1700, 0, 0, 0, 0, 17);
+                                    }
                                     break;
                                 case 14:
-                                    show_information("身体年龄", 70, 50, 10, 9, 0, 0, 18);
+                                    show_information("身体年龄", 150, 30, 0, 0, 0, 0, 18);
                                     break;
                                 //jessica
 
@@ -377,7 +407,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void doGetDataService(String type) {
-        fuceSevice.doGetPreMeasureData(classId,UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+        fuceSevice.doGetPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status = fcStDataModelResponseData.getStatus();
@@ -430,7 +460,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     void doPostInitData() {
-        fuceSevice.doPostMeasuredData(classId,UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
+        fuceSevice.doPostMeasuredData(classId, UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         int status = responseData.getStatus();

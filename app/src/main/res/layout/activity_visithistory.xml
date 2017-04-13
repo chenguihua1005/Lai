@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#ffffff"
     tools:context="com.softtek.lai.module.laicheng.VisithistoryActivity">
 
     <include
@@ -28,14 +30,25 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/et_input">
 
-            <EditText
+
+            <!--<EditText-->
+                <!--android:id="@+id/et_input"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginStart="15dp"-->
+                <!--android:layout_marginEnd="45dp"-->
+                <!--android:background="@null"-->
+                <!--android:inputType="textPersonName" />-->
+            <android.support.v7.widget.SearchView.SearchAutoComplete
                 android:id="@+id/et_input"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:background="@null"
-                android:inputType="textPersonName" />
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="45dp"/>
+
 
             <ImageView
                 android:id="@+id/imageView10"
@@ -49,19 +62,27 @@
     </RelativeLayout>
 
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
+        <!--android:id="@+id/ptrlv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:animateLayoutChanges="true"-->
+        <!--android:divider="#00ececec"-->
+        <!--android:dividerHeight="1dp"-->
+        <!--android:listSelector="@android:color/transparent"-->
+        <!--android:overScrollMode="never"-->
+        <!--android:scrollbars="none"-->
+        <!--android:layout_below="@id/rl_search"-->
+        <!--app:ptrAnimationStyle="flip"-->
+        <!--app:ptrShowIndicator="false" />-->
+    <ListView
         android:id="@+id/ptrlv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:divider="#00ececec"
-        android:dividerHeight="1dp"
-        android:listSelector="@android:color/transparent"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        android:layout_below="@id/rl_search"
-        app:ptrAnimationStyle="flip"
-        app:ptrShowIndicator="false" />
+        android:layout_below="@id/rl_search">
+
+    </ListView>
+
 
     <RelativeLayout
         android:id="@+id/ll_nomessage"

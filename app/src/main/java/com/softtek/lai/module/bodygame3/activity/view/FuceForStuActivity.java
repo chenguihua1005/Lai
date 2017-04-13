@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
-import com.softtek.lai.module.laicheng.SelftestFragment;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
@@ -55,6 +54,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @InjectView(R.id.iv_voice)
     ImageView mVoice;
 
+    @InjectView(R.id.menu_layout)
+    LinearLayout menu_layout;
+
+    @InjectView(R.id.fucecheck_entry)  //复测审核入口
+            TextView fucecheck_entry;
+
+    @InjectView(R.id.heathyReport_entry) //健康报告
+            TextView heathyReport_entry;
+
     @SuppressLint("LongLogTag")
     @PermissionOK(id = 1)
     private void initPermissionSuccess() {
@@ -86,13 +94,14 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.fucecheck_entry: //复测审核
 
+                break;
         }
     }
 
     @Override
     public void initUi() {
-
         tv_title.setText("为学员复测");
         ll_left.setOnClickListener(this);
 
@@ -102,10 +111,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         setGuest(true);
         setBleStateListener(bleStateListener);
         mShakeListener.start();
+
+
+        fucecheck_entry.setOnClickListener(this);
     }
 
     @Override
     public void initUiByBleSuccess(BleMainData data) {
+        menu_layout.setVisibility(View.VISIBLE);
+
         mWeight.setText(data.getWeight_item().getValue() + "");
         mWeightCaption.setText(data.getWeight_con().getCaption());
 //        mWeightCaption.setTextColor(Color.parseColor("#" + data.getWeight_item().getColor()));
@@ -127,7 +141,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         entity.setAge("1990-11-11");
         entity.setHeight(170);
         entity.setGender(2);
-        return entity ;
+
+        return entity;
+
     }
 
 //    @Override

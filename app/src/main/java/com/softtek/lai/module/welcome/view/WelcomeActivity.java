@@ -72,7 +72,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
         if(isServiceStarted(getApplicationContext(),"com.softtek.lai.stepcount.service.StepService")){
             LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
         }
-        new Handler(Looper.getMainLooper()).postDelayed(this,500);
+        guide.postDelayed(this,500);
 
     }
 

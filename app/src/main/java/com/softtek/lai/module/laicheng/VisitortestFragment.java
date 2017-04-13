@@ -35,6 +35,8 @@ import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Regex;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -62,16 +64,19 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
+
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_visitortest)
-public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> implements VisitorPresenter.VisitorView, View.OnClickListener,Validator.ValidationListener{
+public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> implements VisitorPresenter.VisitorView, View.OnClickListener, Validator.ValidationListener {
     private VisitortestFragment.VisitorVoiceListener listener;
     private VisitortestFragment.ShakeOFF shakeOFF;
 
-    @LifeCircleInject
-    ValidateLife validateLife;
+//    @LifeCircleInject
+//     ValidateLife validateLife;
+
+    private Validator validator;
     @InjectView(R.id.bt_again)
     Button bt_again;
     private LinearLayout.LayoutParams parm;
@@ -110,13 +115,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
     @InjectView(R.id.tv_height)
     TextView tv_height;
 
-    //访客基本信息录入
-//    final EditText et_name = (EditText) view.findViewById(R.id.et_name);
-//    et_old = (EditText) view.findViewById(R.id.et_old);
-//    final EditText et_height = (EditText) view.findViewById(R.id.et_height);
-//    final EditText et_mobile = (EditText) view.findViewById(R.id.et_mobile);
-//    RadioGroup rg_up = (RadioGroup) view.findViewById(R.id.rg_up);
-//    Button btn_commit = (Button) view.findViewById(R.id.btn_commit);
 
     VisitorModel visitorModel = new VisitorModel();
     private int gender = 0;
@@ -136,19 +134,32 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
 
     @Override
     public void onValidationSucceeded() {
-
+   Log.i("chenggong","4566");
     }
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
+      Log.i("shibai","12444");
+       if(failedView.getId()==et_mobile.getId()){
+           Util.toastMsg("手机号码不为空");
+       }
     }
+
+//    @Override
+//    public void onValidationSucceeded() {
+//
+//    }
+//
+//    @Override
+//    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+//        v.onValidationFailed(failedView, failedRule);
+//    }
 
     public interface VisitorVoiceListener {
         void onVisitorVoiceListener();
     }
 
-    public interface ShakeOFF{
+    public interface ShakeOFF {
         void setOnShakeOFF();
     }
 
@@ -157,7 +168,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         super.onAttach(context);
         if (context instanceof VisitortestFragment.VisitorVoiceListener) {
             listener = (VisitortestFragment.VisitorVoiceListener) context;
-            shakeOFF = (VisitortestFragment.ShakeOFF)context;
+            shakeOFF = (VisitortestFragment.ShakeOFF) context;
         }
     }
 
@@ -170,6 +181,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
 
     @Override
     protected void initDatas() {
+        validator = new Validator(this);
+        validator.setValidationListener(this);
         setPresenter(new VisitorPresenter(this));
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
@@ -192,6 +205,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
 
     //    访客基本信息弹框
     EditText et_old;
+
+    @Required(order = 1, messageResId = R.string.phoneValidateNull)
+    @Regex(order = 2, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
+    EditText et_mobile;
+
     private void showTypeDialog() {
         final Dialog dialog = new Dialog(getContext(), R.style.Dialog);
         dialog.show();
@@ -201,14 +219,14 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         final EditText et_name = (EditText) view.findViewById(R.id.et_name);
         et_old = (EditText) view.findViewById(R.id.et_old);
         final EditText et_height = (EditText) view.findViewById(R.id.et_height);
-        final EditText et_mobile = (EditText) view.findViewById(R.id.et_mobile);
+        et_mobile = (EditText) view.findViewById(R.id.et_mobile);
         RadioGroup rg_up = (RadioGroup) view.findViewById(R.id.rg_up);
         Button btn_commit = (Button) view.findViewById(R.id.btn_commit);
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         int height = display.getHeight();
         //设置dialog的宽高为屏幕的宽高
-        ViewGroup.LayoutParams layoutParams = new  ViewGroup.LayoutParams(width, height);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, height);
         dialog.setContentView(view, layoutParams);
         et_old.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,14 +255,16 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
         btn_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                visitorModel.setName(et_name.getText().toString());
-                visitorModel.setHeight(Float.parseFloat(et_height.getText().toString()));
-                visitorModel.setAge(et_old.getText().toString());
-                visitorModel.setPhoneNo(et_mobile.getText().toString());
-                visitorModel.setGender(gender);
+//                visitorModel.setName(et_name.getText().toString());
+//                visitorModel.setHeight(Float.parseFloat(et_height.getText().toString()));
+//                visitorModel.setAge(et_old.getText().toString());
+//                visitorModel.setPhoneNo(et_mobile.getText().toString());
+//                visitorModel.setGender(gender);
 //                getPresenter().commitData(UserInfoModel.getInstance().getToken(), visitorModel);
+                et_mobile.setError(null);
+                validator.validate();
                 dialog.dismiss();
-                shakeOFF.setOnShakeOFF();
+//                shakeOFF.setOnShakeOFF();
             }
         });
         ll_area.setOnClickListener(new View.OnClickListener() {
@@ -302,7 +322,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitorPresenter> impl
             case R.id.bt_again:
                 break;
             case R.id.bt_create:
-                showTypeDialog();
+//                showTypeDialog();
+                startActivity(new Intent(getActivity(),VisitorinfoActivity.class));
                 break;
             case R.id.bt_history:
                 Intent intent = new Intent(getActivity(), VisithistoryActivity.class);

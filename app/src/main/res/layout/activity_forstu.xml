@@ -125,14 +125,17 @@
                 android:background="#AED4CC"></View>
 
             <LinearLayout
-                android:id="@+id/mid_lay"
+                android:id="@+id/menu_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <TextView
+                    android:clickable="true"
+                    android:id="@+id/heathyReport_entry"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:background="@drawable/health_report_sharp"
@@ -145,10 +148,12 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/fucecheck_entry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
                     android:background="@drawable/fuce_sharp"
+                    android:clickable="true"
                     android:drawableLeft="@drawable/share_icon"
                     android:drawablePadding="8dp"
                     android:gravity="center"
