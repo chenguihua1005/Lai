@@ -113,6 +113,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 if (pageIndex == 0) {
                     setGuest(false);
                     mShakeListener.start();
+                    selftestFragment.refreshVoiceIcon();
                 } else {
                     setGuest(true);
                     mShakeListener.stop();
@@ -150,13 +151,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void initUiByBleFailed() {
-        if (pageIndex == 0) {
-            dialogDissmiss();
-            changeConnectionState(7);
-        } else {
-            dialogDissmiss();
-            changeConnectionState(7);
-        }
+        dialogDissmiss();
+        isResultTest = true;
+        testTimeOut = 0;
+        sendFatRateToDevice(0.0f);
     }
 
     VisitorModel visitorModel;
@@ -193,7 +191,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 }
                 dialog.dismiss();
             }
-        }).create().show();
+        });
+        builder.create();
+        builder.show();
     }
 
     @Override
@@ -204,6 +204,16 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void showUploadFailedDialog() {
      createDialog(false);
+    }
+
+    @Override
+    public void showSearchBleDialog() {
+        dialogShow("正在搜索设备...");
+    }
+
+    @Override
+    public void refreshUi() {
+        selftestFragment.refreshUi();
     }
 
     @Override

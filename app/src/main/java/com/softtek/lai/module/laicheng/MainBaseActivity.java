@@ -47,7 +47,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private String scaleId = "";//访客模式称量后的id
     private boolean isGuest = false;//以前的访客模式的称量页和这个页面合成一个，方便以后维护
     private int shareType;
-    protected boolean isVoiceHelp = true;
+    public static boolean isVoiceHelp = true;
 
 //    private int mCloseVoiceTimeOut = 60;
 
@@ -55,8 +55,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private String mHandData = "";//握手数据
     private String mFrequency07Data = "";//07频段的数据
     private String mFrequency04Data = "";//04频段的数据
-    private boolean isResultTest = false;
-    private int testTimeOut = 60;
+    protected boolean isResultTest = false;
+    protected int testTimeOut = 60;
 
     //蓝牙连接状态
     private static final int CONNECTED_STATE_SHAKE_IT = 0;//称前摇一摇
@@ -98,6 +98,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             soundHelper.play("one");
         }
         mShakeListener.stop();
+        refreshUi();
     }
 
     protected void setGuest(boolean isGuest) {
@@ -185,10 +186,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             public void openBleSettingSuccess() {
                 if (deviceListDialog != null) {//不知道为什么作为访客模式，连接成功蓝牙，然后返回，在进入，会出现2个activity
                     deviceListDialog.clearBluetoothDevice();
-                    if (!deviceListDialog.isShowing()) {
-                        deviceListDialog.show();
-                        deviceListDialog.startScan();
-                    }
+//                    if (!deviceListDialog.isShowing()) {
+//                        deviceListDialog.show();
+//                        deviceListDialog.startScan();
+//                    }
+                    showSearchBleDialog();
                     startDiscoveryBluetooth();
                 }
             }
@@ -207,7 +209,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             public void scanBleScanFound(BluetoothDevice device) {
                 if (!TextUtils.isEmpty(device.getName()) && !TextUtils.isEmpty(device.getAddress()) && device.getName().contains("SHHC")) {
                     Log.d("addBluetoothDevice", device.getName());
-//                    connectBluetooth(device);
+                    if (!deviceListDialog.isShowing()) {
+                        deviceListDialog.show();
+                        dialogDissmiss();
+//                        deviceListDialog.startScan();
+                    }
                     deviceListDialog.addBluetoothDevice(device);
 
                 }
@@ -215,9 +221,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             @Override
             public void scanBleFinish() {
-                deviceListDialog.finishScan();
-                if (deviceListDialog.getNewDevicesArrayAdapter().getCount() == 0) {
-                    deviceListDialog.getNewDevicesArrayAdapter().add("找不到设备");
+                if (deviceListDialog.isShowing()) {
+                    deviceListDialog.finishScan();
+                } else {
+                    dialogDissmiss();
+                    mShakeListener.start();
+                    voiceIndex = 0;
                 }
             }
 
@@ -474,7 +483,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     }
 
-    private void sendFatRateToDevice(float fatRate) {
+    protected void sendFatRateToDevice(float fatRate) {
         try {
             System.out.println("###fatRate = " + fatRate);
             fatRate = fatRate + 0.01f;
@@ -744,6 +753,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     //上传数据失败对话框
     public abstract void showUploadFailedDialog();
+
+    public abstract void showSearchBleDialog();
+
+    public abstract void refreshUi();
 
     @Override
     public void checkMacSuccess() {

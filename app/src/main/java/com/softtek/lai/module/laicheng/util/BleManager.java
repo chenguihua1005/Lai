@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -69,7 +70,6 @@ public class BleManager {
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
-            Log.d("onLeScan","进入onLeScan");
             sendMessage(BLUETOOTH_STATE_SCAN_FOUND, bluetoothDevice);
         }
     };
@@ -110,6 +110,8 @@ public class BleManager {
                             mBlueToothState = BLUETOOTH_STATE_SCAN_FINISH;
                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                             sendMessage(BLUETOOTH_STATE_SCAN_FINISH);
+                            Toast.makeText(mActivity,"未发现设备，请检查莱秤是否开启",Toast.LENGTH_SHORT).show();
+                            Log.d("no found deviced","未发现设备，请检查莱秤是否开启");
                         }
                     }
                 }, SCAN_PERIOD);
