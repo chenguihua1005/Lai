@@ -22,8 +22,7 @@ import zilla.libcore.api.ZillaApi;
 
 public class HistoryVisitorPresenter extends BasePresenter<HistoryVisitorPresenter.HistoryVisitorView> {
 
-    VisitorService service;
-    List<HistoryModel>historyModels=new ArrayList<>();
+    List<HistoryModel>historyModels=new ArrayList<HistoryModel>();
 
 
     public HistoryVisitorPresenter(HistoryVisitorView baseView) {
@@ -40,27 +39,13 @@ public class HistoryVisitorPresenter extends BasePresenter<HistoryVisitorPresent
         HistoryModel historyModel4 = new HistoryModel("2017年4月3日 09：00", "美美", "18206182094", "14", "女", "168cm");
         historyModels.add(historyModel4);
         historyModels.add(historyModel4);
-        getView().getInfo(historyModels);
-//        service= ZillaApi.NormalRestAdapter.create(VisitorService.class);
-//        service.commitvisit(token, visitorModel, new RequestCallback<ResponseData<Visitsmodel>>() {
-//            @Override
-//            public void success(ResponseData<Visitsmodel> Data, Response response) {
-//                int status=Data.getStatus();
-//                if(200==status){
-//                    if(getView()!=null){
-//                        getView().getInfo(null);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                super.failure(error);
-//            }
-//        });
+        if (getView()!=null)
+        {
+            getView().getInfo(historyModels);
+        }
     }
 
     public interface HistoryVisitorView extends BaseView {
-         void getInfo(List<HistoryModel> historyModels1);
+         void getInfo(List<HistoryModel> historyModels);
     }
 }

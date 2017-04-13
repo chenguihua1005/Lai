@@ -3,10 +3,12 @@ package com.softtek.lai.module.laicheng.adapter;
 import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.model.HistoryModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -22,25 +25,28 @@ import java.util.List;
  */
 
 public class HistoryAdapter extends BaseAdapter implements Filterable {
-    private List<HistoryModel> historyModels=new ArrayList<>();
+    private List<HistoryModel> historyModels=new ArrayList<>();//初始数据
+    private List<HistoryModel> historyNewModels=new ArrayList<>();//变化数据
     Context context;
     private MyFilter mFilter;
-    SearchView.SearchAutoComplete txt_search;
+//    SearchView txt_search;
+    EditText txt_search;
 
-    public HistoryAdapter(Context context, List<HistoryModel> historyModels,SearchView.SearchAutoComplete txt_search) {
+    public HistoryAdapter(Context context, List<HistoryModel> historyModels,List<HistoryModel> historyNewModels,EditText txt_search) {
         this.context = context;
-        this.historyModels = historyModels;
+        this.historyModels.addAll(historyModels) ;
+        this.historyNewModels.addAll(historyNewModels);
         this.txt_search=txt_search;
     }
 
     @Override
     public int getCount() {
-        return historyModels.size();
+        return historyNewModels.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return historyModels.get(i);
+        return historyNewModels.get(i);
     }
 
     @Override
@@ -58,7 +64,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        HistoryModel historyModel=historyModels.get(position);
+        HistoryModel historyModel=historyNewModels.get(position);
         viewHolder.tv_visittime.setText(historyModel.getTime());
         viewHolder.tv_visitor.setText(historyModel.getName());
         viewHolder.tv_phoneNo.setText(historyModel.getPhoneNo());
@@ -102,31 +108,43 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
 
-            List<String> newValues = new ArrayList<String>();
-            String filterString = txt_search.toString().trim()
-                    .toLowerCase();
+            //关键词
+//            String filterString = txt_search.getQuery().toString().trim()
+//                    .toLowerCase();
+            String filterString = txt_search.getText().toString().trim()
+                    .toLowerCase();//edittext
+            Log.i("filter",filterString);
+            // 如果搜索框内容为空，就恢复原始数据
+            if (TextUtils.isEmpty(filterString)) {
+                historyNewModels.clear();
+                historyNewModels.addAll(historyModels);
+            } else {
+                // 过滤出新数据
+                historyNewModels.clear();
+                for (HistoryModel str : historyModels) {
+                    if (-1 != str.getName().indexOf(filterString)||-1!=str.getPhoneNo().indexOf(filterString)) {
+                        historyNewModels.add(str);
+                    }
+                }
+            }
 
-//            // 如果搜索框内容为空，就恢复原始数据
-//            if (TextUtils.isEmpty(filterString)) {
-//                newValues = mBackData;
-//            } else {
-//                // 过滤出新数据
-//                for (String str : mBackData) {
-//                    if (-1 != str.toLowerCase().indexOf(filterString)) {
-//                        newValues.add(str);
-//                    }
-//                }
-//            }
+            results.values= historyNewModels;
+            results.count = historyNewModels.size();
 
-            results.values = newValues;
-            results.count = newValues.size();
 
             return results;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-
+//            historyNewModels.addAll((Collection<? extends HistoryModel>) filterResults.values) ;
+            if (filterResults.count > 0) {
+                notifyDataSetChanged();  // 通知数据发生了改变
+            } else {
+//                notifyDataSetChanged();
+                notifyDataSetInvalidated(); // 通知数据失效
+            }
         }
-    }
+        }
+
 }

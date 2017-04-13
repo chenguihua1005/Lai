@@ -1,10 +1,13 @@
 package com.softtek.lai.module.laicheng.model;
 
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+
 /**
  * Created by shelly.xu on 2017/4/10.
  */
 
-public class HistoryModel {
+public class HistoryModel implements Serializable{
     private String time;
     private String name;
     private String phoneNo;

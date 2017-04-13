@@ -41,10 +41,19 @@
                 <!--android:layout_marginEnd="45dp"-->
                 <!--android:background="@null"-->
                 <!--android:inputType="textPersonName" />-->
-            <android.support.v7.widget.SearchView.SearchAutoComplete
+            <!--<android.support.v7.widget.SearchView-->
+                <!--android:id="@+id/et_input"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@null"-->
+                <!--android:layout_marginStart="15dp"-->
+                <!--android:layout_marginEnd="45dp"-->
+                <!--android:closeIcon="@drawable/search_history"-->
+               <!--/>-->
+            <EditText
                 android:id="@+id/et_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@null"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="45dp"/>
