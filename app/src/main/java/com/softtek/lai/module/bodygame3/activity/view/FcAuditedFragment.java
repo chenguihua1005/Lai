@@ -26,6 +26,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -44,24 +45,25 @@ import zilla.libcore.util.Util;
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
-public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView> {
+public class FcAuditedFragment extends LazyBaseFragment<FuceCheckPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckPresenter.FuceCheckView {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
     FuceSevice fuceSevice;
-    int pageIndex=1;
-    private int FCAudit=1;
-    private int IsAudit=1;
+    int pageIndex = 1;
+    private int FCAudit = 1;
+    private int IsAudit = 1;
     private static String classid;
     private static String typedate;
     EasyAdapter<MemberListModel> adapter;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
-    public static Fragment getInstance(String classId,String typeDate) {
-        FcAuditedFragment fragment=new FcAuditedFragment();
-        Bundle data=new Bundle();
-        classid=classId;
-        typedate=typeDate;
+
+    public static Fragment getInstance(String classId, String typeDate) {
+        FcAuditedFragment fragment = new FcAuditedFragment();
+        Bundle data = new Bundle();
+        classid = classId;
+        typedate = typeDate;
         fragment.setArguments(data);
         return fragment;
     }
@@ -88,7 +90,7 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
         plv_audit.setMode(PullToRefreshBase.Mode.BOTH);
         plv_audit.setOnRefreshListener(this);
         plv_audit.setEmptyView(im_nomessage);
-        ILoadingLayout startLabelse = plv_audit.getLoadingLayoutProxy(true,false);
+        ILoadingLayout startLabelse = plv_audit.getLoadingLayoutProxy(true, false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
@@ -96,26 +98,26 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
+
+        setPresenter(new FuceCheckPresenter(this));
     }
 
     @Override
     protected void initDatas() {
-        fuceSevice= ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        adapter=new EasyAdapter<MemberListModel>(getContext(),memberListModels,R.layout.retest_list_audit_item) {
+        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
-                TextView username=holder.getView(R.id.tv_username);//用户名
-                TextView tv_group=holder.getView(R.id.tv_group);//组名
-                TextView tv_weight=holder.getView(R.id.tv_weight);//体重
-                CircleImageView cir_headim=holder.getView(R.id.cir_headim);//头像;
-                tv_group.setText("("+data.getGroupName()+")");
+                TextView username = holder.getView(R.id.tv_username);//用户名
+                TextView tv_group = holder.getView(R.id.tv_group);//组名
+                TextView tv_weight = holder.getView(R.id.tv_weight);//体重
+                CircleImageView cir_headim = holder.getView(R.id.cir_headim);//头像;
+                tv_group.setText("(" + data.getGroupName() + ")");
                 tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
-                if (!TextUtils.isEmpty(data.getUserIconUrl()))
-                {
-                    Picasso.with(getContext()).load(AddressManager.get("photoHost")+data.getUserIconUrl()).fit().into(cir_headim);
-                }
-                else {
+                if (!TextUtils.isEmpty(data.getUserIconUrl())) {
+                    Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
+                } else {
                     Picasso.with(getContext()).load(R.drawable.img_default).fit().into(cir_headim);
 
                 }
@@ -127,44 +129,43 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
 
 
     @Override
-    public void onClick(View view) {
-
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent FcAudit=new Intent(getContext(),FcAuditStuActivity.class);
-        FcAudit.putExtra("ACMId",memberListModels.get(i-1).getAcmId());
-        FcAudit.putExtra("accountId",Long.parseLong(memberListModels.get(i-1).getUserId()));
-        FcAudit.putExtra("classId",classid);
-        FcAudit.putExtra("IsAudit",IsAudit);
-        startActivityForResult(FcAudit,FCAudit);
+        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity.class);
+        FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
+        FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+        FcAudit.putExtra("classId", classid);
+        FcAudit.putExtra("IsAudit", IsAudit);
+        startActivityForResult(FcAudit, FCAudit);
     }
+
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-            memberListModels.clear();
-            pageIndex = 1;
-            doGetData(UserInfoModel.getInstance().getUserId(), classid,typedate,  pageIndex, 10);
+        memberListModels.clear();
+        pageIndex = 1;
+//        doGetData(UserInfoModel.getInstance().getUserId(), classid, typedate, pageIndex, 10);
+        getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, 10);
     }
+
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        doGetData(UserInfoModel.getInstance().getUserId(),classid,typedate,++pageIndex,10);
+//        doGetData(UserInfoModel.getInstance().getUserId(), classid, typedate, ++pageIndex, 10);
+        ++pageIndex;
+        getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, 10);
     }
+
     //获取审核列表数据
     private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {
-        fuceSevice.dogetAuditList(classid,UserInfoModel.getInstance().getToken(), accountid, classid, typeDate,pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, typeDate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 plv_audit.onRefreshComplete();
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
-                        Log.i("listResponseData.getData().size()!=0"+listResponseData.getData().size());
-                        if(listResponseData.getData().size()!=0)
-                        {
+                        Log.i("listResponseData.getData().size()!=0" + listResponseData.getData().size());
+                        if (listResponseData.getData().size() != 0) {
                             memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
                             adapter.notifyDataSetChanged();
                         }
@@ -178,4 +179,16 @@ public class FcAuditedFragment extends LazyBaseFragment implements View.OnClickL
     }
 
 
+    @Override
+    public void getMeasureReviewedList(List<AuditListModel> list) {
+        if (list != null && list.size() != 0) {
+            memberListModels.addAll(list.get(1).getMemberList());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void hidenLoading() {
+        plv_audit.onRefreshComplete();
+    }
 }

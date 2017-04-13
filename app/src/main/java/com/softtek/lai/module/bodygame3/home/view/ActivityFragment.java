@@ -113,8 +113,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @InjectView(R.id.ll_task)
     LinearLayout ll_task;
 
-    @InjectView(R.id.ll_for_stu)
-    LinearLayout ll_for_stu;
+//    @InjectView(R.id.ll_for_stu)
+//    LinearLayout ll_for_stu;
     @InjectView(R.id.uncheckNum_tv)
     TextView uncheckNum_tv;
 
@@ -166,7 +166,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
-        ll_for_stu.setOnClickListener(this);
 
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
@@ -289,7 +288,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         dateStr = sdf.format(date.getDate());
         saveclassModel.setDates(dateStr);
         ll_fuce.setVisibility(View.GONE);
-        ll_for_stu.setVisibility(View.GONE);
 
         ll_task.removeAllViews();
         if (!TextUtils.isEmpty(classid)) {
@@ -314,7 +312,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 tag.date = datestr;
                                 if (model.getClassRole() == Constants.STUDENT) {//如果这个人是学员
                                     reset_name.setText("复测录入");
-                                    ll_for_stu.setVisibility(View.GONE);
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
@@ -373,8 +370,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             ll_fuce.setEnabled(true);
                                             reset_time.setText("待审核" + model.getNum());
 
-                                            ll_for_stu.setVisibility(View.VISIBLE);
-                                            ll_for_stu.setEnabled(true);
                                             uncheckNum_tv.setText("未测量X人");
 
                                             tag.status = FUCE_FINISH;
@@ -383,8 +378,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             ll_fuce.setEnabled(true);
 
-                                            ll_for_stu.setVisibility(View.VISIBLE);
-                                            ll_for_stu.setEnabled(true);
                                             uncheckNum_tv.setText("未测量X人");
 
                                             reset_time.setText("待审核" + model.getNum() + "人");
@@ -395,20 +388,16 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             ll_fuce.setEnabled(false);
                                             reset_time.setText("未开始");
 
-                                            ll_for_stu.setVisibility(View.VISIBLE);
-                                            ll_for_stu.setEnabled(false);
                                             uncheckNum_tv.setText("未开始");
 
                                             tag.status = FUCE_NOT_START;
                                             break;
                                         default:
                                             ll_fuce.setVisibility(View.GONE);
-                                            ll_for_stu.setVisibility(View.GONE);
                                             break;
                                     }
                                 }
                                 ll_fuce.setTag(tag);
-                                ll_for_stu.setTag(tag);
 
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
@@ -492,12 +481,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }
             }
             break;
-            case R.id.ll_for_stu: {
-                Intent intent1 = new Intent(getContext(), MeasureListActivity.class);
-                intent1.putExtra("classId", classid);
-                startActivity(intent1);
-            }
-            break;
+//            case R.id.ll_for_stu: {
+//                Intent intent1 = new Intent(getContext(), MeasureListActivity.class);
+//                intent1.putExtra("classId", classid);
+//                startActivity(intent1);
+//            }
+//            break;
 
         }
     }
@@ -744,7 +733,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 }
                                                 ll_fuce.setTag(tag);
                                             } else {//非学员
-                                                ll_for_stu.setVisibility(View.VISIBLE);
+//                                                ll_for_stu.setVisibility(View.VISIBLE);
 
                                                 BtnTag tag = new BtnTag();
                                                 tag.role = activitydataModel.getClassRole();

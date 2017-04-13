@@ -151,10 +151,9 @@
             android:textColor="@color/white"
             android:background="@drawable/btn_commit"
             android:text="提交"
+            android:layout_marginTop="42dp"
             android:layout_below="@+id/et_mobile"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="42dp" />
+            android:layout_alignStart="@+id/rg_up" />
     </RelativeLayout>
 
 </RelativeLayout>

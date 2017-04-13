@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
-import com.softtek.lai.module.laicheng.model.UserInfoEntity;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
@@ -138,7 +137,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @Override
     public VisitorModel getGuestInfo() {
         VisitorModel entity = new VisitorModel();
-        entity.setAge("1990-11-11");
+        entity.setBirthDate("1990-11-11");
         entity.setHeight(170);
         entity.setGender(2);
 
@@ -207,5 +206,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 dialog.dismiss();
             }
         }).create().show();
+    }
+
+    @Override
+    public void showSearchBleDialog() {
+
+    }
+
+    @Override
+    public void refreshUi() {
+
     }
 }

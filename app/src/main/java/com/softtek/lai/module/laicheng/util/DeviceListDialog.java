@@ -16,6 +16,8 @@ import com.softtek.lai.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by nolan on 2015/10/14.
@@ -103,8 +105,9 @@ public class DeviceListDialog extends Dialog {
 
     public void startScan(){
         bluetoothDeviceList = new ArrayList<BluetoothDevice>();
-        if(cTitle!=null)
+        if(cTitle!=null){
             cTitle.setText("正在搜索设备");
+        }
     }
 
     public void finishScan(){
