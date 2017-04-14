@@ -21,7 +21,7 @@ import zilla.libcore.util.Util;
 /**
  * Created by jerry.guan on 4/20/2016.
  */
-public class HistoryDataManager extends BasePresenter<HistoryDataManager.HistoryDataManagerCallback>{
+public class HistoryDataManager extends BasePresenter<HistoryDataManager.HistoryDataManagerCallback> {
 
     private HistoryDataService service;
     private String token;
@@ -34,31 +34,38 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
 
 
     //获取历史数据
-    public void getHistoryDataList(int pageIndex) {
+    public void getHistoryDataList(int pageIndex, final boolean isPull) {
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         service.getHistoryDataList(token, Long.parseLong(userId), pageIndex,
                 new RequestCallback<ResponseData<HistoryDataModel>>() {
                     @Override
                     public void success(ResponseData<HistoryDataModel> historyDataModelResponseData, Response response) {
-                        Log.i("历史数据" + historyDataModelResponseData);
-                        if(getView()!=null){
-                            getView().hidenPull();
+                        if (!isPull) {
+                            if (getView() != null) {
+                                getView().dialogDissmiss();
+                            }
+                        } else {
+                            if (getView() != null) {
+                                getView().hidenPull();
+                            }
                         }
                         if (historyDataModelResponseData.getStatus() == 200) {
-                            if(getView()!=null){
+                            if (getView() != null) {
                                 getView().historyDataCallback(historyDataModelResponseData.getData());
-                            }
-                        } else if (historyDataModelResponseData.getStatus() == 100) {
-                            if(getView()!=null){
-                                getView().historyDataCallback(new HistoryDataModel("0", new ArrayList<HistoryData>()));
                             }
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if(getView()!=null){
-                            getView().hidenPull();
+                        if (!isPull) {
+                            if (getView() != null) {
+                                getView().dialogDissmiss();
+                            }
+                        } else {
+                            if (getView() != null) {
+                                getView().hidenPull();
+                            }
                         }
                         super.failure(error);
 
@@ -68,15 +75,18 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
 
     //删除历史数据
     public void deleteHistoryData(String ids) {
+        if (getView() != null) {
+            getView().dialogShow("删除中");
+        }
         service.deleteHistoryData(token, new ID(ids), new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.i(responseData.toString());
-                if(getView()!=null){
+                if (getView() != null) {
                     getView().dialogDissmiss();
                 }
                 if (responseData.getStatus() == 200) {
-                    if(getView()!=null){
+                    if (getView() != null) {
                         getView().deleteResult();
                     }
                 } else {
@@ -87,7 +97,7 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
 
             @Override
             public void failure(RetrofitError error) {
-                if(getView()!=null){
+                if (getView() != null) {
                     getView().dialogDissmiss();
                 }
                 super.failure(error);
@@ -96,9 +106,11 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
     }
 
 
-    public interface HistoryDataManagerCallback extends BaseView{
+    public interface HistoryDataManagerCallback extends BaseView {
         void historyDataCallback(HistoryDataModel model);
+
         void deleteResult();
+
         void hidenPull();
     }
 }

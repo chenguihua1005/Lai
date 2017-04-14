@@ -27,14 +27,12 @@ import java.util.List;
  */
 public class HistoryDataAdapter extends BaseAdapter{
 
-    private LayoutInflater inflater;
     private List<HistoryDataItemModel> dataModels;
     private CheckBox cb_all;
     private Context context;
 
     public HistoryDataAdapter(Context context, List<HistoryDataItemModel> dataModels,CheckBox cb_all) {
         this.context=context;
-        this.inflater =LayoutInflater.from(context);
         this.dataModels = dataModels;
         this.cb_all=cb_all;
     }
@@ -58,7 +56,7 @@ public class HistoryDataAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView==null){
-            convertView=inflater.inflate(R.layout.history_data_item,parent,false);
+            convertView=LayoutInflater.from(context).inflate(R.layout.history_data_item,parent,false);
             holder=new ViewHolder(convertView);
             convertView.setTag(holder);
         }else{

@@ -1,13 +1,15 @@
 package com.softtek.lai.module.healthyreport;
 
+import android.content.Intent;
 import android.os.Handler;
-import android.os.Looper;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,25 +23,22 @@ import com.softtek.lai.module.healthyreport.model.HistoryData;
 import com.softtek.lai.module.healthyreport.model.HistoryDataItemModel;
 import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
 import com.softtek.lai.module.healthyreport.presenter.HistoryDataManager;
+import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_history_data)
-public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implements AdapterView.OnItemClickListener, View.OnClickListener
+public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener, View.OnClickListener
         , HistoryDataManager.HistoryDataManagerCallback, PullToRefreshBase.OnRefreshListener2<ListView> {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
-    @InjectView(R.id.iv_email)
-    ImageView iv_right;
+
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.ptrlv)
@@ -50,6 +49,9 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     CheckBox cb_all;
     @InjectView(R.id.tv_delete)
     TextView tv_delete;
+    @InjectView(R.id.tv_cancle)
+    TextView tv_cancle;
+
 
     private List<HistoryDataItemModel> dataItemModels = new ArrayList<>();
     private HistoryDataAdapter adapter;
@@ -58,65 +60,76 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
 
     @Override
     protected void initViews() {
-        tv_title.setText("历史测量数据");
-        tv_right.setText("编辑");
-        iv_right.setBackgroundResource(R.drawable.healthedit);
         ptrlv.setOnItemClickListener(this);
+        ptrlv.getRefreshableView().setOnItemLongClickListener(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         cb_all.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
+        tv_cancle.setOnClickListener(this);
     }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            ptrlv.setRefreshing();
-        }
-    };
 
     @Override
     protected void initDatas() {
         setPresenter(new HistoryDataManager(this));
         adapter = new HistoryDataAdapter(this, dataItemModels, cb_all);
         ptrlv.setAdapter(adapter);
-        ptrlv.postDelayed(runnable, 300);
+        dialogShow("加载中");
+        pageIndex = 1;
+        getPresenter().getHistoryDataList(1,false);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        if(isEditor){
+            return;
+        }
+        //点击进入健康报告
+        
     }
 
-    private boolean editOrCompleted = false;
+    boolean isEditor;
+    private void editor(){
+        isEditor=!isEditor;
+        for (HistoryDataItemModel model : dataItemModels) {
+            model.setShow(isEditor);
+            model.setChecked(false);
+        }
+        if (isEditor) {
+            ptrlv.setMode(PullToRefreshBase.Mode.DISABLED);
+            ll_footer.setVisibility(View.VISIBLE);
+        } else {
+            ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+            ll_footer.setVisibility(View.GONE);
+        }
+        adapter.notifyDataSetChanged();
+        if(isEditor){
+            if(empty==null){
+                empty=new View(this);
+                empty.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,DisplayUtil.dip2px(this,48)));
+            }
+            ptrlv.getRefreshableView().addFooterView(empty);
+        }else {
+            ptrlv.getRefreshableView().removeFooterView(empty);
+        }
+    }
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        editor();
+        return true;
+    }
 
+    View empty;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                setResult(RESULT_OK, getIntent());
                 finish();
                 break;
             case R.id.fl_right:
-                if (dataItemModels.isEmpty()) {
-                    break;
-                }
-                for (HistoryDataItemModel model : dataItemModels) {
-                    model.setShow(model.isShow() ? false : true);
-                    model.setChecked(false);
-                }
-                editOrCompleted = dataItemModels.get(0).isShow();
-                tv_right.setText(editOrCompleted ? "完成" : "编辑");
-                if (editOrCompleted) {
-                    ptrlv.setMode(PullToRefreshBase.Mode.DISABLED);
-                    ll_footer.setVisibility(View.VISIBLE);
-                } else {
-                    ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-                    ll_footer.setVisibility(View.GONE);
-                }
-                adapter.notifyDataSetChanged();
+                startActivity(new Intent(this,HealthEntryActivity.class));
                 break;
             case R.id.tv_delete:
                 //提交删除选项
@@ -127,10 +140,9 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                         ids.append("," + model.getDataModel().getAcInfoId());
                     }
                 }
-                if (ids.toString().equals("")) {
+                if (TextUtils.isEmpty(ids)) {
                     break;
                 }
-                dialogShow("正在删除。。。");
                 getPresenter().deleteHistoryData(ids.toString().substring(1, ids.length()));
                 break;
             case R.id.cb_all:
@@ -138,6 +150,9 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                     model.setChecked(cb_all.isChecked());
                 }
                 adapter.notifyDataSetChanged();
+                break;
+            case R.id.tv_cancle:
+                editor();
                 break;
         }
     }
@@ -159,6 +174,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         }
         for (HistoryData data : model.getHistoryList()) {
             dataItemModels.add(new HistoryDataItemModel(false, false, data));
+
         }
         adapter.notifyDataSetChanged();
     }
@@ -166,26 +182,19 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
 
     @Override
     public void deleteResult() {
-        for (HistoryDataItemModel model : dataItemModels) {
-            model.setShow(false);
-            model.setChecked(false);
-        }
-        editOrCompleted = dataItemModels.get(0).isShow();
-        tv_right.setText(editOrCompleted ? "完成" : "编辑");
-        if (editOrCompleted) {
-            ptrlv.setMode(PullToRefreshBase.Mode.DISABLED);
-            ll_footer.setVisibility(View.VISIBLE);
-        } else {
-            ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-            ll_footer.setVisibility(View.GONE);
-        }
-        adapter.notifyDataSetChanged();
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ptrlv.setRefreshing();
+        Iterator<HistoryDataItemModel> its=dataItemModels.iterator();
+        while (its.hasNext()){
+            HistoryDataItemModel model=its.next();
+            if(model.isChecked()){
+                its.remove();
+            }else {
+                model.setShow(false);
             }
-        }, 300);
+        }
+        isEditor=false;
+        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        ll_footer.setVisibility(View.GONE);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -196,15 +205,16 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        getPresenter().getHistoryDataList(1);
+        getPresenter().getHistoryDataList(1,true);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if (pageIndex <= totalPage) {
-            getPresenter().getHistoryDataList(pageIndex);
+            getPresenter().getHistoryDataList(pageIndex,true);
         } else {
+            pageIndex--;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -217,9 +227,11 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            setResult(RESULT_OK, getIntent());
-            finish();
-            return true;
+            if(isEditor) {
+                editor();
+                return true;
+            }
+            return super.onKeyDown(keyCode, event);
         }
         return super.onKeyDown(keyCode, event);
     }

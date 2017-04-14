@@ -17,16 +17,17 @@
         android:background="@color/white">
 
         <TextView
+            android:id="@+id/tv_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="15dp"
-            android:text="Abraham"
             android:textColor="#333333"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -35,8 +36,7 @@
             android:textSize="14sp"
             android:textColor="#666666"
             android:drawablePadding="6dp"
-            android:drawableLeft="@drawable/healthy_time"
-            android:text="8月20日 09：00" />
+            android:drawableLeft="@drawable/healthy_time" />
 
     </RelativeLayout>
 
@@ -68,9 +68,9 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="30dp"
                     android:paddingRight="15dp"
+                    android:paddingBottom="10dp"
                     android:textSize="14sp"
                     android:maxLines="4"
-                    android:text="脂肪型\ndsadasdasdsadasdasdasdasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasddasdasdasdsadasdasdasdasdasdsadsadasdasdasdasdasd"
                     android:textColor="#333333" />
 
                 <RelativeLayout
@@ -80,7 +80,8 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_arrow"
