@@ -3,19 +3,40 @@ package com.softtek.lai.module.laicheng.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.softtek.lai.module.bodygame3.head.model.ClasslistModel;
-
 /**
  * Created by shelly.xu on 4/10/2017.
  */
 
-public class VisitorModel  {
+public class VisitorModel  implements Parcelable{
     private String Name;
     private String BirthDate;//年龄
     private float Height;//身高
     private int Gender;//性别
     private String PhoneNo;//
     private int visitorId;
+
+
+    protected VisitorModel(Parcel in) {
+        Name = in.readString();
+        BirthDate = in.readString();
+        Height = in.readFloat();
+        Gender = in.readInt();
+       PhoneNo = in.readString();
+        visitorId = in.readInt();
+    }
+
+    public static final Creator<VisitorModel> CREATOR = new Creator<VisitorModel>() {
+        @Override
+        public VisitorModel createFromParcel(Parcel in) {
+            return new VisitorModel(in);
+        }
+
+        @Override
+        public VisitorModel[] newArray(int size) {
+            return new VisitorModel[size];
+        }
+    };
+
 
     public int getVisitorId() {
         return visitorId;
@@ -89,4 +110,18 @@ public class VisitorModel  {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Name);
+        parcel.writeString(BirthDate);
+        parcel.writeFloat(Height);//身高
+        parcel.writeInt(Gender);//性别
+        parcel.writeString(PhoneNo);//
+        parcel.writeInt(visitorId);
+    }
 }
