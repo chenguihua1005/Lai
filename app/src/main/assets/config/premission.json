@@ -3,7 +3,7 @@
     "bodyGame":false,
     "laiYunDong":false,
     "laiClass":false,
-    "laiExcel":true,
+    "laiExcel":false,
     "laiShop":true
   },
   "nc": {

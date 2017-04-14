@@ -1,71 +1,37 @@
 package com.softtek.lai.module.laicheng.model;
 
+import java.io.Serializable;
+
 /**
  * Created by shelly.xu on 2017/4/10.
  */
 
-public class HistoryModel {
-    private String time;
-    private String name;
-    private String phoneNo;
-    private String age;
-    private String gender;
-    private String height;
+public class HistoryModel implements Serializable{
+    private String recordId;//访客记录id
+    private String measuredTime;//访客测量时间
+    private VisitorInfoModel visitor;
 
-    public HistoryModel(String time, String name, String phoneNo, String age, String gender, String height) {
-        this.time = time;
-        this.name = name;
-        this.phoneNo = phoneNo;
-        this.age = age;
-        this.gender = gender;
-        this.height = height;
+    public String getRecordId() {
+        return recordId;
     }
 
-    public String getTime() {
-        return time;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public String getMeasuredTime() {
+        return measuredTime;
     }
 
-    public String getName() {
-        return name;
+    public void setMeasuredTime(String measuredTime) {
+        this.measuredTime = measuredTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public VisitorInfoModel getVisitor() {
+        return visitor;
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
+    public void setVisitor(VisitorInfoModel visitor) {
+        this.visitor = visitor;
     }
 }

@@ -449,7 +449,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(),"BalanceEvent");
                     break;
                 case Constants.LAI_SHOP:
-                    startActivity(new Intent(getContext(), HealthyChartActivity.class));
+                    startActivity(new Intent(getContext(), HealthyReportActivity.class));
                     //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
             }

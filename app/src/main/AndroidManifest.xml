@@ -818,15 +818,20 @@
         <activity
             android:name=".module.laicheng.VisithistoryActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity
             android:name=".module.healthyreport.HealthyChartActivity"
             android:theme="@style/AppTheme2" />
-        <activity android:name=".module.laicheng.VisitorinfoActivity"></activity>
 
         <activity
             android:name=".module.bodygame3.activity.view.FcAuditStuActivity2"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.laicheng.VisitorinfoActivity"
+            android:theme="@style/AppTheme2"></activity>
+
     </application>
 
 </manifest>

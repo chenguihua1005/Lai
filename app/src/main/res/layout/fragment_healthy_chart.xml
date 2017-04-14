@@ -1,0 +1,135 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.softtek.lai.module.healthyreport.HealthyChartFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.softtek.lai.widgets.TextViewExpandable
+            android:id="@+id/tve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="15dp"
+            app:tvea_expandLines="4"
+            app:tvea_textContentColor="#666666"
+            app:tvea_textContentSize="15sp"
+            app:tvea_textExpand="展开"
+            app:tvea_textShrink="收起"
+            app:tvea_textStateColor="#747474" />
+
+        <com.softtek.lai.widgets.StandardLine
+            android:id="@+id/sl"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/context">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#D0D0D0"/>
+            <com.softtek.lai.widgets.chart.Chart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                app:chartTitle1="体重"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                >
+                <Button
+                    android:id="@+id/bt_left"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/back_arrow_left"
+                    android:layout_centerVertical="true"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true">
+                <Button
+                    android:id="@+id/bt_right"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/back_arrow_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/context"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:background="@drawable/bg_radiobtn"
+                android:textColor="@drawable/skin_color_button"
+                android:id="@+id/week"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:text="周"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:checked="true"
+                android:layout_marginRight="30dp"/>
+            <RadioButton
+                android:id="@+id/month"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:text="月"
+                android:gravity="center"
+                android:background="@drawable/bg_radiobtn"
+                android:textColor="@drawable/skin_color_button"
+                android:textSize="20sp"
+                android:layout_marginRight="30dp"/>
+            <RadioButton
+                android:id="@+id/quarter"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:text="季"
+                android:gravity="center"
+                android:background="@drawable/bg_radiobtn"
+                android:textColor="@drawable/skin_color_button"
+                android:textSize="20sp"
+                android:layout_marginRight="30dp"/>
+            <RadioButton
+                android:id="@+id/year"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:text="年"
+                android:gravity="center"
+                android:background="@drawable/bg_radiobtn"
+                android:textColor="@drawable/skin_color_button"
+                android:textSize="20sp"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+
+</ScrollView>

@@ -1,12 +1,13 @@
 package com.softtek.lai.module.laicheng.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -22,25 +23,27 @@ import java.util.List;
  */
 
 public class HistoryAdapter extends BaseAdapter implements Filterable {
-    private List<HistoryModel> historyModels=new ArrayList<>();
+    private List<HistoryModel> historyModels = new ArrayList<>();//初始数据
+    private List<HistoryModel> historyNewModels = new ArrayList<>();//变化数据
     Context context;
     private MyFilter mFilter;
-    SearchView.SearchAutoComplete txt_search;
+    EditText txt_search;
 
-    public HistoryAdapter(Context context, List<HistoryModel> historyModels,SearchView.SearchAutoComplete txt_search) {
+    public HistoryAdapter(Context context, List<HistoryModel> historyModels, EditText txt_search) {
         this.context = context;
-        this.historyModels = historyModels;
-        this.txt_search=txt_search;
+        this.historyModels.addAll(historyModels);
+        this.historyNewModels.addAll(historyModels);
+        this.txt_search = txt_search;
     }
 
     @Override
     public int getCount() {
-        return historyModels.size();
+        return historyNewModels.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return historyModels.get(i);
+        return historyNewModels.get(i);
     }
 
     @Override
@@ -58,13 +61,13 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        HistoryModel historyModel=historyModels.get(position);
-        viewHolder.tv_visittime.setText(historyModel.getTime());
-        viewHolder.tv_visitor.setText(historyModel.getName());
-        viewHolder.tv_phoneNo.setText(historyModel.getPhoneNo());
-        viewHolder.tv_age.setText(historyModel.getAge());
-        viewHolder.tv_gender.setText(historyModel.getGender());
-        viewHolder.tv_height.setText(historyModel.getHeight());
+        HistoryModel historyModel = historyNewModels.get(position);
+        viewHolder.tv_visittime.setText(historyModel.getMeasuredTime());
+        viewHolder.tv_visitor.setText(historyModel.getVisitor().getName());
+        viewHolder.tv_phoneNo.setText(historyModel.getVisitor().getPhoneNo());
+        viewHolder.tv_age.setText(historyModel.getVisitor().getAge());
+        viewHolder.tv_gender.setText(historyModel.getVisitor().getGender());
+        viewHolder.tv_height.setText(historyModel.getVisitor().getHeight());
         return convertView;
     }
 
@@ -85,48 +88,55 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         TextView tv_height;
 
         public ViewHolder(View view) {
-            tv_visittime=(TextView)view.findViewById(R.id.tv_visittime);
-            tv_visitor=(TextView)view.findViewById(R.id.tv_visitor);
-            tv_phoneNo=(TextView)view.findViewById(R.id.tv_phoneNo);
-            tv_gender=(TextView)view.findViewById(R.id.tv_gender);
-            tv_age=(TextView)view.findViewById(R.id.tv_age);
-            tv_height=(TextView)view.findViewById(R.id.tv_height);
+            tv_visittime = (TextView) view.findViewById(R.id.tv_visittime);
+            tv_visitor = (TextView) view.findViewById(R.id.tv_visitor);
+            tv_phoneNo = (TextView) view.findViewById(R.id.tv_phoneNo);
+            tv_gender = (TextView) view.findViewById(R.id.tv_gender);
+            tv_age = (TextView) view.findViewById(R.id.tv_age);
+            tv_height = (TextView) view.findViewById(R.id.tv_height);
 
         }
     }
+
     //自定义filter类
-    class MyFilter extends Filter
-    {
+    class MyFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
 
-            List<String> newValues = new ArrayList<String>();
-            String filterString = txt_search.toString().trim()
-                    .toLowerCase();
+            String filterString = txt_search.getText().toString().trim()
+                    .toLowerCase();//edittext
+            Log.i("filter", filterString);
+            // 如果搜索框内容为空，就恢复原始数据
+            if (TextUtils.isEmpty(filterString)) {
+                historyNewModels.clear();
+                historyNewModels.addAll(historyModels);
+            } else {
+                // 过滤出新数据
+                historyNewModels.clear();
+                for (HistoryModel str : historyModels) {
+                    if (-1 != str.getVisitor().getName().toLowerCase().indexOf(filterString) || -1 != str.getVisitor().getPhoneNo().indexOf(filterString)) {
+                        historyNewModels.add(str);
+                    }
+                }
+            }
 
-//            // 如果搜索框内容为空，就恢复原始数据
-//            if (TextUtils.isEmpty(filterString)) {
-//                newValues = mBackData;
-//            } else {
-//                // 过滤出新数据
-//                for (String str : mBackData) {
-//                    if (-1 != str.toLowerCase().indexOf(filterString)) {
-//                        newValues.add(str);
-//                    }
-//                }
-//            }
-
-            results.values = newValues;
-            results.count = newValues.size();
+            results.values = historyNewModels;
+            results.count = historyNewModels.size();
 
             return results;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            if (filterResults.count > 0) {
+                notifyDataSetChanged();  // 通知数据发生了改变
+            } else {
+                notifyDataSetInvalidated(); // 通知数据失效
 
+            }
         }
     }
+
 }

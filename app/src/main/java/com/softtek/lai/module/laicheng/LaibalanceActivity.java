@@ -11,14 +11,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
-import com.softtek.lai.module.laicheng.model.UserInfoEntity;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
@@ -163,14 +162,18 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public VisitorModel getGuestInfo() {
         visitorModel= visitortestFragment.getVisitorModel();
-        Log.i("获取访客信息",visitorModel.toString());
+        Log.e("获取访客信息",visitorModel.toString());
         return visitorModel;
     }
 
 
     @Override
     public void setStateTip(String state) {
-        selftestFragment.setStateTip(state);
+        if (pageIndex == 0) {
+            selftestFragment.setStateTip(state);
+        }else{
+            visitortestFragment.setStateTip(state);
+        }
     }
 
     private void createDialog(boolean isTimeout){
@@ -213,8 +216,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
-    public void refreshUi() {
-        selftestFragment.refreshUi();
+    public void refreshUi(LastInfoData data) {
+        if (pageIndex == 0) {
+            selftestFragment.refreshUi(data);
+        }
     }
 
     @Override
@@ -232,6 +237,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void setOnShakeOFF() {
         mShakeListener.start();
+    }
+
+    @Override
+    public void setOnShakeSTOP() {
+        mShakeListener.stop();
     }
 
     @Override
