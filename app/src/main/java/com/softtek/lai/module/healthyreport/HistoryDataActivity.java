@@ -87,7 +87,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
             return;
         }
         //点击进入健康报告
-        
+
     }
 
     boolean isEditor;
