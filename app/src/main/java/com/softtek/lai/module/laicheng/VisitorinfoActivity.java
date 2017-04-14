@@ -66,7 +66,6 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
 
     @InjectView(R.id.rg_up)
     RadioGroup rg_up;
-    @Required(order = 4, messageResId = R.string.phoneValidateNull)
     @Regex(order = 5, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
@@ -96,7 +95,6 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_commit:
-                getVisitData();
                 Log.i("提交访客信息", visitorModel.toString());
                 validateLife.validate();
                 break;
@@ -136,7 +134,17 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
         }
     }
 
-    private void getVisitData() {
+    @Override
+    public void commit(Visitsmodel visitsmodel, VisitorModel Model) {
+        Model.setVisitorId(visitsmodel.getVisitorId());
+        Intent intent = new Intent();
+        intent.putExtra("visitorModel", Model);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void onValidationSucceeded() {
         rg_up.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -151,25 +159,11 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                 }
             }
         });
-         String height=et_height.getText().toString();
         visitorModel.setName(et_name.getText().toString());
-        visitorModel.setHeight(Float.parseFloat(height));
+        visitorModel.setHeight(Float.parseFloat(et_height.getText().toString()));
         visitorModel.setBirthDate(et_old.getText().toString());
         visitorModel.setPhoneNo(et_mobile.getText().toString());
         visitorModel.setGender(gender);
-    }
-
-    @Override
-    public void commit(Visitsmodel visitsmodel, VisitorModel Model) {
-        Model.setVisitorId(visitsmodel.getVisitorId());
-        Intent intent = new Intent();
-        intent.putExtra("visitorModel", Model);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
         getPresenter().commitData(UserInfoModel.getInstance().getToken(), visitorModel);
 
     }

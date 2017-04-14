@@ -20,6 +20,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
@@ -98,7 +99,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             soundHelper.play("one");
         }
         mShakeListener.stop();
-        refreshUi();
+        presenter.getLastData(getGuest()? 0 : 1);
     }
 
     protected void setGuest(boolean isGuest) {
@@ -659,6 +660,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                                        final float f04RS4, final float f04RS5, final float f07RS1, final float f07RS2,
                                        final float f07RS3, final float f07RS4, final float f07RS5) {
 
+        long accountId = -1;
+        int type;
         UploadImpedanceModel model = new UploadImpedanceModel();
         model.setAccess_token(token);
         model.setR10(String.valueOf(f04RS1));
@@ -673,16 +676,22 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         model.setR24(String.valueOf(f07RS5));
         model.setWeight(String.valueOf(weight));
         if (getGuest()) {
-            model.setHeight(String.valueOf(getGuestInfo().getHeight()));
-            model.setBirthdate(String.valueOf(getGuestInfo().getBirthDate()));
-            model.setGender(getGuestInfo().getGender());
+            type = 0;
+            if (getGuestInfo() != null) {
+                accountId = getGuestInfo().getVisitorId();
+                model.setHeight(String.valueOf(getGuestInfo().getHeight()));
+                model.setBirthdate(getGuestInfo().getBirthDate());
+                model.setGender(getGuestInfo().getGender() == 0 ? 2 : 1);
+            }
         } else {
+            type = 1;
+            accountId = UserInfoModel.getInstance().getUserId();
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());
             model.setBirthdate(String.valueOf(UserInfoModel.getInstance().getUser().getBirthday()));
             model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 2 : 1);
         }
 
-        presenter.upLoadImpedance(model);
+        presenter.upLoadImpedance(model, accountId, type);
 
         Log.d("上传给服务器的逻辑------------", "storeOrSendCalcRsData上传");
 
@@ -756,7 +765,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     public abstract void showSearchBleDialog();
 
-    public abstract void refreshUi();
+    public abstract void refreshUi(LastInfoData data);
 
     @Override
     public void checkMacSuccess() {
@@ -783,7 +792,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void upLoadImpedanceSuccess(BleMainData data) {
         changeConnectionState(CONNECTED_STATE_UPLOADING_SUCCESS);
-        sendFatRateToDevice((float) data.getBodyfatrate());
+        sendFatRateToDevice(Float.parseFloat(data.getBodyFat()));
         isResultTest = true;
         initUiByBleSuccess(data);
     }
@@ -792,5 +801,15 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public void upLoadImpedanceFailed() {
         initUiByBleFailed();
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+    }
+
+    @Override
+    public void refreshLastSuccess(LastInfoData lastData) {
+        refreshUi(lastData);
+    }
+
+    @Override
+    public void refreshLastFailed() {
+        refreshUi(null);
     }
 }

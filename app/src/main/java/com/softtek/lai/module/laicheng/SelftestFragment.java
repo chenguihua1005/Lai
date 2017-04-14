@@ -4,13 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,19 +13,20 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.laicheng.model.BleMainData;
-import com.softtek.lai.module.laicheng.presenter.VisitortestPresenter;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
+import com.softtek.lai.module.laicheng.presenter.SelftestPresenter;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_selftest)
-public class SelftestFragment extends LazyBaseFragment implements VisitortestPresenter.VisitortestView {
+public class SelftestFragment extends LazyBaseFragment implements SelftestPresenter.SelftestView {
     private static final String ARGUMENTS = "mainFragment";
     private VoiceListener listener;
     @InjectView(R.id.tv_weight_caption)
     TextView mWeightCaption;
-//    @InjectView(R.id.ll_info_state)
+    //    @InjectView(R.id.ll_info_state)
 //    LinearLayout mBleStateContent;
     @InjectView(R.id.tv_info_state)
     TextView mBleState;
@@ -56,18 +52,19 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
     ImageView mVoice;
     @InjectView(R.id.tv_share)
     TextView mShare;
+    @InjectView(R.id.tv_time)
+    TextView mLastTime;
 
-    private VisitortestPresenter presenter;
-
-    private boolean isPlay = true;
+    private SelftestPresenter presenter;
 
     @Override
-    public void getLastInfoSuccess(BleMainData data) {
-        refreshUi();
+    public void getLastInfoSuccess(LastInfoData data) {
+        refreshUi(data);
     }
 
     @Override
     public void getLastInfoFailed() {
+        refreshUi(null);
     }
 
 
@@ -94,15 +91,14 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
 
     @Override
     protected void lazyLoad() {
-        presenter.getLastInfo();
+        presenter.getLastInfo(1);
     }
 
     @Override
     protected void initViews() {
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
-        presenter = new VisitortestPresenter(this);
-
+        presenter = new SelftestPresenter(this);
     }
 
     @Override
@@ -123,29 +119,46 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
     }
 
     @OnClick(R.id.tv_share)
-    public void onShareClick(){
+    public void onShareClick() {
 
     }
 
     @SuppressLint("SetTextI18n")
     public void updateUI(BleMainData data) {
-        mWeight.setText(data.getWeight_item().getValue() + "");
-        mWeightCaption.setText(data.getWeight_con().getCaption());
-//        mWeightCaption.setTextColor(Color.parseColor("#" + data.getWeight_item().getColor()));
-        mBodyFatRate.setText(data.getBodyfatrate() + "%");
-        mBmi.setText(data.getBmi() + "");
-        mInternalFatRate.setText(data.getVisceralfatindex() + "%");
-        mWeightBottom.setText(data.getWeight_item().getValue() + "");
-        mBodyFatBottom.setText(data.getBodyfat() + "");
-        mBodyBmiBottom.setText(data.getBmi() + "");
-        mInternalFatRateBottom.setText(data.getVisceralfatindex() + "%");
+        if (data != null) {
+            if (data.getWeightUnit().equals("斤")) {
+                mWeight.setText(data.getWeight() + "");
+            } else if (data.getWeightUnit().equals("公斤")) {
+                mWeight.setText(data.getWeight() * 2 + "");
+            }
+            mWeight.setText(data.getWeight() + "");
+            mWeightCaption.setText(data.getBodyTypeTitle());
+            mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+            mBodyFatRate.setText(data.getBodyFatRate() + "%");
+            mBmi.setText(data.getBMI() + "");
+            mInternalFatRate.setText(data.getViscusFatIndex() + "%");
+        }
     }
 
-    public void refreshUi(){
+    @SuppressLint("SetTextI18n")
+    public void refreshUi(LastInfoData data) {
         mWeight.setText("0.0");
         mBodyFatRate.setText("- -");
         mBmi.setText("- -");
         mInternalFatRate.setText("- -");
+        if (data == null){
+            mWeight.setText("- -");
+            mBodyFatBottom.setText("- -");
+            mBodyBmiBottom.setText("- -");
+            mInternalFatRateBottom.setText("- -");
+            mLastTime.setText("上次测量：");
+        }else {
+            mWeight.setText(data.getWeight()+"");
+            mBodyFatBottom.setText(data.getBodyFatRate());
+            mBodyBmiBottom.setText(data.getBMI());
+            mInternalFatRateBottom.setText(data.getViscusFatIndex());
+            mLastTime.setText("上次测量："+data.getMeasuredTime());
+        }
     }
 
     public void setStateTip(String state) {
@@ -154,10 +167,10 @@ public class SelftestFragment extends LazyBaseFragment implements VisitortestPre
         }
     }
 
-    public void refreshVoiceIcon(){
+    public void refreshVoiceIcon() {
         if (MainBaseActivity.isVoiceHelp) {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
-        }else {
+        } else {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }
     }
