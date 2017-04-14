@@ -3,7 +3,9 @@ package com.softtek.lai.module.laicheng;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +17,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laicheng.adapter.HistoryAdapter;
 import com.softtek.lai.module.laicheng.model.HistoryModel;
+import com.softtek.lai.module.laicheng.model.VisitorInfoModel;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.HistoryVisitorPresenter;
 
 import java.util.ArrayList;
@@ -52,6 +56,23 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
         tv_title.setText("访客历史记录");
         ll_left.setOnClickListener(this);
         imageView10.setOnClickListener(this);
+        //监听回车事件
+
+        et_input.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyEvent.KEYCODE_ENTER == keyCode && keyEvent.ACTION_DOWN == keyEvent.getAction()) {
+                    if (TextUtils.isEmpty(et_input.getText())) {
+                        adapter.getFilter().filter(null);  // 清除adapter的过滤
+                    } else {
+                        adapter.getFilter().filter(et_input.getText().toString()); // 设置adapt的过滤关键词
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+        });
 
         et_input.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,7 +99,6 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     protected void initDatas() {
         setPresenter(new HistoryVisitorPresenter(this));
         getPresenter().GetData();
-//        ptrlv.setEmptyView(im_nomessage);
         ptrlv.setTextFilterEnabled(true);
         adapter = new HistoryAdapter(this, historyModelList, et_input);
         ptrlv.setAdapter(adapter);

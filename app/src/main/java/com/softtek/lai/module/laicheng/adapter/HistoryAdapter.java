@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -17,6 +18,8 @@ import com.softtek.lai.module.laicheng.model.HistoryModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import zilla.libcore.util.Util;
 
 /**
  * Created by shelly.xu on 2017/4/10.
@@ -52,7 +55,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.visitor_history_item_list, null);
@@ -61,13 +64,19 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        HistoryModel historyModel = historyNewModels.get(position);
+        final HistoryModel historyModel = historyNewModels.get(position);
         viewHolder.tv_visittime.setText(historyModel.getMeasuredTime());
         viewHolder.tv_visitor.setText(historyModel.getVisitor().getName());
         viewHolder.tv_phoneNo.setText(historyModel.getVisitor().getPhoneNo());
         viewHolder.tv_age.setText(historyModel.getVisitor().getAge());
         viewHolder.tv_gender.setText(historyModel.getVisitor().getGender());
         viewHolder.tv_height.setText(historyModel.getVisitor().getHeight());
+        viewHolder.ll_item_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Util.toastMsg("点击了"+historyNewModels.get(position).getVisitor().getName());
+            }
+        });
         return convertView;
     }
 
@@ -86,7 +95,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         TextView tv_gender;
         TextView tv_age;
         TextView tv_height;
-
+        LinearLayout ll_item_click;
         public ViewHolder(View view) {
             tv_visittime = (TextView) view.findViewById(R.id.tv_visittime);
             tv_visitor = (TextView) view.findViewById(R.id.tv_visitor);
@@ -94,6 +103,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
             tv_gender = (TextView) view.findViewById(R.id.tv_gender);
             tv_age = (TextView) view.findViewById(R.id.tv_age);
             tv_height = (TextView) view.findViewById(R.id.tv_height);
+            ll_item_click= (LinearLayout) view.findViewById(R.id.ll_item_click);
 
         }
     }
