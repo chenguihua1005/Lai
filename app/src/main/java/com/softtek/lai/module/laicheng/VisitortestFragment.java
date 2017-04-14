@@ -52,7 +52,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     @InjectView(R.id.tv_info_state)
     TextView mBleState;
 
-
+    @InjectView(R.id.health_btn)
+    Button health_btn;
+    @InjectView(R.id.share_btn)
+    Button share_btn;
     @InjectView(R.id.bt_create)
     Button bt_create;//
     @InjectView(R.id.bt_history)
@@ -90,26 +93,27 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     //第一次进入为访客测获取最新访客测量信息
     @Override
-    public void getDatasuccess(LastInfoData model) {
-        if (model != null && !TextUtils.isEmpty(model.getRecordId())) {
+    public void getDatasuccess(LastInfoData data) {
+        if (data != null && !TextUtils.isEmpty(data.getRecordId())) {
             mid_lay.setVisibility(View.VISIBLE);
-            tv_weight.setText(model.getWeight() + "");//体重
-            tv_weight_caption.setText(model.getBodyTypeTitle());//状态
-            tv_body_fat_rate.setText(model.getBodyFatRate());
-            tv_bmi.setText(model.getBMI());
-            tv_internal_fat_rate.setText(model.getViscusFatIndex());
-            if (model.getVisitor() != null) {
+            tv_weight.setText(data.getWeight() + "");//体重
+            tv_weight_caption.setText(data.getBodyTypeTitle());//状态
+            tv_body_fat_rate.setText(data.getBodyFatRate());
+            tv_bmi.setText(data.getBMI());
+            tv_internal_fat_rate.setText(data.getViscusFatIndex());
+            if (data.getVisitor() != null) {
                 ll_visitor.setVisibility(View.VISIBLE);
-                tv_name.setText(model.getVisitor().getName());
-                tv_phoneNo.setText(model.getVisitor().getPhoneNo());
-                tv_age.setText(model.getVisitor().getAge() + "");
-                if (0 == model.getVisitor().getGender()) {
+                tv_name.setText(data.getVisitor().getName());
+                tv_phoneNo.setText(data.getVisitor().getPhoneNo());
+                tv_age.setText(data.getVisitor().getAge() + "");
+                if (0 == data.getVisitor().getGender()) {
                     tv_gender.setText("男");
                 } else {
                     tv_gender.setText("女");
                 }
-                tv_height.setText(model.getVisitor().getHeight() + "");
+                tv_height.setText(data.getVisitor().getHeight() + "");
             }
+            shakeOFF.setOnShakeOFF();
 
         } else {
             mid_lay.setVisibility(View.INVISIBLE);
@@ -119,9 +123,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             tv_body_fat_rate.setText("--");
             tv_bmi.setText("--");
             tv_internal_fat_rate.setText("--");
+            shakeOFF.setOnShakeSTOP();
         }
     }
-
 
     public interface VisitorVoiceListener {
         void onVisitorVoiceListener();
@@ -194,7 +198,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 model = (VisitorModel) data.getParcelableExtra("visitorModel");
-                if (model != null) {
+                if (model != null && !TextUtils.isEmpty(model.getName())) {
                     Log.i("访客信息", model.toString());
                     ll_visitor.setVisibility(View.VISIBLE);
                     tv_name.setText(model.getName());
@@ -218,7 +222,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     public void UpdateData(BleMainData data) {
         tv_weight.setText(data.getWeight() + "");//体重
         tv_weight_caption.setText(data.getBodyTypeTitle());//状态
-        tv_weight_caption.setTextColor(Color.parseColor("#"+data.getBodyTypeColor()));
+        tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
         tv_body_fat_rate.setText(data.getBodyFatRate());
         tv_bmi.setText(data.getBMI());
         tv_internal_fat_rate.setText(data.getViscusFatIndex());
@@ -231,7 +235,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }
     }
-    public void setStateTip(String state){
+
+    public void setStateTip(String state) {
         mBleState.setText(state);
     }
 }
