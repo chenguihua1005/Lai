@@ -169,7 +169,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void setStateTip(String state) {
-        selftestFragment.setStateTip(state);
+        if (pageIndex == 0) {
+            selftestFragment.setStateTip(state);
+        }else{
+            visitortestFragment.setStateTip(state);
+        }
     }
 
     private void createDialog(boolean isTimeout){
@@ -213,7 +217,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void refreshUi(LastInfoData data) {
-        selftestFragment.refreshUi(data);
+        if (pageIndex == 0) {
+            selftestFragment.refreshUi(data);
+        }
     }
 
     @Override

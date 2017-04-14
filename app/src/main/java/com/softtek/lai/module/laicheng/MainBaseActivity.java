@@ -99,7 +99,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             soundHelper.play("one");
         }
         mShakeListener.stop();
-        presenter.getLastData(getGuest()? 0 : 1);
+        if (!getGuest()) {
+            presenter.getLastData(1);
+        }
     }
 
     protected void setGuest(boolean isGuest) {
