@@ -1,11 +1,8 @@
 package com.softtek.lai.module.laicheng.net;
 
 import com.softtek.lai.common.ResponseData;
-<<<<<<< HEAD
 import com.softtek.lai.module.laicheng.model.GetVisitorModel;
-=======
 import com.softtek.lai.module.laicheng.model.HistoryModel;
->>>>>>> 034775a7f09968f3cd746393f8ae44182f35256c
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.model.Visitsmodel;
 
