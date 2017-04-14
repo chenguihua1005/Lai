@@ -3,7 +3,9 @@ package com.softtek.lai.module.laicheng;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.GetVisitorModel;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.VisitGetPresenter;
 
@@ -87,19 +90,19 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     //第一次进入为访客测获取最新访客测量信息
     @Override
-    public void getData(GetVisitorModel model) {
-        if (model != null) {
+    public void getDatasuccess(LastInfoData model) {
+        if (model != null && !TextUtils.isEmpty(model.getRecordId())) {
             mid_lay.setVisibility(View.VISIBLE);
             tv_weight.setText(model.getWeight() + "");//体重
             tv_weight_caption.setText(model.getBodyTypeTitle());//状态
             tv_body_fat_rate.setText(model.getBodyFatRate());
             tv_bmi.setText(model.getBMI());
             tv_internal_fat_rate.setText(model.getViscusFatIndex());
-            if(model.getVisitor()!=null){
+            if (model.getVisitor() != null) {
                 ll_visitor.setVisibility(View.VISIBLE);
                 tv_name.setText(model.getVisitor().getName());
                 tv_phoneNo.setText(model.getVisitor().getPhoneNo());
-                tv_age.setText(model.getVisitor().getAge()+"");
+                tv_age.setText(model.getVisitor().getAge() + "");
                 if (0 == model.getVisitor().getGender()) {
                     tv_gender.setText("男");
                 } else {
@@ -111,6 +114,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         } else {
             mid_lay.setVisibility(View.INVISIBLE);
             ll_visitor.setVisibility(View.INVISIBLE);
+            tv_weight.setText("0.0");//体重
+            tv_weight_caption.setText("--");//状态
+            tv_body_fat_rate.setText("--");
+            tv_bmi.setText("--");
+            tv_internal_fat_rate.setText("--");
         }
     }
 
@@ -121,6 +129,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     public interface ShakeOFF {
         void setOnShakeOFF();
+
         void setOnShakeSTOP();
     }
 
@@ -141,8 +150,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     @Override
     protected void initDatas() {
-          presenter=new VisitGetPresenter(this);
-        shakeOFF.setOnShakeSTOP();
+        presenter = new VisitGetPresenter(this);
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
     }
@@ -208,11 +216,12 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     @SuppressLint("SetTextI18n")
     public void UpdateData(BleMainData data) {
-        tv_weight.setText(data.getWeight_item().getValue() + "");//体重
-        tv_weight_caption.setText(data.getWeight_con().getCaption());//状态
-        tv_body_fat_rate.setText(data.getBodyfatrate() + "%");
-        tv_bmi.setText(data.getBmi() + "");
-        tv_internal_fat_rate.setText(data.getVisceralfatindex() + "%");
+        tv_weight.setText(data.getWeight() + "");//体重
+        tv_weight_caption.setText(data.getBodyTypeTitle());//状态
+        tv_weight_caption.setTextColor(Color.parseColor("#"+data.getBodyTypeColor()));
+        tv_body_fat_rate.setText(data.getBodyFatRate());
+        tv_bmi.setText(data.getBMI());
+        tv_internal_fat_rate.setText(data.getViscusFatIndex());
     }
 
     public void refreshVoiceIcon() {
@@ -221,5 +230,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         } else {
             iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }
+    }
+    public void setStateTip(String state){
+        mBleState.setText(state);
     }
 }
