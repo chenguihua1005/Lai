@@ -4,7 +4,7 @@ package com.softtek.lai.module.bodygame3.activity.model;
  * Created by Terry on 2016/11/29.
  */
 public class MemberListModel {
-    private String acmId;
+    private String acmId;//复测记录ID
     private String userId;
     private String userName;
     private String userIconUrl;
