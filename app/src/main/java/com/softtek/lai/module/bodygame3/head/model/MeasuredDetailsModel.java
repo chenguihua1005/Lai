@@ -32,6 +32,17 @@ public class MeasuredDetailsModel implements Serializable{
     private String Img;
     private String ImgThumbnail;
 
+    private String BMI; //BMI
+    private String fatFreeMass;//去脂体重
+    private String viscusFatIndex;     //内脏脂肪指数
+    private String bodyWaterRate;//身体水分率
+    private String bodyWater;//身体水分
+    private String muscleMass;//肌肉量
+    private String boneMass;//骨量
+    private String basalMetabolism;//基础代谢
+    private String physicalAge;//身体年龄
+
+
     @Override
     public String toString() {
         return "MeasuredDetailsModel{" +
@@ -60,8 +71,89 @@ public class MeasuredDetailsModel implements Serializable{
                 ", MeasureDate='" + MeasureDate + '\'' +
                 ", Img='" + Img + '\'' +
                 ", ImgThumbnail='" + ImgThumbnail + '\'' +
+                ", BMI='" + BMI + '\'' +
+                ", fatFreeMass='" + fatFreeMass + '\'' +
+                ", viscusFatIndex='" + viscusFatIndex + '\'' +
+                ", bodyWaterRate='" + bodyWaterRate + '\'' +
+                ", bodyWater='" + bodyWater + '\'' +
+                ", muscleMass='" + muscleMass + '\'' +
+                ", boneMass='" + boneMass + '\'' +
+                ", basalMetabolism='" + basalMetabolism + '\'' +
+                ", physicalAge='" + physicalAge + '\'' +
                 ", Status='" + Status + '\'' +
                 '}';
+    }
+
+    public String getBMI() {
+        return BMI;
+    }
+
+    public void setBMI(String BMI) {
+        this.BMI = BMI;
+    }
+
+    public String getFatFreeMass() {
+        return fatFreeMass;
+    }
+
+    public void setFatFreeMass(String fatFreeMass) {
+        this.fatFreeMass = fatFreeMass;
+    }
+
+    public String getViscusFatIndex() {
+        return viscusFatIndex;
+    }
+
+    public void setViscusFatIndex(String viscusFatIndex) {
+        this.viscusFatIndex = viscusFatIndex;
+    }
+
+    public String getBodyWaterRate() {
+        return bodyWaterRate;
+    }
+
+    public void setBodyWaterRate(String bodyWaterRate) {
+        this.bodyWaterRate = bodyWaterRate;
+    }
+
+    public String getBodyWater() {
+        return bodyWater;
+    }
+
+    public void setBodyWater(String bodyWater) {
+        this.bodyWater = bodyWater;
+    }
+
+    public String getMuscleMass() {
+        return muscleMass;
+    }
+
+    public void setMuscleMass(String muscleMass) {
+        this.muscleMass = muscleMass;
+    }
+
+    public String getBoneMass() {
+        return boneMass;
+    }
+
+    public void setBoneMass(String boneMass) {
+        this.boneMass = boneMass;
+    }
+
+    public String getBasalMetabolism() {
+        return basalMetabolism;
+    }
+
+    public void setBasalMetabolism(String basalMetabolism) {
+        this.basalMetabolism = basalMetabolism;
+    }
+
+    public String getPhysicalAge() {
+        return physicalAge;
+    }
+
+    public void setPhysicalAge(String physicalAge) {
+        this.physicalAge = physicalAge;
     }
 
     public String getAMStatus() {
