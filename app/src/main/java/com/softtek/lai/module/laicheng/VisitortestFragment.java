@@ -14,8 +14,11 @@ import android.widget.TextView;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
+import com.softtek.lai.module.laicheng.model.GetVisitorModel;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
+import com.softtek.lai.module.laicheng.presenter.VisitGetPresenter;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -24,15 +27,10 @@ import zilla.libcore.ui.InjectLayout;
 import static android.app.Activity.RESULT_OK;
 
 @InjectLayout(R.layout.fragment_visitortest)
-public class VisitortestFragment extends LazyBaseFragment implements View.OnClickListener {
+public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> implements VisitGetPresenter.VisitGetView, View.OnClickListener {
     private VisitortestFragment.VisitorVoiceListener listener;
     private VisitortestFragment.ShakeOFF shakeOFF;
 
-
-//    @LifeCircleInject
-//     ValidateLife validateLife;
-
-    private Validator validator;
     @InjectView(R.id.bt_again)
     Button bt_again;
     private LinearLayout.LayoutParams parm;
@@ -70,10 +68,11 @@ public class VisitortestFragment extends LazyBaseFragment implements View.OnClic
     TextView tv_gender;
     @InjectView(R.id.tv_height)
     TextView tv_height;
-
+    @InjectView(R.id.mid_lay)
+    LinearLayout mid_lay;
 
     VisitorModel model;
-
+    VisitGetPresenter presenter;
 //    private boolean isPlay = true;
 
     public VisitortestFragment() {
@@ -83,7 +82,36 @@ public class VisitortestFragment extends LazyBaseFragment implements View.OnClic
 
     @Override
     protected void lazyLoad() {
+        presenter.GetData(UserInfoModel.getInstance().getToken(), 0);
+    }
 
+    //第一次进入为访客测获取最新访客测量信息
+    @Override
+    public void getData(GetVisitorModel model) {
+        if (model != null) {
+            mid_lay.setVisibility(View.VISIBLE);
+            tv_weight.setText(model.getWeight() + "");//体重
+            tv_weight_caption.setText(model.getBodyTypeTitle());//状态
+            tv_body_fat_rate.setText(model.getBodyFatRate());
+            tv_bmi.setText(model.getBMI());
+            tv_internal_fat_rate.setText(model.getViscusFatIndex());
+            if(model.getVisitor()!=null){
+                ll_visitor.setVisibility(View.VISIBLE);
+                tv_name.setText(model.getVisitor().getName());
+                tv_phoneNo.setText(model.getVisitor().getPhoneNo());
+                tv_age.setText(model.getVisitor().getAge()+"");
+                if (0 == model.getVisitor().getGender()) {
+                    tv_gender.setText("男");
+                } else {
+                    tv_gender.setText("女");
+                }
+                tv_height.setText(model.getVisitor().getHeight() + "");
+            }
+
+        } else {
+            mid_lay.setVisibility(View.INVISIBLE);
+            ll_visitor.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -107,17 +135,18 @@ public class VisitortestFragment extends LazyBaseFragment implements View.OnClic
 
     @Override
     protected void initViews() {
-        bt_again.setOnClickListener(this);
         bt_create.setOnClickListener(this);
         bt_history.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
+          presenter=new VisitGetPresenter(this);
         shakeOFF.setOnShakeSTOP();
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
     }
+
 
     //语音
     @OnClick(R.id.iv_voice)
@@ -139,8 +168,6 @@ public class VisitortestFragment extends LazyBaseFragment implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_again:
-                break;
             case R.id.bt_create:
                 Intent in = new Intent(getActivity(), VisitorinfoActivity.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -172,7 +199,7 @@ public class VisitortestFragment extends LazyBaseFragment implements View.OnClic
                     }
                     tv_height.setText(model.getHeight() + "");
                     shakeOFF.setOnShakeOFF();
-                }else{
+                } else {
                     shakeOFF.setOnShakeSTOP();
                 }
             }

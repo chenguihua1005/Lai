@@ -818,6 +818,7 @@
         <activity
             android:name=".module.laicheng.VisithistoryActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity
             android:name=".module.healthyreport.HealthyChartActivity"
