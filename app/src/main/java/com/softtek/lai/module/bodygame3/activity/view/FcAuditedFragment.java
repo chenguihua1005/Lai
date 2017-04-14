@@ -5,29 +5,25 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
-import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -35,17 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
-public class FcAuditedFragment extends LazyBaseFragment<FuceCheckPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckPresenter.FuceCheckView {
+public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckListPresenter.FuceCheckListView {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
@@ -99,7 +93,7 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckPresenter> impl
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
 
-        setPresenter(new FuceCheckPresenter(this));
+        setPresenter(new FuceCheckListPresenter(this));
     }
 
     @Override
@@ -110,11 +104,14 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckPresenter> impl
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);//用户名
                 TextView tv_group = holder.getView(R.id.tv_group);//组名
-                TextView tv_weight = holder.getView(R.id.tv_weight);//体重
+//                TextView tv_weight = holder.getView(R.id.tv_weight);//体重
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);//头像;
                 tv_group.setText("(" + data.getGroupName() + ")");
-                tv_weight.setText(data.getWeight());
+//                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
+
+                TextView tv_tip = holder.getView(R.id.tv_tip);
+                tv_tip.setText("查看详情");
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
                 } else {
@@ -130,7 +127,7 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckPresenter> impl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity.class);
+        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("classId", classid);
@@ -156,27 +153,27 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckPresenter> impl
     }
 
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {
-        fuceSevice.dogetAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, typeDate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-            @Override
-            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-                plv_audit.onRefreshComplete();
-                int status = listResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        Log.i("listResponseData.getData().size()!=0" + listResponseData.getData().size());
-                        if (listResponseData.getData().size() != 0) {
-                            memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
-                            adapter.notifyDataSetChanged();
-                        }
-                        break;
-                    default:
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
-                }
-            }
-        });
-    }
+//    private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {
+//        fuceSevice.dogetAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, typeDate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+//            @Override
+//            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
+//                plv_audit.onRefreshComplete();
+//                int status = listResponseData.getStatus();
+//                switch (status) {
+//                    case 200:
+//                        Log.i("listResponseData.getData().size()!=0" + listResponseData.getData().size());
+//                        if (listResponseData.getData().size() != 0) {
+//                            memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
+//                            adapter.notifyDataSetChanged();
+//                        }
+//                        break;
+//                    default:
+//                        Util.toastMsg(listResponseData.getMsg());
+//                        break;
+//                }
+//            }
+//        });
+//    }
 
 
     @Override
@@ -184,6 +181,16 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckPresenter> impl
         if (list != null && list.size() != 0) {
             memberListModels.addAll(list.get(1).getMemberList());
             adapter.notifyDataSetChanged();
+
+            int unFuce_num = Integer.parseInt(list.get(0).getCount());
+            int uncheck_num = Integer.parseInt(list.get(0).getCount());
+            int checked_num = Integer.parseInt(list.get(1).getCount());
+
+            Intent intent = new Intent(FcAuditListActivity.UPDATENUMBER_FUCUCHECK);
+            intent.putExtra("unFuce_num", unFuce_num);
+            intent.putExtra("uncheck_num", uncheck_num);
+            intent.putExtra("checked_num", checked_num);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         }
     }
 

@@ -825,9 +825,13 @@
             android:name=".module.healthyreport.HealthyChartActivity"
             android:theme="@style/AppTheme2" />
 
-        <activity android:name=".module.laicheng.VisitorinfoActivity"
-            android:theme="@style/AppTheme2"
-            ></activity>
+        <activity
+            android:name=".module.bodygame3.activity.view.FcAuditStuActivity2"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.laicheng.VisitorinfoActivity"
+            android:theme="@style/AppTheme2"></activity>
 
     </application>
 

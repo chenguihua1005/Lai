@@ -6,6 +6,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.laicheng.model.GetVisitorModel;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.net.VisitorService;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -25,14 +26,15 @@ public class VisitGetPresenter extends BasePresenter<VisitGetPresenter.VisitGetV
     }
 
     public void GetData(String token,int type) {
-        service.getData(token, type, new RequestCallback<ResponseData<GetVisitorModel>>() {
+        service.getData(token, type, new RequestCallback<ResponseData<LastInfoData>>() {
             @Override
-            public void success(ResponseData<GetVisitorModel> data, Response response) {
+            public void success(ResponseData<LastInfoData> data, Response response) {
                 int status=data.getStatus();
                 if(200==status){
-                    Log.i("获取信息",data.getData().toString());
-                    if(getView()!=null){
-                     getView().getData(data.getData());
+                    if(data.getData()!=null){
+                        if(getView()!=null){
+                            getView().getDatasuccess(data.getData());
+                        }
                     }
                 }
             }
@@ -45,6 +47,7 @@ public class VisitGetPresenter extends BasePresenter<VisitGetPresenter.VisitGetV
 
     }
     public interface VisitGetView extends BaseView{
-        void getData(GetVisitorModel model);
+        void getDatasuccess(LastInfoData model);
+
     }
 }

@@ -99,7 +99,7 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
     @Override
     protected void initDatas() {
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
+        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);//用户名

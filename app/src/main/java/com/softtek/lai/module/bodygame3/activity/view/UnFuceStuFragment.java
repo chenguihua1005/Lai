@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +24,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
+import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -37,32 +38,39 @@ import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
 
-
+/**
+ * Created by lareina.qiao on 11/24/2016.
+ */
 @InjectLayout(R.layout.fragment_retest)
-public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, InitAuditPresenter.InitAuditView {
-    private static String classid;
+public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> implements View.OnClickListener, AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckListPresenter.FuceCheckListView {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
     FuceSevice fuceSevice;
     int pageIndex = 1;
-    private int ChuAudit = 1;
+    Long userid;
+    private int FCAudit = 1;
+    private int IsAudit = 0;
+    private static String classid;
+    private static String typedata;
+    private static int resetdatestatus = 1;
     EasyAdapter<MemberListModel> adapter;
-    int IsAudit = 0;//0未审核
-    int Auditnum = 0;
-    private List<MemberListModel> memberListModels = new ArrayList<>();
+    private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
 
-    public static Fragment getInstance(String classId) {
-        InitAuditFragment fragment = new InitAuditFragment();
+    public static Fragment getInstance(String classId, String typeDate, int type) {
+        UnFuceStuFragment fragment = new UnFuceStuFragment();
         Bundle data = new Bundle();
         classid = classId;
+        typedata = typeDate;
+        resetdatestatus = type;
         fragment.setArguments(data);
         return fragment;
     }
 
     @Override
     protected void lazyLoad() {
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 
             @Override
@@ -76,7 +84,6 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
         }, 300);
 
     }
-
 
     @Override
     protected void initViews() {
@@ -93,24 +100,25 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
 
-
-        setPresenter(new InitAuditPresenter(this));
-
-
+        setPresenter(new FuceCheckListPresenter(this));
     }
 
     @Override
     protected void initDatas() {
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.audit_item) {
+        userid = UserInfoModel.getInstance().getUserId();
+        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);
                 TextView tv_group = holder.getView(R.id.tv_group);
-                TextView tv_weight = holder.getView(R.id.tv_weight);
+//                TextView tv_weight = holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);
                 tv_group.setText("(" + data.getGroupName() + ")");
-                tv_weight.setText(data.getWeight());
+//                tv_weight.setText(data.getWeight());
+
+                TextView tv_tip = holder.getView(R.id.tv_tip);
+                tv_tip.setText("开始测量");
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
@@ -126,36 +134,44 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
 
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent InitdataAudit = new Intent(getContext(), InitDataAuditActivity.class);
-        InitdataAudit.putExtra("ACMID", memberListModels.get(i - 1).getAcmId());
-        InitdataAudit.putExtra("classId", classid);
-        InitdataAudit.putExtra("Audited", IsAudit);
-        InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-        startActivityForResult(InitdataAudit, ChuAudit);
+    public void onClick(View view) {
+
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
+        FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
+        FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+        FcAudit.putExtra("classId", classid);
+        FcAudit.putExtra("IsAudit", IsAudit);
+        FcAudit.putExtra("resetdatestatus", resetdatestatus);
+        startActivityForResult(FcAudit, FCAudit);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ChuAudit && resultCode == RESULT_OK) {
-            String ACMID = data.getStringExtra("ACMID");
-            String n = "";
-            for (int i = 0; i < memberListModels.size(); i++) {
-                if (ACMID.equals(memberListModels.get(i).getAcmId())) {
-                    n = i + "";
+        try {
+            if (requestCode == FCAudit && resultCode == RESULT_OK) {
+                String ACMID = data.getStringExtra("ACMID");
+                String n = "";
+                for (int i = 0; i < memberListModels.size(); i++) {
+                    if (ACMID.equals(memberListModels.get(i).getAcmId())) {
+                        n = i + "";
+                    }
+                }
+                if (!"".equals(n)) {
+                    memberListModels.remove(Integer.parseInt(n));
+                    adapter.notifyDataSetChanged();
+                    FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
+                    fcAuditListActivity.update();
                 }
             }
-            if (!"".equals(n)) {
-                memberListModels.remove(Integer.parseInt(n));
-                adapter.notifyDataSetChanged();
-                InitAuditListActivity parentActivity = (InitAuditListActivity) getActivity();
-                parentActivity.update();
-            }
-
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-
-
     }
 
     //下拉刷新
@@ -163,50 +179,40 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-        getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, pageIndex, 10);
+//        doGetData();
+//        String classid, String typeDate, int pageIndex, int pageSize
+        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
+
     }
 
     //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, ++pageIndex, 10);
+        ++pageIndex;
+//        doGetData();
+        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
     }
-
-    //获取审核列表数据
-//    private void doGetData(Long accountid, String classid, final int pageIndex, int pageSize) {
-//        fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-//            @Override
-//            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-//                plv_audit.onRefreshComplete();
-//                int status = listResponseData.getStatus();
-//                switch (status) {
-//                    case 200:
-//                        if (listResponseData.getData().size() != 0) {
-//                            Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
-//                            InitAuditListActivity fcAuditListActivity = (InitAuditListActivity) getActivity();
-//                            fcAuditListActivity.updates(Auditnum);
-//                            memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                        break;
-//
-//                    default:
-//                        Util.toastMsg(listResponseData.getMsg());
-//                        break;
-//                }
-//            }
-//        });
-//    }
 
 
     @Override
-    public void getInitAuditList(List<AuditListModel> list) {
-        if (list != null && list.size() != 0) {
-            Auditnum = Integer.parseInt(list.get(0).getCount());
-            InitAuditListActivity fcAuditListActivity = (InitAuditListActivity) getActivity();
-            fcAuditListActivity.updates(Auditnum);
+    public void getMeasureReviewedList(List<AuditListModel> list) {
+        if (list != null && list.size() == 2) {
+//            Auditnum = Integer.parseInt(list.get(0).getCount());
+//            FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
+//            fcAuditListActivity.updates(Auditnum);
             memberListModels.addAll(list.get(0).getMemberList());
             adapter.notifyDataSetChanged();
+
+
+            int unFuce_num = Integer.parseInt(list.get(0).getCount());
+            int uncheck_num = Integer.parseInt(list.get(0).getCount());
+            int checked_num = Integer.parseInt(list.get(1).getCount());
+
+            Intent intent = new Intent(FcAuditListActivity.UPDATENUMBER_FUCUCHECK);
+            intent.putExtra("unFuce_num", unFuce_num);
+            intent.putExtra("uncheck_num", uncheck_num);
+            intent.putExtra("checked_num", checked_num);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         }
     }
 

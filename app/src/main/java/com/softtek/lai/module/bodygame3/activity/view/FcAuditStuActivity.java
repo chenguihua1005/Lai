@@ -543,8 +543,26 @@ public class FcAuditStuActivity extends BaseActivity implements View.OnClickList
 
                 } else if (num == 9) {
                     tv_retestWrite_doleg.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-
+                } else if (num == 10) {
+                    tv_doBMI.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                } else if (num == 11) {
+                    tv_fatFreeMass.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                } else if (num == 12) {
+                    tv_viscusFatIndex.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                } else if (num == 13) {
+                    tv_bodyWaterRate.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                } else if (num == 14) {
+                    tv_bodyWater.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                } else if (num == 15) {
+                    tv_muscleMass.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                }else if (num == 16) {
+                    tv_boneMass.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                }else if (num == 1) {
+                    tv_boneMass.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                }else if (num == 16) {
+                    tv_boneMass.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                 }
+
 
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
