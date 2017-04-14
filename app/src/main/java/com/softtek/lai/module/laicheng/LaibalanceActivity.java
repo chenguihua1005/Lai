@@ -17,6 +17,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
@@ -211,8 +212,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
-    public void refreshUi() {
-        selftestFragment.refreshUi();
+    public void refreshUi(LastInfoData data) {
+        selftestFragment.refreshUi(data);
     }
 
     @Override

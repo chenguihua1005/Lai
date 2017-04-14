@@ -1,24 +1,22 @@
 package com.softtek.lai.module.laicheng.model;
 
-import java.io.Serializable;
-
 /**
- * Created by jia.lu on 2017/4/5.
+ * Created by jia.lu on 2017/4/14.
  */
 
-public class BleMainData implements Serializable{
+public class LastInfoData {
 
     /**
-     * recordId : 95b952c3-7863-4ed6-8414-0cbfb1e8ebef
+     * recordId : 80bc0f53-e26f-46ab-87df-c4af6974f762
      * weight : 148.4
      * weightUnit : 斤
      * bodyTypeTitle : 超重
      * bodyTypeColor : ff6666
-     * BMI : 24.2kg/m2
-     * bodyFatRate : 29.4%
-     * viscusFatIndex : 8.3
-     * measuredTime : 2017年4月14日 09:52
-     * visitor : {"Name":"翁总哦","BirthDate":"1992-04-13","Age":25,"Gender":0,"Height":170,"PhoneNo":""}
+     * BMI : 25.7kg/m2
+     * bodyFatRate : 31.9%
+     * viscusFatIndex : 9.7
+     * measuredTime : 2017年4月14日 09:20
+     * visitor : {"Name":"欣欣","BirthDate":"1994-04-13","Age":23,"Gender":1,"Height":168,"PhoneNo":"18206182036"}
      */
 
     private String recordId;
@@ -28,16 +26,6 @@ public class BleMainData implements Serializable{
     private String bodyTypeColor;
     private String BMI;
     private String bodyFatRate;
-    private String bodyFat;
-
-    public String getBodyFat() {
-        return bodyFat;
-    }
-
-    public void setBodyFat(String bodyFat) {
-        this.bodyFat = bodyFat;
-    }
-
     private String viscusFatIndex;
     private String measuredTime;
     private VisitorBean visitor;
@@ -124,12 +112,12 @@ public class BleMainData implements Serializable{
 
     public static class VisitorBean {
         /**
-         * Name : 翁总哦
-         * BirthDate : 1992-04-13
-         * Age : 25
-         * Gender : 0
-         * Height : 170
-         * PhoneNo :
+         * Name : 欣欣
+         * BirthDate : 1994-04-13
+         * Age : 23
+         * Gender : 1
+         * Height : 168
+         * PhoneNo : 18206182036
          */
 
         private String Name;

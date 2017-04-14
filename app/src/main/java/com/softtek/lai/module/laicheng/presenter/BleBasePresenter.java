@@ -9,6 +9,7 @@ import com.softtek.lai.common.mvp.BaseView1;
 import com.softtek.lai.module.laiClassroom.net.SearchService;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.net.BleService;
 import com.softtek.lai.utils.RequestCallback;
@@ -75,16 +76,9 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                 });
     }
 
-    public void upLoadImpedance(UploadImpedanceModel model) {
-//        ZillaApi.getCustomRESTAdapter(BASE_URL + "DataSync/UploadData", new RequestInterceptor() {
-//            @Override
-//            public void intercept(RequestFacade request) {
-//
-//            }
-//        })
-
-        ZillaApi.NormalRestAdapter
-                .create(BleService.class).uploadImpedance(model, UserInfoModel.getInstance().getUserId(), 1, new RequestCallback<BleMainData>() {
+    public void upLoadImpedance(UploadImpedanceModel model,long accountId,int type) {
+        ZillaApi.NormalRestAdapter.create(BleService.class).
+                uploadImpedance(UserInfoModel.getInstance().getToken(),model,accountId, type, new RequestCallback<BleMainData>() {
             @Override
             public void success(BleMainData data, Response response) {
                 getView().upLoadImpedanceSuccess(data);
@@ -93,10 +87,25 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
-//                initUiByBleFailed();
                 getView().upLoadImpedanceFailed();
             }
         });
+    }
+
+    public void getLastData(int type){
+        ZillaApi.NormalRestAdapter.create(BleService.class)
+                .getLastData(UserInfoModel.getInstance().getToken(),type, new RequestCallback<LastInfoData>() {
+                    @Override
+                    public void success(LastInfoData lastInfoData, Response response) {
+                        getView().refreshLastSuccess(lastInfoData);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                        getView().refreshLastFailed();
+                    }
+                });
     }
 
 
@@ -112,5 +121,9 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
         void upLoadImpedanceSuccess(BleMainData data);
 
         void upLoadImpedanceFailed();
+
+        void refreshLastSuccess(LastInfoData lastData);
+
+        void refreshLastFailed();
     }
 }
