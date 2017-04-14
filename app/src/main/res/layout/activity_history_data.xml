@@ -5,53 +5,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".module.healthyreport.HistoryDataActivity">
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
-
-    <LinearLayout
-        android:id="@+id/footer"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#f3f3f3"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:visibility="gone">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+        android:layout_height="50dp"
+        android:background="?colorPrimary"
+        android:minHeight="?attr/actionBarSize">
 
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center"
+            android:background="@drawable/back_selector">
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/border_white"
+            android:gravity="center">
             <CheckBox
-                android:id="@+id/cb_all"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:button="@null"
+                android:textSize="11sp"
+                android:background="@drawable/cb_healthy_data_l"
+                android:textColor="@color/healthy_data_text"
+                android:checked="true"
+                android:text="只看莱称"/>
+            <CheckBox
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:button="@null"
+                android:background="@drawable/cb_healthy_data_r"
+                android:textColor="@color/healthy_data_text"
+                android:textSize="11sp"
+                android:text="全部"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/back_selector"
+            android:layout_gravity="right">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:button="@null"
-                android:drawableLeft="@drawable/history_data_item_checkbox"
-                android:drawablePadding="10dp"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:text="全选"/>
+                android:src="@drawable/h_editor_add"/>
 
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tv_delete"
+        </FrameLayout>
+
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/des"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_below="@id/toolbar"
+        android:background="#FAFAFA"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="删除"
-            android:textSize="18sp"
-            android:textColor="#333333"
-            android:gravity="center"/>
+            android:gravity="center|left"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="体重"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="体脂率"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="内脂"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|right"/>
     </LinearLayout>
+
+
+
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/ptrlv"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/footer"
+        android:layout_below="@id/des"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
@@ -62,4 +139,45 @@
         android:headerDividersEnabled="false"
         android:dividerHeight="1dp"
         android:divider="#e0e0e0"/>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#f3f3f3"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+        <CheckBox
+            android:id="@+id/cb_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="15dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/history_data_item_checkbox"
+            android:drawablePadding="10dp"
+            android:textColor="@color/tv_color_grey"
+            android:textSize="18sp"
+            android:text="全选"/>
+
+        <TextView
+            android:id="@+id/tv_cancle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="取消"
+            android:textSize="18sp"
+            android:textColor="@color/tv_color_grey"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="删除"
+            android:textSize="18sp"
+            android:textColor="@color/tv_color_grey"
+            android:gravity="center"/>
+    </LinearLayout>
 </RelativeLayout>
