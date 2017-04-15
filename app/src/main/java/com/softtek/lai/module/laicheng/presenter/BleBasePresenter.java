@@ -1,7 +1,9 @@
 package com.softtek.lai.module.laicheng.presenter;
 
+import android.util.Log;
 import android.widget.Toast;
 
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
@@ -78,10 +80,11 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
 
     public void upLoadImpedance(UploadImpedanceModel model,long accountId,int type) {
         ZillaApi.NormalRestAdapter.create(BleService.class).
-                uploadImpedance(UserInfoModel.getInstance().getToken(),model,accountId, type, new RequestCallback<BleMainData>() {
+                uploadImpedance(UserInfoModel.getInstance().getToken(),model,accountId, type, new RequestCallback<ResponseData<BleMainData>>() {
             @Override
-            public void success(BleMainData data, Response response) {
-                getView().upLoadImpedanceSuccess(data);
+            public void success(ResponseData<BleMainData> data, Response response) {
+                getView().upLoadImpedanceSuccess(data.getData());
+                Log.d("BleMainData--------",data.toString());
             }
 
             @Override
@@ -94,10 +97,10 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
 
     public void getLastData(int type){
         ZillaApi.NormalRestAdapter.create(BleService.class)
-                .getLastData(UserInfoModel.getInstance().getToken(),type, new RequestCallback<LastInfoData>() {
+                .getLastData(UserInfoModel.getInstance().getToken(),type, new RequestCallback<ResponseData<LastInfoData>>() {
                     @Override
-                    public void success(LastInfoData lastInfoData, Response response) {
-                        getView().refreshLastSuccess(lastInfoData);
+                    public void success(ResponseData<LastInfoData> lastInfoData, Response response) {
+                        getView().refreshLastSuccess(lastInfoData.getData());
                     }
 
                     @Override

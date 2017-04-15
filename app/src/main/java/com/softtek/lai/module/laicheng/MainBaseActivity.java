@@ -269,13 +269,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void BleConnectLost() {
                 if (state_current == CONNECTED_STATE_WEIGHT) {
-                    dialogDissmiss();
                     changeConnectionState(CONNECTED_STATE_FAILED);
                 } else {
                     changeConnectionState(CONNECTED_STATE_SHAKE_IT);
                 }
                 Toast.makeText(getApplicationContext(), "设备连接断开，请重新连接", Toast.LENGTH_SHORT).show();
                 mShakeListener.start();
+                dialogDissmiss();
             }
 
             @Override
@@ -592,6 +592,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         UserInfoEntity user = new UserInfoEntity();
         user.setId(556383);
         user.setGender(Integer.valueOf(UserInfoModel.getInstance().getUser().getGender()));
+        if (TextUtils.isEmpty(UserInfoModel.getInstance().getUser().getHight())){
+            user.setHeight(0.0f);
+
+        }else {
+            user.setHeight(Float.valueOf(UserInfoModel.getInstance().getUser().getHight()));
+        }
         user.setHeight(Float.valueOf(UserInfoModel.getInstance().getUser().getHight()));
         user.setBirthdate(UserInfoModel.getInstance().getUser().getBirthday());
         user.setId(556383);
@@ -776,7 +782,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void upLoadImpedanceSuccess(BleMainData data) {
         changeConnectionState(CONNECTED_STATE_UPLOADING_SUCCESS);
-        sendFatRateToDevice(Float.parseFloat(data.getBodyFat()));
+        if (TextUtils.isEmpty(data.getBodyFat())){
+            sendFatRateToDevice(0.0f);
+        }else {
+            sendFatRateToDevice(Float.parseFloat(data.getBodyFat()));
+        }
         isResultTest = true;
         initUiByBleSuccess(data);
     }
