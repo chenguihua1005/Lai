@@ -833,6 +833,10 @@
         <activity
             android:name=".module.laicheng.VisitorinfoActivity"
             android:theme="@style/AppTheme2"></activity>
+        <activity
+            android:name=".module.bodygame3.activity.view.InitDataAuditActivity2"
+            android:screenOrientation="portrait" />
+
 
     </application>
 
