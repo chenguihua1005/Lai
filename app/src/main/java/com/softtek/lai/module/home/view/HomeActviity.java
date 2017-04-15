@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -25,6 +26,7 @@ import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.laijumine.view.MineFragment;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
@@ -285,6 +287,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         if (rl_send.getVisibility() == View.VISIBLE) {
             rl_send.setVisibility(View.INVISIBLE);
             SoftInputUtil.hidden(this);
+
         }
     }
 

@@ -116,6 +116,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
         Intent intent = new Intent(InitDataAuditActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
+        intent.putExtra("fucedata",fcStDataModel);
         startActivity(intent);
     }
 
@@ -498,7 +499,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         ;
                         break;
                     case 10: { //BMI
-                        fcStDataModel.setBMI(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        fcStDataModel.setBmi(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
                         groupCount = exlisview_body.getCount();
                         for (int i = 0; i < groupCount; i++) {

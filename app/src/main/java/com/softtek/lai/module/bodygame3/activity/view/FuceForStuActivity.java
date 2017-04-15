@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,14 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -62,6 +67,22 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @InjectView(R.id.heathyReport_entry) //健康报告
             TextView heathyReport_entry;
+
+    @InjectView(R.id.img_head)
+    CircleImageView img_head;
+    @InjectView(R.id.tv_name)
+    TextView tv_name;
+    @InjectView(R.id.tv_mobile)
+    TextView tv_mobile;
+    @InjectView(R.id.tv_className)
+    TextView tv_className;
+    @InjectView(R.id.tv_period_start)
+    TextView tv_period_start;
+    @InjectView(R.id.tv_period_end)
+    TextView tv_period_end;
+
+
+    MeasuredDetailsModel fucDataModel;
 
     @SuppressLint("LongLogTag")
     @PermissionOK(id = 1)
@@ -104,6 +125,22 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void initUi() {
         tv_title.setText("为学员复测");
         ll_left.setOnClickListener(this);
+
+        fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
+        tv_name.setText(fucDataModel.getUserName());
+        tv_className.setText(fucDataModel.getClassName());
+        tv_mobile.setText(fucDataModel.getMobile());
+        tv_period_start.setText(fucDataModel.getStartDate());
+        tv_period_end.setText(fucDataModel.getEndDate());
+
+        if (!TextUtils.isEmpty(fucDataModel.getPhoto())) {
+            Picasso.with(this).load(AddressManager.get("photoHost") + fucDataModel.getPhoto()).placeholder(R.drawable.img_default).centerCrop()
+                    .fit().into(img_head);
+        } else {
+            Picasso.with(this).load(R.drawable.img_default).centerCrop()
+                    .fit().into(img_head);
+        }
+
 
         Typeface tf = Typeface.createFromAsset(this.getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
