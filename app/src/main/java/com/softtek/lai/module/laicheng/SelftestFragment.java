@@ -2,8 +2,10 @@ package com.softtek.lai.module.laicheng;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.drm.DrmInfoStatus;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,6 +76,8 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
 
     private SelftestPresenter presenter;
 
+    private Dialog dialog;//对话框
+
     @Override
     public void getLastInfoSuccess(LastInfoData data) {
         refreshUi(data);
@@ -87,6 +92,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     public interface VoiceListener {
         void onVoiceListener();
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -115,7 +121,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         mWeightCaption.setVisibility(View.INVISIBLE);
-        mShare.setVisibility(View.INVISIBLE);
+//        mShare.setVisibility(View.INVISIBLE);
         mHealthReport.setVisibility(View.INVISIBLE);
         presenter = new SelftestPresenter(this);
     }
@@ -209,58 +215,83 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         }
     }
 
-    FuCeSelectPicPopupWindow menuWindow;
-
     @OnClick(R.id.tv_share)
     public void share() {
-        menuWindow = new FuCeSelectPicPopupWindow(getActivity(), itemsOnClick);
-        //显示窗口
-        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        menuWindow.showAtLocation(getActivity().findViewById(R.id.Re_pers_page), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-        menuWindow.setBackgroundDrawable(new BitmapDrawable());
+        showDialog();
     }
-
-    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            menuWindow.dismiss();
-            setShare(v);
-
-        }
-    };
 
     String value;
     String url;
     String title_value;
+    private void showDialog() {
+        if (dialog == null) {
+            dialog = new Dialog(getActivity(), R.style.custom_dialog);
+            dialog.setCanceledOnTouchOutside(true);
+            Window win = dialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            win.setAttributes(params);
+            dialog.setContentView(R.layout.share_dialog);
+            dialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
+        dialog.show();
+    }
 
-    private void setShare(View v) {
-        switch (v.getId()) {
-            case R.id.lin_weixin:
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.WEIXIN)
-                        .withTitle(title_value)
-                        .withText(value)
-                        .withTargetUrl(url)
-                        .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
-                        .share();
-                break;
-            case R.id.lin_circle:
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
-                        .withTitle(title_value)
-                        .withText(value)
-                        .withTargetUrl(url)
-                        .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
-                        .share();
-                break;
-            case R.id.lin_sina:
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.SINA)
-                        .withText(value + url)
-                        .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
-                        .share();
-                break;
-            default:
-                break;
+    private void dismiss() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
     }
+
 }

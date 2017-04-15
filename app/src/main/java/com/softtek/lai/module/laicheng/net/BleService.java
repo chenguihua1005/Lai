@@ -1,5 +1,6 @@
 package com.softtek.lai.module.laicheng.net;
 
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
@@ -32,7 +33,7 @@ public interface BleService {
                          @Body UploadImpedanceModel impedanceModel,
                          @Query("accountId") Long accountId,
                          @Query("type") int type,
-                         RequestCallback<BleMainData> callback);
+                         RequestCallback<ResponseData<BleMainData>> callback);
 
     @FormUrlEncoded
     @POST("/")
@@ -42,5 +43,5 @@ public interface BleService {
     @GET("/v1/DataSync/GetLastRecord")
     void getLastData(@Header("token") String token,
                      @Query("type")int type,
-                     RequestCallback<LastInfoData> callback);
+                     RequestCallback<ResponseData<LastInfoData>> callback);
 }

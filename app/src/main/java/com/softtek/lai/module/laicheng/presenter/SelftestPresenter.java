@@ -1,5 +1,6 @@
 package com.softtek.lai.module.laicheng.presenter;
 
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
@@ -24,10 +25,10 @@ public class SelftestPresenter extends BasePresenter<SelftestPresenter.SelftestV
 
     public void getLastInfo(int type){
         ZillaApi.NormalRestAdapter.create(BleService.class)
-                .getLastData(UserInfoModel.getInstance().getToken(),type, new RequestCallback<LastInfoData>() {
+                .getLastData(UserInfoModel.getInstance().getToken(),type, new RequestCallback<ResponseData<LastInfoData>>() {
                     @Override
-                    public void success(LastInfoData data, Response response) {
-                        getView().getLastInfoSuccess(data);
+                    public void success(ResponseData<LastInfoData> data, Response response) {
+                        getView().getLastInfoSuccess(data.getData());
                     }
 
                     @Override
