@@ -4,18 +4,22 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.OnApplyWindowInsetsListener;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.WindowInsetsCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -26,7 +30,6 @@ import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.laijumine.view.MineFragment;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
@@ -56,6 +59,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @InjectView(R.id.btn_mine)
     SimpleButton btn_mine;
 
+    @InjectView(R.id.rl_content)
+    RelativeLayout rl_content;
+
     private int currentId = 0;
     private boolean isClick = false;
 
@@ -73,6 +79,17 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initViews() {
+        ViewCompat.setOnApplyWindowInsetsListener(rl_content, new OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                if(v.getFitsSystemWindows()){
+                    Log.i("需要适配");
+                    return insets.consumeSystemWindowInsets();
+                }
+                Log.i("不不不不不需要适配");
+                return null;
+            }
+        });
         btn_home.setOnClickListener(this);
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
@@ -146,17 +163,29 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                     TypedValue typedValue = new  TypedValue();
                     getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
                     if(position==3){
+                        ViewGroup contentLayout = (ViewGroup)findViewById(android.R.id.content);
+                        // 设置Activity layout的fitsSystemWindows
+                        View contentChild = contentLayout.getChildAt(0);
+                        contentChild.setFitsSystemWindows(false);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getWindow().setStatusBarColor(typedValue.data);
                         }
                         tintManager.setStatusBarTintColor(typedValue.data);
                     }else {
-
+                        ViewGroup contentLayout = (ViewGroup)findViewById(android.R.id.content);
+                        // 设置Activity layout的fitsSystemWindows
+                        View contentChild = contentLayout.getChildAt(0);
+                        contentChild.setFitsSystemWindows(true);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getWindow().setStatusBarColor(typedValue.data);
                         }
                         tintManager.setStatusBarTintResource(typedValue.resourceId);
                     }
+                }else {
+                    ViewGroup contentLayout = (ViewGroup)findViewById(android.R.id.content);
+                    // 设置Activity layout的fitsSystemWindows
+                    View contentChild = contentLayout.getChildAt(0);
+                    contentChild.setFitsSystemWindows(true);
                 }
             }
 
