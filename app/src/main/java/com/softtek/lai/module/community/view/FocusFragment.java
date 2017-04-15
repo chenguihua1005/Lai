@@ -87,8 +87,8 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
     @InjectView(R.id.empty)
     FrameLayout empty;
 
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+//    @InjectView(R.id.toolbar)
+//    Toolbar toolbar;
 
     private CommunityManager community;
     private HealthyCommunityFocusAdapter adapter;
@@ -128,11 +128,11 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 
     @Override
     protected void initViews() {
-        if(toolbar!=null){
-            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-            toolbar.setLayoutParams(params);
-        }
+//        if(toolbar!=null){
+//            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+//            toolbar.setLayoutParams(params);
+//        }
         tv_title.setText("关注");
         iv_left.setVisibility(View.INVISIBLE);
         EventBus.getDefault().register(this);

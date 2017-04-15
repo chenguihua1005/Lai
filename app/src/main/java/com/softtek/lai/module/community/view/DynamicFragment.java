@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +44,6 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.presenter.RecommentHealthyManager;
 import com.softtek.lai.module.community.presenter.SendCommend;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
@@ -102,8 +100,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     @InjectView(R.id.rl_hot)
     RelativeLayout rl_hot;
 
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+//    @InjectView(R.id.toolbar)
+//    Toolbar toolbar;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -170,11 +168,11 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Override
     protected void initViews() {
-        if(toolbar!=null){
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-            toolbar.setLayoutParams(params);
-        }
+//        if(toolbar!=null){
+//            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+//            toolbar.setLayoutParams(params);
+//        }
         tv_title.setText("动态");
         iv_left.setVisibility(View.INVISIBLE);
         tv_right.setText("更多话题");

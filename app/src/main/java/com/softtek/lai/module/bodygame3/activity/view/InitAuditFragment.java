@@ -127,7 +127,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent InitdataAudit = new Intent(getContext(), InitDataAuditActivity.class);
+        Intent InitdataAudit = new Intent(getContext(), InitDataAuditActivity2.class);
         InitdataAudit.putExtra("ACMID", memberListModels.get(i - 1).getAcmId());
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("Audited", IsAudit);

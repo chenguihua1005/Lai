@@ -43,7 +43,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
     TextView tv_title;
     List<Fragment> fragments;
     //    String[] tabtitle={"未审核","已审核"};
-    String[] tabtitle = {"未复测学员", "待审核学员", "已审核学员"};
+    String[] tabtitle = {"未复测", "待审核", "已审核"};
 
     String classId;
     String typeDate;
@@ -138,9 +138,9 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
 
     // 审核通过更新数据
     public void update() {
-        tabtitle[0] = "未复测学员(" + (unFuce_num) + ")";
-        tabtitle[1] = "待审核学员(" + (--uncheck_num) + ")";
-        tabtitle[2] = "已审核学员(" + (++checked_num) + ")";
+        tabtitle[0] = "未复测(" + (unFuce_num) + ")";
+        tabtitle[1] = "待审核(" + (--uncheck_num) + ")";
+        tabtitle[2] = "已审核(" + (++checked_num) + ")";
         TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
         TabLayout.Tab tab2 = tab.getTabAt(1);
@@ -152,9 +152,9 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
     //刷新列表时调用刷新title数字
     public void updates(int Auditnu) {
         uncheck_num = Auditnu;
-        tabtitle[0] = "未复测学员(" + unFuce_num + ")";
-        tabtitle[1] = "待审核学员(" + uncheck_num + ")";
-        tabtitle[2] = "已审核学员(" + (++checked_num) + ")";
+        tabtitle[0] = "未复测(" + unFuce_num + ")";
+        tabtitle[1] = "待审核(" + uncheck_num + ")";
+        tabtitle[2] = "已审核(" + (++checked_num) + ")";
         TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
         TabLayout.Tab tab2 = tab.getTabAt(1);
@@ -180,9 +180,9 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
     public void getMeasureReviewedList(List<AuditListModel> list) {
         if (list != null) {
             if (list.size() == 0) {
-                tabtitle[0] = "未复测学员(" + "0" + ")";
-                tabtitle[1] = "待审核学员(" + "0" + ")";
-                tabtitle[2] = "已审核学员(" + "0" + ")";
+                tabtitle[0] = "未复测(" + "0" + ")";
+                tabtitle[1] = "待审核(" + "0" + ")";
+                tabtitle[2] = "已审核(" + "0" + ")";
                 TabLayout.Tab tab1 = tab.getTabAt(0);
                 tab1.setText(tabtitle[0]);
                 TabLayout.Tab tab2 = tab.getTabAt(1);
@@ -193,9 +193,9 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 unFuce_num = Integer.parseInt(list.get(0).getCount());
                 uncheck_num = Integer.parseInt(list.get(1).getCount());
                 checked_num = Integer.parseInt(list.get(1).getCount());
-                tabtitle[0] = "未复测学员(" + unFuce_num + ")";
-                tabtitle[1] = "待审核学员(" + uncheck_num + ")";
-                tabtitle[2] = "已审核学员(" + checked_num + ")";
+                tabtitle[0] = "未复测(" + unFuce_num + ")";
+                tabtitle[1] = "待审核(" + uncheck_num + ")";
+                tabtitle[2] = "已审核(" + checked_num + ")";
                 TabLayout.Tab tab1 = tab.getTabAt(0);
                 tab1.setText(tabtitle[0]);
                 TabLayout.Tab tab2 = tab.getTabAt(1);
@@ -222,9 +222,9 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 uncheck_num = intent.getIntExtra("uncheck_num", 0);
                 checked_num = intent.getIntExtra("checked_num", 0);
 
-                tabtitle[0] = "未复测学员(" + unFuce_num + ")";
-                tabtitle[1] = "待审核学员(" + uncheck_num + ")";
-                tabtitle[2] = "已审核学员(" + checked_num + ")";
+                tabtitle[0] = "未复测(" + unFuce_num + ")";
+                tabtitle[1] = "待审核(" + uncheck_num + ")";
+                tabtitle[2] = "已审核(" + checked_num + ")";
 
                 TabLayout.Tab tab1 = tab.getTabAt(0);
                 tab1.setText(tabtitle[0]);

@@ -45,7 +45,9 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     TextView tv_title;
     List<Fragment> fragments;
     FuceSevice fuceSevice;
-    String[] tabtitle = {"未审核", "已审核"};
+    String[] tabtitle = {"未录入", "未审核", "已审核"};
+
+    //    String[] tabtitle = {"未审核", "已审核"};
     String classId;
     int Auditnum = 0;
     int Auditednum = 0;
@@ -55,6 +57,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
         tv_title.setText("初始数据审核");
         classId = getIntent().getStringExtra("classId");
         fragments = new ArrayList<>();
+        fragments.add(InitAuditFragment.getInstance(classId));
         fragments.add(InitAuditFragment.getInstance(classId));
         fragments.add(InitAuditedFragment.getInstance(classId));
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
@@ -121,22 +124,28 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     }
 
     public void update() {
-        tabtitle[0] = "未审核(" + (--Auditnum) + ")";
-        tabtitle[1] = "已审核(" + (++Auditednum) + ")";
+        tabtitle[0] = "未录入(" + (--Auditnum) + ")";
+        tabtitle[1] = "待审核(" + (Auditnum) + ")";
+        tabtitle[2] = "已审核(" + (++Auditednum) + ")";
         TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
         TabLayout.Tab tab2 = tab.getTabAt(1);
         tab2.setText(tabtitle[1]);
+        TabLayout.Tab tab3 = tab.getTabAt(2);
+        tab3.setText(tabtitle[2]);
     }
 
     public void updates(int Auditnu) {
         Auditnum = Auditnu;
-        tabtitle[0] = "未审核(" + Auditnum + ")";
-        tabtitle[1] = "已审核(" + Auditednum + ")";
+        tabtitle[0] = "未录入(" + Auditnum + ")";
+        tabtitle[1] = "待审核(" + Auditnum + ")";
+        tabtitle[2] = "已审核(" + Auditednum + ")";
         TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
         TabLayout.Tab tab2 = tab.getTabAt(1);
         tab2.setText(tabtitle[1]);
+        TabLayout.Tab tab3 = tab.getTabAt(2);
+        tab3.setText(tabtitle[2]);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -156,8 +165,9 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     public void getInitAuditList(List<AuditListModel> list) {
         if (list != null) {
             if (list.size() == 0) {
-                tabtitle[0] = "未审核(" + "0" + ")";
-                tabtitle[1] = "已审核(" + "0" + ")";
+                tabtitle[0] = "未录入(" + "0" + ")";
+                tabtitle[1] = "待审核(" + "0" + ")";
+                tabtitle[2] = "已审核(" + "0" + ")";
                 TabLayout.Tab tab1 = tab.getTabAt(0);
                 tab1.setText(tabtitle[0]);
                 TabLayout.Tab tab2 = tab.getTabAt(1);
@@ -165,12 +175,15 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
             } else {
                 Auditnum = Integer.parseInt(list.get(0).getCount());
                 Auditednum = Integer.parseInt(list.get(1).getCount());
-                tabtitle[0] = "未审核(" + Auditnum + ")";
-                tabtitle[1] = "已审核(" + Auditednum + ")";
+                tabtitle[0] = "未录入(" + Auditnum + ")";
+                tabtitle[1] = "待审核(" + Auditnum + ")";
+                tabtitle[2] = "已审核(" + Auditednum + ")";
                 TabLayout.Tab tab1 = tab.getTabAt(0);
                 tab1.setText(tabtitle[0]);
                 TabLayout.Tab tab2 = tab.getTabAt(1);
                 tab2.setText(tabtitle[1]);
+                TabLayout.Tab tab3 = tab.getTabAt(2);
+                tab3.setText(tabtitle[2]);
             }
 
         }

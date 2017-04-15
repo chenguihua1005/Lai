@@ -7,22 +7,22 @@ public class HistoryDataItemModel {
 
     private boolean isChecked=false;
     private boolean isShow=false;
-    private HistoryData dataModel;
+    private HistoryDataModel.RecordsBean dataModel;
 
     public HistoryDataItemModel() {
     }
 
-    public HistoryDataItemModel(boolean isChecked, boolean isShow, HistoryData dataModel) {
+    public HistoryDataItemModel(boolean isChecked, boolean isShow, HistoryDataModel.RecordsBean dataModel) {
         this.isChecked = isChecked;
         this.isShow = isShow;
         this.dataModel = dataModel;
     }
 
-    public HistoryData getDataModel() {
+    public HistoryDataModel.RecordsBean getDataModel() {
         return dataModel;
     }
 
-    public void setDataModel(HistoryData dataModel) {
+    public void setDataModel(HistoryDataModel.RecordsBean dataModel) {
         this.dataModel = dataModel;
     }
 

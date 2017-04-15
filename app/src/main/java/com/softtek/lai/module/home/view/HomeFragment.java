@@ -42,7 +42,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
-import com.softtek.lai.module.healthyreport.HealthyChartActivity;
+import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -55,7 +55,6 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.home.service.UpdateService;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
-import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -133,16 +132,16 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     private MessageReceiver mMessageReceiver;
     UserModel user;
 
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+//    @InjectView(R.id.toolbar)
+//    Toolbar toolbar;
 
     @Override
     protected void initViews() {
-        if(toolbar!=null){
-            AppBarLayout.LayoutParams params= (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-            toolbar.setLayoutParams(params);
-        }
+//        if(toolbar!=null){
+//            AppBarLayout.LayoutParams params= (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+//            toolbar.setLayoutParams(params);
+//        }
         EventBus.getDefault().register(this);
         registerMessageReceiver();
         ll_left.setVisibility(View.INVISIBLE);

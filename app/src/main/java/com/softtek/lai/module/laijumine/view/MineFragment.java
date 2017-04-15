@@ -18,6 +18,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -136,10 +137,11 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
     @InjectView(R.id.scro)
     ScrollView scro;
 
-    @InjectView(R.id.rl_toolbar)
-    RelativeLayout rl_toolbar;
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+
+//    @InjectView(R.id.rl_toolbar)
+//    RelativeLayout rl_toolbar;
+//    @InjectView(R.id.toolbar)
+//    Toolbar toolbar;
 
     private int GET_Sian = 1;//个人签名
     MineSevice mineSevice;
@@ -152,16 +154,16 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void initViews() {
-        if(rl_toolbar!=null){
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) rl_toolbar.getLayoutParams();
-            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-            rl_toolbar.setLayoutParams(params);
-        }
-        if(toolbar!=null){
-            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-            toolbar.setLayoutParams(params);
-        }
+//        if(rl_toolbar!=null){
+//            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) rl_toolbar.getLayoutParams();
+//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+//            rl_toolbar.setLayoutParams(params);
+//        }
+//        if(toolbar!=null){
+//            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+//            toolbar.setLayoutParams(params);
+//        }
         srl_refresh.setEnabled(false);
         srl_refresh.setOnRefreshListener(this);
         srl_refresh.setColorSchemeColors(getResources().getColor(R.color.btn_blue_normal));
