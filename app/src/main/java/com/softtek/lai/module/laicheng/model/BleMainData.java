@@ -122,7 +122,7 @@ public class BleMainData implements Serializable{
         this.visitor = visitor;
     }
 
-    public static class VisitorBean {
+    public static class VisitorBean implements Serializable{
         /**
          * Name : 翁总哦
          * BirthDate : 1992-04-13

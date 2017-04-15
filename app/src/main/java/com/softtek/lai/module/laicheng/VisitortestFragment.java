@@ -208,11 +208,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     @SuppressLint("SetTextI18n")
     public void UpdateData(BleMainData data) {
-        tv_weight.setText(data.getWeight_item().getValue() + "");//体重
-        tv_weight_caption.setText(data.getWeight_con().getCaption());//状态
-        tv_body_fat_rate.setText(data.getBodyfatrate() + "%");
-        tv_bmi.setText(data.getBmi() + "");
-        tv_internal_fat_rate.setText(data.getVisceralfatindex() + "%");
+//        tv_weight.setText(data.getWeight_item().getValue() + "");//体重
+//        tv_weight_caption.setText(data.getWeight_con().getCaption());//状态
+//        tv_body_fat_rate.setText(data.getBodyfatrate() + "%");
+//        tv_bmi.setText(data.getBmi() + "");
+//        tv_internal_fat_rate.setText(data.getVisceralfatindex() + "%");
     }
 
     public void refreshVoiceIcon() {

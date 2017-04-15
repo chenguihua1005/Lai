@@ -294,26 +294,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
 
     Handler handler = new Handler() {
-
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-//                case HANDLER_REFRESH_BOTTOM:
-//                    Float[] data = (Float[]) msg.obj;
-//                    tv_fatrate.setText(data[0] == 0 ? "0" : "" + data[0]);
-//                    tv_musclemass.setText(data[1] == 0 ? "0" : "" + data[1]);
-//                    tv_basalmetabolicrate.setText("" + StringMath.fourRemoveFiveAdd("" + data[2]));
-//                    tv_bodyage.setText("" + StringMath.fourRemoveFiveAdd("" + data[3]));
-//                    break;
-//                case HANDLER_REFRESH_NET:
-//                    tv_fatrate.setText("0");
-//                    tv_musclemass.setText("0");
-//                    tv_basalmetabolicrate.setText("0");
-//                    tv_bodyage.setText("0");
-//                    int userId = (Integer) msg.obj;
-//                    requestScaleDetailFromNet(userId);
-//                    break;
-            }
             super.handleMessage(msg);
         }
     };

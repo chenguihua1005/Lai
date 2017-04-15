@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
+import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
@@ -119,12 +120,12 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void initUiByBleSuccess(BleMainData data) {
         menu_layout.setVisibility(View.VISIBLE);
 
-        mWeight.setText(data.getWeight_item().getValue() + "");
-        mWeightCaption.setText(data.getWeight_con().getCaption());
-//        mWeightCaption.setTextColor(Color.parseColor("#" + data.getWeight_item().getColor()));
-        mBodyFatRate.setText(data.getBodyfatrate() + "%");
-        mBmi.setText(data.getBmi() + "");
-        mInternalFatRate.setText(data.getVisceralfatindex() + "%");
+//        mWeight.setText(data.getWeight_item().getValue() + "");
+//        mWeightCaption.setText(data.getWeight_con().getCaption());
+////        mWeightCaption.setTextColor(Color.parseColor("#" + data.getWeight_item().getColor()));
+//        mBodyFatRate.setText(data.getBodyfatrate() + "%");
+//        mBmi.setText(data.getBmi() + "");
+//        mInternalFatRate.setText(data.getVisceralfatindex() + "%");
 
     }
 
@@ -214,7 +215,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     }
 
     @Override
-    public void refreshUi() {
+    public void refreshUi(LastInfoData data) {
 
     }
 }
