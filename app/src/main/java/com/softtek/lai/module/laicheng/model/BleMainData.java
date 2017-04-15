@@ -7,6 +7,22 @@ import java.io.Serializable;
  */
 
 public class BleMainData implements Serializable{
+    @Override
+    public String toString() {
+        return "BleMainData{" +
+                "recordId='" + recordId + '\'' +
+                ", weight=" + weight +
+                ", weightUnit='" + weightUnit + '\'' +
+                ", bodyTypeTitle='" + bodyTypeTitle + '\'' +
+                ", bodyTypeColor='" + bodyTypeColor + '\'' +
+                ", BMI='" + BMI + '\'' +
+                ", bodyFatRate='" + bodyFatRate + '\'' +
+                ", bodyFat='" + bodyFat + '\'' +
+                ", viscusFatIndex='" + viscusFatIndex + '\'' +
+                ", measuredTime='" + measuredTime + '\'' +
+                ", visitor=" + visitor +
+                '}';
+    }
 
     /**
      * recordId : 95b952c3-7863-4ed6-8414-0cbfb1e8ebef
@@ -122,7 +138,7 @@ public class BleMainData implements Serializable{
         this.visitor = visitor;
     }
 
-    public static class VisitorBean {
+    public static class VisitorBean implements Serializable{
         /**
          * Name : 翁总哦
          * BirthDate : 1992-04-13

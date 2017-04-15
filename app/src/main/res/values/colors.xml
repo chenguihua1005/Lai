@@ -51,6 +51,7 @@
     <color name="blue">#3E6790</color>
     <color name="backPressTrue">#c64b8311</color>
     <color name="backPressFalse">#0074BB2A</color>
+    <color name="backPressTrue1">#A83F8970</color>
     <color name="background_green">#78bc27</color><!--背景绿色-->
     <color name="transparent">#00000000</color>
 

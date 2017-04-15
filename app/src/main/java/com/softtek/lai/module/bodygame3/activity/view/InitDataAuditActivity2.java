@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -10,30 +11,24 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
-import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
-import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +37,6 @@ import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -50,7 +44,7 @@ import zilla.libcore.util.Util;
 
 
 @InjectLayout(R.layout.activity_fcst)
-public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implements Validator.ValidationListener, FuceCheckPresenter.FuceCheckView, View.OnClickListener {
+public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> implements Validator.ValidationListener, FuceCheckPresenter.FuceCheckView, View.OnClickListener {
     //标题栏
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -72,9 +66,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     @InjectView(R.id.exlisview_body)
     ExpandableListView exlisview_body;
 
-    private Long accountId;
-    private String acmId, classId;
-
     private FuceCheckExpandableListAdapter adapter;
     private String gender = "1";//性别
     private boolean isExistPhoto = false;//0没有图片1 有
@@ -87,18 +78,34 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private List<String> child2 = new ArrayList<>();
     private List<String> child3 = new ArrayList<>();
 
-
-    int IsEdit = 1;//是否可编辑，1可编辑，2不可编辑
-
-    private int IsAudit = 0;
-    private int resetdatestatus = 1;//复测状态
-
     private MeasuredDetailsModel fcStDataModel;
+
+    Long AccountId;//用户id
+    String classId = " ";//班级id
+    Context context;
+    String files, ACMID;
+    String photoname;
+    int IsAudit;
 
 
     @Override
     protected void initViews() {
-        tv_right.setText("审核通过");
+        tv_title.setText("初始数据审核");
+
+        classId = getIntent().getStringExtra("classId");
+        AccountId = getIntent().getLongExtra("AccountId", 0);
+        ACMID = getIntent().getStringExtra("ACMID");
+        IsAudit = getIntent().getIntExtra("Audited", 1);
+        if (IsAudit == 1) {
+            tv_right.setVisibility(View.INVISIBLE);
+            cheng_float.setVisibility(View.INVISIBLE);
+//            im_audit_states.setImageResource(R.drawable.passed);   //??????
+        } else {
+            tv_right.setText("审核通过");//保存数据
+            cheng_float.setVisibility(View.VISIBLE);
+        }
+
+
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
 
@@ -108,7 +115,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
-        Intent intent = new Intent(FcAuditStuActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
+        Intent intent = new Intent(InitDataAuditActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
         intent.putExtra("fucedata",fcStDataModel);
         startActivity(intent);
     }
@@ -117,30 +124,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     protected void initDatas() {
         progressDialog = new ProgressDialog(this);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-
-        IsAudit = getIntent().getIntExtra("IsAudit", 0);
-        if (IsAudit != 0) {
-            tv_right.setVisibility(View.INVISIBLE);
-            cheng_float.setVisibility(View.INVISIBLE);
-//            im_audit_states.setImageResource(R.drawable.passed);
-        } else {
-            cheng_float.setVisibility(View.VISIBLE);
-            resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
-            switch (resetdatestatus) {
-                //过去复测日，只能查看
-                case 1:
-                    tv_right.setVisibility(View.INVISIBLE);
-                    break;
-                case 2:
-                    break;
-
-            }
-
-        }
-
-        acmId = getIntent().getStringExtra("ACMId");
-        accountId = getIntent().getLongExtra("accountId", 0);
-        classId = getIntent().getStringExtra("classId");
 
         child.add(0, "初始体重");
         child.add(1, "当前体重");
@@ -181,7 +164,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                     case 1:
                         if (isExistPhoto) {
 
-                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
+                            Intent intent1 = new Intent(InitDataAuditActivity2.this, PreViewPicActivity.class);
 //                ArrayList<String> images=new ArrayList<>();
                             intent1.putExtra("photoname", phtoPath);
                             intent1.putExtra("position", 1);
@@ -328,7 +311,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
         //获取后台数据
 
-        getPresenter().getFuceCheckData(acmId);
+        getPresenter().getFuceCheckData(ACMID);
 
 
     }
@@ -685,8 +668,8 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     private void doSetPostData() {
         fcAuditPostModel = new FcAuditPostModel();
-        fcAuditPostModel.setACMId(acmId);
-        fcAuditPostModel.setAccountId(accountId + "");
+        fcAuditPostModel.setACMId(ACMID);
+        fcAuditPostModel.setAccountId(AccountId + "");
         fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
         fcAuditPostModel.setWeight(fcStDataModel.getWeight());
         fcAuditPostModel.setPysical(fcStDataModel.getPysical());
@@ -713,7 +696,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                         case 200:
                             progressDialog.dismiss();
                             Intent intent = new Intent();
-                            intent.putExtra("ACMID", acmId);
+                            intent.putExtra("ACMID", ACMID);
                             setResult(RESULT_OK, intent);
                             finish();
                             break;
@@ -750,11 +733,11 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         Log.i(TAG, "获取数据=  " + new Gson().toJson(model));
         if (model != null) {
             FormData formData = new FormData();
-            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
-                tv_title.setText("复测审核");
-            } else {
-                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
-            }
+//            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
+//                tv_title.setText("复测审核");
+//            } else {
+//                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
+//            }
 
             if (!TextUtils.isEmpty(model.getImg())) {
                 isExistPhoto = true;

@@ -70,6 +70,8 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
     List<HealthyItem> items=new ArrayList<>();
     HealthyReportAdapter adapter;
     String reportId;
+    int since;
+    int isVisitor;
 
     @Override
     protected void initViews() {
@@ -86,6 +88,8 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
     @Override
     protected void initDatas() {
         reportId=getIntent().getStringExtra("reportId");
+        since=getIntent().getIntExtra("since",SINCE_LAICHEN);
+        isVisitor=getIntent().getIntExtra("isVisitor",NON_VISITOR);
         list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));

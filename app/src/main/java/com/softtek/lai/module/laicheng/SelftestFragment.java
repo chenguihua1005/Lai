@@ -1,24 +1,41 @@
 package com.softtek.lai.module.laicheng;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.drm.DrmInfoStatus;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.bodygame3.more.view.FuceAlbumActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.presenter.SelftestPresenter;
+import com.softtek.lai.widgets.FuCeSelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_selftest)
 public class SelftestFragment extends LazyBaseFragment implements SelftestPresenter.SelftestView {
@@ -52,10 +69,14 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     ImageView mVoice;
     @InjectView(R.id.tv_share)
     TextView mShare;
+    @InjectView(R.id.tv_health_report)
+    TextView mHealthReport;
     @InjectView(R.id.tv_time)
     TextView mLastTime;
 
     private SelftestPresenter presenter;
+
+    private Dialog dialog;//对话框
 
     @Override
     public void getLastInfoSuccess(LastInfoData data) {
@@ -71,6 +92,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     public interface VoiceListener {
         void onVoiceListener();
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -98,6 +120,9 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     protected void initViews() {
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
+        mWeightCaption.setVisibility(View.INVISIBLE);
+//        mShare.setVisibility(View.INVISIBLE);
+        mHealthReport.setVisibility(View.INVISIBLE);
         presenter = new SelftestPresenter(this);
     }
 
@@ -126,11 +151,6 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     @SuppressLint("SetTextI18n")
     public void updateUI(BleMainData data) {
         if (data != null) {
-            if (data.getWeightUnit().equals("斤")) {
-                mWeight.setText(data.getWeight() + "");
-            } else if (data.getWeightUnit().equals("公斤")) {
-                mWeight.setText(data.getWeight() * 2 + "");
-            }
             mWeight.setText(data.getWeight() + "");
             mWeightCaption.setText(data.getBodyTypeTitle());
             mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
@@ -138,6 +158,10 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
             mBmi.setText(data.getBMI() + "");
             mInternalFatRate.setText(data.getViscusFatIndex() + "%");
         }
+        mWeightCaption.setVisibility(View.VISIBLE);
+        mShare.setVisibility(View.VISIBLE);
+        mHealthReport.setVisibility(View.VISIBLE);
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -146,18 +170,34 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         mBodyFatRate.setText("- -");
         mBmi.setText("- -");
         mInternalFatRate.setText("- -");
-        if (data == null){
-            mWeight.setText("- -");
+        if (data == null) {
+            mWeightBottom.setText("0.0");
             mBodyFatBottom.setText("- -");
             mBodyBmiBottom.setText("- -");
             mInternalFatRateBottom.setText("- -");
             mLastTime.setText("上次测量：");
-        }else {
-            mWeight.setText(data.getWeight()+"");
-            mBodyFatBottom.setText(data.getBodyFatRate());
-            mBodyBmiBottom.setText(data.getBMI());
-            mInternalFatRateBottom.setText(data.getViscusFatIndex());
-            mLastTime.setText("上次测量："+data.getMeasuredTime());
+        } else {
+            mWeightBottom.setText(data.getWeight() + "");
+            if (data.getBodyFatRate() != null) {
+                mBodyFatBottom.setText(data.getBodyFatRate());
+            } else {
+                mBodyFatBottom.setText("- -");
+            }
+            if (data.getBMI() != null) {
+                mBodyBmiBottom.setText(data.getBMI());
+            } else {
+                mBodyBmiBottom.setText("- -");
+            }
+            if (data.getViscusFatIndex() != null) {
+                mInternalFatRateBottom.setText(data.getViscusFatIndex());
+            } else {
+                mInternalFatRateBottom.setText("- -");
+            }
+            if (data.getMeasuredTime() != null) {
+                mLastTime.setText("上次测量：" + data.getMeasuredTime());
+            } else {
+                mLastTime.setText("上次测量：");
+            }
         }
     }
 
@@ -174,4 +214,84 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }
     }
+
+    @OnClick(R.id.tv_share)
+    public void share() {
+        showDialog();
+    }
+
+    String value;
+    String url;
+    String title_value;
+    private void showDialog() {
+        if (dialog == null) {
+            dialog = new Dialog(getActivity(), R.style.custom_dialog);
+            dialog.setCanceledOnTouchOutside(true);
+            Window win = dialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            win.setAttributes(params);
+            dialog.setContentView(R.layout.share_dialog);
+            dialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+            dialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
+        dialog.show();
+    }
+
+    private void dismiss() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
 }

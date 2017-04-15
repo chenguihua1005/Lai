@@ -317,7 +317,7 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                         holder.tv_danwei.setText("cm");
                         break;
                     case 6: //BMI
-                        holder.tv_value.setText(fcStDataModel.getBMI());
+                        holder.tv_value.setText(fcStDataModel.getBmi());
                         holder.tv_danwei.setText("斤/平方米");
                         break;
                     case 7://去脂体重

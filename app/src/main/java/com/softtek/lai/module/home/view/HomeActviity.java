@@ -1,10 +1,10 @@
 package com.softtek.lai.module.home.view;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -26,6 +26,7 @@ import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.laijumine.view.MineFragment;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.SimpleButton;
 import com.umeng.analytics.MobclickAgent;
@@ -69,14 +70,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     String tag;
 
-    public void changeStatusColor(){
-        TypedValue typedValue = new  TypedValue();
-        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(typedValue.data);
-        }
-        tintManager.setStatusBarTintResource(typedValue.resourceId);
-    }
 
     @Override
     protected void initViews() {
@@ -150,14 +143,15 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 //页面切换了
                 isClick = false;
                 if (!UserInfoModel.getInstance().isVr()){
+                    TypedValue typedValue = new  TypedValue();
+                    getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
                     if(position==3){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            getWindow().setStatusBarColor(Color.TRANSPARENT);
+                            getWindow().setStatusBarColor(typedValue.data);
                         }
-                        tintManager.setStatusBarTintColor(Color.TRANSPARENT);
+                        tintManager.setStatusBarTintColor(typedValue.data);
                     }else {
-                        TypedValue typedValue = new  TypedValue();
-                        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getWindow().setStatusBarColor(typedValue.data);
                         }
@@ -273,7 +267,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 SoftInputUtil.showInputAsView(HomeActviity.this, et_input);
             }
-        }, 400);
+        }, 500);
         rl_send.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -293,6 +287,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         if (rl_send.getVisibility() == View.VISIBLE) {
             rl_send.setVisibility(View.INVISIBLE);
             SoftInputUtil.hidden(this);
+
         }
     }
 
