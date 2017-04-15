@@ -29,8 +29,8 @@
         android:layout_marginRight="20dp"
         android:scaleType="center"
         android:src="@drawable/cheng_float"
-        android:visibility="gone"
-        app:backgroundTint="#7ED5B8"
+        android:visibility="visible"
+        app:backgroundTint="#EEF3FA"
         app:elevation="4dp"
         app:pressedTranslationZ="2dp" />
 </RelativeLayout>

@@ -1,13 +1,20 @@
 package com.softtek.lai.module.laicheng;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,15 +24,19 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.more.view.FuceAlbumActivity;
+import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.GetVisitorModel;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.VisitGetPresenter;
+import com.softtek.lai.widgets.FuCeSelectPicPopupWindow;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -77,9 +88,12 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     @InjectView(R.id.mid_lay)
     LinearLayout mid_lay;
 
+    FuCeSelectPicPopupWindow menuWindow;
+
     VisitorModel model;
     VisitGetPresenter presenter;
-//    private boolean isPlay = true;
+    //    private boolean isPlay = true;
+    private String recordId;
 
     public VisitortestFragment() {
         // Required empty public constructor
@@ -95,6 +109,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     @Override
     public void getDatasuccess(LastInfoData data) {
         if (data != null && !TextUtils.isEmpty(data.getRecordId())) {
+            recordId = data.getRecordId();
             mid_lay.setVisibility(View.VISIBLE);
             tv_weight.setText(data.getWeight() + "");//体重
             tv_weight_caption.setText(data.getBodyTypeTitle());//状态
@@ -150,6 +165,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     protected void initViews() {
         bt_create.setOnClickListener(this);
         bt_history.setOnClickListener(this);
+        health_btn.setOnClickListener(this);
+        share_btn.setOnClickListener(this);
     }
 
     @Override
@@ -177,6 +194,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         return model;
     }
 
+    private static final int LOCATION_PREMISSION = 100;
+    private static final int SINCE_LAICHEN = 1;//莱称来源
+    private static final int VISITOR = 1;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -189,8 +210,58 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 Intent intent = new Intent(getActivity(), VisithistoryActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.health_btn:
+                Intent health = new Intent(getContext(), HealthyReportActivity.class);
+                health.putExtra("reportId", recordId);
+                health.putExtra("since", SINCE_LAICHEN);
+                health.putExtra("isVisitor", VISITOR);
+                startActivity(health);
+                break;
+            case R.id.share_btn:
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    com.github.snowdream.android.util.Log.i("检查权限。。。。");
+                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                    if (
+                            ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                    ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        //允许弹出提示
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                LOCATION_PREMISSION);
+
+                    } else {
+                        //不允许弹出提示
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                LOCATION_PREMISSION);
+                    }
+                } else {
+
+                    menuWindow = new FuCeSelectPicPopupWindow(getActivity(), itemsOnClick);
+                    //显示窗口
+                    menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    menuWindow.showAtLocation(getActivity().findViewById(R.id.rl_visit), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                    menuWindow.setBackgroundDrawable(new BitmapDrawable());
+                }
+                break;
         }
     }
+
+
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        public void onClick(View v) {
+            menuWindow.dismiss();
+//            setShare(v);
+
+        }
+    };
+
+/*    @Override
+    public void onResume() {
+        super.onResume();
+        shakeOFF.setOnShakeSTOP();
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -220,6 +291,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     @SuppressLint("SetTextI18n")
     public void UpdateData(BleMainData data) {
+        recordId = data.getRecordId();
         tv_weight.setText(data.getWeight() + "");//体重
         tv_weight_caption.setText(data.getBodyTypeTitle());//状态
         tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));

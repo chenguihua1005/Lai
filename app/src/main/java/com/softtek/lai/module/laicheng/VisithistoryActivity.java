@@ -100,8 +100,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
         setPresenter(new HistoryVisitorPresenter(this));
         getPresenter().GetData();
         ptrlv.setTextFilterEnabled(true);
-        adapter = new HistoryAdapter(this, historyModelList, et_input);
-        ptrlv.setAdapter(adapter);
+//        adapter = new HistoryAdapter(this, historyModelList, et_input);
     }
 
     @Override
@@ -129,6 +128,8 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
 
         } else {
             historyModelList = historyModels;
+            adapter=new HistoryAdapter(getBaseContext(),historyModelList,et_input);
+            ptrlv.setAdapter(adapter);
             rl_search.setVisibility(View.VISIBLE);
             ptrlv.setEmptyView(ll_nodata);
         }

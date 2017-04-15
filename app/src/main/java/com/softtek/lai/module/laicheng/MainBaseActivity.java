@@ -592,13 +592,21 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         UserInfoEntity user = new UserInfoEntity();
         user.setId(556383);
         user.setGender(Integer.valueOf(UserInfoModel.getInstance().getUser().getGender()));
-        if (TextUtils.isEmpty(UserInfoModel.getInstance().getUser().getHight())){
-            user.setHeight(0.0f);
+        if (getGuest()) {
+            if (getGuestInfo() != null) {
+                user.setHeight(getGuestInfo().getHeight());
+            } else {
+                user.setHeight(0.0f);
+            }
+        } else {
+            if (TextUtils.isEmpty(UserInfoModel.getInstance().getUser().getHight())) {
+                user.setHeight(0.0f);
 
-        }else {
-            user.setHeight(Float.valueOf(UserInfoModel.getInstance().getUser().getHight()));
+            } else {
+                user.setHeight(Float.valueOf(UserInfoModel.getInstance().getUser().getHight()));
+            }
         }
-        user.setHeight(Float.valueOf(UserInfoModel.getInstance().getUser().getHight()));
+//        user.setHeight(Float.valueOf(UserInfoModel.getInstance().getUser().getHight()));
         user.setBirthdate(UserInfoModel.getInstance().getUser().getBirthday());
         user.setId(556383);
         user.setPhone("13093096152");
@@ -782,9 +790,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void upLoadImpedanceSuccess(BleMainData data) {
         changeConnectionState(CONNECTED_STATE_UPLOADING_SUCCESS);
-        if (TextUtils.isEmpty(data.getBodyFat())){
+        if (TextUtils.isEmpty(data.getBodyFat())) {
             sendFatRateToDevice(0.0f);
-        }else {
+        } else {
             sendFatRateToDevice(Float.parseFloat(data.getBodyFat()));
         }
         isResultTest = true;
