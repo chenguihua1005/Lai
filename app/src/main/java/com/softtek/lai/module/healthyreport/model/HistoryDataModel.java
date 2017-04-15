@@ -8,38 +8,114 @@ import java.util.List;
  */
 public class HistoryDataModel {
 
-    private String TotalPage;
-    private List<HistoryData> HistoryList;
 
-    public HistoryDataModel() {
+    /**
+     * pageIndex : 1
+     * totalPages : 1
+     * records : [{"recordId":"cb657073-bb2a-4d6c-a6f2-351de0cf33d0","week":"周五","measuredTime":"4-14 16:01","weight":"44.2","bodyFatRate":"","viscusFatIndex":"2","sourceType":0}]
+     */
+
+    private int pageIndex;
+    private int totalPages;
+    private List<RecordsBean> records;
+
+    public int getPageIndex() {
+        return pageIndex;
     }
 
-    public HistoryDataModel(String totalPage, List<HistoryData> historyList) {
-        TotalPage = totalPage;
-        HistoryList = historyList;
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
     }
 
-    public String getTotalPage() {
-        return TotalPage;
+    public int getTotalPages() {
+        return totalPages;
     }
 
-    public void setTotalPage(String totalPage) {
-        TotalPage = totalPage;
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 
-    public List<HistoryData> getHistoryList() {
-        return HistoryList;
+    public List<RecordsBean> getRecords() {
+        return records;
     }
 
-    public void setHistoryList(List<HistoryData> historyList) {
-        HistoryList = historyList;
+    public void setRecords(List<RecordsBean> records) {
+        this.records = records;
     }
 
-    @Override
-    public String toString() {
-        return "HistoryDataModel{" +
-                "HistoryList=" + HistoryList +
-                ", TotalPage='" + TotalPage + '\'' +
-                '}';
+    public static class RecordsBean {
+        /**
+         * recordId : cb657073-bb2a-4d6c-a6f2-351de0cf33d0
+         * week : 周五
+         * measuredTime : 4-14 16:01
+         * weight : 44.2
+         * bodyFatRate :
+         * viscusFatIndex : 2
+         * sourceType : 0
+         */
+
+        private String recordId;
+        private String week;
+        private String measuredTime;
+        private String weight;
+        private String bodyFatRate;
+        private String viscusFatIndex;
+        private int sourceType;
+
+        public String getRecordId() {
+            return recordId;
+        }
+
+        public void setRecordId(String recordId) {
+            this.recordId = recordId;
+        }
+
+        public String getWeek() {
+            return week;
+        }
+
+        public void setWeek(String week) {
+            this.week = week;
+        }
+
+        public String getMeasuredTime() {
+            return measuredTime;
+        }
+
+        public void setMeasuredTime(String measuredTime) {
+            this.measuredTime = measuredTime;
+        }
+
+        public String getWeight() {
+            return weight;
+        }
+
+        public void setWeight(String weight) {
+            this.weight = weight;
+        }
+
+        public String getBodyFatRate() {
+            return bodyFatRate;
+        }
+
+        public void setBodyFatRate(String bodyFatRate) {
+            this.bodyFatRate = bodyFatRate;
+        }
+
+        public String getViscusFatIndex() {
+            return viscusFatIndex;
+        }
+
+        public void setViscusFatIndex(String viscusFatIndex) {
+            this.viscusFatIndex = viscusFatIndex;
+        }
+
+        public int getSourceType() {
+            return sourceType;
+        }
+
+        public void setSourceType(int sourceType) {
+            this.sourceType = sourceType;
+        }
     }
 }

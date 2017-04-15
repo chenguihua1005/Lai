@@ -273,7 +273,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 SoftInputUtil.showInputAsView(HomeActviity.this, et_input);
             }
-        }, 400);
+        }, 500);
         rl_send.postDelayed(new Runnable() {
             @Override
             public void run() {

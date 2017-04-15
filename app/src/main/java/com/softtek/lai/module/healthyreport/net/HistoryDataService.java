@@ -17,9 +17,9 @@ import retrofit.http.Query;
 public interface HistoryDataService {
 
     //获取历史记录列表
-    @GET("/HealthRecords/GetHealthHistory")
+    @GET("/v1/DataSync/GetSelftHistory")
     void getHistoryDataList(@Header("token") String token,
-                            @Query("accountid") long accountId,
+                            @Query("type") int accountId,
                             @Query("pageIndex") int pageIndex,
                             RequestCallback<ResponseData<HistoryDataModel>> callback);
 

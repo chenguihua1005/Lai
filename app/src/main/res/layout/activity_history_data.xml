@@ -29,13 +29,16 @@
                 android:src="@drawable/back" />
         </LinearLayout>
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/rg"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:background="@drawable/border_white"
+            android:orientation="horizontal"
             android:gravity="center">
-            <CheckBox
+            <RadioButton
+                android:id="@+id/rb_laichen"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -43,9 +46,9 @@
                 android:textSize="11sp"
                 android:background="@drawable/cb_healthy_data_l"
                 android:textColor="@color/healthy_data_text"
-                android:checked="true"
                 android:text="只看莱称"/>
-            <CheckBox
+            <RadioButton
+                android:id="@+id/rb_all"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -54,7 +57,7 @@
                 android:textColor="@color/healthy_data_text"
                 android:textSize="11sp"
                 android:text="全部"/>
-        </LinearLayout>
+        </RadioGroup>
 
         <FrameLayout
             android:id="@+id/fl_right"

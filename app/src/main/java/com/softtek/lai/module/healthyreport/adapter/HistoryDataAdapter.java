@@ -15,10 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.healthyreport.model.HistoryData;
 import com.softtek.lai.module.healthyreport.model.HistoryDataItemModel;
-import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.StringUtil;
+import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
 
 import java.util.List;
 
@@ -89,35 +87,29 @@ public class HistoryDataAdapter extends BaseAdapter{
             }
         });
         holder.cb_selecter.setChecked(model.isChecked());
-        HistoryData data=model.getDataModel();
-        if("0".equals(data.getSourcetype())){
+        HistoryDataModel.RecordsBean data=model.getDataModel();
+        if(0==data.getSourceType()){
             //莱秤数据
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.laichen));
-        }else if("1".equals(data.getSourcetype())||"4".equals(data.getSourcetype())){
+        }else if(1==data.getSourceType()){
             //复测
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.history_data_fuce));
-        }else if("2".equals(data.getSourcetype())){
+        }else{
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.shoudongluru));
         }
-        String date=data.getCreateDate();
-        DateUtil util=DateUtil.getInstance();
-        int hour=util.getHour(date);
-        int minute=util.getMinute(date);
-        int month=util.getMonth(date);
-        int day=util.getDay(date);
-        holder.week.setText(util.getWeek(util.convert2Date(date)));
-        holder.time.setText((month<10?"0"+month:month)+"-"+(day<10?"0"+day:day)+" "+(hour<10?"0"+hour:hour)+":"+(minute<10?"0"+minute:minute));
-        SpannableString spannableString=new SpannableString(StringUtil.getFloatValue(data.getWeight())+"斤");
+        holder.week.setText(data.getWeek());
+        holder.time.setText(data.getMeasuredTime());
+        SpannableString spannableString=new SpannableString(data.getWeight()+"斤");
         spannableString.setSpan(new AbsoluteSizeSpan(30),spannableString.length()-1,spannableString.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.loss_weight.setText(spannableString);
-        SpannableString spannable=new SpannableString(StringUtil.getFloatValue(data.getPysical())+"%");
+        SpannableString spannable=new SpannableString(data.getBodyFatRate()+"%");
         spannable.setSpan(new AbsoluteSizeSpan(30),spannable.length()-1,spannable.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.physical.setText(spannable);
-        holder.fat.setText(StringUtil.getFloatValue(data.getFat()));
+        holder.fat.setText(data.getViscusFatIndex());
         return convertView;
     }
 
-    static class ViewHolder{
+    private static class ViewHolder{
         public CheckBox cb_selecter;
         public ImageView icon;
         public TextView week;
