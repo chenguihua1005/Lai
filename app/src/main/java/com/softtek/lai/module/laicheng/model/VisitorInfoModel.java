@@ -12,6 +12,15 @@ public class VisitorInfoModel {
     private String Height;//访客身高
     private String PhoneNo;//访客手机号
 
+    public VisitorInfoModel(String name, String birthDate, String age, String gender, String height, String phoneNo) {
+        Name = name;
+        BirthDate = birthDate;
+        Age = age;
+        Gender = gender;
+        Height = height;
+        PhoneNo = phoneNo;
+    }
+
     public String getName() {
         return Name;
     }
