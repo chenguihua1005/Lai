@@ -811,7 +811,9 @@
         <activity
             android:name=".module.bodygame3.activity.view.MeasureListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.healthyreport.HealthyReportActivity" />
+        <activity android:name=".module.healthyreport.HealthyReportActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"/>
         <activity
             android:name=".module.bodygame3.activity.view.FuceForStuActivity"
             android:screenOrientation="portrait" />

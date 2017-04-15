@@ -2,6 +2,7 @@ package com.softtek.lai.module.healthyreport;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -19,7 +21,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.healthyreport.adapter.HistoryDataAdapter;
-import com.softtek.lai.module.healthyreport.model.HistoryData;
 import com.softtek.lai.module.healthyreport.model.HistoryDataItemModel;
 import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
 import com.softtek.lai.module.healthyreport.presenter.HistoryDataManager;
@@ -34,7 +35,8 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_history_data)
 public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener, View.OnClickListener
-        , HistoryDataManager.HistoryDataManagerCallback, PullToRefreshBase.OnRefreshListener2<ListView> {
+        , HistoryDataManager.HistoryDataManagerCallback, PullToRefreshBase.OnRefreshListener2<ListView>
+,RadioGroup.OnCheckedChangeListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -52,14 +54,19 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @InjectView(R.id.tv_cancle)
     TextView tv_cancle;
 
+    @InjectView(R.id.rg)
+    RadioGroup rg;
+
 
     private List<HistoryDataItemModel> dataItemModels = new ArrayList<>();
     private HistoryDataAdapter adapter;
     private int pageIndex = 0;
     private int totalPage = 0;
+    private int type=0;//默认莱称选中
 
     @Override
     protected void initViews() {
+        rg.check(R.id.rb_laichen);
         ptrlv.setOnItemClickListener(this);
         ptrlv.getRefreshableView().setOnItemLongClickListener(this);
         ptrlv.setOnRefreshListener(this);
@@ -69,6 +76,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         cb_all.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
         tv_cancle.setOnClickListener(this);
+        rg.setOnCheckedChangeListener(this );
     }
 
     @Override
@@ -76,9 +84,9 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         setPresenter(new HistoryDataManager(this));
         adapter = new HistoryDataAdapter(this, dataItemModels, cb_all);
         ptrlv.setAdapter(adapter);
-        dialogShow("加载中");
         pageIndex = 1;
-        getPresenter().getHistoryDataList(1,false);
+        //默认加载莱称的数据
+        getPresenter().getHistoryDataList(0,pageIndex,false);
     }
 
     @Override
@@ -87,7 +95,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
             return;
         }
         //点击进入健康报告
-        
+
     }
 
     boolean isEditor;
@@ -137,7 +145,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                 for (int i = 0; i < dataItemModels.size(); i++) {
                     HistoryDataItemModel model = dataItemModels.get(i);
                     if (model.isChecked()) {
-                        ids.append("," + model.getDataModel().getAcInfoId());
+                        ids.append("," + model.getDataModel().getRecordId());
                     }
                 }
                 if (TextUtils.isEmpty(ids)) {
@@ -159,22 +167,17 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
 
     @Override
     public void historyDataCallback(HistoryDataModel model) {
-        if (model == null) {
-            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
-            return;
-        }
-
-        totalPage = Integer.parseInt(model.getTotalPage());
-        List<HistoryData> datas = model.getHistoryList();
+        totalPage = model.getTotalPages();
+        List<HistoryDataModel.RecordsBean> datas = model.getRecords();
         if (pageIndex == 1) {
             dataItemModels.clear();
         }
-        if (datas.isEmpty()) {
+        if(datas!=null&&!datas.isEmpty()){
+            for (HistoryDataModel.RecordsBean data: datas) {
+                dataItemModels.add(new HistoryDataItemModel(false, false, data));
+            }
+        }else {
             pageIndex = --pageIndex < 1 ? 1 : pageIndex;
-        }
-        for (HistoryData data : model.getHistoryList()) {
-            dataItemModels.add(new HistoryDataItemModel(false, false, data));
-
         }
         adapter.notifyDataSetChanged();
     }
@@ -205,14 +208,14 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        getPresenter().getHistoryDataList(1,true);
+        getPresenter().getHistoryDataList(type,pageIndex,true);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if (pageIndex <= totalPage) {
-            getPresenter().getHistoryDataList(pageIndex,true);
+            getPresenter().getHistoryDataList(type,pageIndex,true);
         } else {
             pageIndex--;
             new Handler().postDelayed(new Runnable() {
@@ -236,4 +239,14 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        if(checkedId==R.id.rb_laichen){
+            type=0;
+        }else if(checkedId==R.id.rb_all){
+            type=1;
+        }
+        pageIndex=1;
+        getPresenter().getHistoryDataList(type,pageIndex,false);
+    }
 }

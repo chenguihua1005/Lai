@@ -31,6 +31,7 @@ import com.softtek.lai.module.laicheng.presenter.VisitorPresenter;
 import com.softtek.lai.utils.DateUtil;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -67,7 +68,8 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
 
     @InjectView(R.id.rg_up)
     RadioGroup rg_up;
-    @Regex(order = 5, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
+
+    @Regex(order = 4, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
     @InjectView(R.id.btn_commit)
@@ -116,7 +118,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                 break;
             case R.id.et_old:
                 final Calendar c = Calendar.getInstance();
-                c.set(1990,01,01);
+                c.setTime(new Date(1900-01-01));
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
                 datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {

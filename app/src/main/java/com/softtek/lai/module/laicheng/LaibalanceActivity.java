@@ -146,7 +146,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         } else {
             visitortestFragment.UpdateData(data);
         }
-//        Toast.makeText(getApplicationContext(), "上传体脂率成功回调", Toast.LENGTH_SHORT).show();
+        dialogDissmiss();
     }
 
     @Override
