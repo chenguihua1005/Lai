@@ -1,92 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#eeeeee"/>
+        android:background="#eeeeee" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
         android:gravity="center_vertical"
-        >
-<com.softtek.lai.widgets.CircleImageView
-    android:id="@+id/cir_headim"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:layout_centerVertical="true"
-    android:background="@drawable/img_default"/>
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#333333"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/cir_headim"/>
+        android:padding="15dp">
+
+        <com.softtek.lai.widgets.CircleImageView
+            android:id="@+id/cir_headim"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/img_default" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/cir_headim"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/tv_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#999999"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_username"
             android:maxEms="6"
             android:singleLine="true"
-            android:layout_centerVertical="true"
-            android:textSize="14sp"/>
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/im_right"
-            android:layout_centerVertical="true">
-        <TextView
-            android:id="@+id/tv_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:textColor="#ffa200"
-            android:textStyle="bold"
-            android:textSize="18sp"
             android:layout_centerVertical="true"
-            />
-        <TextView
-            android:id="@+id/tv_ta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="斤"
-            android:textSize="10sp"
-            android:textColor="#333333"
-            android:textStyle="bold"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_weight"
-            />
+            android:layout_toLeftOf="@+id/im_right">
+
             <TextView
+                android:id="@+id/tv_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="体重"
-                android:textSize="10sp"
-                android:textColor="#999999"
-                android:layout_below="@+id/tv_weight"
-                android:layout_marginTop="10dp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/tv_weight"
+                android:textColor="#333333" />
         </RelativeLayout>
+
         <ImageView
             android:id="@+id/im_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/action_right"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            />
+            android:layout_centerVertical="true"
+            android:background="@drawable/action_right" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#eeeeee"/>
+        android:background="#eeeeee" />
 </LinearLayout>

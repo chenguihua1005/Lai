@@ -218,4 +218,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void refreshUi(LastInfoData data) {
 
     }
+
+
 }

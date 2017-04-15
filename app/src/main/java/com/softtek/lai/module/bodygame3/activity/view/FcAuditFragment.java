@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,14 +20,11 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
-import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
-import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -36,12 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -49,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
-public class FcAuditFragment extends LazyBaseFragment<FuceCheckPresenter> implements View.OnClickListener, AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckPresenter.FuceCheckView {
+public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> implements View.OnClickListener, AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckListPresenter.FuceCheckListView {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
@@ -59,7 +52,6 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckPresenter> implem
     Long userid;
     private int FCAudit = 1;
     private int IsAudit = 0;
-    int Auditnum = 0;
     private static String classid;
     private static String typedata;
     private static int resetdatestatus = 1;
@@ -108,7 +100,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckPresenter> implem
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
 
-        setPresenter(new FuceCheckPresenter(this));
+        setPresenter(new FuceCheckListPresenter(this));
     }
 
     @Override
@@ -120,10 +112,13 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckPresenter> implem
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);
                 TextView tv_group = holder.getView(R.id.tv_group);
-                TextView tv_weight = holder.getView(R.id.tv_weight);
+//                TextView tv_weight = holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);
                 tv_group.setText("(" + data.getGroupName() + ")");
-                tv_weight.setText(data.getWeight());
+//                tv_weight.setText(data.getWeight());
+
+                TextView tv_tip = holder.getView(R.id.tv_tip);
+                tv_tip.setText("复测测量");
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
@@ -145,7 +140,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckPresenter> implem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity.class);
+        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("classId", classid);
@@ -240,11 +235,22 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckPresenter> implem
     @Override
     public void getMeasureReviewedList(List<AuditListModel> list) {
         if (list != null && list.size() == 2) {
-            Auditnum = Integer.parseInt(list.get(0).getCount());
-            FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
-            fcAuditListActivity.updates(Auditnum);
+//            Auditnum = Integer.parseInt(list.get(0).getCount());
+//            FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
+//            fcAuditListActivity.updates(Auditnum);
             memberListModels.addAll(list.get(0).getMemberList());
             adapter.notifyDataSetChanged();
+
+
+            int unFuce_num = Integer.parseInt(list.get(0).getCount());
+            int uncheck_num = Integer.parseInt(list.get(0).getCount());
+            int checked_num = Integer.parseInt(list.get(1).getCount());
+
+            Intent intent = new Intent(FcAuditListActivity.UPDATENUMBER_FUCUCHECK);
+            intent.putExtra("unFuce_num", unFuce_num);
+            intent.putExtra("uncheck_num", uncheck_num);
+            intent.putExtra("checked_num", checked_num);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         }
     }
 

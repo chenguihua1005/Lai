@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.IdRes;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +31,7 @@ import com.softtek.lai.module.laicheng.presenter.VisitorPresenter;
 import com.softtek.lai.utils.DateUtil;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -66,12 +68,13 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
 
     @InjectView(R.id.rg_up)
     RadioGroup rg_up;
-    @Regex(order = 5, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
+
+    @Regex(order = 4, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
     @InjectView(R.id.btn_commit)
     Button btn_commit;
-    private int gender = 0;
+    private int gender;
     VisitorModel visitorModel = new VisitorModel();
     private String date;
     String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
@@ -82,13 +85,28 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
         btn_commit.setOnClickListener(this);
         et_old.setOnClickListener(this);
         iv_email.setOnClickListener(this);
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(et_old.getWindowToken(), 0);
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(et_old.getWindowToken(), 0);
+        et_old.setInputType(InputType.TYPE_NULL);
     }
 
     @Override
     protected void initDatas() {
         setPresenter(new VisitorPresenter(this));
+        rg_up.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                int groupId = group.getCheckedRadioButtonId();
+                switch (groupId) {
+                    case R.id.rb_male:
+                        gender = 0;//男
+                        break;
+                    case R.id.rb_female:
+                        gender = 1; //女
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -100,8 +118,9 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                 break;
             case R.id.et_old:
                 final Calendar c = Calendar.getInstance();
+                c.setTime(new Date(1900-01-01));
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMaxDate(c.getTime().getTime());
+                datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
                 datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -145,20 +164,6 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
 
     @Override
     public void onValidationSucceeded() {
-        rg_up.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                int groupId = group.getCheckedRadioButtonId();
-                switch (groupId) {
-                    case R.id.rb_male:
-                        gender = 0;//男
-                        break;
-                    case R.id.rb_female:
-                        gender = 1; //女
-                        break;
-                }
-            }
-        });
         visitorModel.setName(et_name.getText().toString());
         visitorModel.setHeight(Float.parseFloat(et_height.getText().toString()));
         visitorModel.setBirthDate(et_old.getText().toString());

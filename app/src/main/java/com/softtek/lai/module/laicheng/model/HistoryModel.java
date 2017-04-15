@@ -11,6 +11,12 @@ public class HistoryModel implements Serializable{
     private String measuredTime;//访客测量时间
     private VisitorInfoModel visitor;
 
+    public HistoryModel(String recordId, String measuredTime, VisitorInfoModel visitor) {
+        this.recordId = recordId;
+        this.measuredTime = measuredTime;
+        this.visitor = visitor;
+    }
+
     public String getRecordId() {
         return recordId;
     }

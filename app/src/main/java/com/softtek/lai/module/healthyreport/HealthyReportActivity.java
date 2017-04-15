@@ -3,10 +3,16 @@ package com.softtek.lai.module.healthyreport;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.graphics.Canvas;
+import android.content.Intent;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -14,6 +20,8 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.healthyreport.adapter.HealthyReportAdapter;
+import com.softtek.lai.module.healthyreport.model.HealthyItem;
+import com.softtek.lai.module.healthyreport.model.HealthyReport;
 import com.softtek.lai.module.laicheng.presenter.HealthyReportPresenter;
 import com.softtek.lai.widgets.DividerItemDecoration;
 
@@ -25,10 +33,28 @@ import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_healthy_report)
-public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> implements HealthyReportPresenter.HealthyReportView{
+public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> implements HealthyReportPresenter.HealthyReportView
+,HealthyReportAdapter.OnItemClickListener{
+    //莱称数据来源
+    public static final int SINCE_LAICHEN=1;
+    //其他数据来源
+    public static final int SINCE_OTHER=2;
+
+    //访客
+    public static final int VISITOR=1;
+    //非访客
+    public static final int NON_VISITOR=2;
+
+
+
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+
+    @InjectView(R.id.tv_user)
+    TextView tv_user;
+    @InjectView(R.id.tv_time)
+    TextView tv_time;
 
     @InjectView(R.id.scroll)
     ScrollView scrollView;
@@ -41,7 +67,9 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
     @InjectView(R.id.list)
     RecyclerView list;
 
-    List<String> items=new ArrayList<>();
+    List<HealthyItem> items=new ArrayList<>();
+    HealthyReportAdapter adapter;
+    String reportId;
 
     @Override
     protected void initViews() {
@@ -53,16 +81,17 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         finish();
     }
 
+
+
     @Override
     protected void initDatas() {
-        for (int i=0;i<100;i++){
-            items.add("item"+i);
-        }
+        reportId=getIntent().getStringExtra("reportId");
         list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         list.setHasFixedSize(true);
-
         list.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
-        list.setAdapter(new HealthyReportAdapter(items,this));
+        adapter=new HealthyReportAdapter(items,this);
+        adapter.setListener(this);
+        list.setAdapter(adapter);
 
         scrollView.post(new Runnable() {
             @Override
@@ -70,6 +99,8 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
                 scrollView.fullScroll(ScrollView.FOCUS_UP);
             }
         });
+        setPresenter(new HealthyReportPresenter(this));
+        getPresenter().healthyReport("D6E64B0B-90AD-4AE3-93C2-FE0BEEC429E6");
     }
 
     private void animateArrow(boolean shouldRotateUp) {
@@ -77,6 +108,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         int end = shouldRotateUp ? 10000 : 0;
         ObjectAnimator animator = ObjectAnimator.ofInt(tv_arrow.getCompoundDrawables()[2], "level", start, end);
         animator.setInterpolator(new LinearOutSlowInInterpolator());
+        animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -85,28 +117,80 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         });
         animator.start();
     }
-//    boolean doAnimat;
     boolean isExpand;
     @OnClick(R.id.rl_expand)
     public void doExpand(){
-//        if(doAnimat){
-//            return;
-//        }
         int lineCount=tv_des.getLineCount();
         if(!isExpand){
             //展开
             isExpand=true;
+            animateArrow(!isExpand);
             tv_des.setMaxLines(lineCount);
             tv_des.invalidate();
-            animateArrow(!isExpand);
 
         }else {
             isExpand=false;
+            animateArrow(!isExpand);
             //收起
             tv_des.setMaxLines(4);
             tv_des.invalidate();
-            animateArrow(!isExpand);
         }
     }
 
+    @Override
+    public void getData(HealthyReport data) {
+        tv_user.setText(data.getUsername());
+        tv_time.setText(data.getMeasureTime());
+        String des=data.getBodyTypeDesc();
+        String[] split=des.split("<br/>");
+        SpannableStringBuilder ssb=new SpannableStringBuilder();
+        if(split.length>1){
+            SpannableString ss=new SpannableString(split[0]);
+            ss.setSpan(new ForegroundColorSpan(0xFFF6BB07),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            ssb.append(ss);
+            ssb.append("\n\n");
+            ssb.append(split[1]);
+        }else {
+            if(des.startsWith(data.getBodyTypeTitle())){
+                //截取开头的字符
+                int lenght=data.getBodyTypeTitle().length();
+                if(des.indexOf(":")==lenght||des.indexOf("：")==lenght){
+                    String title=des.substring(0,data.getBodyTypeTitle().length()+1);
+                    SpannableString ss=new SpannableString(title);
+                    ss.setSpan(new ForegroundColorSpan(0xFFF6BB07),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    ssb.append(ss);
+                    ssb.append("\n");
+                    ssb.append(des.substring(data.getBodyTypeTitle().length()+1));
+                }
+            }else {
+                ssb.append(des);
+            }
+        }
+        tv_des.setText(ssb);
+        final ViewTreeObserver viewTreeObserver = tv_des.getViewTreeObserver();
+        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+            @Override
+            public boolean onPreDraw() {
+                viewTreeObserver.removeOnPreDrawListener(this);
+                int lines=tv_des.getLineCount();
+                if(lines>4){
+                    rl_expand.setVisibility(View.VISIBLE);
+                }else {
+                    rl_expand.setVisibility(View.GONE);
+                }
+                return true;
+            }
+        });
+
+        items.addAll(data.getItemList());
+        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        //跳转到曲线图
+        startActivity(new Intent(this, HealthyChartActivity.class));
+    }
 }

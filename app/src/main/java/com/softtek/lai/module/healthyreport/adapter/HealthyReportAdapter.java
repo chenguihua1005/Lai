@@ -1,44 +1,76 @@
 package com.softtek.lai.module.healthyreport.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.module.healthyreport.model.HealthyItem;
 
 import java.util.List;
 
 /**
+ *
  * Created by jerry.guan on 4/7/2017.
  */
 
 public class HealthyReportAdapter extends RecyclerView.Adapter<HealthyReportAdapter.HealthyReportHolder>{
 
-    Context context;
-    List<String> items;
+    private Context context;
+    private List<HealthyItem> items;
+    private OnItemClickListener listener;
 
-    public HealthyReportAdapter(List<String> items, Context context) {
+    public HealthyReportAdapter(List<HealthyItem> items, Context context) {
         this.items = items;
         this.context = context;
     }
-    int i;
     @Override
     public HealthyReportHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.i("创建holder");
-        i++;
-        System.out.println("当前第几"+i);
         return new HealthyReportHolder(LayoutInflater.from(context).inflate(R.layout.healthy_item,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(HealthyReportHolder holder, int position) {
-        holder.tv.setText(items.get(position));
+    public void onBindViewHolder(HealthyReportHolder holder, final int position) {
+        HealthyItem item=items.get(position);
+        holder.tv_name.setText(item.getTitle());
+        holder.tv_standard.setText(item.getCaption());
+        if(!TextUtils.isEmpty(item.getColor())){
+            if(item.getColor().startsWith("#")){
+                holder.tv_standard.setTextColor(Color.parseColor(item.getColor()));
+            }else {
+                holder.tv_standard.setTextColor(Color.parseColor("#"+item.getColor()));
+            }
+        }
+        SpannableString ss=new SpannableString(item.getValue()+item.getUnit());
+        ss.setSpan(new AbsoluteSizeSpan(36),item.getValue().length(),ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.tv_num.setText(ss);
+        holder.rl_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.onItemClick(position);
+                }
+            }
+        });
     }
 
+    public OnItemClickListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public int getItemCount() {
@@ -46,10 +78,20 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<HealthyReportAdap
     }
 
     public class HealthyReportHolder extends RecyclerView.ViewHolder{
-        TextView tv;
+        TextView tv_name;
+        TextView tv_num;
+        TextView tv_standard;
+        RelativeLayout rl_item;
         public HealthyReportHolder(View itemView) {
             super(itemView);
-            tv= (TextView) itemView.findViewById(R.id.num);
+            tv_name= (TextView) itemView.findViewById(R.id.tv_name);
+            tv_num= (TextView) itemView.findViewById(R.id.num);
+            tv_standard= (TextView) itemView.findViewById(R.id.tv_standard);
+            rl_item= (RelativeLayout) itemView.findViewById(R.id.rl_item);
         }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 }
