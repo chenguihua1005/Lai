@@ -100,8 +100,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     @InjectView(R.id.rl_hot)
     RelativeLayout rl_hot;
 
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+//    @InjectView(R.id.toolbar)
+//    Toolbar toolbar;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -168,11 +168,11 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 
     @Override
     protected void initViews() {
-        if(toolbar!=null){
-            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-            toolbar.setLayoutParams(params);
-        }
+//        if(toolbar!=null){
+//            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
+//            toolbar.setLayoutParams(params);
+//        }
         tv_title.setText("动态");
         iv_left.setVisibility(View.INVISIBLE);
         tv_right.setText("更多话题");

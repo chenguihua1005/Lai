@@ -69,14 +69,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     String tag;
 
-    public void changeStatusColor(){
-        TypedValue typedValue = new  TypedValue();
-        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(typedValue.data);
-        }
-        tintManager.setStatusBarTintResource(typedValue.resourceId);
-    }
 
     @Override
     protected void initViews() {
@@ -150,14 +142,15 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 //页面切换了
                 isClick = false;
                 if (!UserInfoModel.getInstance().isVr()){
+                    TypedValue typedValue = new  TypedValue();
+                    getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
                     if(position==3){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            getWindow().setStatusBarColor(Color.TRANSPARENT);
+                            getWindow().setStatusBarColor(typedValue.data);
                         }
-                        tintManager.setStatusBarTintColor(Color.TRANSPARENT);
+                        tintManager.setStatusBarTintColor(typedValue.data);
                     }else {
-                        TypedValue typedValue = new  TypedValue();
-                        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getWindow().setStatusBarColor(typedValue.data);
                         }

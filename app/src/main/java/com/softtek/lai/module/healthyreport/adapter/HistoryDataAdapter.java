@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.healthyreport.model.HistoryDataItemModel;
 import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
+import com.softtek.lai.utils.StringUtil;
 
 import java.util.List;
 
@@ -99,13 +100,13 @@ public class HistoryDataAdapter extends BaseAdapter{
         }
         holder.week.setText(data.getWeek());
         holder.time.setText(data.getMeasuredTime());
-        SpannableString spannableString=new SpannableString(data.getWeight()+"斤");
+        SpannableString spannableString=new SpannableString(StringUtil.getFloatValue(data.getWeight())+"斤");
         spannableString.setSpan(new AbsoluteSizeSpan(30),spannableString.length()-1,spannableString.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.loss_weight.setText(spannableString);
-        SpannableString spannable=new SpannableString(data.getBodyFatRate()+"%");
+        SpannableString spannable=new SpannableString(StringUtil.getFloatValue(data.getBodyFatRate())+"%");
         spannable.setSpan(new AbsoluteSizeSpan(30),spannable.length()-1,spannable.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.physical.setText(spannable);
-        holder.fat.setText(data.getViscusFatIndex());
+        holder.fat.setText(StringUtil.getFloatValue(data.getViscusFatIndex()));
         return convertView;
     }
 

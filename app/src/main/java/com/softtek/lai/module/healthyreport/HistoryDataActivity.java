@@ -95,37 +95,56 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
             return;
         }
         //点击进入健康报告
-
+        HistoryDataModel.RecordsBean bean=dataItemModels.get(position-1).getDataModel();
+        Intent intent=new Intent(this,HealthyReportActivity.class);
+        intent.putExtra("reportId",bean.getRecordId());
+        if(type==0){
+            intent.putExtra("since",HealthyReportActivity.SINCE_LAICHEN);
+        }else {
+            intent.putExtra("since",HealthyReportActivity.SINCE_OTHER);
+        }
+        intent.putExtra("isVisitor",HealthyReportActivity.NON_VISITOR);
+        startActivity(intent);
     }
 
     boolean isEditor;
-    private void editor(){
-        isEditor=!isEditor;
-        for (HistoryDataItemModel model : dataItemModels) {
+    private void openEditor(int position){
+        for (int i=0,j=dataItemModels.size();i<j;i++) {
+            HistoryDataItemModel model=dataItemModels.get(i);
+            model.setChecked(position==i);
             model.setShow(isEditor);
-            model.setChecked(false);
         }
-        if (isEditor) {
-            ptrlv.setMode(PullToRefreshBase.Mode.DISABLED);
-            ll_footer.setVisibility(View.VISIBLE);
-        } else {
-            ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-            ll_footer.setVisibility(View.GONE);
-        }
+
+        ptrlv.setMode(PullToRefreshBase.Mode.DISABLED);
+        ll_footer.setVisibility(View.VISIBLE);
         adapter.notifyDataSetChanged();
-        if(isEditor){
-            if(empty==null){
-                empty=new View(this);
-                empty.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,DisplayUtil.dip2px(this,48)));
-            }
-            ptrlv.getRefreshableView().addFooterView(empty);
-        }else {
-            ptrlv.getRefreshableView().removeFooterView(empty);
+        if(empty==null){
+            empty=new View(this);
+            empty.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,DisplayUtil.dip2px(this,48)));
         }
+        ptrlv.getRefreshableView().addFooterView(empty);
+
+    }
+    private void closeEditor(){
+        for (int i=0,j=dataItemModels.size();i<j;i++) {
+            HistoryDataItemModel model=dataItemModels.get(i);
+            model.setChecked(false);
+            model.setShow(false);
+        }
+        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        ll_footer.setVisibility(View.GONE);
+        adapter.notifyDataSetChanged();
+        ptrlv.getRefreshableView().removeFooterView(empty);
+
     }
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        editor();
+        isEditor=!isEditor;
+        if(isEditor){
+            openEditor(position-1);
+        }else {
+            closeEditor();
+        }
         return true;
     }
 
@@ -160,7 +179,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.tv_cancle:
-                editor();
+                closeEditor();
                 break;
         }
     }
@@ -231,7 +250,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if(isEditor) {
-                editor();
+                closeEditor();
                 return true;
             }
             return super.onKeyDown(keyCode, event);
