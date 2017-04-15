@@ -1,19 +1,13 @@
 package com.softtek.lai.module.laicheng;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.drm.DrmInfoStatus;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,11 +17,10 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
-import com.softtek.lai.module.bodygame3.more.view.FuceAlbumActivity;
+import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.presenter.SelftestPresenter;
-import com.softtek.lai.widgets.FuCeSelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -35,7 +28,6 @@ import com.umeng.socialize.media.UMImage;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_selftest)
 public class SelftestFragment extends LazyBaseFragment implements SelftestPresenter.SelftestView {
@@ -77,6 +69,8 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     private SelftestPresenter presenter;
 
     private Dialog dialog;//对话框
+
+    private String recordId = "";
 
     @Override
     public void getLastInfoSuccess(LastInfoData data) {
@@ -122,7 +116,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         mWeight.setTypeface(tf);
         mWeightCaption.setVisibility(View.INVISIBLE);
 //        mShare.setVisibility(View.INVISIBLE);
-        mHealthReport.setVisibility(View.INVISIBLE);
+//        mHealthReport.setVisibility(View.INVISIBLE);
         presenter = new SelftestPresenter(this);
     }
 
@@ -143,27 +137,24 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         }
     }
 
-    @OnClick(R.id.tv_share)
-    public void onShareClick() {
-
-    }
-
+    //测量成功更新UI
     @SuppressLint("SetTextI18n")
     public void updateUI(BleMainData data) {
         if (data != null) {
             mWeight.setText(data.getWeight() + "");
             mWeightCaption.setText(data.getBodyTypeTitle());
             mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
-            mBodyFatRate.setText(data.getBodyFatRate() + "%");
+            mBodyFatRate.setText(data.getBodyFatRate());
             mBmi.setText(data.getBMI() + "");
-            mInternalFatRate.setText(data.getViscusFatIndex() + "%");
+            mInternalFatRate.setText(data.getViscusFatIndex());
+            recordId = data.getRecordId();
         }
         mWeightCaption.setVisibility(View.VISIBLE);
         mShare.setVisibility(View.VISIBLE);
         mHealthReport.setVisibility(View.VISIBLE);
-
     }
 
+    //摇一摇刷新U
     @SuppressLint("SetTextI18n")
     public void refreshUi(LastInfoData data) {
         mWeight.setText("0.0");
@@ -215,6 +206,15 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         }
     }
 
+    @OnClick(R.id.tv_health_report)
+    public void goToHealthReport(){
+        Intent intent = new Intent(getActivity(),HealthyReportActivity.class);
+        intent.putExtra("isVisitor",HealthyReportActivity.NON_VISITOR);
+        intent.putExtra("recordId",recordId);
+        intent.putExtra("since",HealthyReportActivity.SINCE_LAICHEN);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.tv_share)
     public void share() {
         showDialog();
@@ -223,6 +223,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     String value;
     String url;
     String title_value;
+    //分享对话框
     private void showDialog() {
         if (dialog == null) {
             dialog = new Dialog(getActivity(), R.style.custom_dialog);
@@ -233,6 +234,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
             params.height = WindowManager.LayoutParams.WRAP_CONTENT;
             params.x = 120;
             params.y = 100;
+            assert win != null;
             win.setAttributes(params);
             dialog.setContentView(R.layout.share_dialog);
             dialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {

@@ -104,7 +104,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
             }
         });
         setPresenter(new HealthyReportPresenter(this));
-        getPresenter().healthyReport("D6E64B0B-90AD-4AE3-93C2-FE0BEEC429E6");
+        getPresenter().healthyReport(reportId);
     }
 
     private void animateArrow(boolean shouldRotateUp) {

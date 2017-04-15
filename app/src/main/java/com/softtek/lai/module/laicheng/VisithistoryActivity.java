@@ -1,5 +1,7 @@
 package com.softtek.lai.module.laicheng;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laicheng.adapter.HistoryAdapter;
+import com.softtek.lai.module.laicheng.adapter.HistoryTestRecyclerView;
 import com.softtek.lai.module.laicheng.model.HistoryModel;
 import com.softtek.lai.module.laicheng.model.VisitorInfoModel;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
@@ -36,7 +39,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     LinearLayout ll_left;
 
     @InjectView(R.id.ptrlv)
-    ListView ptrlv;
+    RecyclerView ptrlv;
 
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
@@ -50,6 +53,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     ImageView imageView10;
     private List<HistoryModel> historyModelList = new ArrayList<>();
     HistoryAdapter adapter;
+    HistoryTestRecyclerView mAdapter;
 
     @Override
     protected void initViews() {
@@ -99,9 +103,17 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     protected void initDatas() {
         setPresenter(new HistoryVisitorPresenter(this));
         getPresenter().GetData();
-        ptrlv.setTextFilterEnabled(true);
+//        ptrlv.setTextFilterEnabled(true);
         adapter = new HistoryAdapter(this, historyModelList, et_input);
-        ptrlv.setAdapter(adapter);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        ptrlv.setLayoutManager(layoutManager);
+        mAdapter = new HistoryTestRecyclerView(historyModelList, new HistoryTestRecyclerView.ItemListener() {
+            @Override
+            public void onItemClick(HistoryModel item) {
+
+            }
+        });
+        ptrlv.setAdapter(mAdapter);
     }
 
     @Override
@@ -128,9 +140,12 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
             ptrlv.setVisibility(View.GONE);
 
         } else {
-            historyModelList = historyModels;
+            historyModelList.clear();
+            historyModelList.addAll(historyModels);
+//            historyModelList = historyModels;
             rl_search.setVisibility(View.VISIBLE);
-            ptrlv.setEmptyView(ll_nodata);
+            mAdapter.notifyDataSetChanged();
+//            ptrlv.setEmptyView(ll_nodata);
         }
     }
 
