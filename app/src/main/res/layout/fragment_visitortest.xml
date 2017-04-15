@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_visit"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#E4FEFD"
@@ -73,12 +74,14 @@
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/visitor_back"
                 android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#9EE3CE" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2dp"-->
+                    <!--android:background="#9EE3CE" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -180,11 +183,11 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="#9EE3CE" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2dp"-->
+                    <!--android:layout_marginBottom="20dp"-->
+                    <!--android:background="#9EE3CE" />-->
             </LinearLayout>
 
             <!--健康报告-->
@@ -192,6 +195,7 @@
                 android:id="@+id/mid_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:visibility="invisible"
                 android:gravity="center">
 
