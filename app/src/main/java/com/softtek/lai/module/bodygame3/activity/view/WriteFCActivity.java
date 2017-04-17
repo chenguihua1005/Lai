@@ -815,7 +815,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void doGetDataService(String type) {
-        service.doGetPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+        service.getPreMeasureDataVs1(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
             @Override
             public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
                 int status = fcStDataModelResponseData.getStatus();
