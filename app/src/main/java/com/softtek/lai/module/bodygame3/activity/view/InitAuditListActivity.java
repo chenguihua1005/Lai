@@ -87,41 +87,41 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     }
 
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid, int pageIndex, int pageSize) {
-        fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-            @Override
-            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                try {
-                    switch (status) {
-                        case 200:
-                            if (listResponseData.getData().size() == 0) {
-                                tabtitle[0] = "未审核(" + "0" + ")";
-                                tabtitle[1] = "已审核(" + "0" + ")";
-                                TabLayout.Tab tab1 = tab.getTabAt(0);
-                                tab1.setText(tabtitle[0]);
-                                TabLayout.Tab tab2 = tab.getTabAt(1);
-                                tab2.setText(tabtitle[1]);
-                            } else {
-                                Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
-                                Auditednum = Integer.parseInt(listResponseData.getData().get(1).getCount());
-                                tabtitle[0] = "未审核(" + Auditnum + ")";
-                                tabtitle[1] = "已审核(" + Auditednum + ")";
-                                TabLayout.Tab tab1 = tab.getTabAt(0);
-                                tab1.setText(tabtitle[0]);
-                                TabLayout.Tab tab2 = tab.getTabAt(1);
-                                tab2.setText(tabtitle[1]);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    private void doGetData(Long accountid, String classid, int pageIndex, int pageSize) {
+//        fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+//            @Override
+//            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
+//                int status = listResponseData.getStatus();
+//                try {
+//                    switch (status) {
+//                        case 200:
+//                            if (listResponseData.getData().size() == 0) {
+//                                tabtitle[0] = "未审核(" + "0" + ")";
+//                                tabtitle[1] = "已审核(" + "0" + ")";
+//                                TabLayout.Tab tab1 = tab.getTabAt(0);
+//                                tab1.setText(tabtitle[0]);
+//                                TabLayout.Tab tab2 = tab.getTabAt(1);
+//                                tab2.setText(tabtitle[1]);
+//                            } else {
+//                                Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
+//                                Auditednum = Integer.parseInt(listResponseData.getData().get(1).getCount());
+//                                tabtitle[0] = "未审核(" + Auditnum + ")";
+//                                tabtitle[1] = "已审核(" + Auditednum + ")";
+//                                TabLayout.Tab tab1 = tab.getTabAt(0);
+//                                tab1.setText(tabtitle[0]);
+//                                TabLayout.Tab tab2 = tab.getTabAt(1);
+//                                tab2.setText(tabtitle[1]);
+//                            }
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                } catch (NumberFormatException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     public void update() {
         tabtitle[0] = "未录入(" + (--Auditnum) + ")";

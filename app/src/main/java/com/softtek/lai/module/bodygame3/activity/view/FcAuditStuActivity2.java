@@ -31,6 +31,7 @@ import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
+import com.softtek.lai.widgets.DragFloatActionButtonCheng;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -62,7 +63,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     ImageView iv_email;
 
     @InjectView(R.id.cheng_float)
-    DragFloatActionButton cheng_float;
+    DragFloatActionButtonCheng cheng_float;
 
     @LifeCircleInject
     ValidateLife validateLife;
