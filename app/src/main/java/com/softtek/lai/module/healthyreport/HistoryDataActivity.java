@@ -98,11 +98,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         HistoryDataModel.RecordsBean bean=dataItemModels.get(position-1).getDataModel();
         Intent intent=new Intent(this,HealthyReportActivity.class);
         intent.putExtra("reportId",bean.getRecordId());
-        if(type==0){
-            intent.putExtra("since",HealthyReportActivity.SINCE_LAICHEN);
-        }else {
-            intent.putExtra("since",HealthyReportActivity.SINCE_OTHER);
-        }
+        intent.putExtra("since",type==0?HealthyReportActivity.SINCE_LAICHEN:HealthyReportActivity.SINCE_OTHER);
         intent.putExtra("isVisitor",HealthyReportActivity.NON_VISITOR);
         startActivity(intent);
     }

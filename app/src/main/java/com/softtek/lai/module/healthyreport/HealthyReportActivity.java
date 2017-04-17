@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -67,11 +69,12 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
     @InjectView(R.id.list)
     RecyclerView list;
 
-    List<HealthyItem> items=new ArrayList<>();
+    ArrayList<HealthyItem> items=new ArrayList<>();
     HealthyReportAdapter adapter;
     String reportId;
     int since;
     int isVisitor;
+    String accountId;
 
     @Override
     protected void initViews() {
@@ -143,50 +146,55 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
 
     @Override
     public void getData(HealthyReport data) {
+        accountId=data.getAccountId();
         tv_user.setText(data.getUsername());
         tv_time.setText(data.getMeasureTime());
         String des=data.getBodyTypeDesc();
-        String[] split=des.split("<br/>");
-        SpannableStringBuilder ssb=new SpannableStringBuilder();
-        if(split.length>1){
-            SpannableString ss=new SpannableString(split[0]);
-            ss.setSpan(new ForegroundColorSpan(0xFFF6BB07),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            ssb.append(ss);
-            ssb.append("\n\n");
-            ssb.append(split[1]);
+        if(TextUtils.isEmpty(des)){
+            tv_des.setVisibility(View.GONE);
         }else {
-            if(des.startsWith(data.getBodyTypeTitle())){
-                //截取开头的字符
-                int lenght=data.getBodyTypeTitle().length();
-                if(des.indexOf(":")==lenght||des.indexOf("：")==lenght){
-                    String title=des.substring(0,data.getBodyTypeTitle().length()+1);
-                    SpannableString ss=new SpannableString(title);
-                    ss.setSpan(new ForegroundColorSpan(0xFFF6BB07),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                    ssb.append(ss);
-                    ssb.append("\n");
-                    ssb.append(des.substring(data.getBodyTypeTitle().length()+1));
-                }
+            tv_des.setVisibility(View.VISIBLE);
+            String[] split=des.split("<br/>");
+            SpannableStringBuilder ssb=new SpannableStringBuilder();
+            if(split.length>1){
+                SpannableString ss=new SpannableString(split[0]);
+                ss.setSpan(new ForegroundColorSpan(0xFFF6BB07),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                ssb.append(ss);
+                ssb.append("\n\n");
+                ssb.append(split[1]);
             }else {
-                ssb.append(des);
-            }
-        }
-        tv_des.setText(ssb);
-        final ViewTreeObserver viewTreeObserver = tv_des.getViewTreeObserver();
-        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-            @Override
-            public boolean onPreDraw() {
-                viewTreeObserver.removeOnPreDrawListener(this);
-                int lines=tv_des.getLineCount();
-                if(lines>4){
-                    rl_expand.setVisibility(View.VISIBLE);
+                if(des.startsWith(data.getBodyTypeTitle())){
+                    //截取开头的字符
+                    int lenght=data.getBodyTypeTitle().length();
+                    if(des.indexOf(":")==lenght||des.indexOf("：")==lenght){
+                        String title=des.substring(0,data.getBodyTypeTitle().length()+1);
+                        SpannableString ss=new SpannableString(title);
+                        ss.setSpan(new ForegroundColorSpan(0xFFF6BB07),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        ssb.append(ss);
+                        ssb.append("\n");
+                        ssb.append(des.substring(data.getBodyTypeTitle().length()+1));
+                    }
                 }else {
-                    rl_expand.setVisibility(View.GONE);
+                    ssb.append(des);
                 }
-                return true;
             }
-        });
+            tv_des.setText(ssb);
+            final ViewTreeObserver viewTreeObserver = tv_des.getViewTreeObserver();
+            viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
+                @Override
+                public boolean onPreDraw() {
+                    viewTreeObserver.removeOnPreDrawListener(this);
+                    int lines=tv_des.getLineCount();
+                    if(lines>4){
+                        rl_expand.setVisibility(View.VISIBLE);
+                    }else {
+                        rl_expand.setVisibility(View.GONE);
+                    }
+                    return true;
+                }
+            });
+        }
         items.addAll(data.getItemList());
         adapter.notifyDataSetChanged();
 
@@ -195,6 +203,15 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
     @Override
     public void onItemClick(int position) {
         //跳转到曲线图
-        startActivity(new Intent(this, HealthyChartActivity.class));
+        HealthyItem item=items.get(position);
+        Intent intent=new Intent(this, HealthyChartActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putInt("isVisitor",isVisitor);
+        bundle.putInt("pid",item.getPid());
+        bundle.putString("accountId",accountId);
+        bundle.putString("recordId",reportId);
+        intent.putExtras(bundle);
+        intent.putParcelableArrayListExtra("items",items);
+        startActivity(intent);
     }
 }

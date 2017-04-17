@@ -107,7 +107,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp"
                 android:orientation="vertical"
                 android:background="@color/white">
 
@@ -118,9 +117,11 @@
                     android:paddingLeft="30dp"
                     android:paddingRight="15dp"
                     android:paddingBottom="10dp"
+                    android:paddingTop="15dp"
                     android:textSize="14sp"
                     android:maxLines="4"
-                    android:textColor="#333333" />
+                    android:textColor="#333333"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
                     android:id="@+id/rl_expand"

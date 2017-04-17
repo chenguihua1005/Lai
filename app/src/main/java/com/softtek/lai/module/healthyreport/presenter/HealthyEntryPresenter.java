@@ -1,15 +1,12 @@
 package com.softtek.lai.module.healthyreport.presenter;
 
-import android.util.Log;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView1;
 import com.softtek.lai.module.healthyreport.model.HealthModel;
 import com.softtek.lai.module.healthyreport.model.LastestRecordModel;
-import com.softtek.lai.module.healthyreport.net.HealthRecordService;
-import com.softtek.lai.module.laiClassroom.adapter.TabAdapter;
+import com.softtek.lai.module.healthyreport.net.HealthyRecordService;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -23,12 +20,12 @@ import zilla.libcore.util.Util;
  */
 public class HealthyEntryPresenter extends BasePresenter<HealthyEntryPresenter.HealthyEntryView>{
 
-    private HealthRecordService healthRecordService;
+    private HealthyRecordService healthyRecordService;
     private String token;
 
     public HealthyEntryPresenter(HealthyEntryView baseView) {
         super(baseView);
-        healthRecordService = ZillaApi.NormalRestAdapter.create(HealthRecordService.class);
+        healthyRecordService = ZillaApi.NormalRestAdapter.create(HealthyRecordService.class);
         token= UserInfoModel.getInstance().getToken();
     }
 
@@ -37,7 +34,7 @@ public class HealthyEntryPresenter extends BasePresenter<HealthyEntryPresenter.H
         if (getView()!=null){
             getView().dialogShow("正在提交");
         }
-        healthRecordService.entryhealthrecord(token,healthModel,new Callback<ResponseData>() {
+        healthyRecordService.entryhealthrecord(token,healthModel,new Callback<ResponseData>() {
             @Override
             public void success(ResponseData healthModelResponseData,Response response) {
                 int status = healthModelResponseData.getStatus();
@@ -71,7 +68,7 @@ public class HealthyEntryPresenter extends BasePresenter<HealthyEntryPresenter.H
         if (getView()!=null){
             getView().dialogShow("获取数据中...");
         }
-        healthRecordService.doGetLastestRecord(token,accountid, new Callback<ResponseData<LastestRecordModel>>() {
+        healthyRecordService.doGetLastestRecord(token,accountid, new Callback<ResponseData<LastestRecordModel>>() {
             @Override
             public void success(ResponseData<LastestRecordModel> data, Response response) {
                 int status = data.getStatus();
