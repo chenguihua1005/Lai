@@ -17,6 +17,10 @@ public class HistoryModel implements Serializable{
         this.visitor = visitor;
     }
 
+    public HistoryModel() {
+    }
+
+
     public String getRecordId() {
         return recordId;
     }
@@ -39,5 +43,14 @@ public class HistoryModel implements Serializable{
 
     public void setVisitor(VisitorInfoModel visitor) {
         this.visitor = visitor;
+    }
+
+    @Override
+    public String toString() {
+        return "HistoryModel{" +
+                "recordId='" + recordId + '\'' +
+                ", measuredTime='" + measuredTime + '\'' +
+                ", visitor=" + visitor +
+                '}';
     }
 }

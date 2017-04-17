@@ -18,6 +18,16 @@ private String UpArmGirth;
 private String UpLegGirth;
 private String DoLegGirth;
 
+    private String Bmi; //BMI
+    private String FatFreeMass;//去脂体重
+    //    private String ViscusFatIndex;     //内脏脂肪指数
+    private String BodyWaterRate;//身体水分率
+    private String BodyWater;//身体水分
+    private String MuscleMass;//肌肉量
+    private String BoneMass;//骨量
+    private String BasalMetabolism;//基础代谢
+    private String PhysicalAge;//身体年龄
+
     @Override
     public String toString() {
         return "FcAuditPostModel{" +
@@ -33,7 +43,79 @@ private String DoLegGirth;
                 ", UpArmGirth='" + UpArmGirth + '\'' +
                 ", UpLegGirth='" + UpLegGirth + '\'' +
                 ", DoLegGirth='" + DoLegGirth + '\'' +
+                ", Bmi='" + Bmi + '\'' +
+                ", FatFreeMass='" + FatFreeMass + '\'' +
+                ", BodyWaterRate='" + BodyWaterRate + '\'' +
+                ", BodyWater='" + BodyWater + '\'' +
+                ", MuscleMass='" + MuscleMass + '\'' +
+                ", BoneMass='" + BoneMass + '\'' +
+                ", BasalMetabolism='" + BasalMetabolism + '\'' +
+                ", PhysicalAge='" + PhysicalAge + '\'' +
                 '}';
+    }
+
+    public String getBmi() {
+        return Bmi;
+    }
+
+    public void setBmi(String bmi) {
+        Bmi = bmi;
+    }
+
+    public String getFatFreeMass() {
+        return FatFreeMass;
+    }
+
+    public void setFatFreeMass(String fatFreeMass) {
+        FatFreeMass = fatFreeMass;
+    }
+
+    public String getBodyWaterRate() {
+        return BodyWaterRate;
+    }
+
+    public void setBodyWaterRate(String bodyWaterRate) {
+        BodyWaterRate = bodyWaterRate;
+    }
+
+    public String getBodyWater() {
+        return BodyWater;
+    }
+
+    public void setBodyWater(String bodyWater) {
+        BodyWater = bodyWater;
+    }
+
+    public String getMuscleMass() {
+        return MuscleMass;
+    }
+
+    public void setMuscleMass(String muscleMass) {
+        MuscleMass = muscleMass;
+    }
+
+    public String getBoneMass() {
+        return BoneMass;
+    }
+
+    public void setBoneMass(String boneMass) {
+        BoneMass = boneMass;
+    }
+
+    public String getBasalMetabolism() {
+        return BasalMetabolism;
+    }
+
+    public void setBasalMetabolism(String basalMetabolism) {
+        BasalMetabolism = basalMetabolism;
+    }
+
+    public String getPhysicalAge() {
+        return PhysicalAge;
+    }
+
+    public void setPhysicalAge(String physicalAge) {
+        PhysicalAge = physicalAge;
     }
 
     public String getHiplie() {

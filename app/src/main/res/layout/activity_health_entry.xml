@@ -413,7 +413,7 @@
                 android:layout_height="1dp"
                 android:background="#78BC27" />
 
-            <RelativeLayout
+<!--            <RelativeLayout
                 android:id="@+id/rl_visceral_fat"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
@@ -438,7 +438,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#78BC27" />
+                android:background="#78BC27" />-->
 
             <RelativeLayout
                 android:id="@+id/rl_body_water_per"

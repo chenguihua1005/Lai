@@ -70,8 +70,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     RelativeLayout rl_bmi;
     @InjectView(R.id.rl_quzhi)
     RelativeLayout rl_quzhi;
-    @InjectView(R.id.rl_visceral_fat)
-    RelativeLayout rl_visceral_fat;
+//    @InjectView(R.id.rl_visceral_fat)
+//    RelativeLayout rl_visceral_fat;
     @InjectView(R.id.rl_body_water_per)
     RelativeLayout rl_body_water_per;
     @InjectView(R.id.rl_body_water)
@@ -84,8 +84,6 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     RelativeLayout rl_base_metabolize;
     @InjectView(R.id.rl_body_age)
     RelativeLayout rl_body_age;
-
-
 
 
     @InjectView(R.id.tv_weight)
@@ -119,8 +117,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     TextView tv_bmi;
     @InjectView(R.id.tv_quzhi)
     TextView tv_quzhi;
-    @InjectView(R.id.tv_visceral_fat)
-    TextView tv_visceral_fat;
+//    @InjectView(R.id.tv_visceral_fat)
+//    TextView tv_visceral_fat;
     @InjectView(R.id.tv_body_water_per)
     TextView tv_body_water_per;
     @InjectView(R.id.tv_body_water)
@@ -140,6 +138,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     private HealthModel healthModele;
     private LastestRecordModel lastestRecordModel;
 
+    final String gender = UserInfoModel.getInstance().getUser().getGender();
+
     @Override
     protected void initViews() {
         rl_left.setOnClickListener(this);
@@ -152,6 +152,17 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         rl_uparmgirth.setOnClickListener(this);
         rl_upleggirth.setOnClickListener(this);
         rl_doleggirth.setOnClickListener(this);
+
+        rl_bmi.setOnClickListener(this);
+        rl_quzhi.setOnClickListener(this);
+//        rl_visceral_fat.setOnClickListener(this);
+        rl_body_water_per.setOnClickListener(this);
+        rl_body_water.setOnClickListener(this);
+        rl_muscle_mass.setOnClickListener(this);
+        rl_bone.setOnClickListener(this);
+        rl_base_metabolize.setOnClickListener(this);
+        rl_body_age.setOnClickListener(this);
+
         btn_sure.setOnClickListener(this);
     }
 
@@ -163,6 +174,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     }
 
     AlertDialog weightDialog;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -170,8 +182,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                 finish();
                 break;
             case R.id.rl_weight:
-                final String gender = UserInfoModel.getInstance().getUser().getGender();
-                DoSelectedListener weightListener=new DoSelectedListener() {
+
+                DoSelectedListener weightListener = new DoSelectedListener() {
                     @Override
                     public void onClick(final float value) {
                         if (value < 90) {
@@ -189,7 +201,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface arg0, int arg1) {
-                                                    if(weightDialog!=null){
+                                                    if (weightDialog != null) {
                                                         weightDialog.show();
                                                     }
                                                 }
@@ -199,7 +211,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                         }
                     }
                 };
-                weightDialog= createDialog("选择体重(单位：斤)", 50, 600, "0".equals(gender) ? 150 : 100, weightListener);
+                weightDialog = createDialog("选择体重(单位：斤)", 50, 600, "0".equals(gender) ? 150 : 100, weightListener);
                 weightDialog.show();
                 break;
             case R.id.rl_pysical:
@@ -267,7 +279,149 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                 }).show();
                 break;
             case R.id.rl_bmi:
-//                createDialog("选择BMI",);
+                if ("1".equals(gender)) { //女的
+                    createDialog("选择BMI", 0, 50, 25, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_bmi.setText(String.valueOf(value));
+                        }
+                    }).show();
+                } else {
+                    createDialog("选择BMI", 0, 50, 27, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_bmi.setText(String.valueOf(value));
+                        }
+                    }).show();
+                }
+                break;
+            case R.id.rl_quzhi:
+                if ("1".equals(gender)) { //女的
+                    createDialog("选择去脂体重", 0, 180, 40, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_quzhi.setText(String.valueOf(value));
+                        }
+                    }).show();
+                } else {
+                    createDialog("选择去脂体重", 0, 180, 60, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_quzhi.setText(String.valueOf(value));
+                        }
+                    }).show();
+                }
+                break;
+//            case R.id.rl_visceral_fat:
+//                if ("1".equals(gender)) { //女的
+//                    createDialog("选择内脏脂肪指数", 0, 30, 10, new DoSelectedListener() {
+//                        @Override
+//                        public void onClick(float value) {
+//                            tv_visceral_fat.setText(String.valueOf(value));
+//                        }
+//                    }).show();
+//                } else {
+//                    createDialog("选择内脏脂肪指数", 0, 30, 10, new DoSelectedListener() {
+//                        @Override
+//                        public void onClick(float value) {
+//                            tv_visceral_fat.setText(String.valueOf(value));
+//                        }
+//                    }).show();
+//                }
+//                break;
+            case R.id.rl_body_water_per:
+                if ("1".equals(gender)) { //女的
+                    createDialog("选择身体水份率", 0, 80, 50, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_body_water_per.setText(String.valueOf(value));
+                        }
+                    }).show();
+                } else {
+                    createDialog("选择身体水份率", 0, 80, 55, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_body_water_per.setText(String.valueOf(value));
+                        }
+                    }).show();
+                }
+                break;
+            case R.id.rl_body_water:
+                if ("1".equals(gender)) { //女的
+                    createDialog("选择身体水份", 0, 160, 30, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_body_water.setText(String.valueOf(value));
+                        }
+                    }).show();
+                } else {
+                    createDialog("选择身体水份", 0, 160, 40, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_body_water.setText(String.valueOf(value));
+                        }
+                    }).show();
+                }
+                break;
+            case R.id.rl_muscle_mass:
+                if ("1".equals(gender)) { //女的
+                    createDialog("选择肌肉量", 0, 180, 40, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_muscle_mass.setText(String.valueOf(value));
+                        }
+                    }).show();
+                } else {
+                    createDialog("选择肌肉量", 0, 180, 60, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_muscle_mass.setText(String.valueOf(value));
+                        }
+                    }).show();
+                }
+                break;
+            case R.id.rl_bone:
+                if ("1".equals(gender)) { //女的
+                    createDialog("选择骨量", 0, 6, 2, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_bone.setText(String.valueOf(value));
+                        }
+                    }).show();
+                } else {
+                    createDialog("选择骨量", 0, 6, 3, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_bone.setText(String.valueOf(value));
+                        }
+                    }).show();
+                }
+                break;
+
+            case R.id.rl_base_metabolize:
+                if ("1".equals(gender)) { //女的
+                    createDialog("选择基础代谢", 0, 2500, 1280, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_base_metabolize.setText(String.valueOf(value));
+                        }
+                    }).show();
+                } else {
+                    createDialog("选择基础代谢", 0, 2500, 1700, new DoSelectedListener() {
+                        @Override
+                        public void onClick(float value) {
+                            tv_base_metabolize.setText(String.valueOf(value));
+                        }
+                    }).show();
+                }
+                break;
+            case R.id.rl_body_age:
+                createDialog("选择身体年龄", 0, 150, 30, new DoSelectedListener() {
+                    @Override
+                    public void onClick(float value) {
+                        tv_body_age.setText(String.valueOf(value));
+                    }
+                }).show();
                 break;
             case R.id.btn_sure:
                 validateLife.validate();
@@ -275,7 +429,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         }
     }
 
-    private AlertDialog createDialog(String title, int min, int max, int defaultValue, final DoSelectedListener listener){
+    private AlertDialog createDialog(String title, int min, int max, int defaultValue, final DoSelectedListener listener) {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
@@ -293,9 +447,9 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         return dialog.setTitle(title).setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(listener!=null){
-                    int v1=np1.getValue();
-                    listener.onClick(v1+Float.valueOf("0."+np2.getValue()));
+                if (listener != null) {
+                    int v1 = np1.getValue();
+                    listener.onClick(v1 + Float.valueOf("0." + np2.getValue()));
                 }
 
             }
@@ -314,6 +468,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         String upleggirth = tv_upleggirth.getText().toString();
         String doleggirth = tv_doleggirth.getText().toString();
 
+
+
         healthModele = new HealthModel();
         healthModele.setWeight(weight);
         healthModele.setPysical(pysical);
@@ -324,6 +480,18 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         healthModele.setUpArmGirth(uparmgirth);
         healthModele.setUpLegGirth(upleggirth);
         healthModele.setDoLegGirth(doleggirth);
+
+        healthModele.setBmi(tv_bmi.getText().toString());
+        healthModele.setFatFreeMass(tv_quzhi.getText().toString());
+//        healthModele.setViscusFatIndex(tv_visceral_fat.getText().toString());
+        healthModele.setBodyWaterRate(tv_body_water_per.getText().toString());
+        healthModele.setBodyWater(tv_body_water.getText().toString());
+
+        healthModele.setMuscleMass(tv_muscle_mass.getText().toString());
+        healthModele.setBoneMass(tv_bone.getText().toString());
+        healthModele.setBasalMetabolism(tv_base_metabolize.getText().toString());
+        healthModele.setPhysicalAge(tv_body_age.getText().toString());
+
         healthModele.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
         getPresenter().entryhealthrecord(healthModele);
 
@@ -347,6 +515,18 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         tv_uparmgirth.setText(StringUtil.getValue(lastestRecordModel.getUpArmGirth()));
         tv_upleggirth.setText(StringUtil.getValue(lastestRecordModel.getUpLegGirth()));
         tv_doleggirth.setText(StringUtil.getValue(lastestRecordModel.getDoLegGirth()));
+
+        tv_bmi.setText(StringUtil.getValue(lastestRecordModel.getBmi()));
+        tv_quzhi.setText(StringUtil.getValue(lastestRecordModel.getFatFreeMass()));
+//        tv_visceral_fat.setText(StringUtil.getValue(lastestRecordModel.getViscusFatIndex()));
+        tv_body_water_per.setText(StringUtil.getValue(lastestRecordModel.getBodyWaterRate()));
+        tv_body_water.setText(StringUtil.getValue(lastestRecordModel.getBodyWater()));
+
+        tv_muscle_mass.setText(StringUtil.getValue(lastestRecordModel.getMuscleMass()));
+        tv_bone.setText(StringUtil.getValue(lastestRecordModel.getBoneMass()));
+        tv_base_metabolize.setText(StringUtil.getValue(lastestRecordModel.getBasalMetabolism()));
+        tv_body_age.setText(StringUtil.getValue(lastestRecordModel.getPhysicalAge()));
+
     }
 
     @Override
@@ -356,7 +536,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
     }
 
-    public interface DoSelectedListener{
+    public interface DoSelectedListener {
         void onClick(float value);
     }
 }
