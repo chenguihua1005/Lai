@@ -70,8 +70,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     RelativeLayout rl_bmi;
     @InjectView(R.id.rl_quzhi)
     RelativeLayout rl_quzhi;
-    @InjectView(R.id.rl_visceral_fat)
-    RelativeLayout rl_visceral_fat;
+//    @InjectView(R.id.rl_visceral_fat)
+//    RelativeLayout rl_visceral_fat;
     @InjectView(R.id.rl_body_water_per)
     RelativeLayout rl_body_water_per;
     @InjectView(R.id.rl_body_water)
@@ -117,8 +117,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     TextView tv_bmi;
     @InjectView(R.id.tv_quzhi)
     TextView tv_quzhi;
-    @InjectView(R.id.tv_visceral_fat)
-    TextView tv_visceral_fat;
+//    @InjectView(R.id.tv_visceral_fat)
+//    TextView tv_visceral_fat;
     @InjectView(R.id.tv_body_water_per)
     TextView tv_body_water_per;
     @InjectView(R.id.tv_body_water)
@@ -155,7 +155,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
         rl_bmi.setOnClickListener(this);
         rl_quzhi.setOnClickListener(this);
-        rl_visceral_fat.setOnClickListener(this);
+//        rl_visceral_fat.setOnClickListener(this);
         rl_body_water_per.setOnClickListener(this);
         rl_body_water.setOnClickListener(this);
         rl_muscle_mass.setOnClickListener(this);
@@ -312,23 +312,23 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                     }).show();
                 }
                 break;
-            case R.id.rl_visceral_fat:
-                if ("1".equals(gender)) { //女的
-                    createDialog("选择内脏脂肪指数", 0, 30, 10, new DoSelectedListener() {
-                        @Override
-                        public void onClick(float value) {
-                            tv_visceral_fat.setText(String.valueOf(value));
-                        }
-                    }).show();
-                } else {
-                    createDialog("选择内脏脂肪指数", 0, 30, 10, new DoSelectedListener() {
-                        @Override
-                        public void onClick(float value) {
-                            tv_visceral_fat.setText(String.valueOf(value));
-                        }
-                    }).show();
-                }
-                break;
+//            case R.id.rl_visceral_fat:
+//                if ("1".equals(gender)) { //女的
+//                    createDialog("选择内脏脂肪指数", 0, 30, 10, new DoSelectedListener() {
+//                        @Override
+//                        public void onClick(float value) {
+//                            tv_visceral_fat.setText(String.valueOf(value));
+//                        }
+//                    }).show();
+//                } else {
+//                    createDialog("选择内脏脂肪指数", 0, 30, 10, new DoSelectedListener() {
+//                        @Override
+//                        public void onClick(float value) {
+//                            tv_visceral_fat.setText(String.valueOf(value));
+//                        }
+//                    }).show();
+//                }
+//                break;
             case R.id.rl_body_water_per:
                 if ("1".equals(gender)) { //女的
                     createDialog("选择身体水份率", 0, 80, 50, new DoSelectedListener() {
@@ -483,7 +483,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
         healthModele.setBmi(tv_bmi.getText().toString());
         healthModele.setFatFreeMass(tv_quzhi.getText().toString());
-        healthModele.setViscusFatIndex(tv_visceral_fat.getText().toString());
+//        healthModele.setViscusFatIndex(tv_visceral_fat.getText().toString());
         healthModele.setBodyWaterRate(tv_body_water_per.getText().toString());
         healthModele.setBodyWater(tv_body_water.getText().toString());
 
@@ -518,7 +518,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
         tv_bmi.setText(StringUtil.getValue(lastestRecordModel.getBmi()));
         tv_quzhi.setText(StringUtil.getValue(lastestRecordModel.getFatFreeMass()));
-        tv_visceral_fat.setText(StringUtil.getValue(lastestRecordModel.getViscusFatIndex()));
+//        tv_visceral_fat.setText(StringUtil.getValue(lastestRecordModel.getViscusFatIndex()));
         tv_body_water_per.setText(StringUtil.getValue(lastestRecordModel.getBodyWaterRate()));
         tv_body_water.setText(StringUtil.getValue(lastestRecordModel.getBodyWater()));
 

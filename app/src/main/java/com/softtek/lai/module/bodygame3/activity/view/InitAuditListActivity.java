@@ -57,7 +57,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
         tv_title.setText("初始数据审核");
         classId = getIntent().getStringExtra("classId");
         fragments = new ArrayList<>();
-        fragments.add(InitAuditFragment.getInstance(classId));
+        fragments.add(UnInputFragment.getInstance(classId)); //未录入
         fragments.add(InitAuditFragment.getInstance(classId));
         fragments.add(InitAuditedFragment.getInstance(classId));
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));

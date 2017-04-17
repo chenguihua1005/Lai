@@ -318,37 +318,37 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                         break;
                     case 6: //BMI
                         holder.tv_value.setText(fcStDataModel.getBmi());
-                        holder.tv_danwei.setText("斤/平方米");
+                        holder.tv_danwei.setText("kg/m2");
                         break;
                     case 7://去脂体重
                         holder.tv_value.setText(fcStDataModel.getFatFreeMass());
-                        holder.tv_danwei.setText("斤/平方米");
+                        holder.tv_danwei.setText("kg");
                         break;
-                    case 8://内脏脂肪指数
-                        holder.tv_value.setText(fcStDataModel.getViscusFatIndex());
-                        holder.tv_danwei.setText("");
-                        break;
-                    case 9://身体水分率
+//                    case 8://内脏脂肪指数
+//                        holder.tv_value.setText(fcStDataModel.getViscusFatIndex());
+//                        holder.tv_danwei.setText("");
+//                        break;
+                    case 8://身体水分率
                         holder.tv_value.setText(fcStDataModel.getBodyWaterRate());
                         holder.tv_danwei.setText("%");
                         break;
-                    case 10: //身体水分
+                    case 9: //身体水分
                         holder.tv_value.setText(fcStDataModel.getBodyWater());
-                        holder.tv_danwei.setText("斤");
+                        holder.tv_danwei.setText("kg");
                         break;
-                    case 11: //肌肉量
+                    case 10: //肌肉量
                         holder.tv_value.setText(fcStDataModel.getMuscleMass());
-                        holder.tv_danwei.setText("斤");
+                        holder.tv_danwei.setText("kg");
                         break;
-                    case 12: //骨量
+                    case 11: //骨量
                         holder.tv_value.setText(fcStDataModel.getBoneMass());
-                        holder.tv_danwei.setText("斤");
+                        holder.tv_danwei.setText("kg");
                         break;
-                    case 13: //基础代谢
+                    case 12: //基础代谢
                         holder.tv_value.setText(fcStDataModel.getBasalMetabolism());
-                        holder.tv_danwei.setText("千卡/天");
+                        holder.tv_danwei.setText("kcal/day");
                         break;
-                    case 14: //身体年龄
+                    case 13: //身体年龄
                         holder.tv_value.setText(fcStDataModel.getPhysicalAge());
                         holder.tv_danwei.setText("");
                         break;

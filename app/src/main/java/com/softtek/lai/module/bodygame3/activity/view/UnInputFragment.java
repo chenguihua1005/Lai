@@ -39,7 +39,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 @InjectLayout(R.layout.fragment_retest)
-public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, InitAuditPresenter.InitAuditView {
+public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, InitAuditPresenter.InitAuditView {
     private static String classid;
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
@@ -54,7 +54,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     private List<MemberListModel> memberListModels = new ArrayList<>();
 
     public static Fragment getInstance(String classId) {
-        InitAuditFragment fragment = new InitAuditFragment();
+        UnInputFragment fragment = new UnInputFragment();
         Bundle data = new Bundle();
         classid = classId;
         fragment.setArguments(data);
@@ -112,9 +112,9 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
                 tv_group.setText("(" + data.getGroupName() + ")");
 //                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
-                TextView tv_tip = holder.getView(R.id.tv_tip);
-                tv_tip.setText("未审核");
 
+                TextView tv_tip = holder.getView(R.id.tv_tip);
+                tv_tip.setText("未录入");
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
                 } else {

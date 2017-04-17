@@ -33,7 +33,7 @@ public class FcStDataModel implements Serializable {
 
     private String Bmi; //BMI
     private String FatFreeMass;//去脂体重
-    private String ViscusFatIndex;     //内脏脂肪指数
+//    private String ViscusFatIndex;     //内脏脂肪指数
     private String BodyWaterRate;//身体水分率
     private String BodyWater;//身体水分
     private String MuscleMass;//肌肉量
@@ -60,13 +60,13 @@ public class FcStDataModel implements Serializable {
         FatFreeMass = fatFreeMass;
     }
 
-    public String getViscusFatIndex() {
-        return ViscusFatIndex;
-    }
-
-    public void setViscusFatIndex(String viscusFatIndex) {
-        ViscusFatIndex = viscusFatIndex;
-    }
+//    public String getViscusFatIndex() {
+//        return ViscusFatIndex;
+//    }
+//
+//    public void setViscusFatIndex(String viscusFatIndex) {
+//        ViscusFatIndex = viscusFatIndex;
+//    }
 
     public String getBodyWaterRate() {
         return BodyWaterRate;
