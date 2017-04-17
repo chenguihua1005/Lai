@@ -11,376 +11,654 @@
         android:id="@+id/scrollView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:scrollbars="none">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rl_weight"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="50dp">
 
-                <LinearLayout
-                    android:id="@+id/ll_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="体重"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="体重："
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp"
+                    android:layout_centerInParent="true" />
 
-                    <TextView
-                        android:id="@+id/tv_weight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="斤"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="斤"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/rl_pysical"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="体脂"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                <LinearLayout
-                    android:id="@+id/ll_pysical"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_pysical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="体脂："
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="%"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                    <TextView
-                        android:id="@+id/tv_pysical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+            <RelativeLayout
+                android:id="@+id/rl_fat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="%"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="内脂"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+                <TextView
+                    android:id="@+id/tv_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                <LinearLayout
-                    android:id="@+id/ll_fat"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rl_circum"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="内脂："
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="胸围"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tv_fat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text=""
-                        android:textColor="#000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_circum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="cm"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+            <RelativeLayout
+                android:id="@+id/rl_waistline"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                <LinearLayout
-                    android:id="@+id/ll_circum"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="腰围"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="胸围:"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_waistline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tv_circum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="cm"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="cm"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/rl_hiplie"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="臀围"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                <LinearLayout
-                    android:id="@+id/ll_waistline"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_hiplie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="腰围:"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="cm"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                    <TextView
-                        android:id="@+id/tv_waistline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+            <RelativeLayout
+                android:id="@+id/rl_uparmgirth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="cm"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上臂围"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+                <TextView
+                    android:id="@+id/tv_uparmgirth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                <LinearLayout
-                    android:id="@+id/ll_hiplie"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="cm"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="臀围:"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+            <RelativeLayout
+                android:id="@+id/rl_upleggirth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                    <TextView
-                        android:id="@+id/tv_hiplie"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大腿围"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="cm"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_upleggirth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="cm"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                <LinearLayout
-                    android:id="@+id/ll_uparmgirth"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rl_doleggirth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="上臂围:"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="小腿围"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tv_uparmgirth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_doleggirth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="cm"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="cm"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
 
-                <LinearLayout
-                    android:id="@+id/ll_upleggirth"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+            <!--bmi-->
+            <RelativeLayout
+                android:id="@+id/rl_bmi"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="大腿围:"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="BMI"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tv_upleggirth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_bmi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="cm"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="right"
+                    android:text="kg/m2"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+            <RelativeLayout
+                android:id="@+id/rl_quzhi"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                <LinearLayout
-                    android:id="@+id/ll_doleggirth"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="去脂体重"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="小腿围:"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_quzhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tv_doleggirth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textColor="#ffbb00"
-                        android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="kg"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="right"
-                        android:text="cm"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/rl_visceral_fat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="内脏脂肪指数"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-                <Button
-                    android:id="@+id/btn_sure"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="60dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_login_btn"
-                    android:text="确认"
-                    android:textColor="#ffffff"
-                    android:textSize="22sp" />
-            </LinearLayout>
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_visceral_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
+            <RelativeLayout
+                android:id="@+id/rl_body_water_per"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="身体水份率"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_body_water_per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="%"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
+            <RelativeLayout
+                android:id="@+id/rl_body_water"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="身体水份"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_body_water"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="kg"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
+            <RelativeLayout
+                android:id="@+id/rl_muscle_mass"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="肌肉量"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_muscle_mass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="kg"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
+            <RelativeLayout
+                android:id="@+id/rl_bone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="骨量"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_bone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="kg"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
+            <RelativeLayout
+                android:id="@+id/rl_base_metabolize"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="基础代谢"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_base_metabolize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text="kcal/day"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
+            <RelativeLayout
+                android:id="@+id/rl_body_age"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="身体年龄"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_body_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_login_btn"
+                android:text="确认"
+                android:textColor="#ffffff"
+                android:textSize="22sp" />
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>
