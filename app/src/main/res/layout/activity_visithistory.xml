@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.laicheng.VisithistoryActivity">
 
@@ -11,14 +13,29 @@
         android:id="@+id/include"
         layout="@layout/toolbar" />
 
+    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
+        <!--android:id="@+id/ptrlv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:animateLayoutChanges="true"-->
+        <!--android:divider="#00ececec"-->
+        <!--android:dividerHeight="1dp"-->
+        <!--android:listSelector="@android:color/transparent"-->
+        <!--android:overScrollMode="never"-->
+        <!--android:scrollbars="none"-->
+        <!--app:ptrAnimationStyle="flip"-->
+        <!--app:ptrShowIndicator="false" />-->
+
+
     <!--输入关键字-->
 
     <RelativeLayout
         android:id="@+id/rl_search"
         android:layout_width="match_parent"
         android:layout_height="63dp"
-        android:layout_below="@+id/include"
-        android:visibility="gone">
+        android:layout_below="@id/include"
+        android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -52,34 +69,12 @@
     </RelativeLayout>
 
 
-    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
-    <!--android:id="@+id/ptrlv"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:animateLayoutChanges="true"-->
-    <!--android:divider="#00ececec"-->
-    <!--android:dividerHeight="1dp"-->
-    <!--android:listSelector="@android:color/transparent"-->
-    <!--android:overScrollMode="never"-->
-    <!--android:scrollbars="none"-->
-    <!--android:layout_below="@id/rl_search"-->
-    <!--app:ptrAnimationStyle="flip"-->
-    <!--app:ptrShowIndicator="false" />-->
 
-    <!--<ListView-->
-    <!--android:id="@+id/ptrlv"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@id/rl_search">-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@id/ptrlv"
+    <ListView
+        android:id="@+id/ptrlv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_search">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <!--</ListView>-->
+        android:layout_below="@id/rl_search"
+        android:layout_height="wrap_content"/>
 
 
     <RelativeLayout
@@ -97,22 +92,4 @@
             android:background="@drawable/no_message" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/ll_nodata"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/im_nodata"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawablePadding="10dp"
-            android:drawableTop="@drawable/test_icon"
-            android:gravity="center"
-            android:text="啊偶๛ก(ｰ̀ωｰ́ก) 
- 没有查询到该条件数据눈_눈" />
-    </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

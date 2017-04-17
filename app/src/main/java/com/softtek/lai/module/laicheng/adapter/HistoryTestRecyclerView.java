@@ -1,26 +1,35 @@
 
 package com.softtek.lai.module.laicheng.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.model.HistoryModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class HistoryTestRecyclerView extends RecyclerView.Adapter<HistoryTestRecyclerView.ViewHolder> {
-
+public class HistoryTestRecyclerView extends RecyclerView.Adapter<HistoryTestRecyclerView.ViewHolder> implements Filterable {
+     private MyFilter myFilter;
     private List<HistoryModel> myItems;
     private ItemListener myListener;
-
-    public HistoryTestRecyclerView(List<HistoryModel> items, ItemListener listener) {
+    private String input;
+    Context context;
+    public HistoryTestRecyclerView(List<HistoryModel> items,String inputData,ItemListener listener) {
         myItems = items;
+        input=inputData;
         myListener = listener;
     }
 
@@ -42,6 +51,14 @@ public class HistoryTestRecyclerView extends RecyclerView.Adapter<HistoryTestRec
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setData(myItems.get(position));
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (null == myFilter) {
+            myFilter = new MyFilter();
+        }
+        return myFilter;
     }
 
     public interface ItemListener {
@@ -69,7 +86,7 @@ public class HistoryTestRecyclerView extends RecyclerView.Adapter<HistoryTestRec
             tv_gender = (TextView) itemView.findViewById(R.id.tv_gender);
             tv_age = (TextView) itemView.findViewById(R.id.tv_age);
             tv_height = (TextView) itemView.findViewById(R.id.tv_height);
-            ll_item_click= (LinearLayout) itemView.findViewById(R.id.ll_item_click);
+            ll_item_click = (LinearLayout) itemView.findViewById(R.id.ll_item_click);
             // TODO instantiate/assign view members
         }
 
@@ -78,9 +95,9 @@ public class HistoryTestRecyclerView extends RecyclerView.Adapter<HistoryTestRec
             tv_visittime.setText(item.getMeasuredTime());
             tv_visitor.setText(item.getVisitor().getName());
             tv_phoneNo.setText(item.getVisitor().getPhoneNo());
-            tv_age.setText(item.getVisitor().getAge());
-            tv_gender.setText(item.getVisitor().getGender());
-            tv_height.setText(item.getVisitor().getHeight());
+            tv_age.setText(item.getVisitor().getAge()+"");
+//            tv_gender.setText(item.getVisitor().getGender());
+            tv_height.setText(item.getVisitor().getHeight()+"");
             // TODO set data to view
         }
 
@@ -90,8 +107,43 @@ public class HistoryTestRecyclerView extends RecyclerView.Adapter<HistoryTestRec
                 myListener.onItemClick(item);
             }
         }
+
     }
+    private List<HistoryModel> historyModels=new ArrayList<>();
+        //自定义filter类
+        class MyFilter extends Filter {
 
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                FilterResults results = new FilterResults();
+                if(TextUtils.isEmpty(input)){
+                 myItems.addAll(myItems);
+                }else {
+                    historyModels.clear();
+                    for (HistoryModel str : myItems) {
+                        if (-1 != str.getVisitor().getName().toLowerCase().indexOf(input) || -1 != str.getVisitor().getPhoneNo().indexOf(input)) {
+                            historyModels.add(str);
+                        }
+                    }
+                    myItems.clear();
+                    myItems.addAll(historyModels);
+                }
+                results.values = myItems;
+                results.count = myItems.size();
 
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                if (filterResults.count > 0) {
+                    notifyDataSetChanged();  // 通知数据发生了改变
+                } else {
+//                  notifyDataSetInvalidated(); // 通知数据失效
+
+                }
+            }
+
+    }
 }
                                 
