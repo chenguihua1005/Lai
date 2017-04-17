@@ -160,17 +160,18 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                 break;
             case R.id.tv_delete:
                 //提交删除选项
-                StringBuffer ids = new StringBuffer("");
+                StringBuffer ids = new StringBuffer();
                 for (int i = 0; i < dataItemModels.size(); i++) {
                     HistoryDataItemModel model = dataItemModels.get(i);
                     if (model.isChecked()) {
-                        ids.append("," + model.getDataModel().getRecordId());
+                        ids.append(model.getDataModel().getRecordId());
+                        ids.append(",");
                     }
                 }
                 if (TextUtils.isEmpty(ids)) {
                     break;
                 }
-                getPresenter().deleteHistoryData(ids.toString().substring(1, ids.length()));
+                getPresenter().deleteHistoryData(type,ids.deleteCharAt(ids.length()-1).toString());
                 break;
             case R.id.cb_all:
                 for (HistoryDataItemModel model : dataItemModels) {
