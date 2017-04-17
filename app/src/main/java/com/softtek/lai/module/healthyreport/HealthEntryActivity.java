@@ -159,7 +159,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     protected void initDatas() {
         tv_title.setText("健康记录录入");
         setPresenter(new HealthyEntryPresenter(this));
-        getPresenter().doGetLastestRecord(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+        getPresenter().doGetLastestRecord(UserInfoModel.getInstance().getUserId());
     }
 
     AlertDialog weightDialog;
