@@ -1,14 +1,17 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -75,6 +78,11 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
 
         setPresenter(new InitAuditPresenter(this));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -163,6 +171,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
     @Override
     public void getInitAuditList(List<AuditListModel> list) {
+        Log.i(TAG,"shuju = "+ new Gson().toJson(list));
         if (list != null) {
             if (list.size() == 0) {
                 tabtitle[0] = "未录入(" + "0" + ")";

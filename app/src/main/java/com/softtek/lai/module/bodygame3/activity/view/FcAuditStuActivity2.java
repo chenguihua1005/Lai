@@ -752,10 +752,12 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         Log.i(TAG, "获取数据=  " + new Gson().toJson(model));
         if (model != null) {
             FormData formData = new FormData();
-            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
-                tv_title.setText("复测审核");
-            } else {
-                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
+            if (!TextUtils.isEmpty(model.getWeekNum())) {
+                if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
+                    tv_title.setText("复测审核");
+                } else {
+                    tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
+                }
             }
 
             if (!TextUtils.isEmpty(model.getImg())) {

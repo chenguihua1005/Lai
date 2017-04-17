@@ -196,7 +196,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
     @Override
     public void getMeasureReviewedList(List<AuditListModel> list) {
-        if (list != null && list.size() == 2) {
+        if (list != null && list.size() == 3) {
 //            Auditnum = Integer.parseInt(list.get(0).getCount());
 //            FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
 //            fcAuditListActivity.updates(Auditnum);
@@ -205,8 +205,8 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
 
             int unFuce_num = Integer.parseInt(list.get(0).getCount());
-            int uncheck_num = Integer.parseInt(list.get(0).getCount());
-            int checked_num = Integer.parseInt(list.get(1).getCount());
+            int uncheck_num = Integer.parseInt(list.get(1).getCount());
+            int checked_num = Integer.parseInt(list.get(2).getCount());
 
             Intent intent = new Intent(FcAuditListActivity.UPDATENUMBER_FUCUCHECK);
             intent.putExtra("unFuce_num", unFuce_num);
