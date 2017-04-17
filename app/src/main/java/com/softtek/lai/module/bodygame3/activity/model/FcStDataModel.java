@@ -31,116 +31,89 @@ public class FcStDataModel implements Serializable {
     private String Status;
     private String UpdateTips;
 
-    private String BMI; //BMI
-    private String fatFreeMass;//去脂体重
-    private String viscusFatIndex;     //内脏脂肪指数
-    private String bodyWaterRate;//身体水分率
-    private String bodyWater;//身体水分
-    private String muscleMass;//肌肉量
-    private String boneMass;//骨量
-    private String basalMetabolism;//基础代谢
-    private String physicalAge;//身体年龄
+    private String Bmi; //BMI
+    private String FatFreeMass;//去脂体重
+    private String ViscusFatIndex;     //内脏脂肪指数
+    private String BodyWaterRate;//身体水分率
+    private String BodyWater;//身体水分
+    private String MuscleMass;//肌肉量
+    private String BoneMass;//骨量
+    private String BasalMetabolism;//基础代谢
+    private String PhysicalAge;//身体年龄
 
 
-    @Override
-    public String toString() {
-        return "FcStDataModel{" +
-                "UserName='" + UserName + '\'' +
-                ", Gender='" + Gender + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", Mobile='" + Mobile + '\'' +
-                ", ClassName='" + ClassName + '\'' +
-                ", StartDate='" + StartDate + '\'' +
-                ", EndDate='" + EndDate + '\'' +
-                ", WeekNum=" + WeekNum +
-                ", MeasureDate='" + MeasureDate + '\'' +
-                ", InitWeight='" + InitWeight + '\'' +
-                ", Weight='" + Weight + '\'' +
-                ", Pysical='" + Pysical + '\'' +
-                ", Fat='" + Fat + '\'' +
-                ", Circum='" + Circum + '\'' +
-                ", Waistline='" + Waistline + '\'' +
-                ", Hiplie='" + Hiplie + '\'' +
-                ", UpArmGirth='" + UpArmGirth + '\'' +
-                ", UpLegGirth='" + UpLegGirth + '\'' +
-                ", DoLegGirth='" + DoLegGirth + '\'' +
-                ", Img='" + Img + '\'' +
-                ", ImgThumbnail='" + ImgThumbnail + '\'' +
-                ", Status='" + Status + '\'' +
-                ", UpdateTips='" + UpdateTips + '\'' +
-                '}';
+
+
+    public String getBmi() {
+        return Bmi;
     }
 
-    public String getBMI() {
-        return BMI;
-    }
-
-    public void setBMI(String BMI) {
-        this.BMI = BMI;
+    public void setBmi(String bmi) {
+        Bmi = bmi;
     }
 
     public String getFatFreeMass() {
-        return fatFreeMass;
+        return FatFreeMass;
     }
 
     public void setFatFreeMass(String fatFreeMass) {
-        this.fatFreeMass = fatFreeMass;
+        FatFreeMass = fatFreeMass;
     }
 
     public String getViscusFatIndex() {
-        return viscusFatIndex;
+        return ViscusFatIndex;
     }
 
     public void setViscusFatIndex(String viscusFatIndex) {
-        this.viscusFatIndex = viscusFatIndex;
+        ViscusFatIndex = viscusFatIndex;
     }
 
     public String getBodyWaterRate() {
-        return bodyWaterRate;
+        return BodyWaterRate;
     }
 
     public void setBodyWaterRate(String bodyWaterRate) {
-        this.bodyWaterRate = bodyWaterRate;
+        BodyWaterRate = bodyWaterRate;
     }
 
     public String getBodyWater() {
-        return bodyWater;
+        return BodyWater;
     }
 
     public void setBodyWater(String bodyWater) {
-        this.bodyWater = bodyWater;
+        BodyWater = bodyWater;
     }
 
     public String getMuscleMass() {
-        return muscleMass;
+        return MuscleMass;
     }
 
     public void setMuscleMass(String muscleMass) {
-        this.muscleMass = muscleMass;
+        MuscleMass = muscleMass;
     }
 
     public String getBoneMass() {
-        return boneMass;
+        return BoneMass;
     }
 
     public void setBoneMass(String boneMass) {
-        this.boneMass = boneMass;
+        BoneMass = boneMass;
     }
 
     public String getBasalMetabolism() {
-        return basalMetabolism;
+        return BasalMetabolism;
     }
 
     public void setBasalMetabolism(String basalMetabolism) {
-        this.basalMetabolism = basalMetabolism;
+        BasalMetabolism = basalMetabolism;
     }
 
     public String getPhysicalAge() {
-        return physicalAge;
+        return PhysicalAge;
     }
 
     public void setPhysicalAge(String physicalAge) {
-        this.physicalAge = physicalAge;
+        PhysicalAge = physicalAge;
     }
 
     public String getUpdateTips() {
