@@ -43,6 +43,9 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+
     @InjectView(R.id.ptrlv)
     ListView ptrlv;
     @InjectView(R.id.ll_nomessage)
@@ -63,6 +66,8 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
 
     @Override
     protected void initViews() {
+        iv_email.setVisibility(View.GONE);
+        ll_left.setVisibility(View.VISIBLE);
         tv_title.setText("访客历史记录");
         ll_left.setOnClickListener(this);
         imageView10.setOnClickListener(this);
@@ -156,16 +161,16 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
             }
         };
         ptrlv.setAdapter(historyAdapter);
-//        ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent=new Intent(VisithistoryActivity.this, HealthyReportActivity.class);
-//                intent.putExtra("reportId", historyModelList.get(position).getRecordId());
-//                intent.putExtra("since", SINCE_LAICHEN);
-//                intent.putExtra("isVisitor", VISITOR);
-//                startActivity(intent);
-//            }
-//        });
+        ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(VisithistoryActivity.this, HealthyReportActivity.class);
+                intent.putExtra("reportId", historyModelList.get(position).getRecordId());
+                intent.putExtra("since", SINCE_LAICHEN);
+                intent.putExtra("isVisitor", VISITOR);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
