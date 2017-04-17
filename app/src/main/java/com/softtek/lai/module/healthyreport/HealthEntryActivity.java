@@ -92,6 +92,53 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     @InjectView(R.id.tv_doleggirth)
     TextView tv_doleggirth;
 
+
+    @InjectView(R.id.ll_doBMI)
+    LinearLayout ll_doBMI;
+    @InjectView(R.id.tv_doBmi)
+    TextView tv_doBmi;
+
+    @InjectView(R.id.ll_doFatFreeMass)
+    LinearLayout ll_doFatFreeMass;
+    @InjectView(R.id.tv_doFatFreeMass)
+    TextView tv_doFatFreeMass;
+
+    @InjectView(R.id.ll_doViscusFatIndex)
+    LinearLayout ll_doViscusFatIndex;
+    @InjectView(R.id.tv_doViscusFatIndex)
+    TextView tv_doViscusFatIndex;
+
+    @InjectView(R.id.ll_doBodyWaterRate)
+    LinearLayout ll_doBodyWaterRate;
+    @InjectView(R.id.tv_doBodyWaterRate)
+    TextView tv_doBodyWaterRate;
+
+    @InjectView(R.id.ll_doBodyWater)
+    LinearLayout ll_doBodyWater;
+    @InjectView(R.id.tv_doBodyWater)
+    TextView tv_doBodyWater;
+
+    @InjectView(R.id.ll_doMuscleMass)
+    LinearLayout ll_doMuscleMass;
+    @InjectView(R.id.tv_doMuscleMass)
+    TextView tv_doMuscleMass;
+
+    @InjectView(R.id.ll_doBoneMass)
+    LinearLayout ll_doBoneMass;
+    @InjectView(R.id.tv_doBoneMass)
+    TextView tv_doBoneMass;
+
+    @InjectView(R.id.ll_doBasalMetabolism)
+    LinearLayout ll_doBasalMetabolism;
+    @InjectView(R.id.tv_doBasalMetabolism)
+    TextView tv_doBasalMetabolism;
+
+    @InjectView(R.id.ll_doPhysicalAge)
+    LinearLayout ll_doPhysicalAge;
+    @InjectView(R.id.tv_doPhysicalAge)
+    TextView tv_doPhysicalAge;
+
+
     @InjectView(R.id.btn_sure)
     Button btn_sure;
 
@@ -503,6 +550,17 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         tv_uparmgirth.setText(StringUtil.getValue(lastestRecordModel.getUpArmGirth()));
         tv_upleggirth.setText(StringUtil.getValue(lastestRecordModel.getUpLegGirth()));
         tv_doleggirth.setText(StringUtil.getValue(lastestRecordModel.getDoLegGirth()));
+
+        tv_doBmi.setText(StringUtil.getValue(lastestRecordModel.getBmi()));
+        tv_doFatFreeMass.setText(StringUtil.getValue(lastestRecordModel.getFatFreeMass()));
+        tv_doViscusFatIndex.setText(StringUtil.getValue(lastestRecordModel.getViscusFatIndex()));
+        tv_doBodyWaterRate.setText(StringUtil.getValue(lastestRecordModel.getBodyWaterRate()));
+        tv_doBodyWater.setText(StringUtil.getValue(lastestRecordModel.getBodyWater()));
+
+        tv_doMuscleMass.setText(StringUtil.getValue(lastestRecordModel.getMuscleMass()));
+        tv_doBoneMass.setText(StringUtil.getValue(lastestRecordModel.getBoneMass()));
+        tv_doBasalMetabolism.setText(StringUtil.getValue(lastestRecordModel.getBasalMetabolism()));
+        tv_doPhysicalAge.setText(StringUtil.getValue(lastestRecordModel.getPhysicalAge()));
     }
 
     @Override

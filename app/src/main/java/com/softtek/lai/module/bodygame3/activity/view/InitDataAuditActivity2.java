@@ -312,8 +312,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         //获取后台数据
 
         getPresenter().getFuceCheckData(ACMID);
-
-
     }
 
 
