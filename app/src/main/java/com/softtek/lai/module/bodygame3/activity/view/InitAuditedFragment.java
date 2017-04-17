@@ -99,16 +99,19 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
     @Override
     protected void initDatas() {
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.audit_item) {
+        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);//用户名
                 TextView tv_group = holder.getView(R.id.tv_group);//组名
-                TextView tv_weight = holder.getView(R.id.tv_weight);//体重
+//                TextView tv_weight = holder.getView(R.id.tv_weight);//体重
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);//头像;
                 tv_group.setText("(" + data.getGroupName() + ")");
-                tv_weight.setText(data.getWeight());
+//                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
+
+                TextView tv_tip = holder.getView(R.id.tv_tip);
+                tv_tip.setText("已审核");
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
 

@@ -1,5 +1,7 @@
 package com.softtek.lai.module.healthyreport.presenter;
 
+import android.util.Log;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
@@ -7,6 +9,7 @@ import com.softtek.lai.common.mvp.BaseView1;
 import com.softtek.lai.module.healthyreport.model.HealthModel;
 import com.softtek.lai.module.healthyreport.model.LastestRecordModel;
 import com.softtek.lai.module.healthyreport.net.HealthRecordService;
+import com.softtek.lai.module.laiClassroom.adapter.TabAdapter;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

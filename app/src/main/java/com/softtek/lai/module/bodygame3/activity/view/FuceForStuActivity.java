@@ -172,12 +172,22 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         changeConnectionState(7);
     }
 
+
+//    private String Name;
+//    private String BirthDate;//年龄
+//    private float Height;//身高
+//    private int Gender;//性别
+//    private String PhoneNo;//
+//    private int visitorId;
     @Override
     public VisitorModel getGuestInfo() {
         VisitorModel entity = new VisitorModel();
-        entity.setBirthDate("1990-11-11");
-        entity.setHeight(170);
-        entity.setGender(2);
+        entity.setName(fucDataModel.getUserName());
+//        entity.setBirthDate(fucDataModel.get);
+//        entity.setHeight(fucDataModel.get);
+        entity.setGender(Integer.parseInt(fucDataModel.getGender()));
+        entity.setPhoneNo(fucDataModel.getMobile());
+//        entity.setVisitorId(fucDataModel.get);
 
         return entity;
 

@@ -121,6 +121,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                 c.setTime(new Date(1900-01-01));
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
+//                datePickerDialog.getDatePicker().setMaxDate();
                 datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -135,7 +136,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                         int month = datePicker.getMonth() + 1;
                         int day = datePicker.getDayOfMonth();
                         date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
-                        Log.i("日期", date);
+                        Log.i("日期", currentDate);
                         int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date, currentDate);
                         Log.e("132", compare + "");
                         if (compare <= 0) {

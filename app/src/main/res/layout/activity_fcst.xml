@@ -29,7 +29,7 @@
         android:layout_marginRight="20dp"
         android:scaleType="center"
         android:src="@drawable/cheng_float"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="#EEF3FA"
         app:elevation="4dp"
         app:pressedTranslationZ="2dp" />

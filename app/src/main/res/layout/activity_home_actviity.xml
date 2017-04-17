@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rl_content"
+    android:fitsSystemWindows="true"
     tools:context=".module.home.view.HomeActviity">
 
     <android.support.v4.view.ViewPager
