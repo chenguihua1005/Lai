@@ -2,10 +2,8 @@ package com.softtek.lai.module.healthyreport.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
-import com.softtek.lai.module.healthyreport.model.ID;
 import com.softtek.lai.utils.RequestCallback;
 
-import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -25,9 +23,10 @@ public interface HistoryDataService {
 
     //删除历史记录
 
-    @POST("/HealthRecords/DelHealthHistory")
+    @POST("/v1/DataSync/DeleteLBHistory")
     void deleteHistoryData(@Header("token") String token,
-                           @Body ID dataId,
+                           @Query("type")int type,
+                           @Query("recordIds")String repcordIds,
                            RequestCallback<ResponseData> callback);
 
 

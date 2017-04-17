@@ -5,13 +5,9 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
-import com.softtek.lai.module.healthyreport.model.HistoryData;
 import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
-import com.softtek.lai.module.healthyreport.model.ID;
 import com.softtek.lai.module.healthyreport.net.HistoryDataService;
 import com.softtek.lai.utils.RequestCallback;
-
-import java.util.ArrayList;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -19,6 +15,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
 /**
+ *
  * Created by jerry.guan on 4/20/2016.
  */
 public class HistoryDataManager extends BasePresenter<HistoryDataManager.HistoryDataManagerCallback> {
@@ -76,11 +73,11 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
     }
 
     //删除历史数据
-    public void deleteHistoryData(String ids) {
+    public void deleteHistoryData(int type,String ids) {
         if (getView() != null) {
             getView().dialogShow("删除中");
         }
-        service.deleteHistoryData(token, new ID(ids), new RequestCallback<ResponseData>() {
+        service.deleteHistoryData(token, type,ids, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.i(responseData.toString());
