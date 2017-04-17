@@ -1,14 +1,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.softtek.lai.module.healthyreport.HealthyChartFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <com.softtek.lai.widgets.TextViewExpandable
             android:id="@+id/tve"
             android:layout_width="match_parent"
@@ -16,6 +17,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="15dp"
+            android:visibility="gone"
             app:tvea_expandLines="4"
             app:tvea_textContentColor="#666666"
             app:tvea_textContentSize="15sp"
@@ -26,15 +28,19 @@
         <com.softtek.lai.widgets.StandardLine
             android:id="@+id/sl"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:visibility="gone" />
+
         <RelativeLayout
+            android:id="@+id/rl_chart"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/context">
+            android:layout_height="wrap_content">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#D0D0D0"/>
+                android:background="#D0D0D0" />
+
             <com.softtek.lai.widgets.chart.Chart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
@@ -42,94 +48,86 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
-                app:chartTitle1="体重"/>
+                app:chartTitle1="体重" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                >
-                <Button
-                    android:id="@+id/bt_left"
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/back_arrow_left"
-                    android:layout_centerVertical="true"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true">
-                <Button
-                    android:id="@+id/bt_right"
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/back_arrow_right"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:visibility="gone"
-                    />
-            </LinearLayout>
 
+            <Button
+                android:id="@+id/bt_left"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/back_arrow_left" />
+
+
+            <Button
+                android:id="@+id/bt_right"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/back_arrow_right"
+                android:visibility="gone" />
         </RelativeLayout>
+
         <RadioGroup
             android:id="@+id/rg"
-            android:layout_marginTop="30dp"
-            android:layout_below="@id/context"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:layout_below="@id/rl_chart"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <RadioButton
-                android:background="@drawable/bg_radiobtn"
-                android:textColor="@drawable/skin_color_button"
                 android:id="@+id/week"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bg_radiobtn"
                 android:button="@null"
-                android:text="周"
-                android:gravity="center"
-                android:textSize="20sp"
                 android:checked="true"
-                android:layout_marginRight="30dp"/>
+                android:gravity="center"
+                android:text="周"
+                android:textColor="@drawable/skin_color_button"
+                android:textSize="20sp" />
+
             <RadioButton
                 android:id="@+id/month"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:button="@null"
-                android:text="月"
-                android:gravity="center"
+                android:layout_marginRight="30dp"
                 android:background="@drawable/bg_radiobtn"
+                android:button="@null"
+                android:gravity="center"
+                android:text="月"
                 android:textColor="@drawable/skin_color_button"
-                android:textSize="20sp"
-                android:layout_marginRight="30dp"/>
+                android:textSize="20sp" />
+
             <RadioButton
                 android:id="@+id/quarter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:button="@null"
-                android:text="季"
-                android:gravity="center"
+                android:layout_marginRight="30dp"
                 android:background="@drawable/bg_radiobtn"
+                android:button="@null"
+                android:gravity="center"
+                android:text="季"
                 android:textColor="@drawable/skin_color_button"
-                android:textSize="20sp"
-                android:layout_marginRight="30dp"/>
+                android:textSize="20sp" />
+
             <RadioButton
                 android:id="@+id/year"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:button="@null"
-                android:text="年"
-                android:gravity="center"
                 android:background="@drawable/bg_radiobtn"
+                android:button="@null"
+                android:gravity="center"
+                android:text="年"
                 android:textColor="@drawable/skin_color_button"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
         </RadioGroup>
 
     </LinearLayout>
-
 
 
 </ScrollView>

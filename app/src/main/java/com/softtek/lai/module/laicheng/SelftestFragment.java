@@ -115,8 +115,8 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         mWeightCaption.setVisibility(View.INVISIBLE);
-//        mShare.setVisibility(View.INVISIBLE);
-//        mHealthReport.setVisibility(View.INVISIBLE);
+        mShare.setVisibility(View.INVISIBLE);
+        mHealthReport.setVisibility(View.INVISIBLE);
         presenter = new SelftestPresenter(this);
     }
 
