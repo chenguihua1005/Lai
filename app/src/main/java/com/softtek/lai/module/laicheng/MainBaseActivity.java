@@ -790,10 +790,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void upLoadImpedanceSuccess(BleMainData data) {
         changeConnectionState(CONNECTED_STATE_UPLOADING_SUCCESS);
-        if (TextUtils.isEmpty(data.getBodyFat())) {
+        if (TextUtils.isEmpty(data.getBodyFatRate())) {
             sendFatRateToDevice(0.0f);
         } else {
-            sendFatRateToDevice(Float.parseFloat(data.getBodyFat()));
+            int index = data.getBodyFatRate().indexOf("%");
+            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate().substring(0,index)));
         }
         isResultTest = true;
         initUiByBleSuccess(data);

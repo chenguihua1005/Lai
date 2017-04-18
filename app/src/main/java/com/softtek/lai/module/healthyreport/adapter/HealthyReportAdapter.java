@@ -10,7 +10,6 @@ import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,9 +50,11 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<HealthyReportAdap
                 holder.tv_standard.setTextColor(Color.parseColor("#"+item.getColor()));
             }
         }
-        SpannableString ss=new SpannableString(item.getValue()+item.getUnit());
-        ss.setSpan(new AbsoluteSizeSpan(36),item.getValue().length(),ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.tv_num.setText(ss);
+        if(!TextUtils.isEmpty(item.getValue())){
+            SpannableString ss=new SpannableString(item.getValue()+item.getUnit());
+            ss.setSpan(new AbsoluteSizeSpan(36),item.getValue().length(),ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.tv_num.setText(ss);
+        }
         holder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

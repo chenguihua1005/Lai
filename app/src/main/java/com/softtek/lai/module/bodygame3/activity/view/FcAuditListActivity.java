@@ -192,7 +192,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
             } else {
                 unFuce_num = Integer.parseInt(list.get(0).getCount());
                 uncheck_num = Integer.parseInt(list.get(1).getCount());
-                checked_num = Integer.parseInt(list.get(1).getCount());
+                checked_num = Integer.parseInt(list.get(2).getCount());
                 tabtitle[0] = "未复测(" + unFuce_num + ")";
                 tabtitle[1] = "待审核(" + uncheck_num + ")";
                 tabtitle[2] = "已审核(" + checked_num + ")";

@@ -100,18 +100,21 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     }
 
     @Override
-    protected void initDatas() {
+    protected void initDatas() {//audit_item
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.audit_item) {
+        adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);
                 TextView tv_group = holder.getView(R.id.tv_group);
-                TextView tv_weight = holder.getView(R.id.tv_weight);
+//                TextView tv_weight = holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);
                 tv_group.setText("(" + data.getGroupName() + ")");
-                tv_weight.setText(data.getWeight());
+//                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
+                TextView tv_tip = holder.getView(R.id.tv_tip);
+                tv_tip.setText("未审核");
+
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
                 } else {

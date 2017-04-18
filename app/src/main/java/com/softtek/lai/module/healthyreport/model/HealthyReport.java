@@ -16,13 +16,21 @@ public class HealthyReport {
      * bodyTypeTitle : 清瘦型
      * bodyTypeDesc : 清瘦型:<br/>你的BMI和体脂率均偏低，属于清瘦型身材。请适当增加能量摄入和食物多样化，多补充蛋白质，同时坚持每日适量运动。
      */
-
+    private String accountId;//被测量人id
     private String username;
     private String measureTime;
     private int bodyType;
     private String bodyTypeTitle;
     private String bodyTypeDesc;
     List<HealthyItem> itemList;
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
 
     public List<HealthyItem> getItemList() {
         return itemList;

@@ -28,7 +28,7 @@ import zilla.libcore.ui.InjectLayout;
  *         Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthRecordManager.HealthRecordCallBack<HealthCircrumModel>,
+public class BustFragment extends BaseFragment implements  HealthRecordManager.HealthRecordCallBack<HealthCircrumModel>,
         View.OnClickListener {
 
     @InjectView(R.id.chart)
@@ -66,7 +66,6 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
 
     @Override
     protected void initViews() {
-        radio_group.setOnCheckedChangeListener(this);
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
         week.setOnClickListener(this);
@@ -103,11 +102,6 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         days.add(dateForm.formdate(nowdate7));
         progressDialog.show();
         healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(nowdate1) + " " + datetime[1], date, 1);
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
     }
 
 

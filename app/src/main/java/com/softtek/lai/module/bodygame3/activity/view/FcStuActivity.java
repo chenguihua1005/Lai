@@ -220,14 +220,14 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         //jessica
         child3.add(6, "BMI");
         child3.add(7, "去脂体重");
-        child3.add(8, "内脏脂肪指数");
-        child3.add(9, "身体水分率");
-        child3.add(10, "身体水分");
+//        child3.add(8, "内脏脂肪指数");
+        child3.add(8, "身体水分率");
+        child3.add(9, "身体水分");
 
-        child3.add(11, "肌肉量");
-        child3.add(12, "骨量");
-        child3.add(13, "基础代谢");
-        child3.add(14, "身体年龄");
+        child3.add(10, "肌肉量");
+        child3.add(11, "骨量");
+        child3.add(12, "基础代谢");
+        child3.add(13, "身体年龄");
         //jessica
         childArray.add(1, child2);
         childArray.add(2, child2);
@@ -347,35 +347,35 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                         show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
                                     }
                                     break;
+//                                case 8:
+//                                    if ("1".equals(gender)) { //女的
+//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+//                                    } else {
+//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
+//                                    }
+//                                    break;
                                 case 8:
-                                    if ("1".equals(gender)) { //女的
-                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-                                    } else {
-                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-                                    }
-                                    break;
-                                case 9:
                                     if ("1".equals(gender)) { //女的
                                         show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
                                     } else {
                                         show_information("身体水分率", 80, 55, 0, 9, 0, 0, 13);
                                     }
                                     break;
-                                case 10:
+                                case 9:
                                     if ("1".equals(gender)) { //女的
                                         show_information("身体水分", 160, 30, 0, 9, 0, 0, 14);
                                     } else {
                                         show_information("身体水分", 160, 40, 0, 9, 0, 0, 14);
                                     }
                                     break;
-                                case 11:
+                                case 10:
                                     if ("1".equals(gender)) { //女的
                                         show_information("肌肉量", 180, 40, 0, 9, 0, 0, 15);
                                     } else {
                                         show_information("肌肉量", 180, 60, 0, 9, 0, 0, 15);
                                     }
                                     break;
-                                case 12:
+                                case 11:
                                     if ("1".equals(gender)) { //女的
                                         show_information("骨量", 6, 2, 0, 9, 5, 0, 16);
                                     } else {
@@ -383,15 +383,15 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                     }
 
                                     break;
-                                case 13:
+                                case 12:
                                     if ("1".equals(gender)) { //女的
-                                        show_information("基础代谢", 2500, 1280, 0, 0, 0, 0, 17);
+                                        show_information("基础代谢", 2500, 1280, 0, 9, 0, 0, 17);
                                     } else {
-                                        show_information("基础代谢", 2500, 1700, 0, 0, 0, 0, 17);
+                                        show_information("基础代谢", 2500, 1700, 0, 9, 0, 0, 17);
                                     }
                                     break;
-                                case 14:
-                                    show_information("身体年龄", 150, 30, 0, 0, 0, 0, 18);
+                                case 13:
+                                    show_information("身体年龄", 150, 30, 0, 9, 0, 0, 18);
                                     break;
                                 //jessica
 
@@ -545,7 +545,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
         multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "" : fcStDataModel.getFatFreeMass().toString()));
 
-        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
+//        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
         multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "" : fcStDataModel.getBodyWaterRate().toString()));
         multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "" : fcStDataModel.getBodyWater().toString()));
 
@@ -788,22 +788,22 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                     }
                     break;
-                    case 12: {//viscusFatIndex;     //内脏脂肪指数
-                        fcStDataModel.setViscusFatIndex(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                        exlisview_body.setAdapter(adapter);
-                        groupCount = exlisview_body.getCount();
-                        for (int i = 0; i < groupCount; i++) {
-                            if (i == 0) {
-                                exlisview_body.expandGroup(i);
-                            }
-                            if (i == 3) {
-                                if (IsZhankai) {
-                                    exlisview_body.expandGroup(i);
-                                }
-                            }
-                        }
-                    }
-                    break;
+//                    case 12: {//viscusFatIndex;     //内脏脂肪指数
+//                        fcStDataModel.setViscusFatIndex(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+//                        exlisview_body.setAdapter(adapter);
+//                        groupCount = exlisview_body.getCount();
+//                        for (int i = 0; i < groupCount; i++) {
+//                            if (i == 0) {
+//                                exlisview_body.expandGroup(i);
+//                            }
+//                            if (i == 3) {
+//                                if (IsZhankai) {
+//                                    exlisview_body.expandGroup(i);
+//                                }
+//                            }
+//                        }
+//                    }
+//                    break;
                     case 13: {//bodyWaterRate;//身体水分率
                         fcStDataModel.setBodyWaterRate(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);

@@ -3,10 +3,9 @@ package com.softtek.lai.module.laicheng.presenter;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
-import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.common.mvp.BaseView1;
 import com.softtek.lai.module.healthyreport.model.HealthyReport;
-import com.softtek.lai.module.healthyreport.net.HealthRecordService;
+import com.softtek.lai.module.healthyreport.net.HealthyRecordService;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.RetrofitError;
@@ -19,10 +18,10 @@ import zilla.libcore.api.ZillaApi;
 
 public class HealthyReportPresenter extends BasePresenter<HealthyReportPresenter.HealthyReportView>{
 
-    private HealthRecordService service;
+    private HealthyRecordService service;
     public HealthyReportPresenter(HealthyReportView baseView) {
         super(baseView);
-        service= ZillaApi.NormalRestAdapter.create(HealthRecordService.class);
+        service= ZillaApi.NormalRestAdapter.create(HealthyRecordService.class);
     }
 
 
