@@ -21,7 +21,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,8 +41,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
-import com.softtek.lai.module.healthchart.view.HealthyRecordActivity;
-import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -154,7 +151,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
         }
         fl_right.setOnClickListener(this);
-        iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
         ProductInfoFragment productInfoFragment = new ProductInfoFragment();
         SaleInfoFragment saleInfoFragment = new SaleInfoFragment();
@@ -444,13 +440,12 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     startActivity(new Intent(getContext(), ClassroomActivity.class));
                     MobclickAgent.onEvent(getContext(), "LaiClassEvent");
                     break;
-                case Constants.LAI_EXCLE:
+                case Constants.LAI_CHEN:
                     startActivity(new Intent(getContext(), LaibalanceActivity.class));
                     MobclickAgent.onEvent(getContext(),"BalanceEvent");
                     break;
                 case Constants.LAI_SHOP:
-                    startActivity(new Intent(getContext(), HealthyRecordActivity.class));
-                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
             }
 
@@ -491,7 +486,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fl_right:
-            case R.id.iv_email:
                 String userroles = UserInfoModel.getInstance().getUser().getUserrole();
                 if (String.valueOf(Constants.VR).equals(userroles)) {
                     //提示用户让他登录或者直接进入2个功能的踢馆赛模块
