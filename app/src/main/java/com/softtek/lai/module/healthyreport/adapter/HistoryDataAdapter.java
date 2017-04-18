@@ -68,6 +68,7 @@ public class HistoryDataAdapter extends BaseAdapter{
         }else{
             holder.cb_selecter.setVisibility(View.GONE);
         }
+
         holder.cb_selecter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -109,6 +110,7 @@ public class HistoryDataAdapter extends BaseAdapter{
         holder.fat.setText(StringUtil.getFloatValue(data.getViscusFatIndex()));
         return convertView;
     }
+
 
     private static class ViewHolder{
         public CheckBox cb_selecter;

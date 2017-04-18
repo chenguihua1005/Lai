@@ -305,9 +305,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".module.healthchart.view.HealthyRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.healthyreport.HealthEntryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />

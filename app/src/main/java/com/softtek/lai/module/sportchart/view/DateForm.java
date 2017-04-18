@@ -1,4 +1,4 @@
-package com.softtek.lai.module.healthchart.view;
+package com.softtek.lai.module.sportchart.view;
 
 import java.util.Calendar;
 

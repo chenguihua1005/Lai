@@ -69,6 +69,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         rg.check(R.id.rb_laichen);
         ptrlv.setOnItemClickListener(this);
         ptrlv.getRefreshableView().setOnItemLongClickListener(this);
+        ptrlv.getRefreshableView().setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ll_left.setOnClickListener(this);

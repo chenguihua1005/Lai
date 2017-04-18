@@ -28,7 +28,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.healthchart.view.DateForm;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message2.model.PhotosModel;
 import com.softtek.lai.module.sport2.model.ScoreModel;

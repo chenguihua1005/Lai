@@ -26,12 +26,11 @@ public class ModelAdapter extends BaseAdapter {
     private Context context;
     private List<ModelName> modelNames;
 
-    private int[] icons = {R.drawable.tiguansai, R.drawable.laiyundong, R.drawable.laiketang, R.drawable.laibiaoge, R.drawable.laigou};
+    private int[] icons = {R.drawable.tiguansai2, R.drawable.laiyundong2, R.drawable.laiketang2, R.drawable.laichen1, R.drawable.kaifa};
 
     public ModelAdapter(Context context, List<ModelName> modelNames) {
         this.context=context;
         this.modelNames=modelNames;
-        //models_name = context.getResources().getStringArray(R.array.models);
     }
 
     @Override
