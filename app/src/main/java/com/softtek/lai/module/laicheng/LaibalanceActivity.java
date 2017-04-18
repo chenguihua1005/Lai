@@ -151,6 +151,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             selftestFragment.setStateTip("测量完成");
         } else {
             visitortestFragment.UpdateData(data);
+            visitortestFragment.setStateTip("测量完成");
         }
         dialogDissmiss();
     }
@@ -168,7 +169,6 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public VisitorModel getGuestInfo() {
         visitorModel = visitortestFragment.getVisitorModel();
-        Log.e("获取访客信息", visitorModel.toString());
         return visitorModel;
     }
 
