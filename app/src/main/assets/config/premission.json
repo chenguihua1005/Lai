@@ -3,42 +3,42 @@
     "bodyGame":false,
     "laiYunDong":false,
     "laiClass":false,
-    "laiExcel":false,
+    "laiChen":false,
     "laiShop":true
   },
   "nc": {
     "bodyGame":true,
     "laiYunDong":true,
     "laiClass":true,
-    "laiExcel":true,
+    "laiChen":true,
     "laiShop":true
   },
   "inc":{
     "bodyGame":true,
     "laiYunDong":true,
     "laiClass":true,
-    "laiExcel":true,
+    "laiChen":true,
     "laiShop":true
   },
   "pc": {
     "bodyGame":true,
     "laiYunDong":true,
     "laiClass":true,
-    "laiExcel":true,
+    "laiChen":true,
     "laiShop":true
   },
   "sr": {
     "bodyGame":true,
     "laiYunDong":true,
     "laiClass":true,
-    "laiExcel":true,
+    "laiChen":true,
     "laiShop":true
   },
   "sp": {
     "bodyGame":true,
     "laiYunDong":true,
     "laiClass":true,
-    "laiExcel":true,
+    "laiChen":true,
     "laiShop":true
   }
 }

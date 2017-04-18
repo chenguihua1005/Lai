@@ -49,6 +49,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="@drawable/back_selector1"
+            android:visibility="gone"
             android:layout_gravity="right">
 
             <ImageView

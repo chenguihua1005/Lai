@@ -53,9 +53,5 @@ public interface HealthyRecordService {
                         @Query("lastDate")String lastDate,
                         @Query("direction")int direction,
                         RequestCallback<ResponseData<HealthyChartModel.ChartBean>> callback);
-    //获取健康报告分享链接
-    @GET("/ShareLBRecord")
-    void getShareLink(@Header("token")String token,
-                      @Query("recordId")String recordId);
 
 }

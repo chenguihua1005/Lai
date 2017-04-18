@@ -59,15 +59,12 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
     private static final int DIRECTION_RIGHT=2;
 
 
-    private boolean isVisitor;
     private int type;
     private String accountId;
     private String recordId;
     private int radioType;
 
-    private String leftDate;
-    private String rightDate;
-    private String startDate;//最早的开始日期
+
     private String requestDate;//请求时需要的日期
 
 
@@ -102,7 +99,7 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
     @Override
     protected void initViews() {
         Bundle bundle=getArguments();
-        isVisitor=bundle.getInt("isVisitor",HealthyReportActivity.VISITOR)==HealthyReportActivity.VISITOR;
+        boolean isVisitor=bundle.getInt("isVisitor",HealthyReportActivity.VISITOR)==HealthyReportActivity.VISITOR;
         type=bundle.getInt("pid");
         accountId=bundle.getString("accountId");
         recordId=bundle.getString("recordId");
@@ -203,15 +200,14 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
     @Override
     public void getData2(HealthyChartModel.ChartBean data) {
         chart.setTitle2(data.getUnit());
-        startDate=data.getStartDate();
-
+        String startDate=data.getStartDate();
         if(data.getValueList()==null||data.getValueList().isEmpty()){
             return;
         }
         List<HealthyChartModel.ChartBean.ValueList> valueLists=data.getValueList();
         //获取最早的一天
-        leftDate=valueLists.get(0).getDate();
-        rightDate=valueLists.get(valueLists.size()-1).getDate();
+        String leftDate=valueLists.get(0).getDate();
+        String rightDate=valueLists.get(valueLists.size()-1).getDate();
         requestDate=rightDate;
         if(leftDate.compareToIgnoreCase(startDate)>0){
             bt_left.setVisibility(View.VISIBLE);
