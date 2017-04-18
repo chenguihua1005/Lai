@@ -62,17 +62,17 @@ public class HealthyChartModel {
          * range : [{"value":67.6,"color":"ff6666","valueTip":""},{"value":60,"color":"93c952","valueTip":""},{"value":35,"color":"66b3ff","valueTip":""},{"value":125,"color":"","valueTip":""}]
          */
 
-        private double value;
+        private float value;
         private String unit;
         private String color;
         private String arrowColor;
         private List<Range> range;
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
-        public void setValue(double value) {
+        public void setValue(float value) {
             this.value = value;
         }
 
@@ -115,15 +115,15 @@ public class HealthyChartModel {
              * valueTip :
              */
 
-            private double value;
+            private float value;
             private String color;
             private String valueTip;
 
-            public double getValue() {
+            public float getValue() {
                 return value;
             }
 
-            public void setValue(double value) {
+            public void setValue(float value) {
                 this.value = value;
             }
 
@@ -186,7 +186,7 @@ public class HealthyChartModel {
              */
 
             private String date;
-            private int value;
+            private float value;
 
             public String getDate() {
                 return date;
@@ -196,11 +196,11 @@ public class HealthyChartModel {
                 this.date = date;
             }
 
-            public int getValue() {
+            public float getValue() {
                 return value;
             }
 
-            public void setValue(int value) {
+            public void setValue(float value) {
                 this.value = value;
             }
         }
