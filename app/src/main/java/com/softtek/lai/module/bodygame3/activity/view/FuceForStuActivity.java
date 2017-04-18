@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
+import com.softtek.lai.module.laicheng.SelftestFragment;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
@@ -27,8 +28,10 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 4/7/2017.
@@ -83,6 +86,12 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
 
     MeasuredDetailsModel fucDataModel;
+    private VoiceListener listener;
+
+    public interface VoiceListener {
+        void onVoiceListener();
+    }
+
 
     @SuppressLint("LongLogTag")
     @PermissionOK(id = 1)
@@ -121,10 +130,24 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         }
     }
 
+    @OnClick(R.id.iv_voice)
+    public void onClick() {
+        if (MainBaseActivity.isVoiceHelp) {
+            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+            stopVoice();
+            isVoiceHelp = false;
+        } else {
+            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+            addVoice();
+            isVoiceHelp = true;
+        }
+    }
+
     @Override
     public void initUi() {
         tv_title.setText("为学员复测");
         ll_left.setOnClickListener(this);
+
 
         fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
         tv_name.setText(fucDataModel.getUserName());
@@ -157,6 +180,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void initUiByBleSuccess(BleMainData data) {
         menu_layout.setVisibility(View.VISIBLE);
 
+        Util.toastMsg("数据获取成功！！！！！");
+
 //        mWeight.setText(data.getWeight_item().getValue() + "");
 //        mWeightCaption.setText(data.getWeight_con().getCaption());
 ////        mWeightCaption.setTextColor(Color.parseColor("#" + data.getWeight_item().getColor()));
@@ -173,7 +198,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     }
 
 
-//    private String Name;
+    //    private String Name;
 //    private String BirthDate;//年龄
 //    private float Height;//身高
 //    private int Gender;//性别
@@ -258,7 +283,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void showSearchBleDialog() {
-
+        dialogShow("正在搜索设备...");
     }
 
     @Override

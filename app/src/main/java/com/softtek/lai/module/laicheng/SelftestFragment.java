@@ -147,11 +147,22 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     public void updateUI(BleMainData data) {
         if (data != null) {
             mWeight.setText(data.getWeight() + "");
-            mWeightCaption.setText(data.getBodyTypeTitle());
-            mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
-            mBodyFatRate.setText(data.getBodyFatRate());
-            mBmi.setText(data.getBMI() + "");
-            mInternalFatRate.setText(data.getViscusFatIndex());
+            if (data.getBodyTypeTitle() != null) {
+                mWeightCaption.setText(data.getBodyTypeTitle());
+            }
+            if (data.getBodyTypeColor() != null) {
+                mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+            }
+            if (data.getBodyFatRate() != null) {
+                mBodyFatRate.setText(data.getBodyFatRate());
+            }
+            if (data.getBMI() != null) {
+                mBmi.setText(data.getBMI() + "");
+            }
+            if (data.getViscusFatIndex() != null) {
+                mInternalFatRate.setText(data.getViscusFatIndex());
+            }
+
             recordId = data.getRecordId();
 
             weight = String.valueOf(data.getWeight());
@@ -219,7 +230,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     public void goToHealthReport() {
         Intent intent = new Intent(getActivity(), HealthyReportActivity.class);
         intent.putExtra("isVisitor", HealthyReportActivity.NON_VISITOR);
-        intent.putExtra("recordId", recordId);
+        intent.putExtra("reportId", recordId);
         intent.putExtra("since", HealthyReportActivity.SINCE_LAICHEN);
         startActivity(intent);
     }

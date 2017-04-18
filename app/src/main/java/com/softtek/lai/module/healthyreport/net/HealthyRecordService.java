@@ -20,16 +20,18 @@ import retrofit.http.Query;
  */
 public interface HealthyRecordService {
     //健康记录手动录入
-    @POST("/HealthRecords/SaveHealthRecord")
+    @POST("/V1/HealthRecords/SaveHealthRecord")
     void entryhealthrecord(@Header("token") String token,
                            @Body HealthModel healthModel,
                            Callback<ResponseData> callback);
 
-    //获取最新健康记录
-    @GET("/HealthyCircle/GetLastestRecord")
-    void doGetLastestRecord(
+
+    // //获取最新健康记录
+    @GET("/V1/HealthRecords/GetUserMeasuredInfo")
+    void getUserMeasuredInfo(
             @Header("token") String token,
-            @Query("accountId") long accountid, //学员id
+//            @Query("accountId") long accountid, //学员id
+            @Query("phone") String phone, //电话号码
             Callback<ResponseData<LastestRecordModel>> callback);
 
     //获取健康报告
@@ -53,5 +55,9 @@ public interface HealthyRecordService {
                         @Query("lastDate")String lastDate,
                         @Query("direction")int direction,
                         RequestCallback<ResponseData<HealthyChartModel.ChartBean>> callback);
+    //获取健康报告分享链接
+    @GET("/ShareLBRecord")
+    void getShareLink(@Header("token")String token,
+                      @Query("recordId")String recordId);
 
 }

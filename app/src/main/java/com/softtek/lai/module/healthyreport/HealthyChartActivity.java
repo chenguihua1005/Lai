@@ -41,8 +41,8 @@ public class HealthyChartActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        Bundle bundle=getIntent().getExtras();
-        int type=bundle.getInt("pid",0);
+        Bundle bundle1=getIntent().getBundleExtra("base");
+        int type=getIntent().getIntExtra("pid",0);
         ArrayList<HealthyItem> items=getIntent().getParcelableArrayListExtra("items");
         int selector=0;
         for (int i=0;i<items.size();i++){
@@ -50,7 +50,10 @@ public class HealthyChartActivity extends BaseActivity implements View.OnClickLi
             if(item.getPid()==type){
                 selector=i;
             }
+            Bundle bundle=new Bundle();
+            bundle.putAll(bundle1);
             bundle.putString("chartTitle",item.getTitle());
+            bundle.putInt("pid",item.getPid());
             fragmentList.add(new FragmentModel(item.getTitle(),HealthyChartFragment.newInstance(bundle)));
         }
         tab_content.setAdapter(new HealthyRecordFragmentAdapter(getSupportFragmentManager(), fragmentList));

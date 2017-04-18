@@ -52,6 +52,10 @@ public class HealthyReportPresenter extends BasePresenter<HealthyReportPresenter
         });
     }
 
+    public void getShareLink(){
+
+    }
+
     public interface HealthyReportView extends BaseView1<HealthyReport> {
 
     }
