@@ -112,10 +112,14 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 pageIndex = position;
                 if (pageIndex == 0) {
                     setGuest(false);
+
                     mShakeListener.start();
                     if (!isDestroyed()){
                         selftestFragment.refreshVoiceIcon();
                     }
+
+                    selftestFragment.setStateTip("摇一摇，连接莱秤");
+
                 } else {
                     setGuest(true);
 //                    if (visitortestFragment.visitorLastData != null && !TextUtils.isEmpty(visitortestFragment.visitorLastData.getRecordId())) {
@@ -123,11 +127,15 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 //                    } else {
 //                        mShakeListener.stop();
 //                    }
+
                     if (!isDestroyed()){
                         visitortestFragment.refreshVoiceIcon();
                     }
+                    visitortestFragment.setStateTip("摇一摇，连接莱秤");
+
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
+                disconnectBluetooth();
             }
 
             @Override

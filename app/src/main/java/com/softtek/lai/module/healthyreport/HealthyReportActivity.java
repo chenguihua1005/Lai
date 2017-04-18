@@ -25,10 +25,10 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.healthyreport.adapter.HealthyReportAdapter;
 import com.softtek.lai.module.healthyreport.model.HealthyItem;
 import com.softtek.lai.module.healthyreport.model.HealthyReport;
+import com.softtek.lai.module.healthyreport.model.HealthyShareData;
 import com.softtek.lai.module.laicheng.presenter.HealthyReportPresenter;
 import com.softtek.lai.widgets.DividerItemDecoration;
 import com.umeng.socialize.ShareAction;
@@ -36,7 +36,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -97,92 +96,21 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
 
     @OnClick(R.id.fl_right)
     public void doShare() {
-        showDialog();
+        getPresenter().getShareData(reportId);
     }
-
-    String value /*= "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge*/;
-    String url;
-    String title_value = "莱聚+体测，精彩人生";
-
-    //分享对话框
-    private void showDialog() {
-        final Dialog dialog = new Dialog(this, R.style.custom_dialog);
-        dialog.setCanceledOnTouchOutside(true);
-        Window win = dialog.getWindow();
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.x = 120;
-        params.y = 100;
-        assert win != null;
-        win.setAttributes(params);
-        dialog.setContentView(R.layout.share_dialog);
-        dialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ShareAction(HealthyReportActivity.this)
-                        .setPlatform(SHARE_MEDIA.WEIXIN)
-                        .withTitle(title_value)
-                        .withText(value)
-                        .withTargetUrl(url)
-                        .withMedia(new UMImage(HealthyReportActivity.this, R.drawable.img_share_logo))
-                        .share();
-                dialog.dismiss();
-            }
-        });
-        dialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ShareAction(HealthyReportActivity.this)
-                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
-                        .withTitle(title_value)
-                        .withText(value)
-                        .withTargetUrl(url)
-                        .withMedia(new UMImage(HealthyReportActivity.this, R.drawable.img_share_logo))
-                        .share();
-                dialog.dismiss();
-            }
-        });
-        dialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ShareAction(HealthyReportActivity.this)
-                        .setPlatform(SHARE_MEDIA.SINA)
-                        .withText(value + url)
-                        .withMedia(new UMImage(HealthyReportActivity.this, R.drawable.img_share_logo))
-                        .share();
-                dialog.dismiss();
-            }
-        });
-        dialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
 
     @Override
     protected void initDatas() {
         reportId = getIntent().getStringExtra("reportId");
         since = getIntent().getIntExtra("since", SINCE_LAICHEN);
         isVisitor = getIntent().getIntExtra("isVisitor", NON_VISITOR);
-        url=AddressManager.get("shareHost")+"ShareLastRecord?recordId="+reportId;
+
         list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         adapter = new HealthyReportAdapter(items, this);
         adapter.setListener(this);
         list.setAdapter(adapter);
-
         scrollView.post(new Runnable() {
             @Override
             public void run() {
@@ -231,7 +159,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
 
     @Override
     public void getData(HealthyReport data) {
-        fl_share.setVisibility(View.VISIBLE);
+
         accountId = data.getAccountId();
         tv_user.setText(data.getUsername());
         tv_time.setText(data.getMeasureTime());
@@ -300,4 +228,87 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         intent.putParcelableArrayListExtra("items", items);
         startActivity(intent);
     }
+
+    @Override
+    public void getShareData(HealthyShareData data) {
+        StringBuilder builder=new StringBuilder();
+        builder.append("体重 +");
+        builder.append(data.getWeight());
+        builder.append("斤");
+        builder.append("\n");
+        builder.append("体脂率 +");
+        builder.append(data.getBodyfat());
+        builder.append("\n");
+        builder.append("身体年龄 +");
+        builder.append(data.getAge());
+        String url=AddressManager.get("shareHost")+"ShareLastRecord?recordId="+reportId;
+        String title_value = "莱聚+体测，精彩人生";
+        showDialog(title_value,builder.toString(),url);
+    }
+
+    //分享对话框
+    private void showDialog(final String title, final String context, final String url) {
+        final Dialog dialog = new Dialog(this, R.style.custom_dialog);
+        dialog.setCanceledOnTouchOutside(true);
+        Window win = dialog.getWindow();
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.x = 120;
+        params.y = 100;
+        assert win != null;
+        win.setAttributes(params);
+        dialog.setContentView(R.layout.share_dialog);
+        dialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(HealthyReportActivity.this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN)
+                        .withTitle(title)
+                        .withText(context)
+                        .withTargetUrl(url)
+                        .withMedia(new UMImage(HealthyReportActivity.this, R.drawable.img_share_logo))
+                        .share();
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(HealthyReportActivity.this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .withTitle(title)
+                        .withText(context)
+                        .withTargetUrl(url)
+                        .withMedia(new UMImage(HealthyReportActivity.this, R.drawable.img_share_logo))
+                        .share();
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(HealthyReportActivity.this)
+                        .setPlatform(SHARE_MEDIA.SINA)
+                        .withText(context + url)
+                        .withMedia(new UMImage(HealthyReportActivity.this, R.drawable.img_share_logo))
+                        .share();
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
 }
