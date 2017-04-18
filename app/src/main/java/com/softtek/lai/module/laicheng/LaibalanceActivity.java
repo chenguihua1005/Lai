@@ -113,6 +113,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 if (pageIndex == 0) {
                     setGuest(false);
                     selftestFragment.refreshVoiceIcon();
+                    selftestFragment.setStateTip("摇一摇，连接莱秤");
                 } else {
                     setGuest(true);
 //                    if (visitortestFragment.visitorLastData != null && !TextUtils.isEmpty(visitortestFragment.visitorLastData.getRecordId())) {
@@ -120,6 +121,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 //                    } else {
 //                        mShakeListener.stop();
 //                    }
+                    visitortestFragment.setStateTip("摇一摇，连接莱秤");
                     visitortestFragment.refreshVoiceIcon();
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
