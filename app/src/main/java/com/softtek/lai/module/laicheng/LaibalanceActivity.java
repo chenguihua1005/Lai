@@ -112,7 +112,6 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 pageIndex = position;
                 if (pageIndex == 0) {
                     setGuest(false);
-                    mShakeListener.start();
                     selftestFragment.refreshVoiceIcon();
                 } else {
                     setGuest(true);
@@ -124,6 +123,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                     visitortestFragment.refreshVoiceIcon();
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
+                disconnectBluetooth();
             }
 
             @Override
