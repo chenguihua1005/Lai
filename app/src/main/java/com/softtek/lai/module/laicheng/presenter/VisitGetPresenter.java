@@ -5,7 +5,6 @@ import android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
-import com.softtek.lai.module.laicheng.model.GetVisitorModel;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.net.VisitorService;
 import com.softtek.lai.utils.RequestCallback;

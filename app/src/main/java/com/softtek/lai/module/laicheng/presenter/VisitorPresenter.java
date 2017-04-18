@@ -5,7 +5,6 @@ import android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
-import com.softtek.lai.module.laicheng.model.GetVisitorModel;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.model.Visitsmodel;
 import com.softtek.lai.module.laicheng.net.VisitorService;
@@ -13,7 +12,6 @@ import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.GET;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 

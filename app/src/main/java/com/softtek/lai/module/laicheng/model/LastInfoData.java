@@ -119,13 +119,21 @@ public class LastInfoData {
          * Height : 168
          * PhoneNo : 18206182036
          */
-
+        private int Id;
         private String Name;
         private String BirthDate;
         private int Age;
         private int Gender;
         private int Height;
         private String PhoneNo;
+
+        public int getId() {
+            return Id;
+        }
+
+        public void setId(int id) {
+            Id = id;
+        }
 
         public String getName() {
             return Name;
@@ -174,5 +182,19 @@ public class LastInfoData {
         public void setPhoneNo(String PhoneNo) {
             this.PhoneNo = PhoneNo;
         }
+
+        @Override
+        public String toString() {
+            return "VisitorBean{" +
+                    "Id=" + Id +
+                    ", Name='" + Name + '\'' +
+                    ", BirthDate='" + BirthDate + '\'' +
+                    ", Age=" + Age +
+                    ", Gender=" + Gender +
+                    ", Height=" + Height +
+                    ", PhoneNo='" + PhoneNo + '\'' +
+                    '}';
+        }
     }
+
 }
