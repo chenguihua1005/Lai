@@ -119,7 +119,7 @@ public class LastInfoData {
          * Height : 168
          * PhoneNo : 18206182036
          */
-        private int Id;
+        private long Id;
         private String Name;
         private String BirthDate;
         private int Age;
@@ -127,11 +127,11 @@ public class LastInfoData {
         private int Height;
         private String PhoneNo;
 
-        public int getId() {
+        public long getId() {
             return Id;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             Id = id;
         }
 

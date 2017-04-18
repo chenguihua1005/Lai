@@ -178,6 +178,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                         int month = datePicker.getMonth() + 1;
                         int day = datePicker.getDayOfMonth();
                         choose_year=year;
+                        Log.i("choose",choose_year+"");
                         date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                         Log.i("日期", currentDate);
                         int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date, currentDate);
@@ -204,7 +205,8 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     public void commit(Visitsmodel visitsmodel, VisitorModel Model) {
         Model.setVisitorId(visitsmodel.getVisitorId());
         Intent intent = new Intent();
-        intent.putExtra("choose",choose_year+"");
+        Log.i("choosell",choose_year+"");
+        intent.putExtra("choose",choose_year);
         intent.putExtra("visitorModel", Model);
         setResult(RESULT_OK, intent);
         finish();

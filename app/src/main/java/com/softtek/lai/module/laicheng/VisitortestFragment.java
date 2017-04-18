@@ -90,7 +90,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     //    private boolean isPlay = true;
     private String recordId;
     private Dialog dialog;//对话框
-    private int visitorId;
+    private long visitorId;
 
     private String weight = "";//体重
     private String bodyFatRate = "";//体脂率
@@ -316,6 +316,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 model = (VisitorModel) data.getParcelableExtra("visitorModel");
                 close = data.getExtras().getInt("type");
                 choose_year=data.getExtras().getInt("choose");
+                Log.i("choose_year",choose_year+"");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
                     Log.i("访客信息", model.toString());
                     visitorId = model.getVisitorId();
