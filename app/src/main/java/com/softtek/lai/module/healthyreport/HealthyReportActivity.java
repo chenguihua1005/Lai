@@ -86,7 +86,10 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         finish();
     }
 
+    @OnClick(R.id.fl_right)
+    public void doShare(){
 
+    }
 
     @Override
     protected void initDatas() {
@@ -207,10 +210,10 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         Intent intent=new Intent(this, HealthyChartActivity.class);
         Bundle bundle=new Bundle();
         bundle.putInt("isVisitor",isVisitor);
-        bundle.putInt("pid",item.getPid());
         bundle.putString("accountId",accountId);
         bundle.putString("recordId",reportId);
-        intent.putExtras(bundle);
+        intent.putExtra("base",bundle);
+        intent.putExtra("pid",item.getPid());
         intent.putParcelableArrayListExtra("items",items);
         startActivity(intent);
     }
