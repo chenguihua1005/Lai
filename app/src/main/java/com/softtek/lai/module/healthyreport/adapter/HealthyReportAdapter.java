@@ -5,8 +5,10 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.SuperscriptSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,9 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<HealthyReportAdap
         if(!TextUtils.isEmpty(item.getValue())){
             SpannableString ss=new SpannableString(item.getValue()+item.getUnit());
             ss.setSpan(new AbsoluteSizeSpan(36),item.getValue().length(),ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if("kg/m2".equals(item.getUnit())){
+                ss.setSpan(new SuperscriptSpan(),ss.length()-1,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            }
             holder.tv_num.setText(ss);
         }
         holder.rl_item.setOnClickListener(new View.OnClickListener() {

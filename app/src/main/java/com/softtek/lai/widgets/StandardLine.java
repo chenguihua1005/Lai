@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -34,7 +36,7 @@ public class StandardLine extends View {
     private List<Float> valueList;
     private List<String> colorList;
     private String curColor;
-    private String unit;
+    private SpannableString unit;
     private boolean isInt;
 
     private float rangeValue;//最大值最小值之差
@@ -132,18 +134,21 @@ public class StandardLine extends View {
             path.lineTo(width, lineTop-lineHeight/2);
             canvas.drawPath(path, paintLine);
             //写当前数值
-            String value = StringMath.fourRemoveFiveAdd1(""+curValue)+unit;
+            SpannableStringBuilder ssb=new SpannableStringBuilder();
+            String value = StringMath.fourRemoveFiveAdd1(""+curValue)+"";
             if(isInt)
-                value = ((int) curValue)+unit;
+                value = ((int) curValue)+"";
+            ssb.append(value);
+            ssb.append(unit);
             textPaint.setTextSize(DisplayUtil.sp2px(context,25f));
             textPaint.setColor(Color.parseColor(curColor));
-            float textWidth = textPaint.measureText(value);
+            float textWidth = textPaint.measureText(ssb.toString());
             if((width-textWidth/2)<0)
-                canvas.drawText(value, 0, lineTop - lineHeight*2 , textPaint);
+                canvas.drawText(ssb,0,ssb.length(), 0, lineTop - lineHeight*2 , textPaint);
             else if((width-textWidth/2+textWidth)>getWidth())
-                canvas.drawText(value, getWidth()-textWidth, lineTop - lineHeight*2 , textPaint);
+                canvas.drawText(ssb,0,ssb.length(),getWidth()-textWidth, lineTop - lineHeight*2 , textPaint);
             else
-                canvas.drawText(value, width-textWidth/2, lineTop - lineHeight*2 , textPaint);
+                canvas.drawText(ssb,0,ssb.length(), width-textWidth/2, lineTop - lineHeight*2 , textPaint);
         }
     }
 
@@ -164,7 +169,7 @@ public class StandardLine extends View {
      * @param colorList 每段颜色的list
      * @param curColor 当前值的颜色
      */
-    public void setData(final float minValue,final float maxValue,final float curValue,final String unit,
+    public void setData(final float minValue,final float maxValue,final float curValue,final SpannableString unit,
                         final List<Float> valueList,final List<String> colorList,final String curColor,final boolean isInt){
         this.maxValue = maxValue;
         this.minValue = minValue;
@@ -175,9 +180,10 @@ public class StandardLine extends View {
         this.unit = unit;
         this.isInt = isInt;
         if(this.unit==null)
-            this.unit = "";
+            this.unit = new SpannableString("");
 
         rangeValue = this.maxValue-this.minValue;
+        invalidate();
     }
 }
 
