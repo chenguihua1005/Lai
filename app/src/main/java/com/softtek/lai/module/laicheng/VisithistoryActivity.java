@@ -47,7 +47,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     ImageView iv_email;
 
     @InjectView(R.id.ptrlv)
-    ListView ptrlv;
+    PullToRefreshListView ptrlv;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
     @InjectView(R.id.rl_search)
