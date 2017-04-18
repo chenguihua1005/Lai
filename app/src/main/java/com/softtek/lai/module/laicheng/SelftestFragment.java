@@ -19,6 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
+import com.softtek.lai.module.healthyreport.HistoryDataActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.presenter.SelftestPresenter;
@@ -236,6 +237,11 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     @OnClick(R.id.tv_share)
     public void share() {
         showDialog();
+    }
+
+    @OnClick(R.id.ll_more)
+    public void goToMoreinfo() {
+        startActivity(new Intent(getActivity(), HistoryDataActivity.class));
     }
 
     String value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
