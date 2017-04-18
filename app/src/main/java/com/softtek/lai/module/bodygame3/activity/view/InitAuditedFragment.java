@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -152,32 +153,36 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
         getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, ++pageIndex, 10);
     }
 
-    //获取审核列表数据
-//    private void doGetData(Long accountid, String classid, int pageIndex, int pageSize) {
-//        fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-//            @Override
-//            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-//                plv_audit.onRefreshComplete();
-//                int status = listResponseData.getStatus();
-//                switch (status) {
-//                    case 200:
-//                        memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
-//                        adapter.notifyDataSetChanged();
-//                        break;
-//                    default:
-//                        Util.toastMsg(listResponseData.getMsg());
-//                        break;
-//                }
-//            }
-//        });
-//    }
-
 
     @Override
     public void getInitAuditList(List<AuditListModel> list) {
-        if (list != null) {
-            memberListModels.addAll(list.get(1).getMemberList());
+        if (list != null && list.size() == 3) {
+//            memberListModels.addAll(list.get(1).getMemberList());
+//            adapter.notifyDataSetChanged();
+
+            int unFuce_num = 0;
+            int uncheck_num = 0;
+            int checked_num = 0;
+            for (int i = 0; i < list.size(); i++) {
+                AuditListModel model = list.get(i);
+                if (0 == model.getStatus()) {
+                    uncheck_num = Integer.parseInt(model.getCount());
+                } else if (1 == model.getStatus()) {//已审核
+                    checked_num = Integer.parseInt(model.getCount());
+                    memberListModels.addAll(model.getMemberList());
+                } else if (-1 == model.getStatus()) {//未录入
+                    unFuce_num = Integer.parseInt(model.getCount());
+                }
+            }
+
             adapter.notifyDataSetChanged();
+
+//            Intent intent = new Intent(InitAuditListActivity.UPDATENUMBER_CHUSHICHECK);
+//            intent.putExtra("unFuce_num", unFuce_num);
+//            intent.putExtra("uncheck_num", uncheck_num);
+//            intent.putExtra("checked_num", checked_num);
+//            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
         }
     }
 

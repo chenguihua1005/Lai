@@ -19,18 +19,17 @@
 
     </ExpandableListView>
 
-    <com.softtek.lai.widgets.DragFloatActionButton
+    <com.softtek.lai.widgets.DragFloatActionButtonCheng
         android:id="@+id/cheng_float"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="20dp"
         android:scaleType="center"
-        android:src="@drawable/cheng_float"
+        android:background="@drawable/cheng_float"
         android:visibility="invisible"
-        app:backgroundTint="#EEF3FA"
         app:elevation="4dp"
         app:pressedTranslationZ="2dp" />
 </RelativeLayout>

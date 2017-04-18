@@ -1,14 +1,21 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -49,6 +56,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
     //    String[] tabtitle = {"未审核", "已审核"};
     String classId;
+    int unInputNum = 0;//未录入
     int Auditnum = 0;
     int Auditednum = 0;
 
@@ -75,6 +83,12 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
 
         setPresenter(new InitAuditPresenter(this));
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATENUMBER_CHUSHICHECK));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -87,45 +101,45 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     }
 
     //获取审核列表数据
-    private void doGetData(Long accountid, String classid, int pageIndex, int pageSize) {
-        fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-            @Override
-            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                try {
-                    switch (status) {
-                        case 200:
-                            if (listResponseData.getData().size() == 0) {
-                                tabtitle[0] = "未审核(" + "0" + ")";
-                                tabtitle[1] = "已审核(" + "0" + ")";
-                                TabLayout.Tab tab1 = tab.getTabAt(0);
-                                tab1.setText(tabtitle[0]);
-                                TabLayout.Tab tab2 = tab.getTabAt(1);
-                                tab2.setText(tabtitle[1]);
-                            } else {
-                                Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
-                                Auditednum = Integer.parseInt(listResponseData.getData().get(1).getCount());
-                                tabtitle[0] = "未审核(" + Auditnum + ")";
-                                tabtitle[1] = "已审核(" + Auditednum + ")";
-                                TabLayout.Tab tab1 = tab.getTabAt(0);
-                                tab1.setText(tabtitle[0]);
-                                TabLayout.Tab tab2 = tab.getTabAt(1);
-                                tab2.setText(tabtitle[1]);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    private void doGetData(Long accountid, String classid, int pageIndex, int pageSize) {
+//        fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+//            @Override
+//            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
+//                int status = listResponseData.getStatus();
+//                try {
+//                    switch (status) {
+//                        case 200:
+//                            if (listResponseData.getData().size() == 0) {
+//                                tabtitle[0] = "未审核(" + "0" + ")";
+//                                tabtitle[1] = "已审核(" + "0" + ")";
+//                                TabLayout.Tab tab1 = tab.getTabAt(0);
+//                                tab1.setText(tabtitle[0]);
+//                                TabLayout.Tab tab2 = tab.getTabAt(1);
+//                                tab2.setText(tabtitle[1]);
+//                            } else {
+//                                Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
+//                                Auditednum = Integer.parseInt(listResponseData.getData().get(1).getCount());
+//                                tabtitle[0] = "未审核(" + Auditnum + ")";
+//                                tabtitle[1] = "已审核(" + Auditednum + ")";
+//                                TabLayout.Tab tab1 = tab.getTabAt(0);
+//                                tab1.setText(tabtitle[0]);
+//                                TabLayout.Tab tab2 = tab.getTabAt(1);
+//                                tab2.setText(tabtitle[1]);
+//                            }
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                } catch (NumberFormatException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     public void update() {
-        tabtitle[0] = "未录入(" + (--Auditnum) + ")";
-        tabtitle[1] = "待审核(" + (Auditnum) + ")";
+        tabtitle[0] = "未录入(" + unInputNum + ")";
+        tabtitle[1] = "待审核(" + (--Auditnum) + ")";
         tabtitle[2] = "已审核(" + (++Auditednum) + ")";
         TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setText(tabtitle[0]);
@@ -135,18 +149,18 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
         tab3.setText(tabtitle[2]);
     }
 
-    public void updates(int Auditnu) {
-        Auditnum = Auditnu;
-        tabtitle[0] = "未录入(" + Auditnum + ")";
-        tabtitle[1] = "待审核(" + Auditnum + ")";
-        tabtitle[2] = "已审核(" + Auditednum + ")";
-        TabLayout.Tab tab1 = tab.getTabAt(0);
-        tab1.setText(tabtitle[0]);
-        TabLayout.Tab tab2 = tab.getTabAt(1);
-        tab2.setText(tabtitle[1]);
-        TabLayout.Tab tab3 = tab.getTabAt(2);
-        tab3.setText(tabtitle[2]);
-    }
+//    public void updates(int Auditnu) {
+//        Auditnum = Auditnu;
+//        tabtitle[0] = "未录入(" + unInputNum + ")";
+//        tabtitle[1] = "待审核(" + Auditnum + ")";
+//        tabtitle[2] = "已审核(" + Auditednum + ")";
+//        TabLayout.Tab tab1 = tab.getTabAt(0);
+//        tab1.setText(tabtitle[0]);
+//        TabLayout.Tab tab2 = tab.getTabAt(1);
+//        tab2.setText(tabtitle[1]);
+//        TabLayout.Tab tab3 = tab.getTabAt(2);
+//        tab3.setText(tabtitle[2]);
+//    }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -163,6 +177,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
     @Override
     public void getInitAuditList(List<AuditListModel> list) {
+        Log.i(TAG, "shuju = " + new Gson().toJson(list));
         if (list != null) {
             if (list.size() == 0) {
                 tabtitle[0] = "未录入(" + "0" + ")";
@@ -172,10 +187,21 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 tab1.setText(tabtitle[0]);
                 TabLayout.Tab tab2 = tab.getTabAt(1);
                 tab2.setText(tabtitle[1]);
+                TabLayout.Tab tab3 = tab.getTabAt(2);
+                tab3.setText(tabtitle[2]);
             } else {
-                Auditnum = Integer.parseInt(list.get(0).getCount());
-                Auditednum = Integer.parseInt(list.get(1).getCount());
-                tabtitle[0] = "未录入(" + Auditnum + ")";
+                for (int i = 0; i < list.size(); i++) {
+                    AuditListModel model = list.get(i);
+                    if (0 == model.getStatus()) {
+                        Auditnum = Integer.parseInt(model.getCount());
+                    } else if (1 == model.getStatus()) {
+                        Auditednum = Integer.parseInt(model.getCount());
+                    } else if (-1 == model.getStatus()) {
+                        unInputNum = Integer.parseInt(model.getCount());
+                    }
+                }
+
+                tabtitle[0] = "未录入(" + unInputNum + ")";
                 tabtitle[1] = "待审核(" + Auditnum + ")";
                 tabtitle[2] = "已审核(" + Auditednum + ")";
                 TabLayout.Tab tab1 = tab.getTabAt(0);
@@ -193,4 +219,33 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     public void hidenLoading() {
 
     }
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    public static final String UPDATENUMBER_CHUSHICHECK = "UPDATENUMBER_CHUSHICHECK";
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATENUMBER_CHUSHICHECK.equalsIgnoreCase(intent.getAction())) {
+                unInputNum = intent.getIntExtra("unFuce_num", 0);
+                Auditnum = intent.getIntExtra("uncheck_num", 0);
+                Auditednum = intent.getIntExtra("checked_num", 0);
+
+                tabtitle[0] = "未录入(" + unInputNum + ")";
+                tabtitle[1] = "待审核(" + Auditnum + ")";
+                tabtitle[2] = "已审核(" + Auditednum + ")";
+
+                TabLayout.Tab tab1 = tab.getTabAt(0);
+                tab1.setText(tabtitle[0]);
+                TabLayout.Tab tab2 = tab.getTabAt(1);
+                tab2.setText(tabtitle[1]);
+                TabLayout.Tab tab3 = tab.getTabAt(2);
+                tab3.setText(tabtitle[2]);
+
+            }
+        }
+    };
 }

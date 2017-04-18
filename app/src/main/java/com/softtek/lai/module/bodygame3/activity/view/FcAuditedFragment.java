@@ -179,13 +179,22 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     @Override
     public void getMeasureReviewedList(List<AuditListModel> list) {
         if (list != null && list.size() != 0) {
-            memberListModels.addAll(list.get(1).getMemberList());
+            int unFuce_num = 0;
+            int uncheck_num = 0;
+            int checked_num = 0;
+            for (int i = 0; i < list.size(); i++) {
+                AuditListModel model = list.get(i);
+                if (0 == model.getStatus()) {//未审核
+                    uncheck_num = Integer.parseInt(model.getCount());
+                } else if (1 == model.getStatus()) {//已审核
+                    checked_num = Integer.parseInt(model.getCount());
+                    memberListModels.addAll(model.getMemberList());
+                } else if (-1 == model.getStatus()) {//未复测
+                    unFuce_num = Integer.parseInt(model.getCount());
+                }
+            }
+
             adapter.notifyDataSetChanged();
-
-            int unFuce_num = Integer.parseInt(list.get(0).getCount());
-            int uncheck_num = Integer.parseInt(list.get(0).getCount());
-            int checked_num = Integer.parseInt(list.get(1).getCount());
-
             Intent intent = new Intent(FcAuditListActivity.UPDATENUMBER_FUCUCHECK);
             intent.putExtra("unFuce_num", unFuce_num);
             intent.putExtra("uncheck_num", uncheck_num);

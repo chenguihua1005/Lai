@@ -2,6 +2,7 @@ package com.softtek.lai.module.laicheng;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,9 +34,13 @@ import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.VisitGetPresenter;
 import com.softtek.lai.widgets.FuCeSelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -88,12 +94,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     @InjectView(R.id.mid_lay)
     LinearLayout mid_lay;
 
-    FuCeSelectPicPopupWindow menuWindow;
-
     VisitorModel model;
     VisitGetPresenter presenter;
     //    private boolean isPlay = true;
     private String recordId;
+    private Dialog dialog;//对话框
 
     public VisitortestFragment() {
         // Required empty public constructor
@@ -109,6 +114,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     @Override
     public void getDatasuccess(LastInfoData data) {
         if (data != null && !TextUtils.isEmpty(data.getRecordId())) {
+            tv_weight_caption.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
             mid_lay.setVisibility(View.VISIBLE);
             tv_weight.setText(data.getWeight() + "");//体重
@@ -134,7 +140,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             mid_lay.setVisibility(View.INVISIBLE);
             ll_visitor.setVisibility(View.INVISIBLE);
             tv_weight.setText("0.0");//体重
-            tv_weight_caption.setText("--");//状态
+            tv_weight_caption.setVisibility(View.GONE);//状态
             tv_body_fat_rate.setText("--");
             tv_bmi.setText("--");
             tv_internal_fat_rate.setText("--");
@@ -218,50 +224,82 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 startActivity(health);
                 break;
             case R.id.share_btn:
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    com.github.snowdream.android.util.Log.i("检查权限。。。。");
-                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                    if (
-                            ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                                    ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        //允许弹出提示
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                LOCATION_PREMISSION);
-
-                    } else {
-                        //不允许弹出提示
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                                LOCATION_PREMISSION);
-                    }
-                } else {
-
-                    menuWindow = new FuCeSelectPicPopupWindow(getActivity(), itemsOnClick);
-                    //显示窗口
-                    menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                    menuWindow.showAtLocation(getActivity().findViewById(R.id.rl_visit), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-                    menuWindow.setBackgroundDrawable(new BitmapDrawable());
-                }
+                showDialog();
                 break;
         }
     }
 
+    String value;
+    String url = "http://115.29.187.163:8082/Share/ShareLastRecord?type=1&token=EBD7520B29EC86AB6C55BF857B895CDA";
+    String title_value;
 
-    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            menuWindow.dismiss();
-//            setShare(v);
-
+    //分享对话框
+    private void showDialog() {
+        if (dialog == null) {
+            dialog = new Dialog(getActivity(), R.style.custom_dialog);
+            dialog.setCanceledOnTouchOutside(true);
+            Window win = dialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            assert win != null;
+            win.setAttributes(params);
+            dialog.setContentView(R.layout.share_dialog);
+            dialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
         }
-    };
+        dialog.show();
+    }
 
-/*    @Override
-    public void onResume() {
-        super.onResume();
-        shakeOFF.setOnShakeSTOP();
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -289,15 +327,28 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         }
     }
 
+    //摇一摇刷新U
+    @SuppressLint("SetTextI18n")
+    public void refreshUi(LastInfoData data) {
+        tv_weight.setText("0.0");
+        tv_body_fat_rate.setText("- -");
+        tv_bmi.setText("- -");
+        tv_internal_fat_rate.setText("- -");
+    }
+
+
     @SuppressLint("SetTextI18n")
     public void UpdateData(BleMainData data) {
-        recordId = data.getRecordId();
-        tv_weight.setText(data.getWeight() + "");//体重
-        tv_weight_caption.setText(data.getBodyTypeTitle());//状态
-        tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
-        tv_body_fat_rate.setText(data.getBodyFatRate());
-        tv_bmi.setText(data.getBMI());
-        tv_internal_fat_rate.setText(data.getViscusFatIndex());
+        if (data != null) {
+            recordId = data.getRecordId();
+            tv_weight.setText(data.getWeight() + "");//体重
+            tv_weight_caption.setText(data.getBodyTypeTitle());//状态
+            tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+            tv_body_fat_rate.setText(data.getBodyFatRate());
+            tv_bmi.setText(data.getBMI());
+            tv_internal_fat_rate.setText(data.getViscusFatIndex());
+        }
+
     }
 
     public void refreshVoiceIcon() {

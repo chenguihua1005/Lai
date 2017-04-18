@@ -875,7 +875,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     /*l录入*/
     void doSetPostData() {
-
         Log.i(TAG,"提交的数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));
         Log.i("图片文件" + "身体维度上传" + "体重" + fcStDataModel.getWeight() + "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
         multipartTypedOutput.addPart("accountId", new TypedString(userId + ""));

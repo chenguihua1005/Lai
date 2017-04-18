@@ -62,8 +62,8 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
         typeDate = getIntent().getStringExtra("typeDate");
         resetdatestatus = getIntent().getIntExtra("resetdatestatus", 0);//接收复测日状态//复测日状态  1:已过去 2：进行中 3：未开始
         fragments = new ArrayList<>();
-        fragments.add(UnFuceStuFragment.getInstance(classId, typeDate, resetdatestatus));
-        fragments.add(FcAuditFragment.getInstance(classId, typeDate, resetdatestatus));
+        fragments.add(UnFuceStuFragment.getInstance(classId, typeDate, resetdatestatus));//
+        fragments.add(FcAuditFragment.getInstance(classId, typeDate, resetdatestatus)); //未审核
         fragments.add(FcAuditedFragment.getInstance(classId, typeDate));//已审核
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
         tab.setupWithViewPager(content);
@@ -190,9 +190,17 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 TabLayout.Tab tab3 = tab.getTabAt(2);
                 tab3.setText(tabtitle[2]);
             } else {
-                unFuce_num = Integer.parseInt(list.get(0).getCount());
-                uncheck_num = Integer.parseInt(list.get(1).getCount());
-                checked_num = Integer.parseInt(list.get(1).getCount());
+                for (int i = 0; i < list.size(); i++) {
+                    AuditListModel model = list.get(i);
+                    if (0 == model.getStatus()) {
+                        uncheck_num = Integer.parseInt(model.getCount());
+                    } else if (1 == model.getStatus()) {
+                        checked_num = Integer.parseInt(model.getCount());
+                    } else if (-1 == model.getStatus()) {
+                        unFuce_num = Integer.parseInt(model.getCount());
+                    }
+                }
+
                 tabtitle[0] = "未复测(" + unFuce_num + ")";
                 tabtitle[1] = "待审核(" + uncheck_num + ")";
                 tabtitle[2] = "已审核(" + checked_num + ")";

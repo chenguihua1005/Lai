@@ -196,23 +196,29 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
     @Override
     public void getMeasureReviewedList(List<AuditListModel> list) {
-        if (list != null && list.size() == 2) {
-//            Auditnum = Integer.parseInt(list.get(0).getCount());
-//            FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
-//            fcAuditListActivity.updates(Auditnum);
-            memberListModels.addAll(list.get(0).getMemberList());
+        if (list != null && list.size() == 3) {
+            int unFuce_num = 0;
+            int uncheck_num = 0;
+            int checked_num = 0;
+            for (int i = 0; i < list.size(); i++) {
+                AuditListModel model = list.get(i);
+                if (0 == model.getStatus()) {
+                    uncheck_num = Integer.parseInt(model.getCount());
+                } else if (1 == model.getStatus()) {
+                    checked_num = Integer.parseInt(model.getCount());
+                } else if (-1 == model.getStatus()) {
+                    unFuce_num = Integer.parseInt(model.getCount());
+                    memberListModels.addAll(model.getMemberList());
+                }
+            }
+
             adapter.notifyDataSetChanged();
-
-
-            int unFuce_num = Integer.parseInt(list.get(0).getCount());
-            int uncheck_num = Integer.parseInt(list.get(0).getCount());
-            int checked_num = Integer.parseInt(list.get(1).getCount());
-
             Intent intent = new Intent(FcAuditListActivity.UPDATENUMBER_FUCUCHECK);
             intent.putExtra("unFuce_num", unFuce_num);
             intent.putExtra("uncheck_num", uncheck_num);
             intent.putExtra("checked_num", checked_num);
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
         }
     }
 
