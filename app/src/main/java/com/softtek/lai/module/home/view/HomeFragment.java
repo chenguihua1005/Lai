@@ -151,7 +151,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
         }
         fl_right.setOnClickListener(this);
-        iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
         ProductInfoFragment productInfoFragment = new ProductInfoFragment();
         SaleInfoFragment saleInfoFragment = new SaleInfoFragment();
@@ -487,7 +486,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fl_right:
-            case R.id.iv_email:
                 String userroles = UserInfoModel.getInstance().getUser().getUserrole();
                 if (String.valueOf(Constants.VR).equals(userroles)) {
                     //提示用户让他登录或者直接进入2个功能的踢馆赛模块
