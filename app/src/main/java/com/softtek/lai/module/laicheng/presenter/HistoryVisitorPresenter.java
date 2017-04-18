@@ -37,6 +37,12 @@ public class HistoryVisitorPresenter extends BasePresenter<HistoryVisitorPresent
                     case 200:
                         if (getView() != null) {
                             getView().getInfo(listResponseData.getData());
+                            getView().dissmiss();
+                        }
+                        break;
+                    default:
+                        if(getView()!=null){
+                            getView().dissmiss();
                         }
                         break;
                 }
@@ -44,6 +50,9 @@ public class HistoryVisitorPresenter extends BasePresenter<HistoryVisitorPresent
 
             @Override
             public void failure(RetrofitError error) {
+                if(getView()!=null){
+                    getView().dissmiss();
+                }
                 super.failure(error);
             }
         });
@@ -52,5 +61,6 @@ public class HistoryVisitorPresenter extends BasePresenter<HistoryVisitorPresent
 
     public interface HistoryVisitorView extends BaseView {
         void getInfo(List<HistoryModel> historyModels);
+        void dissmiss();
     }
 }

@@ -136,6 +136,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     @Override
     protected void initDatas() {
         setPresenter(new HistoryVisitorPresenter(this));
+        dialogShow("正在加载。。。");
         getPresenter().GetData();
         historyAdapter = new EasyAdapter<HistoryModel>(this, historyModelList, R.layout.visitor_history_item_list) {
             @Override
@@ -153,9 +154,9 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                     tv_gender.setText("女");
                 }
                 TextView tv_age = (TextView) holder.getView(R.id.tv_age);
-                tv_age.setText(data.getVisitor().getAge() + "");
+                tv_age.setText(data.getVisitor().getAge() + "岁");
                 TextView tv_height = (TextView) holder.getView(R.id.tv_height);
-                tv_height.setText(data.getVisitor().getHeight() + "");
+                tv_height.setText(data.getVisitor().getHeight() + "cm");
 //                LinearLayout ll_item_click = (LinearLayout) holder.getView(R.id.ll_item_click);
 
             }
@@ -213,6 +214,11 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
             rl_search.setVisibility(View.VISIBLE);
 
         }
+    }
+
+    @Override
+    public void dissmiss() {
+        dialogDissmiss();
     }
 
 }
