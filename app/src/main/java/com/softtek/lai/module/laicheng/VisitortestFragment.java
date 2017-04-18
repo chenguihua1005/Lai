@@ -367,7 +367,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
             tv_body_fat_rate.setText(data.getBodyFatRate());
             bodyFatRate = data.getBodyFatRate();
-
             tv_bmi.setText(data.getBMI());
             tv_internal_fat_rate.setText(data.getViscusFatIndex());
         }

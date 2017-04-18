@@ -113,7 +113,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 if (pageIndex == 0) {
                     setGuest(false);
                     mShakeListener.start();
-                    selftestFragment.refreshVoiceIcon();
+                    if (!isDestroyed()){
+                        selftestFragment.refreshVoiceIcon();
+                    }
                 } else {
                     setGuest(true);
 //                    if (visitortestFragment.visitorLastData != null && !TextUtils.isEmpty(visitortestFragment.visitorLastData.getRecordId())) {
@@ -121,7 +123,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 //                    } else {
 //                        mShakeListener.stop();
 //                    }
-                    visitortestFragment.refreshVoiceIcon();
+                    if (!isDestroyed()){
+                        visitortestFragment.refreshVoiceIcon();
+                    }
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
             }

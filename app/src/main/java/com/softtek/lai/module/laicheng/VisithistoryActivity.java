@@ -36,7 +36,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_visithistory)
-public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> implements View.OnClickListener, HistoryVisitorPresenter.HistoryVisitorView {
+public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> implements View.OnClickListener, HistoryVisitorPresenter.HistoryVisitorView, PullToRefreshBase.OnRefreshListener {
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -71,6 +71,13 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
         tv_title.setText("访客历史记录");
         ll_left.setOnClickListener(this);
         imageView10.setOnClickListener(this);
+
+        ptrlv.setOnRefreshListener(this);
+        ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true, false);
+        startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
+        startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         //监听回车事件
 
         et_input.setOnKeyListener(new View.OnKeyListener() {
@@ -110,11 +117,11 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String text=editable.toString();
-                if(text.trim().length()==0){
+                String text = editable.toString();
+                if (text.trim().length() == 0) {
                     getPresenter().GetData();
                     return;
-                }else{
+                } else {
                     historyNewmodels.clear();
 //                    adapter.getFilter().filter(et_input.getText().toString().trim()); // 设置ListView的过滤关键词
                     for (HistoryModel model : historyModelList) {
@@ -157,18 +164,16 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                 tv_age.setText(data.getVisitor().getAge() + "岁");
                 TextView tv_height = (TextView) holder.getView(R.id.tv_height);
                 tv_height.setText(data.getVisitor().getHeight() + "cm");
-//                LinearLayout ll_item_click = (LinearLayout) holder.getView(R.id.ll_item_click);
-
             }
         };
         ptrlv.setAdapter(historyAdapter);
         ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(VisithistoryActivity.this, HealthyReportActivity.class);
-                intent.putExtra("reportId", historyModelList.get(position).getRecordId());
-                intent.putExtra("since", SINCE_LAICHEN);
-                intent.putExtra("isVisitor", VISITOR);
+                Intent intent = new Intent(VisithistoryActivity.this, HealthyReportActivity.class);
+                intent.putExtra("reportId", historyModelList.get(position-1).getRecordId());
+                intent.putExtra("since", HealthyReportActivity.SINCE_LAICHEN);
+                intent.putExtra("isVisitor", HealthyReportActivity.VISITOR);
                 startActivity(intent);
             }
         });
@@ -202,6 +207,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
 
     @Override
     public void getInfo(List<HistoryModel> historyModels) {
+        ptrlv.onRefreshComplete();
         if (historyModels.isEmpty()) {
             im_nomessage.setVisibility(View.VISIBLE);
             ptrlv.setVisibility(View.GONE);
@@ -221,4 +227,8 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
         dialogDissmiss();
     }
 
+    @Override
+    public void onRefresh(PullToRefreshBase refreshView) {
+        getPresenter().GetData();
+    }
 }

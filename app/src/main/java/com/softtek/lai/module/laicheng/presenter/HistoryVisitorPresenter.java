@@ -25,10 +25,10 @@ public class HistoryVisitorPresenter extends BasePresenter<HistoryVisitorPresent
 
     public HistoryVisitorPresenter(HistoryVisitorView baseView) {
         super(baseView);
+        service = ZillaApi.NormalRestAdapter.create(VisitorService.class);
     }
 
     public void GetData() {
-        service = ZillaApi.NormalRestAdapter.create(VisitorService.class);
         service.doGetVisitHistory(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<HistoryModel>>>() {
             @Override
             public void success(ResponseData<List<HistoryModel>> listResponseData, Response response) {
