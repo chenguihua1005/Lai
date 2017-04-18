@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 public class AuditListModel {
-    private String status;
+    private int status;
     private String count;
     private List<MemberListModel>  MemberList;
 
@@ -20,11 +20,11 @@ public class AuditListModel {
                 '}';
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
