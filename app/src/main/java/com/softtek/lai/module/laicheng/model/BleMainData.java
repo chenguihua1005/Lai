@@ -45,6 +45,15 @@ public class BleMainData implements Serializable{
     private String BMI;
     private String bodyFatRate;
     private String bodyFat;
+    private String physicalAge;
+
+    public String getPhysicalAge() {
+        return physicalAge;
+    }
+
+    public void setPhysicalAge(String physicalAge) {
+        this.physicalAge = physicalAge;
+    }
 
     public String getBodyFat() {
         return bodyFat;

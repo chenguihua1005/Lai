@@ -36,8 +36,6 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     private VoiceListener listener;
     @InjectView(R.id.tv_weight_caption)
     TextView mWeightCaption;
-    //    @InjectView(R.id.ll_info_state)
-//    LinearLayout mBleStateContent;
     @InjectView(R.id.tv_info_state)
     TextView mBleState;
     @InjectView(R.id.ll_info_data)
@@ -167,7 +165,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
 
             weight = String.valueOf(data.getWeight());
             bodyFatRate = data.getBodyFatRate();
-//            bodyAge = data.geta
+            bodyAge = data.getPhysicalAge();
         }
         mWeightCaption.setVisibility(View.VISIBLE);
         mShare.setVisibility(View.VISIBLE);
