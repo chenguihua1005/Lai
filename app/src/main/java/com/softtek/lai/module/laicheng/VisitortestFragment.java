@@ -124,6 +124,12 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             tv_bmi.setText(data.getBMI());
             tv_internal_fat_rate.setText(data.getViscusFatIndex());
             if (data.getVisitor() != null) {
+                model=new VisitorModel();
+                model.setName(data.getVisitor().getName());
+                model.setBirthDate(data.getVisitor().getBirthDate());
+                model.setGender(data.getVisitor().getGender());
+                model.setHeight(data.getVisitor().getHeight());
+                model.setPhoneNo(data.getVisitor().getPhoneNo());
                 visitorId = data.getVisitor().getId();
                 ll_visitor.setVisibility(View.VISIBLE);
                 tv_name.setText(data.getVisitor().getName());
@@ -221,8 +227,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             case R.id.health_btn:
                 Intent health = new Intent(getContext(), HealthyReportActivity.class);
                 health.putExtra("reportId", recordId);
-                health.putExtra("since", SINCE_LAICHEN);
-                health.putExtra("isVisitor", VISITOR);
+                health.putExtra("since", HealthyReportActivity.SINCE_LAICHEN);
+                health.putExtra("isVisitor", HealthyReportActivity.VISITOR);
                 startActivity(health);
                 break;
             case R.id.share_btn:
@@ -307,7 +313,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private int close;
     SimpleDateFormat format = new SimpleDateFormat("yyyy");
     int NowYear = Integer.parseInt(format.format(new Date()));
-     private int choose_year;
+    private int choose_year;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -315,15 +322,15 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             if (requestCode == 0) {
                 model = (VisitorModel) data.getParcelableExtra("visitorModel");
                 close = data.getExtras().getInt("type");
-                choose_year=data.getExtras().getInt("choose");
-                Log.i("choose_year",choose_year+"");
+                choose_year = data.getExtras().getInt("choose");
+                Log.i("choose_year", choose_year + "");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
                     Log.i("访客信息", model.toString());
                     visitorId = model.getVisitorId();
                     ll_visitor.setVisibility(View.VISIBLE);
                     tv_name.setText(model.getName());
                     tv_phoneNo.setText(model.getPhoneNo());
-                    tv_age.setText((NowYear-choose_year)+"");
+                    tv_age.setText((NowYear - choose_year) + "");
 //                    tv_age.setText(model.getBirthDate());
                     if (0 == model.getGender()) {
                         tv_gender.setText("男");
