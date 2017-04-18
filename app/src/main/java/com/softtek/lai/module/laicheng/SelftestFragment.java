@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
@@ -72,6 +73,10 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
 
     private String recordId = "";
 
+    private String weight = "";
+    private String bodyFatRate = "";
+    private String bodyAge = "";
+
     @Override
     public void getLastInfoSuccess(LastInfoData data) {
         refreshUi(data);
@@ -115,8 +120,8 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         mWeightCaption.setVisibility(View.INVISIBLE);
-        mShare.setVisibility(View.INVISIBLE);
-        mHealthReport.setVisibility(View.INVISIBLE);
+//        mShare.setVisibility(View.INVISIBLE);
+//        mHealthReport.setVisibility(View.INVISIBLE);
         presenter = new SelftestPresenter(this);
     }
 
@@ -148,6 +153,10 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
             mBmi.setText(data.getBMI() + "");
             mInternalFatRate.setText(data.getViscusFatIndex());
             recordId = data.getRecordId();
+
+            weight = String.valueOf(data.getWeight());
+            bodyFatRate = data.getBodyFatRate();
+//            bodyAge = data.geta
         }
         mWeightCaption.setVisibility(View.VISIBLE);
         mShare.setVisibility(View.VISIBLE);
@@ -207,11 +216,11 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     }
 
     @OnClick(R.id.tv_health_report)
-    public void goToHealthReport(){
-        Intent intent = new Intent(getActivity(),HealthyReportActivity.class);
-        intent.putExtra("isVisitor",HealthyReportActivity.NON_VISITOR);
-        intent.putExtra("recordId",recordId);
-        intent.putExtra("since",HealthyReportActivity.SINCE_LAICHEN);
+    public void goToHealthReport() {
+        Intent intent = new Intent(getActivity(), HealthyReportActivity.class);
+        intent.putExtra("isVisitor", HealthyReportActivity.NON_VISITOR);
+        intent.putExtra("recordId", recordId);
+        intent.putExtra("since", HealthyReportActivity.SINCE_LAICHEN);
         startActivity(intent);
     }
 
@@ -220,9 +229,10 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         showDialog();
     }
 
-    String value;
-    String url;
-    String title_value;
+    String value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
+    String url = "http://115.29.187.163:8082/Share/ShareLastRecord?type=1&accountId=" + UserInfoModel.getInstance().getUserId();
+    String title_value = "莱聚+体测，精彩人生";
+
     //分享对话框
     private void showDialog() {
         if (dialog == null) {

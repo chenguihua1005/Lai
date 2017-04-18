@@ -143,6 +143,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
             selftestFragment.updateUI(data);
+            selftestFragment.setStateTip("测量完成");
         } else {
             visitortestFragment.UpdateData(data);
         }
