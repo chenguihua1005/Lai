@@ -4,7 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.healthyreport.model.HealthModel;
 import com.softtek.lai.module.healthyreport.model.HealthyChartModel;
 import com.softtek.lai.module.healthyreport.model.HealthyReport;
-import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
+import com.softtek.lai.module.healthyreport.model.HealthyShareData;
 import com.softtek.lai.module.healthyreport.model.LastestRecordModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -55,5 +55,10 @@ public interface HealthyRecordService {
                         @Query("lastDate")String lastDate,
                         @Query("direction")int direction,
                         RequestCallback<ResponseData<HealthyChartModel.ChartBean>> callback);
+
+    //获取分享数据
+    void getShareData(@Header("token")String token,
+                      @Query("recordId")String recordId,
+                      RequestCallback<ResponseData<HealthyShareData>> callback);
 
 }
