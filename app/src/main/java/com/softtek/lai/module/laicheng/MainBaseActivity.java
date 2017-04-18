@@ -45,9 +45,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
     private int state_current = CONNECTED_STATE_SHAKE_IT;
     //    private ScaleDetailEntity mErrorScaleDetail;//测量错误的数据
-    private String scaleId = "";//访客模式称量后的id
+//    private String scaleId = "";//访客模式称量后的id
     private boolean isGuest = false;//以前的访客模式的称量页和这个页面合成一个，方便以后维护
-    private int shareType;
+//    private int shareType;
     public static boolean isVoiceHelp = true;
 
 //    private int mCloseVoiceTimeOut = 60;
@@ -74,14 +74,14 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
-    private int position;
+//    private int position;
     private int bluetoothPosition;
-    private boolean needReDraw;
+//    private boolean needReDraw;
 
     protected ShakeListener mShakeListener;
     private Vibrator vibrator;
 
-    private String BASE_URL = "http://qa-api.yunyingyang.com/";
+//    private String BASE_URL = "http://qa-api.yunyingyang.com/";
     private String token;
 
     protected MPermission permission;
