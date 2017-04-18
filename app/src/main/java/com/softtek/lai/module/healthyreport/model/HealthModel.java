@@ -3,18 +3,19 @@ package com.softtek.lai.module.healthyreport.model;
 /**
  * Created by zcy on 2016/4/18.
  * 健康录入表单
+ *
  */
 public class HealthModel {
     private long accountId;
-    private String weight;
-    private String pysical;
-    private String fat;
-    private String circum;
-    private String hiplie;
-    private String waistline;
-    private String upArmGirth;
-    private String upLegGirth;
-    private String doLegGirth;
+    private String Weight;
+    private String Pysical;
+    private String Fat;
+    private String Circum;
+    private String Hiplie;
+    private String Waistline;
+    private String UpArmGirth;
+    private String UpLegGirth;
+    private String DoLegGirth;
 
     private String Bmi; //BMI
     private String FatFreeMass;//去脂体重
@@ -25,6 +26,78 @@ public class HealthModel {
     private String BoneMass;//骨量
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
+
+    public String getWeight() {
+        return Weight;
+    }
+
+    public void setWeight(String weight) {
+        Weight = weight;
+    }
+
+    public String getPysical() {
+        return Pysical;
+    }
+
+    public void setPysical(String pysical) {
+        Pysical = pysical;
+    }
+
+    public String getFat() {
+        return Fat;
+    }
+
+    public void setFat(String fat) {
+        Fat = fat;
+    }
+
+    public String getCircum() {
+        return Circum;
+    }
+
+    public void setCircum(String circum) {
+        Circum = circum;
+    }
+
+    public String getHiplie() {
+        return Hiplie;
+    }
+
+    public void setHiplie(String hiplie) {
+        Hiplie = hiplie;
+    }
+
+    public String getWaistline() {
+        return Waistline;
+    }
+
+    public void setWaistline(String waistline) {
+        Waistline = waistline;
+    }
+
+    public String getUpArmGirth() {
+        return UpArmGirth;
+    }
+
+    public void setUpArmGirth(String upArmGirth) {
+        UpArmGirth = upArmGirth;
+    }
+
+    public String getUpLegGirth() {
+        return UpLegGirth;
+    }
+
+    public void setUpLegGirth(String upLegGirth) {
+        UpLegGirth = upLegGirth;
+    }
+
+    public String getDoLegGirth() {
+        return DoLegGirth;
+    }
+
+    public void setDoLegGirth(String doLegGirth) {
+        DoLegGirth = doLegGirth;
+    }
 
     public String getBmi() {
         return Bmi;
@@ -110,99 +183,7 @@ public class HealthModel {
         this.accountId = accountId;
     }
 
-    public String getWeight() {
-        return weight;
-    }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
 
-    public String getPysical() {
-        return pysical;
-    }
 
-    public void setPysical(String pysical) {
-        this.pysical = pysical;
-    }
-
-    public String getFat() {
-        return fat;
-    }
-
-    public void setFat(String fat) {
-        this.fat = fat;
-    }
-
-    public String getCircum() {
-        return circum;
-    }
-
-    public void setCircum(String circum) {
-        this.circum = circum;
-    }
-
-    public String getHiplie() {
-        return hiplie;
-    }
-
-    public void setHiplie(String hiplie) {
-        this.hiplie = hiplie;
-    }
-
-    public String getWaistline() {
-        return waistline;
-    }
-
-    public void setWaistline(String waistline) {
-        this.waistline = waistline;
-    }
-
-    public String getUpArmGirth() {
-        return upArmGirth;
-    }
-
-    public void setUpArmGirth(String upArmGirth) {
-        this.upArmGirth = upArmGirth;
-    }
-
-    public String getUpLegGirth() {
-        return upLegGirth;
-    }
-
-    public void setUpLegGirth(String upLegGirth) {
-        this.upLegGirth = upLegGirth;
-    }
-
-    public String getDoLegGirth() {
-        return doLegGirth;
-    }
-
-    public void setDoLegGirth(String doLegGirth) {
-        this.doLegGirth = doLegGirth;
-    }
-
-    @Override
-    public String toString() {
-        return "HealthModel{" +
-                "accountId=" + accountId +
-                ", weight='" + weight + '\'' +
-                ", pysical='" + pysical + '\'' +
-                ", fat='" + fat + '\'' +
-                ", circum='" + circum + '\'' +
-                ", hiplie='" + hiplie + '\'' +
-                ", waistline='" + waistline + '\'' +
-                ", upArmGirth='" + upArmGirth + '\'' +
-                ", upLegGirth='" + upLegGirth + '\'' +
-                ", doLegGirth='" + doLegGirth + '\'' +
-                ", Bmi='" + Bmi + '\'' +
-                ", FatFreeMass='" + FatFreeMass + '\'' +
-                ", BodyWaterRate='" + BodyWaterRate + '\'' +
-                ", BodyWater='" + BodyWater + '\'' +
-                ", MuscleMass='" + MuscleMass + '\'' +
-                ", BoneMass='" + BoneMass + '\'' +
-                ", BasalMetabolism='" + BasalMetabolism + '\'' +
-                ", PhysicalAge='" + PhysicalAge + '\'' +
-                '}';
-    }
 }

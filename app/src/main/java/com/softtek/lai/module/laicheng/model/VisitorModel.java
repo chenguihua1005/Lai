@@ -7,13 +7,13 @@ import android.os.Parcelable;
  * Created by shelly.xu on 4/10/2017.
  */
 
-public class VisitorModel  implements Parcelable{
+public class VisitorModel implements Parcelable {
     private String Name;
     private String BirthDate;//年龄
     private float Height;//身高
     private int Gender;//性别
     private String PhoneNo;//
-    private int visitorId;
+    private long visitorId;
 
 
     protected VisitorModel(Parcel in) {
@@ -21,8 +21,8 @@ public class VisitorModel  implements Parcelable{
         BirthDate = in.readString();
         Height = in.readFloat();
         Gender = in.readInt();
-       PhoneNo = in.readString();
-        visitorId = in.readInt();
+        PhoneNo = in.readString();
+        visitorId = in.readLong();
     }
 
     public static final Creator<VisitorModel> CREATOR = new Creator<VisitorModel>() {
@@ -38,11 +38,11 @@ public class VisitorModel  implements Parcelable{
     };
 
 
-    public int getVisitorId() {
+    public long getVisitorId() {
         return visitorId;
     }
 
-    public void setVisitorId(int visitorId) {
+    public void setVisitorId(long visitorId) {
         this.visitorId = visitorId;
     }
 
@@ -122,6 +122,6 @@ public class VisitorModel  implements Parcelable{
         parcel.writeFloat(Height);//身高
         parcel.writeInt(Gender);//性别
         parcel.writeString(PhoneNo);//
-        parcel.writeInt(visitorId);
+        parcel.writeLong(visitorId);
     }
 }

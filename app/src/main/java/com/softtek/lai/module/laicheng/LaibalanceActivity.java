@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -33,7 +34,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_laibalance)
-public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener,VisitortestFragment.ShakeOFF,VisitortestFragment.VisitorVoiceListener {
+public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener, VisitortestFragment.ShakeSwitch, VisitortestFragment.VisitorVoiceListener {
 
     @InjectView(R.id.tab_balance)
     TabLayout tab_balance;
@@ -115,7 +116,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                     selftestFragment.refreshVoiceIcon();
                 } else {
                     setGuest(true);
-                    mShakeListener.stop();
+//                    if (visitortestFragment.visitorLastData != null && !TextUtils.isEmpty(visitortestFragment.visitorLastData.getRecordId())) {
+//                        mShakeListener.start();
+//                    } else {
+//                        mShakeListener.stop();
+//                    }
                     visitortestFragment.refreshVoiceIcon();
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
@@ -129,7 +134,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     }
 
-    private void setVoice(){
+    private void setVoice() {
         if (isVoiceHelp) {
             stopVoice();
             isVoiceHelp = false;
@@ -162,8 +167,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public VisitorModel getGuestInfo() {
-        visitorModel= visitortestFragment.getVisitorModel();
-        Log.e("获取访客信息",visitorModel.toString());
+        visitorModel = visitortestFragment.getVisitorModel();
+        Log.e("获取访客信息", visitorModel.toString());
         return visitorModel;
     }
 
@@ -172,18 +177,18 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void setStateTip(String state) {
         if (pageIndex == 0) {
             selftestFragment.setStateTip(state);
-        }else{
+        } else {
             visitortestFragment.setStateTip(state);
         }
     }
 
-    private void createDialog(boolean isTimeout){
+    private void createDialog(boolean isTimeout) {
         if (builder == null) {
             builder = new AlertDialog.Builder(this, R.style.whiteDialog);
         }
-        if (isTimeout){
+        if (isTimeout) {
             builder.setMessage("测量超时，请重新测量");
-        }else {
+        } else {
             builder.setMessage("测量失败，请重新测量");
         }
         builder.setTitle("提示");
@@ -203,12 +208,12 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void showTimeoutDialog() {
-       createDialog(true);
+        createDialog(true);
     }
 
     @Override
     public void showUploadFailedDialog() {
-     createDialog(false);
+        createDialog(false);
     }
 
     @Override
@@ -234,9 +239,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
 
-
     @Override
-    public void setOnShakeOFF() {
+    public void setOnShakeON() {
         mShakeListener.start();
     }
 

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -78,16 +81,19 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     VisitorModel visitorModel = new VisitorModel();
     private String date;
     String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-
+    private int choose_year;
     @Override
     protected void initViews() {
         tv_title.setText("访客信息");
-        btn_commit.setOnClickListener(this);
-        et_old.setOnClickListener(this);
-        iv_email.setOnClickListener(this);
+        et_height.setInputType(InputType.TYPE_NULL);
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.hideSoftInputFromWindow(et_old.getWindowToken(), 0);
         et_old.setInputType(InputType.TYPE_NULL);
+        btn_commit.setOnClickListener(this);
+        et_old.setOnClickListener(this);
+        iv_email.setOnClickListener(this);
+        et_height.setOnClickListener(this);
+
     }
 
     @Override
@@ -116,9 +122,45 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                 Log.i("提交访客信息", visitorModel.toString());
                 validateLife.validate();
                 break;
+            case R.id.et_height:
+                final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+                View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+                final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+                final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+                np1.setMaxValue(240);
+                if (gender==0) {
+                    np1.setValue(170);
+                } else if (gender==1) {
+                    np1.setValue(155);
+                } else {
+                    np1.setValue(155);
+                }
+                np1.setMinValue(100);
+                np1.setWrapSelectorWheel(false);
+                np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+                np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+                np2.setMaxValue(9);
+                np2.setValue(0);
+                np2.setMinValue(0);
+                np2.setWrapSelectorWheel(false);
+
+                birdialog.setTitle("选择身高(单位：cm)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        et_height.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                        et_height.setError(null);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create().show();
+                break;
             case R.id.et_old:
                 final Calendar c = Calendar.getInstance();
-                c.setTime(new Date(1900-01-01));
+                c.setTime(new Date(1900 - 01 - 01));
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
                 datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
@@ -135,6 +177,8 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                         int year = datePicker.getYear();
                         int month = datePicker.getMonth() + 1;
                         int day = datePicker.getDayOfMonth();
+                        choose_year=year;
+                        Log.i("choose",choose_year+"");
                         date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                         Log.i("日期", currentDate);
                         int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date, currentDate);
@@ -149,6 +193,9 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                 datePickerDialog.show();
                 break;
             case R.id.iv_email:
+                Intent intent = new Intent();
+                intent.putExtra("type", 110);
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }
@@ -158,6 +205,8 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     public void commit(Visitsmodel visitsmodel, VisitorModel Model) {
         Model.setVisitorId(visitsmodel.getVisitorId());
         Intent intent = new Intent();
+        Log.i("choosell",choose_year+"");
+        intent.putExtra("choose",choose_year);
         intent.putExtra("visitorModel", Model);
         setResult(RESULT_OK, intent);
         finish();
@@ -177,5 +226,17 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
+    }
+
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Intent intent = new Intent();
+            intent.putExtra("type", 110);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
