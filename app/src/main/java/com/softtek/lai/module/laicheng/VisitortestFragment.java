@@ -131,6 +131,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 model.setGender(data.getVisitor().getGender());
                 model.setHeight(data.getVisitor().getHeight());
                 model.setPhoneNo(data.getVisitor().getPhoneNo());
+                model.setVisitorId(data.getVisitor().getId());
                 Log.i("model",model.toString());
                 visitorId = data.getVisitor().getId();
                 ll_visitor.setVisibility(View.VISIBLE);
@@ -354,20 +355,25 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         }
     }
 
-//    //摇一摇刷新U
-//    @SuppressLint("SetTextI18n")
-//    public void refreshUi(LastInfoData data) {
-//        tv_weight.setText("0.0");
-//        tv_body_fat_rate.setText("- -");
-//        tv_bmi.setText("- -");
-//        tv_internal_fat_rate.setText("- -");
-//    }
+    //摇一摇刷新U
+    @SuppressLint("SetTextI18n")
+    public void refreshUi(LastInfoData data) {
+        tv_weight.setText("0.0");
+        tv_body_fat_rate.setText("- -");
+        tv_bmi.setText("- -");
+        tv_internal_fat_rate.setText("- -");
+        health_btn.setVisibility(View.GONE);
+        share_btn.setVisibility(View.GONE);
+        tv_weight_caption.setVisibility(View.GONE);
+    }
 
 
     @SuppressLint("SetTextI18n")
     public void UpdateData(BleMainData data) {
         if (data != null) {
             tv_weight_caption.setVisibility(View.VISIBLE);
+            health_btn.setVisibility(View.VISIBLE);
+            share_btn.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
             weight = String.valueOf(data.getWeight());
             tv_weight.setText(data.getWeight() + "");//体重
@@ -390,6 +396,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     }
 
     public void setStateTip(String state) {
-        mBleState.setText(state);
+        if (mBleState != null) {
+            mBleState.setText(state);
+        }
     }
 }
