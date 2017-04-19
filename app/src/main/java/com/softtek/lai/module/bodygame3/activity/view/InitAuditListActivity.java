@@ -142,15 +142,18 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 //    }
 
     public void update() {
-        tabtitle[0] = "未录入(" + unInputNum + ")";
-        tabtitle[1] = "待审核(" + (--Auditnum) + ")";
-        tabtitle[2] = "已审核(" + (++Auditednum) + ")";
-        TabLayout.Tab tab1 = tab.getTabAt(0);
-        tab1.setText(tabtitle[0]);
-        TabLayout.Tab tab2 = tab.getTabAt(1);
-        tab2.setText(tabtitle[1]);
-        TabLayout.Tab tab3 = tab.getTabAt(2);
-        tab3.setText(tabtitle[2]);
+//        tabtitle[0] = "未录入(" + unInputNum + ")";
+//        tabtitle[1] = "待审核(" + (--Auditnum) + ")";
+//        tabtitle[2] = "已审核(" + (++Auditednum) + ")";
+//        TabLayout.Tab tab1 = tab.getTabAt(0);
+//        tab1.setText(tabtitle[0]);
+//        TabLayout.Tab tab2 = tab.getTabAt(1);
+//        tab2.setText(tabtitle[1]);
+//        TabLayout.Tab tab3 = tab.getTabAt(2);
+//        tab3.setText(tabtitle[2]);
+
+        getPresenter().getInitAuditList(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
+
     }
 
 //    public void updates(int Auditnu) {

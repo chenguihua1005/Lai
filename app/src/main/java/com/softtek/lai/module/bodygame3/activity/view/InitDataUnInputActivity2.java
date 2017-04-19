@@ -105,7 +105,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     @Override
     protected void initViews() {
-        tv_title.setText("初始数据审核");
+
 
         classId = getIntent().getStringExtra("classId");//没用
         AccountId = getIntent().getLongExtra("AccountId", 0);
@@ -115,8 +115,14 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
         type = getIntent().getIntExtra("type", -1);
 
-        typeforwhich = getIntent().getIntExtra("typeforwhich",-1);
+        typeforwhich = getIntent().getIntExtra("typeforwhich", -1);
 //        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
+
+        if (typeforwhich == 0) {
+            tv_title.setText("初始数据审核");
+        }else {
+            tv_title.setText("复测审核");
+        }
 
         if (IsAudit == 1) {
             tv_right.setVisibility(View.INVISIBLE);
@@ -711,44 +717,62 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     @Override
     public void onValidationSucceeded() {
-        progressDialog.setMessage("正在提交数据，请等待");
-        progressDialog.show();
+
         doSetPostData();
     }
 
     FcAuditPostModel fcAuditPostModel;
 
     private void doSetPostData() {
-        fcAuditPostModel = new FcAuditPostModel();
-        fcAuditPostModel.setACMId(ACMID);
-        fcAuditPostModel.setAccountId(AccountId + "");
-        fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
-        fcAuditPostModel.setWeekNum(fcStDataModel.getWeekNum());
-        fcAuditPostModel.setClassId(classId);
+        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
+            String message = "初始体重为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
+            String message = "体脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
+            String message = "内脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else {
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
+            fcAuditPostModel = new FcAuditPostModel();
+            fcAuditPostModel.setACMId(ACMID);
+            fcAuditPostModel.setAccountId(AccountId + "");
+            fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
+            fcAuditPostModel.setWeekNum(fcStDataModel.getWeekNum());
+            fcAuditPostModel.setClassId(classId);
 
-        fcAuditPostModel.setWeight(fcStDataModel.getWeight());
-        fcAuditPostModel.setPysical(fcStDataModel.getPysical());
-        fcAuditPostModel.setFat(fcStDataModel.getFat());
-        fcAuditPostModel.setCircum(fcStDataModel.getCircum());//胸围
-        fcAuditPostModel.setHiplie(fcStDataModel.getHiplie());//臀围
-        fcAuditPostModel.setWaistline(fcStDataModel.getWaistline());//腰围
-        fcAuditPostModel.setUpArmGirth(fcStDataModel.getUpArmGirth());
-        fcAuditPostModel.setUpLegGirth(fcStDataModel.getUpLegGirth());
-        fcAuditPostModel.setDoLegGirth(fcStDataModel.getDoLegGirth());
+            fcAuditPostModel.setWeight(fcStDataModel.getWeight());
+            fcAuditPostModel.setPysical(fcStDataModel.getPysical());
+            fcAuditPostModel.setFat(fcStDataModel.getFat());
+            fcAuditPostModel.setCircum(fcStDataModel.getCircum());//胸围
+            fcAuditPostModel.setHiplie(fcStDataModel.getHiplie());//臀围
+            fcAuditPostModel.setWaistline(fcStDataModel.getWaistline());//腰围
+            fcAuditPostModel.setUpArmGirth(fcStDataModel.getUpArmGirth());
+            fcAuditPostModel.setUpLegGirth(fcStDataModel.getUpLegGirth());
+            fcAuditPostModel.setDoLegGirth(fcStDataModel.getDoLegGirth());
 
 
-        fcAuditPostModel.setBmi(fcStDataModel.getBmi());
-        fcAuditPostModel.setFatFreeMass(fcStDataModel.getFatFreeMass());
-        fcAuditPostModel.setBodyWaterRate(fcStDataModel.getBodyWaterRate());
-        fcAuditPostModel.setBodyWater(fcStDataModel.getBodyWater());
+            fcAuditPostModel.setBmi(fcStDataModel.getBmi());
+            fcAuditPostModel.setFatFreeMass(fcStDataModel.getFatFreeMass());
+            fcAuditPostModel.setBodyWaterRate(fcStDataModel.getBodyWaterRate());
+            fcAuditPostModel.setBodyWater(fcStDataModel.getBodyWater());
 
-        fcAuditPostModel.setMuscleMass(fcStDataModel.getMuscleMass());
-        fcAuditPostModel.setBoneMass(fcStDataModel.getBoneMass());
-        fcAuditPostModel.setBasalMetabolism(fcStDataModel.getBasalMetabolism());
-        fcAuditPostModel.setPhysicalAge(fcStDataModel.getPhysicalAge());
+            fcAuditPostModel.setMuscleMass(fcStDataModel.getMuscleMass());
+            fcAuditPostModel.setBoneMass(fcStDataModel.getBoneMass());
+            fcAuditPostModel.setBasalMetabolism(fcStDataModel.getBasalMetabolism());
+            fcAuditPostModel.setPhysicalAge(fcStDataModel.getPhysicalAge());
 
 
-        doPostInitData();
+            doPostInitData();
+        }
     }
 
 
@@ -763,10 +787,10 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     case 200:
                         progressDialog.dismiss();
                         Util.toastMsg("数据提交成功！");
-//                        Intent intent = new Intent();
-//                        intent.putExtra("ACMID", ACMID);
-//                        setResult(RESULT_OK, intent);
-//                        finish();
+                        Intent intent = new Intent();
+                        intent.putExtra("ACMID", ACMID);
+                        setResult(RESULT_OK, intent);
+                        finish();
                         break;
                     default:
                         progressDialog.dismiss();

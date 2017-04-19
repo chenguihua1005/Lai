@@ -138,15 +138,16 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
 
     // 审核通过更新数据
     public void update() {
-        tabtitle[0] = "未复测(" + (unFuce_num) + ")";
-        tabtitle[1] = "待审核(" + (--uncheck_num) + ")";
-        tabtitle[2] = "已审核(" + (++checked_num) + ")";
-        TabLayout.Tab tab1 = tab.getTabAt(0);
-        tab1.setText(tabtitle[0]);
-        TabLayout.Tab tab2 = tab.getTabAt(1);
-        tab2.setText(tabtitle[1]);
-        TabLayout.Tab tab3 = tab.getTabAt(2);
-        tab3.setText(tabtitle[2]);
+        getPresenter().getMeasureReviewedList(classId, typeDate, 1, 10);
+//        tabtitle[0] = "未复测(" + (unFuce_num) + ")";
+//        tabtitle[1] = "待审核(" + (--uncheck_num) + ")";
+//        tabtitle[2] = "已审核(" + (++checked_num) + ")";
+//        TabLayout.Tab tab1 = tab.getTabAt(0);
+//        tab1.setText(tabtitle[0]);
+//        TabLayout.Tab tab2 = tab.getTabAt(1);
+//        tab2.setText(tabtitle[1]);
+//        TabLayout.Tab tab3 = tab.getTabAt(2);
+//        tab3.setText(tabtitle[2]);
     }
 
     //刷新列表时调用刷新title数字
