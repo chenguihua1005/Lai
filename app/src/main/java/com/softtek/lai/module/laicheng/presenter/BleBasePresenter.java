@@ -78,9 +78,9 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                 });
     }
 
-    public void upLoadImpedance(UploadImpedanceModel model,long accountId,int type) {
+    public void upLoadImpedance(UploadImpedanceModel model,long accountId,int type,String classId) {
         ZillaApi.NormalRestAdapter.create(BleService.class).
-                uploadImpedance(UserInfoModel.getInstance().getToken(),model,accountId, type, new RequestCallback<ResponseData<BleMainData>>() {
+                uploadImpedance(UserInfoModel.getInstance().getToken(),model,accountId, type,classId, new RequestCallback<ResponseData<BleMainData>>() {
             @Override
             public void success(ResponseData<BleMainData> data, Response response) {
                 getView().upLoadImpedanceSuccess(data.getData());

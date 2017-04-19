@@ -46,7 +46,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     //    private ScaleDetailEntity mErrorScaleDetail;//测量错误的数据
 //    private String scaleId = "";//访客模式称量后的id
     private int tpye = 0;
-//    private int shareType;
+    //    private int shareType;
     public static boolean isVoiceHelp = true;
 
 //    private int mCloseVoiceTimeOut = 60;
@@ -73,14 +73,14 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
-//    private int position;
+    //    private int position;
     private int bluetoothPosition;
 //    private boolean needReDraw;
 
     protected ShakeListener mShakeListener;
     private Vibrator vibrator;
 
-//    private String BASE_URL = "http://qa-api.yunyingyang.com/";
+    //    private String BASE_URL = "http://qa-api.yunyingyang.com/";
     private String token;
 
     protected MPermission permission;
@@ -101,13 +101,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 //        if (!getGuest()) {
 //            presenter.getLastData(1);
 //        }
-        if (getType() == 0){
+        if (getType() == 0) {
             presenter.getLastData(0);
-        }else if (getType() == 1){
+        } else if (getType() == 1) {
             presenter.getLastData(1);
-        }else if (getType() == 2){
+        } else if (getType() == 2) {
             presenter.getLastData(2);
-        }else if (getType() == 3){
+        } else if (getType() == 3) {
             presenter.getLastData(3);
         }
     }
@@ -695,7 +695,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 2 : 1);
         }
 
-        presenter.upLoadImpedance(model, accountId, getType());
+        if (getType() == 2 || getType() == 3) {
+            presenter.upLoadImpedance(model, accountId, getType(), getGuestInfo().getClassId());
+        } else {
+            presenter.upLoadImpedance(model, accountId, getType(), "");
+        }
 
         Log.d("上传给服务器的逻辑------------", "storeOrSendCalcRsData上传");
 
@@ -802,7 +806,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             sendFatRateToDevice(0.0f);
         } else {
             int index = data.getBodyFatRate().indexOf("%");
-            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate().substring(0,index)));
+            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate().substring(0, index)));
         }
         isResultTest = true;
         initUiByBleSuccess(data);

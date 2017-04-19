@@ -29,7 +29,7 @@ public class Receive1 extends BroadcastReceiver {
             context.startService(new Intent(context,DaemonService.class));
         }else if(intent.getAction().equals(Intent.ACTION_SHUTDOWN)){
             Log.i("关机啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦");
-            
+
         }
     }
 }

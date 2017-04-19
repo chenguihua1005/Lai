@@ -92,6 +92,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     private String recordId;
     private Long AccountId;
 
+    private int type;  //0：访客，1：自己，2：复测录入，3：复测初始录入
+    private String classId;
+
     private String ACMID = "";
     private VoiceListener listener;
 
@@ -133,7 +136,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 break;
             case R.id.fucecheck_entry: //复测审核
                 Intent intent = new Intent(InitDataAuditActivity2.UPDATE_UI);
-                intent.putExtra("ACMID",recordId);
+                intent.putExtra("ACMID", recordId);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 finish();
 
@@ -180,6 +183,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
         ACMID = getIntent().getStringExtra("ACMID");
         AccountId = fucDataModel.getAccountId();
+        type = getIntent().getIntExtra("type", -1);
+        classId = getIntent().getStringExtra("classId");
+
+
 
         tv_name.setText(fucDataModel.getUserName());
         tv_className.setText(fucDataModel.getClassName());
@@ -199,7 +206,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         Typeface tf = Typeface.createFromAsset(this.getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION);
-        setGuest(true);
+//        setGuest(true);
+        setType(type);
+
+
         setBleStateListener(bleStateListener);
         mShakeListener.start();
 
@@ -212,7 +222,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void initUiByBleSuccess(BleMainData data) {
         menu_layout.setVisibility(View.VISIBLE);
 
-        Util.toastMsg("数据获取成功！！！！！" );
+        Util.toastMsg("数据获取成功！！！！！");
         recordId = data.getRecordId();
         mWeight.setText(data.getWeight() + "");//体重
         mWeightCaption.setText(data.getBodyTypeTitle());//状态
@@ -245,6 +255,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         entity.setGender(Integer.parseInt(fucDataModel.getGender()));
         entity.setPhoneNo(fucDataModel.getMobile());
         entity.setVisitorId(fucDataModel.getAccountId());
+        entity.setClassId(classId);
         return entity;
 
     }

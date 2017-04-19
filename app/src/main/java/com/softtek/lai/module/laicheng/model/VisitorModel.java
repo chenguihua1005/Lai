@@ -14,7 +14,15 @@ public class VisitorModel implements Parcelable {
     private int Gender;//性别
     private String PhoneNo;//
     private long visitorId;
+    private String classId;
 
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(String classId) {
+        this.classId = classId;
+    }
 
     protected VisitorModel(Parcel in) {
         Name = in.readString();

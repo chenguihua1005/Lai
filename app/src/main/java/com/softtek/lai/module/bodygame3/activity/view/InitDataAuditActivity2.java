@@ -132,6 +132,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         Intent intent = new Intent(InitDataAuditActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
         intent.putExtra("fucedata", fcStDataModel);
         intent.putExtra("ACMID", ACMID);
+        intent.putExtra("type",3);
         startActivity(intent);
 //        startActivityForResult(intent, 0x0001);
     }
