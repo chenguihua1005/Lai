@@ -3,8 +3,12 @@ package com.softtek.lai.stepcount.service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.utils.DateUtil;
+
+import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by John on 2016/7/16.
@@ -28,7 +32,9 @@ public class Receive1 extends BroadcastReceiver {
             Log.i("电量变化了");
             context.startService(new Intent(context,DaemonService.class));
         }else if(intent.getAction().equals(Intent.ACTION_SHUTDOWN)){
-            Log.i("关机啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦");
+            //标志手机已经关机
+            SharedPreferenceService.getInstance().put("shutDown",true);
+            SharedPreferenceService.getInstance().put("shutDownTime", DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
 
         }
     }
