@@ -83,8 +83,12 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                 uploadImpedance(UserInfoModel.getInstance().getToken(),model,accountId, type,classId, new RequestCallback<ResponseData<BleMainData>>() {
             @Override
             public void success(ResponseData<BleMainData> data, Response response) {
-                getView().upLoadImpedanceSuccess(data.getData());
-                Log.d("BleMainData--------",data.toString());
+                if (data.getStatus() == 200) {
+                    getView().upLoadImpedanceSuccess(data.getData());
+                    Log.d("BleMainData--------", data.toString());
+                }else if (data.getStatus() == 201){
+                    getView().upLoadImpedanceFailed();
+                }
             }
 
             @Override
