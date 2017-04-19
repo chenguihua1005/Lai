@@ -19,6 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
+import com.softtek.lai.module.healthyreport.HistoryDataActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.presenter.SelftestPresenter;
@@ -36,8 +37,6 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     private VoiceListener listener;
     @InjectView(R.id.tv_weight_caption)
     TextView mWeightCaption;
-    //    @InjectView(R.id.ll_info_state)
-//    LinearLayout mBleStateContent;
     @InjectView(R.id.tv_info_state)
     TextView mBleState;
     @InjectView(R.id.ll_info_data)
@@ -120,8 +119,8 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         mWeightCaption.setVisibility(View.INVISIBLE);
-//        mShare.setVisibility(View.INVISIBLE);
-//        mHealthReport.setVisibility(View.INVISIBLE);
+        mShare.setVisibility(View.INVISIBLE);
+        mHealthReport.setVisibility(View.INVISIBLE);
         presenter = new SelftestPresenter(this);
     }
 
@@ -167,7 +166,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
 
             weight = String.valueOf(data.getWeight());
             bodyFatRate = data.getBodyFatRate();
-//            bodyAge = data.geta
+            bodyAge = data.getPhysicalAge();
         }
         mWeightCaption.setVisibility(View.VISIBLE);
         mShare.setVisibility(View.VISIBLE);
@@ -238,6 +237,11 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     @OnClick(R.id.tv_share)
     public void share() {
         showDialog();
+    }
+
+    @OnClick(R.id.ll_more)
+    public void goToMoreinfo() {
+        startActivity(new Intent(getActivity(), HistoryDataActivity.class));
     }
 
     String value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;

@@ -11,7 +11,7 @@ public class Power {
     private boolean bodyGame;
     private boolean laiYunDong;
     private boolean laiClass;
-    private boolean laiExcel;
+    private boolean laiChen;
     private boolean laiShop;
 
     public boolean isBodyGame() {
@@ -38,12 +38,12 @@ public class Power {
         this.laiClass = laiClass;
     }
 
-    public boolean isLaiExcel() {
-        return laiExcel;
+    public boolean isLaiChen() {
+        return laiChen;
     }
 
-    public void setLaiExcel(boolean laiExcel) {
-        this.laiExcel = laiExcel;
+    public void setLaiChen(boolean laiChen) {
+        this.laiChen = laiChen;
     }
 
     public boolean isLaiShop() {
@@ -60,7 +60,7 @@ public class Power {
                 "bodyGame=" + bodyGame +
                 ", laiYunDong=" + laiYunDong +
                 ", laiClass=" + laiClass +
-                ", laiExcel=" + laiExcel +
+                ", laiChen=" + laiChen +
                 ", laiShop=" + laiShop +
                 '}';
     }

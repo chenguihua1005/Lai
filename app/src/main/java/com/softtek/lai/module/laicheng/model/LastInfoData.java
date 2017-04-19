@@ -124,7 +124,7 @@ public class LastInfoData {
         private String BirthDate;
         private int Age;
         private int Gender;
-        private int Height;
+        private float Height;
         private String PhoneNo;
 
         public long getId() {
@@ -167,11 +167,11 @@ public class LastInfoData {
             this.Gender = Gender;
         }
 
-        public int getHeight() {
+        public float getHeight() {
             return Height;
         }
 
-        public void setHeight(int Height) {
+        public void setHeight(float Height) {
             this.Height = Height;
         }
 

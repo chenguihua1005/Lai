@@ -4,109 +4,30 @@
   -->
 
 <resources>
-    <dimen name="nav_header_height">160dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 
-    <!-- 顾问版-->
-    <dimen name="circleImage">50dip</dimen>
-
-    <dimen name="counselorClassTextSize">16sp</dimen>
-    <dimen name="counselorClassLinMarginTop">10dip</dimen>
-    <dimen name="counselorClassTextMarginLeft">5dip</dimen>
-
-    <dimen name="createClassTextSize">16sp</dimen>
-    <dimen name="createClassTextMarginTop">96dip</dimen>
-    <dimen name="createClassTextMarginTop1">26dip</dimen>
-    <dimen name="createClassTextMarginLeft">5dip</dimen>
-
-    <dimen name="assistantMargin">10dip</dimen>
-    <dimen name="assistantMarginLeft">5dip</dimen>
-    <dimen name="assistantMarginLeft1">18dip</dimen>
-    <dimen name="assistantMarginTop">5dip</dimen>
-    <dimen name="assistantMarginTop1">18dip</dimen>
-    <dimen name="assistantMarginTop2">20dip</dimen>
-    <dimen name="assistantNameTextSize">16sp</dimen>
-    <dimen name="assistantPhoneTextSize">14sp</dimen>
     <dimen name="assistantButtonWidth">72dip</dimen>
     <dimen name="assistantButtonHeight">33dip</dimen>
 
-    <dimen name="fragmentAssistantApplyMargin">10dip</dimen>
-    <dimen name="fragmentAssistantApplyMarginTop">18dip</dimen>
-    <dimen name="fragmentAssistantApplyMarginLeft">17dip</dimen>
-    <dimen name="fragmentAssistantApplyNameTextSize">16sp</dimen>
-    <dimen name="fragmentAssistantApplyNameTextSize2">15sp</dimen>
-    <dimen name="fragmentAssistantApplyValueTextSize">14sp</dimen>
-    <dimen name="fragmentAssistantApplyButtonWidth">60dip</dimen>
-    <dimen name="fragmentAssistantApplyButtonHeight">35dip</dimen>
-
-    <dimen name="fragmentAssistantListMargin">20dip</dimen>
-    <dimen name="fragmentAssistantListMarginLeft">5dip</dimen>
-    <dimen name="fragmentAssistantListHeights">50dip</dimen>
-    <dimen name="fragmentAssistantListNameSize">16sp</dimen>
-    <dimen name="fragmentAssistantListTextSize">15sp</dimen>
-    <dimen name="fragmentAssistantListTextSize2">14sp</dimen>
-    <dimen name="fragmentAssistantListTextSizes">16sp</dimen>
-    <dimen name="fragmentAssistantListHeight">200dip</dimen>
-
-    <dimen name="assistantManageTextSize">16sp</dimen>
-    <dimen name="assistantManageMargin">10dip</dimen>
-
-
-    <dimen name="assistantDetailMargin">20dip</dimen>
-    <dimen name="assistantDetailMarginLeft">20dip</dimen>
-    <dimen name="assistantDetailMarginTop">10dip</dimen>
-    <dimen name="assistantDetailMarginLeft1">5dip</dimen>
-    <dimen name="assistantdetailNameTextSize">18sp</dimen>
-    <dimen name="assistantdetailPhoneTextSize">16sp</dimen>
-    <dimen name="assistantdetailPhoneTextSize1">14sp</dimen>
-
-    <dimen name="inviteStudentMargin">20dip</dimen>
-    <dimen name="inviteStudentMargins">10dip</dimen>
     <dimen name="inviteStudentMarginTop">20dip</dimen>
-    <dimen name="inviteStudentTextSize">16sp</dimen>
-    <dimen name="inviteStudentNameTextSize">14sp</dimen>
     <dimen name="inviteStudentMarginLeft">5dip</dimen>
     <dimen name="inviteStudentMarginLeft1">18dip</dimen>
-    <dimen name="inviteStudentButtonWidth">70dip</dimen>
-    <dimen name="inviteStudentButtonHeight">50dip</dimen>
-
-    <dimen name="spHonorTextSize">16sp</dimen>
-    <dimen name="spHonorTextSizes">20sp</dimen>
-    <dimen name="spHonorMargin">20dip</dimen>
-    <dimen name="spHonorMarginLeft">5dip</dimen>
-    <dimen name="spHonorMarginLeft1">12dip</dimen>
-    <dimen name="spHonorMarginTop">5dip</dimen>
-    <dimen name="spHonorMarginTop1">16dip</dimen>
-    <dimen name="spHonorMarginTop2">22dip</dimen>
-    <dimen name="spHonorMarginTop3">10dip</dimen>
 
     <dimen name="fragmentMineMargin">20dp</dimen>
     <dimen name="fragmentMineMarginTop">10dp</dimen>
-    <dimen name="fragmentMineMarginLeft">15dp</dimen>
     <dimen name="fragmentMineTextSize">16sp</dimen>
-    <dimen name="fragmentMineTextSizes">14sp</dimen>
 
     <dimen name="validateCertificationMargin">20dip</dimen>
     <dimen name="validateCertificationMargins">10dip</dimen>
     <dimen name="validateCertificationMarginTop">80dip</dimen>
-    <dimen name="validateCertificationMargin1">30dip</dimen>
-    <dimen name="validateCertificationMarginLeft1">40dip</dimen>
     <dimen name="validateCertificationMarginLeft">5dip</dimen>
     <dimen name="validateCertificationTextSize">16sp</dimen>
     <dimen name="validateCertificationResultTextSize">16sp</dimen>
     <dimen name="validateCertificationTextSizes">14sp</dimen>
 
-    <dimen name="studentScoreTextSizes">14sp</dimen>
-    <dimen name="studentScoreMargin">20dip</dimen>
-
-    <dimen name="studentHonorMargin">20dip</dimen>
-    <dimen name="studentHonorMarginTop1">39dip</dimen>
     <dimen name="studentHonorMarginTop2">15dip</dimen>
-    <dimen name="studentHonorMarginTop3">37dip</dimen>
-    <dimen name="studentHonorMarginTop4">18dip</dimen>
     <dimen name="studentHonorMarginTop5">23dip</dimen>
     <dimen name="studentHonorTextSize">16sp</dimen>
 
@@ -119,14 +40,6 @@
 
     <dimen name="messageMarginLeft">11dip</dimen>
     <dimen name="messageMarginTop">10dip</dimen>
-    <dimen name="messageMarginTop2">15dip</dimen>
-    <dimen name="messageMarginTop3">40dip</dimen>
-    <dimen name="messageMarginTop4">25dip</dimen>
-    <dimen name="messageMargin">6dip</dimen>
-    <dimen name="messageMargin1">5dip</dimen>
-    <dimen name="messageMarginRight">35dip</dimen>
-
-    <dimen name="applyAssistantMarginTop">15dip</dimen>
 
     <dimen name="joinGroupMarginTop">17dip</dimen>
     <dimen name="joinGroupMarginTop1">14dip</dimen>
@@ -144,8 +57,6 @@
     <dimen name="textSize9">5sp</dimen>
     <dimen name="textSize10">10sp</dimen>
     <dimen name="textSize12">9sp</dimen>
-    <dimen name="app_bar_height">180dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
 
     <dimen name="head">70dp</dimen>
 </resources>

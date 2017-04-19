@@ -63,7 +63,7 @@ public class Constants {
     public static final int BODY_GAME = 0;
     public static final int LAI_YUNDONG = 1;
     public static final int LAI_CLASS = 2;
-    public static final int LAI_EXCLE = 3;
+    public static final int LAI_CHEN = 3;
     public static final int LAI_SHOP = 4;
 
     public static final String MESSAGE_RECEIVED_ACTION = "jpush.MESSAGE_RECEIVED_ACTION";

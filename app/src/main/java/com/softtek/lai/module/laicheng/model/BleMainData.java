@@ -45,6 +45,15 @@ public class BleMainData implements Serializable{
     private String BMI;
     private String bodyFatRate;
     private String bodyFat;
+    private String physicalAge;
+
+    public String getPhysicalAge() {
+        return physicalAge;
+    }
+
+    public void setPhysicalAge(String physicalAge) {
+        this.physicalAge = physicalAge;
+    }
 
     public String getBodyFat() {
         return bodyFat;
@@ -152,7 +161,7 @@ public class BleMainData implements Serializable{
         private String BirthDate;
         private int Age;
         private int Gender;
-        private int Height;
+        private float Height;
         private String PhoneNo;
 
         public String getName() {
@@ -187,11 +196,11 @@ public class BleMainData implements Serializable{
             this.Gender = Gender;
         }
 
-        public int getHeight() {
+        public float getHeight() {
             return Height;
         }
 
-        public void setHeight(int Height) {
+        public void setHeight(float Height) {
             this.Height = Height;
         }
 

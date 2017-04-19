@@ -12,27 +12,13 @@
         android:id="@+id/include"
         layout="@layout/toolbar_visitor" />
 
-    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
-        <!--android:id="@+id/ptrlv"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:animateLayoutChanges="true"-->
-        <!--android:divider="#00ececec"-->
-        <!--android:dividerHeight="1dp"-->
-        <!--android:listSelector="@android:color/transparent"-->
-        <!--android:overScrollMode="never"-->
-        <!--android:scrollbars="none"-->
-        <!--app:ptrAnimationStyle="flip"-->
-        <!--app:ptrShowIndicator="false" />-->
-
 
     <!--输入关键字-->
 
     <RelativeLayout
         android:id="@+id/rl_search"
         android:layout_width="match_parent"
-        android:layout_height="63dp"
+        android:layout_height="60dp"
         android:layout_below="@id/include"
         android:visibility="visible">
 
@@ -50,6 +36,8 @@
                 android:id="@+id/et_input"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:hint="姓名/手机号"
+                android:textSize="14sp"
                 android:layout_marginEnd="45dp"
                 android:layout_marginStart="15dp"
                 android:background="@null" />
@@ -68,12 +56,25 @@
     </RelativeLayout>
 
 
-
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/ptrlv"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:divider="#ececec"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:color/transparent"
         android:layout_below="@id/rl_search"
-        android:layout_height="wrap_content"/>
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false" />
+
+    <!--<ListView
+        android:id="@+id/ptrlv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_search" />-->
 
 
     <RelativeLayout

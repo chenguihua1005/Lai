@@ -1,7 +1,6 @@
 package com.softtek.lai.module.laicheng;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -46,7 +45,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private int state_current = CONNECTED_STATE_SHAKE_IT;
     //    private ScaleDetailEntity mErrorScaleDetail;//测量错误的数据
 //    private String scaleId = "";//访客模式称量后的id
-    private boolean isGuest = false;//以前的访客模式的称量页和这个页面合成一个，方便以后维护
+    private int tpye = 0;
 //    private int shareType;
     public static boolean isVoiceHelp = true;
 
@@ -99,17 +98,26 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             soundHelper.play("one");
         }
         mShakeListener.stop();
-        if (!getGuest()) {
+//        if (!getGuest()) {
+//            presenter.getLastData(1);
+//        }
+        if (getType() == 0){
+            presenter.getLastData(0);
+        }else if (getType() == 1){
             presenter.getLastData(1);
+        }else if (getType() == 2){
+            presenter.getLastData(2);
+        }else if (getType() == 3){
+            presenter.getLastData(3);
         }
     }
 
-    protected void setGuest(boolean isGuest) {
-        this.isGuest = isGuest;
+    protected void setType(int isGuest) {
+        this.tpye = isGuest;
     }
 
-    private boolean getGuest() {
-        return isGuest;
+    private int getType() {
+        return tpye;
     }
 
     @Override
@@ -592,7 +600,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         UserInfoEntity user = new UserInfoEntity();
         user.setId(556383);
         user.setGender(Integer.valueOf(UserInfoModel.getInstance().getUser().getGender()));
-        if (getGuest()) {
+        if (getType() != 0) {
             if (getGuestInfo() != null) {
                 user.setHeight(getGuestInfo().getHeight());
             } else {
@@ -673,8 +681,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         model.setR23(String.valueOf(f07RS4));
         model.setR24(String.valueOf(f07RS5));
         model.setWeight(String.valueOf(weight));
-        if (getGuest()) {
-            type = 0;
+        if (getType() != 0) {
             if (getGuestInfo() != null) {
                 accountId = getGuestInfo().getVisitorId();
                 model.setHeight(String.valueOf(getGuestInfo().getHeight()));
@@ -682,14 +689,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 model.setGender(getGuestInfo().getGender() == 0 ? 2 : 1);
             }
         } else {
-            type = 1;
             accountId = UserInfoModel.getInstance().getUserId();
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());
             model.setBirthdate(String.valueOf(UserInfoModel.getInstance().getUser().getBirthday()));
             model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 2 : 1);
         }
 
-        presenter.upLoadImpedance(model, accountId, type);
+        presenter.upLoadImpedance(model, accountId, getType());
 
         Log.d("上传给服务器的逻辑------------", "storeOrSendCalcRsData上传");
 
@@ -699,7 +705,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        disconnectBluetooth();
         deviceListDialog = null;
         soundHelper.release();
         permission.recycle();
@@ -708,6 +713,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void onPause() {
         super.onPause();
+        disconnectBluetooth();
         mShakeListener.stop();
     }
 

@@ -180,8 +180,8 @@ public class UserInfoModel {
             case Constants.LAI_CLASS:
                 has=power.isLaiClass();
                 break;
-            case Constants.LAI_EXCLE:
-                has=power.isLaiExcel();
+            case Constants.LAI_CHEN:
+                has=power.isLaiChen();
                 break;
             case Constants.LAI_SHOP:
                 has=power.isLaiShop();

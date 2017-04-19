@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,6 +34,7 @@ import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.model.Visitsmodel;
 import com.softtek.lai.module.laicheng.presenter.VisitorPresenter;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.RegexUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -72,7 +75,6 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     @InjectView(R.id.rg_up)
     RadioGroup rg_up;
 
-    @Regex(order = 4, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
     @InjectView(R.id.btn_commit)
@@ -214,10 +216,16 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
 
     @Override
     public void onValidationSucceeded() {
+        String phone=et_mobile.getText().toString();
+        if(!TextUtils.isEmpty(phone)&& !RegexUtil.match(getResources().getString(R.string.phonePattern),phone)){
+            et_mobile.requestFocus();
+            et_mobile.setError(Html.fromHtml("<font color=#FFFFFF>" + getResources().getString(R.string.phoneValidate) + "</font>"));
+            return;
+        }
         visitorModel.setName(et_name.getText().toString());
         visitorModel.setHeight(Float.parseFloat(et_height.getText().toString()));
         visitorModel.setBirthDate(et_old.getText().toString());
-        visitorModel.setPhoneNo(et_mobile.getText().toString());
+        visitorModel.setPhoneNo(phone);
         visitorModel.setGender(gender);
         getPresenter().commitData(UserInfoModel.getInstance().getToken(), visitorModel);
 

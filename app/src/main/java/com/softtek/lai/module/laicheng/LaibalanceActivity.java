@@ -111,19 +111,24 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             public void onPageSelected(int position) {
                 pageIndex = position;
                 if (pageIndex == 0) {
-                    setGuest(false);
+                    setType(0);
                     mShakeListener.start();
-                    selftestFragment.refreshVoiceIcon();
+                    if (!isDestroyed()) {
+                        selftestFragment.refreshVoiceIcon();
+                        selftestFragment.setStateTip("摇一摇，连接莱秤");
+                    }
+
+
                 } else {
-                    setGuest(true);
-//                    if (visitortestFragment.visitorLastData != null && !TextUtils.isEmpty(visitortestFragment.visitorLastData.getRecordId())) {
-//                        mShakeListener.start();
-//                    } else {
-//                        mShakeListener.stop();
-//                    }
-                    visitortestFragment.refreshVoiceIcon();
+                    setType(1);
+                    if (!isDestroyed()) {
+                        visitortestFragment.refreshVoiceIcon();
+                        visitortestFragment.setStateTip("摇一摇，连接莱秤");
+                    }
+
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
+                disconnectBluetooth();
             }
 
             @Override
@@ -151,6 +156,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             selftestFragment.setStateTip("测量完成");
         } else {
             visitortestFragment.UpdateData(data);
+            visitortestFragment.setStateTip("测量完成");
         }
         dialogDissmiss();
     }
@@ -168,7 +174,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public VisitorModel getGuestInfo() {
         visitorModel = visitortestFragment.getVisitorModel();
-        Log.e("获取访客信息", visitorModel.toString());
+        Log.i("ddd", visitorModel.toString());
         return visitorModel;
     }
 
@@ -249,8 +255,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         mShakeListener.stop();
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onVisitorVoiceListener() {
         setVoice();
+        boolean test = getGuestInfo() != null;
+        Log.d("testGuestInfo-------------",String.valueOf(test));
     }
 }
