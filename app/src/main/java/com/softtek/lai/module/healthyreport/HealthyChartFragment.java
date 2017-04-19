@@ -194,7 +194,9 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
         sl.setData(colorBar.getRange().get(0).getValue(), colorBar.getRange().get(colorBar.getRange().size()-1).getValue(),
                 colorBar.getValue(), unit, valueList, colorList, "#"+colorBar.getColor(), false);
         //设置曲线图
-        getData2(data.getChart());
+        if(data.getChart()!=null){
+            getData2(data.getChart());
+        }
     }
 
     @Override
