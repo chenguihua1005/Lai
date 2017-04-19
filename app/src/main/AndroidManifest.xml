@@ -586,6 +586,7 @@
                  <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BATTERY_CHANGED" />
                 <action android:name="com.softtek.lai.StepService.StepClose" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN"/>
             </intent-filter>
         </receiver>
 
