@@ -13,6 +13,8 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.softtek.lai.LaiApplication;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -110,7 +112,7 @@ public class BleManager {
                             mBlueToothState = BLUETOOTH_STATE_SCAN_FINISH;
                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                             sendMessage(BLUETOOTH_STATE_SCAN_FINISH);
-                            Toast.makeText(mActivity,"未发现设备，请检查莱秤是否开启",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(),"未发现设备，请检查莱秤是否开启",Toast.LENGTH_SHORT).show();
                             Log.d("no found deviced","未发现设备，请检查莱秤是否开启");
                         }
                     }

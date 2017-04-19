@@ -112,7 +112,6 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 pageIndex = position;
                 if (pageIndex == 0) {
                     setGuest(false);
-
                     mShakeListener.start();
                     if (!isDestroyed()){
                         selftestFragment.refreshVoiceIcon();
@@ -122,12 +121,6 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
                 } else {
                     setGuest(true);
-//                    if (visitortestFragment.visitorLastData != null && !TextUtils.isEmpty(visitortestFragment.visitorLastData.getRecordId())) {
-//                        mShakeListener.start();
-//                    } else {
-//                        mShakeListener.stop();
-//                    }
-
                     if (!isDestroyed()){
                         visitortestFragment.refreshVoiceIcon();
                     }

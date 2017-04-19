@@ -105,6 +105,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     @Override
     protected void lazyLoad() {
+
         presenter.GetData(UserInfoModel.getInstance().getToken(), 0);
     }
 
@@ -130,6 +131,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 model.setGender(data.getVisitor().getGender());
                 model.setHeight(data.getVisitor().getHeight());
                 model.setPhoneNo(data.getVisitor().getPhoneNo());
+                Log.i("model",model.toString());
                 visitorId = data.getVisitor().getId();
                 ll_visitor.setVisibility(View.VISIBLE);
                 tv_name.setText(data.getVisitor().getName());
@@ -325,6 +327,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 choose_year = data.getExtras().getInt("choose");
                 Log.i("choose_year", choose_year + "");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
+                    tv_weight.setText("0.0");
+                    tv_weight_caption.setVisibility(View.GONE);
+                    tv_body_fat_rate.setText("- -");
+                    tv_bmi.setText("- -");
+                    tv_internal_fat_rate.setText("- -");
                     Log.i("访客信息", model.toString());
                     visitorId = model.getVisitorId();
                     ll_visitor.setVisibility(View.VISIBLE);
@@ -347,19 +354,20 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         }
     }
 
-    //摇一摇刷新U
-    @SuppressLint("SetTextI18n")
-    public void refreshUi(LastInfoData data) {
-        tv_weight.setText("0.0");
-        tv_body_fat_rate.setText("- -");
-        tv_bmi.setText("- -");
-        tv_internal_fat_rate.setText("- -");
-    }
+//    //摇一摇刷新U
+//    @SuppressLint("SetTextI18n")
+//    public void refreshUi(LastInfoData data) {
+//        tv_weight.setText("0.0");
+//        tv_body_fat_rate.setText("- -");
+//        tv_bmi.setText("- -");
+//        tv_internal_fat_rate.setText("- -");
+//    }
 
 
     @SuppressLint("SetTextI18n")
     public void UpdateData(BleMainData data) {
         if (data != null) {
+            tv_weight_caption.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
             weight = String.valueOf(data.getWeight());
             tv_weight.setText(data.getWeight() + "");//体重
