@@ -283,5 +283,5 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         boolean test = getGuestInfo() != null;
         Log.d("testGuestInfo-------------", String.valueOf(test));
     }
-    
+
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.InputType;
@@ -29,6 +30,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -160,11 +162,12 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     @Override
     public void commit(Visitsmodel visitsmodel, VisitorModel Model) {
         Model.setVisitorId(visitsmodel.getVisitorId());
-        Intent intent = new Intent();
-        Log.i("choosell", choose_year + "");
-        intent.putExtra("choose", choose_year);
-        intent.putExtra("visitorModel", Model);
-        setResult(RESULT_OK, intent);
+        LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
+                sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", Model).putExtra("choose", choose_year));
+//        Intent intent = new Intent();
+//        intent.putExtra("choose", choose_year);
+//        intent.putExtra("visitorModel", Model);
+//        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -241,7 +244,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                     datePickerDialog.show();
                     break;
                 case R.id.et_height:
-                    if(!TextUtils.isEmpty(et_old.getText().toString())){
+                    if (!TextUtils.isEmpty(et_old.getText().toString())) {
                         et_old.setError(null);
                     }
                     final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
