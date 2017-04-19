@@ -1,11 +1,15 @@
 package com.softtek.lai.module.laicheng;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -96,6 +100,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private String bodyFatRate = "";//体脂率
     private String bodyAge = "";//身体年龄
 
+    private AlertDialog.Builder builder;
+
+    private AlertDialog.Builder noVisitorBuilder;
+
     public VisitortestFragment() {
         // Required empty public constructor
     }
@@ -124,7 +132,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             tv_bmi.setText(data.getBMI());
             tv_internal_fat_rate.setText(data.getViscusFatIndex());
             if (data.getVisitor() != null) {
-                model=new VisitorModel();
+                model = new VisitorModel();
                 model.setName(data.getVisitor().getName());
                 model.setBirthDate(data.getVisitor().getBirthDate());
                 model.setGender(data.getVisitor().getGender());
@@ -153,7 +161,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             tv_body_fat_rate.setText("--");
             tv_bmi.setText("--");
             tv_internal_fat_rate.setText("--");
-            shakeOFF.setOnShakeSTOP();
+
         }
     }
 
@@ -163,8 +171,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     public interface ShakeSwitch {
         void setOnShakeON();
-
-        void setOnShakeSTOP();
+        
     }
 
     @Override
@@ -189,6 +196,40 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         presenter = new VisitGetPresenter(this);
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getActivity());
+        manager.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals("visitorinfo")) {
+                    model = (VisitorModel) intent.getParcelableExtra("visitorModel");
+                    choose_year = intent.getExtras().getInt("choose");
+                    if (model != null && !TextUtils.isEmpty(model.getName())) {
+                        tv_weight.setText("0.0");
+                        tv_weight_caption.setVisibility(View.INVISIBLE);
+                        tv_body_fat_rate.setText("- -");
+                        tv_bmi.setText("- -");
+                        tv_internal_fat_rate.setText("- -");
+                        Log.i("访客信息", model.toString());
+                        visitorId = model.getVisitorId();
+                        ll_visitor.setVisibility(View.VISIBLE);
+                        tv_name.setText(model.getName());
+                        tv_phoneNo.setText(model.getPhoneNo());
+                        tv_age.setText((NowYear - choose_year) + "");
+//                    tv_age.setText(model.getBirthDate());
+                        if (0 == model.getGender()) {
+                            tv_gender.setText("男");
+                        } else {
+                            tv_gender.setText("女");
+                        }
+                        tv_height.setText(model.getHeight() + "");
+                        shakeOFF.setOnShakeON();
+                    }
+                }
+
+            }
+        }, new IntentFilter("visitorinfo"));
     }
 
 
@@ -218,8 +259,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         switch (v.getId()) {
             case R.id.bt_create:
                 Intent in = new Intent(getActivity(), VisitorinfoActivity.class);
-                in.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivityForResult(in, 0);
+                startActivity(in);
                 break;
             case R.id.bt_history:
                 Intent intent = new Intent(getActivity(), VisithistoryActivity.class);
@@ -316,42 +356,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     int NowYear = Integer.parseInt(format.format(new Date()));
     private int choose_year;
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 0) {
-                model = (VisitorModel) data.getParcelableExtra("visitorModel");
-                close = data.getExtras().getInt("type");
-                choose_year = data.getExtras().getInt("choose");
-                Log.i("choose_year", choose_year + "");
-                if (model != null && !TextUtils.isEmpty(model.getName())) {
-                    tv_weight.setText("0.0");
-                    tv_weight_caption.setVisibility(View.INVISIBLE);
-                    tv_body_fat_rate.setText("- -");
-                    tv_bmi.setText("- -");
-                    tv_internal_fat_rate.setText("- -");
-                    Log.i("访客信息", model.toString());
-                    visitorId = model.getVisitorId();
-                    ll_visitor.setVisibility(View.VISIBLE);
-                    tv_name.setText(model.getName());
-                    tv_phoneNo.setText(model.getPhoneNo());
-                    tv_age.setText((NowYear - choose_year) + "");
-//                    tv_age.setText(model.getBirthDate());
-                    if (0 == model.getGender()) {
-                        tv_gender.setText("男");
-                    } else {
-                        tv_gender.setText("女");
-                    }
-                    tv_height.setText(model.getHeight() + "");
-                    shakeOFF.setOnShakeON();
-                }
-                if (close == 110) {
-                    shakeOFF.setOnShakeSTOP();
-                }
-            }
-        }
-    }
+
 
     //摇一摇刷新U
     @SuppressLint("SetTextI18n")

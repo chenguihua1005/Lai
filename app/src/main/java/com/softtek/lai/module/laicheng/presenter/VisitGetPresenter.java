@@ -24,14 +24,14 @@ public class VisitGetPresenter extends BasePresenter<VisitGetPresenter.VisitGetV
         super(baseView);
     }
 
-    public void GetData(String token,int type) {
+    public void GetData(String token, int type) {
         service.getData(token, type, new RequestCallback<ResponseData<LastInfoData>>() {
             @Override
             public void success(ResponseData<LastInfoData> data, Response response) {
-                int status=data.getStatus();
-                if(200==status){
-                    if(data.getData()!=null){
-                        if(getView()!=null){
+                int status = data.getStatus();
+                if (200 == status) {
+                    if (data.getData() != null) {
+                        if (getView() != null) {
                             getView().getDatasuccess(data.getData());
                         }
                     }
@@ -45,7 +45,8 @@ public class VisitGetPresenter extends BasePresenter<VisitGetPresenter.VisitGetV
         });
 
     }
-    public interface VisitGetView extends BaseView{
+
+    public interface VisitGetView extends BaseView {
         void getDatasuccess(LastInfoData model);
 
     }
