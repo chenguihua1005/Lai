@@ -114,6 +114,8 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     public void enterIntoLaicheng(View view) {
         Intent intent = new Intent(FcAuditStuActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
         intent.putExtra("fucedata",fcStDataModel);
+        intent.putExtra("type",2);
+        intent.putExtra("classId",classId);
         startActivity(intent);
     }
 
@@ -124,6 +126,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
         IsAudit = getIntent().getIntExtra("IsAudit", 0);
         typeDate = getIntent().getStringExtra("typeDate");
+        classId = getIntent().getStringExtra("classId");//classId
 
         if (IsAudit != 0) {
             tv_right.setVisibility(View.INVISIBLE);

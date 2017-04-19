@@ -143,7 +143,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
         Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-        FcAudit.putExtra("classId", classid);
+        FcAudit.putExtra("classId", classid);//classId
         FcAudit.putExtra("IsAudit", IsAudit);
         FcAudit.putExtra("resetdatestatus", resetdatestatus);
         FcAudit.putExtra("typeDate",typedata);
