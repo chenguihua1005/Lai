@@ -45,7 +45,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private int state_current = CONNECTED_STATE_SHAKE_IT;
     //    private ScaleDetailEntity mErrorScaleDetail;//测量错误的数据
 //    private String scaleId = "";//访客模式称量后的id
-    private int tpye = 0;
+    private int tpye = 1;
     //    private int shareType;
     public static boolean isVoiceHelp = true;
 
@@ -92,7 +92,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private volatile int voiceIndex = 0;
 
     private void shake() {
-        if (getGuestInfo() == null && getType() != 0) {
+        if (getGuestInfo() == null && getType() != 1) {
             showNoVisitorDialog();
             return;
         }
@@ -297,7 +297,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     String readMessage = MathUtils.bytesToHexString(datas);
                     newData += readMessage;
                     Log.d("dataMessage", "从蓝牙获取到的message" + readMessage);
-                    if (getGuestInfo() == null && getType() != 0) {
+                    if (getGuestInfo() == null && getType() != 1) {
                         showNoVisitorDialog();
                         return;
                     }
@@ -690,7 +690,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         model.setR23(String.valueOf(f07RS4));
         model.setR24(String.valueOf(f07RS5));
         model.setWeight(String.valueOf(weight));
-        if (getType() != 0) {
+        if (getType() != 1) {
             if (getGuestInfo() != null) {
                 accountId = getGuestInfo().getVisitorId();
                 model.setHeight(String.valueOf(getGuestInfo().getHeight()));

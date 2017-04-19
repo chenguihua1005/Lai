@@ -114,7 +114,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             public void onPageSelected(int position) {
                 pageIndex = position;
                 if (pageIndex == 0) {
-                    setType(0);
+                    setType(1);
                     mShakeListener.start();
                     if (!isDestroyed()) {
                         selftestFragment.refreshVoiceIcon();
@@ -123,7 +123,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
 
                 } else {
-                    setType(1);
+                    setType(0);
                     if (!isDestroyed()) {
                         visitortestFragment.refreshVoiceIcon();
 //                        visitortestFragment.setStateTip("摇一摇，连接莱秤");
@@ -271,10 +271,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         mShakeListener.start();
     }
 
-    @Override
-    public void setOnShakeSTOP() {
-        mShakeListener.stop();
-    }
+//    @Override
+//    public void setOnShakeSTOP() {
+//        mShakeListener.stop();
+//    }
 
     @SuppressLint("LongLogTag")
     @Override
@@ -283,4 +283,5 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         boolean test = getGuestInfo() != null;
         Log.d("testGuestInfo-------------", String.valueOf(test));
     }
+    
 }

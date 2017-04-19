@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laicheng;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -96,6 +97,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private String bodyFatRate = "";//体脂率
     private String bodyAge = "";//身体年龄
 
+    private AlertDialog.Builder builder;
+
+    private AlertDialog.Builder noVisitorBuilder;
+
     public VisitortestFragment() {
         // Required empty public constructor
     }
@@ -124,7 +129,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             tv_bmi.setText(data.getBMI());
             tv_internal_fat_rate.setText(data.getViscusFatIndex());
             if (data.getVisitor() != null) {
-                model=new VisitorModel();
+                model = new VisitorModel();
                 model.setName(data.getVisitor().getName());
                 model.setBirthDate(data.getVisitor().getBirthDate());
                 model.setGender(data.getVisitor().getGender());
@@ -153,7 +158,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             tv_body_fat_rate.setText("--");
             tv_bmi.setText("--");
             tv_internal_fat_rate.setText("--");
-            shakeOFF.setOnShakeSTOP();
+
         }
     }
 
@@ -164,7 +169,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     public interface ShakeSwitch {
         void setOnShakeON();
 
-        void setOnShakeSTOP();
+//        void setOnShakeSTOP();
     }
 
     @Override
@@ -322,7 +327,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 model = (VisitorModel) data.getParcelableExtra("visitorModel");
-                close = data.getExtras().getInt("type");
+//                close = data.getExtras().getInt("type");
                 choose_year = data.getExtras().getInt("choose");
                 Log.i("choose_year", choose_year + "");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
@@ -346,9 +351,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     tv_height.setText(model.getHeight() + "");
                     shakeOFF.setOnShakeON();
                 }
-                if (close == 110) {
-                    shakeOFF.setOnShakeSTOP();
-                }
+
             }
         }
     }

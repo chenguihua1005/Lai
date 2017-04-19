@@ -149,9 +149,9 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
                 validateLife.validate();
                 break;
             case R.id.iv_email:
-                Intent intent = new Intent();
-                intent.putExtra("type", 110);
-                setResult(RESULT_OK, intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("type", 110);
+//                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }
@@ -191,16 +191,16 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     }
 
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getRepeatCount() == 0) {
-            Intent intent = new Intent();
-            intent.putExtra("type", 110);
-            setResult(RESULT_OK, intent);
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK
+//                && event.getRepeatCount() == 0) {
+//            Intent intent = new Intent();
+//            intent.putExtra("type", 110);
+//            setResult(RESULT_OK, intent);
+//            finish();
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
