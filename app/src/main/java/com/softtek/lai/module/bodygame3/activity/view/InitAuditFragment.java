@@ -141,6 +141,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
         InitdataAudit.putExtra("Audited", IsAudit);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         InitdataAudit.putExtra("typeDate",typeDate);
+        InitdataAudit.putExtra("type", 3);
         startActivityForResult(InitdataAudit, ChuAudit);
     }
 

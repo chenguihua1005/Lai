@@ -1,8 +1,12 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -96,8 +100,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     private MeasuredDetailsModel fcStDataModel;
 
-    private  String typeDate;
-
+    private String typeDate;
 
 
     @Override
@@ -108,15 +111,26 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
 
         setPresenter(new FuceCheckPresenter(this));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI_INPUTED_FUCECHECK));
     }
 
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
         Intent intent = new Intent(FcAuditStuActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
-        intent.putExtra("fucedata",fcStDataModel);
-        intent.putExtra("type",2);
-        intent.putExtra("classId",classId);
+        intent.putExtra("fucedata", fcStDataModel);
+        intent.putExtra("type", 2);
+        intent.putExtra("classId", classId);
+        intent.putExtra("AccountId", accountId);
+        intent.putExtra("from",UPDATE_UI_INPUTED_FUCECHECK);
+
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
 
     @Override
@@ -127,6 +141,10 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         IsAudit = getIntent().getIntExtra("IsAudit", 0);
         typeDate = getIntent().getStringExtra("typeDate");
         classId = getIntent().getStringExtra("classId");//classId
+
+        acmId = getIntent().getStringExtra("ACMId");
+        accountId = getIntent().getLongExtra("accountId", 0);
+//        classId = getIntent().getStringExtra("classId");
 
         if (IsAudit != 0) {
             tv_right.setVisibility(View.INVISIBLE);
@@ -148,9 +166,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
         }
 
-        acmId = getIntent().getStringExtra("ACMId");
-        accountId = getIntent().getLongExtra("accountId", 0);
-        classId = getIntent().getStringExtra("classId");
 
         child.add(0, "初始体重");
         child.add(1, "当前体重");
@@ -811,4 +826,16 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         }
 
     }
+
+    public static final String UPDATE_UI_INPUTED_FUCECHECK = "UPDATE_UI_INPUTED_FUCECHECK";
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_INPUTED_FUCECHECK.equalsIgnoreCase(intent.getAction())) {
+//                ACMID = intent.getStringExtra("ACMID");
+//                getPresenter().getFuceCheckData(ACMID);
+            }
+        }
+    };
 }

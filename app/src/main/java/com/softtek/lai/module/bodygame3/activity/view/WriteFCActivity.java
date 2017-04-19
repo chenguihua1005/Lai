@@ -895,11 +895,11 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
         multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
         multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "" : fcStDataModel.getFatFreeMass().toString()));
-
+//
 //        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
         multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "" : fcStDataModel.getBodyWaterRate().toString()));
         multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "" : fcStDataModel.getBodyWater().toString()));
-
+//
         multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "" : fcStDataModel.getMuscleMass().toString()));
         multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "" : fcStDataModel.getBoneMass().toString()));
         multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "" : fcStDataModel.getBasalMetabolism().toString()));

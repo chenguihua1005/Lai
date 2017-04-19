@@ -95,9 +95,12 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     String photoname;
     int IsAudit;
 
+    private int type;
     private String typeDate;
 
     private int fromPage;
+
+    private int typeforwhich;
 
 
     @Override
@@ -109,7 +112,11 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         ACMID = getIntent().getStringExtra("ACMID");
         IsAudit = getIntent().getIntExtra("Audited", 1);
         typeDate = getIntent().getStringExtra("typeDate");
-        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
+
+        type = getIntent().getIntExtra("type", -1);
+
+        typeforwhich = getIntent().getIntExtra("typeforwhich",-1);
+//        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
         if (IsAudit == 1) {
             tv_right.setVisibility(View.INVISIBLE);
@@ -127,7 +134,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
         setPresenter(new UnInputPresenter(this));
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI));
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI_UNINPUT));
     }
 
     @OnClick(R.id.cheng_float)
@@ -135,9 +142,12 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         Intent intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
         intent.putExtra("fucedata", fcStDataModel);
         intent.putExtra("ACMID", ACMID);
-        intent.putExtra("type", 3);
-        intent.putExtra("classId",classId);
-        intent.putExtra("AccountId",AccountId);
+        intent.putExtra("type", type);
+        intent.putExtra("classId", classId);
+        intent.putExtra("AccountId", AccountId);
+
+        intent.putExtra("from", UPDATE_UI_UNINPUT);
+
         startActivity(intent);
 //        startActivityForResult(intent, 0x0001);
     }
@@ -348,7 +358,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
 //        getPresenter().getFuceCheckData(ACMID);  //String classId, long userId, String typeDate, String type
         Log.i(TAG, "classId =" + classId + " AccountId = " + AccountId + " typeDate = " + typeDate);
-        getPresenter().getStudentBasicalInfo(classId, AccountId, "2017-04-19", "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+        getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
     }
 
 
@@ -713,6 +723,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         fcAuditPostModel.setACMId(ACMID);
         fcAuditPostModel.setAccountId(AccountId + "");
         fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
+        fcAuditPostModel.setWeekNum(fcStDataModel.getWeekNum());
+        fcAuditPostModel.setClassId(classId);
+
         fcAuditPostModel.setWeight(fcStDataModel.getWeight());
         fcAuditPostModel.setPysical(fcStDataModel.getPysical());
         fcAuditPostModel.setFat(fcStDataModel.getFat());
@@ -742,36 +755,61 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     FuceSevice fuceSevice;
 
     void doPostInitData() {
-        fuceSevice.doReviewMeasuredRecord(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
+        fuceSevice.postMeasureForMembers(UserInfoModel.getInstance().getToken(), typeforwhich, fcAuditPostModel, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                try {
-                    int status = responseData.getStatus();
-                    switch (status) {
-                        case 200:
-                            progressDialog.dismiss();
-                            Intent intent = new Intent();
-                            intent.putExtra("ACMID", ACMID);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                            break;
-                        default:
-                            progressDialog.dismiss();
-                            Util.toastMsg(responseData.getMsg());
-                            break;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        progressDialog.dismiss();
+                        Util.toastMsg("数据提交成功！");
+//                        Intent intent = new Intent();
+//                        intent.putExtra("ACMID", ACMID);
+//                        setResult(RESULT_OK, intent);
+//                        finish();
+                        break;
+                    default:
+                        progressDialog.dismiss();
+                        Util.toastMsg(responseData.getMsg());
+                        break;
                 }
-
             }
 
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
-                progressDialog.dismiss();
             }
         });
+//        fuceSevice.doReviewMeasuredRecord(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
+//            @Override
+//            public void success(ResponseData responseData, Response response) {
+//                try {
+//                    int status = responseData.getStatus();
+//                    switch (status) {
+//                        case 200:
+//                            progressDialog.dismiss();
+//                            Intent intent = new Intent();
+//                            intent.putExtra("ACMID", ACMID);
+//                            setResult(RESULT_OK, intent);
+//                            finish();
+//                            break;
+//                        default:
+//                            progressDialog.dismiss();
+//                            Util.toastMsg(responseData.getMsg());
+//                            break;
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                super.failure(error);
+//                progressDialog.dismiss();
+//            }
+//        });
     }
 
     @Override
@@ -843,14 +881,15 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         super.onDestroy();
     }
 
-    public static final String UPDATE_UI = "UPDATE_UI";
+    public static final String UPDATE_UI_UNINPUT = "UPDATE_UI_UNINPUT";
 
     public BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent != null && UPDATE_UI.equalsIgnoreCase(intent.getAction())) {
+            if (intent != null && UPDATE_UI_UNINPUT.equalsIgnoreCase(intent.getAction())) {
                 ACMID = intent.getStringExtra("ACMID");
-//                getPresenter().getFuceCheckData(ACMID);
+//                getPresenter().getStudentBasicalInfo(ACMID);
+                getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
             }
         }
     };

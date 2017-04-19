@@ -140,14 +140,27 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
-        FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
-        FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-        FcAudit.putExtra("classId", classid);
-        FcAudit.putExtra("IsAudit", IsAudit);
-        FcAudit.putExtra("resetdatestatus", resetdatestatus);
+//        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
+//        Intent InitdataAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
+//        InitdataAudit.putExtra("ACMID", memberListModels.get(i - 1).getAcmId());
+//        InitdataAudit.putExtra("classId", classid);
+//        InitdataAudit.putExtra("Audited", IsAudit);
+//        InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+//        InitdataAudit.putExtra("typeDate",typeDate);
+//
+//        InitdataAudit.putExtra("fromPage",11);
 
-        FcAudit.putExtra("typeDate",typedata);
+
+        Intent FcAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
+        FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
+        FcAudit.putExtra("classId", classid);
+        FcAudit.putExtra("Audited", IsAudit);
+        FcAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+//        FcAudit.putExtra("resetdatestatus", resetdatestatus);
+
+        FcAudit.putExtra("typeDate", typedata);
+        FcAudit.putExtra("type", 2);
+        FcAudit.putExtra("typeforwhich",1);
         startActivityForResult(FcAudit, FCAudit);
 
     }

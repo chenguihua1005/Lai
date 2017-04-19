@@ -15,6 +15,7 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -118,6 +119,15 @@ public interface FuceSevice {
             @Query("typeDate") String typeDate,
             @Query("type") String type,
             Callback<ResponseData<MeasuredDetailsModel>> callback
+    );
+
+    //    教练或助教为学员复测审核（学员未录入） /v1/MeasuredRecordLog/MeasureForMembers
+    @POST("/v1/MeasuredRecordLog/MeasureForMembers")
+    void postMeasureForMembers(
+            @Header("token") String token,
+            @Query("type") int type,
+            @Body FcAuditPostModel model,
+            Callback<ResponseData> callback
     );
 
     //获取初始数据录入 数据   学员

@@ -548,13 +548,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
 //        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
         multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "" : fcStDataModel.getBodyWaterRate().toString()));
         multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "" : fcStDataModel.getBodyWater().toString()));
-
+//
         multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "" : fcStDataModel.getMuscleMass().toString()));
         multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "" : fcStDataModel.getBoneMass().toString()));
         multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "" : fcStDataModel.getBasalMetabolism().toString()));
         multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "" : fcStDataModel.getPhysicalAge().toString()));
 
-        Log.i("上传数据" + multipartTypedOutput.getPartCount());
         doPostInitData();
     }
 

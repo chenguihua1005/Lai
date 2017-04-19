@@ -9,6 +9,8 @@ public class FcAuditPostModel {
     private String AccountId;
     private String ReviewerId;
     private String ClassId;
+    private String WeekNum;
+
 
     private String Weight;
     private String Pysical;
@@ -36,6 +38,14 @@ public class FcAuditPostModel {
 
     public void setClassId(String classId) {
         ClassId = classId;
+    }
+
+    public String getWeekNum() {
+        return WeekNum;
+    }
+
+    public void setWeekNum(String weekNum) {
+        WeekNum = weekNum;
     }
 
     @Override

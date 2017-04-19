@@ -96,6 +96,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     private int type;  //0：访客，1：自己，2：复测录入，3：复测初始录入
     private String classId;
 
+    private String from;
+
 //    private FcStDataModel fcStDataModel_uninput;
 
 
@@ -139,7 +141,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.fucecheck_entry: //复测审核
-                Intent intent = new Intent(InitDataAuditActivity2.UPDATE_UI);
+                Intent intent = new Intent(from);
                 intent.putExtra("ACMID", recordId);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 finish();
@@ -191,7 +193,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         classId = getIntent().getStringExtra("classId");
         type = getIntent().getIntExtra("type", -1);
         AccountId = getIntent().getLongExtra("AccountId", 0);
-
+        from = getIntent().getStringExtra("from");
 
 
 //        if (fucDataModel != null) {
