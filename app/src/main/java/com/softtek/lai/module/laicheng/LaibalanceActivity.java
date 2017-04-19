@@ -271,10 +271,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         mShakeListener.start();
     }
 
-//    @Override
-//    public void setOnShakeSTOP() {
-//        mShakeListener.stop();
-//    }
+
 
     @SuppressLint("LongLogTag")
     @Override
