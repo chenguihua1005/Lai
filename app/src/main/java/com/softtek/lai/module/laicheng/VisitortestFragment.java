@@ -102,7 +102,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     public LastInfoData visitorLastData;
 
-
     @Override
     protected void lazyLoad() {
 
@@ -132,7 +131,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 model.setHeight(data.getVisitor().getHeight());
                 model.setPhoneNo(data.getVisitor().getPhoneNo());
                 model.setVisitorId(data.getVisitor().getId());
-                Log.i("model",model.toString());
                 visitorId = data.getVisitor().getId();
                 ll_visitor.setVisibility(View.VISIBLE);
                 tv_name.setText(data.getVisitor().getName());
