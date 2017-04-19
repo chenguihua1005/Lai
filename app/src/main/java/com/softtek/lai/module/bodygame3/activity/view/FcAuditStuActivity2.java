@@ -96,6 +96,9 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     private MeasuredDetailsModel fcStDataModel;
 
+    private  String typeDate;
+
+
 
     @Override
     protected void initViews() {
@@ -120,6 +123,8 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
         IsAudit = getIntent().getIntExtra("IsAudit", 0);
+        typeDate = getIntent().getStringExtra("typeDate");
+
         if (IsAudit != 0) {
             tv_right.setVisibility(View.INVISIBLE);
             cheng_float.setVisibility(View.INVISIBLE);
@@ -331,7 +336,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         //获取后台数据
 
         getPresenter().getFuceCheckData(acmId);
-
 
     }
 

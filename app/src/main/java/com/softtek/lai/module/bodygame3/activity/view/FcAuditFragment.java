@@ -146,6 +146,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
         FcAudit.putExtra("classId", classid);
         FcAudit.putExtra("IsAudit", IsAudit);
         FcAudit.putExtra("resetdatestatus", resetdatestatus);
+        FcAudit.putExtra("typeDate",typedata);
         startActivityForResult(FcAudit, FCAudit);
 
     }

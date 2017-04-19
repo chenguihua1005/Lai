@@ -41,7 +41,7 @@ import static android.app.Activity.RESULT_OK;
 
 @InjectLayout(R.layout.fragment_retest)
 public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, InitAuditPresenter.InitAuditView {
-    private static String classid;
+
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
@@ -54,10 +54,14 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     int Auditnum = 0;
     private List<MemberListModel> memberListModels = new ArrayList<>();
 
-    public static Fragment getInstance(String classId) {
+    private static String classid;
+    private static String typeDate;
+
+    public static Fragment getInstance(String classId,String typedate) {
         InitAuditFragment fragment = new InitAuditFragment();
         Bundle data = new Bundle();
         classid = classId;
+        typeDate = typedate;
         fragment.setArguments(data);
         return fragment;
     }
@@ -136,6 +140,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("Audited", IsAudit);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+        InitdataAudit.putExtra("typeDate",typeDate);
         startActivityForResult(InitdataAudit, ChuAudit);
     }
 
@@ -158,8 +163,6 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
             }
 
         }
-
-
     }
 
     //下拉刷新
