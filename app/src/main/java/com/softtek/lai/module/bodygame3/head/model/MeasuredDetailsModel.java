@@ -42,6 +42,35 @@ public class MeasuredDetailsModel implements Serializable{
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
 
+//    Height, BirthDate,Gender
+
+    private String Height;//身高
+    private String BirthDate;//生日
+    private long AccountId;//
+
+    public long getAccountId() {
+        return AccountId;
+    }
+
+    public void setAccountId(long accountId) {
+        AccountId = accountId;
+    }
+
+    public String getHeight() {
+        return Height;
+    }
+
+    public void setHeight(String height) {
+        Height = height;
+    }
+
+    public String getBirthDate() {
+        return BirthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        BirthDate = birthDate;
+    }
 
     public String getBmi() {
         return Bmi;

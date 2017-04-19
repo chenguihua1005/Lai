@@ -54,10 +54,14 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
     int Auditnum = 0;
     private List<MemberListModel> memberListModels = new ArrayList<>();
 
-    public static Fragment getInstance(String classId) {
+    private static String typeDate;
+
+
+    public static Fragment getInstance(String classId,String typedate) {
         UnInputFragment fragment = new UnInputFragment();
         Bundle data = new Bundle();
         classid = classId;
+        typeDate = typedate;
         fragment.setArguments(data);
         return fragment;
     }
@@ -136,6 +140,10 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("Audited", IsAudit);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+        InitdataAudit.putExtra("typeDate",typeDate);
+
+        InitdataAudit.putExtra("fromPage",11);
+
         startActivityForResult(InitdataAudit, ChuAudit);
     }
 

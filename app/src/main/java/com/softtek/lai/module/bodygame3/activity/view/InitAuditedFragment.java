@@ -50,12 +50,14 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
     int pageIndex = 1;
     EasyAdapter<MemberListModel> adapter;
     private static String classid;
+    private static String typeDate;
     private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
 
-    public static Fragment getInstance(String classId) {
+    public static Fragment getInstance(String classId, String typedate) {
         InitAuditedFragment fragment = new InitAuditedFragment();
         Bundle data = new Bundle();
         classid = classId;
+        typeDate = typedate;
         fragment.setArguments(data);
         return fragment;
     }
@@ -131,10 +133,11 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent InitdataAudit = new Intent(getContext(), InitDataAuditActivity2.class);
         InitdataAudit.putExtra("ACMID", memberListModels.get(i - 1).getAcmId());
-        String Acmid = memberListModels.get(i - 1).getAcmId();
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         InitdataAudit.putExtra("Audited", 1);
+
+        InitdataAudit.putExtra("typeDate",typeDate);
         startActivity(InitdataAudit);
     }
 
