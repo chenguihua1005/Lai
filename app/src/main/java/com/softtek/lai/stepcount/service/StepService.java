@@ -268,8 +268,20 @@ public class StepService extends Service implements SensorEventListener,TimeTick
                 String time=SharedPreferenceService.getInstance().get("recordTime","");
                 int phoneStep=SharedPreferenceService.getInstance().get("phoneStep",-1);
                 //首先判断是否是同一天,只有是同一天的才会补足
-                if (phoneStep>=0&&now.compareTo(time)==0&&stepTemp>=phoneStep){
-                    firstStep=firstStep-(stepTemp-phoneStep);
+                if (phoneStep>=0&&now.compareTo(time)==0){
+                    //判断是否关过机
+                    boolean isShutDown=SharedPreferenceService.getInstance().get("shutDown",false);
+                    String shutDownTime=SharedPreferenceService.getInstance().get("shutDownTime","");
+                    //如果当天重启过
+                    if (isShutDown&&now.compareTo(shutDownTime)==0){
+                        firstStep=0;
+                        SharedPreferenceService.getInstance().put("shutDown",false);
+                        SharedPreferenceService.getInstance().put("shutDownTime", now);
+                    }else {
+                        if(stepTemp>=phoneStep){
+                            firstStep=firstStep-(stepTemp-phoneStep);
+                        }
+                    }
                 }
 
             }
