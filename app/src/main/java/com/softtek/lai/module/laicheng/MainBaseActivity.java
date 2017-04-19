@@ -712,6 +712,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         deviceListDialog = null;
         soundHelper.release();
         permission.recycle();
+        isVoiceHelp=true;
+
     }
 
     @Override
