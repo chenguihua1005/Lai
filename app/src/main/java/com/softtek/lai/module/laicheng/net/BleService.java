@@ -33,6 +33,7 @@ public interface BleService {
                          @Body UploadImpedanceModel impedanceModel,
                          @Query("accountId") Long accountId,
                          @Query("type") int type,
+                         @Query("classId") String classId,
                          RequestCallback<ResponseData<BleMainData>> callback);
 
     @FormUrlEncoded
