@@ -132,6 +132,8 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("classId", classid);
         FcAudit.putExtra("IsAudit", IsAudit);
+        FcAudit.putExtra("typeDate",typedate);
+
         startActivityForResult(FcAudit, FCAudit);
     }
 

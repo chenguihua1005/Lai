@@ -72,10 +72,14 @@ public interface FuceSevice {
     );
 
     //获取复测详情
+//    @Ethan.Tung   accountId classId
     @GET("/v1/MeasuredRecordLog/GetMeasuredDetails")
     void doGetMeasuredDetails(
             @Header("token") String token,
             @Query("acmId") String acmId,
+//            @Query("accountId") long accountId,
+//            @Query("classId") String classId,
+//            @Query("dateType") String dateType,
             Callback<ResponseData<MeasuredDetailsModel>> callback
     );
 

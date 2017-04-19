@@ -60,14 +60,18 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     int Auditnum = 0;
     int Auditednum = 0;
 
+    private String typeDate;
+
     @Override
     protected void initViews() {
         tv_title.setText("初始数据审核");
         classId = getIntent().getStringExtra("classId");
+        typeDate = getIntent().getStringExtra("typeDate");
+
         fragments = new ArrayList<>();
-        fragments.add(UnInputFragment.getInstance(classId)); //未录入
-        fragments.add(InitAuditFragment.getInstance(classId));
-        fragments.add(InitAuditedFragment.getInstance(classId));
+        fragments.add(UnInputFragment.getInstance(classId,typeDate)); //未录入
+        fragments.add(InitAuditFragment.getInstance(classId,typeDate));//未审核
+        fragments.add(InitAuditedFragment.getInstance(classId,typeDate));//已审核
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);
@@ -219,6 +223,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     public void hidenLoading() {
 
     }
+
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);

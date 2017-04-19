@@ -1,9 +1,13 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -88,15 +92,22 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
     String photoname;
     int IsAudit;
 
+    private String typeDate;
+
+    private int fromPage;
+
 
     @Override
     protected void initViews() {
         tv_title.setText("初始数据审核");
 
-        classId = getIntent().getStringExtra("classId");
+        classId = getIntent().getStringExtra("classId");//没用
         AccountId = getIntent().getLongExtra("AccountId", 0);
         ACMID = getIntent().getStringExtra("ACMID");
         IsAudit = getIntent().getIntExtra("Audited", 1);
+        typeDate = getIntent().getStringExtra("typeDate");
+        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
+
         if (IsAudit == 1) {
             tv_right.setVisibility(View.INVISIBLE);
             cheng_float.setVisibility(View.INVISIBLE);
@@ -112,13 +123,30 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
 
         setPresenter(new FuceCheckPresenter(this));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI));
     }
 
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
         Intent intent = new Intent(InitDataAuditActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
         intent.putExtra("fucedata", fcStDataModel);
+        intent.putExtra("ACMID", ACMID);
         startActivity(intent);
+//        startActivityForResult(intent, 0x0001);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0x0001 && resultCode == RESULT_OK) {
+            String acmid = data.getStringExtra("ACMID");
+            tv_right.setVisibility(View.VISIBLE);
+            tv_right.setText("审核通过");//保存数据
+
+            cheng_float.setVisibility(View.VISIBLE);
+            getPresenter().getFuceCheckData(acmid);
+        }
     }
 
     @Override
@@ -655,6 +683,13 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        Log.i(TAG, "onResume  ...ACMID =  " + ACMID);
+//        getPresenter().getFuceCheckData(ACMID);
+//    }
 
     @Override
     public void onValidationSucceeded() {
@@ -690,7 +725,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         fcAuditPostModel.setBoneMass(fcStDataModel.getBoneMass());
         fcAuditPostModel.setBasalMetabolism(fcStDataModel.getBasalMetabolism());
         fcAuditPostModel.setPhysicalAge(fcStDataModel.getPhysicalAge());
-
 
 
         doPostInitData();
@@ -792,8 +826,25 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     validateLife.validate();
                 }
                 break;
-
         }
-
     }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    public static final String UPDATE_UI = "UPDATE_UI";
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI.equalsIgnoreCase(intent.getAction())) {
+                ACMID = intent.getStringExtra("ACMID");
+                getPresenter().getFuceCheckData(ACMID);
+            }
+        }
+    };
+
 }

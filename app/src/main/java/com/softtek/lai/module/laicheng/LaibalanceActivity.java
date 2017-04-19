@@ -111,20 +111,20 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             public void onPageSelected(int position) {
                 pageIndex = position;
                 if (pageIndex == 0) {
-                    setGuest(false);
+                    setType(0);
                     mShakeListener.start();
                     if (!isDestroyed()) {
                         selftestFragment.refreshVoiceIcon();
+                        selftestFragment.setStateTip("摇一摇，连接莱秤");
                     }
 
-                    selftestFragment.setStateTip("摇一摇，连接莱秤");
 
                 } else {
-                    setGuest(true);
+                    setType(1);
                     if (!isDestroyed()) {
                         visitortestFragment.refreshVoiceIcon();
+                        visitortestFragment.setStateTip("摇一摇，连接莱秤");
                     }
-                    visitortestFragment.setStateTip("摇一摇，连接莱秤");
 
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
