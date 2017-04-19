@@ -215,6 +215,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ll_footer.setVisibility(View.GONE);
         adapter.notifyDataSetChanged();
+        ptrlv.getRefreshableView().removeFooterView(empty);
     }
 
     @Override
@@ -248,6 +249,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if(isEditor) {
+                isEditor=false;
                 closeEditor();
                 return true;
             }

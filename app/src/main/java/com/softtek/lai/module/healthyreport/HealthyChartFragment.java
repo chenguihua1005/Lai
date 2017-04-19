@@ -172,30 +172,31 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
         }
         //设置指标线
         HealthyChartModel.ColorBar colorBar=data.getColorBar();
-        if(colorBar!=null){
+        if(colorBar!=null&&colorBar.getRange()!=null){
+            List<Float> valueList=new ArrayList<>();
+            List<String> colorList=new ArrayList<>();
+            for(int i=0,j=colorBar.getRange().size();i<j;i++){
+                HealthyChartModel.ColorBar.Range range=colorBar.getRange().get(i);
+                if(i!=0&&i!=j-1)
+                    valueList.add( range.getValue() );
+                if( i!=j-1 )
+                    colorList.add( "#"+range.getColor() );
+
+            }
+            SpannableString unit=null;
+            if (!TextUtils.isEmpty(colorBar.getUnit())){
+                unit=new SpannableString(colorBar.getUnit());
+                if("kg/m2".equals(colorBar.getUnit())){
+                    unit.setSpan(new SuperscriptSpan(),unit.length()-1,unit.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
+            }
+            sl.setData(colorBar.getRange().get(0).getValue(), colorBar.getRange().get(colorBar.getRange().size()-1).getValue(),
+                    colorBar.getValue(), unit, valueList, colorList, "#"+colorBar.getColor(), false);
             sl.setVisibility(View.VISIBLE);
         }else {
             sl.setVisibility(View.GONE);
         }
-        List<Float> valueList=new ArrayList<>();
-        List<String> colorList=new ArrayList<>();
-        for(int i=0,j=colorBar.getRange().size();i<j;i++){
-            HealthyChartModel.ColorBar.Range range=colorBar.getRange().get(i);
-            if(i!=0&&i!=j-1)
-                valueList.add( range.getValue() );
-            if( i!=j-1 )
-                colorList.add( "#"+range.getColor() );
 
-        }
-        SpannableString unit=null;
-        if (!TextUtils.isEmpty(colorBar.getUnit())){
-            unit=new SpannableString(colorBar.getUnit());
-            if("kg/m2".equals(colorBar.getUnit())){
-                unit.setSpan(new SuperscriptSpan(),unit.length()-1,unit.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            }
-        }
-        sl.setData(colorBar.getRange().get(0).getValue(), colorBar.getRange().get(colorBar.getRange().size()-1).getValue(),
-                colorBar.getValue(), unit, valueList, colorList, "#"+colorBar.getColor(), false);
         //设置曲线图
         if(data.getChart()!=null){
             getData2(data.getChart());

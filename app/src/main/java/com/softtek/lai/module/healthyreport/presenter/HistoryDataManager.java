@@ -52,6 +52,8 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
                             if (getView() != null) {
                                 getView().historyDataCallback(historyDataModelResponseData.getData());
                             }
+                        }else {
+                            Util.toastMsg(historyDataModelResponseData.getMsg());
                         }
                     }
 
