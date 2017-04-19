@@ -60,7 +60,6 @@ public class HealthyChartActivity extends BaseActivity implements View.OnClickLi
         tab.setupWithViewPager(tab_content);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         tab_content.setOffscreenPageLimit(4);
-
         tab_content.setCurrentItem(selector,false);
     }
 

@@ -699,7 +699,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        disconnectBluetooth();
         deviceListDialog = null;
         soundHelper.release();
         permission.recycle();
@@ -708,6 +707,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void onPause() {
         super.onPause();
+        disconnectBluetooth();
         mShakeListener.stop();
     }
 

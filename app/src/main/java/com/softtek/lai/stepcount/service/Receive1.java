@@ -27,6 +27,8 @@ public class Receive1 extends BroadcastReceiver {
             //电池电量变化了
             Log.i("电量变化了");
             context.startService(new Intent(context,DaemonService.class));
+        }else if(intent.getAction().equals(Intent.ACTION_SHUTDOWN)){
+            Log.i("关机啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦");
         }
     }
 }

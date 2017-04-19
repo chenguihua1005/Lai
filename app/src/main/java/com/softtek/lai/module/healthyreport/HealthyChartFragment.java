@@ -187,14 +187,19 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
                 colorList.add( "#"+range.getColor() );
 
         }
-        SpannableString unit=new SpannableString(colorBar.getUnit());
-        if("kg/m2".equals(colorBar.getUnit())){
-            unit.setSpan(new SuperscriptSpan(),unit.length()-1,unit.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        SpannableString unit=null;
+        if (!TextUtils.isEmpty(colorBar.getUnit())){
+            unit=new SpannableString(colorBar.getUnit());
+            if("kg/m2".equals(colorBar.getUnit())){
+                unit.setSpan(new SuperscriptSpan(),unit.length()-1,unit.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            }
         }
         sl.setData(colorBar.getRange().get(0).getValue(), colorBar.getRange().get(colorBar.getRange().size()-1).getValue(),
                 colorBar.getValue(), unit, valueList, colorList, "#"+colorBar.getColor(), false);
         //设置曲线图
-        getData2(data.getChart());
+        if(data.getChart()!=null){
+            getData2(data.getChart());
+        }
     }
 
     @Override

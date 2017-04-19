@@ -578,15 +578,15 @@
             android:process=":daemonprocess" />
 
         <receiver
-            android:name=".stepcount.service.Receive1"
-            android:process=":daemonprocess">
+            android:name=".stepcount.service.Receive1">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="com.softtek.lai.service_destory" />
                 <action android:name="com.softtek.lai.clock" />
-                <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
+                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BATTERY_CHANGED" />
                 <action android:name="com.softtek.lai.StepService.StepClose" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN"/>
             </intent-filter>
         </receiver>
 
