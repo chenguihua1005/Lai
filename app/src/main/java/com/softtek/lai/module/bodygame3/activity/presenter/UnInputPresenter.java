@@ -6,6 +6,7 @@ import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.RetrofitError;
@@ -24,11 +25,30 @@ public class UnInputPresenter extends BasePresenter<UnInputPresenter.UnInputView
         super(baseView);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
     }
+//     service.getPreMeasureDataVs1(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+//        @Override
+//        public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
+//            int status = fcStDataModelResponseData.getStatus();
+//            try {
+//                switch (status) {
+//                    case 200:
+//                        fcStDataModel = fcStDataModelResponseData.getData();
+//                        doSetData();
+//                        break;
+//                    default:
+//                        Util.toastMsg(fcStDataModelResponseData.getMsg());
+//                        break;
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    });
 
-    public void getStudentBasicalInfo(String classId, long userId, String typeDate, String type) {
-        fuceSevice.doGetPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+    public void getStudentBasicalInfo(String classId, long userId, String typeDate, String type) {//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+        fuceSevice.getPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
             @Override
-            public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
+            public void success(ResponseData<MeasuredDetailsModel> fcStDataModelResponseData, Response response) {
                 if (getView() != null) {
                     getView().dialogDissmiss();
                     getView().hidenLoading();
@@ -60,7 +80,7 @@ public class UnInputPresenter extends BasePresenter<UnInputPresenter.UnInputView
     }
 
     public interface UnInputView extends BaseView {
-        void getStudentBasicalInfo(FcStDataModel model);
+        void getStudentBasicalInfo(MeasuredDetailsModel model);
 
         void hidenLoading();
     }

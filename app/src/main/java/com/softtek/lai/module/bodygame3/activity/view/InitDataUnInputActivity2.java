@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -26,12 +25,15 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
+import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
+import com.softtek.lai.module.bodygame3.activity.adapter.UnInputExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
+import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
+import com.softtek.lai.module.bodygame3.activity.presenter.UnInputPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.DragFloatActionButton;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -49,7 +52,7 @@ import zilla.libcore.util.Util;
 
 
 @InjectLayout(R.layout.activity_fcst)
-public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> implements Validator.ValidationListener, FuceCheckPresenter.FuceCheckView, View.OnClickListener {
+public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> implements Validator.ValidationListener, UnInputPresenter.UnInputView, View.OnClickListener {
     //标题栏
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -71,7 +74,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
     @InjectView(R.id.exlisview_body)
     ExpandableListView exlisview_body;
 
-    private FuceCheckExpandableListAdapter adapter;
+    private UnInputExpandableListAdapter adapter;
     private String gender = "1";//性别
     private boolean isExistPhoto = false;//0没有图片1 有
     private String phtoPath = "";//图片路径
@@ -122,14 +125,14 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         tv_right.setOnClickListener(this);
 
 
-        setPresenter(new FuceCheckPresenter(this));
+        setPresenter(new UnInputPresenter(this));
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI));
     }
 
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
-        Intent intent = new Intent(InitDataAuditActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
+        Intent intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
         intent.putExtra("fucedata", fcStDataModel);
         intent.putExtra("ACMID", ACMID);
         intent.putExtra("type", 3);
@@ -148,7 +151,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             tv_right.setText("审核通过");//保存数据
 
             cheng_float.setVisibility(View.VISIBLE);
-            getPresenter().getFuceCheckData(acmid);
+//            getPresenter().getFuceCheckData(acmid);
         }
     }
 
@@ -196,7 +199,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     case 1:
                         if (isExistPhoto) {
 
-                            Intent intent1 = new Intent(InitDataAuditActivity2.this, PreViewPicActivity.class);
+                            Intent intent1 = new Intent(InitDataUnInputActivity2.this, PreViewPicActivity.class);
 //                ArrayList<String> images=new ArrayList<>();
                             intent1.putExtra("photoname", phtoPath);
                             intent1.putExtra("position", 1);
@@ -343,7 +346,9 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
         //获取后台数据
 
-        getPresenter().getFuceCheckData(ACMID);
+//        getPresenter().getFuceCheckData(ACMID);  //String classId, long userId, String typeDate, String type
+        Log.i(TAG, "classId =" + classId + " AccountId = " + AccountId + " typeDate = " + typeDate);
+        getPresenter().getStudentBasicalInfo(classId, AccountId, "2017-04-19", "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
     }
 
 
@@ -777,40 +782,40 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
 //    public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int IsEdit) {
 
-    @Override
-    public void getFuceCheckData(MeasuredDetailsModel model) {
-        fcStDataModel = model;
-        Log.i(TAG, "获取数据=  " + new Gson().toJson(model));
-        if (model != null) {
-//            FormData formData = new FormData();
-//            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
-//                tv_title.setText("复测审核");
+//    @Override
+//    public void getFuceCheckData(MeasuredDetailsModel model) {
+//        fcStDataModel = model;
+//        Log.i(TAG, "获取数据=  " + new Gson().toJson(model));
+//        if (model != null) {
+////            FormData formData = new FormData();
+////            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
+////                tv_title.setText("复测审核");
+////            } else {
+////                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
+////            }
+//
+//            if (!TextUtils.isEmpty(model.getImg())) {
+//                isExistPhoto = true;
+//                phtoPath = model.getImg();
 //            } else {
-//                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
+//                isExistPhoto = false;
+//                phtoPath = "";
 //            }
-
-            if (!TextUtils.isEmpty(model.getImg())) {
-                isExistPhoto = true;
-                phtoPath = model.getImg();
-            } else {
-                isExistPhoto = false;
-                phtoPath = "";
-            }
-
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
-            exlisview_body.setAdapter(adapter);
-
-
-            int groupCount = exlisview_body.getCount();
-            for (int i = 0; i < groupCount; i++) {
-                if (i == 0) {
-                    exlisview_body.expandGroup(i);
-                }
-            }
-
-        }
-
-    }
+//
+//            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
+//            exlisview_body.setAdapter(adapter);
+//
+//
+//            int groupCount = exlisview_body.getCount();
+//            for (int i = 0; i < groupCount; i++) {
+//                if (i == 0) {
+//                    exlisview_body.expandGroup(i);
+//                }
+//            }
+//
+//        }
+//
+//    }
 
     @Override
     public void onClick(View view) {
@@ -845,9 +850,55 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI.equalsIgnoreCase(intent.getAction())) {
                 ACMID = intent.getStringExtra("ACMID");
-                getPresenter().getFuceCheckData(ACMID);
+//                getPresenter().getFuceCheckData(ACMID);
             }
         }
     };
 
+    @Override
+    public void getStudentBasicalInfo(MeasuredDetailsModel model) {//FcStDataModel
+        fcStDataModel = model;
+        try {
+            final String url = AddressManager.get("photoHost");
+//            if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
+//                photourl = fcStDataModel.getImgThumbnail();
+//                uri = fcStDataModel.getImgThumbnail();
+//                isExistP = 1;
+//            } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
+//                photourl = fcStDataModel.getImgThumbnail();
+//                uri = fcStDataModel.getImgThumbnail();
+//                isExistP = 1;
+//            }
+//            if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
+//                photoname = fcStDataModel.getImg();
+//            }
+            if (!TextUtils.isEmpty(model.getImg())) {
+                isExistPhoto = true;
+                phtoPath = model.getImg();
+            } else {
+                isExistPhoto = false;
+                phtoPath = "";
+            }
+
+
+            gender = model.getGender();
+            adapter = new UnInputExpandableListAdapter(this, childArray, model, 1);//默认可编辑
+            exlisview_body.setAdapter(adapter);
+
+            int groupCount = exlisview_body.getCount();
+            for (int i = 0; i < groupCount; i++) {
+                if (i == 0) {
+                    exlisview_body.expandGroup(i);
+                }
+            }
+            ;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void hidenLoading() {
+
+    }
 }

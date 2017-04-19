@@ -108,6 +108,18 @@ public interface FuceSevice {
             Callback<ResponseData<FcStDataModel>> callback
     );
 
+    //学员基础信息   2
+    @GET("/v1/MeasuredRecordLog/GetPreMeasureData")
+    void getPreMeasureData(
+            @Header("classid") String CId,
+            @Header("token") String token,
+            @Query("accountId") Long accountId,
+            @Query("classId") String classId,
+            @Query("typeDate") String typeDate,
+            @Query("type") String type,
+            Callback<ResponseData<MeasuredDetailsModel>> callback
+    );
+
     //获取初始数据录入 数据   学员
     @GET("/v1/MeasuredRecordLog/GetPreMeasureDataVs1")
     void getPreMeasureDataVs1(

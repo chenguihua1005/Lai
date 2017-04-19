@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
@@ -94,6 +95,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private int type;  //0：访客，1：自己，2：复测录入，3：复测初始录入
     private String classId;
+
+//    private FcStDataModel fcStDataModel_uninput;
+
 
     private String ACMID = "";
     private VoiceListener listener;
@@ -181,13 +185,16 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
 
         fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
+
+
         ACMID = getIntent().getStringExtra("ACMID");
-        AccountId = fucDataModel.getAccountId();
-        type = getIntent().getIntExtra("type", -1);
         classId = getIntent().getStringExtra("classId");
+        type = getIntent().getIntExtra("type", -1);
+        AccountId = getIntent().getLongExtra("AccountId", 0);
 
 
 
+//        if (fucDataModel != null) {
         tv_name.setText(fucDataModel.getUserName());
         tv_className.setText(fucDataModel.getClassName());
         tv_mobile.setText(fucDataModel.getMobile());
@@ -201,7 +208,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             Picasso.with(this).load(R.drawable.img_default).centerCrop()
                     .fit().into(img_head);
         }
-
 
         Typeface tf = Typeface.createFromAsset(this.getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
@@ -249,12 +255,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @Override
     public VisitorModel getGuestInfo() {
         VisitorModel entity = new VisitorModel();
-        entity.setName(fucDataModel.getUserName());
-        entity.setBirthDate(fucDataModel.getBirthDate());
-        entity.setHeight(Float.parseFloat(fucDataModel.getHeight()));
-        entity.setGender(Integer.parseInt(fucDataModel.getGender()));
-        entity.setPhoneNo(fucDataModel.getMobile());
-        entity.setVisitorId(fucDataModel.getAccountId());
+        if (fucDataModel != null) {
+            entity.setName(fucDataModel.getUserName());
+            entity.setBirthDate(fucDataModel.getBirthDate());
+            entity.setHeight(Float.parseFloat(fucDataModel.getHeight()));
+            entity.setGender(Integer.parseInt(fucDataModel.getGender()));
+            entity.setPhoneNo(fucDataModel.getMobile());
+            entity.setVisitorId(fucDataModel.getAccountId());
+        }
+
         entity.setClassId(classId);
         return entity;
 
