@@ -92,6 +92,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private volatile int voiceIndex = 0;
 
     private void shake() {
+        if (getGuestInfo() == null && getType() != 0) {
+            showNoVisitorDialog();
+            return;
+        }
         openBluetoothSetting();
         if (voiceIndex != 1) {
             voiceIndex = 1;
@@ -153,6 +157,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
             public void bluetoothDialogClick(int positions) {
+
                 bluetoothPosition = positions;
                 if (deviceListDialog.getBluetoothDevice(bluetoothPosition) != null && deviceListDialog.getBluetoothDevice(bluetoothPosition).getName() != null &&
                         deviceListDialog.getBluetoothDevice(bluetoothPosition).getAddress() != null) {
@@ -292,6 +297,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     String readMessage = MathUtils.bytesToHexString(datas);
                     newData += readMessage;
                     Log.d("dataMessage", "从蓝牙获取到的message" + readMessage);
+                    if (getGuestInfo() == null && getType() != 0) {
+                        showNoVisitorDialog();
+                        return;
+                    }
                     if (validateMessage()) {
                         parseData();
                     }
@@ -712,13 +721,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         deviceListDialog = null;
         soundHelper.release();
         permission.recycle();
+        disconnectBluetooth();
+        isVoiceHelp = true;
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        disconnectBluetooth();
         mShakeListener.stop();
+//        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
     }
 
     @Override
@@ -774,6 +786,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public abstract void showSearchBleDialog();
 
     public abstract void refreshUi(LastInfoData data);
+
+    public abstract void showNoVisitorDialog();
 
     @Override
     public void checkMacSuccess() {

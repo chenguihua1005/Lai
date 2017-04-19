@@ -342,5 +342,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     }
 
+    @Override
+    public void showNoVisitorDialog() {
+
+    }
+
 
 }

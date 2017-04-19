@@ -19,6 +19,7 @@ import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
+import com.softtek.lai.module.laicheng.model.VisitorInfoModel;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
@@ -49,6 +50,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private VisitortestFragment visitortestFragment;
 
     private AlertDialog.Builder builder;
+
+    private AlertDialog.Builder noVisitorBuilder;
 
 
     @OnClick(R.id.fl_left)
@@ -115,7 +118,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                     mShakeListener.start();
                     if (!isDestroyed()) {
                         selftestFragment.refreshVoiceIcon();
-                        selftestFragment.setStateTip("摇一摇，连接莱秤");
+//                        selftestFragment.setStateTip("摇一摇，连接莱秤");
                     }
 
 
@@ -123,12 +126,12 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                     setType(1);
                     if (!isDestroyed()) {
                         visitortestFragment.refreshVoiceIcon();
-                        visitortestFragment.setStateTip("摇一摇，连接莱秤");
+//                        visitortestFragment.setStateTip("摇一摇，连接莱秤");
                     }
 
                 }
                 Log.d("index-------------", String.valueOf(pageIndex));
-                disconnectBluetooth();
+//                disconnectBluetooth();
             }
 
             @Override
@@ -153,11 +156,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
             selftestFragment.updateUI(data);
-            selftestFragment.setStateTip("测量完成");
         } else {
             visitortestFragment.UpdateData(data);
-            visitortestFragment.setStateTip("测量完成");
         }
+        selftestFragment.setStateTip("测量完成");
+        visitortestFragment.setStateTip("测量完成");
         dialogDissmiss();
     }
 
@@ -174,18 +177,17 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public VisitorModel getGuestInfo() {
         visitorModel = visitortestFragment.getVisitorModel();
-        Log.i("ddd", visitorModel.toString());
+        if (visitorModel != null) {
+            Log.i("ddd", visitorModel.toString());
+        }
         return visitorModel;
     }
 
 
     @Override
     public void setStateTip(String state) {
-        if (pageIndex == 0) {
-            selftestFragment.setStateTip(state);
-        } else {
-            visitortestFragment.setStateTip(state);
-        }
+        selftestFragment.setStateTip(state);
+        visitortestFragment.setStateTip(state);
     }
 
     private void createDialog(boolean isTimeout) {
@@ -235,6 +237,25 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
+    public void showNoVisitorDialog() {
+        if (noVisitorBuilder == null) {
+            noVisitorBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
+        }
+        noVisitorBuilder.setMessage("您还没有录入完整的访客信息，请完善");
+        noVisitorBuilder.setTitle("提示");
+        noVisitorBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(LaibalanceActivity.this, VisitorinfoActivity.class));
+                dialog.dismiss();
+            }
+        });
+        noVisitorBuilder.create();
+        noVisitorBuilder.show();
+        mShakeListener.stop();
+    }
+
+    @Override
     public void showProgressDialog() {
         dialogShow("亲，请稍等，测量中...");
     }
@@ -260,6 +281,6 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void onVisitorVoiceListener() {
         setVoice();
         boolean test = getGuestInfo() != null;
-        Log.d("testGuestInfo-------------",String.valueOf(test));
+        Log.d("testGuestInfo-------------", String.valueOf(test));
     }
 }
