@@ -149,7 +149,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             mid_lay.setVisibility(View.INVISIBLE);
             ll_visitor.setVisibility(View.INVISIBLE);
             tv_weight.setText("0.0");//体重
-            tv_weight_caption.setVisibility(View.GONE);//状态
+            tv_weight_caption.setVisibility(View.INVISIBLE);//状态
             tv_body_fat_rate.setText("--");
             tv_bmi.setText("--");
             tv_internal_fat_rate.setText("--");
@@ -327,7 +327,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                 Log.i("choose_year", choose_year + "");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
                     tv_weight.setText("0.0");
-                    tv_weight_caption.setVisibility(View.GONE);
+                    tv_weight_caption.setVisibility(View.INVISIBLE);
                     tv_body_fat_rate.setText("- -");
                     tv_bmi.setText("- -");
                     tv_internal_fat_rate.setText("- -");
@@ -362,7 +362,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         tv_internal_fat_rate.setText("- -");
         health_btn.setVisibility(View.GONE);
         share_btn.setVisibility(View.GONE);
-        tv_weight_caption.setVisibility(View.GONE);
+        tv_weight_caption.setVisibility(View.INVISIBLE);
     }
 
 

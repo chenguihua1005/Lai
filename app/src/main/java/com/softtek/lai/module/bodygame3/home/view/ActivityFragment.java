@@ -308,8 +308,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 TodaysModel model = data.getData();
                                 int resetstatus = model.getRetestStatus();//获取用户选择日期的复测状态
                                 BtnTag tag = new BtnTag();
-                                tag.role = model.getClassRole();
                                 tag.date = datestr;
+                                tag.role = model.getClassRole();
                                 if (model.getClassRole() == Constants.STUDENT) {//如果这个人是学员
                                     reset_name.setText("复测录入");
                                     switch (resetstatus) {
@@ -361,6 +361,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             break;
                                     }
                                     ll_fuce.setTag(tag);
+                                    ll_chuDate.setTag(tag);
                                 } else {//非学员
                                     reset_name.setText("复测审核");
 
@@ -398,6 +399,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     }
                                 }
                                 ll_fuce.setTag(tag);
+                                ll_chuDate.setTag(tag);
 
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
@@ -679,6 +681,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     tv_initData_Name.setText("初始数据审核");
                                     tv_chustatus.setText("待审核" + activitydataModel.getIsFirst() + "人");
                                     BtnTag tag = new BtnTag();
+                                    tag.date = now;
                                     tag.role = activitydataModel.getClassRole();
                                     ll_chuDate.setTag(tag);
                                 }
