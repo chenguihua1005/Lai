@@ -206,14 +206,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     model = (VisitorModel) intent.getParcelableExtra("visitorModel");
                     choose_year = intent.getExtras().getInt("choose");
                     if (model != null && !TextUtils.isEmpty(model.getName())) {
-                        tv_weight.setText("0.0");
-                        tv_weight_caption.setVisibility(View.INVISIBLE);
-                        tv_body_fat_rate.setText("- -");
-                        tv_bmi.setText("- -");
-                        tv_internal_fat_rate.setText("- -");
-                        Log.i("访客信息", model.toString());
-                        visitorId = model.getVisitorId();
                         ll_visitor.setVisibility(View.VISIBLE);
+                        visitorId = model.getVisitorId();
                         tv_name.setText(model.getName());
                         tv_phoneNo.setText(model.getPhoneNo());
                         tv_age.setText((NowYear - choose_year) + "");
@@ -223,7 +217,13 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                         } else {
                             tv_gender.setText("女");
                         }
-                        tv_height.setText(model.getHeight() + "");
+                        tv_height.setText(String.valueOf(model.getHeight()));
+
+                        tv_weight.setText(String.valueOf(0.0));
+                        tv_weight_caption.setVisibility(View.INVISIBLE);
+                        tv_body_fat_rate.setText("- -");
+                        tv_bmi.setText("- -");
+                        tv_internal_fat_rate.setText("- -");
                         shakeOFF.setOnShakeON();
                     }
                 }
@@ -259,6 +259,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         switch (v.getId()) {
             case R.id.bt_create:
                 Intent in = new Intent(getActivity(), VisitorinfoActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(in);
                 break;
             case R.id.bt_history:

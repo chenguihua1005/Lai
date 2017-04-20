@@ -26,6 +26,16 @@ public class LastInfoData {
     private String bodyTypeColor;
     private String BMI;
     private String bodyFatRate;
+    private String bodyFat;
+
+    public String getBodyFat() {
+        return bodyFat;
+    }
+
+    public void setBodyFat(String bodyFat) {
+        this.bodyFat = bodyFat;
+    }
+
     private String viscusFatIndex;
     private String measuredTime;
     private VisitorBean visitor;
