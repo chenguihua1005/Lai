@@ -1,11 +1,16 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -110,7 +115,10 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     String images_url, files;//网络图片   拍照图片
     int isExistP = 0;//0没有图片1网络图片（后台有）2文件图片(新拍的照片)atePic;
+
+    private static final int CAMERA_PREMISSION = 100;
     private ImageFileSelector imageFileSelector;
+    private CharSequence[] items = {"拍照", "从相册选择照片"};
 
 
     @Override
@@ -285,6 +293,29 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                             intent1.putExtra("photoname", images_url);//网络图片
                             intent1.putExtra("IsEdit", IsEdit);
                             startActivityForResult(intent1, GET_PRE);
+                        }else {//不存在照片  IsAudit = 1 {//已审核
+                            if (IsAudit != 1) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(FcAuditStuActivity2.this);
+                                builder.setItems(items, new DialogInterface.OnClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.M)
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (which == 0) {
+                                            //拍照
+                                            if (ActivityCompat.checkSelfPermission(FcAuditStuActivity2.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                                //允许弹出提示
+                                                ActivityCompat.requestPermissions(FcAuditStuActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            } else {
+                                                imageFileSelector.takePhoto(FcAuditStuActivity2.this);
+                                            }
+                                        } else if (which == 1) {
+                                            //照片
+                                            imageFileSelector.selectMutilImage(FcAuditStuActivity2.this, 1);
+                                        }
+                                    }
+                                }).create().show();
+                            }
                         }
 
                         break;

@@ -118,7 +118,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
     int firstStatus;
 
     private static final int CAMERA_PREMISSION = 100;
-
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
 
@@ -294,27 +293,29 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                             intent1.putExtra("IsEdit", IsEdit);
 //                            startActivity(intent1);
                             startActivityForResult(intent1, GET_PRE);
-                        } else {//不存在照片
-                            AlertDialog.Builder builder = new AlertDialog.Builder(InitDataAuditActivity2.this);
-                            builder.setItems(items, new DialogInterface.OnClickListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.M)
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        //拍照
-                                        if (ActivityCompat.checkSelfPermission(InitDataAuditActivity2.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                            //允许弹出提示
-                                            ActivityCompat.requestPermissions(InitDataAuditActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                        } else {
-                                            imageFileSelector.takePhoto(InitDataAuditActivity2.this);
+                        } else {//不存在照片  IsAudit = 1 {//已审核
+                            if (IsAudit != 1) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(InitDataAuditActivity2.this);
+                                builder.setItems(items, new DialogInterface.OnClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.M)
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (which == 0) {
+                                            //拍照
+                                            if (ActivityCompat.checkSelfPermission(InitDataAuditActivity2.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                                //允许弹出提示
+                                                ActivityCompat.requestPermissions(InitDataAuditActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            } else {
+                                                imageFileSelector.takePhoto(InitDataAuditActivity2.this);
+                                            }
+                                        } else if (which == 1) {
+                                            //照片
+                                            imageFileSelector.selectMutilImage(InitDataAuditActivity2.this, 1);
                                         }
-                                    } else if (which == 1) {
-                                        //照片
-                                        imageFileSelector.selectMutilImage(InitDataAuditActivity2.this, 1);
                                     }
-                                }
-                            }).create().show();
+                                }).create().show();
+                            }
                         }
 
                         break;
