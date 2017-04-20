@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
+import com.softtek.lai.module.bodygame3.activity.model.FuceImgModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitAuditPModel;
 import com.softtek.lai.module.bodygame3.activity.model.InitDataModel;
 import com.softtek.lai.module.bodygame3.activity.model.MeasureListModel;
@@ -11,6 +12,7 @@ import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit.Callback;
@@ -18,6 +20,7 @@ import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Query;
 import retrofit.mime.MultipartTypedOutput;
@@ -177,6 +180,14 @@ public interface FuceSevice {
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize,
             Callback<ResponseData<List<MeasureListModel>>> callback
+    );
+    //上传照片
+    @Multipart
+    @POST("/V1/FileUpload/PostFile")
+    void uploadphoto(
+            @Header("token")String token,
+            @Field("image")File img,
+            Callback<ResponseData<FuceImgModel>>callback
     );
 
 }
