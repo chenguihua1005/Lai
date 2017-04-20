@@ -33,10 +33,14 @@ import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
+import com.softtek.lai.module.community.model.ImageResponse2;
+import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
 import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,6 +50,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -93,7 +98,8 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private List<String> child3 = new ArrayList<>();
 
 
-    int IsEdit = 1;//是否可编辑，1可编辑，2不可编辑
+    private int IsEdit = 1;//是否可编辑，1可编辑，2不可编辑
+    private int firstStatus;
 
     private int IsAudit = 0;
     private int resetdatestatus = 1;//复测状态
@@ -104,6 +110,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     String images_url, files;//网络图片   拍照图片
     int isExistP = 0;//0没有图片1网络图片（后台有）2文件图片(新拍的照片)atePic;
+    private ImageFileSelector imageFileSelector;
 
 
     @Override
@@ -112,9 +119,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
 
-
         setPresenter(new FuceCheckPresenter(this));
-
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI_INPUTED_FUCECHECK));
     }
 
@@ -147,16 +152,16 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
         acmId = getIntent().getStringExtra("ACMId");
         accountId = getIntent().getLongExtra("accountId", 0);
-//        classId = getIntent().getStringExtra("classId");
 
         if (IsAudit != 0) { //IsAudit : 1  已审核
             tv_right.setVisibility(View.INVISIBLE);
             cheng_float.setVisibility(View.INVISIBLE);
             IsEdit = 2;//不可编辑
-
+            firstStatus = 3; //审核通过
 //            im_audit_states.setImageResource(R.drawable.passed);
         } else {
             IsEdit = 1;
+            firstStatus = 2; //待审核
             cheng_float.setVisibility(View.VISIBLE);
             resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
             switch (resetdatestatus) {
@@ -205,30 +210,86 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         exlisview_body.setGroupIndicator(null);
         exlisview_body.setAdapter(adapter);
 
+        int px = DisplayUtil.dip2px(this, 300);
+        //*************************
+        imageFileSelector = new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(px, px);
+        imageFileSelector.setQuality(60);
+        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
+            @Override
+            public void onSuccess(String file) {// String images_url, files;//网络图片   拍照图片
+                files = file;
+                isExistP = 2;
+                images_url = "";
+
+                adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i = 0; i < groupCount; i++) {
+                    if (i == 0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                    if (i == 3) {
+                        if (IsZhankai) {
+                            exlisview_body.expandGroup(i);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> filesList) {
+                File file = new File(filesList.get(0));
+                files = file.toString();
+                isExistP = 2;
+                images_url = "";
+                adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+//                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
+//                        , filest, photoname, isExistP, firststatus, IsEdit);
+                exlisview_body.setAdapter(adapter);
+                int groupCount = exlisview_body.getCount();
+                for (int i = 0; i < groupCount; i++) {
+                    if (i == 0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                    if (i == 3) {
+                        if (IsZhankai) {
+                            exlisview_body.expandGroup(i);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
         exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 switch (i) {
                     case 1:
                         if (isExistPhoto) {
+//                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
+//                            intent1.putExtra("photoname", images_url);
+//                            intent1.putExtra("position", 1);
+//                            startActivity(intent1);
+
 
                             Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
-                            intent1.putExtra("photoname", images_url);
-                            intent1.putExtra("position", 1);
-                            startActivity(intent1);
-
-
-//                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
-//                            intent1.putExtra("images", phtoPath);
-//                            intent1.putExtra("photoname", "");
-//                            intent1.putExtra("IsEdit", 2);
-//                            startActivity(intent1);
-//                            startActivityForResult(intent1, GET_PRE);
+                            intent1.putExtra("images", files);//本地图片
+                            intent1.putExtra("photoname", images_url);//网络图片
+                            intent1.putExtra("IsEdit", IsEdit);
+                            startActivityForResult(intent1, GET_PRE);
                         }
 
                         break;
                     case 2:
-//                        startActivity(new Intent(FcAuditStuActivity2.this, GuideActivity.class));
+                        startActivity(new Intent(FcAuditStuActivity2.this, GuideActivity.class));
                         break;
                     case 3:
                         if (IsZhankai) {
@@ -709,13 +770,40 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     public void onValidationSucceeded() {
         progressDialog.setMessage("正在提交数据，请等待");
         progressDialog.show();
-        doSetPostData();
+
+        fcAuditPostModel = new FcAuditPostModel();
+        if (!TextUtils.isEmpty(files)) {
+            File image = new File(files);
+            //先上传图片
+            CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+            service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
+                    new RequestCallback<ResponseData<ImageResponse2>>() {
+                        @Override
+                        public void success(ResponseData<ImageResponse2> data, Response response) {
+                            int status = data.getStatus();
+                            if (status == 200) {
+                                fcAuditPostModel.setFileName(data.getData().imgName);
+                                fcAuditPostModel.setThumbnail(data.getData().thubName);
+                                doSetPostData();
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            super.failure(error);
+                        }
+                    });
+
+        } else { //直接提交审核
+            fcAuditPostModel.setFileName(fcStDataModel.getImg());
+            fcAuditPostModel.setThumbnail(fcStDataModel.getImgThumbnail());
+            doSetPostData();
+        }
     }
 
     FcAuditPostModel fcAuditPostModel;
 
     private void doSetPostData() {
-        fcAuditPostModel = new FcAuditPostModel();
         fcAuditPostModel.setACMId(acmId);
         fcAuditPostModel.setAccountId(accountId + "");
         fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
@@ -822,6 +910,35 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imageFileSelector.onActivityResult(requestCode, resultCode, data);
+        //查看大图
+        if (requestCode == GET_PRE && resultCode == RESULT_OK) {
+            files = data.getStringExtra("images");
+            if (TextUtils.isEmpty(files)) {
+                isExistP = 1;
+            } else {
+                isExistP = 2;
+            }
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+
+            exlisview_body.setAdapter(adapter);
+            int groupCount = exlisview_body.getCount();
+            for (int i = 0; i < groupCount; i++) {
+                if (i == 0) {
+                    exlisview_body.expandGroup(i);
+                }
+                if (i == 3) {
+                    if (IsZhankai) {
+                        exlisview_body.expandGroup(i);
+                    }
+                }
+            }
+        }
     }
 
     @Override
