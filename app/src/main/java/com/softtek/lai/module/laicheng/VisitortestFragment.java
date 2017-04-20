@@ -171,7 +171,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     public interface ShakeSwitch {
         void setOnShakeON();
-        
+
     }
 
     @Override
