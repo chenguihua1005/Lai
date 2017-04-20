@@ -129,6 +129,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             mid_lay.setVisibility(View.VISIBLE);
             weight = String.valueOf(data.getWeight());
             bodyFatRate = data.getBodyFatRate();
+            bodyAge=data.getPhysicalAge();
             tv_weight.setText(data.getWeight() + "");//体重
             tv_weight_caption.setText(data.getBodyTypeTitle());//状态
             tv_body_fat_rate.setText(data.getBodyFatRate());
