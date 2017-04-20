@@ -40,6 +40,7 @@ import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
@@ -293,7 +294,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                             intent1.putExtra("photoname", images_url);//网络图片
                             intent1.putExtra("IsEdit", IsEdit);
                             startActivityForResult(intent1, GET_PRE);
-                        }else {//不存在照片  IsAudit = 1 {//已审核
+                        } else {//不存在照片  IsAudit = 1 {//已审核
                             if (IsAudit != 1) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(FcAuditStuActivity2.this);
                                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -1002,6 +1003,45 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             if (intent != null && UPDATE_UI_INPUTED_FUCECHECK.equalsIgnoreCase(intent.getAction())) {
 //                ACMID = intent.getStringExtra("ACMID");
 //                getPresenter().getFuceCheckData(ACMID);
+
+//                private String recordId;
+//                private double weight;
+//                private String weightUnit;
+//                private String bodyTypeTitle;
+//                private String bodyTypeColor;
+//                private String BMI;
+//                private String bodyFatRate;
+//                private String bodyFat;
+//                private String physicalAge;
+//                private String viscusFatIndex;
+//                private String measuredTime;
+//                private BleMainData.VisitorBean visitor;
+
+
+                BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                if (result_model != null) {
+                    if (result_model.getWeight() != 0) {
+                        fcStDataModel.setWeight(result_model.getWeight() + "");
+                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBodyFat())){
+                        fcStDataModel.setPysical(result_model.getBodyFat());
+//                        fcStDataModel.setBodyFatUnit(result_model.getB);
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBMI())){
+                        fcStDataModel.setBmi(result_model.getBMI());
+//                        fcStDataModel.setBMIUnit(result_model.getBM);
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBMI())){
+                        fcStDataModel.setBmi(result_model.getBMI());
+//                        fcStDataModel.setBMIUnit(result_model.getBM);
+                    }
+//                    if (!TextUtils.isEmpty(result_model.get())){
+//                        fcStDataModel.setBmi(result_model.getBMI());
+////                        fcStDataModel.setBMIUnit(result_model.getBM);
+//                    }
+                }
+
             }
         }
     };
