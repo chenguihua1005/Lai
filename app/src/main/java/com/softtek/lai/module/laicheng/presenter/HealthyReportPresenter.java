@@ -33,13 +33,13 @@ public class HealthyReportPresenter extends BasePresenter<HealthyReportPresenter
         service.getHealthyReport(UserInfoModel.getInstance().getToken(), reportId, new RequestCallback<ResponseData<HealthyReport>>() {
             @Override
             public void success(ResponseData<HealthyReport> data, Response response) {
-                if(getView()!=null){
-                    getView().dialogDissmiss();
-                }
                 if(data.getStatus()==200){
                     if(getView()!=null){
                         getView().getData(data.getData());
                     }
+                }
+                if(getView()!=null){
+                    getView().dialogDissmiss();
                 }
             }
 
@@ -61,13 +61,13 @@ public class HealthyReportPresenter extends BasePresenter<HealthyReportPresenter
                 new RequestCallback<ResponseData<HealthyShareData>>() {
                     @Override
                     public void success(ResponseData<HealthyShareData> data, Response response) {
-                        if(getView()!=null){
-                            getView().dialogDissmiss();
-                        }
                         if (data.getStatus()==200){
                             if(getView()!=null){
                                 getView().getShareData(data.getData());
                             }
+                        }
+                        if(getView()!=null){
+                            getView().dialogDissmiss();
                         }
                     }
 

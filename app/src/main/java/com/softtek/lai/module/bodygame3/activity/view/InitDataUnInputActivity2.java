@@ -102,6 +102,8 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private int typeforwhich;
 
+    private String guangboname;
+
 
     @Override
     protected void initViews() {
@@ -118,9 +120,11 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         typeforwhich = getIntent().getIntExtra("typeforwhich", -1);
 //        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
+        guangboname = getIntent().getStringExtra("guangboname");
+
         if (typeforwhich == 0) {
             tv_title.setText("初始数据审核");
-        }else {
+        } else {
             tv_title.setText("复测审核");
         }
 
@@ -364,7 +368,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
 //        getPresenter().getFuceCheckData(ACMID);  //String classId, long userId, String typeDate, String type
         Log.i(TAG, "classId =" + classId + " AccountId = " + AccountId + " typeDate = " + typeDate);
-        getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+        getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
     }
 
 
@@ -913,7 +917,11 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             if (intent != null && UPDATE_UI_UNINPUT.equalsIgnoreCase(intent.getAction())) {
                 ACMID = intent.getStringExtra("ACMID");
 //                getPresenter().getStudentBasicalInfo(ACMID);
-                getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+                getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+
+                if (!TextUtils.isEmpty(guangboname)) {
+                    LocalBroadcastManager.getInstance(InitDataUnInputActivity2.this).sendBroadcast(new Intent(guangboname));
+                }
             }
         }
     };

@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -57,7 +60,7 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
     private static String typeDate;
 
 
-    public static Fragment getInstance(String classId,String typedate) {
+    public static Fragment getInstance(String classId, String typedate) {
         UnInputFragment fragment = new UnInputFragment();
         Bundle data = new Bundle();
         classid = classId;
@@ -101,6 +104,7 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
 
         setPresenter(new InitAuditPresenter(this));
 
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_UNINPUT_TABLIST));
 
     }
 
@@ -140,10 +144,12 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("Audited", IsAudit);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-        InitdataAudit.putExtra("typeDate",typeDate);
+        InitdataAudit.putExtra("typeDate", typeDate);
         InitdataAudit.putExtra("type", 3);
 
-        InitdataAudit.putExtra("typeforwhich",0);
+        InitdataAudit.putExtra("typeforwhich", 0);
+
+        InitdataAudit.putExtra("guangboname", UPDATE_UI_UNINPUT_TABLIST);//广播
 
 //        InitdataAudit.putExtra("fromPage",11);
 
@@ -189,6 +195,7 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
 
     @Override
     public void getInitAuditList(List<AuditListModel> list) {
+        memberListModels.clear();
         if (list != null && list.size() != 0) {
             int unFuce_num = 0;
             int uncheck_num = 0;
@@ -223,4 +230,22 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+    }
+
+    public static final String UPDATE_UI_UNINPUT_TABLIST = "UPDATE_UI_UNINPUT_TABLIST";
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_UNINPUT_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, 10);
+            }
+        }
+    };
+
 }

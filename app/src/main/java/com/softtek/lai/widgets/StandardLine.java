@@ -140,7 +140,7 @@ public class StandardLine extends View {
                 value = ((int) curValue)+"";
             ssb.append(value);
             ssb.append(unit);
-            textPaint.setTextSize(DisplayUtil.sp2px(context,25f));
+            textPaint.setTextSize(DisplayUtil.sp2px(context,18f));
             textPaint.setColor(Color.parseColor(curColor));
             float textWidth = textPaint.measureText(ssb.toString());
             if((width-textWidth/2)<0)
