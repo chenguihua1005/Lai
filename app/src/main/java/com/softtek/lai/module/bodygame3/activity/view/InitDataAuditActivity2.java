@@ -134,13 +134,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         typeDate = getIntent().getStringExtra("typeDate");
         fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
-
-//        if (IsAudit == 1) {
-//            firstStatus = 3; //审核通过
-//        } else {
-//            firstStatus = 2; //待审核
-//        }
-
         if (IsAudit == 1) {//已审核
             tv_right.setVisibility(View.INVISIBLE);
             cheng_float.setVisibility(View.INVISIBLE);
@@ -816,7 +809,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
         fcAuditPostModel = new FcAuditPostModel();
         if (!TextUtils.isEmpty(files)) {
-            File  image = new File(files);
+            File image = new File(files);
             //先上传图片
             CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
             service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
@@ -825,13 +818,10 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         public void success(ResponseData<ImageResponse2> data, Response response) {
                             int status = data.getStatus();
                             if (status == 200) {
-//                            private String FileName;
-//                            private String Thumbnail;
                                 fcAuditPostModel.setFileName(data.getData().imgName);
                                 fcAuditPostModel.setThumbnail(data.getData().thubName);
                                 doSetPostData();
                             }
-
                         }
 
                         @Override
