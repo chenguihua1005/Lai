@@ -156,11 +156,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
             selftestFragment.updateUI(data);
+            selftestFragment.setStateTip("测量完成");
         } else {
             visitortestFragment.UpdateData(data);
+            visitortestFragment.setStateTip("测量完成");
         }
-        selftestFragment.setStateTip("测量完成");
-        visitortestFragment.setStateTip("测量完成");
         dialogDissmiss();
     }
 
@@ -238,6 +238,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void showNoVisitorDialog() {
+        Log.d("showNoVisitorDialog","showNoVisitorDialog");
         if (noVisitorBuilder == null) {
             noVisitorBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
         }

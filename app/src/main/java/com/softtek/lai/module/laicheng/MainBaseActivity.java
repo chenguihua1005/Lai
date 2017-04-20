@@ -43,13 +43,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
     private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
     private int state_current = CONNECTED_STATE_SHAKE_IT;
-    //    private ScaleDetailEntity mErrorScaleDetail;//测量错误的数据
-//    private String scaleId = "";//访客模式称量后的id
-    private int tpye = 1;
-    //    private int shareType;
+    private int type = 1;
     public static boolean isVoiceHelp = true;
-
-//    private int mCloseVoiceTimeOut = 60;
 
     private String newData = "";//蓝牙临时数据
     private String mHandData = "";//握手数据
@@ -116,12 +111,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         }
     }
 
-    protected void setType(int isGuest) {
-        this.tpye = isGuest;
+    protected void setType(int type) {
+        this.type = type;
     }
 
     private int getType() {
-        return tpye;
+        return type;
     }
 
     @Override
@@ -237,6 +232,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             @Override
             public void scanBleFinish() {
+                if (deviceListDialog == null){
+                    return;
+                }
                 if (deviceListDialog.isShowing()) {
                     deviceListDialog.finishScan();
                 } else {
@@ -293,14 +291,15 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             @Override
             public void BleRead(byte[] datas) {
+                Log.d("getType---------", "type=" + getType());
+                if (getGuestInfo() == null && getType() != 1) {
+                    showNoVisitorDialog();
+                    return;
+                }
                 if (state_current == CONNECTED_STATE_SUCCESS || state_current == CONNECTED_STATE_WEIGHT) {//只有称量的时候才会接收数据
                     String readMessage = MathUtils.bytesToHexString(datas);
                     newData += readMessage;
                     Log.d("dataMessage", "从蓝牙获取到的message" + readMessage);
-                    if (getGuestInfo() == null && getType() != 1) {
-                        showNoVisitorDialog();
-                        return;
-                    }
                     if (validateMessage()) {
                         parseData();
                     }
@@ -426,7 +425,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private void parseData() {
         if (!TextUtils.isEmpty(mHandData) && TextUtils.isEmpty(mFrequency04Data) && TextUtils.isEmpty(mFrequency07Data)) {//提交体重数据
-            testTimeOut = 60;
+            testTimeOut = 30;
             isResultTest = false;//是否有测量结果
             handler.postDelayed(new Runnable() {
                 @SuppressLint("LongLogTag")
@@ -446,7 +445,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         }
                     }
                 }
-            }, 1000);//超时时间1分钟
+            }, 1000);//超时时间0.5分钟
             changeConnectionState(CONNECTED_STATE_WEIGHT);
             sendUserInfo();
         } else {//阻抗，上边已经校验过数据，这个函数除了握手就是阻抗数值已经正确了
@@ -581,6 +580,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     soundHelper.play("six");
                 }
                 showUploadFailedDialog();
+                newData = "";
+                mHandData = "";
+                mFrequency04Data = "";
+                mFrequency07Data = "";
                 break;
             case CONNECTED_STATE_UPLOADING_TIMEOUT:
                 state_current = CONNECTED_STATE_SUCCESS;
@@ -596,7 +599,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 mHandData = "";
                 mFrequency04Data = "";
                 mFrequency07Data = "";
-//                }
                 break;
 
             default:
