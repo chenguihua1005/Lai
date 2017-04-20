@@ -425,7 +425,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private void parseData() {
         if (!TextUtils.isEmpty(mHandData) && TextUtils.isEmpty(mFrequency04Data) && TextUtils.isEmpty(mFrequency07Data)) {//提交体重数据
-            testTimeOut = 30;
+            testTimeOut = 60;
             isResultTest = false;//是否有测量结果
             handler.postDelayed(new Runnable() {
                 @SuppressLint("LongLogTag")
