@@ -263,7 +263,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             entity.setHeight(Float.parseFloat(fucDataModel.getHeight()));
             entity.setGender(Integer.parseInt(fucDataModel.getGender()));
             entity.setPhoneNo(fucDataModel.getMobile());
-            entity.setVisitorId(fucDataModel.getAccountId());
+//            entity.setVisitorId(fucDataModel.getAccountId());
+            entity.setVisitorId(AccountId);
+
         }
 
         entity.setClassId(classId);

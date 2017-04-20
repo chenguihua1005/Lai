@@ -118,9 +118,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     protected void initViews() {
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
-        mWeightCaption.setVisibility(View.INVISIBLE);
-        mShare.setVisibility(View.INVISIBLE);
-        mHealthReport.setVisibility(View.INVISIBLE);
+
         presenter = new SelftestPresenter(this);
     }
 
@@ -176,6 +174,9 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     //摇一摇刷新U
     @SuppressLint("SetTextI18n")
     public void refreshUi(LastInfoData data) {
+        mWeightCaption.setVisibility(View.INVISIBLE);
+        mShare.setVisibility(View.INVISIBLE);
+        mHealthReport.setVisibility(View.INVISIBLE);
         mWeight.setText("0.0");
         mBodyFatRate.setText("- -");
         mBmi.setText("- -");
@@ -188,8 +189,8 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
             mLastTime.setText("上次测量：");
         } else {
             mWeightBottom.setText(data.getWeight() + "");
-            if (data.getBodyFatRate() != null) {
-                mBodyFatBottom.setText(data.getBodyFatRate());
+            if (data.getBodyFat() != null) {
+                mBodyFatBottom.setText(data.getBodyFat());
             } else {
                 mBodyFatBottom.setText("- -");
             }

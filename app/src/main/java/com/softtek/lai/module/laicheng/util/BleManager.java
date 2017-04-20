@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.module.laicheng.MainBaseActivity;
 
 import java.util.List;
 import java.util.UUID;
@@ -112,8 +113,8 @@ public class BleManager {
                             mBlueToothState = BLUETOOTH_STATE_SCAN_FINISH;
                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                             sendMessage(BLUETOOTH_STATE_SCAN_FINISH);
-                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(),"未发现设备，请检查莱秤是否开启",Toast.LENGTH_SHORT).show();
-                            Log.d("no found deviced","未发现设备，请检查莱秤是否开启");
+                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
+                            Log.d("no found deviced", "未发现设备，请检查莱秤是否开启");
                         }
                     }
                 }, SCAN_PERIOD);
@@ -237,7 +238,6 @@ public class BleManager {
     public boolean isReconnect() {
         return isReconnect;
     }
-
 
 
     private void sendMessage(final int what) {

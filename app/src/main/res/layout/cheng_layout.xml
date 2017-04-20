@@ -58,7 +58,7 @@
                 android:text="标 准"
                 android:textColor="#75BA2B"
                 android:textSize="20sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout

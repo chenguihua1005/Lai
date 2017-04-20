@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -101,6 +104,8 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
 
         setPresenter(new FuceCheckListPresenter(this));
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,new IntentFilter(UPDATE_UI_FCCHECK_TABLIST));
     }
 
     @Override
@@ -161,8 +166,30 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         FcAudit.putExtra("typeDate", typedata);
         FcAudit.putExtra("type", 2);
         FcAudit.putExtra("typeforwhich",1);
+
+        FcAudit.putExtra("guangboname", UPDATE_UI_FCCHECK_TABLIST);//广播
+
+
         startActivityForResult(FcAudit, FCAudit);
 
+    }
+
+
+    public static final String UPDATE_UI_FCCHECK_TABLIST = "UPDATE_UI_FCCHECK_TABLIST";
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_FCCHECK_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
     }
 
     @Override
@@ -212,6 +239,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     @Override
     public void getMeasureReviewedList(List<AuditListModel> list) {
         if (list != null && list.size() == 3) {
+            memberListModels.clear();
             int unFuce_num = 0;
             int uncheck_num = 0;
             int checked_num = 0;
