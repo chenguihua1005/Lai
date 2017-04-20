@@ -42,17 +42,17 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                 .getBleToken("client_credentials", "shhcieurjfn734js", "qieow8572jkcv", new RequestCallback<BleTokenResponse>() {
                     @Override
                     public void success(BleTokenResponse bleTokenResponse, Response response) {
-//                        token = bleTokenResponse.getAccess_token();
-                        getView().getTokenSuccess(bleTokenResponse);
-//                        storeOrSendCalcRsData(74.2f, 288.5f, 293.8f, 27.0f, 251.3f, 244.4f, 255.2f, 260.5f, 23.4f, 216.0f, 211.0f);
+                        if (getView() != null) {
+                            getView().getTokenSuccess(bleTokenResponse);
+                        }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);
-//                        Toast.makeText(getApplicationContext(), "获取token失败", Toast.LENGTH_SHORT).show();
-//                        token = "";
-                        getView().getTokenFailed();
+                        if (getView() != null) {
+                            getView().getTokenFailed();
+                        }
                     }
                 });
     }
@@ -67,13 +67,17 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                 .checkMac(token, mac, new RequestCallback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        getView().checkMacSuccess();
+                        if (getView() != null) {
+                            getView().checkMacSuccess();
+                        }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);
-                        getView().checkMacFailed();
+                        if (getView() != null) {
+                            getView().checkMacFailed();
+                        }
                     }
                 });
     }
@@ -84,17 +88,23 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
             @Override
             public void success(ResponseData<BleMainData> data, Response response) {
                 if (data.getStatus() == 200) {
-                    getView().upLoadImpedanceSuccess(data.getData());
+                    if (getView() != null) {
+                        getView().upLoadImpedanceSuccess(data.getData());
+                    }
                     Log.d("BleMainData--------", data.toString());
                 }else if (data.getStatus() == 201){
-                    getView().upLoadImpedanceFailed();
+                    if (getView() != null) {
+                        getView().upLoadImpedanceFailed();
+                    }
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
-                getView().upLoadImpedanceFailed();
+                if (getView() != null) {
+                    getView().upLoadImpedanceFailed();
+                }
             }
         });
     }
@@ -104,13 +114,17 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                 .getLastData(UserInfoModel.getInstance().getToken(),type, new RequestCallback<ResponseData<LastInfoData>>() {
                     @Override
                     public void success(ResponseData<LastInfoData> lastInfoData, Response response) {
-                        getView().refreshLastSuccess(lastInfoData.getData());
+                        if (getView() != null) {
+                            getView().refreshLastSuccess(lastInfoData.getData());
+                        }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);
-                        getView().refreshLastFailed();
+                        if (getView() != null) {
+                            getView().refreshLastFailed();
+                        }
                     }
                 });
     }

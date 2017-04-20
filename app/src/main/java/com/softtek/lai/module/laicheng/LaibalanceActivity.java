@@ -49,7 +49,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private SelftestFragment selftestFragment;
     private VisitortestFragment visitortestFragment;
 
-    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
 
     private AlertDialog.Builder noVisitorBuilder;
 
@@ -156,19 +156,18 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
             selftestFragment.updateUI(data);
-            selftestFragment.setStateTip("测量完成");
+
         } else {
             visitortestFragment.UpdateData(data);
-            visitortestFragment.setStateTip("测量完成");
         }
+        selftestFragment.setStateTip("测量完成");
+        visitortestFragment.setStateTip("测量完成");
         dialogDissmiss();
     }
 
     @Override
     public void initUiByBleFailed() {
         dialogDissmiss();
-        isResultTest = true;
-        testTimeOut = 0;
         sendFatRateToDevice(0.0f);
     }
 
@@ -179,6 +178,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         visitorModel = visitortestFragment.getVisitorModel();
         if (visitorModel != null) {
             Log.i("ddd", visitorModel.toString());
+        }
+        if (pageIndex == 0){
+            return  null;
         }
         return visitorModel;
     }
@@ -191,27 +193,28 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     private void createDialog(boolean isTimeout) {
-        if (builder == null) {
-            builder = new AlertDialog.Builder(this, R.style.whiteDialog);
-        }
-        if (isTimeout) {
-            builder.setMessage("测量超时，请重新测量");
-        } else {
-            builder.setMessage("测量失败，请重新测量");
-        }
-        builder.setTitle("提示");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected) {
-                    mShakeListener.start();
-                    changeConnectionState(0);
-                }
-                dialog.dismiss();
+        if (dialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!isConnected) {
+                                mShakeListener.start();
+                                changeConnectionState(0);
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+            if (isTimeout) {
+                builder.setMessage("测量超时，请重新测量");
+            } else {
+                builder.setMessage("测量失败，请重新测量");
             }
-        });
-        builder.create();
-        builder.show();
+            dialog = builder.create();
+        }
+        if (!dialog.isShowing()) {
+            dialog.show();
+        }
     }
 
     @Override
@@ -238,7 +241,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void showNoVisitorDialog() {
-        Log.d("showNoVisitorDialog","showNoVisitorDialog");
+        Log.d("showNoVisitorDialog", "showNoVisitorDialog");
         if (noVisitorBuilder == null) {
             noVisitorBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
         }
@@ -271,7 +274,6 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void setOnShakeON() {
         mShakeListener.start();
     }
-
 
 
     @SuppressLint("LongLogTag")

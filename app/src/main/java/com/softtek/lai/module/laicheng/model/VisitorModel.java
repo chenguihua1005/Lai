@@ -106,17 +106,19 @@ public class VisitorModel implements Parcelable {
         PhoneNo = phoneNo;
     }
 
+
     @Override
     public String toString() {
         return "VisitorModel{" +
                 "Name='" + Name + '\'' +
-                ", BirthDate=" + BirthDate +
+                ", BirthDate='" + BirthDate + '\'' +
                 ", Height=" + Height +
                 ", Gender=" + Gender +
                 ", PhoneNo='" + PhoneNo + '\'' +
+                ", visitorId=" + visitorId +
+                ", classId='" + classId + '\'' +
                 '}';
     }
-
 
     @Override
     public int describeContents() {

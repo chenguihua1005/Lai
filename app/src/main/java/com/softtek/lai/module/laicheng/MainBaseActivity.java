@@ -232,7 +232,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             @Override
             public void scanBleFinish() {
-                if (deviceListDialog == null){
+                if (deviceListDialog == null) {
                     return;
                 }
                 if (deviceListDialog.isShowing()) {
@@ -326,9 +326,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency07Data = "";
 
         isResultTest = true;
-//        dismissLoadingDialog();
         sendFatRateToDevice(0.0f);
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+        disconnectBluetooth();
         testTimeOut = 0;//超时时间
     }
 
@@ -342,7 +342,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         if (!newData.startsWith("6495")) {
             if (newData.indexOf("64950102f2") >= 0) {
                 newData = "64950102f2";
-
             }
             return false;
         }
@@ -362,6 +361,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 Log.d("validateMessag.", "握手成功");
                 return true;
             }
+            Log.d("validateMessag", "newData = " + newData + ",mHandData = " + mHandData + ",mFrequency04Data = " + mFrequency04Data + ",mFrequency07Data = " + mFrequency07Data);
+            newData = "";
             Log.d("validateMessag.", "握手失败");
         } else if (newData.substring(6, 8).equals("08")) {//阻抗
             Log.d("validateMessag.", "阻抗数据开始验证");
@@ -580,10 +581,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     soundHelper.play("six");
                 }
                 showUploadFailedDialog();
-                newData = "";
-                mHandData = "";
-                mFrequency04Data = "";
-                mFrequency07Data = "";
                 break;
             case CONNECTED_STATE_UPLOADING_TIMEOUT:
                 state_current = CONNECTED_STATE_SUCCESS;
@@ -819,8 +816,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         if (TextUtils.isEmpty(data.getBodyFatRate())) {
             sendFatRateToDevice(0.0f);
         } else {
-            int index = data.getBodyFatRate().indexOf("%");
-            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate().substring(0, index)));
+//            int index = data.getBodyFatRate().indexOf("%");
+//            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate().substring(0, index)));
+            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate()));
         }
         isResultTest = true;
         initUiByBleSuccess(data);
@@ -830,6 +828,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public void upLoadImpedanceFailed() {
         initUiByBleFailed();
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+        newData = "";
+        mHandData = "";
+        mFrequency04Data = "";
+        mFrequency07Data = "";
+        isResultTest = true;
+        testTimeOut = 0;
     }
 
     @Override

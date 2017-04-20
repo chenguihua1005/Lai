@@ -119,6 +119,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     //第一次进入为访客测获取最新访客测量信息
     @Override
     public void getDatasuccess(LastInfoData data) {
+        if (isDetached()){
+            return;
+        }
         visitorLastData = data;
         if (data != null && !TextUtils.isEmpty(data.getRecordId())) {
             tv_weight_caption.setVisibility(View.VISIBLE);
@@ -150,6 +153,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     tv_gender.setText("女");
                 }
                 tv_height.setText(data.getVisitor().getHeight() + "");
+                Log.i("model访客",model.toString()+model.getVisitorId());
             }
             shakeOFF.setOnShakeON();
 
@@ -191,45 +195,16 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         share_btn.setOnClickListener(this);
     }
 
+    VisitorBroadCast visitorBroadCast;
+    LocalBroadcastManager manager;
     @Override
     protected void initDatas() {
         presenter = new VisitGetPresenter(this);
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
-
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getActivity());
-        manager.registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (action.equals("visitorinfo")) {
-                    model = (VisitorModel) intent.getParcelableExtra("visitorModel");
-                    choose_year = intent.getExtras().getInt("choose");
-                    if (model != null && !TextUtils.isEmpty(model.getName())) {
-                        ll_visitor.setVisibility(View.VISIBLE);
-                        visitorId = model.getVisitorId();
-                        tv_name.setText(model.getName());
-                        tv_phoneNo.setText(model.getPhoneNo());
-                        tv_age.setText((NowYear - choose_year) + "");
-//                    tv_age.setText(model.getBirthDate());
-                        if (0 == model.getGender()) {
-                            tv_gender.setText("男");
-                        } else {
-                            tv_gender.setText("女");
-                        }
-                        tv_height.setText(String.valueOf(model.getHeight()));
-
-                        tv_weight.setText(String.valueOf(0.0));
-                        tv_weight_caption.setVisibility(View.INVISIBLE);
-                        tv_body_fat_rate.setText("- -");
-                        tv_bmi.setText("- -");
-                        tv_internal_fat_rate.setText("- -");
-                        shakeOFF.setOnShakeON();
-                    }
-                }
-
-            }
-        }, new IntentFilter("visitorinfo"));
+        manager = LocalBroadcastManager.getInstance(getContext());
+        visitorBroadCast=new VisitorBroadCast();
+        manager.registerReceiver(visitorBroadCast, new IntentFilter("visitorinfo"));
     }
 
 
@@ -379,6 +354,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             health_btn.setVisibility(View.VISIBLE);
             share_btn.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
+            bodyAge=data.getPhysicalAge();
             weight = String.valueOf(data.getWeight());
             tv_weight.setText(data.getWeight() + "");//体重
             tv_weight_caption.setText(data.getBodyTypeTitle());//状态
@@ -402,6 +378,44 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     public void setStateTip(String state) {
         if (mBleState != null) {
             mBleState.setText(state);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        manager.unregisterReceiver(visitorBroadCast);
+        super.onDestroyView();
+    }
+
+    public class VisitorBroadCast extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ( intent.getAction().equals("visitorinfo")) {
+                model = (VisitorModel) intent.getParcelableExtra("visitorModel");
+                choose_year = intent.getExtras().getInt("choose");
+                if (model != null && !TextUtils.isEmpty(model.getName())) {
+                    ll_visitor.setVisibility(View.VISIBLE);
+                    visitorId = model.getVisitorId();
+                    tv_name.setText(model.getName());
+                    tv_phoneNo.setText(model.getPhoneNo());
+                    tv_age.setText((NowYear - choose_year) + "");
+//                    tv_age.setText(model.getBirthDate());
+                    if (0 == model.getGender()) {
+                        tv_gender.setText("男");
+                    } else {
+                        tv_gender.setText("女");
+                    }
+                    tv_height.setText(String.valueOf(model.getHeight()));
+
+                    tv_weight.setText(String.valueOf(0.0));
+                    tv_weight_caption.setVisibility(View.INVISIBLE);
+                    tv_body_fat_rate.setText("- -");
+                    tv_bmi.setText("- -");
+                    tv_internal_fat_rate.setText("- -");
+                    shakeOFF.setOnShakeON();
+                }
+            }
         }
     }
 }
