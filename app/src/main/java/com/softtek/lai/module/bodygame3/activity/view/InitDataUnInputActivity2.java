@@ -76,7 +76,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private UnInputExpandableListAdapter adapter;
     private String gender = "1";//性别
-    private boolean isExistPhoto = false;//0没有图片1 有
+    private int isExistPhoto = 0;//0没有图片1 网络图片2文件图片
     private String phtoPath = "";//图片路径
     private boolean IsZhankai = false;
     private static final int GET_PRE = 1;//查看大图
@@ -173,6 +173,15 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             cheng_float.setVisibility(View.VISIBLE);
 //            getPresenter().getFuceCheckData(acmid);
         }
+        if (requestCode==GET_PRE&&requestCode==RESULT_OK)
+        {
+            phtoPath = data.getStringExtra("images");
+            if (TextUtils.isEmpty(phtoPath)) {
+                isExistPhoto = 1;
+            } else {
+                isExistPhoto = 2;
+            }
+        }
     }
 
     @Override
@@ -217,13 +226,19 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 switch (i) {
                     case 1:
-                        if (isExistPhoto) {
+                        if (isExistPhoto!=0) {
 
                             Intent intent1 = new Intent(InitDataUnInputActivity2.this, PreViewPicActivity.class);
 //                ArrayList<String> images=new ArrayList<>();
-                            intent1.putExtra("photoname", phtoPath);
-                            intent1.putExtra("position", 1);
-                            startActivity(intent1);
+                            if (isExistPhoto==1)
+                            {
+                                intent1.putExtra("photoname", fcAuditPostModel.getFileName());
+                            }
+                            else {
+                                intent1.putExtra("images", phtoPath);
+                            }
+                            intent1.putExtra("IsEdit", 1);
+                            startActivityForResult(intent1,GET_PRE);
 //                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
 //                            intent1.putExtra("images", phtoPath);
 //                            intent1.putExtra("photoname", "");
@@ -743,7 +758,19 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
-        } else {
+        } else if (isExistPhoto==0)
+        {
+            String message = "请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        }
+        else
+        {
+            if (isExistPhoto==2)
+            {
+                //上传图片
+            }
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();
             fcAuditPostModel = new FcAuditPostModel();
@@ -944,10 +971,10 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 //                photoname = fcStDataModel.getImg();
 //            }
             if (!TextUtils.isEmpty(model.getImg())) {
-                isExistPhoto = true;
-                phtoPath = model.getImg();
+                isExistPhoto = 1;
+                fcAuditPostModel.setFileName(model.getImg());
             } else {
-                isExistPhoto = false;
+                isExistPhoto = 0;
                 phtoPath = "";
             }
 

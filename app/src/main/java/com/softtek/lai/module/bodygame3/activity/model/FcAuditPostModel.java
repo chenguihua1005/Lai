@@ -32,6 +32,25 @@ public class FcAuditPostModel {
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
 
+    private String FileName;
+    private String Thumbnail;
+
+    public String getFileName() {
+        return FileName;
+    }
+
+    public void setFileName(String fileName) {
+        FileName = fileName;
+    }
+
+    public String getThumbnail() {
+        return Thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        Thumbnail = thumbnail;
+    }
+
     public String getClassId() {
         return ClassId;
     }
