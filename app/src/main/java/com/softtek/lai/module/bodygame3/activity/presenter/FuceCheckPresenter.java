@@ -1,7 +1,5 @@
 package com.softtek.lai.module.bodygame3.activity.presenter;
 
-import android.content.Intent;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
@@ -23,9 +21,16 @@ import zilla.libcore.util.Util;
 public class FuceCheckPresenter extends BasePresenter<FuceCheckPresenter.FuceCheckView> {
 
     FuceSevice fuceSevice;
+    DisplayManager manager;
 
     public FuceCheckPresenter(FuceCheckView baseView) {
         super(baseView);
+//        if(flag==1){
+//            manager=new EnteredManager();
+//        }else {
+//            manager=new UnEnterManager();
+//        }
+
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
     }
 

@@ -1,210 +1,181 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.google.gson.Gson;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
+import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
+import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
+import com.softtek.lai.module.bodygame3.activity.adapter.UnInputExpandableListAdapter;
+import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
+import com.softtek.lai.module.bodygame3.activity.presenter.UnInputPresenter;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.utils.RequestCallback;
-import com.sw926.imagefileselector.ImageFileSelector;
+import com.softtek.lai.widgets.DragFloatActionButtonCheng;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.MultipartTypedOutput;
-import retrofit.mime.TypedFile;
-import retrofit.mime.TypedString;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 
 @InjectLayout(R.layout.activity_fcst)
-public class FcStuActivity extends BaseActivity implements View.OnClickListener {
-    @InjectView(R.id.exlisview_body)
-    ExpandableListView exlisview_body;
+public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> implements Validator.ValidationListener, UnInputPresenter.UnInputView, View.OnClickListener {
     //标题栏
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
-    @InjectView(R.id.fl_right)
-    FrameLayout fl_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
-    FuceSevice fuceSevice;
-    FcStDataModel fcStDataModel;
-    String gender = "0";//性别
-    String classId, typeDate;//接口参数，从上一个页面获取
-    private Long userId;
-    private static final int GET_PREVIEW = 1;//查看大图
-    private CharSequence[] items = {"拍照", "从相册选择照片"};
-    private static final int CAMERA_PREMISSION = 100;
-    MultipartTypedOutput multipartTypedOutput;
-    int resetstatus, resetdatestatus;
-    private ProgressDialog progressDialog;
-    int IsEdit = 1;//是否可编辑，1可编辑，2不可编辑
-    String filest, photoname;
-    File file;
-    private ImageFileSelector imageFileSelector;
-    int isExistP = 0;
-    boolean IsZhankai = false;
+    @InjectView(R.id.cheng_float)
+    DragFloatActionButtonCheng cheng_float;
+
+    @LifeCircleInject
+    ValidateLife validateLife;
+
+    ProgressDialog progressDialog;
+
+    @InjectView(R.id.exlisview_body)
+    ExpandableListView exlisview_body;
+
+    private UnInputExpandableListAdapter adapter;
+    private String gender = "1";//性别
+    private boolean isExistPhoto = false;//0没有图片1 有
+    private String phtoPath = "";//图片路径
+    private boolean IsZhankai = false;
+    private static final int GET_PRE = 1;//查看大图
+
     private List<List<String>> childArray = new ArrayList<>();
     private List<String> child = new ArrayList<>();
     private List<String> child2 = new ArrayList<>();
     private List<String> child3 = new ArrayList<>();
 
-    MyExpandableListAdapter adapter;
+    private MeasuredDetailsModel fcStDataModel;
+
+    Long AccountId;//用户id
+    String classId = " ";//班级id
+    Context context;
+    String files, ACMID;
+    String photoname;
+    int IsAudit;
+
+    private int type;
+    private String typeDate;
+
+    private int fromPage;
+
+    private int typeforwhich;
+
 
     @Override
     protected void initViews() {
-        tv_title.setText("复测录入");
-        tv_right.setText("提交");
-        progressDialog = new ProgressDialog(this);
-        fl_right.setOnClickListener(this);
+
+
+        classId = getIntent().getStringExtra("classId");//没用
+        AccountId = getIntent().getLongExtra("AccountId", 0);
+        ACMID = getIntent().getStringExtra("ACMID");
+        IsAudit = getIntent().getIntExtra("Audited", 1);
+        typeDate = getIntent().getStringExtra("typeDate");
+
+        type = getIntent().getIntExtra("type", -1);
+
+        typeforwhich = getIntent().getIntExtra("typeforwhich", -1);
+//        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
+
+        if (typeforwhich == 0) {
+            tv_title.setText("初始数据审核");
+        }else {
+            tv_title.setText("复测审核");
+        }
+
+        if (IsAudit == 1) {
+            tv_right.setVisibility(View.INVISIBLE);
+            cheng_float.setVisibility(View.INVISIBLE);
+//            im_audit_states.setImageResource(R.drawable.passed);   //??????
+        } else {
+            tv_right.setText("审核通过");//保存数据
+            cheng_float.setVisibility(View.VISIBLE);
+        }
+
+
         ll_left.setOnClickListener(this);
-        int px = DisplayUtil.dip2px(this, 300);
-        //*************************
-        imageFileSelector = new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(px, px);
-        imageFileSelector.setQuality(60);
-        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
-            @Override
-            public void onSuccess(String file) {
+        tv_right.setOnClickListener(this);
 
-                filest = file;
-                isExistP = 2;
-                isExistP = 2;
-                adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname,
-                        isExistP, resetstatus, IsEdit);
-                exlisview_body.setAdapter(adapter);
-                int groupCount = exlisview_body.getCount();
-                for (int i = 0; i < groupCount; i++) {
-                    if (i == 0) {
-                        exlisview_body.expandGroup(i);
-                    }
-                    if (i == 3) {
-                        if (IsZhankai) {
-                            exlisview_body.expandGroup(i);
-                        }
-                    }
-                }
-            }
 
-            @Override
-            public void onMutilSuccess(List<String> files) {
-                file = new File(files.get(0));
-                filest = file.toString();
-                isExistP = 2;
-                adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray,
-                        fcStDataModel, filest, photoname, isExistP, resetstatus, IsEdit);
-                exlisview_body.setAdapter(adapter);
-                int groupCount = exlisview_body.getCount();
-                for (int i = 0; i < groupCount; i++) {
-                    if (i == 0) {
-                        exlisview_body.expandGroup(i);
-                    }
-                    if (i == 3) {
-                        if (IsZhankai) {
-                            exlisview_body.expandGroup(i);
-                        }
-                    }
-                }
-            }
+        setPresenter(new UnInputPresenter(this));
 
-            @Override
-            public void onError() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI_UNINPUT));
+    }
 
-            }
-        });
+    @OnClick(R.id.cheng_float)
+    public void enterIntoLaicheng(View view) {
+        Intent intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
+        intent.putExtra("fucedata", fcStDataModel);
+        intent.putExtra("ACMID", ACMID);
+        intent.putExtra("type", type);
+        intent.putExtra("classId", classId);
+        intent.putExtra("AccountId", AccountId);
 
+        intent.putExtra("from", UPDATE_UI_UNINPUT);
+
+        startActivity(intent);
+//        startActivityForResult(intent, 0x0001);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0x0001 && resultCode == RESULT_OK) {
+            String acmid = data.getStringExtra("ACMID");
+            tv_right.setVisibility(View.VISIBLE);
+            tv_right.setText("审核通过");//保存数据
+
+            cheng_float.setVisibility(View.VISIBLE);
+//            getPresenter().getFuceCheckData(acmid);
+        }
     }
 
     @Override
     protected void initDatas() {
+        progressDialog = new ProgressDialog(this);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-        classId = getIntent().getStringExtra("classId");
-        typeDate = getIntent().getStringExtra("typeDate");
-        userId = UserInfoModel.getInstance().getUserId();
-        resetstatus = getIntent().getIntExtra("resetstatus", 0);//接收数据审核状态,//复测状态：1：未复测 2：未审核 3：已复测
-        resetdatestatus = getIntent().getIntExtra("resetdatestatus", 0);//接收复测日状态//复测日状态  1:已过去 2：进行中 3：未开始
-        doData();
-        multipartTypedOutput = new MultipartTypedOutput();
 
-
-    }
-
-    //resetdatestatus=2,当天复测日，可进行录入，type=1（复测录入）
-    //resetdatestatus=1,过去复测日，可进行查看，type=2（复测查看）
-    //复测状态：1：未复测 2：未审核 3：已复测resetstatus
-    private void doData() {
-        switch (resetdatestatus) {
-            case 1://过去复测日，只能查看
-                switch (resetstatus) {
-                    //未复测、未审核
-                    case 1:
-                    case 2:
-                        Util.toastMsg("非当天复测日未复测数据或数据未审核不可查看");
-                        break;
-                    case 3:
-                        fl_right.setVisibility(View.INVISIBLE);
-                        IsEdit = 2;
-                        doGetDataService("2");
-                        break;
-                    default:
-                        fl_right.setVisibility(View.INVISIBLE);
-                        IsEdit = 2;
-                        doGetDataService("2");
-                        break;
-                }
-                break;
-            case 2://当天复测日
-                switch (resetstatus) {
-                    case 1:
-                    case 2:
-                        doGetDataService("1");
-                        break;
-                    case 3:
-                        tv_right.setVisibility(View.INVISIBLE);
-                        IsEdit = 2;
-                        fl_right.setEnabled(false);
-                        doGetDataService("2");
-                        break;
-                }
-                break;
-            default:
-                Util.toastMsg("当前复测日未开始不可查看录入数据");
-                tv_right.setVisibility(View.INVISIBLE);
-                fl_right.setEnabled(false);
-                break;
-        }
         child.add(0, "初始体重");
         child.add(1, "当前体重");
         child.add(2, "体脂");
@@ -228,53 +199,38 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         child3.add(11, "骨量");
         child3.add(12, "基础代谢");
         child3.add(13, "身体年龄");
+
         //jessica
+
         childArray.add(1, child2);
         childArray.add(2, child2);
         childArray.add(3, child3);
         exlisview_body.setGroupIndicator(null);
+        exlisview_body.setAdapter(adapter);
+
         exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 switch (i) {
                     case 1:
-                        if (isExistP == 0) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(FcStuActivity.this);
-                            builder.setItems(items, new DialogInterface.OnClickListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.M)
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        //拍照
-                                        if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                                //允许弹出提示
-                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                            } else {
-                                                //不允许弹出提示
-                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                            }
-                                        } else {
-                                            imageFileSelector.takePhoto(FcStuActivity.this);
-                                        }
-                                    } else if (which == 1) {
-                                        //照片
-                                        imageFileSelector.selectMutilImage(FcStuActivity.this, 1);
-                                    }
-                                }
-                            }).create().show();
-                        } else {
-                            Intent intent1 = new Intent(FcStuActivity.this, PreViewPicActivity.class);
-                            intent1.putExtra("images", filest);
-                            intent1.putExtra("photoname", photoname);
-                            intent1.putExtra("IsEdit", IsEdit);
-                            startActivityForResult(intent1, GET_PREVIEW);
+                        if (isExistPhoto) {
+
+                            Intent intent1 = new Intent(InitDataUnInputActivity2.this, PreViewPicActivity.class);
+//                ArrayList<String> images=new ArrayList<>();
+                            intent1.putExtra("photoname", phtoPath);
+                            intent1.putExtra("position", 1);
+                            startActivity(intent1);
+//                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
+//                            intent1.putExtra("images", phtoPath);
+//                            intent1.putExtra("photoname", "");
+//                            intent1.putExtra("IsEdit", 2);
+//                            startActivity(intent1);
+//                            startActivityForResult(intent1, GET_PRE);
                         }
 
                         break;
                     case 2:
-                        startActivity(new Intent(FcStuActivity.this, GuideActivity.class));
+//                        startActivity(new Intent(FcAuditStuActivity2.this, GuideActivity.class));
                         break;
                     case 3:
                         if (IsZhankai) {
@@ -287,17 +243,17 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 return i == 0 || i == 1 || i == 2 ? true : false;
             }
         });
-        if (IsEdit == 1) {
+
+
+        if (IsAudit == 0) {
             exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                     switch (i) {
                         case 0:
                             switch (i1) {
-                                case 0:
-                                    break;
                                 case 1:
-                                    if ("1".equals(gender)) {
+                                    if ("1".equals(gender)) { //女的
                                         show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
                                     } else {
                                         show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
@@ -332,7 +288,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 case 5:
                                     show_information("小腿围", 70, 50, 10, 9, 0, 0, 9);
                                     break;
-                                // jessica
+// jessica
                                 case 6:
                                     if ("1".equals(gender)) { //女的
                                         show_information("BMI", 50, 25, 0, 9, 0, 0, 10);
@@ -393,7 +349,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 case 13:
                                     show_information("身体年龄", 150, 30, 0, 9, 0, 0, 18);
                                     break;
-                                //jessica
 
                             }
                             break;
@@ -404,189 +359,14 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             });
         }
 
+
+        //获取后台数据
+
+//        getPresenter().getFuceCheckData(ACMID);  //String classId, long userId, String typeDate, String type
+        Log.i(TAG, "classId =" + classId + " AccountId = " + AccountId + " typeDate = " + typeDate);
+        getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
     }
 
-    private void doGetDataService(String type) {
-        fuceSevice.doGetPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
-            @Override
-            public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
-                int status = fcStDataModelResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        fcStDataModel = fcStDataModelResponseData.getData();
-                        doSetData();
-                        break;
-                    default:
-                        Util.toastMsg(fcStDataModelResponseData.getMsg());
-                        break;
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ll_left:
-                finish();
-                break;
-            case R.id.fl_right:
-                if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
-                    String message = "当前体重为必填项，请选择";
-                    new AlertDialog.Builder(this)
-                            .setMessage(message)
-                            .create().show();
-                } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
-                    String message = "体脂为必填项，请选择";
-                    new AlertDialog.Builder(this)
-                            .setMessage(message)
-                            .create().show();
-                } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
-                    String message = "内脂为必填项，请选择";
-                    new AlertDialog.Builder(this)
-                            .setMessage(message)
-                            .create().show();
-                } else if (isExistP == 0) {
-                    String message = "请上传照片";
-                    new AlertDialog.Builder(this)
-                            .setMessage(message)
-                            .create().show();
-                } else {
-                    doSetPostData();
-                }
-                break;
-
-        }
-    }
-
-    void doPostInitData() {
-        fuceSevice.doPostMeasuredData(classId, UserInfoModel.getInstance().getToken(), multipartTypedOutput, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {
-                        int status = responseData.getStatus();
-                        try {
-                            switch (status) {
-                                case 200:
-                                    progressDialog.dismiss();
-                                    Intent intent = new Intent();
-                                    int IsFcSt = 1;//代表学员复测完成
-                                    intent.putExtra("IsFcSt", IsFcSt);
-                                    setResult(RESULT_OK, intent);
-                                    finish();
-                                    break;
-                                default:
-                                    progressDialog.dismiss();
-                                    Util.toastMsg(responseData.getMsg());
-                                    break;
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        super.failure(error);
-                        progressDialog.dismiss();
-                    }
-                }
-        );
-    }
-
-    void doSetData() {
-        try {
-            if (fcStDataModel != null) {
-
-                gender = fcStDataModel.getGender();
-
-                if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-                    isExistP = 1;
-                    photoname = fcStDataModel.getImgThumbnail();
-
-                } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-                    isExistP = 1;
-                    photoname = fcStDataModel.getImg();
-                }
-
-                adapter = new MyExpandableListAdapter(this, this, childArray, fcStDataModel, filest, photoname, isExistP,
-                        resetstatus, IsEdit);
-                exlisview_body.setAdapter(adapter);
-                int groupCount = exlisview_body.getCount();
-                for (int i = 0; i < groupCount; i++) {
-                    if (i == 0) {
-                        exlisview_body.expandGroup(i);
-                    }
-                }
-                ;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    void doSetPostData() {
-        progressDialog.setMessage("正在提交数据，请等待");
-        progressDialog.show();
-        multipartTypedOutput.addPart("accountId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
-        multipartTypedOutput.addPart("classId", new TypedString(classId));
-        if (isExistP == 2) {
-            multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
-        }
-        multipartTypedOutput.addPart("pysical", new TypedString(fcStDataModel.getPysical()));//体脂
-        multipartTypedOutput.addPart("fat", new TypedString(fcStDataModel.getFat()));//内脂
-        multipartTypedOutput.addPart("weight", new TypedString(fcStDataModel.getWeight()));//现在体重
-        multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "" : fcStDataModel.getCircum().toString()));//胸围
-        multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "" : fcStDataModel.getWaistline().toString()));//腰围
-        multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "" : fcStDataModel.getHiplie().toString()));//臀围
-        multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "" : fcStDataModel.getUpArmGirth().toString()));//上臂围
-        multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth().toString()));//大腿围
-        multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth().toString()));//小腿围
-
-        multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
-        multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "" : fcStDataModel.getFatFreeMass().toString()));
-
-//        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
-        multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "" : fcStDataModel.getBodyWaterRate().toString()));
-        multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "" : fcStDataModel.getBodyWater().toString()));
-//
-        multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "" : fcStDataModel.getMuscleMass().toString()));
-        multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "" : fcStDataModel.getBoneMass().toString()));
-        multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "" : fcStDataModel.getBasalMetabolism().toString()));
-        multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "" : fcStDataModel.getPhysicalAge().toString()));
-
-        doPostInitData();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        //查看大图返回图片
-        if (requestCode == GET_PREVIEW && resultCode == RESULT_OK) {
-            filest = data.getStringExtra("images");
-            if (TextUtils.isEmpty(filest)) {
-                isExistP = 1;
-            } else {
-                isExistP = 2;
-            }
-            adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname,
-                    isExistP, resetstatus, IsEdit);
-            exlisview_body.setAdapter(adapter);
-            int groupCount = exlisview_body.getCount();
-            for (int i = 0; i < groupCount; i++) {
-                if (i == 0) {
-                    exlisview_body.expandGroup(i);
-                }
-                if (i == 3) {
-                    if (IsZhankai) {
-                        exlisview_body.expandGroup(i);
-                    }
-                }
-            }
-            ;
-        }
-
-    }
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
@@ -608,11 +388,25 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             public void onClick(DialogInterface dialog, int which) {
                 switch (num) {
                     case 0:
+//                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+//                        exlisview_body.setAdapter(adapter);
+//                        int groupCount = exlisview_body.getCount();
+//                        for (int i = 0; i < groupCount; i++) {
+//                            if (i == 0) {
+//                                exlisview_body.expandGroup(i);
+//                            }
+//                            if (i == 3) {
+//                                if (IsZhankai) {
+//                                    exlisview_body.expandGroup(i);
+//                                }
+//                            }
+//                        }
 
                         break;
                     case 1:
                         fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
+
                         int groupCount = exlisview_body.getCount();
                         for (int i = 0; i < groupCount; i++) {
                             if (i == 0) {
@@ -624,7 +418,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
+
+
                         break;
                     case 2:
                         fcStDataModel.setPysical(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -640,7 +435,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
+
                         break;
                     case 3:
                         fcStDataModel.setFat(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -656,7 +451,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
+
                         break;
                     case 4:
                         fcStDataModel.setCircum(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -672,7 +467,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
+
                         break;
                     case 5:
                         fcStDataModel.setWaistline(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -688,7 +483,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
+
                         break;
                     case 6:
                         fcStDataModel.setHiplie(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -738,7 +533,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                         ;
                         break;
-                    case 9:
+                    case 9: //小腿围
                         fcStDataModel.setDoLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
                         groupCount = exlisview_body.getCount();
@@ -754,7 +549,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                         ;
                         break;
-
                     case 10: { //BMI
                         fcStDataModel.setBmi(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
@@ -899,6 +693,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                     }
                     break;
+
                 }
 
             }
@@ -908,19 +703,265 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
 
             }
         }).create().show();
+
+
     }
 
-    //权限
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case CAMERA_PREMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    imageFileSelector.takePhoto(this);
-                }
-                break;
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        Log.i(TAG, "onResume  ...ACMID =  " + ACMID);
+//        getPresenter().getFuceCheckData(ACMID);
+//    }
 
+    @Override
+    public void onValidationSucceeded() {
+
+        doSetPostData();
+    }
+
+    FcAuditPostModel fcAuditPostModel;
+
+    private void doSetPostData() {
+        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
+            String message = "初始体重为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
+            String message = "体脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
+            String message = "内脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else {
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
+            fcAuditPostModel = new FcAuditPostModel();
+            fcAuditPostModel.setACMId(ACMID);
+            fcAuditPostModel.setAccountId(AccountId + "");
+            fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
+            fcAuditPostModel.setWeekNum(fcStDataModel.getWeekNum());
+            fcAuditPostModel.setClassId(classId);
+
+            fcAuditPostModel.setWeight(fcStDataModel.getWeight());
+            fcAuditPostModel.setPysical(fcStDataModel.getPysical());
+            fcAuditPostModel.setFat(fcStDataModel.getFat());
+            fcAuditPostModel.setCircum(fcStDataModel.getCircum());//胸围
+            fcAuditPostModel.setHiplie(fcStDataModel.getHiplie());//臀围
+            fcAuditPostModel.setWaistline(fcStDataModel.getWaistline());//腰围
+            fcAuditPostModel.setUpArmGirth(fcStDataModel.getUpArmGirth());
+            fcAuditPostModel.setUpLegGirth(fcStDataModel.getUpLegGirth());
+            fcAuditPostModel.setDoLegGirth(fcStDataModel.getDoLegGirth());
+
+
+            fcAuditPostModel.setBmi(fcStDataModel.getBmi());
+            fcAuditPostModel.setFatFreeMass(fcStDataModel.getFatFreeMass());
+            fcAuditPostModel.setBodyWaterRate(fcStDataModel.getBodyWaterRate());
+            fcAuditPostModel.setBodyWater(fcStDataModel.getBodyWater());
+
+            fcAuditPostModel.setMuscleMass(fcStDataModel.getMuscleMass());
+            fcAuditPostModel.setBoneMass(fcStDataModel.getBoneMass());
+            fcAuditPostModel.setBasalMetabolism(fcStDataModel.getBasalMetabolism());
+            fcAuditPostModel.setPhysicalAge(fcStDataModel.getPhysicalAge());
+
+
+            doPostInitData();
         }
     }
 
+
+    FuceSevice fuceSevice;
+
+    void doPostInitData() {
+        fuceSevice.postMeasureForMembers(UserInfoModel.getInstance().getToken(), typeforwhich, fcAuditPostModel, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        progressDialog.dismiss();
+                        Util.toastMsg("数据提交成功！");
+                        Intent intent = new Intent();
+                        intent.putExtra("ACMID", ACMID);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        break;
+                    default:
+                        progressDialog.dismiss();
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+            }
+        });
+//        fuceSevice.doReviewMeasuredRecord(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
+//            @Override
+//            public void success(ResponseData responseData, Response response) {
+//                try {
+//                    int status = responseData.getStatus();
+//                    switch (status) {
+//                        case 200:
+//                            progressDialog.dismiss();
+//                            Intent intent = new Intent();
+//                            intent.putExtra("ACMID", ACMID);
+//                            setResult(RESULT_OK, intent);
+//                            finish();
+//                            break;
+//                        default:
+//                            progressDialog.dismiss();
+//                            Util.toastMsg(responseData.getMsg());
+//                            break;
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                super.failure(error);
+//                progressDialog.dismiss();
+//            }
+//        });
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+
+    }
+
+
+//    public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int IsEdit) {
+
+//    @Override
+//    public void getFuceCheckData(MeasuredDetailsModel model) {
+//        fcStDataModel = model;
+//        Log.i(TAG, "获取数据=  " + new Gson().toJson(model));
+//        if (model != null) {
+////            FormData formData = new FormData();
+////            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
+////                tv_title.setText("复测审核");
+////            } else {
+////                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
+////            }
+//
+//            if (!TextUtils.isEmpty(model.getImg())) {
+//                isExistPhoto = true;
+//                phtoPath = model.getImg();
+//            } else {
+//                isExistPhoto = false;
+//                phtoPath = "";
+//            }
+//
+//            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
+//            exlisview_body.setAdapter(adapter);
+//
+//
+//            int groupCount = exlisview_body.getCount();
+//            for (int i = 0; i < groupCount; i++) {
+//                if (i == 0) {
+//                    exlisview_body.expandGroup(i);
+//                }
+//            }
+//
+//        }
+//
+//    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
+            //保存
+            case R.id.tv_right:
+                if (TextUtils.isEmpty(fcStDataModel.getWeight())) {
+                    String message = "当前体重为必填项，请选择";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
+                } else {
+                    validateLife.validate();
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    public static final String UPDATE_UI_UNINPUT = "UPDATE_UI_UNINPUT";
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_UNINPUT.equalsIgnoreCase(intent.getAction())) {
+                ACMID = intent.getStringExtra("ACMID");
+//                getPresenter().getStudentBasicalInfo(ACMID);
+                getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, "0");//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+            }
+        }
+    };
+
+    @Override
+    public void getStudentBasicalInfo(MeasuredDetailsModel model) {//FcStDataModel
+        fcStDataModel = model;
+        try {
+            final String url = AddressManager.get("photoHost");
+//            if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
+//                photourl = fcStDataModel.getImgThumbnail();
+//                uri = fcStDataModel.getImgThumbnail();
+//                isExistP = 1;
+//            } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
+//                photourl = fcStDataModel.getImgThumbnail();
+//                uri = fcStDataModel.getImgThumbnail();
+//                isExistP = 1;
+//            }
+//            if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
+//                photoname = fcStDataModel.getImg();
+//            }
+            if (!TextUtils.isEmpty(model.getImg())) {
+                isExistPhoto = true;
+                phtoPath = model.getImg();
+            } else {
+                isExistPhoto = false;
+                phtoPath = "";
+            }
+
+
+            gender = model.getGender();
+            adapter = new UnInputExpandableListAdapter(this, childArray, model, 1);//默认可编辑
+            exlisview_body.setAdapter(adapter);
+
+            int groupCount = exlisview_body.getCount();
+            for (int i = 0; i < groupCount; i++) {
+                if (i == 0) {
+                    exlisview_body.expandGroup(i);
+                }
+            }
+            ;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void hidenLoading() {
+
+    }
 }

@@ -124,7 +124,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
         setPresenter(new FuceCheckPresenter(this));
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI));
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI_INPUTED));
     }
 
     @OnClick(R.id.cheng_float)
@@ -132,7 +132,11 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         Intent intent = new Intent(InitDataAuditActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
         intent.putExtra("fucedata", fcStDataModel);
         intent.putExtra("ACMID", ACMID);
-        intent.putExtra("type",3);
+        intent.putExtra("type", 3);
+        intent.putExtra("classId",classId);
+        intent.putExtra("AccountId",AccountId);
+        intent.putExtra("from",UPDATE_UI_INPUTED);
+
         startActivity(intent);
 //        startActivityForResult(intent, 0x0001);
     }
@@ -836,12 +840,12 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         super.onDestroy();
     }
 
-    public static final String UPDATE_UI = "UPDATE_UI";
+    public static final String UPDATE_UI_INPUTED = "UPDATE_UI_INPUTED";
 
     public BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent != null && UPDATE_UI.equalsIgnoreCase(intent.getAction())) {
+            if (intent != null && UPDATE_UI_INPUTED.equalsIgnoreCase(intent.getAction())) {
                 ACMID = intent.getStringExtra("ACMID");
                 getPresenter().getFuceCheckData(ACMID);
             }

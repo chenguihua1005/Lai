@@ -828,6 +828,10 @@
             android:name=".module.bodygame3.activity.view.InitDataAuditActivity2"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".module.bodygame3.activity.view.InitDataUnInputActivity2"
+            android:screenOrientation="portrait"
+            />
+
 
     </application>
 

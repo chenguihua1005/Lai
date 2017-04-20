@@ -5,18 +5,22 @@ package com.softtek.lai.module.bodygame3.activity.model;
  */
 
 public class FcAuditPostModel {
-private String ACMId;
-private String AccountId;
-private String ReviewerId;
-private String Weight;
-private String Pysical;
-private String Fat;
-private String Circum;
-private String Waistline;
-private String Hiplie;
-private String UpArmGirth;
-private String UpLegGirth;
-private String DoLegGirth;
+    private String ACMId;
+    private String AccountId;
+    private String ReviewerId;
+    private String ClassId;
+    private String WeekNum;
+
+
+    private String Weight;
+    private String Pysical;
+    private String Fat;
+    private String Circum;
+    private String Waistline;
+    private String Hiplie;
+    private String UpArmGirth;
+    private String UpLegGirth;
+    private String DoLegGirth;
 
     private String Bmi; //BMI
     private String FatFreeMass;//去脂体重
@@ -27,6 +31,22 @@ private String DoLegGirth;
     private String BoneMass;//骨量
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
+
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
+
+    public String getWeekNum() {
+        return WeekNum;
+    }
+
+    public void setWeekNum(String weekNum) {
+        WeekNum = weekNum;
+    }
 
     @Override
     public String toString() {
@@ -189,7 +209,6 @@ private String DoLegGirth;
     public void setWaistline(String waistline) {
         Waistline = waistline;
     }
-
 
 
     public String getUpArmGirth() {
