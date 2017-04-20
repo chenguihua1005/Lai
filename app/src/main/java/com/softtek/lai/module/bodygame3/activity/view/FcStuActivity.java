@@ -541,19 +541,64 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "" : fcStDataModel.getUpArmGirth().toString()));//上臂围
         multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth().toString()));//大腿围
         multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth().toString()));//小腿围
+        if (!TextUtils.isEmpty(fcStDataModel.getBmi()))
+        {
+            multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
 
-        multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
-        multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "" : fcStDataModel.getFatFreeMass().toString()));
+        }
+        if (!TextUtils.isEmpty(fcStDataModel.getFatFreeMass()))
+        {
+            multipartTypedOutput.addPart("FatFreeMass", new TypedString( fcStDataModel.getFatFreeMass().toString()));
 
-//        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
-        multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "" : fcStDataModel.getBodyWaterRate().toString()));
-        multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "" : fcStDataModel.getBodyWater().toString()));
+        }
+        if (!TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()))
+        {
+            multipartTypedOutput.addPart("BodyWaterRate", new TypedString(fcStDataModel.getBodyWaterRate().toString()));
+
+        }
+        if (TextUtils.isEmpty(fcStDataModel.getBodyWater()))
+        {
+            multipartTypedOutput.addPart("BodyWaterRate", new TypedString(fcStDataModel.getBodyWater().toString()));
+
+        }
+        if (!TextUtils.isEmpty(fcStDataModel.getMuscleMass()))
+        {
+            multipartTypedOutput.addPart("MuscleMass", new TypedString(fcStDataModel.getMuscleMass().toString()));
+
+        }
+        if (!TextUtils.isEmpty(fcStDataModel.getBoneMass()))
+        {
+            multipartTypedOutput.addPart("BoneMass", new TypedString(fcStDataModel.getBoneMass().toString()));
+
+        }
+        if (!TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()))
+        {
+            multipartTypedOutput.addPart("BasalMetabolism", new TypedString( fcStDataModel.getBasalMetabolism().toString()));
+
+        }
+        if (!TextUtils.isEmpty(fcStDataModel.getPhysicalAge()))
+        {
+            multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "" : fcStDataModel.getPhysicalAge().toString()));
+
+        }
+
+//        multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
+//        multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "" : fcStDataModel.getFatFreeMass().toString()));
 //
-        multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "" : fcStDataModel.getMuscleMass().toString()));
-        multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "" : fcStDataModel.getBoneMass().toString()));
-        multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "" : fcStDataModel.getBasalMetabolism().toString()));
-        multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "" : fcStDataModel.getPhysicalAge().toString()));
-
+////        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
+//        multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "" : fcStDataModel.getBodyWaterRate().toString()));
+//        multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "" : fcStDataModel.getBodyWater().toString()));
+////
+//        multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "" : fcStDataModel.getMuscleMass().toString()));
+//        multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "" : fcStDataModel.getBoneMass().toString()));
+//        multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "" : fcStDataModel.getBasalMetabolism().toString()));
+//        multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "" : fcStDataModel.getPhysicalAge().toString()));
+        Log.i("当前提交的数据","用户id"+UserInfoModel.getInstance().getUser().getUserid()+"classid"+classId
+        +"photo"+filest+"体脂"+fcStDataModel.getPysical()+"内脂"+fcStDataModel.getFat()+"现在体重"
+        +fcStDataModel.getWeight()+fcStDataModel.getCircum()+fcStDataModel.getWaistline()+fcStDataModel.getHiplie()
+        +fcStDataModel.getUpArmGirth()+fcStDataModel.getUpLegGirth()+fcStDataModel.getDoLegGirth()+fcStDataModel.getBmi()+
+                fcStDataModel.getFatFreeMass()+fcStDataModel.getBodyWaterRate()+fcStDataModel.getBodyWater()+fcStDataModel.getMuscleMass()
+        +fcStDataModel.getBoneMass()+fcStDataModel.getBasalMetabolism()+fcStDataModel.getPhysicalAge());
         doPostInitData();
     }
 
