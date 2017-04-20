@@ -204,6 +204,20 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_takepho_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="拍照指南"
+        android:visibility="gone"
+        android:textColor="#7ABB39"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
+        />
+
 
     <LinearLayout
         android:id="@+id/group3"

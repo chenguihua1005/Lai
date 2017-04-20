@@ -131,11 +131,11 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent InitdataAudit = new Intent(getContext(), InitDataAuditActivity2.class);
+        Intent InitdataAudit = new Intent(getContext(), InitDataAuditActivity2.class);//InitDataAuditActivity2 InitDataAuditActivity2
         InitdataAudit.putExtra("ACMID", memberListModels.get(i - 1).getAcmId());
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-        InitdataAudit.putExtra("Audited", 1);
+        InitdataAudit.putExtra("Audited", 1);//通过这个来判断 是已审核、未审核
 
         InitdataAudit.putExtra("typeDate",typeDate);
         startActivity(InitdataAudit);

@@ -31,7 +31,7 @@ import zilla.libcore.file.AddressManager;
 public class InitDataExpandableListAdapter implements ExpandableListAdapter {
     Context context;
     Activity activity;
-    String filest, images;
+    String filest, images; // 图片地址
     int isWhatePic, firststatus, IsEdit;
     private String[] groupArray = new String[]{"group1", "group2", "group3", "group4"};
     private List<List<String>> childArray;

@@ -83,7 +83,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private FuceCheckExpandableListAdapter adapter;
     private String gender = "1";//性别
     private boolean isExistPhoto = false;//0没有图片1 有
-    private String phtoPath = "";//图片路径
+    //    private String phtoPath = "";//图片路径
     private boolean IsZhankai = false;
     private static final int GET_PRE = 1;//查看大图
 
@@ -101,6 +101,9 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private MeasuredDetailsModel fcStDataModel;
 
     private String typeDate;
+
+    String images_url, files;//网络图片   拍照图片
+    int isExistP = 0;//0没有图片1网络图片（后台有）2文件图片(新拍的照片)atePic;
 
 
     @Override
@@ -122,7 +125,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         intent.putExtra("type", 2);
         intent.putExtra("classId", classId);
         intent.putExtra("AccountId", accountId);
-        intent.putExtra("from",UPDATE_UI_INPUTED_FUCECHECK);
+        intent.putExtra("from", UPDATE_UI_INPUTED_FUCECHECK);
 
         startActivity(intent);
     }
@@ -146,11 +149,14 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         accountId = getIntent().getLongExtra("accountId", 0);
 //        classId = getIntent().getStringExtra("classId");
 
-        if (IsAudit != 0) {
+        if (IsAudit != 0) { //IsAudit : 1  已审核
             tv_right.setVisibility(View.INVISIBLE);
             cheng_float.setVisibility(View.INVISIBLE);
+            IsEdit = 2;//不可编辑
+
 //            im_audit_states.setImageResource(R.drawable.passed);
         } else {
+            IsEdit = 1;
             cheng_float.setVisibility(View.VISIBLE);
             resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
             switch (resetdatestatus) {
@@ -207,10 +213,11 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                         if (isExistPhoto) {
 
                             Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
-//                ArrayList<String> images=new ArrayList<>();
-                            intent1.putExtra("photoname", phtoPath);
+                            intent1.putExtra("photoname", images_url);
                             intent1.putExtra("position", 1);
                             startActivity(intent1);
+
+
 //                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
 //                            intent1.putExtra("images", phtoPath);
 //                            intent1.putExtra("photoname", "");
@@ -784,13 +791,25 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
             if (!TextUtils.isEmpty(model.getImg())) {
                 isExistPhoto = true;
-                phtoPath = model.getImg();
+//                phtoPath = model.getImg();
+                images_url = model.getImg();
+                isExistP = 1;
             } else {
                 isExistPhoto = false;
-                phtoPath = "";
+//                phtoPath = "";
+                isExistP = 0;
+                images_url = "";
             }
 
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
+            int firstStatus;
+            if (IsAudit == 1) {
+                firstStatus = 3; //审核通过
+            } else {
+                firstStatus = 2; //待审核
+            }// String images_url, files;//网络图片   拍照图片
+
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+//            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
 
