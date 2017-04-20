@@ -35,6 +35,7 @@ public class Receive1 extends BroadcastReceiver {
             //标志手机已经关机
             SharedPreferenceService.getInstance().put("shutDown",true);
             SharedPreferenceService.getInstance().put("shutDownTime", DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+            Log.i("关机啦啊啦啦啦啦啦啦啦啦啦啊啦啦啦啦啦啦啦啦啦啊啦啦啦啦啦啦啦啦啦啊啦啦啦啦啦啦啦啦啦啊啦啦啦啦啦啦啦啦啦啊啦啦啦啦啦啦啦啦");
 
         }
     }

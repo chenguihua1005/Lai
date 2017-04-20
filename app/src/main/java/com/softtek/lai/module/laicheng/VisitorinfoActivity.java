@@ -1,21 +1,16 @@
 package com.softtek.lai.module.laicheng;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.IdRes;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,14 +23,11 @@ import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.model.Visitsmodel;
 import com.softtek.lai.module.laicheng.presenter.VisitorPresenter;
@@ -43,7 +35,8 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 import butterknife.InjectView;
@@ -210,10 +203,9 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (v.getId()) {
                 case R.id.et_old:
-                    final Calendar c = Calendar.getInstance();
-                    c.setTime(new Date(1900 - 01 - 01));
-                    final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-                    datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
+                    DateTime dt=new DateTime(1900,1,1,0,0);
+                    final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, dt.getYear(), dt.getMonthOfYear()-1, dt.getDayOfMonth());
+                    datePickerDialog.getDatePicker().setMinDate(dt.getMillis());
                     datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
                     datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
                         @Override
