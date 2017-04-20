@@ -43,6 +43,8 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
+import org.joda.time.DateTime;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -211,9 +213,10 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
             switch (v.getId()) {
                 case R.id.et_old:
                     final Calendar c = Calendar.getInstance();
-                    c.setTime(new Date(1900 - 01 - 01));
-                    final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-                    datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
+                    c.set(1900,1,1);
+                    DateTime dt=new DateTime(1900,1,1,0,0);
+                    final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH)-1, c.get(Calendar.DAY_OF_MONTH));
+                    datePickerDialog.getDatePicker().setMinDate(dt.getMillis());
                     datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
                     datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
                         @Override
