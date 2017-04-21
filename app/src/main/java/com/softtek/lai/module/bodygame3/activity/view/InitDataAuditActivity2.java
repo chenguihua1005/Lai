@@ -38,6 +38,7 @@ import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
@@ -805,6 +806,12 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
     @Override
     public void onValidationSucceeded() {
+        if (isExistP == 0) {
+            Util.toastMsg("请拍照！");
+            return;
+        }
+
+
         progressDialog.setMessage("正在提交数据，请等待");
         progressDialog.show();
 
@@ -818,16 +825,22 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         @Override
                         public void success(ResponseData<ImageResponse2> data, Response response) {
                             int status = data.getStatus();
+
                             if (status == 200) {
                                 fcAuditPostModel.setFileName(data.getData().imgName);
                                 fcAuditPostModel.setThumbnail(data.getData().thubName);
                                 doSetPostData();
+                            } else {
+                                dialogShow("上传图片失败！");
+                                dialogDissmiss();
                             }
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
                             super.failure(error);
+                            dialogShow("上传图片失败！");
+                            dialogDissmiss();
                         }
                     });
 
@@ -1027,8 +1040,70 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_INPUTED.equalsIgnoreCase(intent.getAction())) {
-                ACMID = intent.getStringExtra("ACMID");
-                getPresenter().getFuceCheckData(ACMID);
+//                ACMID = intent.getStringExtra("ACMID");
+//                getPresenter().getFuceCheckData(ACMID);
+                BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                if (result_model != null) {
+                    if (result_model.getWeight() != 0) {
+                        fcStDataModel.setWeight(result_model.getWeight() + "");
+                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBodyFat())) {//体脂
+                        fcStDataModel.setPysical(result_model.getBodyFat());
+                        fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBMI())) {
+                        fcStDataModel.setBmi(result_model.getBMI());
+                        fcStDataModel.setBMIUnit(result_model.getBMIUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
+                        fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
+                        fcStDataModel.setFatFreemassUnit(result_model.getFatFreemassUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
+                        fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
+                        fcStDataModel.setBodyWaterRateUnit(result_model.getWaterContentRateUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContent())) {
+                        fcStDataModel.setBodyWater(result_model.getWaterContent());
+                        fcStDataModel.setBodyWaterUnit(result_model.getWaterContentUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getMusclemass())) {
+                        fcStDataModel.setMuscleMass(result_model.getMusclemass());
+                        fcStDataModel.setMusclemassUnit(result_model.getMusclemassUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBonemass())) {
+                        fcStDataModel.setBoneMass(result_model.getBonemass());
+                        fcStDataModel.setBonemassUnit(result_model.getBonemassUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
+                        fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
+                        fcStDataModel.setBasalmetabolicrateUnit(result_model.getBasalmetabolicrateUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
+                        fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
+                    }
+
+                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                    exlisview_body.setAdapter(adapter);
+                    int groupCount = exlisview_body.getCount();
+                    for (int i = 0; i < groupCount; i++) {
+                        if (i == 0) {
+                            exlisview_body.expandGroup(i);
+                        }
+                        if (i == 3) {
+                            if (IsZhankai) {
+                                exlisview_body.expandGroup(i);
+                            }
+                        }
+                    }
+
+
+                }
+
             }
         }
     };

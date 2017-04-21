@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -100,6 +101,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private BleMainData result_model = null;
 
+    private boolean chengliang_success = false;//默认称没有测量成果
+
 //    private FcStDataModel fcStDataModel_uninput;
 
 
@@ -140,12 +143,12 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
-                finish();
+                showTipDialog();
                 break;
             case R.id.fucecheck_entry: //复测审核
                 Intent intent = new Intent(from);
 //                intent.putExtra("ACMID", recordId);
-                 intent.putExtra("result_model",result_model);
+                intent.putExtra("result_model", result_model);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 finish();
 
@@ -160,6 +163,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
         }
     }
+
 
     @OnClick(R.id.iv_voice)
     public void onClick() {
@@ -188,6 +192,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         type = getIntent().getIntExtra("type", -1);
         AccountId = getIntent().getLongExtra("AccountId", 0);
         from = getIntent().getStringExtra("from");
+
+        chengliang_success = false;
 
 
 //        if (fucDataModel != null) {
@@ -223,6 +229,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @Override
     public void initUiByBleSuccess(BleMainData data) {
         menu_layout.setVisibility(View.VISIBLE);
+        chengliang_success = true;
 
         Util.toastMsg("数据获取成功！！！！！");
         recordId = data.getRecordId();
@@ -263,7 +270,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         return entity;
 
     }
-
 
 
     @Override
@@ -334,5 +340,45 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            showTipDialog();
+        }
+        return false;
+    }
 
+    private void showTipDialog() {
+        if (chengliang_success) {
+            // 创建退出对话框
+            AlertDialog isExit = new AlertDialog.Builder(this).create();
+            // 设置对话框标题
+            isExit.setTitle("温馨提示");
+            // 设置对话框消息
+            isExit.setMessage("您尚未进行数据确认, 直接返回将导致本次测量数据丢失哦");
+            // 添加选择按钮并注册监听
+            isExit.setButton("数据确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Util.toastMsg("数据确认");
+                    Intent intent = new Intent(from);
+//                intent.putExtra("ACMID", recordId);
+                    intent.putExtra("result_model", result_model);
+                    LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
+                    finish();
+                }
+            });
+            isExit.setButton2("直接返回", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+//                    Util.toastMsg("直接返回");
+                    finish();
+                }
+            });
+            // 显示对话框
+            isExit.show();
+        } else {
+            finish();
+        }
+    }
 }
