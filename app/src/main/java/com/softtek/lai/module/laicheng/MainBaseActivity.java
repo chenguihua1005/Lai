@@ -328,8 +328,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         isResultTest = true;
         sendFatRateToDevice(0.0f);
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
-        disconnectBluetooth();
+//        disconnectBluetooth();
         testTimeOut = 0;//超时时间
+        Log.d("bluetoothDataError","进入bluetoothDataError");
     }
 
     //校验蓝牙数据
@@ -339,6 +340,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             return false;
         }
         newData = newData.replaceAll(" ", "");
+        Log.d("validateMessage","最开始初始的newData-----===========" + newData);
         if (!newData.startsWith("6495")) {
             if (newData.indexOf("64950102f2") >= 0) {
                 newData = "64950102f2";
@@ -362,7 +364,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 return true;
             }
             Log.d("validateMessag", "newData = " + newData + ",mHandData = " + mHandData + ",mFrequency04Data = " + mFrequency04Data + ",mFrequency07Data = " + mFrequency07Data);
-            newData = "";
+//            newData = "";
+            bluetoothDataError();
             Log.d("validateMessag.", "握手失败");
         } else if (newData.substring(6, 8).equals("08")) {//阻抗
             Log.d("validateMessag.", "阻抗数据开始验证");

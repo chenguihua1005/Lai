@@ -44,10 +44,10 @@ public class MeasuredDetailsModel implements Serializable {
     private String fatFreemassUnit;
     //    private String ViscusFatIndex;     //内脏脂肪指数
     private String BodyWaterRate;//身体水分率
-    private String waterContentRateUnit;
+    private String BodyWaterRateUnit;
 
     private String BodyWater;//身体水分
-    private String waterContentUnit;
+    private String BodyWaterUnit;
 
     private String MuscleMass;//肌肉量
     private String musclemassUnit;
@@ -61,6 +61,15 @@ public class MeasuredDetailsModel implements Serializable {
     private String PhysicalAge;//身体年龄
 
 //    Height, BirthDate,Gender
+
+
+    public String getBodyWaterUnit() {
+        return BodyWaterUnit;
+    }
+
+    public void setBodyWaterUnit(String bodyWaterUnit) {
+        BodyWaterUnit = bodyWaterUnit;
+    }
 
     private String Height;//身高
     private String BirthDate;//生日
@@ -404,20 +413,12 @@ public class MeasuredDetailsModel implements Serializable {
         this.fatFreemassUnit = fatFreemassUnit;
     }
 
-    public String getWaterContentRateUnit() {
-        return waterContentRateUnit;
+    public String getBodyWaterRateUnit() {
+        return BodyWaterRateUnit;
     }
 
-    public void setWaterContentRateUnit(String waterContentRateUnit) {
-        this.waterContentRateUnit = waterContentRateUnit;
-    }
-
-    public String getWaterContentUnit() {
-        return waterContentUnit;
-    }
-
-    public void setWaterContentUnit(String waterContentUnit) {
-        this.waterContentUnit = waterContentUnit;
+    public void setBodyWaterRateUnit(String bodyWaterRateUnit) {
+        BodyWaterRateUnit = bodyWaterRateUnit;
     }
 
     public String getMusclemassUnit() {

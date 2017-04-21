@@ -40,6 +40,7 @@ import com.softtek.lai.module.bodygame3.activity.presenter.UnInputPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
@@ -119,6 +120,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
+    private static int resetdatestatus = 1;
+
+
 
 
     @Override
@@ -181,16 +185,19 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
         type = getIntent().getIntExtra("type", -1);
 
-        typeforwhich = getIntent().getIntExtra("typeforwhich", -1);
+        typeforwhich = getIntent().getIntExtra("typeforwhich", -1); // 0:初始未录入  1 ： 复测未录入
 //        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
         guangboname = getIntent().getStringExtra("guangboname");
+        resetdatestatus = getIntent().getIntExtra("resetdatestatus",1);
 
         if (typeforwhich == 0) {
             tv_title.setText("初始数据审核");
         } else {
             tv_title.setText("复测审核");
         }
+
+
 
         if (IsAudit == 1) {
             tv_right.setVisibility(View.INVISIBLE);
@@ -200,6 +207,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             tv_right.setText("审核通过");//保存数据
             cheng_float.setVisibility(View.VISIBLE);
         }
+
+
+        fcAuditPostModel = new FcAuditPostModel();
 
 
         ll_left.setOnClickListener(this);
@@ -881,7 +891,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                         });
             }
 
-            fcAuditPostModel = new FcAuditPostModel();
+
             fcAuditPostModel.setACMId(ACMID);
             fcAuditPostModel.setAccountId(AccountId + "");
             fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
@@ -1050,13 +1060,77 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_UNINPUT.equalsIgnoreCase(intent.getAction())) {
-                ACMID = intent.getStringExtra("ACMID");
+//                ACMID = intent.getStringExtra("ACMID");
 //                getPresenter().getStudentBasicalInfo(ACMID);
-                getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+//                getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
 
-                if (!TextUtils.isEmpty(guangboname)) {
-                    LocalBroadcastManager.getInstance(InitDataUnInputActivity2.this).sendBroadcast(new Intent(guangboname));
+
+                BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                if (result_model != null) {
+                    if (result_model.getWeight() != 0) {
+                        fcStDataModel.setWeight(result_model.getWeight() + "");
+                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBodyFat())) {//体脂
+                        fcStDataModel.setPysical(result_model.getBodyFat());
+                        fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBMI())) {
+                        fcStDataModel.setBmi(result_model.getBMI());
+                        fcStDataModel.setBMIUnit(result_model.getBMIUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
+                        fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
+                        fcStDataModel.setFatFreemassUnit(result_model.getFatFreemassUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
+                        fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
+                        fcStDataModel.setBodyWaterRateUnit(result_model.getWaterContentRateUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContent())) {
+                        fcStDataModel.setBodyWater(result_model.getWaterContent());
+                        fcStDataModel.setBodyWaterUnit(result_model.getWaterContentUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getMusclemass())) {
+                        fcStDataModel.setMuscleMass(result_model.getMusclemass());
+                        fcStDataModel.setMusclemassUnit(result_model.getMusclemassUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBonemass())) {
+                        fcStDataModel.setBoneMass(result_model.getBonemass());
+                        fcStDataModel.setBonemassUnit(result_model.getBonemassUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
+                        fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
+                        fcStDataModel.setBasalmetabolicrateUnit(result_model.getBasalmetabolicrateUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
+                        fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
+                    }
+
+
+                    adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+
+                    exlisview_body.setAdapter(adapter);
+                    int groupCount = exlisview_body.getCount();
+                    for (int i = 0; i < groupCount; i++) {
+                        if (i == 0) {
+                            exlisview_body.expandGroup(i);
+                        }
+                        if (i == 3) {
+                            if (IsZhankai) {
+                                exlisview_body.expandGroup(i);
+                            }
+                        }
+                    }
                 }
+
+            }
+
+            if (!TextUtils.isEmpty(guangboname)) {
+                LocalBroadcastManager.getInstance(InitDataUnInputActivity2.this).sendBroadcast(new Intent(guangboname));
             }
         }
     };

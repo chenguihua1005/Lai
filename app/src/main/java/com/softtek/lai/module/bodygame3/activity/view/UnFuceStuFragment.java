@@ -105,7 +105,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
         setPresenter(new FuceCheckListPresenter(this));
 
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,new IntentFilter(UPDATE_UI_FCCHECK_TABLIST));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_FCCHECK_TABLIST));
     }
 
     @Override
@@ -161,11 +161,11 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         FcAudit.putExtra("classId", classid);
         FcAudit.putExtra("Audited", IsAudit);
         FcAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-//        FcAudit.putExtra("resetdatestatus", resetdatestatus);
+        FcAudit.putExtra("resetdatestatus", resetdatestatus);
 
         FcAudit.putExtra("typeDate", typedata);
         FcAudit.putExtra("type", 2);
-        FcAudit.putExtra("typeforwhich",1);
+        FcAudit.putExtra("typeforwhich", 1);
 
         FcAudit.putExtra("guangboname", UPDATE_UI_FCCHECK_TABLIST);//广播
 
@@ -181,6 +181,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_FCCHECK_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                memberListModels.clear();
                 getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
             }
         }
@@ -241,7 +242,6 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     @Override
     public void getMeasureReviewedList(List<AuditListModel> list) {
         if (list != null && list.size() == 3) {
-            memberListModels.clear();
             int unFuce_num = 0;
             int uncheck_num = 0;
             int checked_num = 0;
