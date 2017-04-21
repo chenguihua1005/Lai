@@ -155,13 +155,18 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
-            selftestFragment.updateUI(data);
+            if(selftestFragment.isCreatedView()&&!selftestFragment.isDetached()){
+                selftestFragment.updateUI(data);
+                selftestFragment.setStateTip("测量完成");
+            }
 
         } else {
-            visitortestFragment.UpdateData(data);
+
+            if(visitortestFragment.isCreatedView()&&!visitortestFragment.isDetached()){
+                visitortestFragment.UpdateData(data);
+                visitortestFragment.setStateTip("测量完成");
+            }
         }
-        selftestFragment.setStateTip("测量完成");
-        visitortestFragment.setStateTip("测量完成");
         dialogDissmiss();
     }
 
@@ -235,7 +240,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void refreshUi(LastInfoData data) {
         if (pageIndex == 0) {
-            selftestFragment.refreshUi(data);
+            if (selftestFragment.isCreatedView() && !selftestFragment.isDetached()) {
+                selftestFragment.refreshUi(data);
+            }
         }
     }
 
