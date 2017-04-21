@@ -38,7 +38,16 @@ public class LastInfoData {
 
     private String viscusFatIndex;
     private String measuredTime;
+    private String physicalAge;
     private VisitorBean visitor;
+
+    public String getPhysicalAge() {
+        return physicalAge;
+    }
+
+    public void setPhysicalAge(String physicalAge) {
+        this.physicalAge = physicalAge;
+    }
 
     public String getRecordId() {
         return recordId;

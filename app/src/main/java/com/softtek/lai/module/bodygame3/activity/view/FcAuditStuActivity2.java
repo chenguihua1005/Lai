@@ -1,11 +1,16 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -35,6 +40,7 @@ import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
@@ -110,7 +116,10 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     String images_url, files;//网络图片   拍照图片
     int isExistP = 0;//0没有图片1网络图片（后台有）2文件图片(新拍的照片)atePic;
+
+    private static final int CAMERA_PREMISSION = 100;
     private ImageFileSelector imageFileSelector;
+    private CharSequence[] items = {"拍照", "从相册选择照片"};
 
 
     @Override
@@ -285,6 +294,29 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                             intent1.putExtra("photoname", images_url);//网络图片
                             intent1.putExtra("IsEdit", IsEdit);
                             startActivityForResult(intent1, GET_PRE);
+                        } else {//不存在照片  IsAudit = 1 {//已审核
+                            if (IsAudit != 1) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(FcAuditStuActivity2.this);
+                                builder.setItems(items, new DialogInterface.OnClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.M)
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (which == 0) {
+                                            //拍照
+                                            if (ActivityCompat.checkSelfPermission(FcAuditStuActivity2.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                                //允许弹出提示
+                                                ActivityCompat.requestPermissions(FcAuditStuActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            } else {
+                                                imageFileSelector.takePhoto(FcAuditStuActivity2.this);
+                                            }
+                                        } else if (which == 1) {
+                                            //照片
+                                            imageFileSelector.selectMutilImage(FcAuditStuActivity2.this, 1);
+                                        }
+                                    }
+                                }).create().show();
+                            }
                         }
 
                         break;
@@ -971,6 +1003,45 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             if (intent != null && UPDATE_UI_INPUTED_FUCECHECK.equalsIgnoreCase(intent.getAction())) {
 //                ACMID = intent.getStringExtra("ACMID");
 //                getPresenter().getFuceCheckData(ACMID);
+
+//                private String recordId;
+//                private double weight;
+//                private String weightUnit;
+//                private String bodyTypeTitle;
+//                private String bodyTypeColor;
+//                private String BMI;
+//                private String bodyFatRate;
+//                private String bodyFat;
+//                private String physicalAge;
+//                private String viscusFatIndex;
+//                private String measuredTime;
+//                private BleMainData.VisitorBean visitor;
+
+
+                BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                if (result_model != null) {
+                    if (result_model.getWeight() != 0) {
+                        fcStDataModel.setWeight(result_model.getWeight() + "");
+                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBodyFat())){
+                        fcStDataModel.setPysical(result_model.getBodyFat());
+//                        fcStDataModel.setBodyFatUnit(result_model.getB);
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBMI())){
+                        fcStDataModel.setBmi(result_model.getBMI());
+//                        fcStDataModel.setBMIUnit(result_model.getBM);
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBMI())){
+                        fcStDataModel.setBmi(result_model.getBMI());
+//                        fcStDataModel.setBMIUnit(result_model.getBM);
+                    }
+//                    if (!TextUtils.isEmpty(result_model.get())){
+//                        fcStDataModel.setBmi(result_model.getBMI());
+////                        fcStDataModel.setBMIUnit(result_model.getBM);
+//                    }
+                }
+
             }
         }
     };

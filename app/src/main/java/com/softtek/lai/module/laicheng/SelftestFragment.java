@@ -142,6 +142,9 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     //测量成功更新UI
     @SuppressLint("SetTextI18n")
     public void updateUI(BleMainData data) {
+        if (isDetached()){
+            return;
+        }
         if (data != null) {
             mWeight.setText(data.getWeight() + "");
             if (data.getBodyTypeTitle() != null) {
