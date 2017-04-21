@@ -11,7 +11,7 @@ public class FcAuditPostModel {
     private String ClassId;
     private String WeekNum;
 
-
+    private String InitWeight;
     private String Weight;
     private String Pysical;
     private String Fat;
@@ -34,6 +34,14 @@ public class FcAuditPostModel {
 
     private String FileName;
     private String Thumbnail;
+
+    public String getInitWeight() {
+        return InitWeight;
+    }
+
+    public void setInitWeight(String initWeight) {
+        InitWeight = initWeight;
+    }
 
     public String getFileName() {
         return FileName;

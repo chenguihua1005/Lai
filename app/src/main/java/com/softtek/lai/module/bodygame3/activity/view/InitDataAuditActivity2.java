@@ -494,6 +494,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         break;
                     case 1:
                         fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
 
                         int groupCount = exlisview_body.getCount();

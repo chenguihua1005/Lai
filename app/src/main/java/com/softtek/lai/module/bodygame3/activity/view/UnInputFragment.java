@@ -140,10 +140,10 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent InitdataAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
-        InitdataAudit.putExtra("ACMID", memberListModels.get(i - 1).getAcmId());
+        InitdataAudit.putExtra("ACMId", memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("Audited", IsAudit);
-        InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+        InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i-1).getUserId()));
         InitdataAudit.putExtra("typeDate", typeDate);
         InitdataAudit.putExtra("type", 3);
 

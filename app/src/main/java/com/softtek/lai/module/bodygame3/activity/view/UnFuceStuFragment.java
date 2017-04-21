@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -157,10 +158,10 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
 
         Intent FcAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
-        FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
+        FcAudit.putExtra("ACMId", memberListModels.get(i-1).getAcmId());
         FcAudit.putExtra("classId", classid);
         FcAudit.putExtra("Audited", IsAudit);
-        FcAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
+        FcAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i-1).getUserId()));
         FcAudit.putExtra("resetdatestatus", resetdatestatus);
 
         FcAudit.putExtra("typeDate", typedata);

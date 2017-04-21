@@ -276,7 +276,7 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                 if (childArray.get(groupPosition).size() == 3) {
                     switch (childPosition) {
                         case 0:
-                            holder.tv_value.setText("0.0".equals(fcStDataModel.getInitWeight()) ? "" : fcStDataModel.getInitWeight());
+                            holder.tv_value.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
                             holder.tv_danwei.setText("斤");
                             break;
                         case 1:
