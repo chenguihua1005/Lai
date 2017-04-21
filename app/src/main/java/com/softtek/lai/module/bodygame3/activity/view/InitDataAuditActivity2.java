@@ -38,6 +38,7 @@ import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButton;
@@ -805,36 +806,64 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
     @Override
     public void onValidationSucceeded() {
-        progressDialog.setMessage("正在提交数据，请等待");
-        progressDialog.show();
+        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
+            String message = "初始体重为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
+            String message = "体脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
+            String message = "内脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (isExistP == 0) {
+            String message = "请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else {
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
 
-        fcAuditPostModel = new FcAuditPostModel();
-        if (!TextUtils.isEmpty(files)) {
-            File image = new File(files);
-            //先上传图片
-            CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
-            service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
-                    new RequestCallback<ResponseData<ImageResponse2>>() {
-                        @Override
-                        public void success(ResponseData<ImageResponse2> data, Response response) {
-                            int status = data.getStatus();
-                            if (status == 200) {
-                                fcAuditPostModel.setFileName(data.getData().imgName);
-                                fcAuditPostModel.setThumbnail(data.getData().thubName);
-                                doSetPostData();
+            fcAuditPostModel = new FcAuditPostModel();
+            if (!TextUtils.isEmpty(files)) {
+                File image = new File(files);
+                //先上传图片
+                CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+                service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
+                        new RequestCallback<ResponseData<ImageResponse2>>() {
+                            @Override
+                            public void success(ResponseData<ImageResponse2> data, Response response) {
+                                int status = data.getStatus();
+
+                                if (status == 200) {
+                                    fcAuditPostModel.setFileName(data.getData().imgName);
+                                    fcAuditPostModel.setThumbnail(data.getData().thubName);
+                                    doSetPostData();
+                                } else {
+                                    dialogShow("上传图片失败！");
+                                    dialogDissmiss();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void failure(RetrofitError error) {
-                            super.failure(error);
-                        }
-                    });
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                                dialogShow("上传图片失败！");
+                                dialogDissmiss();
+                            }
+                        });
 
-        } else { //直接提交审核
-            fcAuditPostModel.setFileName(fcStDataModel.getImg());
-            fcAuditPostModel.setThumbnail(fcStDataModel.getImgThumbnail());
-            doSetPostData();
+            } else { //直接提交审核
+                fcAuditPostModel.setFileName(fcStDataModel.getImg());
+                fcAuditPostModel.setThumbnail(fcStDataModel.getImgThumbnail());
+                doSetPostData();
+            }
         }
     }
 
@@ -1027,8 +1056,70 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_INPUTED.equalsIgnoreCase(intent.getAction())) {
-                ACMID = intent.getStringExtra("ACMID");
-                getPresenter().getFuceCheckData(ACMID);
+//                ACMID = intent.getStringExtra("ACMID");
+//                getPresenter().getFuceCheckData(ACMID);
+                BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                if (result_model != null) {
+                    if (result_model.getWeight() != 0) {
+                        fcStDataModel.setWeight(result_model.getWeight() + "");
+                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBodyFat())) {//体脂
+                        fcStDataModel.setPysical(result_model.getBodyFat());
+                        fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBMI())) {
+                        fcStDataModel.setBmi(result_model.getBMI());
+                        fcStDataModel.setBMIUnit(result_model.getBMIUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
+                        fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
+                        fcStDataModel.setFatFreemassUnit(result_model.getFatFreemassUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
+                        fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
+                        fcStDataModel.setBodyWaterRateUnit(result_model.getWaterContentRateUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContent())) {
+                        fcStDataModel.setBodyWater(result_model.getWaterContent());
+                        fcStDataModel.setBodyWaterUnit(result_model.getWaterContentUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getMusclemass())) {
+                        fcStDataModel.setMuscleMass(result_model.getMusclemass());
+                        fcStDataModel.setMusclemassUnit(result_model.getMusclemassUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBonemass())) {
+                        fcStDataModel.setBoneMass(result_model.getBonemass());
+                        fcStDataModel.setBonemassUnit(result_model.getBonemassUnit());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
+                        fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
+                        fcStDataModel.setBasalmetabolicrateUnit(result_model.getBasalmetabolicrateUnit());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
+                        fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
+                    }
+
+                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                    exlisview_body.setAdapter(adapter);
+                    int groupCount = exlisview_body.getCount();
+                    for (int i = 0; i < groupCount; i++) {
+                        if (i == 0) {
+                            exlisview_body.expandGroup(i);
+                        }
+                        if (i == 3) {
+                            if (IsZhankai) {
+                                exlisview_body.expandGroup(i);
+                            }
+                        }
+                    }
+
+
+                }
+
             }
         }
     };

@@ -328,7 +328,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         isResultTest = true;
         sendFatRateToDevice(0.0f);
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
-        disconnectBluetooth();
+//        disconnectBluetooth();
         testTimeOut = 0;//超时时间
     }
 
@@ -362,7 +362,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 return true;
             }
             Log.d("validateMessag", "newData = " + newData + ",mHandData = " + mHandData + ",mFrequency04Data = " + mFrequency04Data + ",mFrequency07Data = " + mFrequency07Data);
-            newData = "";
+//            newData = "";
+            bluetoothDataError();
             Log.d("validateMessag.", "握手失败");
         } else if (newData.substring(6, 8).equals("08")) {//阻抗
             Log.d("validateMessag.", "阻抗数据开始验证");
@@ -735,6 +736,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onStop() {
         super.onStop();
+        disconnectBluetooth();
     }
 
     @Override
