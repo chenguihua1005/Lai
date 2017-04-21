@@ -142,9 +142,6 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     //测量成功更新UI
     @SuppressLint("SetTextI18n")
     public void updateUI(BleMainData data) {
-        if (isDetached()){
-            return;
-        }
         if (data != null) {
             mWeight.setText(data.getWeight() + "");
             if (data.getBodyTypeTitle() != null) {
@@ -154,7 +151,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
                 mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
             }
             if (data.getBodyFatRate() != null) {
-                mBodyFatRate.setText(data.getBodyFatRate());
+                mBodyFatRate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
             }
             if (data.getBMI() != null) {
                 mBmi.setText(data.getBMI() + "");
@@ -193,7 +190,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         } else {
             mWeightBottom.setText(data.getWeight() + "");
             if (data.getBodyFat() != null) {
-                mBodyFatBottom.setText(data.getBodyFat());
+                mBodyFatBottom.setText(data.getBodyFatRate() + "%");
             } else {
                 mBodyFatBottom.setText("- -");
             }
