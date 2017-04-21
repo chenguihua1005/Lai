@@ -120,6 +120,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
+    private static int resetdatestatus = 1;
+
+
 
 
     @Override
@@ -182,16 +185,19 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
         type = getIntent().getIntExtra("type", -1);
 
-        typeforwhich = getIntent().getIntExtra("typeforwhich", -1);
+        typeforwhich = getIntent().getIntExtra("typeforwhich", -1); // 0:初始未录入  1 ： 复测未录入
 //        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
         guangboname = getIntent().getStringExtra("guangboname");
+        resetdatestatus = getIntent().getIntExtra("resetdatestatus",1);
 
         if (typeforwhich == 0) {
             tv_title.setText("初始数据审核");
         } else {
             tv_title.setText("复测审核");
         }
+
+
 
         if (IsAudit == 1) {
             tv_right.setVisibility(View.INVISIBLE);
@@ -201,6 +207,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             tv_right.setText("审核通过");//保存数据
             cheng_float.setVisibility(View.VISIBLE);
         }
+
+
+        fcAuditPostModel = new FcAuditPostModel();
 
 
         ll_left.setOnClickListener(this);
@@ -882,7 +891,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                         });
             }
 
-            fcAuditPostModel = new FcAuditPostModel();
+
             fcAuditPostModel.setACMId(ACMID);
             fcAuditPostModel.setAccountId(AccountId + "");
             fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");

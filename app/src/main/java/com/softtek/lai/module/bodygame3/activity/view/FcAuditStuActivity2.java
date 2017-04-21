@@ -122,6 +122,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private CharSequence[] items = {"拍照", "从相册选择照片"};
 
 
+
     @Override
     protected void initViews() {
         tv_right.setText("审核通过");
@@ -161,6 +162,8 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
         acmId = getIntent().getStringExtra("ACMId");
         accountId = getIntent().getLongExtra("accountId", 0);
+        resetdatestatus = getIntent().getIntExtra("resetdatestatus",1);
+
 
         if (IsAudit != 0) { //IsAudit : 1  已审核
             tv_right.setVisibility(View.INVISIBLE);
@@ -172,7 +175,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             IsEdit = 1;
             firstStatus = 2; //待审核
             cheng_float.setVisibility(View.VISIBLE);
-            resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
+//            resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
             switch (resetdatestatus) {
                 //过去复测日，只能查看
                 case 1:
