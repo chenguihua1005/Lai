@@ -122,7 +122,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static int resetdatestatus = 1;
 
-    private boolean isEditable = true; //本页是否可编辑
+    private int isEditable = 1; //本页是否可编辑
 
 
     @Override
@@ -138,7 +138,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 isExistPhoto = 2;
                 phtoPath_local = file;
 
-                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
                 exlisview_body.setAdapter(adapter);
 
                 int groupCount = exlisview_body.getCount();
@@ -157,7 +157,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 isExistPhoto = 2;
                 phtoPath_local = files;
 
-                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
                 exlisview_body.setAdapter(adapter);
 
                 int groupCount = exlisview_body.getCount();
@@ -193,7 +193,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             tv_title.setText("初始数据审核");
             tv_right.setText("审核通过");//保存数据
             cheng_float.setVisibility(View.VISIBLE);
-            isEditable = true;
+            isEditable = 1;
 
         } else {
             tv_title.setText("复测审核");
@@ -201,9 +201,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 tv_right.setVisibility(View.VISIBLE);
                 tv_right.setText("审核通过");//保存数据
                 cheng_float.setVisibility(View.VISIBLE);
-                isEditable = true;
+                isEditable = 1;
             } else {
-                isEditable = false;
+                isEditable = 0;
                 tv_right.setVisibility(View.INVISIBLE);
                 cheng_float.setVisibility(View.INVISIBLE);
             }
@@ -266,7 +266,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 isExistPhoto = 1;
             } else {
                 isExistPhoto = 2;
-                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
                 exlisview_body.setAdapter(adapter);
 
                 int groupCount = exlisview_body.getCount();
@@ -328,7 +328,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         exlisview_body.setAdapter(adapter);
 
 
-        if (isEditable) { //0:初始未录入  1 ： 复测未录入
+        if (isEditable == 1) { //0:初始未录入  1 ： 复测未录入
             exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
                 public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
@@ -1157,7 +1157,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     }
 
 
-                    adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                    adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
 
                     exlisview_body.setAdapter(adapter);
                     int groupCount = exlisview_body.getCount();
@@ -1213,7 +1213,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
 
             gender = model.getGender();
-            adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, image_url_net, isExistPhoto);//默认可编辑
+            adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, image_url_net, isExistPhoto, isEditable);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
             int groupCount = exlisview_body.getCount();

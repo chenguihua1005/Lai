@@ -41,7 +41,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
     private MeasuredDetailsModel fcStDataModel;
 
 
-    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic) {
+    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic,int IsEdit) {
         this.context = context;
         this.childArray = childArray;
         this.fcStDataModel = fcStDataModel;
@@ -49,7 +49,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
         this.images_net = images_net;
         this.isWhatePic = isWhatePic;
 //        this.firststatus = firststatus;
-//        this.IsEdit = IsEdit;
+        this.IsEdit = IsEdit;
 
     }
 

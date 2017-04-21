@@ -190,9 +190,9 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
         child.add(0, "初始体重");
-        child.add(1, "当前体重");
-        child.add(2, "体脂");
-        child.add(3, "内脂");
+//        child.add(1, "当前体重");
+        child.add(1, "体脂");
+        child.add(2, "内脂");
         childArray.add(0, child);
         child3.add(0, "胸围");
         child3.add(1, "腰围");
@@ -234,7 +234,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                 isExistP = 2;
                 images_url = "";
 
-                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
 //                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
 //                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
@@ -258,7 +258,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                 files = file.toString();
                 isExistP = 2;
                 images_url = "";
-                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
 //                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
 //                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
@@ -343,17 +343,17 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     switch (i) {
                         case 0:
                             switch (i1) {
-                                case 1:
+                                case 0:
                                     if ("1".equals(gender)) { //女的
-                                        show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
+                                        show_information("初始体重", 600, 100, 50, 9, 0, 0, 1);
                                     } else {
-                                        show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
+                                        show_information("初始体重", 600, 150, 50, 9, 0, 0, 1);
                                     }
                                     break;
-                                case 2:
+                                case 1:
                                     show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
                                     break;
-                                case 3:
+                                case 2:
                                     show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                                     break;
 
@@ -493,7 +493,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
                         break;
                     case 1:
-                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                        fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
 
                         int groupCount = exlisview_body.getCount();
@@ -912,7 +912,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             } else {
                 isExistP = 2;
             }
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
 
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
@@ -1009,7 +1009,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 //                public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int firststatus, String filest, String images, int isWhatePic) {
 
             // String images_url, files;//网络图片   拍照图片
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
 
@@ -1103,7 +1103,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
                     }
 
-                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
                     exlisview_body.setAdapter(adapter);
                     int groupCount = exlisview_body.getCount();
                     for (int i = 0; i < groupCount; i++) {
