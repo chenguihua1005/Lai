@@ -234,14 +234,13 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         StringBuilder builder=new StringBuilder();
         builder.append("体重 +");
         builder.append(data.getWeight());
-        builder.append("斤");
         builder.append("\n");
         builder.append("体脂率 +");
         builder.append(data.getBodyfat());
         builder.append("\n");
         builder.append("身体年龄 +");
         builder.append(data.getAge());
-        String url=AddressManager.get("shareHost")+"ShareLastRecord?recordId="+reportId;
+        String url=AddressManager.get("shareHost")+"ShareLBRecord?recordId="+reportId;
         String title_value = "莱聚+体测，精彩人生";
         showDialog(title_value,builder.toString(),url);
     }
