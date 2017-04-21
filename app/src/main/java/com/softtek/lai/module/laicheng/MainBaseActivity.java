@@ -68,6 +68,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
+    private boolean isEndToFirst = true;
+
     //    private int position;
     private int bluetoothPosition;
 //    private boolean needReDraw;
@@ -298,7 +300,14 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 }
                 if (state_current == CONNECTED_STATE_SUCCESS || state_current == CONNECTED_STATE_WEIGHT) {//只有称量的时候才会接收数据
                     String readMessage = MathUtils.bytesToHexString(datas);
-                    newData += readMessage;
+                    if (readMessage.equals("64950102f2")) {
+                            newData = readMessage;
+                            Log.d("dataMessage", "我就进去一次------------");
+
+                    } else {
+                        newData += readMessage;
+                        Log.d("dataMessage","我会进去好多次的！！");
+                    }
                     Log.d("dataMessage", "从蓝牙获取到的message" + readMessage);
                     if (validateMessage()) {
                         parseData();
@@ -311,7 +320,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
 
-    Handler handler = new Handler() {
+    protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -330,7 +339,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
 //        disconnectBluetooth();
         testTimeOut = 0;//超时时间
-        Log.d("bluetoothDataError","进入bluetoothDataError");
+        Log.d("bluetoothDataError", "进入bluetoothDataError");
+        dialogDissmiss();
     }
 
     //校验蓝牙数据
@@ -339,8 +349,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             Log.d("validateMessage", "newDate==null 返回false");
             return false;
         }
+        Log.d("validateMessage", "最开始初始的newData222222222-----===========" + newData);
         newData = newData.replaceAll(" ", "");
-        Log.d("validateMessage","最开始初始的newData-----===========" + newData);
+        Log.d("validateMessage", "最开始初始的newData-----===========" + newData);
         if (!newData.startsWith("6495")) {
             if (newData.indexOf("64950102f2") >= 0) {
                 newData = "64950102f2";
@@ -387,6 +398,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         mFrequency04Data = tem;
                         Log.d("validateMessag.", "第二位是04HZ，mFrequency04Data=" + mFrequency04Data);
                         tem = newData.substring(0, newData.lastIndexOf("6495"));
+                        Log.d("validateMessag.", "tem=" + tem);
                         temSize = Integer.parseInt(tem.substring(4, 6), 16);
                         if (tem.length() == (8 + temSize * 2)) {//数据完整
                             mFrequency07Data = tem;
@@ -439,17 +451,19 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
                             changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
                             Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
+                            isEndToFirst = true;
                             sendFatRateToDevice(0.0f);
                         }
                     } else {
                         testTimeOut--;
+                        Log.d("timeout---time", "超时时间=======" + testTimeOut);
                         handler.postDelayed(this, 1000);
                         if (!isConnected) {
                             testTimeOut = 0;
                         }
                     }
                 }
-            }, 1000);//超时时间0.5分钟
+            }, 1000);//超时时间1分钟
             changeConnectionState(CONNECTED_STATE_WEIGHT);
             sendUserInfo();
         } else {//阻抗，上边已经校验过数据，这个函数除了握手就是阻抗数值已经正确了
@@ -732,7 +746,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public void onPause() {
         super.onPause();
         mShakeListener.stop();
-//        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
+
     }
 
     @Override
@@ -745,6 +759,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public void onResume() {
         super.onResume();
         mShakeListener.start();
+        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
     }
 
     public void stopVoice() {
@@ -826,6 +841,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         }
         isResultTest = true;
         initUiByBleSuccess(data);
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -838,6 +854,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency07Data = "";
         isResultTest = true;
         testTimeOut = 0;
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
