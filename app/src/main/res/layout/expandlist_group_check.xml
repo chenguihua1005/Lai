@@ -195,14 +195,41 @@
                 android:layout_marginRight="15dp"
                 android:src="@drawable/action_right" />
 
+
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#e6e6e6" />
+        <TextView
+            android:id="@+id/tv_photoguide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拍照指南"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:textColor="#7ABB39"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
 
+            />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_takepho_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="拍照指南"
+        android:visibility="gone"
+        android:textColor="#7ABB39"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
+        />
 
 
     <LinearLayout

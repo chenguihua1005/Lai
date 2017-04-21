@@ -28,13 +28,17 @@ public class SelftestPresenter extends BasePresenter<SelftestPresenter.SelftestV
                 .getLastData(UserInfoModel.getInstance().getToken(),type, new RequestCallback<ResponseData<LastInfoData>>() {
                     @Override
                     public void success(ResponseData<LastInfoData> data, Response response) {
-                        getView().getLastInfoSuccess(data.getData());
+                        if (getView() != null) {
+                            getView().getLastInfoSuccess(data.getData());
+                        }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);
-                        getView().getLastInfoFailed();
+                        if (getView() != null) {
+                            getView().getLastInfoFailed();
+                        }
                     }
                 });
     }

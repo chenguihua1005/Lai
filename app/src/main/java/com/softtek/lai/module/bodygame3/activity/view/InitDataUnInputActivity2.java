@@ -1,11 +1,16 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -33,9 +38,14 @@ import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.module.bodygame3.activity.presenter.UnInputPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
+import com.softtek.lai.module.community.model.ImageResponse2;
+import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
+import com.sw926.imagefileselector.ImageFileSelector;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +53,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -76,9 +87,11 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private UnInputExpandableListAdapter adapter;
     private String gender = "1";//性别
-    private boolean isExistPhoto = false;//0没有图片1 有
-    private String phtoPath = "";//图片路径
+    private int isExistPhoto = 0;//0没有图片1 网络图片2文件图片
+    private String phtoPath_local = "";//图片路径
+    private String image_url_net = "";
     private boolean IsZhankai = false;
+
     private static final int GET_PRE = 1;//查看大图
 
     private List<List<String>> childArray = new ArrayList<>();
@@ -87,12 +100,11 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     private List<String> child3 = new ArrayList<>();
 
     private MeasuredDetailsModel fcStDataModel;
-
+    FcAuditPostModel fcAuditPostModel;
     Long AccountId;//用户id
     String classId = " ";//班级id
     Context context;
     String files, ACMID;
-    String photoname;
     int IsAudit;
 
     private int type;
@@ -103,10 +115,62 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     private int typeforwhich;
 
     private String guangboname;
+    private static final int CAMERA_PREMISSION = 100;
+
+    private ImageFileSelector imageFileSelector;
+    private CharSequence[] items = {"拍照", "从相册选择照片"};
 
 
     @Override
     protected void initViews() {
+        int px = DisplayUtil.dip2px(this, 300);
+        //*************************
+        imageFileSelector = new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(px, px);
+        imageFileSelector.setQuality(60);
+        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
+            @Override
+            public void onSuccess(String file) {// String phtoPath_local;//网络图片   拍照图片
+                isExistPhoto = 2;
+                phtoPath_local = file;
+
+//UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic) {
+
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                exlisview_body.setAdapter(adapter);
+
+                int groupCount = exlisview_body.getCount();
+                for (int i = 0; i < groupCount; i++) {
+                    if (i == 0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onMutilSuccess(List<String> filesList) {
+                File file = new File(filesList.get(0));
+                files = file.toString();
+                isExistPhoto = 2;
+                phtoPath_local = files;
+
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                exlisview_body.setAdapter(adapter);
+
+                int groupCount = exlisview_body.getCount();
+                for (int i = 0; i < groupCount; i++) {
+                    if (i == 0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
 
         classId = getIntent().getStringExtra("classId");//没用
@@ -165,13 +229,33 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0x0001 && resultCode == RESULT_OK) {
-            String acmid = data.getStringExtra("ACMID");
-            tv_right.setVisibility(View.VISIBLE);
-            tv_right.setText("审核通过");//保存数据
+        imageFileSelector.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 0x0001 && resultCode == RESULT_OK) {
+//            String acmid = data.getStringExtra("ACMID");
+//            tv_right.setVisibility(View.VISIBLE);
+//            tv_right.setText("审核通过");//保存数据
+//
+//            cheng_float.setVisibility(View.VISIBLE);
+////            getPresenter().getFuceCheckData(acmid);
+//        }requestCode == GET_PRE && resultCode == RESULT_OK
+        if (requestCode == GET_PRE && resultCode == RESULT_OK) {
+            phtoPath_local = data.getStringExtra("images");
+            if (TextUtils.isEmpty(phtoPath_local)) {
+                isExistPhoto = 1;
+            } else {
+                isExistPhoto = 2;
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                exlisview_body.setAdapter(adapter);
 
-            cheng_float.setVisibility(View.VISIBLE);
-//            getPresenter().getFuceCheckData(acmid);
+                int groupCount = exlisview_body.getCount();
+                for (int i = 0; i < groupCount; i++) {
+                    if (i == 0) {
+                        exlisview_body.expandGroup(i);
+                    }
+                }
+            }
+
+
         }
     }
 
@@ -217,19 +301,36 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 switch (i) {
                     case 1:
-                        if (isExistPhoto) {
-
+                        if (isExistPhoto != 0) {
                             Intent intent1 = new Intent(InitDataUnInputActivity2.this, PreViewPicActivity.class);
-//                ArrayList<String> images=new ArrayList<>();
-                            intent1.putExtra("photoname", phtoPath);
-                            intent1.putExtra("position", 1);
-                            startActivity(intent1);
-//                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
-//                            intent1.putExtra("images", phtoPath);
-//                            intent1.putExtra("photoname", "");
-//                            intent1.putExtra("IsEdit", 2);
-//                            startActivity(intent1);
-//                            startActivityForResult(intent1, GET_PRE);
+                            if (isExistPhoto == 1) {
+                                intent1.putExtra("photoname", fcAuditPostModel.getFileName());
+                            } else {
+                                intent1.putExtra("images", phtoPath_local);//本地
+                            }
+                            intent1.putExtra("IsEdit", 1);
+                            startActivityForResult(intent1, GET_PRE);
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(InitDataUnInputActivity2.this);
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.M)
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 0) {
+                                        //拍照
+                                        if (ActivityCompat.checkSelfPermission(InitDataUnInputActivity2.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                            //允许弹出提示
+                                            ActivityCompat.requestPermissions(InitDataUnInputActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                        } else {
+                                            imageFileSelector.takePhoto(InitDataUnInputActivity2.this);
+                                        }
+                                    } else if (which == 1) {
+                                        //照片
+                                        imageFileSelector.selectMutilImage(InitDataUnInputActivity2.this, 1);
+                                    }
+                                }
+                            }).create().show();
                         }
 
                         break;
@@ -725,7 +826,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         doSetPostData();
     }
 
-    FcAuditPostModel fcAuditPostModel;
 
     private void doSetPostData() {
         if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
@@ -743,9 +843,44 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
+        } else if (isExistPhoto == 0) {
+            String message = "请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
         } else {
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();
+            if (isExistPhoto == 2) {
+                //上传图片
+                File image = new File(phtoPath_local);
+                CommunityService communityService = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+                communityService.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
+                        new RequestCallback<ResponseData<ImageResponse2>>() {
+                            @Override
+                            public void success(ResponseData<ImageResponse2> imageResponse2ResponseData, Response response) {
+                                int status = imageResponse2ResponseData.getStatus();
+                                if (status == 200) {
+                                    fcAuditPostModel.setFileName(imageResponse2ResponseData.getData().imgName);
+                                    fcAuditPostModel.setThumbnail(imageResponse2ResponseData.getData().thubName);
+                                } else {
+                                    progressDialog.setMessage("提交失败");
+                                    dialogDissmiss();
+                                    return;
+                                }
+
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                                progressDialog.setMessage("提交失败");
+                                dialogDissmiss();
+                                return;
+                            }
+                        });
+            }
+
             fcAuditPostModel = new FcAuditPostModel();
             fcAuditPostModel.setACMId(ACMID);
             fcAuditPostModel.setAccountId(AccountId + "");
@@ -792,7 +927,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                         progressDialog.dismiss();
                         Util.toastMsg("数据提交成功！");
                         Intent intent = new Intent();
-                        intent.putExtra("ACMID", ACMID);
+//                        intent.putExtra("ACMID", ACMID);
                         setResult(RESULT_OK, intent);
                         finish();
                         break;
@@ -944,16 +1079,19 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 //                photoname = fcStDataModel.getImg();
 //            }
             if (!TextUtils.isEmpty(model.getImg())) {
-                isExistPhoto = true;
-                phtoPath = model.getImg();
+                isExistPhoto = 1;
+                fcAuditPostModel.setFileName(model.getImg());
+                fcAuditPostModel.setThumbnail(model.getThumbnail());
+                image_url_net = model.getImg();
             } else {
-                isExistPhoto = false;
-                phtoPath = "";
+                isExistPhoto = 0;
+                phtoPath_local = "";
+                image_url_net = "";
             }
 
 
             gender = model.getGender();
-            adapter = new UnInputExpandableListAdapter(this, childArray, model, 1);//默认可编辑
+            adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, image_url_net, isExistPhoto);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
             int groupCount = exlisview_body.getCount();
@@ -962,7 +1100,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     exlisview_body.expandGroup(i);
                 }
             }
-            ;
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

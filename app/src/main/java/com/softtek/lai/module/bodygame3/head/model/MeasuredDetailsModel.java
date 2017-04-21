@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by 87356 on 2016/12/3.
  */
-public class MeasuredDetailsModel implements Serializable{
+public class MeasuredDetailsModel implements Serializable {
     private String WeekNum;//周数
     private String TypeDate;//日期
     private String Image;//图片
@@ -15,9 +15,14 @@ public class MeasuredDetailsModel implements Serializable{
     private String Mobile;//手机号
     private String ClassName;//班级名称
     private String InitWeight;//初始体重
+
     private String Weight;//现在体重
+    private String weightUnit;//体重单位
+
     private String Pysical;//体脂
-    private String Fat;//内脂
+    private String bodyFatUnit;//体脂单位
+
+    private String Fat;//内脂  没单位
     private String Circum;//胸围
     private String Waistline;//腰围
     private String Hiplie;//臀围
@@ -33,13 +38,26 @@ public class MeasuredDetailsModel implements Serializable{
     private String ImgThumbnail;
 
     private String Bmi; //BMI
+    private String BMIUnit;
+
     private String FatFreeMass;//去脂体重
-//    private String ViscusFatIndex;     //内脏脂肪指数
+    private String fatFreemassUnit;
+    //    private String ViscusFatIndex;     //内脏脂肪指数
     private String BodyWaterRate;//身体水分率
+    private String waterContentRateUnit;
+
     private String BodyWater;//身体水分
+    private String waterContentUnit;
+
     private String MuscleMass;//肌肉量
+    private String musclemassUnit;
+
     private String BoneMass;//骨量
+    private String bonemassUnit;
+
     private String BasalMetabolism;//基础代谢
+    private String basalmetabolicrateUnit;
+
     private String PhysicalAge;//身体年龄
 
 //    Height, BirthDate,Gender
@@ -352,5 +370,77 @@ public class MeasuredDetailsModel implements Serializable{
 
     public void setDoLegGirth(String doLegGirth) {
         DoLegGirth = doLegGirth;
+    }
+
+    public String getWeightUnit() {
+        return weightUnit;
+    }
+
+    public void setWeightUnit(String weightUnit) {
+        this.weightUnit = weightUnit;
+    }
+
+    public String getBodyFatUnit() {
+        return bodyFatUnit;
+    }
+
+    public void setBodyFatUnit(String bodyFatUnit) {
+        this.bodyFatUnit = bodyFatUnit;
+    }
+
+    public String getBMIUnit() {
+        return BMIUnit;
+    }
+
+    public void setBMIUnit(String BMIUnit) {
+        this.BMIUnit = BMIUnit;
+    }
+
+    public String getFatFreemassUnit() {
+        return fatFreemassUnit;
+    }
+
+    public void setFatFreemassUnit(String fatFreemassUnit) {
+        this.fatFreemassUnit = fatFreemassUnit;
+    }
+
+    public String getWaterContentRateUnit() {
+        return waterContentRateUnit;
+    }
+
+    public void setWaterContentRateUnit(String waterContentRateUnit) {
+        this.waterContentRateUnit = waterContentRateUnit;
+    }
+
+    public String getWaterContentUnit() {
+        return waterContentUnit;
+    }
+
+    public void setWaterContentUnit(String waterContentUnit) {
+        this.waterContentUnit = waterContentUnit;
+    }
+
+    public String getMusclemassUnit() {
+        return musclemassUnit;
+    }
+
+    public void setMusclemassUnit(String musclemassUnit) {
+        this.musclemassUnit = musclemassUnit;
+    }
+
+    public String getBonemassUnit() {
+        return bonemassUnit;
+    }
+
+    public void setBonemassUnit(String bonemassUnit) {
+        this.bonemassUnit = bonemassUnit;
+    }
+
+    public String getBasalmetabolicrateUnit() {
+        return basalmetabolicrateUnit;
+    }
+
+    public void setBasalmetabolicrateUnit(String basalmetabolicrateUnit) {
+        this.basalmetabolicrateUnit = basalmetabolicrateUnit;
     }
 }

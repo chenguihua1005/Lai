@@ -197,19 +197,21 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (requestCode == FCAudit && resultCode == RESULT_OK) {
-                String ACMID = data.getStringExtra("ACMID");
-                String n = "";
-                for (int i = 0; i < memberListModels.size(); i++) {
-                    if (ACMID.equals(memberListModels.get(i).getAcmId())) {
-                        n = i + "";
-                    }
-                }
-                if (!"".equals(n)) {
-                    memberListModels.remove(Integer.parseInt(n));
-                    adapter.notifyDataSetChanged();
-                    FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
-                    fcAuditListActivity.update();
-                }
+                getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
+
+//                String ACMID = data.getStringExtra("ACMID");
+//                String n = "";
+//                for (int i = 0; i < memberListModels.size(); i++) {
+//                    if (ACMID.equals(memberListModels.get(i).getAcmId())) {
+//                        n = i + "";
+//                    }
+//                }
+//                if (!"".equals(n)) {
+//                    memberListModels.remove(Integer.parseInt(n));
+//                    adapter.notifyDataSetChanged();
+//                    FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
+//                    fcAuditListActivity.update();
+//                }
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();

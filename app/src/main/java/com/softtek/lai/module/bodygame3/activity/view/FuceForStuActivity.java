@@ -98,6 +98,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private String from;
 
+    private BleMainData result_model = null;
+
 //    private FcStDataModel fcStDataModel_uninput;
 
 
@@ -142,19 +144,11 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 break;
             case R.id.fucecheck_entry: //复测审核
                 Intent intent = new Intent(from);
-                intent.putExtra("ACMID", recordId);
+//                intent.putExtra("ACMID", recordId);
+                 intent.putExtra("result_model",result_model);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 finish();
 
-
-//                Intent InitdataAudit = new Intent();
-//                InitdataAudit.putExtra("ACMID", recordId);
-//                InitdataAudit.putExtra("Audited", 0); //未审核通过
-//                InitdataAudit.putExtra("AccountId", AccountId);
-//                setResult(RESULT_OK, InitdataAudit);
-                finish();
-//                startActivity(InitdataAudit);
-//                startActivityForResult(InitdataAudit, ChuAudit);
                 break;
             case R.id.heathyReport_entry:
                 Intent health = new Intent(FuceForStuActivity.this, HealthyReportActivity.class);
@@ -238,12 +232,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         mBodyFatRate.setText(data.getBodyFatRate());
         mBmi.setText(data.getBMI());
         mInternalFatRate.setText(data.getViscusFatIndex());
-//        mWeight.setText(data.getWeight_item().getValue() + "");
-//        mWeightCaption.setText(data.getWeight_con().getCaption());
-////        mWeightCaption.setTextColor(Color.parseColor("#" + data.getWeight_item().getColor()));
-//        mBodyFatRate.setText(data.getBodyfatrate() + "%");
-//        mBmi.setText(data.getBmi() + "");
-//        mInternalFatRate.setText(data.getVisceralfatindex() + "%");
+
+        result_model = data;
+
 
     }
 
@@ -273,15 +264,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     }
 
-//    @Override
-//    public UserInfoEntity getGuestInfo() {
-//        UserInfoEntity entity = new UserInfoEntity();
-//        entity.setBirthdate("1990-11-11");
-//        entity.setHeight(170);
-//        entity.setGender(2);
-//
-//        return entity ;
-//    }
+
 
     @Override
     public void setStateTip(String state) {

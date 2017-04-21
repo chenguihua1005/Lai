@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -16,9 +17,11 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
+import com.softtek.lai.module.bodygame3.activity.view.GuideActivity;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
@@ -28,25 +31,25 @@ import zilla.libcore.file.AddressManager;
  */
 public class UnInputExpandableListAdapter implements ExpandableListAdapter {
     Context context;
-    String filest, images;
-    int isWhatePic; //????
+    String filest_local, images_net;
+    int isWhatePic; //
 
-    int firststatus; // ????
+    int firststatus; //
     int IsEdit;
     private String[] groupArray = new String[]{"group1", "group2", "group3", "group4"};
     private List<List<String>> childArray;
     private MeasuredDetailsModel fcStDataModel;
 
 
-    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int IsEdit) {
+    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic) {
         this.context = context;
         this.childArray = childArray;
         this.fcStDataModel = fcStDataModel;
-//        this.filest = filest;
-//        this.images = images;
-//        this.isWhatePic = isWhatePic;
+        this.filest_local = filest_local;
+        this.images_net = images_net;
+        this.isWhatePic = isWhatePic;
 //        this.firststatus = firststatus;
-        this.IsEdit = IsEdit;
+//        this.IsEdit = IsEdit;
 
     }
 
@@ -115,10 +118,17 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
             holder.tv_start_time = (TextView) view.findViewById(R.id.tv_start_time);
             holder.tv_end_time = (TextView) view.findViewById(R.id.tv_end_time);
             holder.tv_write_class = (TextView) view.findViewById(R.id.tv_write_class);
+            holder.tv_photoguide = (TextView) view.findViewById(R.id.tv_photoguide);
 
             holder.im_state = (ImageView) view.findViewById(R.id.im_audit_states); // 初始录入状态  （如 已通过）
             holder.im_right5 = (ImageView) view.findViewById(R.id.im_right5); //拍照上传后面的 箭头
 //            holder.tv_retest_write_weekth = (TextView) view.findViewById(R.id.tv_retest_write_weekth);//第几周
+            holder.tv_photoguide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, GuideActivity.class));
+                }
+            });
             view.setTag(holder);
         } else {
             holder = (GroupHolder) view.getTag();
@@ -175,30 +185,31 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
                     holder.im_right5.setVisibility(View.INVISIBLE);
                 }
 
-                if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-                    Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-                } else {
-                    Picasso.with(context).load(R.drawable.default_icon_square).centerCrop()
-                            .fit().into(holder.im_pic);
-                }
-//                switch (isWhatePic)  ////0没有图片1网络图片2文件图片
-//                {
-//                    case 0:
-//                        //不存在图片
-//                        holder.im_pic_icon.setVisibility(View.VISIBLE);
-//                        holder.im_pic.setVisibility(View.GONE);
-//                        break;
-//                    case 1:
-//                        holder.im_pic_icon.setVisibility(View.GONE);
-//                        holder.im_pic.setVisibility(View.VISIBLE);
-//                        Picasso.with(context).load(AddressManager.get("photoHost") + images).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-//                        break;
-//                    case 2:
-//                        holder.im_pic_icon.setVisibility(View.GONE);
-//                        holder.im_pic.setVisibility(View.VISIBLE);
-//                        Picasso.with(context).load(new File(filest)).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-//                        break;
+//                if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
+//                    Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getImgThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+//                } else {
+//                    Picasso.with(context).load(R.drawable.default_icon_square).centerCrop()
+//                            .fit().into(holder.im_pic);
 //                }
+
+                switch (isWhatePic)  ////0没有图片1网络图片2文件图片
+                {
+                    case 0:
+                        //不存在图片
+                        holder.im_pic_icon.setVisibility(View.VISIBLE);
+                        holder.im_pic.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        holder.im_pic_icon.setVisibility(View.GONE);
+                        holder.im_pic.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(AddressManager.get("photoHost") + images_net).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                        break;
+                    case 2:
+                        holder.im_pic_icon.setVisibility(View.GONE);
+                        holder.im_pic.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(new File(filest_local)).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                        break;
+                }
                 break;
             case 2:
                 holder.group2.setVisibility(View.GONE);
@@ -409,6 +420,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
 
     class GroupHolder {
         public TextView groupName;
+        public TextView tv_photoguide;
         public TextView tv_write_nick, tv_write_phone, tv_write_class, tv_start_time, tv_end_time;//昵称 电话 班级  班级开始时间 结束时间
         public ImageView arrow, im_pic_icon, im_pic, iv_write_head, //拍照审核照片   、  用户头像
                 im_state, im_right5; // 审核状态

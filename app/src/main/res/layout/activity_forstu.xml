@@ -170,7 +170,7 @@
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="复测审核"
+                    android:text="复测确认"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </LinearLayout>

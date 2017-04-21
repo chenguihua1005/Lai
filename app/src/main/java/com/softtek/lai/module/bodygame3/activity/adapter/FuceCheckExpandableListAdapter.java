@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.activity.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.view.FormData;
+import com.softtek.lai.module.bodygame3.activity.view.GuideActivity;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.squareup.picasso.Picasso;
 
@@ -32,24 +34,27 @@ import zilla.libcore.file.AddressManager;
 public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
     Context context;
     String filest, images;
-    int isWhatePic; //????
+    int isWhatePic; //
 
-    int firststatus; // ????
+    int firststatus; // 审核状态
     int IsEdit;
     private String[] groupArray = new String[]{"group1", "group2", "group3", "group4"};
     private List<List<String>> childArray;
     private MeasuredDetailsModel fcStDataModel;
 
+//    private int isAudit;// 1: 已审核  0 未审核
 
-    public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int IsEdit) {
+
+    public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int firststatus, String filest, String images, int
+            isWhatePic) {
         this.context = context;
         this.childArray = childArray;
         this.fcStDataModel = fcStDataModel;
-//        this.filest = filest;
-//        this.images = images;
-//        this.isWhatePic = isWhatePic;
-//        this.firststatus = firststatus;
-        this.IsEdit = IsEdit;
+        this.filest = filest;
+        this.images = images; //网络
+        this.isWhatePic = isWhatePic;
+        this.firststatus = firststatus;
+//        this.IsEdit = IsEdit;
 
     }
 
@@ -108,7 +113,7 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
             holder.groupName = (TextView) view.findViewById(R.id.tv_group_name);
             holder.arrow = (ImageView) view.findViewById(R.id.arrow);
             holder.im_pic_icon = (ImageView) view.findViewById(R.id.im_pic_icon);//拍照相机（不用）
-            holder.im_pic = (ImageView) view.findViewById(R.id.im_pic);
+            holder.im_pic = (ImageView) view.findViewById(R.id.im_pic);//显示图片
             holder.group1 = (LinearLayout) view.findViewById(R.id.group1);
             holder.group2 = (LinearLayout) view.findViewById(R.id.group2);
             holder.group3 = (LinearLayout) view.findViewById(R.id.group3);
@@ -118,10 +123,17 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
             holder.tv_start_time = (TextView) view.findViewById(R.id.tv_start_time);
             holder.tv_end_time = (TextView) view.findViewById(R.id.tv_end_time);
             holder.tv_write_class = (TextView) view.findViewById(R.id.tv_write_class);
+            holder.tv_takepho_guide = (TextView) view.findViewById(R.id.tv_takepho_guide);//拍照指南
 
             holder.im_state = (ImageView) view.findViewById(R.id.im_audit_states); // 初始录入状态  （如 已通过）
             holder.im_right5 = (ImageView) view.findViewById(R.id.im_right5); //拍照上传后面的 箭头
 //            holder.tv_retest_write_weekth = (TextView) view.findViewById(R.id.tv_retest_write_weekth);//第几周
+            holder.tv_takepho_guide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, GuideActivity.class));
+                }
+            });
             view.setTag(holder);
         } else {
             holder = (GroupHolder) view.getTag();
@@ -136,6 +148,8 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                 holder.tv_write_class.setText("所属班级：" + fcStDataModel.getClassName());
                 holder.tv_start_time.setText(fcStDataModel.getStartDate());
                 holder.tv_end_time.setText(fcStDataModel.getEndDate());
+
+                holder.tv_takepho_guide.setVisibility(View.GONE);
 
                 if (!TextUtils.isEmpty(fcStDataModel.getPhoto())) {
                     Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getPhoto()).placeholder(R.drawable.img_default).centerCrop()
@@ -169,49 +183,63 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                         );
                         break;
                 }
+
                 break;
-            case 1:
+            case 1: {
                 holder.group2.setVisibility(View.VISIBLE);
                 holder.group1.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
-                if (IsEdit != 1) {
-                    holder.im_right5.setVisibility(View.INVISIBLE);
+                holder.tv_takepho_guide.setVisibility(View.GONE);
+
+                if (IsEdit != 1) {//
+                    holder.im_right5.setVisibility(View.INVISIBLE);//拍照后面的箭头
                 }
 
-                if (!TextUtils.isEmpty(fcStDataModel.getThumbnail())) {
-                    Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-                } else {
-                    Picasso.with(context).load(R.drawable.default_icon_square).centerCrop()
-                            .fit().into(holder.im_pic);
+                if (firststatus == 3) { //已审核   有照片就展示，没照片显示默认图片， 不显示拍照指南
+                    holder.im_pic_icon.setVisibility(View.GONE);
+                    holder.tv_takepho_guide.setVisibility(View.GONE);
+                    holder.im_pic.setVisibility(View.VISIBLE);
+                    if (!TextUtils.isEmpty(fcStDataModel.getThumbnail())) {//后台有图片
+                        Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                    } else {
+                        Picasso.with(context).load(R.drawable.default_icon_square).centerCrop()
+                                .fit().into(holder.im_pic);
+                    }
+                } else {//未审核
+                    holder.tv_takepho_guide.setVisibility(View.VISIBLE);
+                    switch (isWhatePic)  ////0没有图片1网络图片2文件图片
+                    {
+                        case 0:
+                            //不存在图片
+                            holder.im_pic_icon.setVisibility(View.VISIBLE);
+                            holder.im_pic.setVisibility(View.GONE);
+                            break;
+                        case 1:
+                            holder.im_pic_icon.setVisibility(View.GONE);
+                            holder.im_pic.setVisibility(View.VISIBLE);
+                            Picasso.with(context).load(AddressManager.get("photoHost") + images).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                            break;
+                        case 2:
+                            holder.im_pic_icon.setVisibility(View.GONE);
+                            holder.im_pic.setVisibility(View.VISIBLE);
+                            Picasso.with(context).load(new File(filest)).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                            break;
+                    }
                 }
-//                switch (isWhatePic)  ////0没有图片1网络图片2文件图片
-//                {
-//                    case 0:
-//                        //不存在图片
-//                        holder.im_pic_icon.setVisibility(View.VISIBLE);
-//                        holder.im_pic.setVisibility(View.GONE);
-//                        break;
-//                    case 1:
-//                        holder.im_pic_icon.setVisibility(View.GONE);
-//                        holder.im_pic.setVisibility(View.VISIBLE);
-//                        Picasso.with(context).load(AddressManager.get("photoHost") + images).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-//                        break;
-//                    case 2:
-//                        holder.im_pic_icon.setVisibility(View.GONE);
-//                        holder.im_pic.setVisibility(View.VISIBLE);
-//                        Picasso.with(context).load(new File(filest)).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-//                        break;
-//                }
-                break;
+            }
+            break;
+
             case 2:
                 holder.group2.setVisibility(View.GONE);
                 holder.group1.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
+                holder.tv_takepho_guide.setVisibility(View.GONE);
                 break;
             case 3:
                 holder.group2.setVisibility(View.GONE);
                 holder.group1.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.VISIBLE);
+                holder.tv_takepho_guide.setVisibility(View.GONE);
                 //判断是否已经打开列表
                 if (isExpanded) {
                     holder.arrow.setBackgroundResource(R.drawable.arrow_up_icon);
@@ -418,6 +446,8 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
         public LinearLayout group1;
         public LinearLayout group2;
         public LinearLayout group3;
+
+        public TextView tv_takepho_guide;
     }
 
     class ChildHolder {
