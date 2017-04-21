@@ -41,7 +41,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
     private MeasuredDetailsModel fcStDataModel;
 
 
-    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic) {
+    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic,int IsEdit) {
         this.context = context;
         this.childArray = childArray;
         this.fcStDataModel = fcStDataModel;
@@ -49,7 +49,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
         this.images_net = images_net;
         this.isWhatePic = isWhatePic;
 //        this.firststatus = firststatus;
-//        this.IsEdit = IsEdit;
+        this.IsEdit = IsEdit;
 
     }
 
@@ -254,25 +254,32 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
         }
         switch (groupPosition) {
             case 0:
-                if (childArray.get(groupPosition).size() == 3) {
+                if (childArray.get(groupPosition).size() == 3) { //初始   4： 复测未录入
                     switch (childPosition) {
                         case 0:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getInitWeight()) ? "" : fcStDataModel.getInitWeight());
                             holder.tv_danwei.setText("斤");
                             break;
                         case 1:
-                            holder.tv_value.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
-//                            holder.tv_danwei.setText("斤");
-                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getWeightUnit()) ? "斤" : fcStDataModel.getWeightUnit());
-                            break;
-                        case 2:
+//                            holder.tv_value.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
+////                            holder.tv_danwei.setText("斤");
+//                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getWeightUnit()) ? "斤" : fcStDataModel.getWeightUnit());
+
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical()); //体脂
 //                            holder.tv_danwei.setText("%");
                             holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyFatUnit()) ? "%" : fcStDataModel.getBodyFatUnit());
                             break;
-                        case 3:
+                        case 2:
+//                            holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical()); //体脂
+////                            holder.tv_danwei.setText("%");
+//                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyFatUnit()) ? "%" : fcStDataModel.getBodyFatUnit());
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());//内脂内单位
-                            holder.tv_danwei.setText("    ");
+//                            holder.tv_danwei.setText("    ");
+
+                            break;
+                        case 3:
+//                            holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());//内脂内单位
+//                            holder.tv_danwei.setText("    ");
                             break;
                     }
                 } else {

@@ -30,7 +30,6 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.activity_honorranking)
 public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> implements FuceCheckListPresenter.FuceCheckListView {
-
     @InjectView(R.id.tab)
     TabLayout tab;
 

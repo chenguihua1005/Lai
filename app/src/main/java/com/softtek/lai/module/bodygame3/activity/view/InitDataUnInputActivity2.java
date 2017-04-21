@@ -122,7 +122,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static int resetdatestatus = 1;
 
-    private boolean isEditable = true; //本页是否可编辑
+    private int isEditable = 1; //本页是否可编辑
 
 
     @Override
@@ -138,9 +138,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 isExistPhoto = 2;
                 phtoPath_local = file;
 
-//UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic) {
-
-                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
                 exlisview_body.setAdapter(adapter);
 
                 int groupCount = exlisview_body.getCount();
@@ -159,7 +157,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 isExistPhoto = 2;
                 phtoPath_local = files;
 
-                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
                 exlisview_body.setAdapter(adapter);
 
                 int groupCount = exlisview_body.getCount();
@@ -195,7 +193,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             tv_title.setText("初始数据审核");
             tv_right.setText("审核通过");//保存数据
             cheng_float.setVisibility(View.VISIBLE);
-            isEditable = true;
+            isEditable = 1;
 
         } else {
             tv_title.setText("复测审核");
@@ -203,9 +201,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 tv_right.setVisibility(View.VISIBLE);
                 tv_right.setText("审核通过");//保存数据
                 cheng_float.setVisibility(View.VISIBLE);
-                isEditable = true;
+                isEditable = 1;
             } else {
-                isEditable = false;
+                isEditable = 0;
                 tv_right.setVisibility(View.INVISIBLE);
                 cheng_float.setVisibility(View.INVISIBLE);
             }
@@ -268,7 +266,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 isExistPhoto = 1;
             } else {
                 isExistPhoto = 2;
-                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
                 exlisview_body.setAdapter(adapter);
 
                 int groupCount = exlisview_body.getCount();
@@ -288,11 +286,20 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         progressDialog = new ProgressDialog(this);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
-        child.add(0, "初始体重");
-        child.add(1, "当前体重");
-        child.add(2, "体脂");
-        child.add(3, "内脂");
-        childArray.add(0, child);
+        if (typeforwhich == 0)// 0:初始未录入  1 ： 复测未录入
+        {
+            child.add(0, "初始体重");
+            child.add(1, "体脂");
+            child.add(2, "内脂");
+            childArray.add(0, child);
+        } else {
+            child.add(0, "初始体重");
+            child.add(1, "当前体重");
+            child.add(2, "体脂");
+            child.add(3, "内脂");
+            childArray.add(0, child);
+        }
+
         child3.add(0, "胸围");
         child3.add(1, "腰围");
         child3.add(2, "臀围");
@@ -321,9 +328,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         exlisview_body.setAdapter(adapter);
 
 
-        if (isEditable) { //0:初始未录入  1 ： 复测未录入
-
-
+        if (isEditable == 1) { //0:初始未录入  1 ： 复测未录入
             exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
                 public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
@@ -385,18 +390,40 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     switch (i) {
                         case 0:
                             switch (i1) {
+                                case 0:
+                                    if (typeforwhich == 0) {//初始
+                                        if ("1".equals(gender)) { //女的
+                                            show_information("初始体重", 600, 100, 50, 9, 0, 0, 0);
+                                        } else {
+                                            show_information("初始体重", 600, 150, 50, 9, 0, 0, 0);
+                                        }
+                                    }
+
+                                    break;
                                 case 1:
-                                    if ("1".equals(gender)) { //女的
-                                        show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
+                                    if (typeforwhich == 0) {//初始
+                                        show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
                                     } else {
-                                        show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
+                                        if ("1".equals(gender)) { //女的
+                                            show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
+                                        } else {
+                                            show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
+                                        }
                                     }
                                     break;
                                 case 2:
-                                    show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    if (typeforwhich == 0) {//初始
+                                        show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    } else {
+                                        show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    }
                                     break;
                                 case 3:
-                                    show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    if (typeforwhich == 0) {//初始
+
+                                    } else {
+                                        show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    }
                                     break;
 
                             }
@@ -520,23 +547,24 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (num) {
-                    case 0:
-//                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-//                        exlisview_body.setAdapter(adapter);
-//                        int groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
+                    case 0: {
+                        fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                        exlisview_body.setAdapter(adapter);
+                        int groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
 
-                        break;
-                    case 1:
+                    break;
+                    case 1: {
                         fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
 
@@ -551,13 +579,13 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                 }
                             }
                         }
+                    }
 
-
-                        break;
-                    case 2:
+                    break;
+                    case 2:    //体脂
                         fcStDataModel.setPysical(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
-                        groupCount = exlisview_body.getCount();
+                        int groupCount = exlisview_body.getCount();
                         for (int i = 0; i < groupCount; i++) {
                             if (i == 0) {
                                 exlisview_body.expandGroup(i);
@@ -1129,7 +1157,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     }
 
 
-                    adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
+                    adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
 
                     exlisview_body.setAdapter(adapter);
                     int groupCount = exlisview_body.getCount();
@@ -1156,6 +1184,8 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     @Override
     public void getStudentBasicalInfo(MeasuredDetailsModel model) {//FcStDataModel
         fcStDataModel = model;
+
+        Log.i(TAG, "获取后台数据 = " + new Gson().toJson(model));
         try {
             final String url = AddressManager.get("photoHost");
 //            if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
@@ -1183,7 +1213,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
 
             gender = model.getGender();
-            adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, image_url_net, isExistPhoto);//默认可编辑
+            adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, image_url_net, isExistPhoto, isEditable);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
             int groupCount = exlisview_body.getCount();

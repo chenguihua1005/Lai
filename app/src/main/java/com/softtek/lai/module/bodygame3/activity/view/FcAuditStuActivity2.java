@@ -122,7 +122,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private CharSequence[] items = {"拍照", "从相册选择照片"};
 
 
-
     @Override
     protected void initViews() {
         tv_right.setText("审核通过");
@@ -162,7 +161,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
         acmId = getIntent().getStringExtra("ACMId");
         accountId = getIntent().getLongExtra("accountId", 0);
-        resetdatestatus = getIntent().getIntExtra("resetdatestatus",1);
+        resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
 
 
         if (IsAudit != 0) { //IsAudit : 1  已审核
@@ -234,7 +233,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 isExistP = 2;
                 images_url = "";
 
-                adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -256,7 +255,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 files = file.toString();
                 isExistP = 2;
                 images_url = "";
-                adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
 //                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
 //                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
@@ -965,7 +964,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 firstStatus = 2; //待审核
             }// String images_url, files;//网络图片   拍照图片
 
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
 //            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
@@ -993,7 +992,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             } else {
                 isExistP = 2;
             }
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
 
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
@@ -1087,7 +1086,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                         fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
                     }
 
-                    adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP);//默认可编辑
+                    adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
                     exlisview_body.setAdapter(adapter);
                     int groupCount = exlisview_body.getCount();
                     for (int i = 0; i < groupCount; i++) {

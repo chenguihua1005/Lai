@@ -1,70 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/re_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
         <TextView
             android:id="@+id/tv_child_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="胸围"
-            android:layout_marginLeft="15dp"
-            android:textSize="14sp"
-            android:textColor="#666666"
             android:layout_centerVertical="true"
-            />
+            android:layout_marginLeft="15dp"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#ffa200"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/tv_danwei"
-            android:layout_marginRight="10dp"/>
+            android:textColor="#ffa200"
+            android:textSize="14sp" />
+
         <TextView
+            android:id="@+id/tv_danwei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_danwei"
-            android:layout_toLeftOf="@+id/im_aciton"
-            android:text="cm"
-            android:textColor="#333333"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/im_aciton"
+            android:textColor="#333333" />
+
         <ImageView
             android:id="@+id/im_pic_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/retest_write_takephoto"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:visibility="gone"
-            android:layout_toLeftOf="@+id/im_aciton"/>
+            android:layout_toLeftOf="@+id/im_aciton"
+            android:src="@drawable/retest_write_takephoto"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/im_pic"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:visibility="gone"
-            android:layout_toLeftOf="@+id/im_aciton"/>
+            android:layout_toLeftOf="@+id/im_aciton"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/im_aciton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e1e1e1"/>
+        android:background="#e1e1e1" />
 </LinearLayout>
