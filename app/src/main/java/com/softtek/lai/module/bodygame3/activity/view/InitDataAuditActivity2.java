@@ -806,48 +806,64 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
     @Override
     public void onValidationSucceeded() {
-        if (isExistP == 0) {
-            Util.toastMsg("请拍照！");
-            return;
-        }
+        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
+            String message = "初始体重为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
+            String message = "体脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
+            String message = "内脂为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (isExistP == 0) {
+            String message = "请上传图片";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else {
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
 
+            fcAuditPostModel = new FcAuditPostModel();
+            if (!TextUtils.isEmpty(files)) {
+                File image = new File(files);
+                //先上传图片
+                CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+                service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
+                        new RequestCallback<ResponseData<ImageResponse2>>() {
+                            @Override
+                            public void success(ResponseData<ImageResponse2> data, Response response) {
+                                int status = data.getStatus();
 
-        progressDialog.setMessage("正在提交数据，请等待");
-        progressDialog.show();
+                                if (status == 200) {
+                                    fcAuditPostModel.setFileName(data.getData().imgName);
+                                    fcAuditPostModel.setThumbnail(data.getData().thubName);
+                                    doSetPostData();
+                                } else {
+                                    dialogShow("上传图片失败！");
+                                    dialogDissmiss();
+                                }
+                            }
 
-        fcAuditPostModel = new FcAuditPostModel();
-        if (!TextUtils.isEmpty(files)) {
-            File image = new File(files);
-            //先上传图片
-            CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
-            service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
-                    new RequestCallback<ResponseData<ImageResponse2>>() {
-                        @Override
-                        public void success(ResponseData<ImageResponse2> data, Response response) {
-                            int status = data.getStatus();
-
-                            if (status == 200) {
-                                fcAuditPostModel.setFileName(data.getData().imgName);
-                                fcAuditPostModel.setThumbnail(data.getData().thubName);
-                                doSetPostData();
-                            } else {
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
                                 dialogShow("上传图片失败！");
                                 dialogDissmiss();
                             }
-                        }
+                        });
 
-                        @Override
-                        public void failure(RetrofitError error) {
-                            super.failure(error);
-                            dialogShow("上传图片失败！");
-                            dialogDissmiss();
-                        }
-                    });
-
-        } else { //直接提交审核
-            fcAuditPostModel.setFileName(fcStDataModel.getImg());
-            fcAuditPostModel.setThumbnail(fcStDataModel.getImgThumbnail());
-            doSetPostData();
+            } else { //直接提交审核
+                fcAuditPostModel.setFileName(fcStDataModel.getImg());
+                fcAuditPostModel.setThumbnail(fcStDataModel.getImgThumbnail());
+                doSetPostData();
+            }
         }
     }
 
