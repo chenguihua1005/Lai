@@ -735,6 +735,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onStop() {
         super.onStop();
+        disconnectBluetooth();
     }
 
     @Override
