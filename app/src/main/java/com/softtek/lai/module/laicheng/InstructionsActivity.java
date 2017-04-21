@@ -7,11 +7,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 
-public class InstructionsActivity extends AppCompatActivity {
+public class InstructionsActivity extends AppCompatActivity implements View.OnClickListener{
     WebView cWebView;
+    TextView tv_title;
+    LinearLayout ll_left;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,10 @@ public class InstructionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_instructions);
         setTitle("使用说明书");
         cWebView = (WebView) findViewById(R.id.activity_instruction_web);
+        tv_title=(TextView) findViewById(R.id.tv_title);
+        ll_left=(LinearLayout)findViewById(R.id.ll_left);
+        ll_left.setOnClickListener(this);
+        tv_title.setText("使用说明");
         cWebView.loadUrl("https://api.yunyingyang.com/html/help.html");
         cWebView.setWebViewClient(new WebViewClient() {
             @Override
@@ -38,5 +46,14 @@ public class InstructionsActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode,event);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_left:
+                finish();
+                break;
+        }
     }
 }
