@@ -198,6 +198,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (requestCode == FCAudit && resultCode == RESULT_OK) {
+                memberListModels.clear();
                 getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
 
 //                String ACMID = data.getStringExtra("ACMID");

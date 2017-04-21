@@ -138,8 +138,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 isExistPhoto = 2;
                 phtoPath_local = file;
 
-//UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic) {
-
                 adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto);//默认可编辑
                 exlisview_body.setAdapter(adapter);
 
@@ -288,11 +286,20 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         progressDialog = new ProgressDialog(this);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
-        child.add(0, "初始体重");
-        child.add(1, "当前体重");
-        child.add(2, "体脂");
-        child.add(3, "内脂");
-        childArray.add(0, child);
+        if (typeforwhich == 0)// 0:初始未录入  1 ： 复测未录入
+        {
+            child.add(0, "初始体重");
+            child.add(1, "体脂");
+            child.add(2, "内脂");
+            childArray.add(0, child);
+        } else {
+            child.add(0, "初始体重");
+            child.add(1, "当前体重");
+            child.add(2, "体脂");
+            child.add(3, "内脂");
+            childArray.add(0, child);
+        }
+
         child3.add(0, "胸围");
         child3.add(1, "腰围");
         child3.add(2, "臀围");
@@ -322,8 +329,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
 
         if (isEditable) { //0:初始未录入  1 ： 复测未录入
-
-
             exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
                 public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
@@ -385,18 +390,40 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     switch (i) {
                         case 0:
                             switch (i1) {
+                                case 0:
+                                    if (typeforwhich == 0) {//初始
+                                        if ("1".equals(gender)) { //女的
+                                            show_information("初始体重", 600, 100, 50, 9, 0, 0, 0);
+                                        } else {
+                                            show_information("初始体重", 600, 150, 50, 9, 0, 0, 0);
+                                        }
+                                    }
+
+                                    break;
                                 case 1:
-                                    if ("1".equals(gender)) { //女的
-                                        show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
+                                    if (typeforwhich == 0) {//初始
+                                        show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
                                     } else {
-                                        show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
+                                        if ("1".equals(gender)) { //女的
+                                            show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
+                                        } else {
+                                            show_information("当前体重", 600, 150, 50, 9, 0, 0, 1);
+                                        }
                                     }
                                     break;
                                 case 2:
-                                    show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    if (typeforwhich == 0) {//初始
+                                        show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    } else {
+                                        show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    }
                                     break;
                                 case 3:
-                                    show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    if (typeforwhich == 0) {//初始
+
+                                    } else {
+                                        show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+                                    }
                                     break;
 
                             }
@@ -520,23 +547,24 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (num) {
-                    case 0:
-//                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-//                        exlisview_body.setAdapter(adapter);
-//                        int groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
+                    case 0: {
+                        fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                        exlisview_body.setAdapter(adapter);
+                        int groupCount = exlisview_body.getCount();
+                        for (int i = 0; i < groupCount; i++) {
+                            if (i == 0) {
+                                exlisview_body.expandGroup(i);
+                            }
+                            if (i == 3) {
+                                if (IsZhankai) {
+                                    exlisview_body.expandGroup(i);
+                                }
+                            }
+                        }
+                    }
 
-                        break;
-                    case 1:
+                    break;
+                    case 1: {
                         fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
 
@@ -551,13 +579,13 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                 }
                             }
                         }
+                    }
 
-
-                        break;
-                    case 2:
+                    break;
+                    case 2:    //体脂
                         fcStDataModel.setPysical(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
-                        groupCount = exlisview_body.getCount();
+                        int groupCount = exlisview_body.getCount();
                         for (int i = 0; i < groupCount; i++) {
                             if (i == 0) {
                                 exlisview_body.expandGroup(i);
@@ -856,90 +884,93 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
 
     private void doSetPostData() {
-        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
-            String message = "初始体重为必填项，请选择";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
-        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
-            String message = "体脂为必填项，请选择";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
-        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
-            String message = "内脂为必填项，请选择";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
-        } else if (isExistPhoto == 0) {
-            String message = "请上传图片";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
-        } else {
-            progressDialog.setMessage("正在提交数据，请等待");
-            progressDialog.show();
-            if (isExistPhoto == 2) {
-                //上传图片
-                File image = new File(phtoPath_local);
-                CommunityService communityService = ZillaApi.NormalRestAdapter.create(CommunityService.class);
-                communityService.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
-                        new RequestCallback<ResponseData<ImageResponse2>>() {
-                            @Override
-                            public void success(ResponseData<ImageResponse2> imageResponse2ResponseData, Response response) {
-                                int status = imageResponse2ResponseData.getStatus();
-                                if (status == 200) {
-                                    fcAuditPostModel.setFileName(imageResponse2ResponseData.getData().imgName);
-                                    fcAuditPostModel.setThumbnail(imageResponse2ResponseData.getData().thubName);
-                                } else {
-                                    progressDialog.setMessage("提交失败");
-                                    dialogDissmiss();
-                                    return;
-                                }
 
-                            }
+        Log.i(TAG, "数据 = " + new Gson().toJson(fcStDataModel));
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                super.failure(error);
-                                progressDialog.setMessage("提交失败");
-                                dialogDissmiss();
-                                return;
-                            }
-                        });
-            }
-
-
-            fcAuditPostModel.setACMId(ACMID);
-            fcAuditPostModel.setAccountId(AccountId + "");
-            fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
-            fcAuditPostModel.setWeekNum(fcStDataModel.getWeekNum());
-            fcAuditPostModel.setClassId(classId);
-
-            fcAuditPostModel.setWeight(fcStDataModel.getWeight());
-            fcAuditPostModel.setPysical(fcStDataModel.getPysical());
-            fcAuditPostModel.setFat(fcStDataModel.getFat());
-            fcAuditPostModel.setCircum(fcStDataModel.getCircum());//胸围
-            fcAuditPostModel.setHiplie(fcStDataModel.getHiplie());//臀围
-            fcAuditPostModel.setWaistline(fcStDataModel.getWaistline());//腰围
-            fcAuditPostModel.setUpArmGirth(fcStDataModel.getUpArmGirth());
-            fcAuditPostModel.setUpLegGirth(fcStDataModel.getUpLegGirth());
-            fcAuditPostModel.setDoLegGirth(fcStDataModel.getDoLegGirth());
-
-
-            fcAuditPostModel.setBmi(fcStDataModel.getBmi());
-            fcAuditPostModel.setFatFreeMass(fcStDataModel.getFatFreeMass());
-            fcAuditPostModel.setBodyWaterRate(fcStDataModel.getBodyWaterRate());
-            fcAuditPostModel.setBodyWater(fcStDataModel.getBodyWater());
-
-            fcAuditPostModel.setMuscleMass(fcStDataModel.getMuscleMass());
-            fcAuditPostModel.setBoneMass(fcStDataModel.getBoneMass());
-            fcAuditPostModel.setBasalMetabolism(fcStDataModel.getBasalMetabolism());
-            fcAuditPostModel.setPhysicalAge(fcStDataModel.getPhysicalAge());
-
-
-            doPostInitData();
-        }
+//        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
+//            String message = "初始体重为必填项，请选择";
+//            new AlertDialog.Builder(this)
+//                    .setMessage(message)
+//                    .create().show();
+//        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
+//            String message = "体脂为必填项，请选择";
+//            new AlertDialog.Builder(this)
+//                    .setMessage(message)
+//                    .create().show();
+//        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
+//            String message = "内脂为必填项，请选择";
+//            new AlertDialog.Builder(this)
+//                    .setMessage(message)
+//                    .create().show();
+//        } else if (isExistPhoto == 0) {
+//            String message = "请上传图片";
+//            new AlertDialog.Builder(this)
+//                    .setMessage(message)
+//                    .create().show();
+//        } else {
+//            progressDialog.setMessage("正在提交数据，请等待");
+//            progressDialog.show();
+//            if (isExistPhoto == 2) {
+//                //上传图片
+//                File image = new File(phtoPath_local);
+//                CommunityService communityService = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+//                communityService.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
+//                        new RequestCallback<ResponseData<ImageResponse2>>() {
+//                            @Override
+//                            public void success(ResponseData<ImageResponse2> imageResponse2ResponseData, Response response) {
+//                                int status = imageResponse2ResponseData.getStatus();
+//                                if (status == 200) {
+//                                    fcAuditPostModel.setFileName(imageResponse2ResponseData.getData().imgName);
+//                                    fcAuditPostModel.setThumbnail(imageResponse2ResponseData.getData().thubName);
+//                                } else {
+//                                    progressDialog.setMessage("提交失败");
+//                                    dialogDissmiss();
+//                                    return;
+//                                }
+//
+//                            }
+//
+//                            @Override
+//                            public void failure(RetrofitError error) {
+//                                super.failure(error);
+//                                progressDialog.setMessage("提交失败");
+//                                dialogDissmiss();
+//                                return;
+//                            }
+//                        });
+//            }
+//
+//
+//            fcAuditPostModel.setACMId(ACMID);
+//            fcAuditPostModel.setAccountId(AccountId + "");
+//            fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
+//            fcAuditPostModel.setWeekNum(fcStDataModel.getWeekNum());
+//            fcAuditPostModel.setClassId(classId);
+//
+//            fcAuditPostModel.setWeight(fcStDataModel.getWeight());
+//            fcAuditPostModel.setPysical(fcStDataModel.getPysical());
+//            fcAuditPostModel.setFat(fcStDataModel.getFat());
+//            fcAuditPostModel.setCircum(fcStDataModel.getCircum());//胸围
+//            fcAuditPostModel.setHiplie(fcStDataModel.getHiplie());//臀围
+//            fcAuditPostModel.setWaistline(fcStDataModel.getWaistline());//腰围
+//            fcAuditPostModel.setUpArmGirth(fcStDataModel.getUpArmGirth());
+//            fcAuditPostModel.setUpLegGirth(fcStDataModel.getUpLegGirth());
+//            fcAuditPostModel.setDoLegGirth(fcStDataModel.getDoLegGirth());
+//
+//
+//            fcAuditPostModel.setBmi(fcStDataModel.getBmi());
+//            fcAuditPostModel.setFatFreeMass(fcStDataModel.getFatFreeMass());
+//            fcAuditPostModel.setBodyWaterRate(fcStDataModel.getBodyWaterRate());
+//            fcAuditPostModel.setBodyWater(fcStDataModel.getBodyWater());
+//
+//            fcAuditPostModel.setMuscleMass(fcStDataModel.getMuscleMass());
+//            fcAuditPostModel.setBoneMass(fcStDataModel.getBoneMass());
+//            fcAuditPostModel.setBasalMetabolism(fcStDataModel.getBasalMetabolism());
+//            fcAuditPostModel.setPhysicalAge(fcStDataModel.getPhysicalAge());
+//
+//
+//            doPostInitData();
+//        }
     }
 
 
@@ -1156,6 +1187,8 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     @Override
     public void getStudentBasicalInfo(MeasuredDetailsModel model) {//FcStDataModel
         fcStDataModel = model;
+
+        Log.i(TAG, "获取后台数据 = " + new Gson().toJson(model));
         try {
             final String url = AddressManager.get("photoHost");
 //            if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {

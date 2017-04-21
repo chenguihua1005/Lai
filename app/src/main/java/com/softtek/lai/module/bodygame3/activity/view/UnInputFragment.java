@@ -160,6 +160,7 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ChuAudit && resultCode == RESULT_OK) {
+            memberListModels.clear();
             getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, 10);
 
 //            String ACMID = data.getStringExtra("ACMID");
