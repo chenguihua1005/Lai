@@ -155,10 +155,18 @@ public interface FuceSevice {
     );
 
     //初始数据审核提交
+//    @POST("/v1/MeasuredRecordLog/ReviewInitData")
+//    void doReviewInitData(
+//            @Header("token") String token,
+//            @Body InitAuditPModel initAuditPModel,
+//            Callback<ResponseData> callback
+//    );
+
+    //初始数据审核提交
     @POST("/v1/MeasuredRecordLog/ReviewInitData")
     void doReviewInitData(
             @Header("token") String token,
-            @Body InitAuditPModel initAuditPModel,
+            @Body FcAuditPostModel initAuditPModel,
             Callback<ResponseData> callback
     );
 
@@ -181,13 +189,14 @@ public interface FuceSevice {
             @Query("pageSize") int pageSize,
             Callback<ResponseData<List<MeasureListModel>>> callback
     );
+
     //上传照片
     @Multipart
     @POST("/V1/FileUpload/PostFile")
     void uploadphoto(
-            @Header("token")String token,
-            @Field("image")File img,
-            Callback<ResponseData<FuceImgModel>>callback
+            @Header("token") String token,
+            @Field("image") File img,
+            Callback<ResponseData<FuceImgModel>> callback
     );
 
 }

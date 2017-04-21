@@ -943,7 +943,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
     FuceSevice fuceSevice;
 
     void doPostInitData() {
-        fuceSevice.doReviewMeasuredRecord(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
+        fuceSevice.doReviewInitData(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 try {
