@@ -7,22 +7,6 @@ import java.io.Serializable;
  */
 
 public class BleMainData implements Serializable{
-    @Override
-    public String toString() {
-        return "BleMainData{" +
-                "recordId='" + recordId + '\'' +
-                ", weight=" + weight +
-                ", weightUnit='" + weightUnit + '\'' +
-                ", bodyTypeTitle='" + bodyTypeTitle + '\'' +
-                ", bodyTypeColor='" + bodyTypeColor + '\'' +
-                ", BMI='" + BMI + '\'' +
-                ", bodyFatRate='" + bodyFatRate + '\'' +
-                ", bodyFat='" + bodyFat + '\'' +
-                ", viscusFatIndex='" + viscusFatIndex + '\'' +
-                ", measuredTime='" + measuredTime + '\'' +
-                ", visitor=" + visitor +
-                '}';
-    }
 
     /**
      * recordId : 95b952c3-7863-4ed6-8414-0cbfb1e8ebef
@@ -30,10 +14,27 @@ public class BleMainData implements Serializable{
      * weightUnit : 斤
      * bodyTypeTitle : 超重
      * bodyTypeColor : ff6666
-     * BMI : 24.2kg/m2
-     * bodyFatRate : 29.4%
-     * viscusFatIndex : 8.3
-     * measuredTime : 2017年4月14日 09:52
+     * BMI : 25.7
+     * BMIUnit : kg/m2
+     * bodyFat : 18.7
+     * bodyFatUnit : kg
+     * bodyFatRate : 25.2
+     * bodyFatRateUnit : %
+     * viscusFatIndex : 7.2
+     * fatFreemass : 55.5
+     * fatFreemassUnit : kg
+     * waterContent : 40.8
+     * waterContentUnit : kg
+     * waterContentRate : 55
+     * waterContentRateUnit : “%”
+     * bonemass : 3
+     * bonemassUnit : kg
+     * musclemass : 51.7
+     * musclemassUnit : kg
+     * basalmetabolicrate : 1576.1
+     * basalmetabolicrateUnit : kcal/day
+     * physicalAge : 31.8
+     * measuredTime : 2017年4月20日 17:55
      * visitor : {"Name":"翁总哦","BirthDate":"1992-04-13","Age":25,"Gender":0,"Height":170,"PhoneNo":""}
      */
 
@@ -43,27 +44,25 @@ public class BleMainData implements Serializable{
     private String bodyTypeTitle;
     private String bodyTypeColor;
     private String BMI;
-    private String bodyFatRate;
+    private String BMIUnit;
     private String bodyFat;
-    private String physicalAge;
-
-    public String getPhysicalAge() {
-        return physicalAge;
-    }
-
-    public void setPhysicalAge(String physicalAge) {
-        this.physicalAge = physicalAge;
-    }
-
-    public String getBodyFat() {
-        return bodyFat;
-    }
-
-    public void setBodyFat(String bodyFat) {
-        this.bodyFat = bodyFat;
-    }
-
+    private String bodyFatUnit;
+    private String bodyFatRate;
+    private String bodyFatRateUnit;
     private String viscusFatIndex;
+    private String fatFreemass;
+    private String fatFreemassUnit;
+    private String waterContent;
+    private String waterContentUnit;
+    private String waterContentRate;
+    private String waterContentRateUnit;
+    private String bonemass;
+    private String bonemassUnit;
+    private String musclemass;
+    private String musclemassUnit;
+    private String basalmetabolicrate;
+    private String basalmetabolicrateUnit;
+    private String physicalAge;
     private String measuredTime;
     private VisitorBean visitor;
 
@@ -115,6 +114,30 @@ public class BleMainData implements Serializable{
         this.BMI = BMI;
     }
 
+    public String getBMIUnit() {
+        return BMIUnit;
+    }
+
+    public void setBMIUnit(String BMIUnit) {
+        this.BMIUnit = BMIUnit;
+    }
+
+    public String getBodyFat() {
+        return bodyFat;
+    }
+
+    public void setBodyFat(String bodyFat) {
+        this.bodyFat = bodyFat;
+    }
+
+    public String getBodyFatUnit() {
+        return bodyFatUnit;
+    }
+
+    public void setBodyFatUnit(String bodyFatUnit) {
+        this.bodyFatUnit = bodyFatUnit;
+    }
+
     public String getBodyFatRate() {
         return bodyFatRate;
     }
@@ -123,12 +146,124 @@ public class BleMainData implements Serializable{
         this.bodyFatRate = bodyFatRate;
     }
 
+    public String getBodyFatRateUnit() {
+        return bodyFatRateUnit;
+    }
+
+    public void setBodyFatRateUnit(String bodyFatRateUnit) {
+        this.bodyFatRateUnit = bodyFatRateUnit;
+    }
+
     public String getViscusFatIndex() {
         return viscusFatIndex;
     }
 
     public void setViscusFatIndex(String viscusFatIndex) {
         this.viscusFatIndex = viscusFatIndex;
+    }
+
+    public String getFatFreemass() {
+        return fatFreemass;
+    }
+
+    public void setFatFreemass(String fatFreemass) {
+        this.fatFreemass = fatFreemass;
+    }
+
+    public String getFatFreemassUnit() {
+        return fatFreemassUnit;
+    }
+
+    public void setFatFreemassUnit(String fatFreemassUnit) {
+        this.fatFreemassUnit = fatFreemassUnit;
+    }
+
+    public String getWaterContent() {
+        return waterContent;
+    }
+
+    public void setWaterContent(String waterContent) {
+        this.waterContent = waterContent;
+    }
+
+    public String getWaterContentUnit() {
+        return waterContentUnit;
+    }
+
+    public void setWaterContentUnit(String waterContentUnit) {
+        this.waterContentUnit = waterContentUnit;
+    }
+
+    public String getWaterContentRate() {
+        return waterContentRate;
+    }
+
+    public void setWaterContentRate(String waterContentRate) {
+        this.waterContentRate = waterContentRate;
+    }
+
+    public String getWaterContentRateUnit() {
+        return waterContentRateUnit;
+    }
+
+    public void setWaterContentRateUnit(String waterContentRateUnit) {
+        this.waterContentRateUnit = waterContentRateUnit;
+    }
+
+    public String getBonemass() {
+        return bonemass;
+    }
+
+    public void setBonemass(String bonemass) {
+        this.bonemass = bonemass;
+    }
+
+    public String getBonemassUnit() {
+        return bonemassUnit;
+    }
+
+    public void setBonemassUnit(String bonemassUnit) {
+        this.bonemassUnit = bonemassUnit;
+    }
+
+    public String getMusclemass() {
+        return musclemass;
+    }
+
+    public void setMusclemass(String musclemass) {
+        this.musclemass = musclemass;
+    }
+
+    public String getMusclemassUnit() {
+        return musclemassUnit;
+    }
+
+    public void setMusclemassUnit(String musclemassUnit) {
+        this.musclemassUnit = musclemassUnit;
+    }
+
+    public String getBasalmetabolicrate() {
+        return basalmetabolicrate;
+    }
+
+    public void setBasalmetabolicrate(String basalmetabolicrate) {
+        this.basalmetabolicrate = basalmetabolicrate;
+    }
+
+    public String getBasalmetabolicrateUnit() {
+        return basalmetabolicrateUnit;
+    }
+
+    public void setBasalmetabolicrateUnit(String basalmetabolicrateUnit) {
+        this.basalmetabolicrateUnit = basalmetabolicrateUnit;
+    }
+
+    public String getPhysicalAge() {
+        return physicalAge;
+    }
+
+    public void setPhysicalAge(String physicalAge) {
+        this.physicalAge = physicalAge;
     }
 
     public String getMeasuredTime() {
@@ -147,7 +282,7 @@ public class BleMainData implements Serializable{
         this.visitor = visitor;
     }
 
-    public static class VisitorBean implements Serializable{
+    public static class VisitorBean {
         /**
          * Name : 翁总哦
          * BirthDate : 1992-04-13
