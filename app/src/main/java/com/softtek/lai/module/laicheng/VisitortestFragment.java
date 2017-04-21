@@ -401,7 +401,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     tv_name.setText(model.getName());
                     tv_phoneNo.setText(model.getPhoneNo());
                     tv_age.setText((NowYear - choose_year) + "");
-//                    tv_age.setText(model.getBirthDate());
                     if (0 == model.getGender()) {
                         tv_gender.setText("男");
                     } else {
