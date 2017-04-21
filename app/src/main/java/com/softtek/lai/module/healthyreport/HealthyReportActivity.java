@@ -108,7 +108,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        adapter = new HealthyReportAdapter(items, this);
+        adapter = new HealthyReportAdapter(items, this,isVisitor==1);
         adapter.setListener(this);
         list.setAdapter(adapter);
         scrollView.post(new Runnable() {

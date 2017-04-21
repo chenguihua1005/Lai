@@ -2,6 +2,7 @@ package com.softtek.lai.module.healthyreport.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -30,10 +31,12 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<HealthyReportAdap
     private Context context;
     private List<HealthyItem> items;
     private OnItemClickListener listener;
+    private boolean isVisitor;
 
-    public HealthyReportAdapter(List<HealthyItem> items, Context context) {
+    public HealthyReportAdapter(List<HealthyItem> items, Context context,boolean isVisitor) {
         this.items = items;
         this.context = context;
+        this.isVisitor=isVisitor;
     }
     @Override
     public HealthyReportHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,6 +54,11 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<HealthyReportAdap
             }else {
                 holder.tv_standard.setTextColor(Color.parseColor("#"+item.getColor()));
             }
+        }
+        if(isVisitor){
+            holder.tv_standard.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+        }else {
+            holder.tv_standard.setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.healthy_chart),null);
         }
         if(!TextUtils.isEmpty(item.getValue())){
             SpannableString ss=new SpannableString(item.getValue()+item.getUnit());
