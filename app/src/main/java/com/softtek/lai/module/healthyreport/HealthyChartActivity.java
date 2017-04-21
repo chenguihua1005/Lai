@@ -36,7 +36,7 @@ public class HealthyChartActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
-        tv_title.setText("历史数据");
+        tv_title.setText("数据解读");
     }
 
     @Override

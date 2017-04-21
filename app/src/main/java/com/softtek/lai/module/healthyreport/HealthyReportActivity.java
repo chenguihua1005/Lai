@@ -159,7 +159,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
 
     @Override
     public void getData(HealthyReport data) {
-
+        fl_share.setVisibility(View.VISIBLE);
         accountId = data.getAccountId();
         tv_user.setText(data.getUsername());
         tv_time.setText(data.getMeasureTime());
