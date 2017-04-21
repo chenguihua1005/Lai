@@ -330,6 +330,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
 //        disconnectBluetooth();
         testTimeOut = 0;//超时时间
+        Log.d("bluetoothDataError","进入bluetoothDataError");
     }
 
     //校验蓝牙数据
@@ -339,6 +340,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             return false;
         }
         newData = newData.replaceAll(" ", "");
+        Log.d("validateMessage","最开始初始的newData-----===========" + newData);
         if (!newData.startsWith("6495")) {
             if (newData.indexOf("64950102f2") >= 0) {
                 newData = "64950102f2";
@@ -723,7 +725,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         permission.recycle();
         disconnectBluetooth();
         isVoiceHelp = true;
-
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override

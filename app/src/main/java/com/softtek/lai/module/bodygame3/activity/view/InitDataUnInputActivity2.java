@@ -120,6 +120,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
+    private static int resetdatestatus = 1;
+
+    private boolean isEditable = true; //本页是否可编辑
 
 
     @Override
@@ -182,25 +185,45 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
         type = getIntent().getIntExtra("type", -1);
 
-        typeforwhich = getIntent().getIntExtra("typeforwhich", -1);
+        typeforwhich = getIntent().getIntExtra("typeforwhich", -1); // 0:初始未录入  1 ： 复测未录入
 //        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
         guangboname = getIntent().getStringExtra("guangboname");
+        resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
 
         if (typeforwhich == 0) {
             tv_title.setText("初始数据审核");
-        } else {
-            tv_title.setText("复测审核");
-        }
-
-        if (IsAudit == 1) {
-            tv_right.setVisibility(View.INVISIBLE);
-            cheng_float.setVisibility(View.INVISIBLE);
-//            im_audit_states.setImageResource(R.drawable.passed);   //??????
-        } else {
             tv_right.setText("审核通过");//保存数据
             cheng_float.setVisibility(View.VISIBLE);
+            isEditable = true;
+
+        } else {
+            tv_title.setText("复测审核");
+            if (resetdatestatus == 2) {//只有进行的可以编辑
+                tv_right.setVisibility(View.VISIBLE);
+                tv_right.setText("审核通过");//保存数据
+                cheng_float.setVisibility(View.VISIBLE);
+                isEditable = true;
+            } else {
+                isEditable = false;
+                tv_right.setVisibility(View.INVISIBLE);
+                cheng_float.setVisibility(View.INVISIBLE);
+            }
+
         }
+
+
+//        if (IsAudit == 1) {
+//            tv_right.setVisibility(View.INVISIBLE);
+//            cheng_float.setVisibility(View.INVISIBLE);
+////            im_audit_states.setImageResource(R.drawable.passed);   //??????
+//        } else {
+//            tv_right.setText("审核通过");//保存数据
+//            cheng_float.setVisibility(View.VISIBLE);
+//        }
+
+
+        fcAuditPostModel = new FcAuditPostModel();
 
 
         ll_left.setOnClickListener(this);
@@ -297,61 +320,65 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         exlisview_body.setGroupIndicator(null);
         exlisview_body.setAdapter(adapter);
 
-        exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                switch (i) {
-                    case 1:
-                        if (isExistPhoto != 0) {
-                            Intent intent1 = new Intent(InitDataUnInputActivity2.this, PreViewPicActivity.class);
-                            if (isExistPhoto == 1) {
-                                intent1.putExtra("photoname", fcAuditPostModel.getFileName());
-                            } else {
-                                intent1.putExtra("images", phtoPath_local);//本地
-                            }
-                            intent1.putExtra("IsEdit", 1);
-                            startActivityForResult(intent1, GET_PRE);
-                        } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(InitDataUnInputActivity2.this);
-                            builder.setItems(items, new DialogInterface.OnClickListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.M)
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        //拍照
-                                        if (ActivityCompat.checkSelfPermission(InitDataUnInputActivity2.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                            //允许弹出提示
-                                            ActivityCompat.requestPermissions(InitDataUnInputActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                        } else {
-                                            imageFileSelector.takePhoto(InitDataUnInputActivity2.this);
-                                        }
-                                    } else if (which == 1) {
-                                        //照片
-                                        imageFileSelector.selectMutilImage(InitDataUnInputActivity2.this, 1);
-                                    }
+
+        if (isEditable) { //0:初始未录入  1 ： 复测未录入
+
+
+            exlisview_body.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                    switch (i) {
+                        case 1:
+                            if (isExistPhoto != 0) {
+                                Intent intent1 = new Intent(InitDataUnInputActivity2.this, PreViewPicActivity.class);
+                                if (isExistPhoto == 1) {
+                                    intent1.putExtra("photoname", fcAuditPostModel.getFileName());
+                                } else {
+                                    intent1.putExtra("images", phtoPath_local);//本地
                                 }
-                            }).create().show();
-                        }
+                                intent1.putExtra("IsEdit", 1);
+                                startActivityForResult(intent1, GET_PRE);
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(InitDataUnInputActivity2.this);
+                                builder.setItems(items, new DialogInterface.OnClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.M)
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (which == 0) {
+                                            //拍照
+                                            if (ActivityCompat.checkSelfPermission(InitDataUnInputActivity2.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                                //允许弹出提示
+                                                ActivityCompat.requestPermissions(InitDataUnInputActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            } else {
+                                                imageFileSelector.takePhoto(InitDataUnInputActivity2.this);
+                                            }
+                                        } else if (which == 1) {
+                                            //照片
+                                            imageFileSelector.selectMutilImage(InitDataUnInputActivity2.this, 1);
+                                        }
+                                    }
+                                }).create().show();
+                            }
 
-                        break;
-                    case 2:
+                            break;
+                        case 2:
 //                        startActivity(new Intent(FcAuditStuActivity2.this, GuideActivity.class));
-                        break;
-                    case 3:
-                        if (IsZhankai) {
-                            IsZhankai = false;
-                        } else {
-                            IsZhankai = true;
-                        }
-                        break;
+                            break;
+                        case 3:
+                            if (IsZhankai) {
+                                IsZhankai = false;
+                            } else {
+                                IsZhankai = true;
+                            }
+                            break;
+                    }
+                    return i == 0 || i == 1 || i == 2 ? true : false;
                 }
-                return i == 0 || i == 1 || i == 2 ? true : false;
-            }
-        });
+            });
 
 
-        if (IsAudit == 0) {
+//        if (IsAudit == 0) {
             exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
@@ -882,7 +909,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                         });
             }
 
-            fcAuditPostModel = new FcAuditPostModel();
+
             fcAuditPostModel.setACMId(ACMID);
             fcAuditPostModel.setAccountId(AccountId + "");
             fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");

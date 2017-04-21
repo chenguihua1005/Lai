@@ -197,7 +197,6 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
 
     @Override
     public void getInitAuditList(List<AuditListModel> list) {
-        memberListModels.clear();
         if (list != null && list.size() != 0) {
             int unFuce_num = 0;
             int uncheck_num = 0;
@@ -245,6 +244,7 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_UNINPUT_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                memberListModels.clear();
                 getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, 10);
             }
         }

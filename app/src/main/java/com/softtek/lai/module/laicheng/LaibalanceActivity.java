@@ -291,4 +291,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         Log.d("testGuestInfo-------------", String.valueOf(test));
     }
 
+    @OnClick(R.id.fl_right)
+    public void goToInstructions(){
+        startActivity(new Intent(LaibalanceActivity.this,InstructionsActivity.class));
+    }
 }
