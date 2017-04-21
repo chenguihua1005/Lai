@@ -38,6 +38,7 @@ public abstract class BleBaseActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
         cancelDiscoveryBluetooth();
         try {
             unregisterReceiver(mBleManager.getSettingStateReceiver());

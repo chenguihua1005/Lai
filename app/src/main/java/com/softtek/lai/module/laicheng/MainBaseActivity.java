@@ -725,7 +725,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         permission.recycle();
         disconnectBluetooth();
         isVoiceHelp = true;
-
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override

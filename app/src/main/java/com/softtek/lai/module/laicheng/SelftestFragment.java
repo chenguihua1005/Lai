@@ -75,6 +75,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     private String weight = "";
     private String bodyFatRate = "";
     private String bodyAge = "";
+    private String value = "";
 
     @Override
     public void getLastInfoSuccess(LastInfoData data) {
@@ -165,6 +166,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
             weight = String.valueOf(data.getWeight());
             bodyFatRate = data.getBodyFatRate();
             bodyAge = data.getPhysicalAge();
+            value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
         }
         mWeightCaption.setVisibility(View.VISIBLE);
         mShare.setVisibility(View.VISIBLE);
@@ -245,7 +247,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         startActivity(new Intent(getActivity(), HistoryDataActivity.class));
     }
 
-    String value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
+
     String url = "http://115.29.187.163:8082/Share/ShareLastRecord?type=1&accountId=" + UserInfoModel.getInstance().getUserId();
     String title_value = "莱聚+体测，精彩人生";
 
