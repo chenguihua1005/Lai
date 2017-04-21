@@ -57,6 +57,7 @@ public interface HealthyRecordService {
                         RequestCallback<ResponseData<HealthyChartModel.ChartBean>> callback);
 
     //获取分享数据
+    @GET("/v1/DataSync/ShareRecord")
     void getShareData(@Header("token")String token,
                       @Query("recordId")String recordId,
                       RequestCallback<ResponseData<HealthyShareData>> callback);
