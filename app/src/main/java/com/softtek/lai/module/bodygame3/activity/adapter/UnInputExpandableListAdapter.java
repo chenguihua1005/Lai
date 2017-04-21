@@ -181,6 +181,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
                 holder.group2.setVisibility(View.VISIBLE);
                 holder.group1.setVisibility(View.GONE);
                 holder.group3.setVisibility(View.GONE);
+                holder.tv_photoguide.setVisibility(View.VISIBLE);
                 if (IsEdit != 1) {
                     holder.im_right5.setVisibility(View.INVISIBLE);
                 }
