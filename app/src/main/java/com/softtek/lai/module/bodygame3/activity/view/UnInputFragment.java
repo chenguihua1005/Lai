@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -139,6 +141,9 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.i("UnInputFragment", "Click i= " + i + " parepare 传的值 ACMId= " + memberListModels.get(i - 1).getAcmId());
+        Log.i("UnInputFragment", "Click item = " + new Gson().toJson(memberListModels.get(i - 1)));
+
         Intent InitdataAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
         InitdataAudit.putExtra("ACMId", memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId", classid);

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -157,11 +158,12 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 //        InitdataAudit.putExtra("fromPage",11);
 
 
+
         Intent FcAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
-        FcAudit.putExtra("ACMId", memberListModels.get(i-1).getAcmId());
+        FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("classId", classid);
         FcAudit.putExtra("Audited", IsAudit);
-        FcAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i-1).getUserId()));
+        FcAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("resetdatestatus", resetdatestatus);
 
         FcAudit.putExtra("typeDate", typedata);

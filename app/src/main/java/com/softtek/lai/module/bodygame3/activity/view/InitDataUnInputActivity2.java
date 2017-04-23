@@ -178,13 +178,12 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         classId = getIntent().getStringExtra("classId");//没用
         AccountId = getIntent().getLongExtra("AccountId", 0);
         ACMID = getIntent().getStringExtra("ACMId");
-        Log.i(TAG, "获取的 ACMID = " + ACMID);
+        Log.i(TAG, "获取的 ACMID = " + ACMID + "   AccountId = " + AccountId);
         IsAudit = getIntent().getIntExtra("Audited", 1);
         typeDate = getIntent().getStringExtra("typeDate");
 
         type = getIntent().getIntExtra("type", -1);
-
-        typeforwhich = getIntent().getIntExtra("typeforwhich", -1); // 0:初始未录入  1 ： 复测未录入
+        typeforwhich = getIntent().getIntExtra("typeforwhich", -1); //录入类型： 0：为学员初始录入   1：为学员复测录入typeforwhich
 //        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
         guangboname = getIntent().getStringExtra("guangboname");
@@ -899,9 +898,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
+        } else {
+            doSetPostData();
         }
-
-        doSetPostData();
     }
 
 
@@ -998,6 +997,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         fcAuditPostModel.setBoneMass(fcStDataModel.getBoneMass());
         fcAuditPostModel.setBasalMetabolism(fcStDataModel.getBasalMetabolism());
         fcAuditPostModel.setPhysicalAge(fcStDataModel.getPhysicalAge());
+//录入类型： 0：为学员初始录入   1：为学员复测录入
 
         fuceSevice.postMeasureForMembers(UserInfoModel.getInstance().getToken(), typeforwhich, fcAuditPostModel, new RequestCallback<ResponseData>() {
             @Override
