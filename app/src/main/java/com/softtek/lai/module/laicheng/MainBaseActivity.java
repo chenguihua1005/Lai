@@ -71,8 +71,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private boolean isSuccess = false;
 
-    private boolean isSuccess = false;
-
     //    private int position;
     private int bluetoothPosition;
 //    private boolean needReDraw;
