@@ -102,6 +102,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     private BleMainData result_model = null;
 
     private boolean chengliang_success = false;//默认称没有测量成果
+    private AlertDialog dialog;
 
 //    private FcStDataModel fcStDataModel_uninput;
 
@@ -231,7 +232,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         menu_layout.setVisibility(View.VISIBLE);
         chengliang_success = true;
 
-        Util.toastMsg("数据获取成功！！！！！");
         recordId = data.getRecordId();
         mWeight.setText(data.getWeight() + "");//体重
         mWeightCaption.setText(data.getBodyTypeTitle());//状态
@@ -289,40 +289,52 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void showTimeoutDialog() {
-        if (timeOutBuilder == null) {
-            timeOutBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
-        }
-        timeOutBuilder.setMessage("测量超时，请重新测量");
-        timeOutBuilder.setTitle("提示");
-        timeOutBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected) {
-                    mShakeListener.start();
-                    changeConnectionState(0);
-                }
-                dialog.dismiss();
+        createDialog(true);
+    }
+
+    private void createDialog(boolean isTimeout) {
+        if (dialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!isConnected) {
+                                mShakeListener.start();
+                                changeConnectionState(0);
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+            if (isTimeout) {
+                builder.setMessage("测量超时，请重新测量");
+            } else {
+                builder.setMessage("测量失败，请重新测量");
             }
-        }).create().show();
+            dialog = builder.create();
+        }
+        if (!dialog.isShowing()) {
+            dialog.show();
+        }
     }
 
     @Override
     public void showUploadFailedDialog() {
-        if (failBuilder == null) {
-            failBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
-        }
-        failBuilder.setMessage("测量失败，请重新测量");
-        failBuilder.setTitle("提示");
-        failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!isConnected) {
-                    mShakeListener.start();
-                    changeConnectionState(0);
-                }
-                dialog.dismiss();
-            }
-        }).create().show();
+        createDialog(false);
+//        if (failBuilder == null) {
+//            failBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
+//        }
+//        failBuilder.setMessage("测量失败，请重新测量");
+//        failBuilder.setTitle("提示");
+//        failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (!isConnected) {
+//                    mShakeListener.start();
+//                    changeConnectionState(0);
+//                }
+//                dialog.dismiss();
+//            }
+//        }).create().show();
     }
 
     @Override
@@ -332,7 +344,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void refreshUi(LastInfoData data) {
-
+        menu_layout.setVisibility(View.INVISIBLE);
+        chengliang_success = false;
     }
 
     @Override

@@ -69,9 +69,9 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
         typeDate = getIntent().getStringExtra("typeDate");
 
         fragments = new ArrayList<>();
-        fragments.add(UnInputFragment.getInstance(classId,typeDate)); //未录入
-        fragments.add(InitAuditFragment.getInstance(classId,typeDate));//未审核
-        fragments.add(InitAuditedFragment.getInstance(classId,typeDate));//已审核
+        fragments.add(UnInputFragment.getInstance(classId, typeDate)); //未录入
+        fragments.add(InitAuditFragment.getInstance(classId, typeDate));//未审核
+        fragments.add(InitAuditedFragment.getInstance(classId, typeDate));//已审核
         content.setAdapter(new RetestTabAdapter(getSupportFragmentManager(), fragments, tabtitle));
         tab.setupWithViewPager(content);
         tab.setTabMode(TabLayout.MODE_FIXED);

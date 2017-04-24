@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -156,6 +158,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 //        InitdataAudit.putExtra("fromPage",11);
 
 
+
         Intent FcAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("classId", classid);
@@ -198,6 +201,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (requestCode == FCAudit && resultCode == RESULT_OK) {
+                memberListModels.clear();
                 getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
 
 //                String ACMID = data.getStringExtra("ACMID");

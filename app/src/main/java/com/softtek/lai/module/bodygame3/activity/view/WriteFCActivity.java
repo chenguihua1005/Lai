@@ -875,7 +875,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     /*l录入*/
     void doSetPostData() {
-        Log.i(TAG,"提交的数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));
+        Log.i(TAG, "提交的数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));
         Log.i("图片文件" + "身体维度上传" + "体重" + fcStDataModel.getWeight() + "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
         multipartTypedOutput.addPart("accountId", new TypedString(userId + ""));
         multipartTypedOutput.addPart("classId", new TypedString(classId));
@@ -892,60 +892,30 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "" : fcStDataModel.getUpLegGirth().toString()));//大腿围
         multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "" : fcStDataModel.getDoLegGirth().toString()));//小腿围
 
-        if (!TextUtils.isEmpty(fcStDataModel.getBmi()))
-        {
+        if (!TextUtils.isEmpty(fcStDataModel.getBmi())) {
             multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
-
         }
-        if (!TextUtils.isEmpty(fcStDataModel.getFatFreeMass()))
-        {
-            multipartTypedOutput.addPart("FatFreeMass", new TypedString( fcStDataModel.getFatFreeMass().toString()));
-
+        if (!TextUtils.isEmpty(fcStDataModel.getFatFreeMass())) {
+            multipartTypedOutput.addPart("FatFreeMass", new TypedString(fcStDataModel.getFatFreeMass().toString()));
         }
-        if (!TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()))
-        {
+        if (!TextUtils.isEmpty(fcStDataModel.getBodyWaterRate())) {
             multipartTypedOutput.addPart("BodyWaterRate", new TypedString(fcStDataModel.getBodyWaterRate().toString()));
-
         }
-        if (TextUtils.isEmpty(fcStDataModel.getBodyWater()))
-        {
-            multipartTypedOutput.addPart("BodyWaterRate", new TypedString(fcStDataModel.getBodyWater().toString()));
-
+        if (TextUtils.isEmpty(fcStDataModel.getBodyWater())) {
+            multipartTypedOutput.addPart("BodyWater", new TypedString(fcStDataModel.getBodyWater().toString()));
         }
-        if (!TextUtils.isEmpty(fcStDataModel.getMuscleMass()))
-        {
+        if (!TextUtils.isEmpty(fcStDataModel.getMuscleMass())) {
             multipartTypedOutput.addPart("MuscleMass", new TypedString(fcStDataModel.getMuscleMass().toString()));
-
         }
-        if (!TextUtils.isEmpty(fcStDataModel.getBoneMass()))
-        {
+        if (!TextUtils.isEmpty(fcStDataModel.getBoneMass())) {
             multipartTypedOutput.addPart("BoneMass", new TypedString(fcStDataModel.getBoneMass().toString()));
-
         }
-        if (!TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()))
-        {
-            multipartTypedOutput.addPart("BasalMetabolism", new TypedString( fcStDataModel.getBasalMetabolism().toString()));
-
+        if (!TextUtils.isEmpty(fcStDataModel.getBasalMetabolism())) {
+            multipartTypedOutput.addPart("BasalMetabolism", new TypedString(fcStDataModel.getBasalMetabolism().toString()));
         }
-        if (!TextUtils.isEmpty(fcStDataModel.getPhysicalAge()))
-        {
+        if (!TextUtils.isEmpty(fcStDataModel.getPhysicalAge())) {
             multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "" : fcStDataModel.getPhysicalAge().toString()));
-
         }
-
-//        multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "" : fcStDataModel.getBmi().toString()));
-//        multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "" : fcStDataModel.getFatFreeMass().toString()));
-////
-////        multipartTypedOutput.addPart("ViscusFatIndex", new TypedString(TextUtils.isEmpty(fcStDataModel.getViscusFatIndex()) ? "" : fcStDataModel.getViscusFatIndex().toString()));
-//        multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "" : fcStDataModel.getBodyWaterRate().toString()));
-//        multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "" : fcStDataModel.getBodyWater().toString()));
-////
-//        multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "" : fcStDataModel.getMuscleMass().toString()));
-//        multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "" : fcStDataModel.getBoneMass().toString()));
-//        multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "" : fcStDataModel.getBasalMetabolism().toString()));
-//        multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "" : fcStDataModel.getPhysicalAge().toString()));
-
-
         doPostInitData();
     }
 

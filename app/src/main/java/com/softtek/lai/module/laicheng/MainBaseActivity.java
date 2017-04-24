@@ -68,6 +68,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
+    private boolean isEndToFirst = true;
+
     //    private int position;
     private int bluetoothPosition;
 //    private boolean needReDraw;
@@ -298,7 +300,14 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 }
                 if (state_current == CONNECTED_STATE_SUCCESS || state_current == CONNECTED_STATE_WEIGHT) {//只有称量的时候才会接收数据
                     String readMessage = MathUtils.bytesToHexString(datas);
-                    newData += readMessage;
+                    if (readMessage.equals("64950102f2")) {
+                            newData = readMessage;
+                            Log.d("dataMessage", "我就进去一次------------");
+
+                    } else {
+                        newData += readMessage;
+                        Log.d("dataMessage","我会进去好多次的！！");
+                    }
                     Log.d("dataMessage", "从蓝牙获取到的message" + readMessage);
                     if (validateMessage()) {
                         parseData();
@@ -311,13 +320,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
 
-    Handler handler = new Handler() {
+    protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
         }
     };
-
 
     //阻抗数据错误，数据清空
     private void bluetoothDataError() {
@@ -327,78 +335,103 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency07Data = "";
 
         isResultTest = true;
-        dialogDissmiss();
         sendFatRateToDevice(0.0f);
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+//        disconnectBluetooth();
         testTimeOut = 0;//超时时间
+        Log.d("bluetoothDataError", "进入bluetoothDataError");
+        dialogDissmiss();
     }
 
     //校验蓝牙数据
     private boolean validateMessage() {
         if (newData == null) {
+            Log.d("validateMessage", "newDate==null 返回false");
             return false;
         }
+        Log.d("validateMessage", "最开始初始的newData222222222-----===========" + newData);
         newData = newData.replaceAll(" ", "");
+        Log.d("validateMessage", "最开始初始的newData-----===========" + newData);
         if (!newData.startsWith("6495")) {
             if (newData.indexOf("64950102f2") >= 0) {
                 newData = "64950102f2";
-
             }
             return false;
         }
+        Log.d("validateMessag.", "newDate开头是6495");
         if (newData.length() < 8) {
+            Log.d("validateMessag.", "newDate长度小于8验证失败");
             return false;
         }
         if (newData.substring(6, 8).equals("02")) {//握手
+            Log.d("validateMessag.", "开始握手");
             mFrequency04Data = "";
             mFrequency07Data = "";
             int size = Integer.parseInt(newData.substring(4, 6), 16);//1
             if (newData.length() == (8 + size * 2)) {
                 mHandData = newData;
                 newData = "";
+                Log.d("validateMessag.", "握手成功");
                 return true;
             }
+            Log.d("validateMessag", "newData = " + newData + ",mHandData = " + mHandData + ",mFrequency04Data = " + mFrequency04Data + ",mFrequency07Data = " + mFrequency07Data);
+//            newData = "";
+            bluetoothDataError();
+            Log.d("validateMessag.", "握手失败");
         } else if (newData.substring(6, 8).equals("08")) {//阻抗
+            Log.d("validateMessag.", "阻抗数据开始验证");
             mHandData = "";
             int count = StringMath.howMany(newData, "6495");
             if (count == 1) {//2次频率的阻抗都传过来了在解析
+                Log.d("validateMessag.", "总归6495的次数为1，继续等待下次传输");
                 return false;
             } else if (count == 2) {
+                Log.d("validateMessag.", "总归6495的次数为2，正常校验");
                 String tem = newData.substring(newData.lastIndexOf("6495"), newData.length());
                 int temSize = Integer.parseInt(tem.substring(4, 6), 16);
+                Log.d("validateMessag.", "tem=" + tem + "且temLenght=" + tem.length() + ";temSize=" + temSize);
                 if (tem.length() == (8 + temSize * 2)) {//数据完整
                     String hzType = tem.substring(8, 10);//频段号
+                    Log.d("validateMessag.", "频段号=" + hzType);
                     if (hzType.equals("04") || hzType.equals("03")) {
 
                         mFrequency04Data = tem;
+                        Log.d("validateMessag.", "第二位是04HZ，mFrequency04Data=" + mFrequency04Data);
                         tem = newData.substring(0, newData.lastIndexOf("6495"));
+                        Log.d("validateMessag.", "tem=" + tem);
                         temSize = Integer.parseInt(tem.substring(4, 6), 16);
                         if (tem.length() == (8 + temSize * 2)) {//数据完整
                             mFrequency07Data = tem;
                             newData = "";
+                            Log.d("validateMessag.", "第一位是07HZ，mFrequency07Data=" + mFrequency07Data);
                             return true;
                         } else {//数据不完整
                             bluetoothDataError();
                         }
                     } else if (hzType.equals("07") || hzType.equals("05")) {
                         mFrequency07Data = tem;
+                        Log.d("validateMessag.", "第二位是07HZ，mFrequency07Data=" + mFrequency07Data);
                         tem = newData.substring(0, newData.lastIndexOf("6495"));
                         temSize = Integer.parseInt(tem.substring(4, 6), 16);
                         if (tem.length() == (8 + temSize * 2)) {//数据完整
                             mFrequency04Data = tem;
                             newData = "";
+                            Log.d("validateMessag.", "第一位是04HZ，mFrequency04Data=" + mFrequency04Data);
                             return true;
                         } else {//数据不完整
                             bluetoothDataError();
+                            Log.d("validateMessage", "数据不完整2");
                         }
                     } else {
                         //不会出现别的频段号
                         bluetoothDataError();
+                        Log.d("validateMessage", "不会出现别的频段号");
                     }
                 }//数据不完整
             } else {
                 //不会出现超过2次的时候，如果出现就清空
                 bluetoothDataError();
+                Log.d("validateMessage", "不会出现超过2次的时候，如果出现就清空");
             }
         }
 
@@ -418,17 +451,19 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
                             changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
                             Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
+                            isEndToFirst = true;
                             sendFatRateToDevice(0.0f);
                         }
                     } else {
                         testTimeOut--;
+                        Log.d("timeout---time", "超时时间=======" + testTimeOut);
                         handler.postDelayed(this, 1000);
                         if (!isConnected) {
                             testTimeOut = 0;
                         }
                     }
                 }
-            }, 1000);//超时时间0.5分钟
+            }, 1000);//超时时间1分钟
             changeConnectionState(CONNECTED_STATE_WEIGHT);
             sendUserInfo();
         } else {//阻抗，上边已经校验过数据，这个函数除了握手就是阻抗数值已经正确了
@@ -711,7 +746,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public void onPause() {
         super.onPause();
         mShakeListener.stop();
-//        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
+
     }
 
     @Override
@@ -724,6 +759,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public void onResume() {
         super.onResume();
         mShakeListener.start();
+        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
     }
 
     public void stopVoice() {
@@ -805,6 +841,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         }
         isResultTest = true;
         initUiByBleSuccess(data);
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -817,6 +854,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency07Data = "";
         isResultTest = true;
         testTimeOut = 0;
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
