@@ -25,25 +25,6 @@ public class UnInputPresenter extends BasePresenter<UnInputPresenter.UnInputView
         super(baseView);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
     }
-//     service.getPreMeasureDataVs1(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
-//        @Override
-//        public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
-//            int status = fcStDataModelResponseData.getStatus();
-//            try {
-//                switch (status) {
-//                    case 200:
-//                        fcStDataModel = fcStDataModelResponseData.getData();
-//                        doSetData();
-//                        break;
-//                    default:
-//                        Util.toastMsg(fcStDataModelResponseData.getMsg());
-//                        break;
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    });
 
     public void getStudentBasicalInfo(String classId, long userId, String typeDate, String type) {//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
         fuceSevice.getPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {

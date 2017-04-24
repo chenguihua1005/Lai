@@ -1146,6 +1146,10 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                         fcStDataModel.setPysical(result_model.getBodyFat());
                         fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
                     }
+                    if (!TextUtils.isEmpty(result_model.getViscusFatIndex())) {
+                        fcStDataModel.setFat(result_model.getViscusFatIndex()); //内脂
+                    }
+
                     if (!TextUtils.isEmpty(result_model.getBMI())) {
                         fcStDataModel.setBmi(result_model.getBMI());
                         fcStDataModel.setBMIUnit(result_model.getBMIUnit());
