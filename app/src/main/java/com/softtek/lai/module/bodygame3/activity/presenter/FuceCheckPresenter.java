@@ -21,23 +21,15 @@ import zilla.libcore.util.Util;
 public class FuceCheckPresenter extends BasePresenter<FuceCheckPresenter.FuceCheckView> {
 
     FuceSevice fuceSevice;
-    DisplayManager manager;
 
     public FuceCheckPresenter(FuceCheckView baseView) {
         super(baseView);
-//        if(flag==1){
-//            manager=new EnteredManager();
-//        }else {
-//            manager=new UnEnterManager();
-//        }
-
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
     }
 
-//    public void getFuceCheckData(String acmId, long accountId, String classId, String dateType) {
 
     public void getFuceCheckData(String acmId) {
-        fuceSevice.doGetMeasuredDetails(UserInfoModel.getInstance().getToken(), acmId,  new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
+        fuceSevice.doGetMeasuredDetails(UserInfoModel.getInstance().getToken(), acmId, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
             @Override
             public void success(ResponseData<MeasuredDetailsModel> measuredDetailsModelResponseData, Response response) {
                 int status = measuredDetailsModelResponseData.getStatus();
@@ -45,7 +37,9 @@ public class FuceCheckPresenter extends BasePresenter<FuceCheckPresenter.FuceChe
                     getView().dialogDissmiss();
                 }
                 if (200 == status) {
-                    getView().getFuceCheckData(measuredDetailsModelResponseData.getData());
+                    if (getView() != null) {
+                        getView().getFuceCheckData(measuredDetailsModelResponseData.getData());
+                    }
                 } else {
                     Util.toastMsg(measuredDetailsModelResponseData.getMsg());
                 }
@@ -92,8 +86,6 @@ public class FuceCheckPresenter extends BasePresenter<FuceCheckPresenter.FuceChe
 //        });
 
     }
-
-
 
 
     public interface FuceCheckView extends BaseView {

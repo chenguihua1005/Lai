@@ -148,7 +148,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 break;
             case R.id.fucecheck_entry: //复测审核
                 Intent intent = new Intent(from);
-//                intent.putExtra("ACMID", recordId);
+                intent.putExtra("ACMID", recordId);
                 intent.putExtra("result_model", result_model);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 finish();
@@ -258,7 +258,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         if (fucDataModel != null) {
             entity.setName(fucDataModel.getUserName());
             entity.setBirthDate(fucDataModel.getBirthDate());
-            entity.setHeight(Float.parseFloat(fucDataModel.getHeight()));
+
+            entity.setHeight(TextUtils.isEmpty(fucDataModel.getHeight()) ? 0 : Float.parseFloat(fucDataModel.getHeight()));
             entity.setGender(Integer.parseInt(fucDataModel.getGender()));
             entity.setPhoneNo(fucDataModel.getMobile());
 //            entity.setVisitorId(fucDataModel.getAccountId());
@@ -344,7 +345,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void refreshUi(LastInfoData data) {
-        menu_layout.setVisibility(View.INVISIBLE);
+        if (menu_layout != null) {
+            menu_layout.setVisibility(View.INVISIBLE);
+        }
+
         chengliang_success = false;
     }
 
