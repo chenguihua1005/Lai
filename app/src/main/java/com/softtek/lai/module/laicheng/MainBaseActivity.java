@@ -47,6 +47,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private int type = 1;
     public static boolean isVoiceHelp = true;
 
+    private boolean isOnStop = true;
+
     private String newData = "";//蓝牙临时数据
     private String mHandData = "";//握手数据
     private String mFrequency07Data = "";//07频段的数据
@@ -69,7 +71,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
-    private boolean isSuccess = false;
 
     //    private int position;
     private int bluetoothPosition;
@@ -243,7 +244,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     deviceListDialog.finishScan();
                 } else {
                     dialogDissmiss();
-                    mShakeListener.start();
+                    if (!isOnStop) {
+                        mShakeListener.start();
+                    }
                     voiceIndex = 0;
                 }
             }
@@ -337,26 +340,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency07Data = "";
 
         isResultTest = true;
-
-        //这个的目的是，假如先失败，但是之后成功了，会出现2个提示，所以加了3S的延迟，试试看效果
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!isSuccess) {
-                    isSuccess = false;
-                    changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
-                    sendFatRateToDevice(0.0f);
-                }
-            }
-        },3000);
-
-//        disconnectBluetooth();
-        testTimeOut = 0;//超时时间
-        Log.d("bluetoothDataError", "进入bluetoothDataError");
         dialogDissmiss();
+        sendFatRateToDevice(0.0f);
+        changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+        testTimeOut = 0;//超时时间
     }
 
-    //校验蓝牙数据
+//    校验蓝牙数据
     private boolean validateMessage() {
         if (newData == null) {
             Log.d("validateMessage", "newDate==null 返回false");
@@ -594,7 +584,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_UPLOADING;
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
-                isSuccess = true;
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 5) {
@@ -765,11 +754,14 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected void onStop() {
         super.onStop();
         disconnectBluetooth();
+        isOnStop = true;
 //        upLoadImpedanceFailed();
+        testTimeOut = 0;
     }
 
     @Override
     public void onResume() {
+        isOnStop = false;
         super.onResume();
         mShakeListener.start();
         changeConnectionState(CONNECTED_STATE_SHAKE_IT);
