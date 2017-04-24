@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -57,7 +60,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     private static String classid;
     private static String typeDate;
 
-    public static Fragment getInstance(String classId,String typedate) {
+    public static Fragment getInstance(String classId, String typedate) {
         InitAuditFragment fragment = new InitAuditFragment();
         Bundle data = new Bundle();
         classid = classId;
@@ -100,8 +103,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
 
 
         setPresenter(new InitAuditPresenter(this));
-
-
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
     }
 
     @Override
@@ -140,7 +142,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("Audited", IsAudit);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-        InitdataAudit.putExtra("typeDate",typeDate);
+        InitdataAudit.putExtra("typeDate", typeDate);
         InitdataAudit.putExtra("type", 3);
         startActivityForResult(InitdataAudit, ChuAudit);
     }
@@ -220,4 +222,22 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+    }
+
+    public static final String UPDATE_UI_CHUSHI_DAISHENHE_TABLIST = "UPDATE_UI_CHUSHI_DAISHENHE_TABLIST";//初始待审核
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_CHUSHI_DAISHENHE_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                memberListModels.clear();
+                getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, 10);
+            }
+        }
+    };
 }

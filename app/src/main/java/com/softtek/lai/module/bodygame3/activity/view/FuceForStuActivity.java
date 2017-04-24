@@ -148,7 +148,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 break;
             case R.id.fucecheck_entry: //复测审核
                 Intent intent = new Intent(from);
-//                intent.putExtra("ACMID", recordId);
+                intent.putExtra("ACMID", recordId);
                 intent.putExtra("result_model", result_model);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 finish();

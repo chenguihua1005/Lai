@@ -1138,9 +1138,16 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
+                    ACMID = result_model.getRecordId();
+
                     if (result_model.getWeight() != 0) {
-                        fcStDataModel.setWeight(result_model.getWeight() + "");
-                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                        if (typeforwhich == 0) {//初始数据审核
+                            fcStDataModel.setInitWeight(result_model.getWeight() + "");
+                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                        } else {
+                            fcStDataModel.setWeight(result_model.getWeight() + "");
+                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+                        }
                     }
                     if (!TextUtils.isEmpty(result_model.getBodyFat())) {//体脂
                         fcStDataModel.setPysical(result_model.getBodyFat());
