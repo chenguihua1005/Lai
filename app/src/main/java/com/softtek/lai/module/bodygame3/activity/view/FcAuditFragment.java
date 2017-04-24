@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -101,6 +104,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
 
         setPresenter(new FuceCheckListPresenter(this));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_FCCHECK_DAISHENHE_TABLIST));
     }
 
     @Override
@@ -146,7 +150,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
         FcAudit.putExtra("classId", classid);//classId
         FcAudit.putExtra("IsAudit", IsAudit);
         FcAudit.putExtra("resetdatestatus", resetdatestatus);
-        FcAudit.putExtra("typeDate",typedata);
+        FcAudit.putExtra("typeDate", typedata);
         FcAudit.putExtra("type", 2);
 
         startActivityForResult(FcAudit, FCAudit);
@@ -269,7 +273,26 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+    }
+
+    @Override
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
     }
+
+
+    public static final String UPDATE_UI_FCCHECK_DAISHENHE_TABLIST = "UPDATE_UI_FCCHECK_DAISHENHE_TABLIST";//复测待审核
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_FCCHECK_DAISHENHE_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                memberListModels.clear();
+                getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
+            }
+        }
+    };
 }

@@ -234,7 +234,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                 isExistP = 2;
                 images_url = "";
 
-                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
+                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
 //                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
 //                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
@@ -258,7 +258,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                 files = file.toString();
                 isExistP = 2;
                 images_url = "";
-                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
+                adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
 //                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
 //                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
@@ -913,7 +913,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             } else {
                 isExistP = 2;
             }
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
 
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
@@ -1010,7 +1010,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 //                public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int firststatus, String filest, String images, int isWhatePic) {
 
             // String images_url, files;//网络图片   拍照图片
-            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
+            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
 
@@ -1061,6 +1061,8 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 //                getPresenter().getFuceCheckData(ACMID);
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
+                    ACMID = result_model.getRecordId();
+
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
                         fcStDataModel.setWeightUnit(result_model.getWeightUnit());
@@ -1069,6 +1071,11 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         fcStDataModel.setPysical(result_model.getBodyFat());
                         fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
                     }
+
+                    if (!TextUtils.isEmpty(result_model.getViscusFatIndex())) {
+                        fcStDataModel.setFat(result_model.getViscusFatIndex()); //内脂
+                    }
+
                     if (!TextUtils.isEmpty(result_model.getBMI())) {
                         fcStDataModel.setBmi(result_model.getBMI());
                         fcStDataModel.setBMIUnit(result_model.getBMIUnit());
@@ -1104,7 +1111,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
                     }
 
-                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP,IsEdit);//默认可编辑
+                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
                     exlisview_body.setAdapter(adapter);
                     int groupCount = exlisview_body.getCount();
                     for (int i = 0; i < groupCount; i++) {
@@ -1118,9 +1125,9 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         }
                     }
 
-
+                    //                    同时刷新上一个页面
+                    LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent(InitAuditFragment.UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
                 }
-
             }
         }
     };

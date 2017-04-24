@@ -69,8 +69,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
-    private boolean isEndToFirst = true;
-
     private boolean isSuccess = false;
 
     //    private int position;
@@ -339,8 +337,19 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency07Data = "";
 
         isResultTest = true;
-        sendFatRateToDevice(0.0f);
-        changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+
+        //这个的目的是，假如先失败，但是之后成功了，会出现2个提示，所以加了3S的延迟，试试看效果
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isSuccess) {
+                    isSuccess = false;
+                    changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
+                    sendFatRateToDevice(0.0f);
+                }
+            }
+        },3000);
+
 //        disconnectBluetooth();
         testTimeOut = 0;//超时时间
         Log.d("bluetoothDataError", "进入bluetoothDataError");
@@ -455,7 +464,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
                             changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
                             Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
-                            isEndToFirst = true;
                             sendFatRateToDevice(0.0f);
                         }
                     } else {
@@ -586,6 +594,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_UPLOADING;
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
+                isSuccess = true;
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 5) {
@@ -756,6 +765,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected void onStop() {
         super.onStop();
         disconnectBluetooth();
+//        upLoadImpedanceFailed();
     }
 
     @Override
