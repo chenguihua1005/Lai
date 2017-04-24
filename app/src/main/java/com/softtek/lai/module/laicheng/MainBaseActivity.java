@@ -13,6 +13,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.softtek.lai.R;
@@ -67,6 +68,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected BleStateListener bleStateListener;
 
     private DeviceListDialog deviceListDialog;
+
+    private boolean isSuccess = false;
 
     private boolean isSuccess = false;
 
@@ -130,6 +133,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         permission = MPermission.with(this);
         mShakeListener = new ShakeListener(this);
         addVoice();
@@ -619,7 +623,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     soundHelper.play("six");
                 }
                 showTimeoutDialog();
-
                 newData = "";
                 mHandData = "";
                 mFrequency04Data = "";

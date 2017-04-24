@@ -197,9 +197,12 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         visitortestFragment.setStateTip(state);
     }
 
+    @SuppressLint("LongLogTag")
     private void createDialog(boolean isTimeout) {
+        AlertDialog.Builder builder;
         if (dialog == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
+            Log.d("dialogNULL-------------------","dialogNULL");
+            builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -218,8 +221,15 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             dialog = builder.create();
         }
         if (!dialog.isShowing()) {
+            if (isTimeout) {
+                dialog.setMessage("测量超时，请重新测量");
+            } else {
+                dialog.setMessage("测量失败，请重新测量");
+            }
+            Log.d("dialogShow-------------------","isShow");
             dialog.show();
         }
+        Log.d("createDialog","enter---------------");
     }
 
     @Override
