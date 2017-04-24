@@ -336,7 +336,7 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
                     pageIndex--;
                 }
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

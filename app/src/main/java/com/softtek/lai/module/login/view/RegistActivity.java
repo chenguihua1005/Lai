@@ -262,13 +262,21 @@ public class RegistActivity extends BaseActivity<RegistPresenter> implements Vie
 
         @Override
         public void onTick(long millisUntilFinished) {
-            tv_get_identify.setText("(" + millisUntilFinished / 1000 + "s)后重新获取");
+            try {
+                tv_get_identify.setText("(" + millisUntilFinished / 1000 + "s)后重新获取");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onFinish() {
-            tv_get_identify.setText("发送验证码");
-            tv_get_identify.setEnabled(true);
+            try {
+                tv_get_identify.setText("发送验证码");
+                tv_get_identify.setEnabled(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

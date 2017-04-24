@@ -170,14 +170,14 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        lv.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(lv!=null){
                     lv.setRefreshing();
                 }
             }
-        }, 300);
+        },300);
 
     }
     private void onResult(List<ActionNoticeModel> data){
@@ -300,8 +300,12 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(lv!=null){
-                        lv.setRefreshing();
+                    try {
+                        if(lv!=null){
+                            lv.setRefreshing();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }, 300);
@@ -316,17 +320,25 @@ public class ActionActivity extends BaseActivity implements View.OnClickListener
                         new RequestCallback<ResponseData<List<ActionNoticeModel>>>() {
                             @Override
                             public void success(ResponseData<List<ActionNoticeModel>> data, Response response) {
-                                lv.onRefreshComplete();
-                                if(data.getStatus()==200){
-                                    onResult(data.getData());
-                                }else {
-                                    Util.toastMsg(data.getMsg());
+                                try {
+                                    lv.onRefreshComplete();
+                                    if(data.getStatus()==200){
+                                        onResult(data.getData());
+                                    }else {
+                                        Util.toastMsg(data.getMsg());
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
-                                lv.onRefreshComplete();
+                                try {
+                                    lv.onRefreshComplete();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 super.failure(error);
                             }
                         });
