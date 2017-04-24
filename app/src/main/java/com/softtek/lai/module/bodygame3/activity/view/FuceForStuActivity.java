@@ -377,7 +377,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             isExit.setButton("数据确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Util.toastMsg("数据确认");
                     Intent intent = new Intent(from);
 //                intent.putExtra("ACMID", recordId);
                     intent.putExtra("result_model", result_model);
@@ -388,7 +387,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             isExit.setButton2("直接返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-//                    Util.toastMsg("直接返回");
                     finish();
                 }
             });
