@@ -1037,12 +1037,14 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_INPUTED_FUCECHECK.equalsIgnoreCase(intent.getAction())) {
-//                ACMID = intent.getStringExtra("ACMID");
+//                acmId = intent.getStringExtra("ACMID");
 //                getPresenter().getFuceCheckData(ACMID);
 
 
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
+                    acmId = result_model.getRecordId();
+
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
                         fcStDataModel.setWeightUnit(result_model.getWeightUnit());
@@ -1105,9 +1107,9 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                         }
                     }
 
-
+//                    同时刷新上一个页面
+                    LocalBroadcastManager.getInstance(FcAuditStuActivity2.this).sendBroadcast(new Intent(FcAuditFragment.UPDATE_UI_FCCHECK_DAISHENHE_TABLIST));
                 }
-
             }
         }
     };

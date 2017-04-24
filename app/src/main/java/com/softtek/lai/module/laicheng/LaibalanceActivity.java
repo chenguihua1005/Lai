@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
@@ -155,14 +156,14 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void initUiByBleSuccess(BleMainData data) {
         if (pageIndex == 0) {
-            if(selftestFragment.isCreatedView()&&!selftestFragment.isDetached()){
+            if (selftestFragment.isCreatedView() && !selftestFragment.isDetached()) {
                 selftestFragment.updateUI(data);
                 selftestFragment.setStateTip("测量完成");
             }
 
         } else {
 
-            if(visitortestFragment.isCreatedView()&&!visitortestFragment.isDetached()){
+            if (visitortestFragment.isCreatedView() && !visitortestFragment.isDetached()) {
                 visitortestFragment.UpdateData(data);
                 visitortestFragment.setStateTip("测量完成");
             }
@@ -184,8 +185,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         if (visitorModel != null) {
             Log.i("ddd", visitorModel.toString());
         }
-        if (pageIndex == 0){
-            return  null;
+        if (pageIndex == 0) {
+            return null;
         }
         return visitorModel;
     }
@@ -201,8 +202,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private void createDialog(boolean isTimeout) {
         AlertDialog.Builder builder;
         if (dialog == null) {
-            Log.d("dialogNULL-------------------","dialogNULL");
-            builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
+            Log.d("dialogNULL-------------------", "dialogNULL");
+            builder = new AlertDialog.Builder(LaiApplication.getInstance().getApplicationContext(), R.style.whiteDialog).setTitle("提示")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -226,10 +227,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             } else {
                 dialog.setMessage("测量失败，请重新测量");
             }
-            Log.d("dialogShow-------------------","isShow");
+            Log.d("dialogShow-------------------", "isShow");
             dialog.show();
         }
-        Log.d("createDialog","enter---------------");
+        Log.d("createDialog", "enter---------------");
     }
 
     @Override
@@ -302,7 +303,16 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @OnClick(R.id.fl_right)
-    public void goToInstructions(){
-        startActivity(new Intent(LaibalanceActivity.this,InstructionsActivity.class));
+    public void goToInstructions() {
+        startActivity(new Intent(LaibalanceActivity.this, InstructionsActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }
