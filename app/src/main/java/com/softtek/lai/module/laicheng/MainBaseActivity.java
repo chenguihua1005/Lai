@@ -544,7 +544,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             case CONNECTED_STATE_SHAKE_IT:
                 //称前摇一摇
                 state_current = CONNECTED_STATE_SHAKE_IT;
-                setStateTip("摇一摇，链接莱秤");
+                setStateTip("摇一摇，连接莱秤");
 
                 break;
             case CONNECTED_STATE_LOADING:
