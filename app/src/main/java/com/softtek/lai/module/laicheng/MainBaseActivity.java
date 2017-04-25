@@ -730,16 +730,17 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         deviceListDialog = null;
         soundHelper.release();
         permission.recycle();
-        disconnectBluetooth();
+//        disconnectBluetooth();
         isVoiceHelp = true;
         handler.removeCallbacksAndMessages(null);
+        Log.d("onDestroy-----","onDestroy");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mShakeListener.stop();
-
+        Log.d("onPause-----","onPause");
     }
 
     @Override
@@ -747,8 +748,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         super.onStop();
         disconnectBluetooth();
         isOnStop = true;
-//        upLoadImpedanceFailed();
         testTimeOut = 0;
+        Log.d("stop-----","stop");
     }
 
     @Override
@@ -757,6 +758,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         super.onResume();
         mShakeListener.start();
         changeConnectionState(CONNECTED_STATE_SHAKE_IT);
+        Log.d("onResume-----","onResume");
     }
 
     public void stopVoice() {
