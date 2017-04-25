@@ -2,6 +2,7 @@ package com.softtek.lai.module.laicheng;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,6 +55,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     private AlertDialog.Builder noVisitorBuilder;
 
+    private Activity activity = LaibalanceActivity.this;
 
     @OnClick(R.id.fl_left)
     public void doBack() {
@@ -86,6 +88,9 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void initUi() {
+        while (activity.getParent() != null) {
+            activity = activity.getParent();
+        }
         selftestFragment = SelftestFragment.newInstance(null);
         visitortestFragment = new VisitortestFragment();
         pageIndex = content.getCurrentItem();
@@ -203,7 +208,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         AlertDialog.Builder builder;
         if (dialog == null) {
             Log.d("dialogNULL-------------------", "dialogNULL");
-            builder = new AlertDialog.Builder(LaiApplication.getInstance().getApplicationContext(), R.style.whiteDialog).setTitle("提示")
+            builder = new AlertDialog.Builder(activity, R.style.whiteDialog).setTitle("提示")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -235,12 +240,16 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void showTimeoutDialog() {
-        createDialog(true);
+        if (LaibalanceActivity.this.isFinishing()) {
+            createDialog(true);
+        }
     }
 
     @Override
     public void showUploadFailedDialog() {
-        createDialog(false);
+        if (LaibalanceActivity.this.isFinishing()) {
+            createDialog(false);
+        }
     }
 
     @Override
