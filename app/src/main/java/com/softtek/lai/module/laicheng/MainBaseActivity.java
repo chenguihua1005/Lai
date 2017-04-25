@@ -71,6 +71,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
+    private Runnable errorTask = new Runnable() {
+        @Override
+        public void run() {
+            bluetoothDataError();
+        }
+    };
 
     //    private int position;
     private int bluetoothPosition;
@@ -344,6 +350,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         sendFatRateToDevice(0.0f);
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
         testTimeOut = 0;//超时时间
+        Log.d("error data---------","进去error数据");
     }
 
 //    校验蓝牙数据
@@ -379,7 +386,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             }
             Log.d("validateMessag", "newData = " + newData + ",mHandData = " + mHandData + ",mFrequency04Data = " + mFrequency04Data + ",mFrequency07Data = " + mFrequency07Data);
 //            newData = "";
-            bluetoothDataError();
+            handler.postDelayed(errorTask,8000);
+//            bluetoothDataError();
             Log.d("validateMessag.", "握手失败");
         } else if (newData.substring(6, 8).equals("08")) {//阻抗
             Log.d("validateMessag.", "阻抗数据开始验证");
@@ -422,18 +430,21 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                             Log.d("validateMessag.", "第一位是04HZ，mFrequency04Data=" + mFrequency04Data);
                             return true;
                         } else {//数据不完整
-                            bluetoothDataError();
+                            handler.postDelayed(errorTask,8000);
+//                            bluetoothDataError();
                             Log.d("validateMessage", "数据不完整2");
                         }
                     } else {
                         //不会出现别的频段号
-                        bluetoothDataError();
+//                        bluetoothDataError();
+                        handler.postDelayed(errorTask,8000);
                         Log.d("validateMessage", "不会出现别的频段号");
                     }
                 }//数据不完整
             } else {
                 //不会出现超过2次的时候，如果出现就清空
-                bluetoothDataError();
+//                bluetoothDataError();
+                handler.postDelayed(errorTask,8000);
                 Log.d("validateMessage", "不会出现超过2次的时候，如果出现就清空");
             }
         }
@@ -505,6 +516,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
     protected void sendFatRateToDevice(float fatRate) {
+        handler.removeCallbacks(errorTask);
         try {
             System.out.println("###fatRate = " + fatRate);
             fatRate = fatRate + 0.01f;
