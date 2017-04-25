@@ -345,11 +345,11 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void refreshUi(LastInfoData data) {
-        if (menu_layout != null) {
-            menu_layout.setVisibility(View.INVISIBLE);
-        }
+//        if (menu_layout != null) {
+//            menu_layout.setVisibility(View.INVISIBLE);
+//        }
 
-        chengliang_success = false;
+//        chengliang_success = false;
     }
 
     @Override
