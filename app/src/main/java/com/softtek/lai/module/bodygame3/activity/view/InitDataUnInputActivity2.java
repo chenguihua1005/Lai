@@ -1006,7 +1006,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 switch (status) {
                     case 200:
                         progressDialog.dismiss();
-                        Util.toastMsg("数据提交成功！");
+//                        Util.toastMsg("数据提交成功！");
                         Intent intent = new Intent();
 //                        intent.putExtra("ACMID", ACMID);
                         setResult(RESULT_OK, intent);
