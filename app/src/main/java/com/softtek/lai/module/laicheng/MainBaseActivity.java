@@ -71,13 +71,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private DeviceListDialog deviceListDialog;
 
-    private Runnable errorTask = new Runnable() {
-        @Override
-        public void run() {
-            bluetoothDataError();
-        }
-    };
-
     //    private int position;
     private int bluetoothPosition;
 //    private boolean needReDraw;
@@ -421,21 +414,18 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                             Log.d("validateMessag.", "第一位是04HZ，mFrequency04Data=" + mFrequency04Data);
                             return true;
                         } else {//数据不完整
-//                            handler.postDelayed(errorTask,8000);
                             bluetoothDataError();
                             Log.d("validateMessage", "数据不完整2");
                         }
                     } else {
                         //不会出现别的频段号
                         bluetoothDataError();
-//                        handler.postDelayed(errorTask,8000);
                         Log.d("validateMessage", "不会出现别的频段号");
                     }
                 }//数据不完整
             } else {
                 //不会出现超过2次的时候，如果出现就清空
                 bluetoothDataError();
-//                handler.postDelayed(errorTask,8000);
                 Log.d("validateMessage", "不会出现超过2次的时候，如果出现就清空");
             }
         }
@@ -507,7 +497,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
     protected void sendFatRateToDevice(float fatRate) {
-        handler.removeCallbacks(errorTask);
         try {
             System.out.println("###fatRate = " + fatRate);
             fatRate = fatRate + 0.01f;
