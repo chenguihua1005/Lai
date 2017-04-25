@@ -50,7 +50,7 @@
             android:layout_width="96dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:background="@drawable/back_selector"
+            android:background="@drawable/text_selector"
             android:transitionName="sharedView">
 
             <TextView
