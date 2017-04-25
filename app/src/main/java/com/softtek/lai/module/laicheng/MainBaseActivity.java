@@ -169,6 +169,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         deviceListDialog.getBluetoothDevice(bluetoothPosition).getAddress() != null) {
                     dialogShow("正在校验设备");
                     presenter.checkMac(token, deviceListDialog.getBluetoothDevice(positions).getAddress());
+                    deviceListDialog.dismiss();
                 }
             }
 
@@ -311,14 +312,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 }
                 if (state_current == CONNECTED_STATE_SUCCESS || state_current == CONNECTED_STATE_WEIGHT) {//只有称量的时候才会接收数据
                     String readMessage = MathUtils.bytesToHexString(datas);
-                    if (readMessage.equals("64950102f2")) {
-                            newData = readMessage;
-                            Log.d("dataMessage", "我就进去一次------------");
-
-                    } else {
-                        newData += readMessage;
-                        Log.d("dataMessage","我会进去好多次的！！");
-                    }
+                    newData += readMessage;
                     Log.d("dataMessage", "从蓝牙获取到的message" + readMessage);
                     if (validateMessage()) {
                         parseData();
@@ -350,10 +344,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         sendFatRateToDevice(0.0f);
         changeConnectionState(CONNECTED_STATE_UPLOADING_FAIL);
         testTimeOut = 0;//超时时间
-        Log.d("error data---------","进去error数据");
+        Log.d("error data---------", "进去error数据");
     }
 
-//    校验蓝牙数据
+    //    校验蓝牙数据
     private boolean validateMessage() {
         if (newData == null) {
             Log.d("validateMessage", "newDate==null 返回false");
@@ -385,9 +379,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 return true;
             }
             Log.d("validateMessag", "newData = " + newData + ",mHandData = " + mHandData + ",mFrequency04Data = " + mFrequency04Data + ",mFrequency07Data = " + mFrequency07Data);
-//            newData = "";
-            handler.postDelayed(errorTask,8000);
-//            bluetoothDataError();
             Log.d("validateMessag.", "握手失败");
         } else if (newData.substring(6, 8).equals("08")) {//阻抗
             Log.d("validateMessag.", "阻抗数据开始验证");
@@ -430,21 +421,21 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                             Log.d("validateMessag.", "第一位是04HZ，mFrequency04Data=" + mFrequency04Data);
                             return true;
                         } else {//数据不完整
-                            handler.postDelayed(errorTask,8000);
-//                            bluetoothDataError();
+//                            handler.postDelayed(errorTask,8000);
+                            bluetoothDataError();
                             Log.d("validateMessage", "数据不完整2");
                         }
                     } else {
                         //不会出现别的频段号
-//                        bluetoothDataError();
-                        handler.postDelayed(errorTask,8000);
+                        bluetoothDataError();
+//                        handler.postDelayed(errorTask,8000);
                         Log.d("validateMessage", "不会出现别的频段号");
                     }
                 }//数据不完整
             } else {
                 //不会出现超过2次的时候，如果出现就清空
-//                bluetoothDataError();
-                handler.postDelayed(errorTask,8000);
+                bluetoothDataError();
+//                handler.postDelayed(errorTask,8000);
                 Log.d("validateMessage", "不会出现超过2次的时候，如果出现就清空");
             }
         }
@@ -469,7 +460,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         }
                     } else {
                         testTimeOut--;
-                        Log.d("timeout---time", "超时时间=======" + testTimeOut);
+//                        Log.d("timeout---time", "超时时间=======" + testTimeOut);
                         handler.postDelayed(this, 1000);
                         if (!isConnected) {
                             testTimeOut = 0;
@@ -827,7 +818,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void checkMacSuccess() {
         connectBluetooth(deviceListDialog.getBluetoothDevice(bluetoothPosition));
-        deviceListDialog.dismiss();
         dialogDissmiss();
     }
 
