@@ -174,7 +174,6 @@
             android:text="申请加入班级"
             android:textSize="14sp"
             android:textColor="#ffffff"
-            android:visibility="gone"
             android:background="@drawable/bg_joinclass_btn"/>
         <TextView
             android:id="@+id/tv_tip"
