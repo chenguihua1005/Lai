@@ -127,6 +127,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (progressDialog == null || !progressDialog.isShowing()) {
             progressDialog =CustomProgress.build(this,value);
             progressDialog.show();
+
         }
     }
 
