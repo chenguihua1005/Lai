@@ -116,10 +116,8 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);
                 TextView tv_group = holder.getView(R.id.tv_group);
-//                TextView tv_weight = holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);
                 tv_group.setText("(" + data.getGroupName() + ")");
-//                tv_weight.setText(data.getWeight());
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
                 tv_tip.setText("复测测量");
@@ -186,8 +184,6 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-//        doGetData();
-//        String classid, String typeDate, int pageIndex, int pageSize
         getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
 
     }
@@ -196,47 +192,9 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         ++pageIndex;
-//        doGetData();
         getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
     }
 
-    //获取审核列表数据
-//    private void doGetData() {
-//        fuceSevice.dogetAuditList(classid, UserInfoModel.getInstance().getToken(), userid, classid, typedata, pageIndex, 10, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-//                    @Override
-//                    public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-//                        plv_audit.onRefreshComplete();
-//                        int status = listResponseData.getStatus();
-//                        try {
-//                            switch (status) {
-//                                case 200:
-//                                    if (listResponseData.getData().size() != 0) {
-//                                        Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
-//                                        FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
-//                                        fcAuditListActivity.updates(Auditnum);
-//                                        memberListModels.addAll(listResponseData.getData().get(0).getMemberList());
-//                                        adapter.notifyDataSetChanged();
-//                                    }
-//                                    break;
-//                                default:
-//                                    Util.toastMsg(listResponseData.getMsg());
-//                                    break;
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        super.failure(error);
-//                        plv_audit.onRefreshComplete();
-//
-//                    }
-//                }
-//        );
-//    }
 
 
     @Override
@@ -265,8 +223,6 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
             intent.putExtra("uncheck_num", uncheck_num);
             intent.putExtra("checked_num", checked_num);
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-//            memberListModels.addAll(list.get(1).getMemberList());
-//            adapter.notifyDataSetChanged();
 
 
         }

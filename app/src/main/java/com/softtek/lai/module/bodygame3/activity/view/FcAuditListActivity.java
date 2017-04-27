@@ -41,14 +41,11 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
     @InjectView(R.id.tv_title)
     TextView tv_title;
     List<Fragment> fragments;
-    //    String[] tabtitle={"未审核","已审核"};
     String[] tabtitle = {"未复测", "待审核", "已审核"};
 
     String classId;
     String typeDate;
     int resetdatestatus;
-//    int Auditnum = 0;
-//    int Auditednum = 0;
 
     int unFuce_num = 0;
     int uncheck_num = 0;
@@ -95,58 +92,11 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
         super.onDestroy();
     }
 
-    //获取审核列表数据
-//    private void doGetData() {
-//        fuceSevice.dogetAuditList(classId, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, typeDate, 1, 100, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-//            @Override
-//            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-//                int status = listResponseData.getStatus();
-//                try {
-//                    switch (status) {
-//                        case 200:
-//                            if (listResponseData.getData().size() == 0) {
-//                                tabtitle[0] = "未审核(" + "0" + ")";
-//                                tabtitle[1] = "已审核(" + "0" + ")";
-//                                TabLayout.Tab tab1 = tab.getTabAt(0);
-//                                tab1.setText(tabtitle[0]);
-//                                TabLayout.Tab tab2 = tab.getTabAt(1);
-//                                tab2.setText(tabtitle[1]);
-//
-//                            } else {
-//                                Auditnum = Integer.parseInt(listResponseData.getData().get(0).getCount());
-//                                Auditednum = Integer.parseInt(listResponseData.getData().get(1).getCount());
-//                                tabtitle[0] = "未审核(" + Auditnum + ")";
-//                                tabtitle[1] = "已审核(" + Auditednum + ")";
-//                                TabLayout.Tab tab1 = tab.getTabAt(0);
-//                                tab1.setText(tabtitle[0]);
-//                                TabLayout.Tab tab2 = tab.getTabAt(1);
-//                                tab2.setText(tabtitle[1]);
-//
-//                            }
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                } catch (NumberFormatException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
 
 
     // 审核通过更新数据
     public void update() {
         getPresenter().getMeasureReviewedList(classId, typeDate, 1, 10);
-//        tabtitle[0] = "未复测(" + (unFuce_num) + ")";
-//        tabtitle[1] = "待审核(" + (--uncheck_num) + ")";
-//        tabtitle[2] = "已审核(" + (++checked_num) + ")";
-//        TabLayout.Tab tab1 = tab.getTabAt(0);
-//        tab1.setText(tabtitle[0]);
-//        TabLayout.Tab tab2 = tab.getTabAt(1);
-//        tab2.setText(tabtitle[1]);
-//        TabLayout.Tab tab3 = tab.getTabAt(2);
-//        tab3.setText(tabtitle[2]);
     }
 
     //刷新列表时调用刷新title数字
@@ -244,5 +194,8 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
             }
         }
     };
+
+
+
 
 }
