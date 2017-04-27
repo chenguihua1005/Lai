@@ -25,6 +25,7 @@ android {
 //        jackOptions{
 //            enabled true
 //        }
+        vectorDrawables.useSupportLibrary = true
     }
     lintOptions {
         // set to true to turn off analysis progress reporting by lint
@@ -93,6 +94,7 @@ dependencies {
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.2'
+    compile 'com.android.support:support-vector-drawable:25.3.0'
     testCompile 'junit:junit:4.12'
 }
 

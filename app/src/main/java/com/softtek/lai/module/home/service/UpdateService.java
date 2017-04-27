@@ -129,6 +129,7 @@ public class UpdateService extends Service implements Runnable{
         sendHandler(1,0);
         if(TextUtils.isEmpty(apkUrl)){
             sendHandler(2);
+            stopSelf();
             return;
         }
         File file = createFile();

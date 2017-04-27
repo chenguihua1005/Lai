@@ -106,32 +106,37 @@
             android:value="developer-default" />
 
         <!-- 正式 -->
-         <meta-data
-         android:name="UMENG_APPKEY"
-         android:value="5728545a67e58ea7cf001701" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5728545a67e58ea7cf001701" />
         <!-- 测试 -->
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="UMENG_APPKEY"
             android:value="57d60ab167e58ec4f60000cb" />
--->
+        -->
         <!-- 正式 -->
-         <meta-data
-         android:name="JPUSH_APPKEY"
-         android:value="1a3bbb691bfbfca0d0676e9f" />
-        <!-- 测试54 -->
-        <!--<meta-data
+        <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="f04fa77453f2b3894d05b894" />-->
+            android:value="1a3bbb691bfbfca0d0676e9f" />
+        <!-- 测试54 -->
+        <!--
+            <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="f04fa77453f2b3894d05b894" />
+        -->
+
 
         <!-- 正式 -->
-         <meta-data
-         android:name="EASEMOB_APPKEY"
-         android:value="herbalife#laiju" />
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="herbalife#laiju" />
         <!-- uat设置环信应用的appkey -->
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalifeuat#laiapp" />
--->
+        -->
         <!-- ============================================================================== -->
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -826,10 +831,11 @@
         <activity
             android:name=".module.bodygame3.activity.view.InitDataUnInputActivity2"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.laicheng.InstructionsActivity"
+        <activity
+            android:name=".module.laicheng.InstructionsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2"></activity>
-        <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"/>
+            android:theme="@style/AppTheme2" />
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity" />
     </application>
 
 </manifest>
