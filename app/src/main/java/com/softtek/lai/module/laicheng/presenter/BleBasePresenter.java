@@ -27,6 +27,7 @@ import zilla.libcore.api.ZillaApi;
 
 public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView> {
     private String BASE_URL = "http://qa-api.yunyingyang.com/";
+//    private String BASE_URL = "https://api.yunyingyang.com/";
 
     public BleBasePresenter(BleBasePresenter.BleBaseView baseView) {
         super(baseView);

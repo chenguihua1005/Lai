@@ -1,5 +1,7 @@
 package com.softtek.lai.module.laicheng.presenter;
 
+import android.os.SystemClock;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;

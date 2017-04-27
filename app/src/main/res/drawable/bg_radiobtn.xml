@@ -3,15 +3,17 @@
     <item android:state_checked="false">
         <shape>
             <stroke android:width="1dp"
-                android:color="#FFA302"/>
+                android:color="#A7A7A7"/>
             <solid android:color="#ffffff"/>
             <corners android:radius="360dp"/>
         </shape>
     </item>
     <item android:state_checked="true">
         <shape>
+            <stroke android:width="1dp"
+                android:color="#FF77BA2B"/>
             <corners android:radius="360dp"/>
-            <solid android:color="#fdb02c"/>
+            <solid android:color="#FF77BA2B"/>
         </shape>
   </item>
 </selector>

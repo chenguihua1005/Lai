@@ -231,6 +231,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void initUiByBleSuccess(BleMainData data) {
+        if (isFinishing())  {
+            return;
+        }
         menu_layout.setVisibility(View.VISIBLE);
         chengliang_success = true;
 
