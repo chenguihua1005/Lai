@@ -29,6 +29,7 @@ import com.umeng.socialize.media.UMImage;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_selftest)
@@ -248,7 +249,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     }
 
 
-    String url = "http://115.29.187.163:8082/Share/ShareLastRecord?type=1&accountId=" + UserInfoModel.getInstance().getUserId();
+    String url = AddressManager.get("shareHost")+"ShareLastRecord?type=1&accountId=" + UserInfoModel.getInstance().getUserId();
     String title_value = "莱聚+体测，精彩人生";
 
     //分享对话框
