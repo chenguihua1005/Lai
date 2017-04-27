@@ -11,27 +11,30 @@ import android.support.multidex.MultiDex;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
-import com.softtek.lai.common.CrashHandler;
-import com.softtek.lai.common.NetErrorHandler;
+import com.softtek.lai.common.ImageDownLoader;
+import com.softtek.lai.common.MyOkClient;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
+import com.squareup.picasso.Picasso;
 import com.umeng.socialize.PlatformConfig;
 
 import java.lang.ref.WeakReference;
 
 import cn.jpush.android.api.JPushInterface;
+import okhttp3.OkHttpClient;
 import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.db.DBHelper;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.PropertiesManager;
 
 /**
- *
  * Created by zilla on 9/8/15.
  */
 public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
@@ -47,7 +50,10 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         UserInfoModel.getInstance(this);
         JPushInterface.init(this);
         ChatHelper.getInstance().init(getApplicationContext());
-//        CrashHandler.getInstance().init(this);
+
+        Picasso.setSingletonInstance(new Picasso.Builder(this).
+                downloader(new ImageDownLoader(new OkHttpClient.Builder()))
+                .build());
 
     }
 
@@ -89,7 +95,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     private void initApi() {
         PlatformConfig.setSinaWeibo("4097250846", "f4cb916c401319e78c9fc1b73660e28a");
         PlatformConfig.setWeixin("wxdef946afe85d49a2", "8f2e4913b794a310dd6662014748c43d");
-        ZillaApi.NormalRestAdapter = ZillaApi.getRESTAdapter(new RequestInterceptor() {
+        ZillaApi.NormalRestAdapter = getRESTAdapter(new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade requestFacade) {
                 requestFacade.addHeader("appid", PropertiesManager.get("appid"));
@@ -102,8 +108,24 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 }
             }
         });
+    }
 
-        ZillaApi.setmIApiErrorHandler(new NetErrorHandler());
+    public static RestAdapter getRESTAdapter(RequestInterceptor requestInterceptor) {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setEndpoint(AddressManager.getHost())
+                .setRequestInterceptor(requestInterceptor)
+                .setClient(new MyOkClient())
+                .build();
+        return setLog(restAdapter);
+    }
+    private static RestAdapter setLog(RestAdapter restAdapter) {
+        if (Boolean.parseBoolean(PropertiesManager.get("log"))) {
+            restAdapter.setLogLevel(RestAdapter.LogLevel.FULL);
+        } else {
+            restAdapter.setLogLevel(RestAdapter.LogLevel.NONE);
+        }
+        return restAdapter;
     }
 
     public static final String CREATE_STEP = "create table user_step(" +
@@ -153,7 +175,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             + ClassMemberTable.Photo + " varchar(20))";
 
 
-
     // 班级群聊表
     public static final String CREATE_CLASS_GROUP = "create table " + GroupTable.TABLE_NAME + "(" + GroupTable._ID
             + " integer primary key autoincrement, "
@@ -164,7 +185,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
 
 
     //用户帐号表
-    public static final String CREATE_USER_INFO="create table user_info (" +
+    public static final String CREATE_USER_INFO = "create table user_info (" +
             "userId text primary key," +
             "userRole integer," +
             "roleName text," +
@@ -184,11 +205,11 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "HasEmchat text," +
             "HasThClass text," +
             "doingClass text," +
-            "update_time text"+
+            "update_time text" +
             "exit text)";
 
     //添加用户表字段
-    public static final String ADD_UPDATE_TIME_FOR_USER="ALTER TABLE user_info ADD COLUMN update_time text;";
+    public static final String ADD_UPDATE_TIME_FOR_USER = "ALTER TABLE user_info ADD COLUMN update_time text;";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -200,7 +221,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         db.execSQL(CREATE_USER_INFO);
         Log.i("表创建了");
     }
-
 
 
     @Override

@@ -37,6 +37,7 @@ import java.util.Date;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -119,7 +120,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     //第一次进入为访客测获取最新访客测量信息
     @Override
     public void getDatasuccess(LastInfoData data) {
-        if (isDetached()){
+        if (isDetached()) {
             return;
         }
         visitorLastData = data;
@@ -129,7 +130,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             mid_lay.setVisibility(View.VISIBLE);
             weight = String.valueOf(data.getWeight());
             bodyFatRate = data.getBodyFatRate();
-            bodyAge=data.getPhysicalAge();
+            bodyAge = data.getPhysicalAge();
             tv_weight.setText(data.getWeight() + "");//体重
             tv_weight_caption.setText(data.getBodyTypeTitle());//状态
             tv_body_fat_rate.setText(data.getBodyFatRate());
@@ -154,7 +155,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     tv_gender.setText("女");
                 }
                 tv_height.setText(data.getVisitor().getHeight() + "");
-                Log.i("model访客",model.toString()+model.getVisitorId());
+                Log.i("model访客", model.toString() + model.getVisitorId());
             }
             shakeOFF.setOnShakeON();
 
@@ -198,13 +199,14 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     VisitorBroadCast visitorBroadCast;
     LocalBroadcastManager manager;
+
     @Override
     protected void initDatas() {
         presenter = new VisitGetPresenter(this);
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
         manager = LocalBroadcastManager.getInstance(getContext());
-        visitorBroadCast=new VisitorBroadCast();
+        visitorBroadCast = new VisitorBroadCast();
         manager.registerReceiver(visitorBroadCast, new IntentFilter("visitorinfo"));
     }
 
@@ -261,7 +263,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     //分享对话框
     private void showDialog() {
-        url = "http://115.29.187.163:8082/Share/ShareLastRecord?type=0&accountId=" + visitorId;
+        url = AddressManager.get("shareHost")+"ShareLastRecord?type=0&accountId=" + visitorId;
         value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
         if (dialog == null) {
             dialog = new Dialog(getActivity(), R.style.custom_dialog);
@@ -334,7 +336,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private int choose_year;
 
 
-
     //摇一摇刷新U
     @SuppressLint("SetTextI18n")
     public void refreshUi(LastInfoData data) {
@@ -355,7 +356,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             health_btn.setVisibility(View.VISIBLE);
             share_btn.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
-            bodyAge=data.getPhysicalAge();
+            bodyAge = data.getPhysicalAge();
             weight = String.valueOf(data.getWeight());
             tv_weight.setText(data.getWeight() + "");//体重
             tv_weight_caption.setText(data.getBodyTypeTitle());//状态
@@ -388,11 +389,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         super.onDestroyView();
     }
 
-    public class VisitorBroadCast extends BroadcastReceiver{
+    public class VisitorBroadCast extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if ( intent.getAction().equals("visitorinfo")) {
+            if (intent.getAction().equals("visitorinfo")) {
                 model = (VisitorModel) intent.getParcelableExtra("visitorModel");
                 choose_year = intent.getExtras().getInt("choose");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {

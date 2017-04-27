@@ -41,11 +41,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import uk.co.senab.photoview.PhotoView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.util.Util;
 
@@ -443,12 +442,11 @@ public class LookBigPicActivity extends Activity implements  ViewTreeObserver.On
         if(saveBean==null|| TextUtils.isEmpty(saveBean.imageUrl)){
             return;
         }
-        ZillaApi.getCustomRESTAdapter(AddressManager.get("photoBase"), new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-
-            }
-        }).create(BigPicService.class)
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setEndpoint(AddressManager.get("photoBase"))
+                .build();
+        restAdapter.create(BigPicService.class)
                 .downloadPic(saveBean.imageUrl, new Callback<Response>() {
                     @Override
                     public void success(Response responseBody, Response response) {
