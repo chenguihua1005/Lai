@@ -315,7 +315,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                             break;
                         }
                     }
-                    if (nExist == 0) {
+                    if (nExist == 0 || readMessage.equals("64950102f2")) {
                         arr.add(0, readMessage);
                         newData += readMessage;
                         if (validateMessage()) {
