@@ -73,6 +73,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected BleStateListener bleStateListener;
 
     private DeviceListDialog deviceListDialog;
+    private boolean isDeviceChoosed = false;
 
     //    private int position;
     private int bluetoothPosition;
@@ -93,6 +94,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private volatile int voiceIndex = 0;
 
     private void shake() {
+        isDeviceChoosed = false;
         if (getGuestInfo() == null && getType() != 1) {
             showNoVisitorDialog();
             return;
@@ -159,7 +161,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
             public void bluetoothDialogClick(int positions) {
-
+                isDeviceChoosed = true;
                 bluetoothPosition = positions;
                 if (deviceListDialog.getBluetoothDevice(bluetoothPosition) != null && deviceListDialog.getBluetoothDevice(bluetoothPosition).getName() != null &&
                         deviceListDialog.getBluetoothDevice(bluetoothPosition).getAddress() != null) {
@@ -205,10 +207,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             public void openBleSettingSuccess() {
                 if (deviceListDialog != null) {//不知道为什么作为访客模式，连接成功蓝牙，然后返回，在进入，会出现2个activity
                     deviceListDialog.clearBluetoothDevice();
-//                    if (!deviceListDialog.isShowing()) {
-//                        deviceListDialog.show();
-//                        deviceListDialog.startScan();
-//                    }
                     showSearchBleDialog();
                     startDiscoveryBluetooth();
                 }
@@ -224,14 +222,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             }
 
+            @SuppressLint("LongLogTag")
             @Override
             public void scanBleScanFound(BluetoothDevice device) {
                 if (!TextUtils.isEmpty(device.getName()) && !TextUtils.isEmpty(device.getAddress()) && device.getName().contains("SHHC")) {
                     Log.d("addBluetoothDevice", device.getName());
                     if (!deviceListDialog.isShowing()) {
-                        deviceListDialog.show();
-                        dialogDissmiss();
-//                        deviceListDialog.startScan();
+                        if (!isDeviceChoosed) {
+                            deviceListDialog.show();
+                            dialogDissmiss();
+                        }
                     }
                     deviceListDialog.addBluetoothDevice(device);
 
@@ -316,20 +316,29 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         }
                     }
                     if (nExist == 0) {
-                        arr.add(0, readMessage);
+                        assert readMessage != null;
+                        if (readMessage.contains("64950102f2")){
+                            arr.clear();
+                            readMessage = "64950102f2";
+                            newData = "";
+                        }
+                        if (!readMessage.contains("64950102f2")) {
+                            arr.add(0, readMessage);
+                        }
                         newData += readMessage;
                         if (validateMessage()) {
                             parseData();
                         }
                     }
                 }
+                Log.d("newData!!-----",newData);
             }
         };
         presenter.getToken();
 
-    initUi();
+        initUi();
 
-}
+    }
 
 
     protected Handler handler = new Handler() {
@@ -470,6 +479,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 //                        Log.d("timeout---time", "超时时间=======" + testTimeOut);
                         handler.postDelayed(this, 1000);
                         if (!isConnected) {
+                            Log.d("断开连接","断开-------");
                             testTimeOut = 0;
                         }
                     }
@@ -868,7 +878,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency04Data = "";
         mFrequency07Data = "";
         isResultTest = true;
-        testTimeOut = 0;
+        Log.d("upLoadImpedanceFailed","shibai");
         handler.removeCallbacksAndMessages(null);
     }
 
