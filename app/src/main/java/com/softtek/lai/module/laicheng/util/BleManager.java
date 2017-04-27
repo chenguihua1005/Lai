@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -164,6 +165,7 @@ public class BleManager {
     public void disconnectBluetooth() {
         if (mBluetoothGatt != null) {
             mBluetoothGatt.disconnect();
+            SystemClock.sleep(20);
             mBluetoothGatt.close();
         }
         mActivity = null;
