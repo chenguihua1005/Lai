@@ -3,6 +3,8 @@ package com.softtek.lai.module.bodygame3.activity.view;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -399,4 +401,16 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             finish();
         }
     }
+
+
+//    public static final String CLOSE_BLUETEETH = "CLOSE_BLUETEETH";
+//    public BroadcastReceiver receiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (intent != null && CLOSE_BLUETEETH.equalsIgnoreCase(intent.getAction())) {
+//                disconnectBluetooth();
+//            }
+//        }
+//    };
+
 }

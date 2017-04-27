@@ -35,6 +35,7 @@ import com.softtek.lai.mpermission.MPermission;
 import com.softtek.lai.sound.SoundHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.senab.photoview.log.LogManager;
@@ -55,6 +56,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private String mFrequency04Data = "";//04频段的数据
     protected boolean isResultTest = false;
     protected int testTimeOut = 60;
+
+    private List<String> arr = new ArrayList<String>();
 
     //蓝牙连接状态
     private static final int CONNECTED_STATE_SHAKE_IT = 0;//称前摇一摇
@@ -305,17 +308,28 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 }
                 if (state_current == CONNECTED_STATE_SUCCESS || state_current == CONNECTED_STATE_WEIGHT) {//只有称量的时候才会接收数据
                     String readMessage = MathUtils.bytesToHexString(datas);
-                    newData += readMessage;
-                    Log.d("dataMessage", "从蓝牙获取到的message" + readMessage);
-                    if (validateMessage()) {
-                        parseData();
+                    int nExist = 0;
+                    for (String tmpstr : arr) {
+                        if (tmpstr.equals(readMessage)) {
+                            nExist++;
+                            break;
+                        }
+                    }
+                    if (nExist == 0) {
+                        arr.add(0, readMessage);
+                        newData += readMessage;
+                        if (validateMessage()) {
+                            parseData();
+                        }
                     }
                 }
             }
         };
         presenter.getToken();
-        initUi();
-    }
+
+    initUi();
+
+}
 
 
     protected Handler handler = new Handler() {
@@ -331,7 +345,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mHandData = "";
         mFrequency04Data = "";
         mFrequency07Data = "";
-
+        arr.clear();
         isResultTest = true;
         dialogDissmiss();
         sendFatRateToDevice(0.0f);
@@ -368,6 +382,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             if (newData.length() == (8 + size * 2)) {
                 mHandData = newData;
                 newData = "";
+                arr.clear();
                 Log.d("validateMessag.", "握手成功");
                 return true;
             }
@@ -398,6 +413,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         if (tem.length() == (8 + temSize * 2)) {//数据完整
                             mFrequency07Data = tem;
                             newData = "";
+                            arr.clear();
                             Log.d("validateMessag.", "第一位是07HZ，mFrequency07Data=" + mFrequency07Data);
                             return true;
                         } else {//数据不完整
@@ -411,6 +427,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         if (tem.length() == (8 + temSize * 2)) {//数据完整
                             mFrequency04Data = tem;
                             newData = "";
+                            arr.clear();
                             Log.d("validateMessag.", "第一位是04HZ，mFrequency04Data=" + mFrequency04Data);
                             return true;
                         } else {//数据不完整
@@ -730,16 +747,17 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         deviceListDialog = null;
         soundHelper.release();
         permission.recycle();
-        disconnectBluetooth();
+//        disconnectBluetooth();
         isVoiceHelp = true;
         handler.removeCallbacksAndMessages(null);
+        Log.d("onDestroy-----", "onDestroy");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mShakeListener.stop();
-
+        Log.d("onPause-----", "onPause");
     }
 
     @Override
@@ -747,8 +765,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         super.onStop();
         disconnectBluetooth();
         isOnStop = true;
-//        upLoadImpedanceFailed();
         testTimeOut = 0;
+        Log.d("stop-----", "stop");
     }
 
     @Override
@@ -757,6 +775,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         super.onResume();
         mShakeListener.start();
         changeConnectionState(CONNECTED_STATE_SHAKE_IT);
+        Log.d("onResume-----", "onResume");
     }
 
     public void stopVoice() {

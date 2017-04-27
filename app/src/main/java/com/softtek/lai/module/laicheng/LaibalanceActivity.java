@@ -240,14 +240,14 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void showTimeoutDialog() {
-        if (LaibalanceActivity.this.isFinishing()) {
+        if (!LaibalanceActivity.this.isFinishing()) {
             createDialog(true);
         }
     }
 
     @Override
     public void showUploadFailedDialog() {
-        if (LaibalanceActivity.this.isFinishing()) {
+        if (!LaibalanceActivity.this.isFinishing()) {
             createDialog(false);
         }
     }
