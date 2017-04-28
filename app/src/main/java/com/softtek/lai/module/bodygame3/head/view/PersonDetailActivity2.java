@@ -168,11 +168,13 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
         ll_news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent personal = new Intent(PersonDetailActivity2.this, PersionalActivity.class);
-                personal.putExtra("personalId", AccountId + "");
-                personal.putExtra("personalName", memberInfoModel.getUserName());
-                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
-                startActivityForResult(personal, PERSONDY);
+                if(memberInfoModel!=null){
+                    Intent personal = new Intent(PersonDetailActivity2.this, PersionalActivity.class);
+                    personal.putExtra("personalId", AccountId + "");
+                    personal.putExtra("personalName", memberInfoModel.getUserName());
+                    personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+                    startActivityForResult(personal, PERSONDY);
+                }
             }
         });
         tv_title.setText("个人详情");

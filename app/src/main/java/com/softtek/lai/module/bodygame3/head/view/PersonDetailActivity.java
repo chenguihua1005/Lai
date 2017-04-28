@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
-import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
@@ -36,13 +34,11 @@ import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
-import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
 import com.softtek.lai.module.bodygame3.more.view.FuceAlbumActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
@@ -167,11 +163,13 @@ public class PersonDetailActivity extends BaseActivity implements View.OnClickLi
         ll_news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent personal = new Intent(PersonDetailActivity.this, PersionalActivity.class);
-                personal.putExtra("personalId", AccountId + "");
-                personal.putExtra("personalName", memberInfoModel.getUserName());
-                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
-                startActivityForResult(personal, PERSONDY);
+                if(memberInfoModel!=null){
+                    Intent personal = new Intent(PersonDetailActivity.this, PersionalActivity.class);
+                    personal.putExtra("personalId", AccountId + "");
+                    personal.putExtra("personalName", memberInfoModel.getUserName());
+                    personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
+                    startActivityForResult(personal, PERSONDY);
+                }
             }
         });
         tv_title.setText("个人详情");
