@@ -46,7 +46,7 @@
                 android:textSize="11sp"
                 android:background="@drawable/cb_healthy_data_l"
                 android:textColor="@color/healthy_data_text"
-                android:text="只看莱称"/>
+                android:text="只看莱秤"/>
             <RadioButton
                 android:id="@+id/rb_all"
                 android:layout_width="70dp"
