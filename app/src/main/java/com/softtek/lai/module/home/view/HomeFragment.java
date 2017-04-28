@@ -130,16 +130,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     private MessageReceiver mMessageReceiver;
     UserModel user;
 
-//    @InjectView(R.id.toolbar)
-//    Toolbar toolbar;
-
     @Override
     protected void initViews() {
-//        if(toolbar!=null){
-//            AppBarLayout.LayoutParams params= (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-//            toolbar.setLayoutParams(params);
-//        }
         EventBus.getDefault().register(this);
         registerMessageReceiver();
         ll_left.setVisibility(View.INVISIBLE);
@@ -189,12 +181,12 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     protected void initDatas() {
         tv_title.setText("莱聚+");
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        models.add(new ModelName("体管赛",0));
-        models.add(new ModelName("莱运动",0));
-        models.add(new ModelName("莱课堂",0));
-        models.add(new ModelName("莱秤",0));
-        models.add(new ModelName("开发中",0));
-        modelAdapter = new ModelAdapter(getContext(),models);
+        models.add(new ModelName("体管赛", 0));
+        models.add(new ModelName("莱运动", 0));
+        models.add(new ModelName("莱课堂", 0));
+        models.add(new ModelName("莱秤", 0));
+        models.add(new ModelName("开发中", 0));
+        modelAdapter = new ModelAdapter(getContext(), models);
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
 
@@ -202,46 +194,46 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
 
     private String apkUrl;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==100){
-            if(grantResults.length>0&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                UpdateService.startUpdate(getContext().getApplicationContext(),apkUrl);
+        if (requestCode == 100) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                UpdateService.startUpdate(getContext().getApplicationContext(), apkUrl);
             }
         }
     }
 
-    private void show(final Version version){
-        int v_code=DisplayUtil.getAppVersionCode(getContext());
-        if(v_code<version.getAppVisionCode()){
-            String str="莱聚+ v "+version.getAppVisionNum()+"版本\n最新的版本！请前去下载。\n更新于："+version.getUpdateTime();
+    private void show(final Version version) {
+        int v_code = DisplayUtil.getAppVersionCode(getContext());
+        if (v_code < version.getAppVisionCode()) {
+            String str = "莱聚+ v " + version.getAppVisionNum() + "版本\n最新的版本！请前去下载。\n更新于：" + version.getUpdateTime();
             new AlertDialog.Builder(getContext())
                     .setTitle("版本有更新")
                     .setMessage(str)
-                    .setNegativeButton("稍后更新",null)
+                    .setNegativeButton("稍后更新", null)
                     .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            apkUrl=version.getAppFileUrl();
-                            if(hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                            apkUrl = version.getAppFileUrl();
+                            if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                                 //启动更新服务
-                                UpdateService.startUpdate(getContext().getApplicationContext(),version.getAppFileUrl());
+                                UpdateService.startUpdate(getContext().getApplicationContext(), version.getAppFileUrl());
                             }
                         }
                     }).create().show();
         }
     }
 
-    private boolean hasPermission(String permission){
-        if(ActivityCompat.checkSelfPermission(getContext().getApplicationContext(), permission)
-                != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{permission},100);
+    private boolean hasPermission(String permission) {
+        if (ActivityCompat.checkSelfPermission(getContext().getApplicationContext(), permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{permission}, 100);
             return false;
         }
         return true;
     }
-
 
 
     @Subscribe
@@ -290,8 +282,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     @Override
                     public void success(ResponseData<Version> versionResponseData, Response response) {
                         dialogDissmiss();
-                        if(versionResponseData.getStatus()==200){
-                            Version version=versionResponseData.getData();
+                        if (versionResponseData.getStatus() == 200) {
+                            Version version = versionResponseData.getData();
                             try {
                                 show(version);
                             } catch (Exception e) {
@@ -311,9 +303,11 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         homeInfoPresenter.getHomeInfoData(pull);
 
     }
+
     private int laiNum;
     private int tiNum;
     private int chartNum;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -338,12 +332,12 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                                         } else {
                                             iv_email.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.email));
                                         }
-                                        laiNum=data.getData().LaiNum;
-                                        tiNum=data.getData().TiNum;
-                                        ModelName tiModel=models.get(0);
-                                        tiModel.unreadNum=tiNum+chartNum;
-                                        ModelName laiModel=models.get(1);
-                                        laiModel.unreadNum=laiNum;
+                                        laiNum = data.getData().LaiNum;
+                                        tiNum = data.getData().TiNum;
+                                        ModelName tiModel = models.get(0);
+                                        tiModel.unreadNum = tiNum + chartNum;
+                                        ModelName laiModel = models.get(1);
+                                        laiModel.unreadNum = laiNum;
                                         modelAdapter.notifyDataSetChanged();
                                         break;
                                     default:
@@ -442,7 +436,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     break;
                 case Constants.LAI_CHEN:
                     startActivity(new Intent(getContext(), LaibalanceActivity.class));
-                    MobclickAgent.onEvent(getContext(),"BalanceEvent");
+                    MobclickAgent.onEvent(getContext(), "BalanceEvent");
                     break;
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
@@ -532,19 +526,20 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else if(Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())){
+            } else if (Constants.MESSAGE_CHAT_ACTION.equals(intent.getAction())) {
                 int unreadNum = intent.getIntExtra("count", 0);
                 updateMessage(unreadNum);
             }
         }
 
     }
+
     public void updateMessage(int num) {
         //显示
-        chartNum=num;
-        int read=chartNum>0?tiNum+chartNum:tiNum;
-        ModelName tiModel=models.get(0);
-        tiModel.unreadNum=read;
+        chartNum = num;
+        int read = chartNum > 0 ? tiNum + chartNum : tiNum;
+        ModelName tiModel = models.get(0);
+        tiModel.unreadNum = read;
         modelAdapter.notifyDataSetChanged();
     }
 

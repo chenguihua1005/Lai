@@ -292,6 +292,9 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
             //跳转到我的签名
             case R.id.tv_editor_signature:
+                if(myinfomodel==null){
+                    return;
+                }
                 Intent intent1 = new Intent(getContext(), EditSignaActivity.class);
                 if (TextUtils.isEmpty(myinfomodel.getSignature())) {
                     intent1.putExtra("sina", "");
@@ -309,14 +312,22 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
             //跳转关注
             case R.id.re_guanzhu:
+                String focusnum=tv_guanzhunum.getText().toString();
+                if(TextUtils.isEmpty(focusnum)){
+                    return;
+                }
                 Intent intent = new Intent(getContext(), FocusActivity.class);
-                intent.putExtra("focusnum", Integer.parseInt(tv_guanzhunum.getText().toString()));
+                intent.putExtra("focusnum", Integer.parseInt(focusnum));
                 startActivity(intent);
                 break;
             //跳转粉丝
             case R.id.re_fans:
+                String fansnum=tv_fansnum.getText().toString();
+                if(TextUtils.isEmpty(fansnum)){
+                    return;
+                }
                 Intent focusintent = new Intent(getContext(), FansActivity.class);
-                focusintent.putExtra("fansnum", Integer.parseInt(tv_fansnum.getText().toString()));
+                focusintent.putExtra("fansnum", Integer.parseInt(fansnum));
                 startActivity(focusintent);
                 break;
             //跳转历史测量数据
