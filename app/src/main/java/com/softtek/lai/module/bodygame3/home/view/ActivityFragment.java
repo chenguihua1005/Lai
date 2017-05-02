@@ -843,8 +843,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 material_calendar.addDecorator(decorator);
                 decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act, classrole, getActivity());
                 material_calendar.addDecorator(decorator_act);
-                decorator_create = new EventDecorator(Constants.CREATECLASS, calendarModel_create, classrole, getActivity());
-                material_calendar.addDecorator(decorator_create);
+//                decorator_create = new EventDecorator(Constants.CREATECLASS, calendarModel_create, classrole, getActivity());
+//                material_calendar.addDecorator(decorator_create);
                 decorator_free = new EventDecorator(Constants.FREE, calendarModel_free, classrole, getActivity());
                 material_calendar.addDecorator(decorator_free);
             }
@@ -894,14 +894,14 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private void filterTypesData() {
         calendarModel_reset.clear();
         calendarModel_act.clear();
-        calendarModel_create.clear();
+//        calendarModel_create.clear();
         calendarModel_free.clear();
         for (int i = 0; i < calendarModels.size(); i++) {
             int datetype = calendarModels.get(i).getDateType();
             String date = calendarModels.get(i).getMonthDate();
             if (Constants.CREATECLASS == datetype) {
                 if (!TextUtils.isEmpty(date)) {
-                    calendarModel_create.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
+                    calendarModel_reset.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
                 }
             } else if (Constants.RESET == datetype) {
                 if (!TextUtils.isEmpty(date)) {

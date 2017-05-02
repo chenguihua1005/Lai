@@ -32,11 +32,13 @@ public class Textspan implements LineBackgroundSpan {
             this.radius = radius;
             this.rediuscolor = Color.rgb(237, 118, 108);
 
-        } else if (this.mode == Constants.CREATECLASS) {
-            this.color = Color.rgb(0, 0, 0);
-            this.mText = "开班";
-
-        } else if (this.mode == Constants.RESET) {
+        }
+//        else if (this.mode == Constants.CREATECLASS) {
+//            this.color = Color.rgb(0, 0, 0);
+//            this.mText = "开班";
+//
+//        }
+        else if (this.mode == Constants.RESET) {
             this.color = Color.rgb(0, 0, 0);
             this.mText = "复测";
             this.radius = radius;
