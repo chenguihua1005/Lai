@@ -71,7 +71,7 @@
             app:normalBitmap="@drawable/sport2_huodong"
             app:pitchBitmap="@drawable/sport2_huodong_re"
             app:wx_alpha="true"
-            app:text="活动"/>
+            app:text="复测"/>
         <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_more"
             android:layout_width="0dp"
