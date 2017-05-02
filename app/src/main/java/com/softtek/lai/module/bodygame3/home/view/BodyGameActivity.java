@@ -22,7 +22,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.conversation.database.ClassDao;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassGroupUtil;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
@@ -48,7 +47,6 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_bodygame3)
 public class BodyGameActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "BodyGameActivity";
 
     List<ContactClassModel> classModels;
 
