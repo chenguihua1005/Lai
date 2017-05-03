@@ -8,6 +8,7 @@
     android:scrollbars="none">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -16,7 +17,7 @@
             android:id="@+id/rl_container"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/white">
+            >
 
             <TextView
                 android:id="@+id/tv_group_name"
@@ -27,16 +28,15 @@
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
-            <!-- <ImageView
-                 android:id="@+id/iv_arrow"
+             <ImageView
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_alignParentRight="true"
                  android:layout_centerInParent="true"
                  android:layout_marginRight="15dp"
-                 android:src="@drawable/bodygame3_arrow" />
+                 android:src="@drawable/double_arrow" />
 
-             <ImageView
+             <!--<ImageView
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_centerInParent="true"
