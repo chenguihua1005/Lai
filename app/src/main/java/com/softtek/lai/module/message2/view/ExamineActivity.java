@@ -4,7 +4,10 @@ package com.softtek.lai.module.message2.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +21,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
@@ -295,6 +297,23 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                     public void convert(ViewHolder holder, ClassRole data, int position) {
                         CheckedTextView tv = holder.getView(android.R.id.text1);
                         tv.setText(data.getRoleName());
+                        SpannableString ss = null;
+                        if("助教".equals(data.getRoleName())){
+                            tv.append("\n");
+                            ss=new SpannableString("(线下体管赛班级中的助教及复测，摄影等工作人员)");
+                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }else if ("教练".equals(data.getRoleName())){
+                            tv.append("\n");
+                            ss=new SpannableString("(线下体管赛班级中的小组长)");
+                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }else if ("学员".equals(data.getRoleName())){
+                            tv.append("\n");
+                            ss=new SpannableString("(线下体管赛班级中的学员)");
+                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }
+                        if (ss!=null){
+                            tv.append(ss);
+                        }
                     }
                 });
                 break;
