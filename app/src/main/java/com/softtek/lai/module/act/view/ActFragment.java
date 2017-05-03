@@ -134,7 +134,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
                     zk_list.setRefreshing();
             }
         }, 500);
-        //actManager.getActivitySituation(pageIndex + "", userId, id);
     }
 
     @Override
@@ -165,7 +164,7 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         try {
             ActZKPersonModel actZKPersonModel = model.getActDetial();
             String m_type = model.getActType();
-            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            String path = AddressManager.get("photoHost");
             if ("1".equals(m_type) || "0".equals(m_type)) {
                 rel_group.setVisibility(View.VISIBLE);
                 img_person.setVisibility(View.GONE);
@@ -192,11 +191,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             } else if ("1".equals(m_type)) {
                 rel_group.setVisibility(View.VISIBLE);
                 img_person.setVisibility(View.GONE);
-                //            distance = step / 1428;
-                //            if (distance <= 0.01) {
-                //                distance = 0;
-                //            }
-                //            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
                 text_value.setText(actZKPersonModel.getActDTotal() + "公里");
             } else if ("2".equals(m_type)) {
                 rel_group.setVisibility(View.GONE);
@@ -205,11 +199,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             } else {
                 rel_group.setVisibility(View.GONE);
                 img_person.setVisibility(View.VISIBLE);
-                //            distance = step / 1428;
-                //            if (distance <= 0.01) {
-                //                distance = 0;
-                //            }
-                //            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
                 text_value.setText(actZKPersonModel.getActDTotal() + "公里");
             }
             text_name.setText(actZKPersonModel.getActDName());
@@ -253,7 +242,7 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
                     list = model.getActDetiallist();
                     String target = model.getTarget();
                     double target_value = 0;
-                    if (!"".equals(target)) {
+                    if (!TextUtils.isEmpty(target)) {
                         target_value = Double.parseDouble(model.getTarget());
                     }
                     adapter = new ActZKAdapter(getContext(), list, model.getActType(), target_value);

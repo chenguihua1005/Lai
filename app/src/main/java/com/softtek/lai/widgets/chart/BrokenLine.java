@@ -141,24 +141,28 @@ public class BrokenLine extends View{
                 bgPaint.setColor(0x99FFFFFF);
                 for (int i=0,j=yAxis.size();i<j;i++){
                     Entry entry=yAxis.get(i);
-                    int x=xPoint[entry.getIndex()];
-                    int y= (int) (chartHeight-per*entry.getVal());
-                    path.lineTo(x, y);
-                    broken[i]=new Point(x,  y);
-                    //画圆点
-                    canvas.drawCircle(x, y,5,bgPaint);
-                    //标数字
-                    String value;
-                    if(format==0){
-                        value=String.valueOf(entry.getVal());
-                    }else {
-                        int entryVal= (int) entry.getVal();
-                        value=String.valueOf(entryVal);
+                    if(entry.getIndex()<xPoint.length){
+                        int x=xPoint[entry.getIndex()];
+                        int y= (int) (chartHeight-per*entry.getVal());
+                        path.lineTo(x, y);
+                        broken[i]=new Point(x,  y);
+                        //画圆点
+                        canvas.drawCircle(x, y,5,bgPaint);
+                        //标数字
+                        String value;
+                        if(format==0){
+                            value=String.valueOf(entry.getVal());
+                        }else {
+                            int entryVal= (int) entry.getVal();
+                            value=String.valueOf(entryVal);
+                        }
+                        canvas.drawText(value,x,y-10,aTextPaint);
                     }
-                    canvas.drawText(value,x,y-10,aTextPaint);
                 }
                 Entry endEntry=yAxis.get(yAxis.size()-1);
-                path.lineTo(xPoint[endEntry.getIndex()],chartHeight);
+                if(endEntry.getIndex()<xPoint.length){
+                    path.lineTo(xPoint[endEntry.getIndex()],chartHeight);
+                }
                 bgPaint.setShader(new LinearGradient(width/2,0,width/2,chartHeight,0x8CFFFFFF,
                         0X19FFFFFF, Shader.TileMode.REPEAT));
                 path.close();
