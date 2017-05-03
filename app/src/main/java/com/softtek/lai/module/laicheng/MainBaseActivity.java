@@ -317,7 +317,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     }
                     if (nExist == 0) {
                         assert readMessage != null;
-                        if (readMessage.contains("64950102f2")){
+                        if (readMessage.contains("64950102f2")) {
                             arr.clear();
                             readMessage = "64950102f2";
                             newData = "";
@@ -331,7 +331,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         }
                     }
                 }
-                Log.d("newData!!-----",newData);
+                Log.d("newData!!-----", newData);
             }
         };
         presenter.getToken();
@@ -344,6 +344,23 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            if (msg.what == 8888){
+                if (testTimeOut == 0) {
+                    if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
+                        changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
+                        Log.d(TAG, "超时---------");
+                        sendFatRateToDevice(0.0f);
+                    }
+                } else {
+                    testTimeOut--;
+                    Log.d("timeout---time", "超时时间=======" + testTimeOut);
+                    handler.sendEmptyMessageDelayed(8888, 1000);
+                    if (!isConnected) {
+                        Log.d("断开连接", "断开-------");
+                        testTimeOut = 0;
+                    }
+                }
+            }
             super.handleMessage(msg);
         }
     };
@@ -464,27 +481,28 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         if (!TextUtils.isEmpty(mHandData) && TextUtils.isEmpty(mFrequency04Data) && TextUtils.isEmpty(mFrequency07Data)) {//提交体重数据
             testTimeOut = 60;
             isResultTest = false;//是否有测量结果
-            handler.postDelayed(new Runnable() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void run() {
-                    if (testTimeOut == 0) {
-                        if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
-                            changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
-                            Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
-                            sendFatRateToDevice(0.0f);
-                        }
-                    } else {
-                        testTimeOut--;
-//                        Log.d("timeout---time", "超时时间=======" + testTimeOut);
-                        handler.postDelayed(this, 1000);
-                        if (!isConnected) {
-                            Log.d("断开连接","断开-------");
-                            testTimeOut = 0;
-                        }
-                    }
-                }
-            }, 1000);//超时时间1分钟
+            StartTimer.getInstance(handler);
+//                handler.postDelayed(new Runnable() {
+//                    @SuppressLint("LongLogTag")
+//                    @Override
+//                    public void run() {
+//                        if (testTimeOut == 0) {
+//                            if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
+//                                changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
+//                                Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
+//                                sendFatRateToDevice(0.0f);
+//                            }
+//                        } else {
+//                            testTimeOut--;
+//                            Log.d("timeout---time", "超时时间=======" + testTimeOut);
+//                            handler.postDelayed(this, 1000);
+//                            if (!isConnected) {
+//                                Log.d("断开连接", "断开-------");
+//                                testTimeOut = 0;
+//                            }
+//                        }
+//                    }
+//                }, 1000);//超时时间1分钟
             changeConnectionState(CONNECTED_STATE_WEIGHT);
             sendUserInfo();
         } else {//阻抗，上边已经校验过数据，这个函数除了握手就是阻抗数值已经正确了
@@ -603,6 +621,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_UPLOADING;
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
+                StartTimer.clearTimer();
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 5) {
@@ -611,6 +630,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 }
                 break;
             case CONNECTED_STATE_UPLOADING_FAIL:
+                StartTimer.clearTimer();
                 setStateTip("测量失败，请重新测量");
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
@@ -621,6 +641,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 showUploadFailedDialog();
                 break;
             case CONNECTED_STATE_UPLOADING_TIMEOUT:
+                StartTimer.clearTimer();
                 state_current = CONNECTED_STATE_SUCCESS;
                 setStateTip("测量失败，请重新测量");
                 dialogDissmiss();
@@ -878,7 +899,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency04Data = "";
         mFrequency07Data = "";
         isResultTest = true;
-        Log.d("upLoadImpedanceFailed","shibai");
+        Log.d("upLoadImpedanceFailed", "shibai");
         handler.removeCallbacksAndMessages(null);
     }
 
@@ -890,5 +911,29 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void refreshLastFailed() {
         refreshUi(null);
+    }
+
+
+    public static class StartTimer {
+        private static StartTimer instance;
+
+        public static StartTimer getInstance(Handler handler) {
+            if (instance == null) {
+                synchronized (StartTimer.class) {
+                    if (instance == null) {
+                        instance = new StartTimer(handler);
+                    }
+                }
+            }
+            return instance;
+        }
+
+        public static void clearTimer(){
+            instance = null;
+        }
+
+        public StartTimer(Handler handler){
+            handler.sendEmptyMessageDelayed(8888, 1000);//超时时间1分钟
+        }
     }
 }
