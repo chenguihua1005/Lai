@@ -192,8 +192,14 @@ public class UserInfoModel {
 
     private Power getUserPower(){
         Power power=null;
-        if("".equals(user.getUserrole())||null==user.getUserrole()){
+        if(user==null||TextUtils.isEmpty(user.getUserrole())){
             Log.i("没有用户角色");
+            power=new Power();
+            power.setBodyGame(false);
+            power.setLaiChen(false);
+            power.setLaiYunDong(false);
+            power.setLaiClass(false);
+            power.setLaiShop(false);
             return power;
         }
         int userRole=Integer.parseInt(user.getUserrole());

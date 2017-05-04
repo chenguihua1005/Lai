@@ -59,7 +59,7 @@ public class HXLoginService extends Service implements Runnable {
     public void onCreate() {
         super.onCreate();
         model = UserInfoModel.getInstance().getUser();
-        android.util.Log.i("aaaaaaa", "HXLoginService 中登录的用户信息  = " + new Gson().toJson(model));
+//        android.util.Log.i("aaaaaaa", "HXLoginService 中登录的用户信息  = " + new Gson().toJson(model));
 
         if (model == null) {
             return;
@@ -68,7 +68,7 @@ public class HXLoginService extends Service implements Runnable {
         account = model.getHXAccountId();
         closeReceive = new CloseReceive();
         LocalBroadcastManager.getInstance(this).registerReceiver(closeReceive, new IntentFilter(HXLOGIN_CLOSE_SELF));
-        com.github.snowdream.android.util.Log.i("环信登录服务启动创建。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。" + model.getHXAccountId());
+//        com.github.snowdream.android.util.Log.i("环信登录服务启动创建。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。" + model.getHXAccountId());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class HXLoginService extends Service implements Runnable {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(closeReceive);
-        com.github.snowdream.android.util.Log.i("环信登录服务关闭");
+//        com.github.snowdream.android.util.Log.i("环信登录服务关闭");
     }
 
     @Override
@@ -92,7 +92,7 @@ public class HXLoginService extends Service implements Runnable {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        com.github.snowdream.android.util.Log.i("环信登录服务启动 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
+//        com.github.snowdream.android.util.Log.i("环信登录服务启动 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
         model = UserInfoModel.getInstance().getUser();
         if(model!=null){
             account = model.getHXAccountId();
@@ -167,10 +167,10 @@ public class HXLoginService extends Service implements Runnable {
         final String hasEmchat = model.getHasEmchat();
 
         String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
-        com.github.snowdream.android.util.Log.i("环信账号hxid = " + hxid + " model.getHXAccountId() = " + model.getHXAccountId());
+//        com.github.snowdream.android.util.Log.i("环信账号hxid = " + hxid + " model.getHXAccountId() = " + model.getHXAccountId());
 
         if (hxid.equals(model.getHXAccountId())) {//本地环信Id 和登录的账号HXId 是同一个人
-            com.github.snowdream.android.util.Log.i("环信账号之前已登入 》》》》》》》》》》》》》》》》》》》》》》》》》");
+//            com.github.snowdream.android.util.Log.i("环信账号之前已登入 》》》》》》》》》》》》》》》》》》》》》》》》》");
 
             path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             chatUserModel.setUserName(model.getNickname());
@@ -189,12 +189,12 @@ public class HXLoginService extends Service implements Runnable {
 
         } else {
             if ("-1".equals(hxid)) {//之前已经完全退出，
-                com.github.snowdream.android.util.Log.i("环信新账号登入 》》》》》》》》》》》》》》》》》》》》》》》》》");
+//                com.github.snowdream.android.util.Log.i("环信新账号登入 》》》》》》》》》》》》》》》》》》》》》》》》》");
 
                 EMClient.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
                     @Override
                     public void onSuccess() {
-                        Log.i("aaaaaaa", "登录成功............帐号 = " + account.toLowerCase());
+//                        Log.i("aaaaaaa", "登录成功............帐号 = " + account.toLowerCase());
                         isExit = false;
                         // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                         // ** manually load all local groups and
@@ -224,7 +224,7 @@ public class HXLoginService extends Service implements Runnable {
                         EMClient.getInstance().addConnectionListener(new EMConnectionListener() {
                             @Override
                             public void onConnected() {
-                                Log.i("aaaaaaa", "登录成功............///////////////////EMClient.getInstance().addConnectionListener/////////////" + account.toLowerCase());
+//                                Log.i("aaaaaaa", "登录成功............///////////////////EMClient.getInstance().addConnectionListener/////////////" + account.toLowerCase());
                             }
 
                             @Override
@@ -234,11 +234,11 @@ public class HXLoginService extends Service implements Runnable {
                                         isExit = true;
                                     else
                                         return;
-                                    com.github.snowdream.android.util.Log.i("环信掉线了乐乐乐乐乐乐乐乐乐乐乐乐，错误状态码=======" + error);
+//                                    com.github.snowdream.android.util.Log.i("环信掉线了乐乐乐乐乐乐乐乐乐乐乐乐，错误状态码=======" + error);
                                     EMClient.getInstance().logout(true, new EMCallBack() {
                                         @Override
                                         public void onSuccess() {
-                                            com.github.snowdream.android.util.Log.i("退出成功=======");
+//                                            com.github.snowdream.android.util.Log.i("退出成功=======");
                                             SharedPreferenceService.getInstance().put("HXID", "-1");
                                             isExit = true;
                                             handler.sendEmptyMessage(4);
@@ -248,7 +248,7 @@ public class HXLoginService extends Service implements Runnable {
                                         @Override
                                         public void onProgress(int progress, String status) {
                                             // TODO Auto-generated method stub
-                                            com.github.snowdream.android.util.Log.i("onProgress()=======" + status);
+//                                            com.github.snowdream.android.util.Log.i("onProgress()=======" + status);
 
 
                                         }
@@ -256,7 +256,7 @@ public class HXLoginService extends Service implements Runnable {
                                         @Override
                                         public void onError(int code, String message) {
                                             // TODO Auto-generated method stub
-                                            com.github.snowdream.android.util.Log.i("onError()=======" + message);
+//                                            com.github.snowdream.android.util.Log.i("onError()=======" + message);
                                         }
                                     });
 
@@ -273,7 +273,7 @@ public class HXLoginService extends Service implements Runnable {
 
                     @Override
                     public void onError(final int code, final String message) {
-                        com.github.snowdream.android.util.Log.i("环信登录失败///////////////////////////////////////////////////aaaaaaa");
+//                        com.github.snowdream.android.util.Log.i("环信登录失败///////////////////////////////////////////////////aaaaaaa");
                         SharedPreferenceService.getInstance().put("HXID", "-1");
                         //重新启动
                         if(!isExit){
@@ -295,7 +295,7 @@ public class HXLoginService extends Service implements Runnable {
 
 
     private void HXLoginOut() {
-        com.github.snowdream.android.util.Log.i("环信之前账号登出 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
+//        com.github.snowdream.android.util.Log.i("环信之前账号登出 》》》》》》》》》》》》》》》》》》》》》》》》》onStartCommand");
 
         EMClient.getInstance().logout(true, new EMCallBack() {
 

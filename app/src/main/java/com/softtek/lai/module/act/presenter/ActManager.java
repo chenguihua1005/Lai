@@ -55,7 +55,6 @@ public class ActManager {
         service.getActivitySituation(token, pageIndex, accountid, activityid, new RequestCallback<ResponseData<ActZKModel>>() {
             @Override
             public void success(ResponseData<ActZKModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 if (getActivitySituationCallBack != null) {
                     switch (status) {
@@ -125,7 +124,6 @@ public class ActManager {
         service.getActRGStepOrder(token, pageIndex, rgid, activityid, new RequestCallback<ResponseData<ActZKPModel>>() {
             @Override
             public void success(ResponseData<ActZKPModel> listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 if (getActRGStepOrderCallBack != null) {
                     switch (status) {

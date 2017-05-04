@@ -124,11 +124,11 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="#e1e1e1"></View>
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0.5dp"-->
+                    <!--android:layout_marginBottom="10dp"-->
+                    <!--android:background="#e1e1e1"></View>-->
 
                 <LinearLayout
                     android:id="@+id/ll_fuce"
@@ -176,11 +176,11 @@
                         android:src="@drawable/back_arrow" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="#e1e1e1"></View>
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0.5dp"-->
+                    <!--android:layout_marginBottom="10dp"-->
+                    <!--android:background="#e1e1e1"></View>-->
 
 
             </LinearLayout>

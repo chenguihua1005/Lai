@@ -73,6 +73,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected BleStateListener bleStateListener;
 
     private DeviceListDialog deviceListDialog;
+    private boolean isDeviceChoosed = false;
 
     //    private int position;
     private int bluetoothPosition;
@@ -93,6 +94,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private volatile int voiceIndex = 0;
 
     private void shake() {
+        isDeviceChoosed = false;
         if (getGuestInfo() == null && getType() != 1) {
             showNoVisitorDialog();
             return;
@@ -159,7 +161,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
             public void bluetoothDialogClick(int positions) {
-
+                isDeviceChoosed = true;
                 bluetoothPosition = positions;
                 if (deviceListDialog.getBluetoothDevice(bluetoothPosition) != null && deviceListDialog.getBluetoothDevice(bluetoothPosition).getName() != null &&
                         deviceListDialog.getBluetoothDevice(bluetoothPosition).getAddress() != null) {
@@ -205,10 +207,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             public void openBleSettingSuccess() {
                 if (deviceListDialog != null) {//不知道为什么作为访客模式，连接成功蓝牙，然后返回，在进入，会出现2个activity
                     deviceListDialog.clearBluetoothDevice();
-//                    if (!deviceListDialog.isShowing()) {
-//                        deviceListDialog.show();
-//                        deviceListDialog.startScan();
-//                    }
                     showSearchBleDialog();
                     startDiscoveryBluetooth();
                 }
@@ -224,14 +222,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             }
 
+            @SuppressLint("LongLogTag")
             @Override
             public void scanBleScanFound(BluetoothDevice device) {
                 if (!TextUtils.isEmpty(device.getName()) && !TextUtils.isEmpty(device.getAddress()) && device.getName().contains("SHHC")) {
                     Log.d("addBluetoothDevice", device.getName());
                     if (!deviceListDialog.isShowing()) {
-                        deviceListDialog.show();
-                        dialogDissmiss();
-//                        deviceListDialog.startScan();
+                        if (!isDeviceChoosed) {
+                            deviceListDialog.show();
+                            dialogDissmiss();
+                        }
                     }
                     deviceListDialog.addBluetoothDevice(device);
 
@@ -316,25 +316,51 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         }
                     }
                     if (nExist == 0) {
-                        arr.add(0, readMessage);
+                        assert readMessage != null;
+                        if (readMessage.contains("64950102f2")) {
+                            arr.clear();
+                            readMessage = "64950102f2";
+                            newData = "";
+                        }
+                        if (!readMessage.contains("64950102f2")) {
+                            arr.add(0, readMessage);
+                        }
                         newData += readMessage;
                         if (validateMessage()) {
                             parseData();
                         }
                     }
                 }
+                Log.d("newData!!-----", newData);
             }
         };
         presenter.getToken();
 
-    initUi();
+        initUi();
 
-}
+    }
 
 
     protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            if (msg.what == 8888){
+                if (testTimeOut == 0) {
+                    if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
+                        changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
+                        Log.d(TAG, "超时---------");
+                        sendFatRateToDevice(0.0f);
+                    }
+                } else {
+                    testTimeOut--;
+                    Log.d("timeout---time", "超时时间=======" + testTimeOut);
+                    handler.sendEmptyMessageDelayed(8888, 1000);
+                    if (!isConnected) {
+                        Log.d("断开连接", "断开-------");
+                        testTimeOut = 0;
+                    }
+                }
+            }
             super.handleMessage(msg);
         }
     };
@@ -455,26 +481,28 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         if (!TextUtils.isEmpty(mHandData) && TextUtils.isEmpty(mFrequency04Data) && TextUtils.isEmpty(mFrequency07Data)) {//提交体重数据
             testTimeOut = 60;
             isResultTest = false;//是否有测量结果
-            handler.postDelayed(new Runnable() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void run() {
-                    if (testTimeOut == 0) {
-                        if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
-                            changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
-                            Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
-                            sendFatRateToDevice(0.0f);
-                        }
-                    } else {
-                        testTimeOut--;
-//                        Log.d("timeout---time", "超时时间=======" + testTimeOut);
-                        handler.postDelayed(this, 1000);
-                        if (!isConnected) {
-                            testTimeOut = 0;
-                        }
-                    }
-                }
-            }, 1000);//超时时间1分钟
+            StartTimer.getInstance(handler);
+//                handler.postDelayed(new Runnable() {
+//                    @SuppressLint("LongLogTag")
+//                    @Override
+//                    public void run() {
+//                        if (testTimeOut == 0) {
+//                            if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
+//                                changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
+//                                Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
+//                                sendFatRateToDevice(0.0f);
+//                            }
+//                        } else {
+//                            testTimeOut--;
+//                            Log.d("timeout---time", "超时时间=======" + testTimeOut);
+//                            handler.postDelayed(this, 1000);
+//                            if (!isConnected) {
+//                                Log.d("断开连接", "断开-------");
+//                                testTimeOut = 0;
+//                            }
+//                        }
+//                    }
+//                }, 1000);//超时时间1分钟
             changeConnectionState(CONNECTED_STATE_WEIGHT);
             sendUserInfo();
         } else {//阻抗，上边已经校验过数据，这个函数除了握手就是阻抗数值已经正确了
@@ -593,6 +621,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_UPLOADING;
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
+                StartTimer.clearTimer();
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 5) {
@@ -601,6 +630,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 }
                 break;
             case CONNECTED_STATE_UPLOADING_FAIL:
+                StartTimer.clearTimer();
                 setStateTip("测量失败，请重新测量");
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
@@ -611,6 +641,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 showUploadFailedDialog();
                 break;
             case CONNECTED_STATE_UPLOADING_TIMEOUT:
+                StartTimer.clearTimer();
                 state_current = CONNECTED_STATE_SUCCESS;
                 setStateTip("测量失败，请重新测量");
                 dialogDissmiss();
@@ -868,7 +899,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         mFrequency04Data = "";
         mFrequency07Data = "";
         isResultTest = true;
-        testTimeOut = 0;
+        Log.d("upLoadImpedanceFailed", "shibai");
         handler.removeCallbacksAndMessages(null);
     }
 
@@ -880,5 +911,29 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void refreshLastFailed() {
         refreshUi(null);
+    }
+
+
+    public static class StartTimer {
+        private static StartTimer instance;
+
+        public static StartTimer getInstance(Handler handler) {
+            if (instance == null) {
+                synchronized (StartTimer.class) {
+                    if (instance == null) {
+                        instance = new StartTimer(handler);
+                    }
+                }
+            }
+            return instance;
+        }
+
+        public static void clearTimer(){
+            instance = null;
+        }
+
+        public StartTimer(Handler handler){
+            handler.sendEmptyMessageDelayed(8888, 1000);//超时时间1分钟
+        }
     }
 }

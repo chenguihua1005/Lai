@@ -263,7 +263,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     //分享对话框
     private void showDialog() {
-        url = AddressManager.get("shareHost")+"ShareLastRecord?type=0&accountId=" + visitorId;
+        url = AddressManager.get("shareHost") + "ShareLastRecord?type=0&accountId=" + visitorId;
         value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
         if (dialog == null) {
             dialog = new Dialog(getActivity(), R.style.custom_dialog);
@@ -343,8 +343,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         tv_body_fat_rate.setText("- -");
         tv_bmi.setText("- -");
         tv_internal_fat_rate.setText("- -");
-        health_btn.setVisibility(View.GONE);
-        share_btn.setVisibility(View.GONE);
+        mid_lay.setVisibility(View.INVISIBLE);
         tv_weight_caption.setVisibility(View.INVISIBLE);
     }
 
@@ -353,8 +352,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     public void UpdateData(BleMainData data) {
         if (data != null) {
             tv_weight_caption.setVisibility(View.VISIBLE);
-            health_btn.setVisibility(View.VISIBLE);
-            share_btn.setVisibility(View.VISIBLE);
+            mid_lay.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
             bodyAge = data.getPhysicalAge();
             weight = String.valueOf(data.getWeight());
@@ -412,6 +410,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     tv_weight.setText(String.valueOf(0.0));
                     tv_weight_caption.setVisibility(View.INVISIBLE);
                     tv_body_fat_rate.setText("- -");
+                    mid_lay.setVisibility(View.INVISIBLE);
                     tv_bmi.setText("- -");
                     tv_internal_fat_rate.setText("- -");
                     shakeOFF.setOnShakeON();
