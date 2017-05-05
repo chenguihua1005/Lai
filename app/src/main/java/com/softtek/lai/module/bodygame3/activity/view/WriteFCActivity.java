@@ -191,7 +191,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
         iv_email.setVisibility(View.INVISIBLE);
         child.add(0, "初始体重");
-        child.add(1, "体脂");
+        child.add(1, "体脂率");
         child.add(2, "内脂");
         childArray.add(0, child);
         child3.add(0, "胸围");
@@ -283,7 +283,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                                     }
                                     break;
                                 case 1:
-                                    show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    show_information("体脂率", 50, 25, 1, 9, 0, 0, 2);
                                     break;
                                 case 2:
                                     show_information("内脂", 30, 2, 1, 9, 0, 0, 3);

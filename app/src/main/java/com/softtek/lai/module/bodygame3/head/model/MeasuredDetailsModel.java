@@ -17,10 +17,10 @@ public class MeasuredDetailsModel implements Serializable {
     private String InitWeight;//初始体重
 
     private String Weight;//现在体重
-    private String weightUnit;//体重单位
+//    private String weightUnit;//体重单位
 
     private String Pysical;//体脂
-    private String bodyFatUnit;//体脂单位
+//    private String bodyFatUnit;//体脂单位
 
     private String Fat;//内脂  没单位
     private String Circum;//胸围
@@ -38,38 +38,27 @@ public class MeasuredDetailsModel implements Serializable {
     private String ImgThumbnail;
 
     private String Bmi; //BMI
-    private String BMIUnit;
+//    private String BMIUnit;
 
     private String FatFreeMass;//去脂体重
-    private String fatFreemassUnit;
+//    private String fatFreemassUnit;
     //    private String ViscusFatIndex;     //内脏脂肪指数
     private String BodyWaterRate;//身体水分率
-    private String BodyWaterRateUnit;
+//    private String BodyWaterRateUnit;
 
     private String BodyWater;//身体水分
-    private String BodyWaterUnit;
+//    private String BodyWaterUnit;
 
     private String MuscleMass;//肌肉量
-    private String musclemassUnit;
+//    private String musclemassUnit;
 
     private String BoneMass;//骨量
-    private String bonemassUnit;
+//    private String bonemassUnit;
 
     private String BasalMetabolism;//基础代谢
-    private String basalmetabolicrateUnit;
+//    private String basalmetabolicrateUnit;
 
     private String PhysicalAge;//身体年龄
-
-//    Height, BirthDate,Gender
-
-
-    public String getBodyWaterUnit() {
-        return BodyWaterUnit;
-    }
-
-    public void setBodyWaterUnit(String bodyWaterUnit) {
-        BodyWaterUnit = bodyWaterUnit;
-    }
 
     private String Height;//身高
     private String BirthDate;//生日
@@ -381,67 +370,13 @@ public class MeasuredDetailsModel implements Serializable {
         DoLegGirth = doLegGirth;
     }
 
-    public String getWeightUnit() {
-        return weightUnit;
-    }
+//    public String getWeightUnit() {
+//        return weightUnit;
+//    }
+//
+//    public void setWeightUnit(String weightUnit) {
+//        this.weightUnit = weightUnit;
+//    }
 
-    public void setWeightUnit(String weightUnit) {
-        this.weightUnit = weightUnit;
-    }
 
-    public String getBodyFatUnit() {
-        return bodyFatUnit;
-    }
-
-    public void setBodyFatUnit(String bodyFatUnit) {
-        this.bodyFatUnit = bodyFatUnit;
-    }
-
-    public String getBMIUnit() {
-        return BMIUnit;
-    }
-
-    public void setBMIUnit(String BMIUnit) {
-        this.BMIUnit = BMIUnit;
-    }
-
-    public String getFatFreemassUnit() {
-        return fatFreemassUnit;
-    }
-
-    public void setFatFreemassUnit(String fatFreemassUnit) {
-        this.fatFreemassUnit = fatFreemassUnit;
-    }
-
-    public String getBodyWaterRateUnit() {
-        return BodyWaterRateUnit;
-    }
-
-    public void setBodyWaterRateUnit(String bodyWaterRateUnit) {
-        BodyWaterRateUnit = bodyWaterRateUnit;
-    }
-
-    public String getMusclemassUnit() {
-        return musclemassUnit;
-    }
-
-    public void setMusclemassUnit(String musclemassUnit) {
-        this.musclemassUnit = musclemassUnit;
-    }
-
-    public String getBonemassUnit() {
-        return bonemassUnit;
-    }
-
-    public void setBonemassUnit(String bonemassUnit) {
-        this.bonemassUnit = bonemassUnit;
-    }
-
-    public String getBasalmetabolicrateUnit() {
-        return basalmetabolicrateUnit;
-    }
-
-    public void setBasalmetabolicrateUnit(String basalmetabolicrateUnit) {
-        this.basalmetabolicrateUnit = basalmetabolicrateUnit;
-    }
 }

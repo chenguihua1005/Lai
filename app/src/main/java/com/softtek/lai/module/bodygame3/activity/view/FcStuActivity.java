@@ -206,7 +206,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         }
         child.add(0, "初始体重");
         child.add(1, "当前体重");
-        child.add(2, "体脂");
+        child.add(2, "体脂率");
         child.add(3, "内脂");
         childArray.add(0, child);
         child3.add(0, "胸围");
@@ -303,7 +303,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                     }
                                     break;
                                 case 2:
-                                    show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    show_information("体脂率", 50, 25, 1, 9, 0, 0, 2);
                                     break;
                                 case 3:
                                     show_information("内脂", 30, 2, 1, 9, 0, 0, 3);

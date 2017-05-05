@@ -356,13 +356,34 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             recordId = data.getRecordId();
             bodyAge = data.getPhysicalAge();
             weight = String.valueOf(data.getWeight());
-            tv_weight.setText(data.getWeight() + "");//体重
-            tv_weight_caption.setText(data.getBodyTypeTitle());//状态
-            tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
-            tv_body_fat_rate.setText(data.getBodyFatRate());
+
+
+//            tv_weight.setText(data.getWeight() + "");//体重
+//            tv_weight_caption.setText(data.getBodyTypeTitle());//状态
+//            tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+//            tv_body_fat_rate.setText(data.getBodyFatRate());
+//            tv_bmi.setText(data.getBMI());
+//            tv_internal_fat_rate.setText(data.getViscusFatIndex());//内脂
+            tv_weight.setText(data.getWeight() + "");
+            if (data.getBodyTypeTitle() != null) {
+                tv_weight_caption.setText(data.getBodyTypeTitle());
+            }
+            if (data.getBodyTypeColor() != null) {
+                tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+            }
+            if (data.getBodyFatRate() != null) {
+                tv_body_fat_rate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
+            }
+            if (data.getBMI() != null) {
+                tv_bmi.setText(data.getBMI() + "");
+            }
+            if (data.getViscusFatIndex() != null) {
+                tv_internal_fat_rate.setText(data.getViscusFatIndex());
+            }
+
+
+
             bodyFatRate = data.getBodyFatRate();
-            tv_bmi.setText(data.getBMI());
-            tv_internal_fat_rate.setText(data.getViscusFatIndex());//内脂
         }
 
     }
