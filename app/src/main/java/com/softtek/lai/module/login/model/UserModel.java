@@ -154,9 +154,9 @@ public class UserModel implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-    //默认行为不可改
+    //默认行为不可改0=男 1=女 如果性别是2则表示未填写 未填写默认显示女
     public String getGender() {
-        return Integer.parseInt(gender)==2?"0":gender;
+        return Integer.parseInt(gender)==2?"1":gender;
     }
 
     public void setGender(String gender) {
