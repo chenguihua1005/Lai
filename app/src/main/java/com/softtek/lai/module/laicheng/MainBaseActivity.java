@@ -93,6 +93,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private volatile int voiceIndex = 0;
 
+    private boolean isClosed = false;
+
+    private boolean getClosedType() {
+        return isClosed;
+    }
+
+    public void setClosed(boolean closed) {
+        isClosed = closed;
+    }
+
     private void shake() {
         isDeviceChoosed = false;
         if (getGuestInfo() == null && getType() != 1) {
@@ -804,7 +814,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onStop() {
         super.onStop();
-        disconnectBluetooth();
+        if (!getClosedType()) {
+            disconnectBluetooth();
+        }
         isOnStop = true;
         testTimeOut = 0;
         Log.d("stop-----", "stop");

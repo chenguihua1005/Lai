@@ -26,6 +26,8 @@ import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
 import com.softtek.lai.utils.RequestCallback;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +83,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 Intent intent = new Intent();
                 intent.putExtra("Auditnum", Auditnum);
                 setResult(RESULT_OK, intent);
+                LocalBroadcastManager.getInstance(InitAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
                 finish();
             }
         });
@@ -141,9 +144,11 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
             Intent intent = new Intent();
             intent.putExtra("Auditnum", Auditnum);
             setResult(RESULT_OK, intent);
+            LocalBroadcastManager.getInstance(InitAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
 //            return true;
         }
         return super.onKeyDown(keyCode, event);
+
     }
 
     @Override
