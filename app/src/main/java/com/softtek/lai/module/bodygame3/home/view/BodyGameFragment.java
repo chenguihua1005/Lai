@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -89,6 +90,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
         ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
             @Override
             public void success(ResponseData<ClassdataModel> data, Response response) {
+                Log.i("2343444444",data.toString());
                 try {
                     dialogDissmiss();
                     if (200 == data.getStatus()) {
@@ -108,12 +110,15 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
             @Override
             public void failure(RetrofitError error) {
+                Log.i("2343444444",error.toString());
+                error.printStackTrace();
                 try {
                     dialogDissmiss();
                     again_tv.setVisibility(View.VISIBLE);
-                    super.failure(error);
                 } catch (Exception e) {
                     e.printStackTrace();
+                }finally {
+                    super.failure(error);
                 }
             }
         });

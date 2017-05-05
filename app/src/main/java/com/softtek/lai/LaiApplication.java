@@ -13,6 +13,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.ImageDownLoader;
 import com.softtek.lai.common.MyOkClient;
+import com.softtek.lai.common.NetErrorHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
@@ -108,6 +109,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 }
             }
         });
+        ZillaApi.setmIApiErrorHandler(new NetErrorHandler());
     }
 
     public static RestAdapter getRESTAdapter(RequestInterceptor requestInterceptor) {
