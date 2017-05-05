@@ -85,16 +85,17 @@ dependencies {
     compile project(':playerview')
 
     compile 'com.rainim:libzilla:1.0.59'
-    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:design:25.3.0'
     compile 'com.github.chrisbanes:PullToRefresh:2.1.3'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.github.chrisbanes:PhotoView:1.3.1'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
-    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:support-v4:25.3.0'
     compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.2'
     compile 'com.android.support:support-vector-drawable:25.3.0'
     testCompile 'junit:junit:4.12'
+//    compile 'com.github.GrenderG:Toasty:1.2.3'
 }
 
