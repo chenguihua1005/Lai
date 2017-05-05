@@ -266,8 +266,8 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
 //                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getWeightUnit()) ? "斤" : fcStDataModel.getWeightUnit());
 
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical()); //体脂
-//                            holder.tv_danwei.setText("%");
-                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyFatUnit()) ? "%" : fcStDataModel.getBodyFatUnit());
+                            holder.tv_danwei.setText("%");
+//                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyFatUnit()) ? "%" : fcStDataModel.getBodyFatUnit());
                             break;
                         case 2:
 //                            holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical()); //体脂
@@ -290,13 +290,13 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
                             break;
                         case 1:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight());
-//                            holder.tv_danwei.setText("斤");
-                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getWeightUnit()) ? "斤" : fcStDataModel.getWeightUnit());
+                            holder.tv_danwei.setText("斤");
+//                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getWeightUnit()) ? "斤" : fcStDataModel.getWeightUnit());
                             break;
                         case 2:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical());
-                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyFatUnit()) ? "%" : fcStDataModel.getBodyFatUnit());
-//                            holder.tv_danwei.setText("%");
+//                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyFatUnit()) ? "%" : fcStDataModel.getBodyFatUnit());
+                            holder.tv_danwei.setText("%");
                             break;
                         case 3:
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());
@@ -338,13 +338,13 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
                         break;
                     case 6: //BMI
                         holder.tv_value.setText(fcStDataModel.getBmi());
-//                        holder.tv_danwei.setText("kg/m2");
-                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBMIUnit()) ? "kg/m2" : fcStDataModel.getBMIUnit());
+                        holder.tv_danwei.setText("kg/m2");
+//                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBMIUnit()) ? "kg/m2" : fcStDataModel.getBMIUnit());
                         break;
                     case 7://去脂体重
                         holder.tv_value.setText(fcStDataModel.getFatFreeMass());
-//                        holder.tv_danwei.setText("kg");
-                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getFatFreemassUnit()) ? "kg" : fcStDataModel.getFatFreemassUnit());
+                        holder.tv_danwei.setText("kg");
+//                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getFatFreemassUnit()) ? "kg" : fcStDataModel.getFatFreemassUnit());
                         break;
 //                    case 8://内脏脂肪指数
 //                        holder.tv_value.setText(fcStDataModel.getViscusFatIndex());
@@ -352,28 +352,28 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
 //                        break;
                     case 8://身体水分率
                         holder.tv_value.setText(fcStDataModel.getBodyWaterRate());
-//                        holder.tv_danwei.setText("%");
-                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyWaterRateUnit()) ? "%" : fcStDataModel.getBodyWaterRateUnit());
+                        holder.tv_danwei.setText("%");
+//                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyWaterRateUnit()) ? "%" : fcStDataModel.getBodyWaterRateUnit());
                         break;
                     case 9: //身体水分
                         holder.tv_value.setText(fcStDataModel.getBodyWater());
-//                        holder.tv_danwei.setText("kg");
-                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "kg" : fcStDataModel.getBodyWaterRate());
+                        holder.tv_danwei.setText("kg");
+//                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "kg" : fcStDataModel.getBodyWaterRate());
                         break;
                     case 10: //肌肉量
                         holder.tv_value.setText(fcStDataModel.getMuscleMass());
-//                        holder.tv_danwei.setText("kg");
-                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getMusclemassUnit()) ? "kg" : fcStDataModel.getMusclemassUnit());
+                        holder.tv_danwei.setText("kg");
+//                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getMusclemassUnit()) ? "kg" : fcStDataModel.getMusclemassUnit());
                         break;
                     case 11: //骨量
                         holder.tv_value.setText(fcStDataModel.getBoneMass());
-//                        holder.tv_danwei.setText("kg");
-                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBonemassUnit()) ? "kg" : fcStDataModel.getBonemassUnit());
+                        holder.tv_danwei.setText("kg");
+//                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBonemassUnit()) ? "kg" : fcStDataModel.getBonemassUnit());
                         break;
                     case 12: //基础代谢
                         holder.tv_value.setText(fcStDataModel.getBasalMetabolism());
-//                        holder.tv_danwei.setText("kcal/day");
-                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBasalmetabolicrateUnit()) ? "kcal/day" : fcStDataModel.getBasalmetabolicrateUnit());
+                        holder.tv_danwei.setText("kcal/day");
+//                        holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBasalmetabolicrateUnit()) ? "kcal/day" : fcStDataModel.getBasalmetabolicrateUnit());
                         break;
                     case 13: //身体年龄
                         holder.tv_value.setText(fcStDataModel.getPhysicalAge());
