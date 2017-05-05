@@ -111,7 +111,7 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
                 username.setText(data.getUserName());
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
-                tv_tip.setText("查看详情");
+                tv_tip.setText("已审核");
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
                 } else {

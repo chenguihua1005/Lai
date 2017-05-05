@@ -487,7 +487,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
             @Override
             public void failure(RetrofitError error) {
-
+                ZillaApi.dealNetError(error);
             }
         });
 

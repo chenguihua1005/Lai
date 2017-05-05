@@ -161,21 +161,23 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
 //                        holder.tv_retest_write_weekth.setText("(第" + formData.formdata(fcStDataModel.getWeekNum()) + "周)");
 //                    }
 //                }
-                switch (firststatus) {
-                    case 1:
-                        //未录入
-                        holder.im_state.setImageResource(R.drawable.nocomit_fc_icon);
-                        break;
-                    case 2:
-                        //待审核
-                        holder.im_state.setImageResource(R.drawable.reseted);
-                        break;
-                    case 3:
-                        //审核通过
-                        holder.im_state.setImageResource(R.drawable.passed
-                        );
-                        break;
-                }
+
+                holder.im_state.setImageResource(R.drawable.nocomit_fc_icon);
+//                switch (firststatus) {
+//                    case 1:
+//                        //未录入
+//                        holder.im_state.setImageResource(R.drawable.nocomit_fc_icon);
+//                        break;
+//                    case 2:
+//                        //待审核
+//                        holder.im_state.setImageResource(R.drawable.reseted);
+//                        break;
+//                    case 3:
+//                        //审核通过
+//                        holder.im_state.setImageResource(R.drawable.passed
+//                        );
+//                        break;
+//                }
                 break;
             case 1:
                 holder.group2.setVisibility(View.VISIBLE);

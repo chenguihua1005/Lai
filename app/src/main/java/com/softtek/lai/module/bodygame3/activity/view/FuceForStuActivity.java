@@ -264,6 +264,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
             }
             if (data.getBodyFatRate() != null) {
+                Log.d("data.getBodyFatRate()",data.getBodyFatRate());
                 mBodyFatRate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
             }
             if (data.getBMI() != null) {
@@ -319,6 +320,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void showProgressDialog() {
+        if (isFinishing()) {
+            return;
+        }
         dialogShow("亲，请稍等，测量中...");
     }
 

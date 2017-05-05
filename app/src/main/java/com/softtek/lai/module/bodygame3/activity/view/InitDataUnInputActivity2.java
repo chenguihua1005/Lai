@@ -884,7 +884,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     .setMessage(message)
                     .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
-            String message = "体脂为必填项，请选择";
+            String message = "体脂率为必填项，请选择";
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();

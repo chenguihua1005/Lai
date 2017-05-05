@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.presenter;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
@@ -29,6 +30,7 @@ public class InitAuditPresenter extends BasePresenter<InitAuditPresenter.InitAud
     }
 
     public void getInitAuditList(Long accountid, String classid, int pageIndex, int pageSize) {
+        Log.i("InitAuditPresenter","accountid = " + accountid +" classid = " + classid );
         fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
