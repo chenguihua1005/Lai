@@ -18,7 +18,7 @@ public class UserModel implements Serializable {
     private String userrole;
     private String RoleName;
     private String nickname;
-    private String gender;
+    private String gender;//0表示男 1表示女 如果是2那就表示未填写
     private String weight;
     private String hight;
     private String Photo;
