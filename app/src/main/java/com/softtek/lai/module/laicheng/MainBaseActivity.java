@@ -598,6 +598,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             case CONNECTED_STATE_FAILED:
                 //连接失败，请重试
                 state_current = CONNECTED_STATE_FAILED;
+                setStateTip("摇一摇，连接莱秤");
                 break;
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤
@@ -905,6 +906,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         } else {
 //            int index = data.getBodyFatRate().indexOf("%");
 //            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate().substring(0, index)));
+            Log.d("data.getBodyFatRate()",data.getBodyFatRate());
             sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate()));
         }
         isResultTest = true;
