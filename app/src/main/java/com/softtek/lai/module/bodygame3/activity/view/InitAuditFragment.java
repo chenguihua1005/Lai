@@ -120,7 +120,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
 //                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
                 TextView tv_tip = holder.getView(R.id.tv_tip);
-                tv_tip.setText("重新测量");
+                tv_tip.setText("初始数据审核");
 
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
