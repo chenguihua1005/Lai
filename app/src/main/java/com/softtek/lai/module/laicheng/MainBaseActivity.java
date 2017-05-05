@@ -731,6 +731,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private void storeOrSendCalcRsData(final float weight, final float f04RS1, final float f04RS2, final float f04RS3,
                                        final float f04RS4, final float f04RS5, final float f07RS1, final float f07RS2,
                                        final float f07RS3, final float f07RS4, final float f07RS5) {
+        Log.d("zukangzhi",f04RS1+":f04RS1");
+        Log.d("zukangzhi",f04RS2+":f04RS2");
+        Log.d("zukangzhi",f04RS3+":f04RS3");
+        Log.d("zukangzhi",f04RS4+":f04RS4");
+        Log.d("zukangzhi",f04RS5+":f04RS5");
+        Log.d("zukangzhi",f07RS1+":f07RS1");
+        Log.d("zukangzhi",f07RS2+":f07RS2");
+        Log.d("zukangzhi",f07RS3+":f07RS3");
+        Log.d("zukangzhi",f07RS4+":f07RS4");
+        Log.d("zukangzhi",f07RS5+":f07RS5");
 
         long accountId = -1;
         int type;
