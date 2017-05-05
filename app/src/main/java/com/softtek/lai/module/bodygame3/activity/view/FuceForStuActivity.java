@@ -231,21 +231,42 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void initUiByBleSuccess(BleMainData data) {
-        if (isFinishing())  {
+        if (isFinishing()) {
             return;
         }
-        menu_layout.setVisibility(View.VISIBLE);
-        chengliang_success = true;
 
-        recordId = data.getRecordId();
-        mWeight.setText(data.getWeight() + "");//体重
-        mWeightCaption.setText(data.getBodyTypeTitle());//状态
-        mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
-        mBodyFatRate.setText(data.getBodyFatRate());
-        mBmi.setText(data.getBMI());
-        mInternalFatRate.setText(data.getViscusFatIndex());
 
-        result_model = data;
+//        recordId = data.getRecordId();
+//        mWeight.setText(data.getWeight() + "");//体重
+//        mWeightCaption.setText(data.getBodyTypeTitle());//状态
+//        mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+//        mBodyFatRate.setText(data.getBodyFatRate());
+//        mBmi.setText(data.getBMI());
+//        mInternalFatRate.setText(data.getViscusFatIndex());
+
+        if (data != null) {
+            menu_layout.setVisibility(View.VISIBLE);
+            chengliang_success = true;
+
+            mWeight.setText(data.getWeight() + "");
+            if (data.getBodyTypeTitle() != null) {
+                mWeightCaption.setText(data.getBodyTypeTitle());
+            }
+            if (data.getBodyTypeColor() != null) {
+                mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+            }
+            if (data.getBodyFatRate() != null) {
+                mBodyFatRate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
+            }
+            if (data.getBMI() != null) {
+                mBmi.setText(data.getBMI() + "");
+            }
+            if (data.getViscusFatIndex() != null) {
+                mInternalFatRate.setText(data.getViscusFatIndex());
+            }
+
+            result_model = data;
+        }
 
 
     }

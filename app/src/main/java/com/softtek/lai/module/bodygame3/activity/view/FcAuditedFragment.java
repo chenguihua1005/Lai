@@ -142,40 +142,16 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-//        doGetData(UserInfoModel.getInstance().getUserId(), classid, typedate, pageIndex, 10);
         getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, 10);
     }
 
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//        doGetData(UserInfoModel.getInstance().getUserId(), classid, typedate, ++pageIndex, 10);
         ++pageIndex;
         getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, 10);
     }
 
-    //获取审核列表数据
-//    private void doGetData(Long accountid, String classid, String typeDate, int pageIndex, int pageSize) {
-//        fuceSevice.dogetAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, typeDate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
-//            @Override
-//            public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-//                plv_audit.onRefreshComplete();
-//                int status = listResponseData.getStatus();
-//                switch (status) {
-//                    case 200:
-//                        Log.i("listResponseData.getData().size()!=0" + listResponseData.getData().size());
-//                        if (listResponseData.getData().size() != 0) {
-//                            memberListModels.addAll(listResponseData.getData().get(1).getMemberList());
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                        break;
-//                    default:
-//                        Util.toastMsg(listResponseData.getMsg());
-//                        break;
-//                }
-//            }
-//        });
-//    }
 
 
     @Override

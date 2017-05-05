@@ -125,7 +125,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 //                tv_weight.setText(data.getWeight());
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
-                tv_tip.setText("开始测量");
+                tv_tip.setText("为其测量");
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
@@ -147,18 +147,6 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//        Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
-//        Intent InitdataAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
-//        InitdataAudit.putExtra("ACMID", memberListModels.get(i - 1).getAcmId());
-//        InitdataAudit.putExtra("classId", classid);
-//        InitdataAudit.putExtra("Audited", IsAudit);
-//        InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
-//        InitdataAudit.putExtra("typeDate",typeDate);
-//
-//        InitdataAudit.putExtra("fromPage",11);
-
-
-
         Intent FcAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("classId", classid);
@@ -171,7 +159,6 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         FcAudit.putExtra("typeforwhich", 1);
 
         FcAudit.putExtra("guangboname", UPDATE_UI_FCCHECK_TABLIST);//广播
-
 
         startActivityForResult(FcAudit, FCAudit);
 

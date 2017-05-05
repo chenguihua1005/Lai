@@ -289,13 +289,13 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         if (typeforwhich == 0)// 0:初始未录入  1 ： 复测未录入
         {
             child.add(0, "初始体重");
-            child.add(1, "体脂");
+            child.add(1, "体脂率");
             child.add(2, "内脂");
             childArray.add(0, child);
         } else {
             child.add(0, "初始体重");
             child.add(1, "当前体重");
-            child.add(2, "体脂");
+            child.add(2, "体脂率");
             child.add(3, "内脂");
             childArray.add(0, child);
         }
@@ -402,7 +402,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                     break;
                                 case 1:
                                     if (typeforwhich == 0) {//初始
-                                        show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                        show_information("体脂率", 50, 25, 1, 9, 0, 0, 2);
                                     } else {
                                         if ("1".equals(gender)) { //女的
                                             show_information("当前体重", 600, 100, 50, 9, 0, 0, 1);
@@ -415,7 +415,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                     if (typeforwhich == 0) {//初始
                                         show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                                     } else {
-                                        show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                        show_information("体脂率", 50, 25, 1, 9, 0, 0, 2);
                                     }
                                     break;
                                 case 3:
@@ -1142,15 +1142,14 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                     if (result_model.getWeight() != 0) {
                         if (typeforwhich == 0) {//初始数据审核
                             fcStDataModel.setInitWeight(result_model.getWeight() + "");
-                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+//                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
                         } else {
                             fcStDataModel.setWeight(result_model.getWeight() + "");
-                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+//                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
                         }
                     }
-                    if (!TextUtils.isEmpty(result_model.getBodyFat())) {//体脂
-                        fcStDataModel.setPysical(result_model.getBodyFat());
-                        fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
+                    if (!TextUtils.isEmpty(result_model.getBodyFatRate())) {//体脂
+                        fcStDataModel.setPysical(result_model.getBodyFatRate());
                     }
                     if (!TextUtils.isEmpty(result_model.getViscusFatIndex())) {
                         fcStDataModel.setFat(result_model.getViscusFatIndex()); //内脂
@@ -1158,34 +1157,27 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
                     if (!TextUtils.isEmpty(result_model.getBMI())) {
                         fcStDataModel.setBmi(result_model.getBMI());
-                        fcStDataModel.setBMIUnit(result_model.getBMIUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
                         fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
-                        fcStDataModel.setFatFreemassUnit(result_model.getFatFreemassUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
                         fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
-                        fcStDataModel.setBodyWaterRateUnit(result_model.getWaterContentRateUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getWaterContent())) {
                         fcStDataModel.setBodyWater(result_model.getWaterContent());
-                        fcStDataModel.setBodyWaterUnit(result_model.getWaterContentUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getMusclemass())) {
                         fcStDataModel.setMuscleMass(result_model.getMusclemass());
-                        fcStDataModel.setMusclemassUnit(result_model.getMusclemassUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getBonemass())) {
                         fcStDataModel.setBoneMass(result_model.getBonemass());
-                        fcStDataModel.setBonemassUnit(result_model.getBonemassUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
                         fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
-                        fcStDataModel.setBasalmetabolicrateUnit(result_model.getBasalmetabolicrateUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
                         fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());

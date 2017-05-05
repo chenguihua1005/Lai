@@ -118,14 +118,12 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);
                 TextView tv_group = holder.getView(R.id.tv_group);
-//                TextView tv_weight = holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);
                 tv_group.setText("(" + data.getGroupName() + ")");
-//                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
-                tv_tip.setText("开始测量");
+                tv_tip.setText("为其测量");
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
                 } else {
@@ -141,9 +139,6 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("UnInputFragment", "Click i= " + i + " parepare 传的值 ACMId= " + memberListModels.get(i - 1).getAcmId());
-        Log.i("UnInputFragment", "Click item = " + new Gson().toJson(memberListModels.get(i - 1)));
-
         Intent InitdataAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
         InitdataAudit.putExtra("ACMId", memberListModels.get(i-1).getAcmId());
         InitdataAudit.putExtra("classId", classid);

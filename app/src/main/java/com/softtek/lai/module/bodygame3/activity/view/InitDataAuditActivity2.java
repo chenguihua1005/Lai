@@ -191,7 +191,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
         child.add(0, "初始体重");
 //        child.add(1, "当前体重");
-        child.add(1, "体脂");
+        child.add(1, "体脂率");
         child.add(2, "内脂");
         childArray.add(0, child);
         child3.add(0, "胸围");
@@ -351,7 +351,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                                     }
                                     break;
                                 case 1:
-                                    show_information("体脂", 50, 25, 1, 9, 0, 0, 2);
+                                    show_information("体脂率", 50, 25, 1, 9, 0, 0, 2);
                                     break;
                                 case 2:
                                     show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
@@ -1065,11 +1065,11 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
-                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
+//                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
                     }
-                    if (!TextUtils.isEmpty(result_model.getBodyFat())) {//体脂
-                        fcStDataModel.setPysical(result_model.getBodyFat());
-                        fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
+                    if (!TextUtils.isEmpty(result_model.getBodyFatRate())) {//体脂
+                        fcStDataModel.setPysical(result_model.getBodyFatRate());
+//                        fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getViscusFatIndex())) {
@@ -1078,34 +1078,34 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
                     if (!TextUtils.isEmpty(result_model.getBMI())) {
                         fcStDataModel.setBmi(result_model.getBMI());
-                        fcStDataModel.setBMIUnit(result_model.getBMIUnit());
+//                        fcStDataModel.setBMIUnit(result_model.getBMIUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
                         fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
-                        fcStDataModel.setFatFreemassUnit(result_model.getFatFreemassUnit());
+//                        fcStDataModel.setFatFreemassUnit(result_model.getFatFreemassUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
                         fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
-                        fcStDataModel.setBodyWaterRateUnit(result_model.getWaterContentRateUnit());
+//                        fcStDataModel.setBodyWaterRateUnit(result_model.getWaterContentRateUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getWaterContent())) {
                         fcStDataModel.setBodyWater(result_model.getWaterContent());
-                        fcStDataModel.setBodyWaterUnit(result_model.getWaterContentUnit());
+//                        fcStDataModel.setBodyWaterUnit(result_model.getWaterContentUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getMusclemass())) {
                         fcStDataModel.setMuscleMass(result_model.getMusclemass());
-                        fcStDataModel.setMusclemassUnit(result_model.getMusclemassUnit());
+//                        fcStDataModel.setMusclemassUnit(result_model.getMusclemassUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getBonemass())) {
                         fcStDataModel.setBoneMass(result_model.getBonemass());
-                        fcStDataModel.setBonemassUnit(result_model.getBonemassUnit());
+//                        fcStDataModel.setBonemassUnit(result_model.getBonemassUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
                         fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
-                        fcStDataModel.setBasalmetabolicrateUnit(result_model.getBasalmetabolicrateUnit());
+//                        fcStDataModel.setBasalmetabolicrateUnit(result_model.getBasalmetabolicrateUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
                         fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
