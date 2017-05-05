@@ -120,7 +120,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
                 tv_group.setText("(" + data.getGroupName() + ")");
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
-                tv_tip.setText("复测测量");
+                tv_tip.setText("复测审核");
                 username.setText(data.getUserName());
                 if (!TextUtils.isEmpty(data.getUserIconUrl())) {
                     Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl()).fit().into(cir_headim);
