@@ -183,7 +183,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void initUi() {
-        tv_title.setText("为学员复测");
+        tv_title.setText("莱秤测量");
         ll_left.setOnClickListener(this);
 
 
@@ -235,16 +235,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             return;
         }
 
-
-//        recordId = data.getRecordId();
-//        mWeight.setText(data.getWeight() + "");//体重
-//        mWeightCaption.setText(data.getBodyTypeTitle());//状态
-//        mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
-//        mBodyFatRate.setText(data.getBodyFatRate());
-//        mBmi.setText(data.getBMI());
-//        mInternalFatRate.setText(data.getViscusFatIndex());
-
         if (data != null) {
+            recordId = data.getRecordId();
             menu_layout.setVisibility(View.VISIBLE);
             chengliang_success = true;
 
