@@ -3,11 +3,8 @@ package com.softtek.lai.module.bodygame3.activity.view;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -22,11 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
-import com.softtek.lai.module.laicheng.SelftestFragment;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
@@ -35,11 +30,11 @@ import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 4/7/2017.
@@ -106,7 +101,14 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private boolean chengliang_success = false;//默认称没有测量成果
     private AlertDialog dialog;
-    private BroadcastReceiver receiver;
+//    private BroadcastReceiver receiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (intent.getAction().equals(EVENT_TAG)){
+//                disconnectBluetooth();
+//            }
+//        }
+//    };
 
 //    private FcStDataModel fcStDataModel_uninput;
 
@@ -187,14 +189,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void initUi() {
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(EVENT_TAG)){
-                    disconnectBluetooth();
-                }
-            }
-        };
         setClosed(true);
         tv_title.setText("莱秤测量");
         ll_left.setOnClickListener(this);
@@ -241,7 +235,14 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         fucecheck_entry.setOnClickListener(this);
         heathyReport_entry.setOnClickListener(this);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver,new IntentFilter(EVENT_TAG));
+//        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if (intent.getAction().equals(EVENT_TAG)){
+//                    disconnectBluetooth();
+//                }
+//            }
+//        }, new IntentFilter(EVENT_TAG));
     }
 
     @Override
@@ -430,20 +431,11 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         }
     }
 
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
-
-    //    public static final String CLOSE_BLUETEETH = "CLOSE_BLUETEETH";
-//    public BroadcastReceiver receiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (intent != null && CLOSE_BLUETEETH.equalsIgnoreCase(intent.getAction())) {
-//                disconnectBluetooth();
-//            }
-//        }
-//    };
 
 }

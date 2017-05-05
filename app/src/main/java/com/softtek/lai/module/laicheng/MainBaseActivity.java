@@ -146,7 +146,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+       getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         permission = MPermission.with(this);
         mShakeListener = new ShakeListener(this);
         addVoice();
@@ -924,6 +924,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         Log.d("upLoadImpedanceFailed", "shibai");
         handler.removeCallbacksAndMessages(null);
     }
+
+
 
     @Override
     public void refreshLastSuccess(LastInfoData lastData) {

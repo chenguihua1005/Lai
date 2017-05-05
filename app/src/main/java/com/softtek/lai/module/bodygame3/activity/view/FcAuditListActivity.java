@@ -18,6 +18,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
+import com.softtek.lai.module.laicheng.BleBaseActivity;
+import com.softtek.lai.module.laicheng.util.BleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +72,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 Intent intent = new Intent();
                 intent.putExtra("Auditnum", uncheck_num);
                 setResult(RESULT_OK, intent);
-                LocalBroadcastManager.getInstance(FcAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
+                BleBaseActivity.mBleManager.disconnectBluetooth();
                 finish();
             }
         });
@@ -121,7 +123,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
             Intent intent = new Intent();
             intent.putExtra("Auditnum", uncheck_num);
             setResult(RESULT_OK, intent);
-            LocalBroadcastManager.getInstance(FcAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
+            BleBaseActivity.mBleManager.disconnectBluetooth();
         }
         return super.onKeyDown(keyCode, event);
     }

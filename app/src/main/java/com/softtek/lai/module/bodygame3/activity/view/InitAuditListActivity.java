@@ -9,30 +9,25 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
-import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.module.laicheng.BleBaseActivity;
 
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
@@ -83,7 +78,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 Intent intent = new Intent();
                 intent.putExtra("Auditnum", Auditnum);
                 setResult(RESULT_OK, intent);
-                LocalBroadcastManager.getInstance(InitAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
+                BleBaseActivity.mBleManager.disconnectBluetooth();
                 finish();
             }
         });
@@ -94,7 +89,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {;
         super.onCreate(savedInstanceState);
     }
 
@@ -144,8 +139,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
             Intent intent = new Intent();
             intent.putExtra("Auditnum", Auditnum);
             setResult(RESULT_OK, intent);
-            LocalBroadcastManager.getInstance(InitAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
-//            return true;
+            BleBaseActivity.mBleManager.disconnectBluetooth();
         }
         return super.onKeyDown(keyCode, event);
 
@@ -197,7 +191,6 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onDestroy();
     }
 

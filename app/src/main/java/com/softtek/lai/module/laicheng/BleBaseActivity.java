@@ -26,7 +26,7 @@ import com.softtek.lai.module.laicheng.util.MathUtils;
  */
 public abstract class BleBaseActivity extends BaseActivity {
 
-    private BleManager mBleManager;
+    public static BleManager mBleManager;
     private BleStateListener bleStateListener;
 
     protected boolean isConnected = false;
