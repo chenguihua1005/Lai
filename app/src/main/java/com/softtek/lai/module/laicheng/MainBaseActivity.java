@@ -762,13 +762,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 accountId = getGuestInfo().getVisitorId();
                 model.setHeight(String.valueOf(getGuestInfo().getHeight()));
                 model.setBirthdate(getGuestInfo().getBirthDate());
-                model.setGender(getGuestInfo().getGender() == 0 ? 2 : 1);
+                model.setGender(getGuestInfo().getGender() == 0 ? 1 : 2);
             }
         } else {
             accountId = UserInfoModel.getInstance().getUserId();
             model.setHeight(UserInfoModel.getInstance().getUser().getHight());
             model.setBirthdate(String.valueOf(UserInfoModel.getInstance().getUser().getBirthday()));
-            model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 2 : 1);
+            model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 1 : 2);
         }
 
         if (getType() == 2 || getType() == 3) {
