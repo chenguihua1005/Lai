@@ -148,7 +148,6 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
     @Override
     public void getInitAuditList(List<AuditListModel> list) {
-        Log.i(TAG, "shuju = " + new Gson().toJson(list));
         if (list != null) {
             if (list.size() == 0) {
                 tabtitle[0] = "未录入(" + "0" + ")";

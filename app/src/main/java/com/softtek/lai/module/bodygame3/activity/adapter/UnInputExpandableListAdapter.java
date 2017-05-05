@@ -41,7 +41,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
     private MeasuredDetailsModel fcStDataModel;
 
 
-    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic,int IsEdit) {
+    public UnInputExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest_local, String images_net, int isWhatePic, int IsEdit) {
         this.context = context;
         this.childArray = childArray;
         this.fcStDataModel = fcStDataModel;
@@ -274,12 +274,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
 ////                            holder.tv_danwei.setText("%");
 //                            holder.tv_danwei.setText(TextUtils.isEmpty(fcStDataModel.getBodyFatUnit()) ? "%" : fcStDataModel.getBodyFatUnit());
                             holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());//内脂内单位
-//                            holder.tv_danwei.setText("    ");
-
-                            break;
-                        case 3:
-//                            holder.tv_value.setText("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat());//内脂内单位
-//                            holder.tv_danwei.setText("    ");
+                            holder.tv_danwei.setText("    ");
                             break;
                     }
                 } else {
