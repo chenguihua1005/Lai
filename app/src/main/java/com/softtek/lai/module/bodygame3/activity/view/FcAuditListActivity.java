@@ -70,6 +70,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 Intent intent = new Intent();
                 intent.putExtra("Auditnum", uncheck_num);
                 setResult(RESULT_OK, intent);
+                LocalBroadcastManager.getInstance(FcAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
                 finish();
             }
         });
@@ -114,14 +115,13 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             //do something...
             Intent intent = new Intent();
             intent.putExtra("Auditnum", uncheck_num);
             setResult(RESULT_OK, intent);
-//            return true;
+            LocalBroadcastManager.getInstance(FcAuditListActivity.this).sendBroadcast(new Intent(FuceForStuActivity.EVENT_TAG));
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -161,9 +161,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 TabLayout.Tab tab3 = tab.getTabAt(2);
                 tab3.setText(tabtitle[2]);
             }
-
         }
-
     }
 
     @Override
@@ -190,12 +188,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 tab2.setText(tabtitle[1]);
                 TabLayout.Tab tab3 = tab.getTabAt(2);
                 tab3.setText(tabtitle[2]);
-
             }
         }
     };
-
-
-
-
 }

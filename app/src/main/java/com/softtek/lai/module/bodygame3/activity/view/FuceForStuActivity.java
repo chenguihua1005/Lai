@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -105,12 +106,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private boolean chengliang_success = false;//默认称没有测量成果
     private AlertDialog dialog;
+    private BroadcastReceiver receiver;
 
 //    private FcStDataModel fcStDataModel_uninput;
 
 
     private String ACMID = "";
     private VoiceListener listener;
+
+    public static String EVENT_TAG = "blueClose";
 
     public interface VoiceListener {
         void onVoiceListener();
@@ -183,6 +187,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void initUi() {
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(EVENT_TAG)){
+                    disconnectBluetooth();
+                }
+            }
+        };
+        setClosed(true);
         tv_title.setText("莱秤测量");
         ll_left.setOnClickListener(this);
 
@@ -227,6 +240,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
         fucecheck_entry.setOnClickListener(this);
         heathyReport_entry.setOnClickListener(this);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver,new IntentFilter(EVENT_TAG));
     }
 
     @Override
@@ -415,8 +430,13 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
 
-//    public static final String CLOSE_BLUETEETH = "CLOSE_BLUETEETH";
+    //    public static final String CLOSE_BLUETEETH = "CLOSE_BLUETEETH";
 //    public BroadcastReceiver receiver = new BroadcastReceiver() {
 //        @Override
 //        public void onReceive(Context context, Intent intent) {

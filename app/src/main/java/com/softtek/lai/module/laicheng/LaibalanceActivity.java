@@ -88,6 +88,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void initUi() {
+        setClosed(false);
         while (activity.getParent() != null) {
             activity = activity.getParent();
         }
