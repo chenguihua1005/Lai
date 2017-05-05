@@ -191,7 +191,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
             mInternalFatRateBottom.setText("- -");
             mLastTime.setText("上次测量：");
         } else {
-            mWeightBottom.setText(data.getWeight() + "");
+            mWeightBottom.setText(data.getWeight() + "斤");
             if (data.getBodyFat() != null) {
                 mBodyFatBottom.setText(data.getBodyFatRate() + "%");
             } else {
