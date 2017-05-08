@@ -49,7 +49,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     private WeakReference<Context> context;
 
 
-    private RefWatcher refWatcher;
+//    private RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
@@ -62,15 +62,15 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         Picasso.setSingletonInstance(new Picasso.Builder(this).
                 downloader(new ImageDownLoader(new OkHttpClient.Builder()))
                 .build());
-        refWatcher=LeakCanary.install(this);
-        CrashHandler.getInstance().init(this);
+//        refWatcher=LeakCanary.install(this);
+//        CrashHandler.getInstance().init(this);
 
     }
-
-    public static  RefWatcher getWatch(Context context){
-        LaiApplication application= (LaiApplication) context.getApplicationContext();
-            return application.refWatcher;
-    }
+//
+//    public static  RefWatcher getWatch(Context context){
+//        LaiApplication application= (LaiApplication) context.getApplicationContext();
+//            return application.refWatcher;
+//    }
 
 
     public static LaiApplication getInstance() {
