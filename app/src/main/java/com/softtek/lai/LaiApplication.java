@@ -7,10 +7,12 @@ package com.softtek.lai;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
 import android.support.multidex.MultiDex;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
+import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.ImageDownLoader;
 import com.softtek.lai.common.MyOkClient;
 import com.softtek.lai.common.NetErrorHandler;
@@ -18,8 +20,11 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
+import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 import com.umeng.socialize.PlatformConfig;
 
@@ -43,6 +48,9 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     private static LaiApplication laiApplication;
     private WeakReference<Context> context;
 
+
+    private RefWatcher refWatcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,11 +59,17 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         UserInfoModel.getInstance(this);
         JPushInterface.init(this);
         ChatHelper.getInstance().init(getApplicationContext());
-
         Picasso.setSingletonInstance(new Picasso.Builder(this).
                 downloader(new ImageDownLoader(new OkHttpClient.Builder()))
                 .build());
+        refWatcher=LeakCanary.install(this);
+        CrashHandler.getInstance().init(this);
 
+    }
+
+    public static  RefWatcher getWatch(Context context){
+        LaiApplication application= (LaiApplication) context.getApplicationContext();
+            return application.refWatcher;
     }
 
 

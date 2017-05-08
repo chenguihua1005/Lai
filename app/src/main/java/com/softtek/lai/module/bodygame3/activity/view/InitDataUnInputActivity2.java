@@ -29,13 +29,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
-import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.adapter.UnInputExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
-import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
-import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.module.bodygame3.activity.presenter.UnInputPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.community.model.ImageResponse2;
@@ -181,10 +177,8 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         Log.i(TAG, "获取的 ACMID = " + ACMID + "   AccountId = " + AccountId);
         IsAudit = getIntent().getIntExtra("Audited", 1);
         typeDate = getIntent().getStringExtra("typeDate");
-
         type = getIntent().getIntExtra("type", -1);
         typeforwhich = getIntent().getIntExtra("typeforwhich", -1); //录入类型： 0：为学员初始录入   1：为学员复测录入typeforwhich
-//        fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
 
         guangboname = getIntent().getStringExtra("guangboname");
         resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
@@ -211,16 +205,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         }
 
 
-//        if (IsAudit == 1) {
-//            tv_right.setVisibility(View.INVISIBLE);
-//            cheng_float.setVisibility(View.INVISIBLE);
-////            im_audit_states.setImageResource(R.drawable.passed);   //??????
-//        } else {
-//            tv_right.setText("审核通过");//保存数据
-//            cheng_float.setVisibility(View.VISIBLE);
-//        }
-
-
         fcAuditPostModel = new FcAuditPostModel();
 
 
@@ -235,31 +219,22 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
-        Intent intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
-        intent.putExtra("fucedata", fcStDataModel);
-        intent.putExtra("ACMID", ACMID);
-        intent.putExtra("type", type);
-        intent.putExtra("classId", classId);
-        intent.putExtra("AccountId", AccountId);
-
-        intent.putExtra("from", UPDATE_UI_UNINPUT);
-
-        startActivity(intent);
-//        startActivityForResult(intent, 0x0001);
+        if(fcStDataModel!=null){
+            Intent intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
+            intent.putExtra("fucedata", fcStDataModel);
+            intent.putExtra("ACMID", ACMID);
+            intent.putExtra("type", type);
+            intent.putExtra("classId", classId);
+            intent.putExtra("AccountId", AccountId);
+            intent.putExtra("from", UPDATE_UI_UNINPUT);
+            startActivity(intent);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageFileSelector.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 0x0001 && resultCode == RESULT_OK) {
-//            String acmid = data.getStringExtra("ACMID");
-//            tv_right.setVisibility(View.VISIBLE);
-//            tv_right.setText("审核通过");//保存数据
-//
-//            cheng_float.setVisibility(View.VISIBLE);
-////            getPresenter().getFuceCheckData(acmid);
-//        }requestCode == GET_PRE && resultCode == RESULT_OK
         if (requestCode == GET_PRE && resultCode == RESULT_OK) {
             phtoPath_local = data.getStringExtra("images");
             if (TextUtils.isEmpty(phtoPath_local)) {
@@ -1209,24 +1184,12 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     };
 
     @Override
-    public void getStudentBasicalInfo(MeasuredDetailsModel model) {//FcStDataModel
+    public void getStudentBasicalInfo(MeasuredDetailsModel model) {
         fcStDataModel = model;
 
         Log.i(TAG, "获取后台数据 = " + new Gson().toJson(model));
         try {
             final String url = AddressManager.get("photoHost");
-//            if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {
-//                photourl = fcStDataModel.getImgThumbnail();
-//                uri = fcStDataModel.getImgThumbnail();
-//                isExistP = 1;
-//            } else if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-//                photourl = fcStDataModel.getImgThumbnail();
-//                uri = fcStDataModel.getImgThumbnail();
-//                isExistP = 1;
-//            }
-//            if (!TextUtils.isEmpty(fcStDataModel.getImg())) {
-//                photoname = fcStDataModel.getImg();
-//            }
             if (!TextUtils.isEmpty(model.getImg())) {
                 isExistPhoto = 1;
                 fcAuditPostModel.setFileName(model.getImg());
@@ -1250,7 +1213,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 }
             }
 
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

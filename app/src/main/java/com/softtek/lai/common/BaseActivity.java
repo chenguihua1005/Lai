@@ -36,7 +36,7 @@ import zilla.libcore.ui.LayoutInjectUtil;
 /**
  * Created by zilla on 14/12/1.
  */
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView{
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
 
     /**
      * Toobar
@@ -52,17 +52,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TAG=getClass().getCanonicalName();
-        TypedValue typedValue = new  TypedValue();
+        TAG = getClass().getCanonicalName();
+        TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(typedValue.data);
-        }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         setContentView(LayoutInjectUtil.getInjectLayoutId(this));
@@ -89,7 +89,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         //有盟统计
         MobclickAgent.setDebugMode(false);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
-        CrashHandler.getInstance().init(this);
         Log.i("当前界面名称=" + getClass().getCanonicalName());
 
     }
@@ -97,7 +96,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void onResume() {
         super.onResume();
         Zilla.ACTIVITY = this;
-        if(LaiApplication.getInstance().getContext()!=null){
+        if (LaiApplication.getInstance().getContext() != null) {
             LaiApplication.getInstance().getContext().clear();
         }
         LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
@@ -125,7 +124,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     public void dialogShow(String value) {
         if (progressDialog == null || !progressDialog.isShowing()) {
-            progressDialog =CustomProgress.build(this,value);
+            progressDialog = CustomProgress.build(this, value);
             progressDialog.show();
 
         }
@@ -133,13 +132,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     public void dialogShow() {
         if (progressDialog == null) {
-            progressDialog = CustomProgress.build(this,null);
+            progressDialog = CustomProgress.build(this, null);
             progressDialog.show();
         }
     }
+
     @Override
     public void dialogDissmiss() {
-        if (progressDialog != null&&progressDialog.isShowing()) {
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }
@@ -158,10 +158,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onDestroy() {
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
-        if(presenter!=null){
+        if (presenter != null) {
             presenter.recycle();
         }
         super.onDestroy();
+//        LaiApplication.getWatch(this).watch(this);
     }
 
     protected void initToolbars() {

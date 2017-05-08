@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
@@ -25,6 +26,7 @@ import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
+import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
@@ -101,26 +103,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private boolean chengliang_success = false;//默认称没有测量成果
     private AlertDialog dialog;
-//    private BroadcastReceiver receiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (intent.getAction().equals(EVENT_TAG)){
-//                disconnectBluetooth();
-//            }
-//        }
-//    };
-
-//    private FcStDataModel fcStDataModel_uninput;
-
-
-    private String ACMID = "";
-    private VoiceListener listener;
-
-    public static String EVENT_TAG = "blueClose";
-
-    public interface VoiceListener {
-        void onVoiceListener();
-    }
 
 
     @SuppressLint("LongLogTag")
@@ -158,7 +140,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 Intent intent = new Intent(from);
                 intent.putExtra("ACMID", recordId);
                 intent.putExtra("result_model", result_model);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 finish();
 
                 break;
@@ -189,15 +171,13 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void initUi() {
-        setClosed(true);
+        setClosed(false);
         tv_title.setText("莱秤测量");
         ll_left.setOnClickListener(this);
 
 
         fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
 
-
-        ACMID = getIntent().getStringExtra("ACMID");
         classId = getIntent().getStringExtra("classId");
         type = getIntent().getIntExtra("type", -1);
         AccountId = getIntent().getLongExtra("AccountId", 0);
@@ -205,8 +185,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
         chengliang_success = false;
 
-
-//        if (fucDataModel != null) {
         tv_name.setText(fucDataModel.getUserName());
         tv_className.setText(fucDataModel.getClassName());
         tv_mobile.setText(fucDataModel.getMobile());
@@ -227,22 +205,11 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 //        setGuest(true);
         setType(type);
 
-
         setBleStateListener(bleStateListener);
         mShakeListener.start();
 
-
         fucecheck_entry.setOnClickListener(this);
         heathyReport_entry.setOnClickListener(this);
-
-//        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if (intent.getAction().equals(EVENT_TAG)){
-//                    disconnectBluetooth();
-//                }
-//            }
-//        }, new IntentFilter(EVENT_TAG));
     }
 
     @Override
@@ -295,9 +262,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             entity.setBirthDate(fucDataModel.getBirthDate());
 
             entity.setHeight(TextUtils.isEmpty(fucDataModel.getHeight()) ? 0 : Float.parseFloat(fucDataModel.getHeight()));
-            entity.setGender(Integer.parseInt(fucDataModel.getGender()));
+            entity.setGender(Integer.parseInt(TextUtils.isEmpty(fucDataModel.getGender())?"1":fucDataModel.getGender()));
             entity.setPhoneNo(fucDataModel.getMobile());
-//            entity.setVisitorId(fucDataModel.getAccountId());
             entity.setVisitorId(AccountId);
 
         }
@@ -315,14 +281,12 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         }
     }
 
-    private AlertDialog.Builder timeOutBuilder;
-    private AlertDialog.Builder failBuilder;
 
     @Override
     public void showProgressDialog() {
-        if (isFinishing()) {
-            return;
-        }
+//        if (isFinishing()) {
+//            return;
+//        }
         dialogShow("亲，请稍等，测量中...");
     }
 
@@ -332,12 +296,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     }
 
     private void createDialog(boolean isTimeout) {
+        if (isFinishing()){
+            return;
+        }
         if (dialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!isConnected) {
+                            if (!BleManager.getInstance().isConnected()) {
                                 mShakeListener.start();
                                 changeConnectionState(0);
                             }
@@ -359,21 +326,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @Override
     public void showUploadFailedDialog() {
         createDialog(false);
-//        if (failBuilder == null) {
-//            failBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
-//        }
-//        failBuilder.setMessage("测量失败，请重新测量");
-//        failBuilder.setTitle("提示");
-//        failBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                if (!isConnected) {
-//                    mShakeListener.start();
-//                    changeConnectionState(0);
-//                }
-//                dialog.dismiss();
-//            }
-//        }).create().show();
     }
 
     @Override
@@ -395,12 +347,15 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     }
 
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             showTipDialog();
+            return true;
         }
-        return false;
+        return super.onKeyDown(keyCode, event);
     }
 
     private void showTipDialog() {
@@ -435,11 +390,5 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         }
     }
 
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
 }

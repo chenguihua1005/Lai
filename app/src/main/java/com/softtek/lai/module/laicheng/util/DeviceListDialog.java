@@ -36,11 +36,15 @@ public class DeviceListDialog extends Dialog {
         mContext = context;
     }
 
+    public DeviceListDialog(Context context){
+        super(context);
+        mContext = context;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_list);
-
         cTitle = (TextView) findViewById(R.id.title_paired_devices_main_title);
 
         ImageButton closeBtn = (ImageButton) findViewById(R.id.device_list_close);

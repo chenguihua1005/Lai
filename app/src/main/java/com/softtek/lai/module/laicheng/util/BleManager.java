@@ -1,28 +1,27 @@
 package com.softtek.lai.module.laicheng.util;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.os.SystemClock;
-import android.util.Log;
-import android.widget.Toast;
+import android.support.v4.content.LocalBroadcastManager;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.module.laicheng.BleBaseActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 
 import java.util.List;
 import java.util.UUID;
 
 public class BleManager {
-
-    private static final long SCAN_PERIOD = 10000;//蓝牙扫描时间
+    private static volatile BleManager instance;
+    public static final long SCAN_PERIOD = 10000;//蓝牙扫描时间
 
     public static final UUID KERUIER_SERVICE_UUID = UUID.fromString("000018f0-0000-1000-8000-00805f9b34fb");//老秤4.0
     public static final UUID KERUIER_READ_CHARACTERISTIC_UUID = UUID.fromString("00002af0-0000-1000-8000-00805f9b34fb");
@@ -55,45 +54,191 @@ public class BleManager {
     public static final int BLUETOOTH_CONNECT_ERROR = 3;//连接错误
     public static final int BLUETOOTH_UNABLE = 4;//蓝牙模块错误
 
+
+    public static boolean EXIT = false;
+
     private boolean availableBluetooth = true;
-    private int mBlueToothState = BLUETOOTH_STATE_NONE;
+    public int mBlueToothState = BLUETOOTH_STATE_NONE;
+    public BluetoothAdapter mBluetoothAdapter;
 
-    private Activity mActivity;
-    private BluetoothAdapter mBluetoothAdapter;
-
-    private BluetoothDevice mBluetoothDevice;//需要连接的蓝牙设备
+    public BluetoothDevice mBluetoothDevice;//需要连接的蓝牙设备
     private List<BluetoothDevice> mBoundDeviceList;//已经配对的蓝牙信息
 
-    private BluetoothGatt mBluetoothGatt;
+    public BluetoothGatt mBluetoothGatt;
 
-    private boolean isReconnect = false;//是否是重新连接
-    private boolean mScanning = false;
+    public boolean isReconnect = false;//是否是重新连接
+    public boolean mScanning = false;
 
-    private Handler mHandler;
+    public boolean isConnected() {
+        return isConnected;
+    }
 
-    private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
-        @Override
-        public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
-            sendMessage(BLUETOOTH_STATE_SCAN_FOUND, bluetoothDevice);
-        }
-    };
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
 
-    public BleManager(Activity activity, Handler handler) {
-        mActivity = activity;
-        mHandler = handler;
+    private boolean isConnected = false;
+
+    private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
+
+    public BluetoothGattCharacteristic getReadCharacteristic() {
+        return readCharacteristic;
+    }
+
+    public void setReadCharacteristic(BluetoothGattCharacteristic readCharacteristic) {
+        this.readCharacteristic = readCharacteristic;
+    }
+
+    public BluetoothGattCharacteristic getWriteCharacteristic() {
+        return writeCharacteristic;
+    }
+
+    public void setWriteCharacteristic(BluetoothGattCharacteristic writeCharacteristic) {
+        this.writeCharacteristic = writeCharacteristic;
+    }
+
+    private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
+
+    private BleManager() {
+        EXIT = false;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) availableBluetooth = false;
     }
 
-    public void openBluetoothSetting() {
-        if (!blueToothModuleEnable()) return;
-        if (!mBluetoothAdapter.isEnabled()) {
-            mBluetoothAdapter.enable();
-        } else {
-            mBlueToothState = BLUETOOTH_STATE_SETTING_OPEN;
-            sendMessage(BLUETOOTH_STATE_SETTING_OPEN);
+    public static BleManager getInstance() {
+        if (instance == null) {
+            synchronized (BleManager.class) {
+                if (instance == null) {
+                    instance = new BleManager();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public boolean stopScane(BluetoothAdapter.LeScanCallback leScanCallback) {
+        if (isScanning()) {
+            mScanning = false;
+            mBlueToothState = BleManager.BLUETOOTH_STATE_SCAN_FINISH;
+            mBluetoothAdapter.stopLeScan(leScanCallback);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean startScane(BluetoothAdapter.LeScanCallback leScanCallback) {
+        mScanning = true;
+        mBlueToothState = BLUETOOTH_STATE_SCANNING;
+        UUID[] uuids = {LIERDA_SERVICE_UUID};
+        mBluetoothAdapter.startLeScan(leScanCallback);
+        return true;
+    }
+
+
+    public int connBluetooth(BluetoothDevice bluetoothDevice) {
+        if (mBlueToothState == BleManager.BLUETOOTH_STATE_DATA) {
+            return BleManager.BLUETOOTH_HAS_DATA;
+        } else if (mBlueToothState == BleManager.BLUETOOTH_STATE_CONNECTED) {
+            if (mBluetoothDevice.getAddress().equals(bluetoothDevice.getAddress())) {
+                return BleManager.BLUETOOTH_CONNECTED_THIS;
+            }
+            isReconnect = true;
+            mBluetoothGatt.disconnect();
+            mBluetoothGatt.close();
+        }
+        mBluetoothDevice = bluetoothDevice;
+        try {
+            isReconnect = false;
+
+            mBluetoothGatt = mBluetoothDevice.connectGatt(LaiApplication.getInstance().getApplicationContext(), false, new BluetoothGattCallback() {
+                @Override
+                public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+                    Intent intent = new Intent(BleBaseActivity.GATT_TAG);
+                    intent.putExtra("flag", "ConnectionStateChange");
+                    intent.putExtra("newState", newState);
+                    LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext())
+                            .sendBroadcast(intent);
+                }
+
+                @Override
+                public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+                    android.util.Log.d("discovered", "discovered----------");
+//                    Intent intent=new Intent(BleBaseActivity.GATT_TAG);
+//                    intent.putExtra("flag","Discovered");
+//                    LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext())
+//                            .sendBroadcast(intent);
+                    BluetoothGattService bluetoothGattService = mBluetoothGatt.getService(BleManager.LIERDA_SERVICE_UUID);
+                    if (bluetoothGattService != null) {
+                        readCharacteristic = bluetoothGattService.getCharacteristic(BleManager.LIERDA_READ_CHARACTERISTIC_UUID);
+                        setNotificationCharacteristic(readCharacteristic);
+                        writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.LIERDA_WRITE_CHARACTERISTIC_UUID);
+                    } else {
+                        bluetoothGattService = mBluetoothGatt.getService(BleManager.KERUIER_SERVICE_UUID);
+                        if (bluetoothGattService != null) {
+                            readCharacteristic = bluetoothGattService.getCharacteristic(BleManager.KERUIER_READ_CHARACTERISTIC_UUID);
+                            setNotificationCharacteristic(readCharacteristic);
+                            writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.KERUIER_WRITE_CHARACTERISTIC_UUID);
+                        } else {
+                            disconnectBluetooth();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                }
+
+                @Override
+                public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                    super.onCharacteristicWrite(gatt, characteristic, status);
+                }
+
+                @Override
+                public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+                    String uuid = characteristic.getUuid().toString();
+                    byte[] data = characteristic.getValue();
+                    android.util.Log.d("onCharacteristicChanged", "进入onCharacteristicChanged");
+                    Intent intent = new Intent(BleBaseActivity.GATT_TAG);
+                    intent.putExtra("flag", "CharacteristicChanged");
+                    intent.putExtra("data", data);
+                    LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext())
+                            .sendBroadcast(intent);
+                }
+
+                @Override
+                public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+                    super.onDescriptorRead(gatt, descriptor, status);
+                }
+
+                @Override
+                public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+                    super.onDescriptorWrite(gatt, descriptor, status);
+                }
+
+                @Override
+                public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
+                    super.onReliableWriteCompleted(gatt, status);
+                }
+
+                @Override
+                public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+                    super.onReadRemoteRssi(gatt, rssi, status);
+                }
+            });
+            return BleManager.BLUETOOTH_ERROR_NONE;
+        } catch (Exception e) {
+            return BleManager.BLUETOOTH_CONNECT_ERROR;
         }
     }
+
+    protected void setNotificationCharacteristic(BluetoothGattCharacteristic characteristic) {
+        BleManager.getInstance().getBluetoothGatt().setCharacteristicNotification(
+                characteristic, true);
+        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(BleManager.CLIENT_CHARACTERISTIC_CONFIG);
+        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        BleManager.getInstance().getBluetoothGatt().writeDescriptor(descriptor);
+    }
+
 
     public int getBlueToothState() {
         return mBlueToothState;
@@ -103,72 +248,29 @@ public class BleManager {
         this.mBlueToothState = blueToothState;
     }
 
-    public void scanBluetooth(boolean enable) {
-        if (enable) {
-            if (!mScanning) {
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mScanning) {
-                            mScanning = false;
-                            mBlueToothState = BLUETOOTH_STATE_SCAN_FINISH;
-                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                            sendMessage(BLUETOOTH_STATE_SCAN_FINISH);
-                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
-                            Log.d("no found deviced", "未发现设备，请检查莱秤是否开启");
-                        }
-                    }
-                }, SCAN_PERIOD);
-                mScanning = true;
-                mBlueToothState = BLUETOOTH_STATE_SCANNING;
-                UUID[] uuids = {LIERDA_SERVICE_UUID};
-                mBluetoothAdapter.startLeScan(mLeScanCallback);
-                sendMessage(BLUETOOTH_STATE_SCANNING);
-            }
-        } else {
-            if (mScanning) {
-                mScanning = false;
-                mBlueToothState = BLUETOOTH_STATE_SCAN_FINISH;
-                mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                sendMessage(BLUETOOTH_STATE_SCAN_FINISH);
-            }
-        }
-    }
-
-    public int connectBluetooth(final BluetoothDevice bluetoothDevice, final BluetoothGattCallback gattCallback) {
-        if (mScanning) {
-            mScanning = false;
-            mBlueToothState = BLUETOOTH_STATE_SCAN_FINISH;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            sendMessage(BLUETOOTH_STATE_SCAN_FINISH);
-        }
-        if (mBlueToothState == BLUETOOTH_STATE_DATA) {
-            return BLUETOOTH_HAS_DATA;
-        } else if (mBlueToothState == BLUETOOTH_STATE_CONNECTED) {
-            if (mBluetoothDevice.getAddress().equals(bluetoothDevice.getAddress())) {
-                return BLUETOOTH_CONNECTED_THIS;
-            }
-            isReconnect = true;
-            mBluetoothGatt.disconnect();
-            mBluetoothGatt.close();
-        }
-        mBluetoothDevice = bluetoothDevice;
-        try {
-            isReconnect = false;
-            mBluetoothGatt = mBluetoothDevice.connectGatt(mActivity, false, gattCallback);
-            return BLUETOOTH_ERROR_NONE;
-        } catch (Exception e) {
-            return BLUETOOTH_CONNECT_ERROR;
-        }
-    }
 
     public void disconnectBluetooth() {
         if (mBluetoothGatt != null) {
-            mBluetoothGatt.disconnect();
-            SystemClock.sleep(20);
-            mBluetoothGatt.close();
+            try {
+                mBluetoothGatt.disconnect();
+                SystemClock.sleep(20);
+            } finally {
+                mBluetoothGatt.close();
+            }
+            Log.i("正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常");
+        } else {
+            Log.i("空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空");
         }
-        mActivity = null;
+        instance = null;
+        EXIT = true;
+        MainBaseActivity.isConnecting = false;
+    }
+
+    public void loss() {
+        mBluetoothGatt = null;
+        instance = null;
+        EXIT = true;
+        MainBaseActivity.isConnecting = false;
     }
 
     /**
@@ -180,7 +282,7 @@ public class BleManager {
     public int reConnectBluetooth(final BluetoothGattCallback gattCallback) {
         try {
             isReconnect = false;
-            mBluetoothGatt = mBluetoothDevice.connectGatt(mActivity, false, gattCallback);
+            mBluetoothGatt = mBluetoothDevice.connectGatt(LaiApplication.getInstance().getApplicationContext(), false, gattCallback);
             return BLUETOOTH_ERROR_NONE;
         } catch (Exception e) {
             return BLUETOOTH_CONNECT_ERROR;
@@ -200,34 +302,6 @@ public class BleManager {
         return mBluetoothAdapter;
     }
 
-    /**
-     * 蓝牙设置更改广播接收器
-     */
-    private final BroadcastReceiver mSettingStateReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            // 这个是蓝牙设置的变化，不是连接的状态，但是也需要
-            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
-                int bluetoothSettingState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
-                if (bluetoothSettingState == BluetoothAdapter.STATE_ON) {
-                    sendMessage(BLUETOOTH_STATE_SETTING_OPEN);
-                } else if (bluetoothSettingState == BluetoothAdapter.STATE_OFF) {
-                    if (mBluetoothAdapter.isDiscovering())//如果在扫描需要关闭
-                        mBluetoothAdapter.cancelDiscovery();
-                    if (mBluetoothGatt != null) {
-                        mBluetoothGatt.disconnect();
-                        mBluetoothGatt.close();
-                    }
-                    sendMessage(BLUETOOTH_STATE_SETTING_CLOSE);
-                    mBlueToothState = BLUETOOTH_STATE_NONE;
-                }
-            }
-        }
-    };
-
-    public BroadcastReceiver getSettingStateReceiver() {
-        return mSettingStateReceiver;
-    }
 
     public BluetoothGatt getBluetoothGatt() {
         return mBluetoothGatt;
@@ -241,17 +315,4 @@ public class BleManager {
         return isReconnect;
     }
 
-
-    private void sendMessage(final int what) {
-        Message message = new Message();
-        message.what = what;
-        mHandler.sendMessage(message);
-    }
-
-    private void sendMessage(final int what, final BluetoothDevice bluetoothDevice) {
-        Message message = new Message();
-        message.what = what;
-        message.obj = bluetoothDevice;
-        mHandler.sendMessage(message);
-    }
 }
