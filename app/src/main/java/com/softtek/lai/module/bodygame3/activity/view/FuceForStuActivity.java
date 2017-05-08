@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
@@ -31,7 +30,6 @@ import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
-
 
 import butterknife.InjectView;
 import butterknife.OnClick;
