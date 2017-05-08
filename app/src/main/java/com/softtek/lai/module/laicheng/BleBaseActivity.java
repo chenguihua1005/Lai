@@ -33,23 +33,23 @@ public abstract class BleBaseActivity extends BaseActivity {
 
 //    protected boolean isConnected = false;
 
-    private class  BlueGattReceiver extends BroadcastReceiver{
+    private class BlueGattReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(!GATT_TAG.equals(intent.getAction())){
+            if (!GATT_TAG.equals(intent.getAction())) {
                 return;
             }
-            String flag=intent.getStringExtra("flag");
-            if(flag.equals("Discovered")){
+            String flag = intent.getStringExtra("flag");
+            if (flag.equals("Discovered")) {
                 sendMessage(BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES);
-            }else if(flag.equals("CharacteristicChanged")){
-                byte[] data=intent.getByteArrayExtra("data");
+            } else if (flag.equals("CharacteristicChanged")) {
+                byte[] data = intent.getByteArrayExtra("data");
                 sendMessage(BleManager.BLUETOOTH_STATE_READ, data);
-            }else if(flag.equals("ConnectionStateChange")){
-                int newState=intent.getIntExtra("newState",-20);
-                if(newState!=-20){
-                    doStateChange(newState);
+            } else if (flag.equals("ConnectionStateChange")) {
+                int newState = intent.getIntExtra("newState", -20);
+                if (newState != -20) {
+                    sendMessage(newState);
                 }
             }
         }
@@ -84,10 +84,11 @@ public abstract class BleBaseActivity extends BaseActivity {
     private BlueGattReceiver gattReceiver;
 
 
-    public static final String GATT_TAG="com.ggx.gatt_reciver";
+    public static final String GATT_TAG = "com.ggx.gatt_reciver";
+
     @Override
     protected void onDestroy() {
-        Log.i("finish","1111111finishfinishfinishfinishfinishfinishfinishfinishfinishfinishfinish1111111111111111111111");
+        Log.i("finish", "1111111finishfinishfinishfinishfinishfinishfinishfinishfinishfinishfinish1111111111111111111111");
         mHandler.removeCallbacksAndMessages(null);
         cancelDiscoveryBluetooth();
         leScanCallback.recycle();
@@ -107,9 +108,9 @@ public abstract class BleBaseActivity extends BaseActivity {
 
         leScanCallback = new LeScanCallback(this);
 //        bluetoothGattCall = new BluetoothGattCall(this);
-        gattReceiver=new BlueGattReceiver();
+        gattReceiver = new BlueGattReceiver();
         LocalBroadcastManager.getInstance(getApplicationContext())
-                .registerReceiver(gattReceiver,new IntentFilter(GATT_TAG));
+                .registerReceiver(gattReceiver, new IntentFilter(GATT_TAG));
     }
 
     @Override
@@ -211,7 +212,6 @@ public abstract class BleBaseActivity extends BaseActivity {
     }
 
 
-
     /**
      * 关闭蓝牙扫描
      */
@@ -227,97 +227,6 @@ public abstract class BleBaseActivity extends BaseActivity {
         if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
             BleManager.getInstance().getBluetoothGatt().setCharacteristicNotification(
                     gattCharacteristic, true);
-        }
-    }
-
-/*    private static class BluetoothGattCall extends BluetoothGattCallback {
-
-        private WeakReference<BleBaseActivity> weakReference;
-
-        public BluetoothGattCall(BleBaseActivity activity) {
-            this.weakReference = new WeakReference<>(activity);
-        }
-
-
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if (weakReference != null && weakReference.get() != null) {
-                weakReference.get().doStateChange(gatt, status, newState);
-            }
-        }
-
-        @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            Log.d("discovered", "discovered----------");
-            if (weakReference != null && weakReference.get() != null) {
-                weakReference.get().sendMessage(BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES);
-            }
-        }
-
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        }
-
-        @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            super.onCharacteristicWrite(gatt, characteristic, status);
-        }
-
-        @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            String uuid = characteristic.getUuid().toString();
-            byte[] data = characteristic.getValue();
-            Log.d("onCharacteristicChanged", "进入onCharacteristicChanged");
-            if (weakReference != null && weakReference.get() != null) {
-                weakReference.get().sendMessage(BleManager.BLUETOOTH_STATE_READ, data);
-            }
-        }
-
-        @Override
-        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            super.onDescriptorRead(gatt, descriptor, status);
-        }
-
-        @Override
-        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            super.onDescriptorWrite(gatt, descriptor, status);
-        }
-
-        @Override
-        public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
-            super.onReliableWriteCompleted(gatt, status);
-        }
-
-        @Override
-        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-            super.onReadRemoteRssi(gatt, rssi, status);
-        }
-
-        public void recycle() {
-            if (weakReference != null) {
-                weakReference.clear();
-                weakReference = null;
-            }
-        }
-    }*/
-
-    private void doStateChange( int newState) {
-        if (newState == BluetoothProfile.STATE_CONNECTED) {//当蓝牙设备已经连接
-            if (!BleManager.getInstance().isConnected()) {
-                sendMessage(BleManager.BLUETOOTH_STATE_CONNECTED);
-                BleManager.getInstance().setConnected(true);
-            }
-            BleManager.getInstance().getBluetoothGatt().discoverServices();
-        } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {//当设备无法连接
-            if (BleManager.getInstance().isReconnect()) {
-//                            BleManager.getInstance().reConnectBluetooth(this);
-            } else {
-                BleManager.getInstance().setConnected(false);
-                sendMessage(BleManager.BLUETOOTH_STATE_CONNECT_LOST);
-            }
-        } else if (newState == BluetoothProfile.STATE_DISCONNECTING) {//失去链接中
-            BleManager.getInstance().setConnected(false);
-            sendMessage(BleManager.BLUETOOTH_STATE_CONNECT_LOST);
         }
     }
 

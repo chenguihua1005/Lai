@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
@@ -153,11 +154,33 @@ public class BleManager {
             mBluetoothGatt = mBluetoothDevice.connectGatt(LaiApplication.getInstance().getApplicationContext(), false, new BluetoothGattCallback() {
                 @Override
                 public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                    Intent intent = new Intent(BleBaseActivity.GATT_TAG);
-                    intent.putExtra("flag", "ConnectionStateChange");
-                    intent.putExtra("newState", newState);
-                    LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext())
-                            .sendBroadcast(intent);
+                    int key = -1;
+                    if (newState == BluetoothProfile.STATE_CONNECTED) {//当蓝牙设备已经连接
+                        if (!isConnected()) {
+                            key = BLUETOOTH_STATE_CONNECTED;
+                            setConnected(true);
+                        }
+                        BleManager.getInstance().getBluetoothGatt().discoverServices();
+                    } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {//当设备无法连接
+                        if (isReconnect()) {
+//                            BleManager.getInstance().reConnectBluetooth(this);
+                        } else {
+                            setConnected(false);
+                            key = BLUETOOTH_STATE_CONNECT_LOST;
+                            loss();
+                        }
+                    } else if (newState == BluetoothProfile.STATE_DISCONNECTING) {//失去链接中
+                        setConnected(false);
+                        key = BLUETOOTH_STATE_CONNECT_LOST;
+                        loss();
+                    }
+                    if (key != -1) {
+                        Intent intent = new Intent(BleBaseActivity.GATT_TAG);
+                        intent.putExtra("flag", "ConnectionStateChange");
+                        intent.putExtra("newState", key);
+                        LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext())
+                                .sendBroadcast(intent);
+                    }
                 }
 
                 @Override

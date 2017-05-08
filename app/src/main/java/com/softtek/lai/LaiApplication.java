@@ -7,12 +7,10 @@ package com.softtek.lai;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Handler;
 import android.support.multidex.MultiDex;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
-import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.ImageDownLoader;
 import com.softtek.lai.common.MyOkClient;
 import com.softtek.lai.common.NetErrorHandler;
@@ -20,11 +18,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
-import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 import com.umeng.socialize.PlatformConfig;
 

@@ -42,8 +42,6 @@ import uk.co.senab.photoview.log.LogManager;
 
 public abstract class MainBaseActivity extends BleBaseActivity implements BleBasePresenter.BleBaseView {
 
-//    private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
-//    private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
     private int state_current = CONNECTED_STATE_SHAKE_IT;
     private int type = 1;
     public static boolean isVoiceHelp = true;
@@ -287,9 +285,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     changeConnectionState(CONNECTED_STATE_SHAKE_IT);
                 }
                 Toast.makeText(getApplicationContext(), "设备连接断开，请重新连接", Toast.LENGTH_SHORT).show();
-                if(!BleManager.EXIT){
-                    BleManager.getInstance().loss();
-                }
                 mShakeListener.start();
                 dialogDissmiss();
             }
