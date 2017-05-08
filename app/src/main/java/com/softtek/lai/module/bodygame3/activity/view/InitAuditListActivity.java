@@ -78,7 +78,9 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 Intent intent = new Intent();
                 intent.putExtra("Auditnum", Auditnum);
                 setResult(RESULT_OK, intent);
-                BleBaseActivity.mBleManager.disconnectBluetooth();
+                if (BleBaseActivity.mBleManager != null) {
+                    BleBaseActivity.mBleManager.disconnectBluetooth();
+                }
                 finish();
             }
         });
@@ -89,7 +91,8 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {;
+    protected void onCreate(Bundle savedInstanceState) {
+        ;
         super.onCreate(savedInstanceState);
     }
 
@@ -139,7 +142,9 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
             Intent intent = new Intent();
             intent.putExtra("Auditnum", Auditnum);
             setResult(RESULT_OK, intent);
-            BleBaseActivity.mBleManager.disconnectBluetooth();
+            if (BleBaseActivity.mBleManager != null) {
+                BleBaseActivity.mBleManager.disconnectBluetooth();
+            }
         }
         return super.onKeyDown(keyCode, event);
 
@@ -173,12 +178,14 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 tabtitle[0] = "未录入(" + unInputNum + ")";
                 tabtitle[1] = "待审核(" + Auditnum + ")";
                 tabtitle[2] = "已审核(" + Auditednum + ")";
-                TabLayout.Tab tab1 = tab.getTabAt(0);
-                tab1.setText(tabtitle[0]);
-                TabLayout.Tab tab2 = tab.getTabAt(1);
-                tab2.setText(tabtitle[1]);
-                TabLayout.Tab tab3 = tab.getTabAt(2);
-                tab3.setText(tabtitle[2]);
+                if (tab != null) {
+                    TabLayout.Tab tab1 = tab.getTabAt(0);
+                    tab1.setText(tabtitle[0]);
+                    TabLayout.Tab tab2 = tab.getTabAt(1);
+                    tab2.setText(tabtitle[1]);
+                    TabLayout.Tab tab3 = tab.getTabAt(2);
+                    tab3.setText(tabtitle[2]);
+                }
             }
 
         }
@@ -207,13 +214,14 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 tabtitle[1] = "待审核(" + Auditnum + ")";
                 tabtitle[2] = "已审核(" + Auditednum + ")";
 
-                TabLayout.Tab tab1 = tab.getTabAt(0);
-                tab1.setText(tabtitle[0]);
-                TabLayout.Tab tab2 = tab.getTabAt(1);
-                tab2.setText(tabtitle[1]);
-                TabLayout.Tab tab3 = tab.getTabAt(2);
-                tab3.setText(tabtitle[2]);
-
+                if (tab != null) {
+                    TabLayout.Tab tab1 = tab.getTabAt(0);
+                    tab1.setText(tabtitle[0]);
+                    TabLayout.Tab tab2 = tab.getTabAt(1);
+                    tab2.setText(tabtitle[1]);
+                    TabLayout.Tab tab3 = tab.getTabAt(2);
+                    tab3.setText(tabtitle[2]);
+                }
             }
         }
     };
