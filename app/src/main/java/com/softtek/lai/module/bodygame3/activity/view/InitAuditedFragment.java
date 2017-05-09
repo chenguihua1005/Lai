@@ -136,7 +136,6 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         InitdataAudit.putExtra("Audited", 1);//通过这个来判断 是已审核、未审核
-
         InitdataAudit.putExtra("typeDate",typeDate);
         startActivity(InitdataAudit);
     }

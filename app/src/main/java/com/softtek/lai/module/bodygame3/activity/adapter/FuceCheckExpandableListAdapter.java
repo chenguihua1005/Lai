@@ -266,9 +266,9 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
         } else {
             holder = (ChildHolder) view.getTag();
         }
-        if (IsEdit == 1) {
+//        if (IsEdit == 1) {
             holder.im_aciton.setBackgroundResource(R.drawable.action_right);
-        }
+//        }
         switch (groupPosition) {
             case 0:
                 if (childArray.get(groupPosition).size() == 3) {

@@ -41,7 +41,7 @@ public class MeasuredDetailsModel implements Serializable {
 //    private String BMIUnit;
 
     private String FatFreeMass;//去脂体重
-//    private String fatFreemassUnit;
+    //    private String fatFreemassUnit;
     //    private String ViscusFatIndex;     //内脏脂肪指数
     private String BodyWaterRate;//身体水分率
 //    private String BodyWaterRateUnit;
@@ -63,6 +63,16 @@ public class MeasuredDetailsModel implements Serializable {
     private String Height;//身高
     private String BirthDate;//生日
     private long AccountId;//
+
+    private String Threshold; //阈值
+
+    public String getThreshold() {
+        return Threshold;
+    }
+
+    public void setThreshold(String threshold) {
+        Threshold = threshold;
+    }
 
     public long getAccountId() {
         return AccountId;

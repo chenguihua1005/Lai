@@ -82,6 +82,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
 
     MyExpandableListAdapter adapter;
 
+    private String initWeight = "";
+
     @Override
     protected void initViews() {
         tv_title.setText("复测录入");
@@ -435,6 +437,11 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                     new AlertDialog.Builder(this)
                             .setMessage(message)
                             .create().show();
+                } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
+                    String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
+                    new AlertDialog.Builder(this)
+                            .setMessage(message)
+                            .create().show();
                 } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
                     String message = "体脂率为必填项，请选择";
                     new AlertDialog.Builder(this)
@@ -495,7 +502,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     void doSetData() {
         try {
             if (fcStDataModel != null) {
-
+                initWeight = fcStDataModel.getWeight();
                 gender = fcStDataModel.getGender();
 
                 if (!TextUtils.isEmpty(fcStDataModel.getImgThumbnail())) {

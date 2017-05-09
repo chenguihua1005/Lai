@@ -55,40 +55,11 @@ public class FuceCheckPresenter extends BasePresenter<FuceCheckPresenter.FuceChe
         });
     }
 
-    private void doPostInitData(FcAuditPostModel model) {
-//        fuceSevice.doReviewMeasuredRecord(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
-//            @Override
-//            public void success(ResponseData responseData, Response response) {
-//                try {
-//                    int status = responseData.getStatus();
-//                    switch (status) {
-//                        case 200:
-//                            Intent intent = new Intent();
-//                            intent.putExtra("ACMID", ACMID);
-//                            setResult(RESULT_OK, intent);
-//                            finish();
-//                            break;
-//                        default:
-//                            Util.toastMsg(responseData.getMsg());
-//                            break;
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                super.failure(error);
-//                progressDialog.dismiss();
-//            }
-//        });
-
-    }
 
 
     public interface FuceCheckView extends BaseView {
         void getFuceCheckData(MeasuredDetailsModel model);
+
+
     }
 }

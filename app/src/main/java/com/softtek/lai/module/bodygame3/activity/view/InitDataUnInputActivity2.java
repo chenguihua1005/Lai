@@ -119,6 +119,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     private static int resetdatestatus = 1;
 
     private int isEditable = 1; //本页是否可编辑
+    private String initWeight = ""; //记录初始体重
 
 
     @Override
@@ -219,7 +220,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
-        if(fcStDataModel!=null){
+        if (fcStDataModel != null) {
             Intent intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
             intent.putExtra("fucedata", fcStDataModel);
             intent.putExtra("ACMID", ACMID);
@@ -497,7 +498,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
         //获取后台数据
 
-//        getPresenter().getFuceCheckData(ACMID);  //String classId, long userId, String typeDate, String type
         Log.i(TAG, "classId =" + classId + " AccountId = " + AccountId + " typeDate = " + typeDate);
         getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
     }
@@ -843,18 +843,22 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        Log.i(TAG, "onResume  ...ACMID =  " + ACMID);
-//        getPresenter().getFuceCheckData(ACMID);
-//    }
 
     @Override
     public void onValidationSucceeded() {
+        String selectWeight = "";
+        if (0 == typeforwhich) {
+            selectWeight = fcStDataModel.getInitWeight();
+        } else {
+            selectWeight = fcStDataModel.getWeight();
+        }
         if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
             String message = "初始体重为必填项，请选择";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
+        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(selectWeight) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(selectWeight) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
+            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
@@ -998,36 +1002,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 super.failure(error);
             }
         });
-//        fuceSevice.doReviewMeasuredRecord(UserInfoModel.getInstance().getToken(), fcAuditPostModel, new RequestCallback<ResponseData>() {
-//            @Override
-//            public void success(ResponseData responseData, Response response) {
-//                try {
-//                    int status = responseData.getStatus();
-//                    switch (status) {
-//                        case 200:
-//                            progressDialog.dismiss();
-//                            Intent intent = new Intent();
-//                            intent.putExtra("ACMID", ACMID);
-//                            setResult(RESULT_OK, intent);
-//                            finish();
-//                            break;
-//                        default:
-//                            progressDialog.dismiss();
-//                            Util.toastMsg(responseData.getMsg());
-//                            break;
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                super.failure(error);
-//                progressDialog.dismiss();
-//            }
-//        });
     }
 
     @Override
@@ -1035,43 +1009,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     }
 
-
-//    public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int IsEdit) {
-
-//    @Override
-//    public void getFuceCheckData(MeasuredDetailsModel model) {
-//        fcStDataModel = model;
-//        Log.i(TAG, "获取数据=  " + new Gson().toJson(model));
-//        if (model != null) {
-////            FormData formData = new FormData();
-////            if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
-////                tv_title.setText("复测审核");
-////            } else {
-////                tv_title.setText("复测审核" + "(第" + formData.formdata(Integer.parseInt(model.getWeekNum())) + "周)");
-////            }
-//
-//            if (!TextUtils.isEmpty(model.getImg())) {
-//                isExistPhoto = true;
-//                phtoPath = model.getImg();
-//            } else {
-//                isExistPhoto = false;
-//                phtoPath = "";
-//            }
-//
-//            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
-//            exlisview_body.setAdapter(adapter);
-//
-//
-//            int groupCount = exlisview_body.getCount();
-//            for (int i = 0; i < groupCount; i++) {
-//                if (i == 0) {
-//                    exlisview_body.expandGroup(i);
-//                }
-//            }
-//
-//        }
-//
-//    }
 
     @Override
     public void onClick(View view) {
@@ -1105,10 +1042,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_UNINPUT.equalsIgnoreCase(intent.getAction())) {
-//                ACMID = intent.getStringExtra("ACMID");
-//                getPresenter().getStudentBasicalInfo(ACMID);
-//                getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
-
 
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
@@ -1186,9 +1119,13 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     @Override
     public void getStudentBasicalInfo(MeasuredDetailsModel model) {
         fcStDataModel = model;
-
-        Log.i(TAG, "获取后台数据 = " + new Gson().toJson(model));
         try {
+            if (typeforwhich == 0) {
+                initWeight = fcStDataModel.getInitWeight();
+            } else {//==1  复测进入
+                initWeight = fcStDataModel.getWeight();
+            }
+
             final String url = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(model.getImg())) {
                 isExistPhoto = 1;

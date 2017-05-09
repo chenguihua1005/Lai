@@ -121,10 +121,50 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
 
+    private boolean canCommited = false;//已审核状态，中是否可以提交  FALSE:可编辑状态   true :可提交数据
+    private String initWeight = ""; //记录初始体重
+
 
     @Override
     protected void initViews() {
-        tv_right.setText("审核通过");
+        IsAudit = getIntent().getIntExtra("IsAudit", 0);
+        typeDate = getIntent().getStringExtra("typeDate");
+        classId = getIntent().getStringExtra("classId");//classId
+
+        acmId = getIntent().getStringExtra("ACMId");
+        accountId = getIntent().getLongExtra("accountId", 0);
+        resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
+
+
+        if (IsAudit != 0) { //IsAudit : 1  已审核
+            tv_right.setVisibility(View.VISIBLE);
+            cheng_float.setVisibility(View.INVISIBLE);
+            IsEdit = 2;//不可编辑
+            firstStatus = 3; //审核通过
+            tv_right.setText("编辑");
+//            im_audit_states.setImageResource(R.drawable.passed);
+        } else {//未审核
+            tv_right.setText("审核通过");
+            IsEdit = 1;
+            firstStatus = 2; //待审核
+            cheng_float.setVisibility(View.INVISIBLE);
+
+
+//            cheng_float.setVisibility(View.VISIBLE);
+////            resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
+//            switch (resetdatestatus) {
+//                //过去复测日，只能查看
+//                case 1:
+//                    tv_right.setVisibility(View.INVISIBLE);
+//                    cheng_float.setVisibility(View.INVISIBLE);
+//                    break;
+//                case 2:
+//                    break;
+//
+//            }
+        }
+
+
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
 
@@ -154,39 +194,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     protected void initDatas() {
         progressDialog = new ProgressDialog(this);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-
-        IsAudit = getIntent().getIntExtra("IsAudit", 0);
-        typeDate = getIntent().getStringExtra("typeDate");
-        classId = getIntent().getStringExtra("classId");//classId
-
-        acmId = getIntent().getStringExtra("ACMId");
-        accountId = getIntent().getLongExtra("accountId", 0);
-        resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
-
-
-        if (IsAudit != 0) { //IsAudit : 1  已审核
-            tv_right.setVisibility(View.INVISIBLE);
-            cheng_float.setVisibility(View.INVISIBLE);
-            IsEdit = 2;//不可编辑
-            firstStatus = 3; //审核通过
-//            im_audit_states.setImageResource(R.drawable.passed);
-        } else {
-            IsEdit = 1;
-            firstStatus = 2; //待审核
-            cheng_float.setVisibility(View.VISIBLE);
-//            resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
-            switch (resetdatestatus) {
-                //过去复测日，只能查看
-                case 1:
-                    tv_right.setVisibility(View.INVISIBLE);
-                    cheng_float.setVisibility(View.INVISIBLE);
-                    break;
-                case 2:
-                    break;
-
-            }
-
-        }
 
 
         child.add(0, "初始体重");
@@ -285,19 +292,16 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 switch (i) {
                     case 1:
                         if (isExistPhoto) {
-//                            Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
-//                            intent1.putExtra("photoname", images_url);
-//                            intent1.putExtra("position", 1);
-//                            startActivity(intent1);
-
-
+                            if (canCommited) {
+                                IsEdit = 1;
+                            }
                             Intent intent1 = new Intent(FcAuditStuActivity2.this, PreViewPicActivity.class);
                             intent1.putExtra("images", files);//本地图片
                             intent1.putExtra("photoname", images_url);//网络图片
                             intent1.putExtra("IsEdit", IsEdit);
                             startActivityForResult(intent1, GET_PRE);
                         } else {//不存在照片  IsAudit = 1 {//已审核
-                            if (IsAudit != 1) {
+                            if (IsAudit != 1 || canCommited) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(FcAuditStuActivity2.this);
                                 builder.setItems(items, new DialogInterface.OnClickListener() {
                                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -338,10 +342,10 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         });
 
 
-        if (IsAudit == 0) {
-            exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+        exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                if (IsAudit == 0 || canCommited) {
                     switch (i) {
                         case 0:
                             switch (i1) {
@@ -446,11 +450,11 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                             }
                             break;
                     }
-
-                    return false;
                 }
-            });
-        }
+
+                return false;
+            }
+        });
 
 
         //获取后台数据
@@ -807,6 +811,11 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
+        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
+            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
             String message = "体脂率为必填项，请选择";
             new AlertDialog.Builder(this)
@@ -929,13 +938,11 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     }
 
 
-//    public FuceCheckExpandableListAdapter(Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, int IsEdit) {
-
     @Override
     public void getFuceCheckData(MeasuredDetailsModel model) {
         fcStDataModel = model;
-        Log.i(TAG, "获取数据=  " + new Gson().toJson(model));
         if (model != null) {
+            initWeight = fcStDataModel.getWeight();
             FormData formData = new FormData();
             if (!TextUtils.isEmpty(model.getWeekNum())) {
                 if (TextUtils.isEmpty(formData.formdata(Integer.parseInt(model.getWeekNum())))) {
@@ -965,7 +972,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             }// String images_url, files;//网络图片   拍照图片
 
             adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
-//            adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, 1);//默认可编辑
             exlisview_body.setAdapter(adapter);
 
 
@@ -975,6 +981,20 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                     exlisview_body.expandGroup(i);
                 }
             }
+            if (IsAudit != 1) {
+                cheng_float.setVisibility(View.VISIBLE);
+                switch (resetdatestatus) {
+                    //过去复测日，只能查看
+                    case 1:
+                        tv_right.setVisibility(View.INVISIBLE);
+                        cheng_float.setVisibility(View.INVISIBLE);
+                        break;
+                    case 2:
+                        break;
+
+                }
+            }
+
 
         }
 
@@ -1017,12 +1037,29 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 break;
             //保存
             case R.id.tv_right:
-                if (TextUtils.isEmpty(fcStDataModel.getWeight())) {
-                    String message = "当前体重为必填项，请选择";
-                    new AlertDialog.Builder(this)
-                            .setMessage(message)
-                            .create().show();
-                } else {
+                if (IsAudit != 1) {//待审核
+                    if (TextUtils.isEmpty(fcStDataModel.getWeight())) {
+                        String message = "当前体重为必填项，请选择";
+                        new AlertDialog.Builder(this)
+                                .setMessage(message)
+                                .create().show();
+                    } else {
+                        validateLife.validate();
+                    }
+                } else if (!canCommited) {//已审核  处于编辑状态
+                    tv_right.setText("保存");
+                    canCommited = true;
+                    cheng_float.setVisibility(View.VISIBLE);
+                } else if (canCommited) {
+//                    if (!TextUtils.isEmpty(fcStDataModel.getWeight())) {
+//                        float initweight = Float.parseFloat(initWeight);
+//                        float selectWeight = Float.parseFloat(fcStDataModel.getWeight());
+//                        if (Math.abs(selectWeight - initweight) >= 10) {
+//                            Util.toastMsg("检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ");
+//
+//                        }
+//                    }
+
                     validateLife.validate();
                 }
                 break;

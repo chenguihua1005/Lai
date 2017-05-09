@@ -40,9 +40,15 @@ public class FcStDataModel implements Serializable {
     private String BoneMass;//骨量
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
+    private String Threshold;//体重超过阈值
 
+    public String getThreshold() {
+        return Threshold;
+    }
 
-
+    public void setThreshold(String threshold) {
+        Threshold = threshold;
+    }
 
     public String getBmi() {
         return Bmi;
