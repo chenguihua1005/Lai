@@ -1,15 +1,14 @@
 package com.softtek.lai.widgets;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.utils.DisplayUtil;
@@ -18,7 +17,8 @@ import com.softtek.lai.utils.DisplayUtil;
  * Created by jerry.guan on 2/15/2017.
  */
 
-public class DragFloatActionButtonCheng extends android.support.v7.widget.AppCompatButton{
+@SuppressLint("AppCompatCustomView")
+public class DragFloatActionButtonCheng extends Button{
 
     private int screenWidth;
     private int screenHeight;

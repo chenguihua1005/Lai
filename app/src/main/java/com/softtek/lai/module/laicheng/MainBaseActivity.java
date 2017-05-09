@@ -42,11 +42,10 @@ import uk.co.senab.photoview.log.LogManager;
 
 public abstract class MainBaseActivity extends BleBaseActivity implements BleBasePresenter.BleBaseView {
 
-    private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
-    private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
     private int state_current = CONNECTED_STATE_SHAKE_IT;
     private int type = 1;
     public static boolean isVoiceHelp = true;
+    public static boolean isConnecting = false;
 
     private boolean isOnStop = true;
 
@@ -57,7 +56,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected boolean isResultTest = false;
     protected int testTimeOut = 60;
 
-    private List<String> arr = new ArrayList<String>();
+    private List<String> arr = new ArrayList<>();
 
     //蓝牙连接状态
     private static final int CONNECTED_STATE_SHAKE_IT = 0;//称前摇一摇
@@ -73,16 +72,14 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected BleStateListener bleStateListener;
 
     private DeviceListDialog deviceListDialog;
+
     private boolean isDeviceChoosed = false;
 
-    //    private int position;
     private int bluetoothPosition;
-//    private boolean needReDraw;
 
     protected ShakeListener mShakeListener;
     private Vibrator vibrator;
 
-    //    private String BASE_URL = "http://qa-api.yunyingyang.com/";
     private String token;
 
     protected MPermission permission;
@@ -115,9 +112,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             soundHelper.play("one");
         }
         mShakeListener.stop();
-//        if (!getGuest()) {
-//            presenter.getLastData(1);
-//        }
         if (getType() == 0) {
             presenter.getLastData(0);
         } else if (getType() == 1) {
@@ -167,7 +161,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         //选择的蓝牙的对话框
-        deviceListDialog = new DeviceListDialog(MainBaseActivity.this, R.style.ActivityDialogStyle);
+        deviceListDialog = new DeviceListDialog(this, R.style.ActivityDialogStyle);
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
             public void bluetoothDialogClick(int positions) {
@@ -244,7 +238,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         }
                     }
                     deviceListDialog.addBluetoothDevice(device);
-
                 }
             }
 
@@ -268,6 +261,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void BleConnectSuccess() {
                 changeConnectionState(CONNECTED_STATE_SUCCESS);
+                isConnecting = true;
                 Log.e("CONNECTED_STATE_SUCCESS-----", "CONNECTED_STATE_SUCCESS");
                 mShakeListener.stop();
             }
@@ -280,21 +274,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             @Override
             public void bleServicesDiscoveredSuccess(BluetoothGatt bluetoothGatt) {
-                BluetoothGattService bluetoothGattService = bluetoothGatt.getService(BleManager.LIERDA_SERVICE_UUID);
-                if (bluetoothGattService != null) {
-                    readCharacteristic = bluetoothGattService.getCharacteristic(BleManager.LIERDA_READ_CHARACTERISTIC_UUID);
-                    setNotificationCharacteristic(readCharacteristic);
-                    writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.LIERDA_WRITE_CHARACTERISTIC_UUID);
-                } else {
-                    bluetoothGattService = bluetoothGatt.getService(BleManager.KERUIER_SERVICE_UUID);
-                    if (bluetoothGattService != null) {
-                        readCharacteristic = bluetoothGattService.getCharacteristic(BleManager.KERUIER_READ_CHARACTERISTIC_UUID);
-                        setNotificationCharacteristic(readCharacteristic);
-                        writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.KERUIER_WRITE_CHARACTERISTIC_UUID);
-                    } else {
-                        disconnectBluetooth();
-                    }
-                }
+
             }
 
             @Override
@@ -365,7 +345,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     testTimeOut--;
                     Log.d("timeout---time", "超时时间=======" + testTimeOut);
                     handler.sendEmptyMessageDelayed(8888, 1000);
-                    if (!isConnected) {
+                    if (!BleManager.getInstance().isConnected()) {
                         Log.d("断开连接", "断开-------");
                         testTimeOut = 0;
                     }
@@ -492,27 +472,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             testTimeOut = 60;
             isResultTest = false;//是否有测量结果
             StartTimer.getInstance(handler);
-//                handler.postDelayed(new Runnable() {
-//                    @SuppressLint("LongLogTag")
-//                    @Override
-//                    public void run() {
-//                        if (testTimeOut == 0) {
-//                            if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
-//                                changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
-//                                Log.d("CONNECTED_STATE_UPLOADING_TIMEOUT-------", "超时---------");
-//                                sendFatRateToDevice(0.0f);
-//                            }
-//                        } else {
-//                            testTimeOut--;
-//                            Log.d("timeout---time", "超时时间=======" + testTimeOut);
-//                            handler.postDelayed(this, 1000);
-//                            if (!isConnected) {
-//                                Log.d("断开连接", "断开-------");
-//                                testTimeOut = 0;
-//                            }
-//                        }
-//                    }
-//                }, 1000);//超时时间1分钟
             changeConnectionState(CONNECTED_STATE_WEIGHT);
             sendUserInfo();
         } else {//阻抗，上边已经校验过数据，这个函数除了握手就是阻抗数值已经正确了
@@ -579,7 +538,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private void sendMessages(String message) {
         if (message.length() > 0) {
-            writeCharacteristicData(message, writeCharacteristic);
+            writeCharacteristicData(message, BleManager.getInstance().getWriteCharacteristic());
         }
     }
 
@@ -795,13 +754,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         deviceListDialog = null;
         soundHelper.release();
         permission.recycle();
-//        disconnectBluetooth();
+        presenter.recycle();
         isVoiceHelp = true;
         handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
         Log.d("onDestroy-----", "onDestroy");
     }
 
@@ -815,7 +774,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onStop() {
         super.onStop();
-        if (!getClosedType()) {
+        if (getClosedType()) {
             disconnectBluetooth();
         }
         isOnStop = true;
@@ -828,7 +787,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         isOnStop = false;
         super.onResume();
         mShakeListener.start();
-        changeConnectionState(CONNECTED_STATE_SHAKE_IT);
+        if (!isConnecting) {
+            changeConnectionState(CONNECTED_STATE_SHAKE_IT);
+        } else {
+            changeConnectionState(CONNECTED_STATE_SUCCESS);
+        }
         Log.d("onResume-----", "onResume");
     }
 
@@ -904,14 +867,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         if (TextUtils.isEmpty(data.getBodyFatRate())) {
             sendFatRateToDevice(0.0f);
         } else {
-//            int index = data.getBodyFatRate().indexOf("%");
-//            sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate().substring(0, index)));
-            Log.d("data.getBodyFatRate()",data.getBodyFatRate());
+            Log.d("result11",data.getBodyFatRate());
             sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate()));
         }
+        Log.d("result","dsadadasdsadas");
         isResultTest = true;
         initUiByBleSuccess(data);
-        handler.removeCallbacksAndMessages(null);
+//        handler.removeCallbacksAndMessages(null);
     }
 
     @Override

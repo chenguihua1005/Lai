@@ -18,7 +18,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
-import com.softtek.lai.module.laicheng.BleBaseActivity;
 import com.softtek.lai.module.laicheng.util.BleManager;
 
 import java.util.ArrayList;
@@ -72,9 +71,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 Intent intent = new Intent();
                 intent.putExtra("Auditnum", uncheck_num);
                 setResult(RESULT_OK, intent);
-                if (BleBaseActivity.mBleManager != null) {
-                    BleBaseActivity.mBleManager.disconnectBluetooth();
-                }
+                BleManager.getInstance().disconnectBluetooth();
                 finish();
             }
         });
@@ -96,6 +93,7 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onDestroy();
     }
+
 
 
     // 审核通过更新数据
@@ -120,13 +118,11 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
-            //do something...
             Intent intent = new Intent();
             intent.putExtra("Auditnum", uncheck_num);
             setResult(RESULT_OK, intent);
-            if (BleBaseActivity.mBleManager != null) {
-                BleBaseActivity.mBleManager.disconnectBluetooth();
-            }
+            BleManager.getInstance().disconnectBluetooth();
+
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -159,15 +155,12 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 tabtitle[0] = "未复测(" + unFuce_num + ")";
                 tabtitle[1] = "待审核(" + uncheck_num + ")";
                 tabtitle[2] = "已审核(" + checked_num + ")";
-
-                if (tab != null) {
-                    TabLayout.Tab tab1 = tab.getTabAt(0);
-                    tab1.setText(tabtitle[0]);
-                    TabLayout.Tab tab2 = tab.getTabAt(1);
-                    tab2.setText(tabtitle[1]);
-                    TabLayout.Tab tab3 = tab.getTabAt(2);
-                    tab3.setText(tabtitle[2]);
-                }
+                TabLayout.Tab tab1 = tab.getTabAt(0);
+                tab1.setText(tabtitle[0]);
+                TabLayout.Tab tab2 = tab.getTabAt(1);
+                tab2.setText(tabtitle[1]);
+                TabLayout.Tab tab3 = tab.getTabAt(2);
+                tab3.setText(tabtitle[2]);
             }
         }
     }
@@ -190,14 +183,12 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
                 tabtitle[1] = "待审核(" + uncheck_num + ")";
                 tabtitle[2] = "已审核(" + checked_num + ")";
 
-                if (tab != null) {
-                    TabLayout.Tab tab1 = tab.getTabAt(0);
-                    tab1.setText(tabtitle[0]);
-                    TabLayout.Tab tab2 = tab.getTabAt(1);
-                    tab2.setText(tabtitle[1]);
-                    TabLayout.Tab tab3 = tab.getTabAt(2);
-                    tab3.setText(tabtitle[2]);
-                }
+                TabLayout.Tab tab1 = tab.getTabAt(0);
+                tab1.setText(tabtitle[0]);
+                TabLayout.Tab tab2 = tab.getTabAt(1);
+                tab2.setText(tabtitle[1]);
+                TabLayout.Tab tab3 = tab.getTabAt(2);
+                tab3.setText(tabtitle[2]);
             }
         }
     };

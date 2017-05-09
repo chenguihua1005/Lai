@@ -93,7 +93,7 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                         getView().upLoadImpedanceSuccess(data.getData());
                     }
                     Log.d("BleMainData--------", data.toString());
-                }else if (data.getStatus() == 201){
+                }else {
                     if (getView() != null) {
                         getView().upLoadImpedanceFailed();
                     }

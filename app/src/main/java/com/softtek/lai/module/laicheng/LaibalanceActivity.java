@@ -2,7 +2,6 @@ package com.softtek.lai.module.laicheng;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,19 +9,17 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
-import com.softtek.lai.module.laicheng.model.VisitorInfoModel;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
+import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.mpermission.PermissionFail;
 import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
@@ -55,8 +52,6 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     private AlertDialog.Builder noVisitorBuilder;
 
-    private Activity activity = LaibalanceActivity.this;
-
     @OnClick(R.id.fl_left)
     public void doBack() {
         finish();
@@ -88,10 +83,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void initUi() {
-        setClosed(false);
-        while (activity.getParent() != null) {
-            activity = activity.getParent();
-        }
+        setClosed(true);
         selftestFragment = SelftestFragment.newInstance(null);
         visitortestFragment = new VisitortestFragment();
         pageIndex = content.getCurrentItem();
@@ -206,14 +198,13 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @SuppressLint("LongLogTag")
     private void createDialog(boolean isTimeout) {
-        AlertDialog.Builder builder;
         if (dialog == null) {
             Log.d("dialogNULL-------------------", "dialogNULL");
-            builder = new AlertDialog.Builder(activity, R.style.whiteDialog).setTitle("提示")
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!isConnected) {
+                            if (!BleManager.getInstance().isConnected()) {
                                 mShakeListener.start();
                                 changeConnectionState(0);
                             }
@@ -233,10 +224,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             } else {
                 dialog.setMessage("测量失败，请重新测量");
             }
-            Log.d("dialogShow-------------------", "isShow");
             dialog.show();
         }
-        Log.d("createDialog", "enter---------------");
     }
 
     @Override
@@ -317,12 +306,4 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         startActivity(new Intent(LaibalanceActivity.this, InstructionsActivity.class));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
-    }
 }

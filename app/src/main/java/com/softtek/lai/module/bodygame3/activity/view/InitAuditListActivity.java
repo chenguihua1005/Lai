@@ -21,8 +21,7 @@ import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
-import com.softtek.lai.module.laicheng.BleBaseActivity;
-
+import com.softtek.lai.module.laicheng.util.BleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,6 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     FuceSevice fuceSevice;
     String[] tabtitle = {"未录入", "未审核", "已审核"};
 
-    //    String[] tabtitle = {"未审核", "已审核"};
     String classId;
     int unInputNum = 0;//未录入
     int Auditnum = 0;
@@ -78,61 +76,29 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 Intent intent = new Intent();
                 intent.putExtra("Auditnum", Auditnum);
                 setResult(RESULT_OK, intent);
-                if (BleBaseActivity.mBleManager != null) {
-                    BleBaseActivity.mBleManager.disconnectBluetooth();
-                }
+                BleManager.getInstance().disconnectBluetooth();
                 finish();
             }
         });
 
 
         setPresenter(new InitAuditPresenter(this));
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATENUMBER_CHUSHICHECK));
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, new IntentFilter(UPDATENUMBER_CHUSHICHECK));
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        ;
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     protected void initDatas() {
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-
-//        doGetData(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
-
         getPresenter().getInitAuditList(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
     }
 
 
     public void update() {
-//        tabtitle[0] = "未录入(" + unInputNum + ")";
-//        tabtitle[1] = "待审核(" + (--Auditnum) + ")";
-//        tabtitle[2] = "已审核(" + (++Auditednum) + ")";
-//        TabLayout.Tab tab1 = tab.getTabAt(0);
-//        tab1.setText(tabtitle[0]);
-//        TabLayout.Tab tab2 = tab.getTabAt(1);
-//        tab2.setText(tabtitle[1]);
-//        TabLayout.Tab tab3 = tab.getTabAt(2);
-//        tab3.setText(tabtitle[2]);
-
         getPresenter().getInitAuditList(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
 
     }
 
-//    public void updates(int Auditnu) {
-//        Auditnum = Auditnu;
-//        tabtitle[0] = "未录入(" + unInputNum + ")";
-//        tabtitle[1] = "待审核(" + Auditnum + ")";
-//        tabtitle[2] = "已审核(" + Auditednum + ")";
-//        TabLayout.Tab tab1 = tab.getTabAt(0);
-//        tab1.setText(tabtitle[0]);
-//        TabLayout.Tab tab2 = tab.getTabAt(1);
-//        tab2.setText(tabtitle[1]);
-//        TabLayout.Tab tab3 = tab.getTabAt(2);
-//        tab3.setText(tabtitle[2]);
-//    }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -142,9 +108,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
             Intent intent = new Intent();
             intent.putExtra("Auditnum", Auditnum);
             setResult(RESULT_OK, intent);
-            if (BleBaseActivity.mBleManager != null) {
-                BleBaseActivity.mBleManager.disconnectBluetooth();
-            }
+            BleManager.getInstance().disconnectBluetooth();
         }
         return super.onKeyDown(keyCode, event);
 
@@ -178,14 +142,12 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 tabtitle[0] = "未录入(" + unInputNum + ")";
                 tabtitle[1] = "待审核(" + Auditnum + ")";
                 tabtitle[2] = "已审核(" + Auditednum + ")";
-                if (tab != null) {
-                    TabLayout.Tab tab1 = tab.getTabAt(0);
-                    tab1.setText(tabtitle[0]);
-                    TabLayout.Tab tab2 = tab.getTabAt(1);
-                    tab2.setText(tabtitle[1]);
-                    TabLayout.Tab tab3 = tab.getTabAt(2);
-                    tab3.setText(tabtitle[2]);
-                }
+                TabLayout.Tab tab1 = tab.getTabAt(0);
+                tab1.setText(tabtitle[0]);
+                TabLayout.Tab tab2 = tab.getTabAt(1);
+                tab2.setText(tabtitle[1]);
+                TabLayout.Tab tab3 = tab.getTabAt(2);
+                tab3.setText(tabtitle[2]);
             }
 
         }
@@ -198,6 +160,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
     @Override
     protected void onDestroy() {
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(receiver);
         super.onDestroy();
     }
 
@@ -213,7 +176,6 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                 tabtitle[0] = "未录入(" + unInputNum + ")";
                 tabtitle[1] = "待审核(" + Auditnum + ")";
                 tabtitle[2] = "已审核(" + Auditednum + ")";
-
                 if (tab != null) {
                     TabLayout.Tab tab1 = tab.getTabAt(0);
                     tab1.setText(tabtitle[0]);
@@ -222,6 +184,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
                     TabLayout.Tab tab3 = tab.getTabAt(2);
                     tab3.setText(tabtitle[2]);
                 }
+
             }
         }
     };

@@ -2,23 +2,25 @@ package com.softtek.lai.module.laicheng;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.BleStateListener;
 import com.softtek.lai.module.laicheng.util.MathUtils;
+
+import java.lang.ref.WeakReference;
 
 
 /**
@@ -26,22 +28,75 @@ import com.softtek.lai.module.laicheng.util.MathUtils;
  */
 public abstract class BleBaseActivity extends BaseActivity {
 
-    public static BleManager mBleManager;
+
     private BleStateListener bleStateListener;
 
-    protected boolean isConnected = false;
+//    protected boolean isConnected = false;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private class BlueGattReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!GATT_TAG.equals(intent.getAction())) {
+                return;
+            }
+            String flag = intent.getStringExtra("flag");
+            if (flag.equals("Discovered")) {
+                sendMessage(BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES);
+            } else if (flag.equals("CharacteristicChanged")) {
+                byte[] data = intent.getByteArrayExtra("data");
+                sendMessage(BleManager.BLUETOOTH_STATE_READ, data);
+            } else if (flag.equals("ConnectionStateChange")) {
+                int newState = intent.getIntExtra("newState", -20);
+                if (newState != -20) {
+                    sendMessage(newState);
+                }
+            }
+        }
     }
+
+    private static class LeScanCallback implements BluetoothAdapter.LeScanCallback {
+
+        private WeakReference<BleBaseActivity> weakReference;
+
+        public LeScanCallback(BleBaseActivity activity) {
+            this.weakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            if (weakReference != null && weakReference.get() != null) {
+                weakReference.get().sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FOUND, device);
+            }
+        }
+
+        public void recycle() {
+            if (weakReference != null) {
+                weakReference.clear();
+                weakReference = null;
+            }
+        }
+    }
+
+    private LeScanCallback leScanCallback;
+//    private BluetoothGattCall bluetoothGattCall;
+
+    private BlueGattReceiver gattReceiver;
+
+
+    public static final String GATT_TAG = "com.ggx.gatt_reciver";
 
     @Override
     protected void onDestroy() {
+        Log.i("finish", "1111111finishfinishfinishfinishfinishfinishfinishfinishfinishfinishfinish1111111111111111111111");
         mHandler.removeCallbacksAndMessages(null);
         cancelDiscoveryBluetooth();
+        leScanCallback.recycle();
+//        bluetoothGattCall.recycle();
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .unregisterReceiver(gattReceiver);
         try {
-            unregisterReceiver(mBleManager.getSettingStateReceiver());
+            unregisterReceiver(mSettingStateReceiver);
         } catch (IllegalArgumentException e) {
             //重复注销广播接收器
         }//来防止crash
@@ -50,8 +105,18 @@ public abstract class BleBaseActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        mBleManager = new BleManager(this, mHandler);
-        if (!mBleManager.blueToothModuleEnable()) {
+
+        leScanCallback = new LeScanCallback(this);
+//        bluetoothGattCall = new BluetoothGattCall(this);
+        gattReceiver = new BlueGattReceiver();
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .registerReceiver(gattReceiver, new IntentFilter(GATT_TAG));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!BleManager.getInstance().blueToothModuleEnable()) {
             if (bleStateListener != null) bleStateListener.unableBleModule();
         }
     }
@@ -74,11 +139,11 @@ public abstract class BleBaseActivity extends BaseActivity {
      * 打开蓝牙设置
      */
     public void openBluetoothSetting() {
-        if (mBleManager.getBluetoothAdapter().isEnabled()) {//蓝牙已经打开
+        if (BleManager.getInstance().getBluetoothAdapter().isEnabled()) {//蓝牙已经打开
             callOpenBluetoothSetting();
             IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             try {
-                registerReceiver(mBleManager.getSettingStateReceiver(), filter);
+                registerReceiver(mSettingStateReceiver, filter);
             } catch (IllegalArgumentException e) {
                 //重复注册广播接收器
             }//来防止crash
@@ -88,12 +153,24 @@ public abstract class BleBaseActivity extends BaseActivity {
 
     }
 
+    public void openBluetoothSettings() {
+        BleManager bleManager = BleManager.getInstance();
+        if (!bleManager.blueToothModuleEnable()) return;
+        if (!bleManager.mBluetoothAdapter.isEnabled()) {
+            bleManager.mBluetoothAdapter.enable();
+        } else {
+            bleManager.mBlueToothState = BleManager.BLUETOOTH_STATE_SETTING_OPEN;
+            sendMessage(BleManager.BLUETOOTH_STATE_SETTING_OPEN);
+        }
+    }
+
     public void setSettingBluetoothCtrl() {
-        mBleManager.openBluetoothSetting();
+        openBluetoothSettings();
+//        BleManager.getInstance().openBluetoothSetting();
         //打开蓝牙设置监听
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         try {
-            registerReceiver(mBleManager.getSettingStateReceiver(), filter);
+            registerReceiver(mSettingStateReceiver, filter);
         } catch (IllegalArgumentException e) {
             //重复注册广播接收器
         }//来防止crash
@@ -103,126 +180,88 @@ public abstract class BleBaseActivity extends BaseActivity {
      * 扫描蓝牙设备，如果没有开启蓝牙设置先打开蓝牙
      */
     protected void startDiscoveryBluetooth() {
-        if (!mBleManager.getBluetoothAdapter().isEnabled()) {
+        if (!BleManager.getInstance().getBluetoothAdapter().isEnabled()) {
             return;
         }
-        if (mBleManager.getBlueToothState() == BleManager.BLUETOOTH_STATE_SETTING_OPEN) {
-            mBleManager.scanBluetooth(true);
+        if (BleManager.getInstance().getBlueToothState() == BleManager.BLUETOOTH_STATE_SETTING_OPEN) {
+            scanBluetooth(true);
         }
     }
+
+    public void scanBluetooth(boolean enable) {
+        if (enable) {
+            if (!BleManager.getInstance().mScanning) {
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (BleManager.getInstance().stopScane(leScanCallback)) {
+                            sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FINISH);
+                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, BleManager.SCAN_PERIOD);
+
+                BleManager.getInstance().startScane(leScanCallback);
+                sendMessage(BleManager.BLUETOOTH_STATE_SCANNING);
+            }
+        } else {
+            if (BleManager.getInstance().stopScane(leScanCallback)) {
+                sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FINISH);
+            }
+        }
+    }
+
 
     /**
      * 关闭蓝牙扫描
      */
     protected void cancelDiscoveryBluetooth() {
-        mBleManager.scanBluetooth(false);
+        scanBluetooth(false);
     }
 
     protected void readData(BluetoothGattCharacteristic gattCharacteristic) {
         final int charaProp = gattCharacteristic.getProperties();
         if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
-            mBleManager.getBluetoothGatt().readCharacteristic(gattCharacteristic);
+            BleManager.getInstance().getBluetoothGatt().readCharacteristic(gattCharacteristic);
         }
         if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
-            mBleManager.getBluetoothGatt().setCharacteristicNotification(
+            BleManager.getInstance().getBluetoothGatt().setCharacteristicNotification(
                     gattCharacteristic, true);
         }
     }
 
-    protected void connectBluetooth(final BluetoothDevice bluetoothDevice) {
-        if (mBleManager.getBluetoothAdapter().isEnabled()) {
-            mBleManager.connectBluetooth(bluetoothDevice, new BluetoothGattCallback() {
-                @Override
-                public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                    if (newState == BluetoothProfile.STATE_CONNECTED) {//当蓝牙设备已经连接
-                        if (!isConnected) {
-                            sendMessage(BleManager.BLUETOOTH_STATE_CONNECTED);
-                            isConnected = true;
-                        }
-                        mBleManager.getBluetoothGatt().discoverServices();
-                    } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {//当设备无法连接
-                        if (mBleManager.isReconnect()) {
-//                            mBleManager.reConnectBluetooth(this);
-                        } else {
-                            isConnected = false;
-                            sendMessage(BleManager.BLUETOOTH_STATE_CONNECT_LOST);
-                        }
-                    }
-                }
-
-                @Override
-                public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-                    Log.d("discovered","discovered----------");
-                    sendMessage(BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES);
-                }
-
-                @Override
-                public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                }
-
-                @Override
-                public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                    super.onCharacteristicWrite(gatt, characteristic, status);
-                }
-
-                @Override
-                public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                    String uuid = characteristic.getUuid().toString();
-                    byte[] data = characteristic.getValue();
-                    Log.d("onCharacteristicChanged","进入onCharacteristicChanged");
-                    sendMessage(BleManager.BLUETOOTH_STATE_READ, data);
-                }
-
-                @Override
-                public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-                    super.onDescriptorRead(gatt, descriptor, status);
-                }
-
-                @Override
-                public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-                    super.onDescriptorWrite(gatt, descriptor, status);
-                }
-
-                @Override
-                public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
-                    super.onReliableWriteCompleted(gatt, status);
-                }
-
-                @Override
-                public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-                    super.onReadRemoteRssi(gatt, rssi, status);
-                }
-            });
+    protected int connectBluetooth(BluetoothDevice bluetoothDevice) {
+        if (BleManager.getInstance().getBluetoothAdapter().isEnabled()) {
+            //关闭扫描
+            if (BleManager.getInstance().stopScane(leScanCallback)) {
+                sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FINISH);
+            }
+            //链接
+            return BleManager.getInstance().connBluetooth(bluetoothDevice);
         }
+        return 0;
     }
 
     protected void disconnectBluetooth() {
-        mBleManager.disconnectBluetooth();
+        BleManager.getInstance().disconnectBluetooth();
     }
 
-    protected void setNotificationCharacteristic(BluetoothGattCharacteristic characteristic) {
-        mBleManager.getBluetoothGatt().setCharacteristicNotification(
-                characteristic, true);
-        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(BleManager.CLIENT_CHARACTERISTIC_CONFIG);
-        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-        mBleManager.getBluetoothGatt().writeDescriptor(descriptor);
-    }
 
     protected void readCharacteristic(BluetoothGattCharacteristic characteristic) {
-        mBleManager.getBluetoothGatt().readCharacteristic(characteristic);
+        BleManager.getInstance().getBluetoothGatt().readCharacteristic(characteristic);
     }
 
     protected void writeCharacteristicData(final String dataStr, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
         byte[] send = MathUtils.hexStringToBytes(dataStr);
         bluetoothGattCharacteristic.setValue(send);
-        mBleManager.getBluetoothGatt().writeCharacteristic(bluetoothGattCharacteristic);
+        BleManager.getInstance().getBluetoothGatt().writeCharacteristic(bluetoothGattCharacteristic);
     }
 
     /**
      * 蓝牙打开，通知观察者，由于需要判断，所以放到一个函数里边，节省代码空间
      */
     void callOpenBluetoothSetting() {
-        mBleManager.setBlueToothState(BleManager.BLUETOOTH_STATE_SETTING_OPEN);
+        BleManager.getInstance().setBlueToothState(BleManager.BLUETOOTH_STATE_SETTING_OPEN);
         if (bleStateListener != null) {
             bleStateListener.openBleSettingSuccess();
         }
@@ -236,7 +275,7 @@ public abstract class BleBaseActivity extends BaseActivity {
                     callOpenBluetoothSetting();
                     break;
                 case BleManager.BLUETOOTH_STATE_SETTING_CLOSE:
-                    mBleManager.setBlueToothState(BleManager.BLUETOOTH_STATE_NONE);
+                    BleManager.getInstance().setBlueToothState(BleManager.BLUETOOTH_STATE_NONE);
                     if (bleStateListener != null) bleStateListener.openBleSettingCancel();
                     break;
                 case BleManager.BLUETOOTH_STATE_SCAN_FOUND:
@@ -257,7 +296,7 @@ public abstract class BleBaseActivity extends BaseActivity {
                     }
                     break;
                 case BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES:
-                    bleStateListener.bleServicesDiscoveredSuccess(mBleManager.getBluetoothGatt());
+                    bleStateListener.bleServicesDiscoveredSuccess(BleManager.getInstance().getBluetoothGatt());
                     break;
                 case BleManager.BLUETOOTH_STATE_READ:
                     byte[] data = (byte[]) msg.obj;
@@ -280,4 +319,36 @@ public abstract class BleBaseActivity extends BaseActivity {
         mHandler.sendMessage(message);
     }
 
+    public void sendMessage(final int what, final BluetoothDevice bluetoothDevice) {
+        Message message = new Message();
+        message.what = what;
+        message.obj = bluetoothDevice;
+        mHandler.sendMessage(message);
+    }
+
+    /**
+     * 蓝牙设置更改广播接收器
+     */
+    private final BroadcastReceiver mSettingStateReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            // 这个是蓝牙设置的变化，不是连接的状态，但是也需要
+            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
+                BleManager bleManager = BleManager.getInstance();
+                int bluetoothSettingState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+                if (bluetoothSettingState == BluetoothAdapter.STATE_ON) {
+                    sendMessage(BleManager.BLUETOOTH_STATE_SETTING_OPEN);
+                } else if (bluetoothSettingState == BluetoothAdapter.STATE_OFF) {
+                    if (bleManager.mBluetoothAdapter.isDiscovering())//如果在扫描需要关闭
+                        bleManager.mBluetoothAdapter.cancelDiscovery();
+                    if (bleManager.mBluetoothGatt != null) {
+                        bleManager.mBluetoothGatt.disconnect();
+                        bleManager.mBluetoothGatt.close();
+                    }
+                    sendMessage(BleManager.BLUETOOTH_STATE_SETTING_CLOSE);
+                    bleManager.mBlueToothState = BleManager.BLUETOOTH_STATE_NONE;
+                }
+            }
+        }
+    };
 }
