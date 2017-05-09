@@ -38,7 +38,6 @@ import com.softtek.lai.module.bodygame3.activity.view.FcAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.FcStuActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InputView;
-import com.softtek.lai.module.bodygame3.activity.view.MeasureListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
@@ -48,7 +47,6 @@ import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.MySwipRefreshView;
-import com.softtek.lai.widgets.PopUpWindow.Util;
 import com.softtek.lai.widgets.materialcalendarview.CalendarDay;
 import com.softtek.lai.widgets.materialcalendarview.CalendarMode;
 import com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView;
@@ -122,7 +120,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     private List<ActCalendarModel> calendarModels = new ArrayList<>();
     private List<CalendarDay> calendarModel_act = new ArrayList<>();
-    private List<CalendarDay> calendarModel_create = new ArrayList<>();
+//    private List<CalendarDay> calendarModel_create = new ArrayList<>();
     private List<CalendarDay> calendarModel_reset = new ArrayList<>();//复测
     private List<CalendarDay> calendarModel_free = new ArrayList<>();
     private String classid = "";
@@ -268,22 +266,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         EventBus.getDefault().unregister(this);
     }
 
-
-//    String newTime = year
-//    　　+ "-"+ ((monthOfYear + 1) < 10 "0"
-//            　　+ (monthOfYear + 1)
-//            　　: (monthOfYear + 1))
-//            　　+ "-"
-//            　　+ (dayOfMonth < 10 "0" + dayOfMonth
-//    　　: dayOfMonth);
-
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         int year = date.getCalendar().get(Calendar.YEAR);
         int month = date.getCalendar().get(Calendar.MONTH) + 1;
         int day = date.getCalendar().get(Calendar.DATE);
         //根据点击的日期查询该天的活动列表
-//        dateStr = year + "-" + month + "-" + day;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         dateStr = sdf.format(date.getDate());
         saveclassModel.setDates(dateStr);
@@ -449,7 +437,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
                     chuDate.putExtra("classId", classid);
-//                    startActivity(chuDate);
                     startActivityForResult(chuDate, 2);
                 }
             }
@@ -598,7 +585,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private EventDecorator decorator;
     private EventDecorator decorator_act;
     private EventDecorator decorator_free;
-    private EventDecorator decorator_create;
+//    private EventDecorator decorator_create;
     String now = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
 
     @Override
@@ -606,7 +593,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         material_calendar.removeDecorators();
         material_calendar.removeDecorator(decorator);
         material_calendar.removeDecorator(decorator_act);
-        material_calendar.removeDecorator(decorator_create);
+//        material_calendar.removeDecorator(decorator_create);
         material_calendar.removeDecorator(decorator_free);
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(classid, UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), classid, saveclassModel.getDates(), new RequestCallback<ResponseData<ActivitydataModel>>() {
@@ -843,8 +830,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 material_calendar.addDecorator(decorator);
                 decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act, classrole, getActivity());
                 material_calendar.addDecorator(decorator_act);
-                decorator_create = new EventDecorator(Constants.CREATECLASS, calendarModel_create, classrole, getActivity());
-                material_calendar.addDecorator(decorator_create);
+//                decorator_create = new EventDecorator(Constants.CREATECLASS, calendarModel_create, classrole, getActivity());
+//                material_calendar.addDecorator(decorator_create);
                 decorator_free = new EventDecorator(Constants.FREE, calendarModel_free, classrole, getActivity());
                 material_calendar.addDecorator(decorator_free);
             }
@@ -894,16 +881,16 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private void filterTypesData() {
         calendarModel_reset.clear();
         calendarModel_act.clear();
-        calendarModel_create.clear();
+//        calendarModel_create.clear();
         calendarModel_free.clear();
         for (int i = 0; i < calendarModels.size(); i++) {
             int datetype = calendarModels.get(i).getDateType();
             String date = calendarModels.get(i).getMonthDate();
-            if (Constants.CREATECLASS == datetype) {
+            /*if (Constants.CREATECLASS == datetype) {
                 if (!TextUtils.isEmpty(date)) {
                     calendarModel_create.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
                 }
-            } else if (Constants.RESET == datetype) {
+            } else */if (Constants.RESET == datetype||Constants.CREATECLASS == datetype) {
                 if (!TextUtils.isEmpty(date)) {
                     calendarModel_reset.add(getCalendarDay(calendarModels.get(i).getMonthDate()));
                 }

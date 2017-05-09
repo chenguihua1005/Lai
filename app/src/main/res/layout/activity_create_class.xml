@@ -195,6 +195,7 @@
                 android:background="@color/white"
                 android:gravity="center|left"
                 android:paddingLeft="15dp"
+                android:textColor="#74BB2A"
                 android:text="班级小组"
                 android:textSize="13sp" />
 
