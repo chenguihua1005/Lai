@@ -205,11 +205,19 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (v.getId()) {
                 case R.id.et_old:
-                    Calendar c= Calendar.getInstance();
-                    c.set(1900,1,1);
+                    Calendar c = Calendar.getInstance();
+                    c.set(1900, 0, 1);
 //                    DateTime dt=new DateTime(1900,1,1,0,0);
-                    final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c.get(Calendar.YEAR),c.get(Calendar.MONTH)-1, c.get(Calendar.DAY_OF_MONTH));
+
+                    Calendar c2 = Calendar.getInstance();
+                    c2.set(1982, 0, 1);
+                    final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c2.get(Calendar.YEAR), c2.get(Calendar.MONTH), c2.get(Calendar.DAY_OF_MONTH));
                     datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+//                    Calendar c3 = Calendar.getInstance();
+//                    c3.set(1899, 11, 1);
+//                    datePickerDialog.getDatePicker().setMinDate(c3.getTimeInMillis());
+
+
                     datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
                     datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
                         @Override
