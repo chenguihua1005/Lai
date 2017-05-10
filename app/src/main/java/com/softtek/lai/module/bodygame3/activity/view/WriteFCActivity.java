@@ -1,10 +1,13 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -12,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -30,13 +34,17 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.softtek.lai.widgets.DragFloatActionButtonCheng;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
@@ -69,6 +77,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.iv_email)
     ImageView iv_email;
 
+    @InjectView(R.id.cheng_float)
+    DragFloatActionButtonCheng cheng_float;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -110,6 +120,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        cheng_float.setOnClickListener(this);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(Constants.UPDATE_UI_STU_INITDATA_INPUT));
 
     }
 
@@ -145,7 +158,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             public void onSuccess(String file) {
                 filest = file;
                 isExistP = 2;
-                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
+                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, childArray, fcStDataModel
                         , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
@@ -168,7 +181,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 file = new File(files.get(0));
                 filest = file.toString();
                 isExistP = 2;
-                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
+                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, childArray, fcStDataModel
                         , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
@@ -400,6 +413,16 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_right:
                 validateLife.validate();
                 break;
+            case R.id.cheng_float:
+                Intent intent = new Intent(WriteFCActivity.this, FuceForStuActivity.class);//跳转到发布动态界面
+                intent.putExtra("fucedata", fcStDataModel);//FcStDataModel
+                intent.putExtra("type", 3);
+                intent.putExtra("classId", classId);
+                intent.putExtra("AccountId", UserInfoModel.getInstance().getUserId());
+                intent.putExtra("from", Constants.UPDATE_UI_STU_INITDATA_INPUT);
+                startActivity(intent);
+
+                break;
         }
 
     }
@@ -416,7 +439,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             } else {
                 isExistP = 2;
             }
-            adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel, filest, photoname, isExistP, firststatus, IsEdit);
+            adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, childArray, fcStDataModel, filest, photoname, isExistP, firststatus, IsEdit);
             exlisview_body.setAdapter(adapter);
             int groupCount = exlisview_body.getCount();
             for (int i = 0; i < groupCount; i++) {
@@ -865,7 +888,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     photoname = fcStDataModel.getImg();
                 }
                 gender = fcStDataModel.getGender();
-                adapter = new InitDataExpandableListAdapter(this, this, childArray, fcStDataModel, filest, photoname,
+                adapter = new InitDataExpandableListAdapter(this, childArray, fcStDataModel, filest, photoname,
                         isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
@@ -874,7 +897,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                         exlisview_body.expandGroup(i);
                     }
                 }
-                ;
+
+
+                cheng_float.setVisibility(View.VISIBLE);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -971,4 +996,77 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && Constants.UPDATE_UI_STU_INITDATA_INPUT.equalsIgnoreCase(intent.getAction())) {
+                BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                if (result_model != null) {
+
+                    if (result_model.getWeight() != 0) {
+                        fcStDataModel.setWeight(result_model.getWeight() + "");
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBodyFatRate())) {//体脂
+                        fcStDataModel.setPysical(result_model.getBodyFatRate());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getViscusFatIndex())) {
+                        fcStDataModel.setFat(result_model.getViscusFatIndex()); //内脂
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBMI())) {
+                        fcStDataModel.setBmi(result_model.getBMI());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
+                        fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
+                        fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContent())) {
+                        fcStDataModel.setBodyWater(result_model.getWaterContent());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getMusclemass())) {
+                        fcStDataModel.setMuscleMass(result_model.getMusclemass());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBonemass())) {
+                        fcStDataModel.setBoneMass(result_model.getBonemass());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
+                        fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
+                        fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
+                    }
+
+                    adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, childArray, fcStDataModel, filest, photoname,
+                            isExistP, firststatus, IsEdit);
+                    exlisview_body.setAdapter(adapter);
+
+                    int groupCount = exlisview_body.getCount();
+                    for (int i = 0; i < groupCount; i++) {
+                        if (i == 0) {
+                            exlisview_body.expandGroup(i);
+                        }
+                        if (i == 3) {
+                            if (IsZhankai) {
+                                exlisview_body.expandGroup(i);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    };
 }

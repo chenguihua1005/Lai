@@ -1025,19 +1025,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     canCommited = true;
                     cheng_float.setVisibility(View.VISIBLE);
                 } else if (canCommited) {
-//                    if (!TextUtils.isEmpty(fcStDataModel.getWeight())) {
-//                        float initweight = Float.parseFloat(initWeight);
-//                        float selectWeight = Float.parseFloat(fcStDataModel.getWeight());
-//                        if (Math.abs(selectWeight - initweight) >= 10) {
-//                            Util.toastMsg("检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ");
-//
-//                        }
-//
-//                    }
-
                     validateLife.validate();
-
-
                 }
                 break;
         }
@@ -1124,7 +1112,9 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     }
 
                     //                    同时刷新上一个页面
-                    LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent(InitAuditFragment.UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
+                    if (IsAudit != 1) {//已审核
+                        LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent(InitAuditFragment.UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
+                    }
                 }
             }
         }

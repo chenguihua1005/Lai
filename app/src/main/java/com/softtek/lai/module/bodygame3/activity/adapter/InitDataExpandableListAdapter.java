@@ -30,7 +30,7 @@ import zilla.libcore.file.AddressManager;
  */
 public class InitDataExpandableListAdapter implements ExpandableListAdapter {
     Context context;
-    Activity activity;
+//    Activity activity;
     String filest, images; // 图片地址
     int isWhatePic, firststatus, IsEdit;
     private String[] groupArray = new String[]{"group1", "group2", "group3", "group4"};
@@ -38,9 +38,9 @@ public class InitDataExpandableListAdapter implements ExpandableListAdapter {
     private FcStDataModel fcStDataModel;
 
 
-    public InitDataExpandableListAdapter(Activity activity, Context context, List<List<String>> childArray, FcStDataModel fcStDataModel, String filest, String images, int
+    public InitDataExpandableListAdapter( Context context, List<List<String>> childArray, FcStDataModel fcStDataModel, String filest, String images, int
             isWhatePic, int firststatus, int IsEdit) {
-        this.activity = activity;
+//        this.activity = activity;
         this.context = context;
         this.childArray = childArray;
         this.fcStDataModel = fcStDataModel;
