@@ -177,7 +177,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
 
         classId = getIntent().getStringExtra("classId");
-        type = getIntent().getIntExtra("type", -1);
+        type = getIntent().getIntExtra("type", -1); // 0：访客，1：自己，2：复测录入，3：复测初始录入
         AccountId = getIntent().getLongExtra("AccountId", 0);
         from = getIntent().getStringExtra("from");
 

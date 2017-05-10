@@ -109,7 +109,8 @@ public interface FuceSevice {
             @Query("classId") String classId,
             @Query("typeDate") String typeDate,
             @Query("type") String type,
-            Callback<ResponseData<FcStDataModel>> callback
+            Callback<ResponseData<MeasuredDetailsModel>> callback
+//            Callback<ResponseData<FcStDataModel>> callback   // old
     );
 
     //学员基础信息   2
@@ -142,7 +143,7 @@ public interface FuceSevice {
             @Query("classId") String classId,
             @Query("typeDate") String typeDate,
             @Query("type") String type,
-            Callback<ResponseData<FcStDataModel>> callback
+            Callback<ResponseData<MeasuredDetailsModel>> callback
     );
 
     //    提交初始数据接口

@@ -16,6 +16,8 @@ public class FcStDataModel implements Serializable {
     private String EndDate;//结束日期
     private int WeekNum;//第几周
     private String MeasureDate;//复测日期
+
+
     private String InitWeight;//初始体重
     private String Weight;//现在体重
     private String Pysical;//体脂
@@ -33,14 +35,43 @@ public class FcStDataModel implements Serializable {
 
     private String Bmi; //BMI
     private String FatFreeMass;//去脂体重
-//    private String ViscusFatIndex;     //内脏脂肪指数
+    //    private String ViscusFatIndex;     //内脏脂肪指数
     private String BodyWaterRate;//身体水分率
     private String BodyWater;//身体水分
     private String MuscleMass;//肌肉量
     private String BoneMass;//骨量
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
+
+    private String Height;//身高
+    private String BirthDate;//生日
+    private long AccountId;//
+
     private String Threshold;//体重超过阈值
+
+    public String getHeight() {
+        return Height;
+    }
+
+    public void setHeight(String height) {
+        Height = height;
+    }
+
+    public String getBirthDate() {
+        return BirthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        BirthDate = birthDate;
+    }
+
+    public long getAccountId() {
+        return AccountId;
+    }
+
+    public void setAccountId(long accountId) {
+        AccountId = accountId;
+    }
 
     public String getThreshold() {
         return Threshold;

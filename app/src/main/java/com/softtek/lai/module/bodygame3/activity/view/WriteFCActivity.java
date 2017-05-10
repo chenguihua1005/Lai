@@ -40,6 +40,7 @@ import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListA
 import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -98,7 +99,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     Context context;
     String filest;
     File file;
-    FcStDataModel fcStDataModel;
+    MeasuredDetailsModel fcStDataModel;
     String photourl, typeDate;
     int firststatus;
     int IsEdit = 1;//是否可编辑，1可编辑，2不可编辑
@@ -845,9 +846,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void doGetDataService(String type) {
-        service.getPreMeasureDataVs1(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+        service.getPreMeasureDataVs1(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
             @Override
-            public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
+            public void success(ResponseData<MeasuredDetailsModel> fcStDataModelResponseData, Response response) {
                 int status = fcStDataModelResponseData.getStatus();
                 try {
                     switch (status) {

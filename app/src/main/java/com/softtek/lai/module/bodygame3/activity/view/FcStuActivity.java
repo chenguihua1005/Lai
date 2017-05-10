@@ -2,15 +2,20 @@ package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -22,11 +27,16 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.DragFloatActionButtonCheng;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
@@ -58,8 +68,12 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.cheng_float)
+    DragFloatActionButtonCheng cheng_float;
+
     FuceSevice fuceSevice;
-    FcStDataModel fcStDataModel;
+    //    FcStDataModel fcStDataModel;
+    MeasuredDetailsModel fcStDataModel;
     String gender = "0";//性别
     String classId, typeDate;//接口参数，从上一个页面获取
     private Long userId;
@@ -91,6 +105,10 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        cheng_float.setOnClickListener(this);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(Constants.UPDATE_UI_STU_FUCEDATA_INPUT));
+
         int px = DisplayUtil.dip2px(this, 300);
         //*************************
         imageFileSelector = new ImageFileSelector(this);
@@ -408,9 +426,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void doGetDataService(String type) {
-        fuceSevice.doGetPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<FcStDataModel>>() {
+        fuceSevice.doGetPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
             @Override
-            public void success(ResponseData<FcStDataModel> fcStDataModelResponseData, Response response) {
+            public void success(ResponseData<MeasuredDetailsModel> fcStDataModelResponseData, Response response) {
                 int status = fcStDataModelResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -426,10 +444,25 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.cheng_float:
+                Intent intent = new Intent(FcStuActivity.this, FuceForStuActivity.class);//跳转到发布动态界面
+                intent.putExtra("fucedata", fcStDataModel);//FcStDataModel
+                intent.putExtra("type", 2);
+                intent.putExtra("classId", classId);
+                intent.putExtra("AccountId", UserInfoModel.getInstance().getUserId());
+                intent.putExtra("from", Constants.UPDATE_UI_STU_FUCEDATA_INPUT);
+                startActivity(intent);
                 break;
             case R.id.fl_right:
                 if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
@@ -523,7 +556,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         exlisview_body.expandGroup(i);
                     }
                 }
-                ;
+
+                cheng_float.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -927,5 +961,72 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
 
         }
     }
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && Constants.UPDATE_UI_STU_FUCEDATA_INPUT.equalsIgnoreCase(intent.getAction())) {
+                BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                if (result_model != null) {
+
+                    if (result_model.getWeight() != 0) {
+                        fcStDataModel.setWeight(result_model.getWeight() + "");
+                    }
+                    if (!TextUtils.isEmpty(result_model.getBodyFatRate())) {//体脂
+                        fcStDataModel.setPysical(result_model.getBodyFatRate());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getViscusFatIndex())) {
+                        fcStDataModel.setFat(result_model.getViscusFatIndex()); //内脂
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBMI())) {
+                        fcStDataModel.setBmi(result_model.getBMI());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
+                        fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
+                        fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getWaterContent())) {
+                        fcStDataModel.setBodyWater(result_model.getWaterContent());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getMusclemass())) {
+                        fcStDataModel.setMuscleMass(result_model.getMusclemass());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBonemass())) {
+                        fcStDataModel.setBoneMass(result_model.getBonemass());
+                    }
+
+                    if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
+                        fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
+                    }
+                    if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
+                        fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());
+                    }
+
+                    adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname, isExistP,
+                            resetstatus, IsEdit);
+                    exlisview_body.setAdapter(adapter);
+
+                    int groupCount = exlisview_body.getCount();
+                    for (int i = 0; i < groupCount; i++) {
+                        if (i == 0) {
+                            exlisview_body.expandGroup(i);
+                        }
+                        if (i == 3) {
+                            if (IsZhankai) {
+                                exlisview_body.expandGroup(i);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    };
 
 }

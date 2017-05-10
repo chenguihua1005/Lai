@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.view.FormData;
+import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -35,10 +36,10 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
     int isWhatePic, firststatus, IsEdit;
     private String[] groupArray = new String[]{"group1", "group2", "group3", "group4"};
     private List<List<String>> childArray;
-    private FcStDataModel fcStDataModel;
+    private MeasuredDetailsModel fcStDataModel;
 
 
-    public MyExpandableListAdapter(Activity activity, Context context, List<List<String>> childArray, FcStDataModel fcStDataModel, String filest, String images, int
+    public MyExpandableListAdapter(Activity activity, Context context, List<List<String>> childArray, MeasuredDetailsModel fcStDataModel, String filest, String images, int
             isWhatePic, int firststatus, int IsEdit) {
         this.activity = activity;
         this.context = context;
@@ -148,10 +149,10 @@ public class MyExpandableListAdapter implements ExpandableListAdapter {
                     holder.tv_retest_write_weekth.setVisibility(View.GONE);
                 } else {
                     FormData formData = new FormData();
-                    if (TextUtils.isEmpty(formData.formdata(fcStDataModel.getWeekNum()))) {
+                    if (TextUtils.isEmpty((fcStDataModel.getWeekNum()))) {
                         holder.tv_retest_write_weekth.setVisibility(View.GONE);
                     } else {
-                        holder.tv_retest_write_weekth.setText("(第" + formData.formdata(fcStDataModel.getWeekNum()) + "周)");
+                        holder.tv_retest_write_weekth.setText("(第" + formData.formdata(Integer.parseInt(fcStDataModel.getWeekNum())) + "周)");
                     }
                 }
                 switch (firststatus) {

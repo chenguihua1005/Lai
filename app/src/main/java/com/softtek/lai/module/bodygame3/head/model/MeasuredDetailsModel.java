@@ -6,6 +6,17 @@ import java.io.Serializable;
  * Created by 87356 on 2016/12/3.
  */
 public class MeasuredDetailsModel implements Serializable {
+
+    private String UpdateTips;
+
+    public String getUpdateTips() {
+        return UpdateTips;
+    }
+
+    public void setUpdateTips(String updateTips) {
+        UpdateTips = updateTips;
+    }
+
     private String WeekNum;//周数
     private String TypeDate;//日期
     private String Image;//图片
@@ -14,8 +25,9 @@ public class MeasuredDetailsModel implements Serializable {
     private String Photo;//头像
     private String Mobile;//手机号
     private String ClassName;//班级名称
-    private String InitWeight;//初始体重
+    private String Status;
 
+    private String InitWeight;//初始体重
     private String Weight;//现在体重
 //    private String weightUnit;//体重单位
 
@@ -31,9 +43,11 @@ public class MeasuredDetailsModel implements Serializable {
     private String DoLegGirth;//小腿围
     private String AMStatus;
     private String Gender;
+
     private String StartDate;
     private String EndDate;
     private String MeasureDate;
+
     private String Img;
     private String ImgThumbnail;
 
@@ -234,7 +248,7 @@ public class MeasuredDetailsModel implements Serializable {
         Status = status;
     }
 
-    private String Status;
+
 
     public String getWeekNum() {
         return WeekNum;
