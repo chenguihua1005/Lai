@@ -1,9 +1,12 @@
 package com.softtek.lai.module.home.view;
 
+import android.net.http.SslError;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -52,6 +55,12 @@ public class ArticalDetailActivity extends BaseActivity{
                     e.printStackTrace();
                 }
                 super.onProgressChanged(view, newProgress);
+            }
+        });
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
             }
         });
     }
