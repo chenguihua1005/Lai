@@ -24,13 +24,13 @@ public class BleManager {
     private static volatile BleManager instance;
     public static final long SCAN_PERIOD = 10000;//蓝牙扫描时间
 
-    public static final UUID KERUIER_SERVICE_UUID = UUID.fromString("000018f0-0000-1000-8000-00805f9b34fb");//老秤4.0
-    public static final UUID KERUIER_READ_CHARACTERISTIC_UUID = UUID.fromString("00002af0-0000-1000-8000-00805f9b34fb");
-    public static final UUID KERUIER_WRITE_CHARACTERISTIC_UUID = UUID.fromString("00002af1-0000-1000-8000-00805f9b34fb");
-    public static final UUID LIERDA_SERVICE_UUID = UUID.fromString("0000ff12-0000-1000-8000-00805f9b34fb");
-    public static final UUID LIERDA_READ_CHARACTERISTIC_UUID = UUID.fromString("0000ff02-0000-1000-8000-00805f9b34fb");
-    public static final UUID LIERDA_WRITE_CHARACTERISTIC_UUID = UUID.fromString("0000ff01-0000-1000-8000-00805f9b34fb");
-    public static final UUID CLIENT_CHARACTERISTIC_CONFIG = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+    private static final UUID KERUIER_SERVICE_UUID = UUID.fromString("000018f0-0000-1000-8000-00805f9b34fb");//老秤4.0
+    private static final UUID KERUIER_READ_CHARACTERISTIC_UUID = UUID.fromString("00002af0-0000-1000-8000-00805f9b34fb");
+    private static final UUID KERUIER_WRITE_CHARACTERISTIC_UUID = UUID.fromString("00002af1-0000-1000-8000-00805f9b34fb");
+    private static final UUID LIERDA_SERVICE_UUID = UUID.fromString("0000ff12-0000-1000-8000-00805f9b34fb");
+    private static final UUID LIERDA_READ_CHARACTERISTIC_UUID = UUID.fromString("0000ff02-0000-1000-8000-00805f9b34fb");
+    private static final UUID LIERDA_WRITE_CHARACTERISTIC_UUID = UUID.fromString("0000ff01-0000-1000-8000-00805f9b34fb");
+    private static final UUID CLIENT_CHARACTERISTIC_CONFIG = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
     /**
      * 蓝牙状态
      */
@@ -274,22 +274,15 @@ public class BleManager {
 
     public void disconnectBluetooth() {
         if (mBluetoothGatt != null) {
-            try {
-                mBluetoothGatt.disconnect();
-                SystemClock.sleep(20);
-            } finally {
-                mBluetoothGatt.close();
-            }
-            Log.i("正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常正常");
-        } else {
-            Log.i("空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空空");
+            mBluetoothGatt.disconnect();
+            mBluetoothGatt.close();
         }
         instance = null;
         EXIT = true;
         MainBaseActivity.isConnecting = false;
     }
 
-    public void loss() {
+    private void loss() {
         mBluetoothGatt = null;
         instance = null;
         EXIT = true;
