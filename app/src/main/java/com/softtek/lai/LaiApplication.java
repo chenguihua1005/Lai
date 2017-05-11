@@ -53,7 +53,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
         JPushInterface.init(this);
-        ChatHelper.getInstance().init(getApplicationContext());
+//        ChatHelper.getInstance().init(getApplicationContext());
         Picasso.setSingletonInstance(new Picasso.Builder(this).
                 downloader(new ImageDownLoader(new OkHttpClient.Builder()))
                 .build());

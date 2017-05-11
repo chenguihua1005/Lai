@@ -41,16 +41,20 @@ public abstract class BleBaseActivity extends BaseActivity {
                 return;
             }
             String flag = intent.getStringExtra("flag");
-            if (flag.equals("Discovered")) {
-                sendMessage(BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES);
-            } else if (flag.equals("CharacteristicChanged")) {
-                byte[] data = intent.getByteArrayExtra("data");
-                sendMessage(BleManager.BLUETOOTH_STATE_READ, data);
-            } else if (flag.equals("ConnectionStateChange")) {
-                int newState = intent.getIntExtra("newState", -20);
-                if (newState != -20) {
-                    sendMessage(newState);
-                }
+            switch (flag) {
+                case "Discovered":
+                    sendMessage(BleManager.BLUETOOTH_STATE_DISCOVER_SERVICES);
+                    break;
+                case "CharacteristicChanged":
+                    byte[] data = intent.getByteArrayExtra("data");
+                    sendMessage(BleManager.BLUETOOTH_STATE_READ, data);
+                    break;
+                case "ConnectionStateChange":
+                    int newState = intent.getIntExtra("newState", -20);
+                    if (newState != -20) {
+                        sendMessage(newState);
+                    }
+                    break;
             }
         }
     }
