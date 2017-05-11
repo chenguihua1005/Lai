@@ -197,11 +197,30 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                     holder.im_pic_icon.setVisibility(View.GONE);
                     holder.tv_takepho_guide.setVisibility(View.GONE);
                     holder.im_pic.setVisibility(View.VISIBLE);
-                    if (!TextUtils.isEmpty(fcStDataModel.getThumbnail())) {//后台有图片
-                        Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-                    } else {
-                        Picasso.with(context).load(R.drawable.default_icon_square).centerCrop()
-                                .fit().into(holder.im_pic);
+//                    if (!TextUtils.isEmpty(fcStDataModel.getThumbnail())) {//后台有图片
+//                        Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+//                    } else {
+//                        Picasso.with(context).load(R.drawable.default_icon_square).centerCrop()
+//                                .fit().into(holder.im_pic);
+//                    }
+
+                    switch (isWhatePic)  ////0没有图片1网络图片2文件图片
+                    {
+                        case 0:
+                            //不存在图片
+                            holder.im_pic_icon.setVisibility(View.VISIBLE);
+                            holder.im_pic.setVisibility(View.GONE);
+                            break;
+                        case 1:
+                            holder.im_pic_icon.setVisibility(View.GONE);
+                            holder.im_pic.setVisibility(View.VISIBLE);
+                            Picasso.with(context).load(AddressManager.get("photoHost") + images).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                            break;
+                        case 2:
+                            holder.im_pic_icon.setVisibility(View.GONE);
+                            holder.im_pic.setVisibility(View.VISIBLE);
+                            Picasso.with(context).load(new File(filest)).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
+                            break;
                     }
                 } else {//未审核
                     holder.tv_takepho_guide.setVisibility(View.VISIBLE);
@@ -267,7 +286,7 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
             holder = (ChildHolder) view.getTag();
         }
 //        if (IsEdit == 1) {
-            holder.im_aciton.setBackgroundResource(R.drawable.action_right);
+        holder.im_aciton.setBackgroundResource(R.drawable.action_right);
 //        }
         switch (groupPosition) {
             case 0:

@@ -226,8 +226,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                 images_url = "";
 
                 adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
-//                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
-//                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -250,8 +248,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                 isExistP = 2;
                 images_url = "";
                 adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
-//                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
-//                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -1043,8 +1039,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_INPUTED.equalsIgnoreCase(intent.getAction())) {
-//                ACMID = intent.getStringExtra("ACMID");
-//                getPresenter().getFuceCheckData(ACMID);
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
                     ACMID = result_model.getRecordId();
