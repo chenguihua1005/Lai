@@ -210,7 +210,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
 //                    DateTime dt=new DateTime(1900,1,1,0,0);
 
                     Calendar c2 = Calendar.getInstance();
-                    c2.set(1982, 0, 1);
+                    c2.set(1985, 0, 1);
                     final DatePickerDialog datePickerDialog = new DatePickerDialog(this, null, c2.get(Calendar.YEAR), c2.get(Calendar.MONTH), c2.get(Calendar.DAY_OF_MONTH));
                     datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
 //                    Calendar c3 = Calendar.getInstance();
