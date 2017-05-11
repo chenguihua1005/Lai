@@ -39,6 +39,12 @@ public class ArticalDetailActivity extends BaseActivity{
             }
         });
         tv_title.setText(getIntent().getStringExtra("title"));
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        // 为图片添加放大缩小功能
+        webView.getSettings().setUseWideViewPort(true);
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
