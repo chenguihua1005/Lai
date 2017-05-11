@@ -1,9 +1,12 @@
 package com.softtek.lai.module.home.view;
 
+import android.net.http.SslError;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +39,12 @@ public class ArticalDetailActivity extends BaseActivity{
             }
         });
         tv_title.setText(getIntent().getStringExtra("title"));
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        // 为图片添加放大缩小功能
+        webView.getSettings().setUseWideViewPort(true);
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -52,6 +61,12 @@ public class ArticalDetailActivity extends BaseActivity{
                     e.printStackTrace();
                 }
                 super.onProgressChanged(view, newProgress);
+            }
+        });
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
             }
         });
     }

@@ -1,9 +1,11 @@
 package com.softtek.lai.module.laiClassroom;
 
+import android.net.http.SslError;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -70,6 +72,10 @@ public class ArticdetailActivity extends BaseActivity {
                 return true;
             }
 
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
+            }
         });
     }
 
