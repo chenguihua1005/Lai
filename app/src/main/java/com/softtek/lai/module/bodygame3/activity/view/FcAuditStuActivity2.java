@@ -811,27 +811,46 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
-        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
-            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
             String message = "体脂率为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(FcAuditStuActivity2.this)
                     .setMessage(message)
                     .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
             String message = "内脂为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(FcAuditStuActivity2.this)
                     .setMessage(message)
                     .create().show();
         } else if (isExistP == 0) {
             String message = "请上传图片";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(FcAuditStuActivity2.this)
                     .setMessage(message)
                     .create().show();
+        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
+            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
+            new AlertDialog.Builder(this)
+                    .setMessage(message).setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    postImageFirstAndData();
+                }
+            }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            }).create().show();
         } else {
+            postImageFirstAndData();
+        }
+
+
+    }
+
+    FcAuditPostModel fcAuditPostModel;
+
+    private void postImageFirstAndData() {
+        {
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();
 
@@ -864,9 +883,9 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 doSetPostData();
             }
         }
+
     }
 
-    FcAuditPostModel fcAuditPostModel;
 
     private void doSetPostData() {
         fcAuditPostModel.setACMId(acmId);

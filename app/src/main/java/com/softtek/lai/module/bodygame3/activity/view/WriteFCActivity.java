@@ -788,30 +788,37 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
-        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
-            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
             String message = "体脂率为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(WriteFCActivity.this)
                     .setMessage(message)
                     .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
             String message = "内脂为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(WriteFCActivity.this)
                     .setMessage(message)
                     .create().show();
         } else if (isExistP == 0) {
             //判断是否已经存在已上传图片
             String message = "请上传图片";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(WriteFCActivity.this)
                     .setMessage(message)
                     .create().show();
+        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
+            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
+            new AlertDialog.Builder(this)
+                    .setMessage(message).setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    doSetPostData();
+                }
+            }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            }).create().show();
         } else {
-            progressDialog.setMessage("正在提交数据，请等待");
-            progressDialog.show();
             doSetPostData();
         }
     }
@@ -910,33 +917,38 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     /*l录入*/
     void doSetPostData() {
-        Log.i(TAG, "提交的数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));
-        Log.i("图片文件" + "身体维度上传" + "体重" + fcStDataModel.getWeight() + "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
-        multipartTypedOutput.addPart("accountId", new TypedString(userId + ""));
-        multipartTypedOutput.addPart("classId", new TypedString(classId));
-        if (isExistP == 2) {
-            multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
+        {
+            progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.show();
+
+            Log.i(TAG, "提交的数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));
+            Log.i("图片文件" + "身体维度上传" + "体重" + fcStDataModel.getWeight() + "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
+            multipartTypedOutput.addPart("accountId", new TypedString(userId + ""));
+            multipartTypedOutput.addPart("classId", new TypedString(classId));
+            if (isExistP == 2) {
+                multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
+            }
+            multipartTypedOutput.addPart("pysical", new TypedString(TextUtils.isEmpty(fcStDataModel.getPysical()) ? "0" : fcStDataModel.getPysical()));//体脂
+            multipartTypedOutput.addPart("fat", new TypedString(TextUtils.isEmpty(fcStDataModel.getFat()) ? "0" : fcStDataModel.getFat()));//内脂
+            multipartTypedOutput.addPart("ChuWeight", new TypedString(TextUtils.isEmpty(fcStDataModel.getWeight()) ? "0" : fcStDataModel.getWeight()));//初始体重
+
+            multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "0" : fcStDataModel.getCircum().toString()));//胸围
+            multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "0" : fcStDataModel.getWaistline().toString()));//腰围
+            multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "0" : fcStDataModel.getHiplie().toString()));//臀围
+            multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "0" : fcStDataModel.getUpArmGirth().toString()));//上臂围
+            multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "0" : fcStDataModel.getUpLegGirth().toString()));//大腿围
+            multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "0" : fcStDataModel.getDoLegGirth().toString()));//小腿围
+
+            multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "0" : fcStDataModel.getBmi().toString()));
+            multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "0" : fcStDataModel.getFatFreeMass().toString()));
+            multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "0" : fcStDataModel.getBodyWaterRate().toString()));
+            multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "0" : fcStDataModel.getBodyWater().toString()));
+            multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "0" : fcStDataModel.getMuscleMass()));
+            multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "0" : fcStDataModel.getBoneMass().toString()));
+            multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "0" : fcStDataModel.getBasalMetabolism()));
+            multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "0" : fcStDataModel.getPhysicalAge().toString()));
+            doPostInitData();
         }
-        multipartTypedOutput.addPart("pysical", new TypedString(TextUtils.isEmpty(fcStDataModel.getPysical()) ? "0" : fcStDataModel.getPysical()));//体脂
-        multipartTypedOutput.addPart("fat", new TypedString(TextUtils.isEmpty(fcStDataModel.getFat()) ? "0" : fcStDataModel.getFat()));//内脂
-        multipartTypedOutput.addPart("ChuWeight", new TypedString(TextUtils.isEmpty(fcStDataModel.getWeight()) ? "0" : fcStDataModel.getWeight()));//初始体重
-
-        multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "0" : fcStDataModel.getCircum().toString()));//胸围
-        multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "0" : fcStDataModel.getWaistline().toString()));//腰围
-        multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "0" : fcStDataModel.getHiplie().toString()));//臀围
-        multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "0" : fcStDataModel.getUpArmGirth().toString()));//上臂围
-        multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "0" : fcStDataModel.getUpLegGirth().toString()));//大腿围
-        multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "0" : fcStDataModel.getDoLegGirth().toString()));//小腿围
-
-        multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "0" : fcStDataModel.getBmi().toString()));
-        multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "0" : fcStDataModel.getFatFreeMass().toString()));
-        multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "0" : fcStDataModel.getBodyWaterRate().toString()));
-        multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "0" : fcStDataModel.getBodyWater().toString()));
-        multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "0" : fcStDataModel.getMuscleMass()));
-        multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "0" : fcStDataModel.getBoneMass().toString()));
-        multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "0" : fcStDataModel.getBasalMetabolism()));
-        multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "0" : fcStDataModel.getPhysicalAge().toString()));
-        doPostInitData();
     }
 
     //录入请求

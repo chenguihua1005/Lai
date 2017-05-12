@@ -524,6 +524,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 switch (num) {
                     case 0: {
                         fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
                         int groupCount = exlisview_body.getCount();
                         for (int i = 0; i < groupCount; i++) {
@@ -857,26 +858,34 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
-        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(selectWeight) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(selectWeight) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
-            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
             String message = "体脂率为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(InitDataUnInputActivity2.this)
                     .setMessage(message)
                     .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
             String message = "内脂为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(InitDataUnInputActivity2.this)
                     .setMessage(message)
                     .create().show();
         } else if (isExistPhoto == 0) {
             String message = "请上传图片";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(InitDataUnInputActivity2.this)
                     .setMessage(message)
                     .create().show();
+        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(selectWeight) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(selectWeight) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
+            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage(message).setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    doSetPostData();
+                }
+            }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            }).create().show();
         } else {
             doSetPostData();
         }
@@ -884,27 +893,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
 
     private void doSetPostData() {
-//        if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getWeight()) ? "" : fcStDataModel.getWeight())) {
-//            String message = "初始体重为必填项，请选择";
-//            new AlertDialog.Builder(this)
-//                    .setMessage(message)
-//                    .create().show();
-//        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
-//            String message = "体脂为必填项，请选择";
-//            new AlertDialog.Builder(this)
-//                    .setMessage(message)
-//                    .create().show();
-//        } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
-//            String message = "内脂为必填项，请选择";
-//            new AlertDialog.Builder(this)
-//                    .setMessage(message)
-//                    .create().show();
-//        } else if (isExistPhoto == 0) {
-//            String message = "请上传图片";
-//            new AlertDialog.Builder(this)
-//                    .setMessage(message)
-//                    .create().show();
-//        } else
         {
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();

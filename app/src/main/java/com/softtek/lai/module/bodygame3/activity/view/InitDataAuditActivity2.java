@@ -797,69 +797,84 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .create().show();
-        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
-            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getPysical()) ? "" : fcStDataModel.getPysical())) {
             String message = "体脂率为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(InitDataAuditActivity2.this)
                     .setMessage(message)
                     .create().show();
         } else if (TextUtils.isEmpty("0.0".equals(fcStDataModel.getFat()) ? "" : fcStDataModel.getFat())) {
             String message = "内脂为必填项，请选择";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(InitDataAuditActivity2.this)
                     .setMessage(message)
                     .create().show();
         } else if (isExistP == 0) {
             String message = "请上传图片";
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(InitDataAuditActivity2.this)
                     .setMessage(message)
                     .create().show();
+        } else if (!TextUtils.isEmpty(initWeight) && !TextUtils.isEmpty(fcStDataModel.getWeight()) && !TextUtils.isEmpty(fcStDataModel.getThreshold()) && Math.abs(Float.parseFloat(fcStDataModel.getWeight()) - Float.parseFloat(initWeight)) > Float.parseFloat(fcStDataModel.getThreshold())) {
+            String message = "检测到体重变化过大, 请检查体重与单位(斤)的正确性, 是否确认? ";
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage(message).setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    postImageFirstAndData();
+
+                }
+            }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            }).create().show();
         } else {
-            progressDialog.setMessage("正在提交数据，请等待");
-            progressDialog.show();
-
-            fcAuditPostModel = new FcAuditPostModel();
-            if (!TextUtils.isEmpty(files)) {
-                File image = new File(files);
-                //先上传图片
-                CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
-                service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
-                        new RequestCallback<ResponseData<ImageResponse2>>() {
-                            @Override
-                            public void success(ResponseData<ImageResponse2> data, Response response) {
-                                int status = data.getStatus();
-
-                                if (status == 200) {
-                                    fcAuditPostModel.setFileName(data.getData().imgName);
-                                    fcAuditPostModel.setThumbnail(data.getData().thubName);
-                                    doSetPostData();
-                                } else {
-                                    dialogShow("上传图片失败！");
-                                    dialogDissmiss();
-                                }
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                super.failure(error);
-                                dialogShow("上传图片失败！");
-                                dialogDissmiss();
-                            }
-                        });
-
-            } else { //直接提交审核
-                fcAuditPostModel.setFileName(fcStDataModel.getImg());
-                fcAuditPostModel.setThumbnail(fcStDataModel.getImgThumbnail());
-                doSetPostData();
-            }
+            postImageFirstAndData();
         }
+
     }
 
     FcAuditPostModel fcAuditPostModel;
 
+
+    private void postImageFirstAndData() {
+        progressDialog.setMessage("正在提交数据，请等待");
+        progressDialog.show();
+
+        fcAuditPostModel = new FcAuditPostModel();
+        if (!TextUtils.isEmpty(files)) {
+            File image = new File(files);
+            //先上传图片
+            CommunityService service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+            service.uploadSingleImage(UserInfoModel.getInstance().getToken(), new TypedFile("image/*", image),
+                    new RequestCallback<ResponseData<ImageResponse2>>() {
+                        @Override
+                        public void success(ResponseData<ImageResponse2> data, Response response) {
+                            int status = data.getStatus();
+
+                            if (status == 200) {
+                                fcAuditPostModel.setFileName(data.getData().imgName);
+                                fcAuditPostModel.setThumbnail(data.getData().thubName);
+                                doSetPostData();
+                            } else {
+                                dialogShow("上传图片失败！");
+                                dialogDissmiss();
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            super.failure(error);
+                            dialogShow("上传图片失败！");
+                            dialogDissmiss();
+                        }
+                    });
+
+        } else { //直接提交审核
+            fcAuditPostModel.setFileName(fcStDataModel.getImg());
+            fcAuditPostModel.setThumbnail(fcStDataModel.getImgThumbnail());
+            doSetPostData();
+        }
+
+    }
 
     private void doSetPostData() {//    String images_url, files;//网络图片   拍照图片 AddressManager.get("photoHost") + fcStDataModel.getPhoto()
 
