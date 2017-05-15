@@ -130,6 +130,15 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 .build();
         return setLog(restAdapter);
     }
+
+    public static RestAdapter getRESTAdapter(String host) {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setEndpoint(host)
+                .setClient(new MyOkClient())
+                .build();
+        return setLog(restAdapter);
+    }
     private static RestAdapter setLog(RestAdapter restAdapter) {
         if (Boolean.parseBoolean(PropertiesManager.get("log"))) {
             restAdapter.setLogLevel(RestAdapter.LogLevel.FULL);

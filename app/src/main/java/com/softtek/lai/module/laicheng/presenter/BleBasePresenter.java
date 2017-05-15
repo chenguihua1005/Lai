@@ -1,14 +1,12 @@
 package com.softtek.lai.module.laicheng.presenter;
 
 import android.util.Log;
-import android.widget.Toast;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
-import com.softtek.lai.common.mvp.BaseView1;
-import com.softtek.lai.module.laiClassroom.net.SearchService;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.BleTokenResponse;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
@@ -16,7 +14,6 @@ import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.net.BleService;
 import com.softtek.lai.utils.RequestCallback;
 
-import retrofit.RequestInterceptor;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -35,12 +32,8 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
     }
 
     public void getToken() {
-        ZillaApi.getCustomRESTAdapter(BASE_URL + "oauth/token/", new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-
-            }
-        }).create(BleService.class)
+        LaiApplication.getRESTAdapter(BASE_URL+"oauth/token/")
+                .create(BleService.class)
                 .getBleToken("client_credentials", "shhcieurjfn734js", "qieow8572jkcv", new RequestCallback<BleTokenResponse>() {
                     @Override
                     public void success(BleTokenResponse bleTokenResponse, Response response) {
@@ -60,12 +53,7 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
     }
 
     public void checkMac(String token, String mac) {
-        ZillaApi.getCustomRESTAdapter(BASE_URL + "DataSync/ExistEquipment/", new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-
-            }
-        }).create(BleService.class)
+        LaiApplication.getRESTAdapter(BASE_URL+"DataSync/ExistEquipment/").create(BleService.class)
                 .checkMac(token, mac, new RequestCallback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
