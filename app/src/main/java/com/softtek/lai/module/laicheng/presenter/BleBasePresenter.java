@@ -20,14 +20,15 @@ import retrofit.RequestInterceptor;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jia.lu on 2017/4/10.
  */
 
 public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView> {
-//    private String BASE_URL = "http://qa-api.yunyingyang.com/";
-    private String BASE_URL = "https://api.yunyingyang.com/";
+
+    private String BASE_URL = AddressManager.get("chenHost");
 
     public BleBasePresenter(BleBasePresenter.BleBaseView baseView) {
         super(baseView);
