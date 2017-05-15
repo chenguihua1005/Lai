@@ -42,6 +42,7 @@ import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
+import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -409,6 +410,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             //标题栏左返回
             case R.id.ll_left:
                 finish();
+                BleManager.getInstance().disconnectBluetooth();
                 break;
             //标题栏右提交保存事件
             case R.id.tv_right:
@@ -1014,6 +1016,12 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        BleManager.getInstance().disconnectBluetooth();
+        super.onBackPressed();
     }
 
     public BroadcastReceiver receiver = new BroadcastReceiver() {

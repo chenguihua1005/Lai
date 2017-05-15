@@ -34,6 +34,7 @@ import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
+import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
@@ -452,10 +453,17 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    public void onBackPressed() {
+        BleManager.getInstance().disconnectBluetooth();
+        super.onBackPressed();
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
                 finish();
+                BleManager.getInstance().disconnectBluetooth();
                 break;
             case R.id.cheng_float:
                 Intent intent = new Intent(FcStuActivity.this, FuceForStuActivity.class);//跳转到发布动态界面

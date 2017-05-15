@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.senab.photoview.log.LogManager;
+import zilla.libcore.util.Util;
 
 public abstract class MainBaseActivity extends BleBaseActivity implements BleBasePresenter.BleBaseView {
 
@@ -538,6 +539,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private void sendMessages(String message) {
         if (message.length() > 0) {
+            if (BleManager.getInstance().getWriteCharacteristic() == null){
+                Util.toastMsg("getWriteCharacteristic is null，请超时后再试");
+            }
             writeCharacteristicData(message, BleManager.getInstance().getWriteCharacteristic());
         }
     }
