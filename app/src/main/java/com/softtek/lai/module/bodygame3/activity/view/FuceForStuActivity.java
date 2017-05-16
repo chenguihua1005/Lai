@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
@@ -94,8 +95,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private int type;  //0：访客，1：自己，2：复测录入，3：复测初始录入
     private String classId;
-
     private String from;
+    private int isAudit = -1;
 
     private BleMainData result_model = null;
 
@@ -158,11 +159,11 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void onClick() {
         if (MainBaseActivity.isVoiceHelp) {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
-            stopVoice();
+//            stopVoice();
             isVoiceHelp = false;
         } else {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
-            addVoice();
+//            addVoice();
             isVoiceHelp = true;
         }
     }
@@ -177,9 +178,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
 
         classId = getIntent().getStringExtra("classId");
-        type = getIntent().getIntExtra("type", -1); // 0：访客，1：自己，2：复测录入，3：复测初始录入
         AccountId = getIntent().getLongExtra("AccountId", 0);
         from = getIntent().getStringExtra("from");
+        type = getIntent().getIntExtra("type", -1); // 0：访客，1：自己，2：复测录入，3：复测初始录入
+        isAudit = getIntent().getIntExtra("isAudit", -1);
 
         chengliang_success = false;
 
@@ -229,7 +231,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
             }
             if (data.getBodyFatRate() != null) {
-                Log.d("data.getBodyFatRate()",data.getBodyFatRate());
+                Log.d("data.getBodyFatRate()", data.getBodyFatRate());
                 mBodyFatRate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
             }
             if (data.getBMI() != null) {
@@ -260,7 +262,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             entity.setBirthDate(fucDataModel.getBirthDate());
 
             entity.setHeight(TextUtils.isEmpty(fucDataModel.getHeight()) ? 0 : Float.parseFloat(fucDataModel.getHeight()));
-            entity.setGender(Integer.parseInt(TextUtils.isEmpty(fucDataModel.getGender())?"1":fucDataModel.getGender()));
+            entity.setGender(Integer.parseInt(TextUtils.isEmpty(fucDataModel.getGender()) ? "1" : fucDataModel.getGender()));
             entity.setPhoneNo(fucDataModel.getMobile());
             entity.setVisitorId(AccountId);
 
@@ -294,7 +296,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     }
 
     private void createDialog(boolean isTimeout) {
-        if (isFinishing()){
+        if (isFinishing()) {
             return;
         }
         if (dialog == null) {
@@ -346,10 +348,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     }
 
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             showTipDialog();
             return true;
         }
@@ -369,7 +370,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(from);
-//                intent.putExtra("ACMID", recordId);
                     intent.putExtra("result_model", result_model);
                     LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
                     finish();
@@ -378,6 +378,12 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             isExit.setButton2("直接返回", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    // type  ======  >   0：访客，1：自己，2：复测录入，3：复测初始录入
+                    if (2 == type && 0 == isAudit) { //复测录入，未审核列表
+                        LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(FcAuditFragment.UPDATE_UI_FCCHECK_DAISHENHE_TABLIST));
+                    } else if (3 == type && 0 == isAudit) {//复测初始录入 ,未审核列表
+                        LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(InitAuditFragment.UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
+                    }
                     finish();
                 }
             });

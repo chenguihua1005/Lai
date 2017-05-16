@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
@@ -19,6 +20,8 @@ import com.softtek.lai.module.laicheng.MainBaseActivity;
 
 import java.util.List;
 import java.util.UUID;
+
+import zilla.libcore.util.Util;
 
 public class BleManager {
     private static volatile BleManager instance;
@@ -273,9 +276,14 @@ public class BleManager {
 
 
     public void disconnectBluetooth() {
-        if (mBluetoothGatt != null) {
-            mBluetoothGatt.disconnect();
-            mBluetoothGatt.close();
+        try {
+            if (mBluetoothGatt != null) {
+                mBluetoothGatt.disconnect();
+                mBluetoothGatt.close();
+            }
+        } catch (Exception e) {
+            Util.toastMsg("蓝牙关闭失败");
+            e.printStackTrace();
         }
         instance = null;
         EXIT = true;

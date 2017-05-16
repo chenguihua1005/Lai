@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
@@ -30,6 +31,7 @@ import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.BleStateListener;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.MathUtils;
+import com.softtek.lai.module.laicheng.util.SoundPlay;
 import com.softtek.lai.module.laicheng.util.StringMath;
 import com.softtek.lai.mpermission.MPermission;
 import com.softtek.lai.sound.SoundHelper;
@@ -85,7 +87,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     protected MPermission permission;
 
-    protected SoundHelper soundHelper;
+//    protected SoundHelper soundHelper;
 
     private BleBasePresenter presenter;
 
@@ -110,7 +112,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         openBluetoothSetting();
         if (voiceIndex != 1) {
             voiceIndex = 1;
-            soundHelper.play("one");
+//            soundHelper.play("one");
+            if (isVoiceHelp) {
+                SoundPlay.getInstance().play(R.raw.help_one);
+            }
         }
         mShakeListener.stop();
         if (getType() == 0) {
@@ -144,7 +149,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         permission = MPermission.with(this);
         mShakeListener = new ShakeListener(this);
-        addVoice();
+//        addVoice();
+        SoundPlay.getInstance().init(LaiApplication.getInstance().getApplicationContext());
 
         presenter = new BleBasePresenter(this);
 
@@ -570,7 +576,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 2) {
                     voiceIndex = 2;
-                    soundHelper.play("two");
+//                    soundHelper.play("two");
+                    if (isVoiceHelp) {
+                        SoundPlay.getInstance().playAndStop(R.raw.help_two);
+                    }
                 }
                 break;
             case CONNECTED_STATE_WEIGHT:
@@ -578,14 +587,21 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_WEIGHT;
                 if (voiceIndex != 3) {
                     voiceIndex = 3;
-                    soundHelper.play("three");
+//                    soundHelper.play("three");
+                    if (isVoiceHelp) {
+                        SoundPlay.getInstance().playAndStop(R.raw.help_three);
+                    }
                 }
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if (state_current == CONNECTED_STATE_WEIGHT) {
                             voiceIndex = 4;
-                            soundHelper.play("four");
+//                            soundHelper.play("four");
+                            if (isVoiceHelp) {
+                                SoundPlay.getInstance().playWait(R.raw.help_four);
+                            }
+
                             handler.postDelayed(this, 2000);
                         }
                     }
@@ -601,7 +617,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 5) {
                     voiceIndex = 5;
-                    soundHelper.play("five");
+//                    soundHelper.play("five");
+                    if (isVoiceHelp) {
+                        SoundPlay.getInstance().playAndStop(R.raw.help_five);
+                    }
                 }
                 break;
             case CONNECTED_STATE_UPLOADING_FAIL:
@@ -611,7 +630,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 6) {
                     voiceIndex = 6;
-                    soundHelper.play("six");
+//                    soundHelper.play("six");
+                    if (isVoiceHelp) {
+                        SoundPlay.getInstance().playAndStop(R.raw.help_six);
+                    }
                 }
                 showUploadFailedDialog();
                 break;
@@ -622,7 +644,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 dialogDissmiss();
                 if (voiceIndex != 6) {
                     voiceIndex = 6;
-                    soundHelper.play("six");
+//                    soundHelper.play("six");
+                    if (isVoiceHelp) {
+                        SoundPlay.getInstance().playAndStop(R.raw.help_six);
+                    }
                 }
                 showTimeoutDialog();
                 newData = "";
@@ -760,11 +785,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onDestroy() {
         deviceListDialog = null;
-        soundHelper.release();
+//        soundHelper.release();
         permission.recycle();
         presenter.recycle();
         isVoiceHelp = true;
         handler.removeCallbacksAndMessages(null);
+        SoundPlay.getInstance().release();
         super.onDestroy();
         Log.d("onDestroy-----", "onDestroy");
     }
@@ -784,6 +810,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         }
         isOnStop = true;
         testTimeOut = 0;
+        SoundPlay.getInstance().stop();
         Log.d("stop-----", "stop");
     }
 
@@ -801,17 +828,18 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
     public void stopVoice() {
-        soundHelper.release();
+//        soundHelper.release();
+//        SoundPlay.getInstance().stop();
     }
 
     public void addVoice() {
-        soundHelper = new SoundHelper(this, 6);
-        soundHelper.addAudio("one", R.raw.help_one);
-        soundHelper.addAudio("two", R.raw.help_two);
-        soundHelper.addAudio("three", R.raw.help_three);
-        soundHelper.addAudio("four", R.raw.help_four);
-        soundHelper.addAudio("five", R.raw.help_five);
-        soundHelper.addAudio("six", R.raw.help_six);
+//        soundHelper = new SoundHelper(this, 6);
+//        soundHelper.addAudio("one", R.raw.help_one);
+//        soundHelper.addAudio("two", R.raw.help_two);
+//        soundHelper.addAudio("three", R.raw.help_three);
+//        soundHelper.addAudio("four", R.raw.help_four);
+//        soundHelper.addAudio("five", R.raw.help_five);
+//        soundHelper.addAudio("six", R.raw.help_six);
 
     }
 
