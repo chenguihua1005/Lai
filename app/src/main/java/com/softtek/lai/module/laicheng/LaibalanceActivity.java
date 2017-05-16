@@ -143,10 +143,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     private void setVoice() {
         if (isVoiceHelp) {
-            stopVoice();
+//            stopVoice();
             isVoiceHelp = false;
         } else {
-            addVoice();
+//            addVoice();
             isVoiceHelp = true;
         }
     }
