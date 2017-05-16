@@ -241,7 +241,6 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
 
 
     public static final String UPDATE_UI_FCCHECK_DAISHENHE_TABLIST = "UPDATE_UI_FCCHECK_DAISHENHE_TABLIST";//复测待审核
-
     public BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

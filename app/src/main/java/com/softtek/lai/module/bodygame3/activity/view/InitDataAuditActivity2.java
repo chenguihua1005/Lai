@@ -144,7 +144,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             IsEdit = 2;
             firstStatus = 3; //审核通过
 //            im_audit_states.setImageResource(R.drawable.passed);   //??????
-        } else {//未审核
+        } else {//未审核 ：0
             tv_right.setText("审核通过");//保存数据
             cheng_float.setVisibility(View.INVISIBLE);
             IsEdit = 1;
@@ -170,6 +170,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             intent.putExtra("classId", classId);
             intent.putExtra("AccountId", AccountId);
             intent.putExtra("from", UPDATE_UI_INPUTED);
+            intent.putExtra("isAudit", IsAudit);//莱判断从哪一个列表进入（未审核、 已审核）
             startActivity(intent);
         }
     }
@@ -823,6 +824,22 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    fcStDataModel.setWeight(initWeight);
+                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
+                    exlisview_body.setAdapter(adapter);
+
+                    int groupCount = exlisview_body.getCount();
+                    for (int m = 0; m < groupCount; m++) {
+                        if (m == 0) {
+                            exlisview_body.expandGroup(m);
+                        }
+                        if (m == 3) {
+                            if (IsZhankai) {
+                                exlisview_body.expandGroup(m);
+                            }
+                        }
+                    }
+
                     return;
                 }
             }).create().show();
@@ -1060,11 +1077,9 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
-//                        fcStDataModel.setWeightUnit(result_model.getWeightUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getBodyFatRate())) {//体脂
                         fcStDataModel.setPysical(result_model.getBodyFatRate());
-//                        fcStDataModel.setBodyFatUnit(result_model.getBodyFatUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getViscusFatIndex())) {
@@ -1073,34 +1088,27 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
                     if (!TextUtils.isEmpty(result_model.getBMI())) {
                         fcStDataModel.setBmi(result_model.getBMI());
-//                        fcStDataModel.setBMIUnit(result_model.getBMIUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getFatFreemass())) {
                         fcStDataModel.setFatFreeMass(result_model.getFatFreemass());
-//                        fcStDataModel.setFatFreemassUnit(result_model.getFatFreemassUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getWaterContentRate())) {
                         fcStDataModel.setBodyWaterRate(result_model.getWaterContentRate());
-//                        fcStDataModel.setBodyWaterRateUnit(result_model.getWaterContentRateUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getWaterContent())) {
                         fcStDataModel.setBodyWater(result_model.getWaterContent());
-//                        fcStDataModel.setBodyWaterUnit(result_model.getWaterContentUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getMusclemass())) {
                         fcStDataModel.setMuscleMass(result_model.getMusclemass());
-//                        fcStDataModel.setMusclemassUnit(result_model.getMusclemassUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getBonemass())) {
                         fcStDataModel.setBoneMass(result_model.getBonemass());
-//                        fcStDataModel.setBonemassUnit(result_model.getBonemassUnit());
                     }
 
                     if (!TextUtils.isEmpty(result_model.getBasalmetabolicrate())) {
                         fcStDataModel.setBasalMetabolism(result_model.getBasalmetabolicrate());
-//                        fcStDataModel.setBasalmetabolicrateUnit(result_model.getBasalmetabolicrateUnit());
                     }
                     if (!TextUtils.isEmpty(result_model.getPhysicalAge())) {
                         fcStDataModel.setPhysicalAge(result_model.getPhysicalAge());

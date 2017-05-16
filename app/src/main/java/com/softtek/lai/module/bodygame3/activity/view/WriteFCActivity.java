@@ -817,6 +817,17 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    fcStDataModel.setWeight(initWeight);
+                    adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, childArray, fcStDataModel, filest, photoname,
+                            isExistP, firststatus, IsEdit);
+                    exlisview_body.setAdapter(adapter);
+                    int groupCount = exlisview_body.getCount();
+                    for (int m = 0; m < groupCount; m++) {
+                        if (m == 0) {
+                            exlisview_body.expandGroup(m);
+                        }
+                    }
+
                     return;
                 }
             }).create().show();
