@@ -141,7 +141,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         permission = MPermission.with(this);
         mShakeListener = new ShakeListener(this);
         addVoice();
@@ -335,7 +335,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 8888){
+            if (msg.what == 8888) {
                 if (testTimeOut == 0) {
                     if (!isResultTest) {//如果状态还属于连接成功，第一次交互，提交阻抗过程中
                         changeConnectionState(CONNECTED_STATE_UPLOADING_TIMEOUT);
@@ -538,8 +538,9 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
     private void sendMessages(String message) {
+        Log.d(TAG, "message = " + message + ",getWriteCharacteristic = " +BleManager.getInstance().getWriteCharacteristic());
         if (message.length() > 0) {
-            if (BleManager.getInstance().getWriteCharacteristic() == null){
+            if (BleManager.getInstance().getWriteCharacteristic() == null) {
                 Util.toastMsg("getWriteCharacteristic is null，请超时后再试");
             }
             writeCharacteristicData(message, BleManager.getInstance().getWriteCharacteristic());
@@ -705,16 +706,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private void storeOrSendCalcRsData(final float weight, final float f04RS1, final float f04RS2, final float f04RS3,
                                        final float f04RS4, final float f04RS5, final float f07RS1, final float f07RS2,
                                        final float f07RS3, final float f07RS4, final float f07RS5) {
-        Log.d("zukangzhi",f04RS1+":f04RS1");
-        Log.d("zukangzhi",f04RS2+":f04RS2");
-        Log.d("zukangzhi",f04RS3+":f04RS3");
-        Log.d("zukangzhi",f04RS4+":f04RS4");
-        Log.d("zukangzhi",f04RS5+":f04RS5");
-        Log.d("zukangzhi",f07RS1+":f07RS1");
-        Log.d("zukangzhi",f07RS2+":f07RS2");
-        Log.d("zukangzhi",f07RS3+":f07RS3");
-        Log.d("zukangzhi",f07RS4+":f07RS4");
-        Log.d("zukangzhi",f07RS5+":f07RS5");
+        Log.d("zukangzhi", f04RS1 + ":f04RS1");
+        Log.d("zukangzhi", f04RS2 + ":f04RS2");
+        Log.d("zukangzhi", f04RS3 + ":f04RS3");
+        Log.d("zukangzhi", f04RS4 + ":f04RS4");
+        Log.d("zukangzhi", f04RS5 + ":f04RS5");
+        Log.d("zukangzhi", f07RS1 + ":f07RS1");
+        Log.d("zukangzhi", f07RS2 + ":f07RS2");
+        Log.d("zukangzhi", f07RS3 + ":f07RS3");
+        Log.d("zukangzhi", f07RS4 + ":f07RS4");
+        Log.d("zukangzhi", f07RS5 + ":f07RS5");
 
         long accountId = -1;
         int type;
@@ -871,10 +872,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         if (TextUtils.isEmpty(data.getBodyFatRate())) {
             sendFatRateToDevice(0.0f);
         } else {
-            Log.d("result11",data.getBodyFatRate());
+            Log.d("result11", data.getBodyFatRate());
             sendFatRateToDevice(Float.parseFloat(data.getBodyFatRate()));
         }
-        Log.d("result","dsadadasdsadas");
+        Log.d("result", "dsadadasdsadas");
         isResultTest = true;
         initUiByBleSuccess(data);
 //        handler.removeCallbacksAndMessages(null);
@@ -892,7 +893,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         Log.d("upLoadImpedanceFailed", "shibai");
         handler.removeCallbacksAndMessages(null);
     }
-
 
 
     @Override
@@ -920,11 +920,11 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             return instance;
         }
 
-        public static void clearTimer(){
+        public static void clearTimer() {
             instance = null;
         }
 
-        public StartTimer(Handler handler){
+        public StartTimer(Handler handler) {
             handler.sendEmptyMessageDelayed(8888, 1000);//超时时间1分钟
         }
     }
