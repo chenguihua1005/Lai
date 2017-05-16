@@ -823,6 +823,22 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    fcStDataModel.setWeight(initWeight);
+                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
+                    exlisview_body.setAdapter(adapter);
+
+                    int groupCount = exlisview_body.getCount();
+                    for (int m = 0; m < groupCount; m++) {
+                        if (m == 0) {
+                            exlisview_body.expandGroup(m);
+                        }
+                        if (m == 3) {
+                            if (IsZhankai) {
+                                exlisview_body.expandGroup(m);
+                            }
+                        }
+                    }
+
                     return;
                 }
             }).create().show();
