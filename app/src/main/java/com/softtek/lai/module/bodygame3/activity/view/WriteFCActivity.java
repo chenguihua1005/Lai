@@ -934,7 +934,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();
 
-            Log.i(TAG, "提交的数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));
+            Log.i("WriteFCActivity", "提交的初始录入数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));
             Log.i("图片文件" + "身体维度上传" + "体重" + fcStDataModel.getWeight() + "胸围" + fcStDataModel.getCircum() + "腰围 " + fcStDataModel.getWaistline() + "臀围" + fcStDataModel.getHiplie() + "上臂围" + fcStDataModel.getUpArmGirth() + "大腿围" + fcStDataModel.getUpLegGirth() + "小腿围" + fcStDataModel.getDoLegGirth());
             multipartTypedOutput.addPart("accountId", new TypedString(userId + ""));
             multipartTypedOutput.addPart("classId", new TypedString(classId));
@@ -1041,6 +1041,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             if (intent != null && Constants.UPDATE_UI_STU_INITDATA_INPUT.equalsIgnoreCase(intent.getAction())) {
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
+                    android.util.Log.i("WriteFCActivity", "receiver 莱称获取数据= " + new Gson().toJson(result_model));
 
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
