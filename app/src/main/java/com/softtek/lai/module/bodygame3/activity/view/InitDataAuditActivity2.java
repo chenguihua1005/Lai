@@ -125,6 +125,8 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
 
+    private String GUANGBO_FROM = "";
+
 
     @Override
     protected void initViews() {
@@ -136,6 +138,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         IsAudit = getIntent().getIntExtra("Audited", 1);
         typeDate = getIntent().getStringExtra("typeDate");
         fromPage = getIntent().getIntExtra("fromPage", -1);//11:未录入
+        GUANGBO_FROM = getIntent().getStringExtra("guangbo");
 
         if (IsAudit == 1) {//已审核
 //            tv_right.setVisibility(View.INVISIBLE);
@@ -824,22 +827,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    fcStDataModel.setWeight(initWeight);
-                    adapter = new FuceCheckExpandableListAdapter(InitDataAuditActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
-                    exlisview_body.setAdapter(adapter);
-
-                    int groupCount = exlisview_body.getCount();
-                    for (int m = 0; m < groupCount; m++) {
-                        if (m == 0) {
-                            exlisview_body.expandGroup(m);
-                        }
-                        if (m == 3) {
-                            if (IsZhankai) {
-                                exlisview_body.expandGroup(m);
-                            }
-                        }
-                    }
-
                     return;
                 }
             }).create().show();
@@ -966,9 +953,12 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     switch (status) {
                         case 200:
                             progressDialog.dismiss();
-                            Intent intent = new Intent();
-                            intent.putExtra("ACMID", ACMID);
-                            setResult(RESULT_OK, intent);
+//                            Intent intent = new Intent();
+//                            intent.putExtra("ACMID", ACMID);
+//                            setResult(RESULT_OK, intent);
+                            if (!TextUtils.isEmpty(GUANGBO_FROM)) {
+                                LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent(GUANGBO_FROM));
+                            }
                             finish();
                             break;
                         default:
@@ -1129,8 +1119,8 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     }
 
                     //                    同时刷新上一个页面
-                    if (IsAudit != 1) {//已审核
-                        LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent(InitAuditFragment.UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
+                    if (!TextUtils.isEmpty(GUANGBO_FROM)) {
+                        LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent(GUANGBO_FROM));
                     }
                 }
             }

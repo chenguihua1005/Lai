@@ -153,34 +153,10 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
 
 //        InitdataAudit.putExtra("fromPage",11);
 
-        startActivityForResult(InitdataAudit, ChuAudit);
+        startActivity(InitdataAudit);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ChuAudit && resultCode == RESULT_OK) {
-            memberListModels.clear();
-            getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, 10);
 
-//            String ACMID = data.getStringExtra("ACMID");
-//            String n = "";
-//            for (int i = 0; i < memberListModels.size(); i++) {
-//                if (ACMID.equals(memberListModels.get(i).getAcmId())) {
-//                    n = i + "";
-//                }
-//            }
-//            if (!"".equals(n)) {
-//                memberListModels.remove(Integer.parseInt(n));
-//                adapter.notifyDataSetChanged();
-//                InitAuditListActivity parentActivity = (InitAuditListActivity) getActivity();
-//                parentActivity.update();
-//            }
-
-        }
-
-
-    }
 
     //下拉刷新
     @Override
@@ -221,10 +197,6 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
             intent.putExtra("uncheck_num", uncheck_num);
             intent.putExtra("checked_num", checked_num);
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
-//            Auditnum = Integer.parseInt(list.get(0).getCount());
-//            InitAuditListActivity fcAuditListActivity = (InitAuditListActivity) getActivity();
-//            fcAuditListActivity.updates(Auditnum);
         }
     }
 

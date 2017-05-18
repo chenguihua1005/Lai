@@ -151,33 +151,11 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
         FcAudit.putExtra("typeDate", typedata);
         FcAudit.putExtra("type", 2);
 
-        startActivityForResult(FcAudit, FCAudit);
+        FcAudit.putExtra("guangbo", UPDATE_UI_FCCHECK_DAISHENHE_TABLIST);
+        startActivity(FcAudit);
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        try {
-            if (requestCode == FCAudit && resultCode == RESULT_OK) {
-                String ACMID = data.getStringExtra("ACMID");
-                String n = "";
-                for (int i = 0; i < memberListModels.size(); i++) {
-                    if (ACMID.equals(memberListModels.get(i).getAcmId())) {
-                        n = i + "";
-                    }
-                }
-                if (!"".equals(n)) {
-                    memberListModels.remove(Integer.parseInt(n));
-                    adapter.notifyDataSetChanged();
-                    FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
-                    fcAuditListActivity.update();
-                }
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-    }
 
     //下拉刷新
     @Override
@@ -194,7 +172,6 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
         ++pageIndex;
         getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
     }
-
 
 
     @Override

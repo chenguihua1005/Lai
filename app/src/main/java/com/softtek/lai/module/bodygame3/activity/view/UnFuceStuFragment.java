@@ -159,8 +159,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         FcAudit.putExtra("typeforwhich", 1);
 
         FcAudit.putExtra("guangboname", UPDATE_UI_FCCHECK_TABLIST);//广播
-
-        startActivityForResult(FcAudit, FCAudit);
+        startActivity(FcAudit);
 
     }
 
@@ -183,40 +182,13 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        try {
-            if (requestCode == FCAudit && resultCode == RESULT_OK) {
-                memberListModels.clear();
-                getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
 
-//                String ACMID = data.getStringExtra("ACMID");
-//                String n = "";
-//                for (int i = 0; i < memberListModels.size(); i++) {
-//                    if (ACMID.equals(memberListModels.get(i).getAcmId())) {
-//                        n = i + "";
-//                    }
-//                }
-//                if (!"".equals(n)) {
-//                    memberListModels.remove(Integer.parseInt(n));
-//                    adapter.notifyDataSetChanged();
-//                    FcAuditListActivity fcAuditListActivity = (FcAuditListActivity) getActivity();
-//                    fcAuditListActivity.update();
-//                }
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-    }
 
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-//        doGetData();
-//        String classid, String typeDate, int pageIndex, int pageSize
         getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
 
     }
@@ -225,7 +197,6 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         ++pageIndex;
-//        doGetData();
         getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
     }
 

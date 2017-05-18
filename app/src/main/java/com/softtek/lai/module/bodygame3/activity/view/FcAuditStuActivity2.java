@@ -124,6 +124,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     private boolean canCommited = false;//已审核状态，中是否可以提交  FALSE:可编辑状态   true :可提交数据
     private String initWeight = ""; //记录初始体重
+    private String GUANGBO_FROM = "";
 
 
     @Override
@@ -135,7 +136,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         acmId = getIntent().getStringExtra("ACMId");
         accountId = getIntent().getLongExtra("accountId", 0);
         resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
-
+        GUANGBO_FROM = getIntent().getStringExtra("guangbo");
 
         if (IsAudit != 0) { //IsAudit : 1  已审核
             tv_right.setVisibility(View.VISIBLE);
@@ -838,22 +839,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    fcStDataModel.setWeight(initWeight);
-                    adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
-                    exlisview_body.setAdapter(adapter);
-
-                    int groupCount = exlisview_body.getCount();
-                    for (int m = 0; m < groupCount; m++) {
-                        if (m == 0) {
-                            exlisview_body.expandGroup(m);
-                        }
-                        if (m == 3) {
-                            if (IsZhankai) {
-                                exlisview_body.expandGroup(m);
-                            }
-                        }
-                    }
-
                     return;
                 }
             }).create().show();
@@ -944,9 +929,13 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                     switch (status) {
                         case 200:
                             progressDialog.dismiss();
-                            Intent intent = new Intent();
-                            intent.putExtra("ACMID", acmId);
-                            setResult(RESULT_OK, intent);
+//                            Intent intent = new Intent();
+//                            intent.putExtra("ACMID", acmId);
+//                            setResult(RESULT_OK, intent);
+                            if (!TextUtils.isEmpty(GUANGBO_FROM)) {
+                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(GUANGBO_FROM));
+                            }
+
                             finish();
                             break;
                         default:
@@ -1159,8 +1148,8 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                     }
 
 //                    同时刷新上一个页面
-                    if (IsAudit == 0) {//从待审核页面进来的，需刷新列表
-                        LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(FcAuditFragment.UPDATE_UI_FCCHECK_DAISHENHE_TABLIST));
+                    if (!TextUtils.isEmpty(GUANGBO_FROM)) {
+                        LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(GUANGBO_FROM));
                     }
                 }
             }
