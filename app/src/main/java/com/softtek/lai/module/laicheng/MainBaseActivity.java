@@ -48,7 +48,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private int state_current = CONNECTED_STATE_SHAKE_IT;
     private int type = 1;
     public static boolean isVoiceHelp = true;
-    public static boolean isConnecting = false;
+    public static boolean isConnecting = false;//根据这个是flag来判断离开页面之后是否关闭蓝牙
 
     private boolean isOnStop = true;
 
@@ -350,7 +350,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     }
                 } else {
                     testTimeOut--;
-                    Log.d("timeout---time", "超时时间=======" + testTimeOut);
+//                    Log.d("timeout---time", "超时时间=======" + testTimeOut);
                     handler.sendEmptyMessageDelayed(8888, 1000);
                     if (!BleManager.getInstance().isConnected()) {
                         Log.d("断开连接", "断开-------");
@@ -383,7 +383,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             Log.d("validateMessage", "newDate==null 返回false");
             return false;
         }
-        Log.d("validateMessage", "最开始初始的newData222222222-----===========" + newData);
         newData = newData.replaceAll(" ", "");
         Log.d("validateMessage", "最开始初始的newData-----===========" + newData);
         if (!newData.startsWith("6495")) {
@@ -544,12 +543,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
     private void sendMessages(String message) {
-        Log.d(TAG, "message = " + message + ",getWriteCharacteristic = " +BleManager.getInstance().getWriteCharacteristic());
+        if (!BleManager.getInstance().isConnected() && BleManager.getInstance().getWriteCharacteristic() == null){
+            return;
+        }
+        Log.d(TAG, "message = " + message + ",getWriteCharacteristic = " + BleManager.getInstance().getWriteCharacteristic());
         if (message.length() > 0) {
             if (BleManager.getInstance().getWriteCharacteristic() == null) {
                 Util.toastMsg("getWriteCharacteristic is null，请超时后再试");
+            } else {
+                writeCharacteristicData(message, BleManager.getInstance().getWriteCharacteristic());
             }
-            writeCharacteristicData(message, BleManager.getInstance().getWriteCharacteristic());
         }
     }
 
@@ -731,16 +734,16 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private void storeOrSendCalcRsData(final float weight, final float f04RS1, final float f04RS2, final float f04RS3,
                                        final float f04RS4, final float f04RS5, final float f07RS1, final float f07RS2,
                                        final float f07RS3, final float f07RS4, final float f07RS5) {
-        Log.d("zukangzhi", f04RS1 + ":f04RS1");
-        Log.d("zukangzhi", f04RS2 + ":f04RS2");
-        Log.d("zukangzhi", f04RS3 + ":f04RS3");
-        Log.d("zukangzhi", f04RS4 + ":f04RS4");
-        Log.d("zukangzhi", f04RS5 + ":f04RS5");
-        Log.d("zukangzhi", f07RS1 + ":f07RS1");
-        Log.d("zukangzhi", f07RS2 + ":f07RS2");
-        Log.d("zukangzhi", f07RS3 + ":f07RS3");
-        Log.d("zukangzhi", f07RS4 + ":f07RS4");
-        Log.d("zukangzhi", f07RS5 + ":f07RS5");
+//        Log.d("zukangzhi", f04RS1 + ":f04RS1");
+//        Log.d("zukangzhi", f04RS2 + ":f04RS2");
+//        Log.d("zukangzhi", f04RS3 + ":f04RS3");
+//        Log.d("zukangzhi", f04RS4 + ":f04RS4");
+//        Log.d("zukangzhi", f04RS5 + ":f04RS5");
+//        Log.d("zukangzhi", f07RS1 + ":f07RS1");
+//        Log.d("zukangzhi", f07RS2 + ":f07RS2");
+//        Log.d("zukangzhi", f07RS3 + ":f07RS3");
+//        Log.d("zukangzhi", f07RS4 + ":f07RS4");
+//        Log.d("zukangzhi", f07RS5 + ":f07RS5");
 
         long accountId = -1;
         int type;
