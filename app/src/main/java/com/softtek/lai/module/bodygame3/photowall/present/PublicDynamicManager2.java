@@ -37,6 +37,7 @@ public class PublicDynamicManager2 implements Runnable,UploadImageService2.Uploa
     private HeadService service;
     private PublicDyModel model;
     private StringBuffer photo=new StringBuffer();
+    private StringBuffer photoThum=new StringBuffer();
     private ProgressDialog progressDialog;
     private Context context;
     private Queue<UploadImageService2> queue;
@@ -80,16 +81,14 @@ public class PublicDynamicManager2 implements Runnable,UploadImageService2.Uploa
             latch.await();
             //上传内容
             if(photo.toString().equals("")){
-                Log.i("图片没传成功上传终止");
                 if(progressDialog!=null){
                     progressDialog.dismiss();
                 }
                 return;
             }else{
                 model.setPhotos(photo.substring(0, photo.lastIndexOf(",")));
+                model.setThumbnailPhotos(photoThum.substring(0,photoThum.lastIndexOf(",")));
             }
-            Log.i("上传的数据"+model.toString());
-            Log.i("开始上传第二阶段");
             service.doCreatePhotoWall(token, model, new RequestCallback<ResponseData>() {
                 @Override
                 public void success(ResponseData responseData, Response response) {
@@ -132,6 +131,8 @@ public class PublicDynamicManager2 implements Runnable,UploadImageService2.Uploa
         if(imageName!=null){
             photo.append(imageName.imgName);
             photo.append(",");
+            photoThum.append(imageName.thubName);
+            photoThum.append(",");
         }
         latch.countDown();
         Log.i("开始上传图片队列大小" + queue.size());
