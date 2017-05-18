@@ -20,6 +20,9 @@ import android.widget.TextView;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
@@ -34,8 +37,13 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 4/7/2017.
@@ -136,11 +144,34 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 showTipDialog();
                 break;
             case R.id.fucecheck_entry: //复测审核
-                Intent intent = new Intent(from);
-                intent.putExtra("ACMID", recordId);
-                intent.putExtra("result_model", result_model);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-                finish();
+                Log.i(TAG, "recordId= " + recordId + " type= " + type + " classId = " + classId);
+                FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+                sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<BleMainData>>() {
+                    @Override
+                    public void success(ResponseData<BleMainData> bleMainDataResponseData, Response response) {
+                        int status = bleMainDataResponseData.getStatus();
+                        if (200 == status) {
+                            Intent intent = new Intent(from);
+                            intent.putExtra("result_model", result_model);
+                            LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
+                            finish();
+                        } else {
+                            Util.toastMsg("数据确认失败");
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        ZillaApi.dealNetError(error);
+                        Util.toastMsg("数据确认失败");
+                    }
+                });
+
+//                Intent intent = new Intent(from);
+//                intent.putExtra("ACMID", recordId);
+//                intent.putExtra("result_model", result_model);
+//                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+//                finish();
 
                 break;
             case R.id.heathyReport_entry:
@@ -360,7 +391,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     private void showTipDialog() {
         if (chengliang_success) {
             // 创建退出对话框
-            AlertDialog isExit = new AlertDialog.Builder(this).create();
+            final AlertDialog isExit = new AlertDialog.Builder(this).create();
             // 设置对话框标题
             isExit.setTitle("温馨提示");
             // 设置对话框消息
@@ -369,10 +400,29 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             isExit.setButton("数据确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(from);
-                    intent.putExtra("result_model", result_model);
-                    LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
-                    finish();
+                    Log.i(TAG, "recordId= " + recordId + " type= " + type + " classId = " + classId);
+                    FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+                    sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<BleMainData>>() {
+                        @Override
+                        public void success(ResponseData<BleMainData> bleMainDataResponseData, Response response) {
+                            int status = bleMainDataResponseData.getStatus();
+                            if (200 == status) {
+                                Intent intent = new Intent(from);
+                                intent.putExtra("result_model", result_model);
+                                LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
+                                finish();
+                            } else {
+                                Util.toastMsg("数据确认失败");
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            ZillaApi.dealNetError(error);
+                            Util.toastMsg("数据确认失败");
+                        }
+                    });
+
                 }
             });
             isExit.setButton2("直接返回", new DialogInterface.OnClickListener() {

@@ -144,29 +144,12 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         InitdataAudit.putExtra("typeDate", typeDate);
         InitdataAudit.putExtra("type", 3);
-        startActivityForResult(InitdataAudit, ChuAudit);
+        InitdataAudit.putExtra("guangbo", UPDATE_UI_CHUSHI_DAISHENHE_TABLIST);
+
+        startActivity(InitdataAudit);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ChuAudit && resultCode == RESULT_OK) {
-            String ACMID = data.getStringExtra("ACMID");
-            String n = "";
-            for (int i = 0; i < memberListModels.size(); i++) {
-                if (ACMID.equals(memberListModels.get(i).getAcmId())) {
-                    n = i + "";
-                }
-            }
-            if (!"".equals(n)) {
-                memberListModels.remove(Integer.parseInt(n));
-                adapter.notifyDataSetChanged();
-                InitAuditListActivity parentActivity = (InitAuditListActivity) getActivity();
-                parentActivity.update();
-            }
 
-        }
-    }
 
     //下拉刷新
     @Override
@@ -210,11 +193,6 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 
 
-//            Auditnum = Integer.parseInt(list.get(0).getCount());
-//            InitAuditListActivity fcAuditListActivity = (InitAuditListActivity) getActivity();
-//            fcAuditListActivity.updates(Auditnum);
-//            memberListModels.addAll(list.get(0).getMemberList());
-//            adapter.notifyDataSetChanged();
         }
     }
 

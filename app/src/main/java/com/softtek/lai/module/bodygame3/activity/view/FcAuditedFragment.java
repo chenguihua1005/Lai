@@ -1,5 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -132,9 +134,11 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("classId", classid);
         FcAudit.putExtra("IsAudit", IsAudit);
-        FcAudit.putExtra("typeDate",typedate);
+        FcAudit.putExtra("typeDate", typedate);
 
-        startActivityForResult(FcAudit, FCAudit);
+        FcAudit.putExtra("guangbo", UPDATE_UI_FCCHECK_YISHENHE_TABLIST);
+
+        startActivity(FcAudit);
     }
 
     //下拉刷新
@@ -151,7 +155,6 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         ++pageIndex;
         getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, 10);
     }
-
 
 
     @Override
@@ -185,4 +188,15 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
     }
+
+    public static final String UPDATE_UI_FCCHECK_YISHENHE_TABLIST = "UPDATE_UI_FCCHECK_YISHENHE_TABLIST";//复测待审核
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_FCCHECK_YISHENHE_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                memberListModels.clear();
+                getPresenter().getMeasureReviewedList(classid, typedate, 1, 10);
+            }
+        }
+    };
 }

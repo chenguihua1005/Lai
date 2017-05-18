@@ -883,27 +883,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (typeforwhich == 0) {
-//                        initWeight = fcStDataModel.getInitWeight();
-                        fcStDataModel.setInitWeight(initWeight);
-                    } else {//==1  复测进入
-//                        initWeight = fcStDataModel.getWeight();
-                        fcStDataModel.setWeight(initWeight);
-                    }
-
-                    adapter = new UnInputExpandableListAdapter(InitDataUnInputActivity2.this, childArray, fcStDataModel, phtoPath_local, "", isExistPhoto, isEditable);//默认可编辑
-                    exlisview_body.setAdapter(adapter);
-                    int groupCount = exlisview_body.getCount();
-                    for (int m = 0; m < groupCount; m++) {
-                        if (m == 0) {
-                            exlisview_body.expandGroup(m);
-                        }
-                        if (m == 3) {
-                            if (IsZhankai) {
-                                exlisview_body.expandGroup(m);
-                            }
-                        }
-                    }
                     return;
                 }
             }).create().show();
@@ -992,9 +971,12 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 switch (status) {
                     case 200:
                         progressDialog.dismiss();
-                        Intent intent = new Intent();
-//                        intent.putExtra("ACMID", ACMID);
-                        setResult(RESULT_OK, intent);
+//                        Intent intent = new Intent();
+////                        intent.putExtra("ACMID", ACMID);
+//                        setResult(RESULT_OK, intent);
+                        if (!TextUtils.isEmpty(guangboname)) {
+                            LocalBroadcastManager.getInstance(InitDataUnInputActivity2.this).sendBroadcast(new Intent(guangboname));
+                        }
                         finish();
                         break;
                     default:
