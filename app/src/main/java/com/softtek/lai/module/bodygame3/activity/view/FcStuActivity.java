@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -597,7 +598,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     }
 
     void doSetPostData() {
-
+        Log.i("FcStuActivity", "提交复测数据= " + new Gson().toJson(fcStDataModel));
         {
             progressDialog.setMessage("正在提交数据，请等待");
             progressDialog.show();
@@ -606,7 +607,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             if (isExistP == 2) {
                 multipartTypedOutput.addPart("image", new TypedFile("image/png", new File(filest)));
             }
-            multipartTypedOutput.addPart("pysical", new TypedString(TextUtils.isEmpty(fcStDataModel.getPysical()) ? "0" : fcStDataModel.getPysical()));//体脂
+            multipartTypedOutput.addPart("pysical", new TypedString(TextUtils.isEmpty(fcStDataModel.getPysical()) ? "0" : fcStDataModel.getPysical()));//体脂 fcStDataModel
             multipartTypedOutput.addPart("fat", new TypedString(TextUtils.isEmpty(fcStDataModel.getFat()) ? "0" : fcStDataModel.getFat()));//内脂
             multipartTypedOutput.addPart("weight", new TypedString(TextUtils.isEmpty(fcStDataModel.getWeight()) ? "0" : fcStDataModel.getWeight()));//现在体重
 
@@ -1002,8 +1003,8 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         public void onReceive(Context context, Intent intent) {
             if (intent != null && Constants.UPDATE_UI_STU_FUCEDATA_INPUT.equalsIgnoreCase(intent.getAction())) {
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                Log.i("WriteFCActivity", "receiver 莱称获取数据= " + new Gson().toJson(result_model));
                 if (result_model != null) {
-
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
                     }

@@ -16,7 +16,7 @@ public class SoundPlay {
     private boolean isStop;
 
     public static SoundPlay getInstance() {
-        if(null == instance) {
+        if (null == instance) {
             synchronized (SoundPlay.class) {
                 if (null == instance) {
                     instance = new SoundPlay();
@@ -26,13 +26,13 @@ public class SoundPlay {
         return instance;
     }
 
-    public void init(Context context){
+    public void init(Context context) {
         this.context = context;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {//播出完毕事件
             @Override
             public void onCompletion(MediaPlayer arg0) {
-                if(isStop)
+                if (isStop)
                     stop();
                 else
                     mediaPlayer.reset();
@@ -47,10 +47,14 @@ public class SoundPlay {
         });
     }
 
-    public void play(final int resourceId){
+    public void play(final int resourceId) {
         isStop = false;
-        if(mediaPlayer.isPlaying()){
-            stop();
+        try {
+            if (mediaPlayer.isPlaying()) {
+                stop();
+            }
+        }catch (IllegalStateException e){
+            e.printStackTrace();
         }
         AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
         if (fileDesc != null) {
@@ -64,33 +68,42 @@ public class SoundPlay {
         }
     }
 
-    public void playAgain(){
+    public void playAgain() {
         isStop = false;
         mediaPlayer.start();
     }
 
     Handler handler = new Handler();
 
-    public void playWait(final int resourceId){
+    public void playWait(final int resourceId) {
         isStop = false;
-        if(!mediaPlayer.isPlaying()){
-            AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
-            if (fileDesc != null) {
-                try {
-                    mediaPlayer.setDataSource(fileDesc.getFileDescriptor(), fileDesc.getStartOffset(), fileDesc.getLength());
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    mediaPlayer.reset();
+        try {
+            if (!mediaPlayer.isPlaying()) {
+                AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
+                if (fileDesc != null) {
+                    try {
+                        mediaPlayer.setDataSource(fileDesc.getFileDescriptor(), fileDesc.getStartOffset(), fileDesc.getLength());
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                    } catch (Exception e) {
+                        mediaPlayer.reset();
+                    }
                 }
             }
+        }catch (IllegalStateException e){
+            e.printStackTrace();
         }
+
     }
 
-    public void playAndStop(final int resourceId){
+    public void playAndStop(final int resourceId) {
         isStop = true;
-        if(mediaPlayer.isPlaying()){
-            stop();
+        try {
+            if (mediaPlayer.isPlaying()) {
+                stop();
+            }
+        }catch (IllegalStateException e){
+            e.printStackTrace();
         }
         AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
         if (fileDesc != null) {
@@ -104,17 +117,17 @@ public class SoundPlay {
         }
     }
 
-    public void stop(){
+    public void stop() {
         try {
             mediaPlayer.stop();
             mediaPlayer.reset();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
     }
 
-    public void release(){
+    public void release() {
         mediaPlayer.release();
         context = null;
     }
