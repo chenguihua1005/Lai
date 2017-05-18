@@ -21,6 +21,7 @@ import com.softtek.lai.module.laicheng.util.BleStateListener;
 import com.softtek.lai.module.laicheng.util.MathUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 
 
 /**
@@ -258,6 +259,7 @@ public abstract class BleBaseActivity extends BaseActivity {
     protected void writeCharacteristicData(final String dataStr, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
         byte[] send = MathUtils.hexStringToBytes(dataStr);
         bluetoothGattCharacteristic.setValue(send);
+        Log.d("BleBaseActivityIng...", Arrays.toString(BleManager.getInstance().getWriteCharacteristic().getValue()));
         BleManager.getInstance().getBluetoothGatt().writeCharacteristic(bluetoothGattCharacteristic);
     }
 
