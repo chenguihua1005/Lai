@@ -791,18 +791,26 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
                 .getTopicDetail(UserInfoModel.getInstance().getUserId(), topicId, pageIndex, 10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
                     @Override
                     public void success(ResponseData<HealthyRecommendModel> data, Response response) {
-                        ptrlv.onRefreshComplete();
-                        if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
-                            datas.addAll(data.getData().getDynamiclist());
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                        try {
+                            ptrlv.onRefreshComplete();
+                            if (data.getStatus() == 200 && data.getData().getDynamiclist() != null && !data.getData().getDynamiclist().isEmpty()) {
+                                datas.addAll(data.getData().getDynamiclist());
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        ptrlv.onRefreshComplete();
+                        try {
+                            ptrlv.onRefreshComplete();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         super.failure(error);
                     }
                 });

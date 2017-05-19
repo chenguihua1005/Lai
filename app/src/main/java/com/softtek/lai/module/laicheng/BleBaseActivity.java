@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -256,11 +257,28 @@ public abstract class BleBaseActivity extends BaseActivity {
         BleManager.getInstance().getBluetoothGatt().readCharacteristic(characteristic);
     }
 
-    protected void writeCharacteristicData(final String dataStr, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
+    protected void writeCharacteristicData(final String dataStr, final BluetoothGattCharacteristic bluetoothGattCharacteristic) {
         byte[] send = MathUtils.hexStringToBytes(dataStr);
         bluetoothGattCharacteristic.setValue(send);
         Log.d("BleBaseActivityIng...", Arrays.toString(BleManager.getInstance().getWriteCharacteristic().getValue()));
-        BleManager.getInstance().getBluetoothGatt().writeCharacteristic(bluetoothGattCharacteristic);
+        final boolean isSuccess = BleManager.getInstance().getBluetoothGatt().writeCharacteristic(bluetoothGattCharacteristic);
+        Log.e("is success", String.valueOf(isSuccess) + "-----------------------------");
+        new Thread(new Runnable() {
+            int count = 4;
+            boolean b_isSuccess = isSuccess;
+
+            @Override
+            public void run() {
+                while (!b_isSuccess && count > 0) {
+                    count--;
+                    Log.e("is success_count",String.valueOf(count));
+                    b_isSuccess = BleManager.getInstance().getBluetoothGatt().writeCharacteristic(bluetoothGattCharacteristic);
+                    SystemClock.sleep(500);
+                }
+            Log.e("is success_b", String.valueOf(b_isSuccess) + "-----------------------------");
+            }
+        }).start();
+
     }
 
     /**

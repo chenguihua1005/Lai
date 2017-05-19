@@ -383,7 +383,9 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                             invitation.setClassRole(role.getRoleId());
                         }
                     }
-                    dialog.dismiss();
+                    if(dialog!=null){
+                        dialog.dismiss();
+                    }
                 }
             }
         });
@@ -391,7 +393,9 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                if(dialog!=null){
+                    dialog.dismiss();
+                }
             }
         });
         dialog = new BottomSheetDialog(this);

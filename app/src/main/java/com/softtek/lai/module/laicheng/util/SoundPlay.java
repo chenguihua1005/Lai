@@ -59,10 +59,11 @@ public class SoundPlay {
         AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
         if (fileDesc != null) {
             try {
+                mediaPlayer.reset();
                 mediaPlayer.setDataSource(fileDesc.getFileDescriptor(), fileDesc.getStartOffset(), fileDesc.getLength());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 mediaPlayer.reset();
             }
         }
@@ -82,6 +83,7 @@ public class SoundPlay {
                 AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
                 if (fileDesc != null) {
                     try {
+                        mediaPlayer.reset();
                         mediaPlayer.setDataSource(fileDesc.getFileDescriptor(), fileDesc.getStartOffset(), fileDesc.getLength());
                         mediaPlayer.prepare();
                         mediaPlayer.start();
@@ -108,10 +110,11 @@ public class SoundPlay {
         AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
         if (fileDesc != null) {
             try {
+                mediaPlayer.reset();
                 mediaPlayer.setDataSource(fileDesc.getFileDescriptor(), fileDesc.getStartOffset(), fileDesc.getLength());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 mediaPlayer.reset();
             }
         }

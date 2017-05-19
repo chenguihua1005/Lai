@@ -602,7 +602,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                             voiceIndex = 4;
 //                            soundHelper.play("four");
                             if (isVoiceHelp) {
-                                SoundPlay.getInstance().playWait(R.raw.help_four);
+                                SoundPlay.getInstance().playAndStop(R.raw.help_four);
                             }
 
                             handler.postDelayed(this, 2000);
@@ -616,6 +616,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
                 StartTimer.clearTimer();
+                setStateTip("测量完成");
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 5) {

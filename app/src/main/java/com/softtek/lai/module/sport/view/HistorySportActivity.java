@@ -377,14 +377,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 color=ColorUtil.getSpeedColor(pace.getKilometreTime(), getBoolean(pace.getHasProblem()));
             }else {
                 break;
-                //如果是最后一条且又是总路径的最后一条，那么肯定剩余的路径数
-                /*index=Integer.parseInt(paces.get(paces.size()-2).getIndex());
-                SportModel startModel = models.get(index+1);
-                SportModel lastModel = models.get(models.size() - 1);
-                //计算两个坐标之间的平均速度获取1公里的耗时补足
-                double avgSpeed = (lastModel.getCurrentKM() - startModel.getCurrentKM()) / lastModel.getKilometreTime();
-                int time = (int) (1000 / avgSpeed);
-                color = ColorUtil.getSpeedColor(time, lastModel.isHasProblem());*/
             }
             for (int i = index; i < models.size(); i++) {
                 SportModel model = models.get(i);
@@ -434,6 +426,9 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             List<Integer> colorList = new ArrayList<>();
             List<LatLng> latLngs = new ArrayList<>();
             for (int i = index-4; i < models.size(); i++) {
+                if(i<0){
+                    continue;
+                }
                 SportModel model = models.get(i);
                 if (lastColor != 0 && !getBoolean(model.getIskilometre())) {
                     //如果是前一公里的坐标则使用上一公里的颜色
