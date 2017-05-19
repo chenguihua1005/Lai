@@ -55,6 +55,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
                     @Override
                     public void success(ResponseData<ClassdataModel> data, Response response) {
                         try {
+                            again_tv.setVisibility(View.GONE);
                             dialogDissmiss();
                             if (200 == data.getStatus()) {
                                 ClassdataModel classdataModel = data.getData();
@@ -92,6 +93,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
             public void success(ResponseData<ClassdataModel> data, Response response) {
                 Log.i("2343444444",data.toString());
                 try {
+                    again_tv.setVisibility(View.GONE);
                     dialogDissmiss();
                     if (200 == data.getStatus()) {
                         ClassdataModel classdataModel = data.getData();
