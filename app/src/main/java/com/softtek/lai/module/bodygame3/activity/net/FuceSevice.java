@@ -11,6 +11,7 @@ import com.softtek.lai.module.bodygame3.activity.model.MeasureListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
+import com.softtek.lai.module.laicheng.model.AcmidModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 
 import java.io.File;
@@ -208,7 +209,7 @@ public interface FuceSevice {
             @Query("recordId") String recordId,
             @Query("type") int type,
             @Query("classId") String classId,
-            Callback<ResponseData<BleMainData>> callback
+            Callback<ResponseData<AcmidModel>> callback
     );
 
 

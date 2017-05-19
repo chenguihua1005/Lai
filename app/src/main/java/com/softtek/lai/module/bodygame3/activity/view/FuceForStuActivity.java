@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.activity.view;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
+import com.softtek.lai.module.laicheng.model.AcmidModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
@@ -100,6 +102,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     MeasuredDetailsModel fucDataModel;
     private String recordId;
     private Long AccountId;
+    private String acmid = "";
 
     private int type;  //0：访客，1：自己，2：复测录入，3：复测初始录入
     private String classId;
@@ -145,13 +148,22 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 break;
             case R.id.fucecheck_entry: //复测审核
                 Log.i(TAG, "recordId= " + recordId + " type= " + type + " classId = " + classId);
+                progressDialog = new ProgressDialog(FuceForStuActivity.this);
+                progressDialog.show();
                 FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-                sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<BleMainData>>() {
+                sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<AcmidModel>>() {
                     @Override
-                    public void success(ResponseData<BleMainData> bleMainDataResponseData, Response response) {
+                    public void success(ResponseData<AcmidModel> bleMainDataResponseData, Response response) {
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
                         int status = bleMainDataResponseData.getStatus();
                         if (200 == status) {
+                            if (bleMainDataResponseData.getData() != null) {
+                                acmid = bleMainDataResponseData.getData().getAcmid();
+                            }
                             Intent intent = new Intent(from);
+                            intent.putExtra("acmid",acmid);
                             intent.putExtra("result_model", result_model);
                             LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
                             finish();
@@ -162,6 +174,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
                     @Override
                     public void failure(RetrofitError error) {
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
                         ZillaApi.dealNetError(error);
                         Util.toastMsg("数据确认失败");
                     }
@@ -388,6 +403,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         return super.onKeyDown(keyCode, event);
     }
 
+    private ProgressDialog progressDialog;
+
     private void showTipDialog() {
         if (chengliang_success) {
             // 创建退出对话框
@@ -401,13 +418,23 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Log.i(TAG, "recordId= " + recordId + " type= " + type + " classId = " + classId);
+                    progressDialog = new ProgressDialog(FuceForStuActivity.this);
+                    progressDialog.show();
                     FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-                    sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<BleMainData>>() {
+                    sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<AcmidModel>>() {
                         @Override
-                        public void success(ResponseData<BleMainData> bleMainDataResponseData, Response response) {
+                        public void success(ResponseData<AcmidModel> bleMainDataResponseData, Response response) {
                             int status = bleMainDataResponseData.getStatus();
+                            if (progressDialog != null) {
+                                progressDialog.dismiss();
+                            }
+
                             if (200 == status) {
+                                if (bleMainDataResponseData.getData() != null) {
+                                    acmid = bleMainDataResponseData.getData().getAcmid();
+                                }
                                 Intent intent = new Intent(from);
+                                intent.putExtra("acmid",acmid);
                                 intent.putExtra("result_model", result_model);
                                 LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
                                 finish();
@@ -418,6 +445,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
                         @Override
                         public void failure(RetrofitError error) {
+                            if (progressDialog != null) {
+                                progressDialog.dismiss();
+                            }
                             ZillaApi.dealNetError(error);
                             Util.toastMsg("数据确认失败");
                         }

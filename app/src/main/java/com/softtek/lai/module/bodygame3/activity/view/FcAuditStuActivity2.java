@@ -890,6 +890,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
 
     private void doSetPostData() {
+        fcAuditPostModel.setClassId(classId);
         fcAuditPostModel.setACMId(acmId);
         fcAuditPostModel.setAccountId(accountId + "");
         fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
@@ -1091,8 +1092,10 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_INPUTED_FUCECHECK.equalsIgnoreCase(intent.getAction())) {
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                acmId = intent.getStringExtra("acmid");
+
                 if (result_model != null) {
-                    acmId = result_model.getRecordId();
+//                    acmId = result_model.getRecordId();
 
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");

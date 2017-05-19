@@ -848,6 +848,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                 break;
             default:
                 tv_right.setVisibility(View.INVISIBLE);
+                cheng_float.setVisibility(View.INVISIBLE);
                 IsEdit = 2;
                 doGetDataService("3");
                 break;
@@ -908,8 +909,9 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
 
-
-                cheng_float.setVisibility(View.VISIBLE);
+                if (IsEdit == 1) {
+                    cheng_float.setVisibility(View.VISIBLE);
+                }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }

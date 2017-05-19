@@ -1031,10 +1031,10 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_UNINPUT.equalsIgnoreCase(intent.getAction())) {
-
+                ACMID = intent.getStringExtra("acmid");
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
-                    ACMID = result_model.getRecordId();
+//                    ACMID = result_model.getRecordId();
 
                     if (result_model.getWeight() != 0) {
                         if (typeforwhich == 0) {//初始数据审核

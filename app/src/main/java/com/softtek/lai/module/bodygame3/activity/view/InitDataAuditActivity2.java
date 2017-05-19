@@ -882,6 +882,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
     private void doSetPostData() {//    String images_url, files;//网络图片   拍照图片 AddressManager.get("photoHost") + fcStDataModel.getPhoto()
 
+        fcAuditPostModel.setClassId(classId);
         fcAuditPostModel.setACMId(ACMID);
         fcAuditPostModel.setAccountId(AccountId + "");
         fcAuditPostModel.setReviewerId(UserInfoModel.getInstance().getUserId() + "");
@@ -1062,8 +1063,9 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_INPUTED.equalsIgnoreCase(intent.getAction())) {
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
+                ACMID = intent.getStringExtra("acmid");
                 if (result_model != null) {
-                    ACMID = result_model.getRecordId();
+//                    ACMID = result_model.getRecordId();
 
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");

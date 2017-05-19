@@ -199,11 +199,13 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         break;
                     case 3:
                         fl_right.setVisibility(View.INVISIBLE);
+                        cheng_float.setVisibility(View.INVISIBLE);
                         IsEdit = 2;
                         doGetDataService("2");
                         break;
                     default:
                         fl_right.setVisibility(View.INVISIBLE);
+                        cheng_float.setVisibility(View.INVISIBLE);
                         IsEdit = 2;
                         doGetDataService("2");
                         break;
@@ -580,7 +582,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                     }
                 }
 
-                cheng_float.setVisibility(View.VISIBLE);
+                if (IsEdit == 1) {
+                    cheng_float.setVisibility(View.VISIBLE);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
