@@ -295,11 +295,6 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 
     }
 
-    private static int topicContact(String content,List<TopicList> match){
-        int has=0;
-
-        return has;
-    }
 
     /**
      * 计算每个item的坐标
