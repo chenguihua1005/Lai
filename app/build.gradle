@@ -22,9 +22,6 @@ android {
         versionName VERSION_NAME
         // Enabling multidex support.
         multiDexEnabled true
-//        jackOptions{
-//            enabled true
-//        }
         vectorDrawables.useSupportLibrary = true
     }
     lintOptions {
@@ -50,10 +47,6 @@ android {
             }
         }
     }
-//    compileOptions{
-//        sourceCompatibility org.gradle.api.JavaVersion.VERSION_1_8
-//        targetCompatibility org.gradle.api.JavaVersion.VERSION_1_8
-//    }
     dexOptions {
         javaMaxHeapSize "4g"
     }

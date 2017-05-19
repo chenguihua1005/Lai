@@ -11,6 +11,7 @@ import com.softtek.lai.module.bodygame3.activity.model.MeasureListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MeasureStModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 
 import java.io.File;
 import java.util.List;
@@ -199,5 +200,16 @@ public interface FuceSevice {
             @Field("image") File img,
             Callback<ResponseData<FuceImgModel>> callback
     );
+
+    //莱秤复测数据提交 (在数据确认之前调用)
+    @POST("/v1/DataSync/LBDataSubmit")
+    void LBDataSubmit(
+            @Header("token") String token,
+            @Query("recordId") String recordId,
+            @Query("type") int type,
+            @Query("classId") String classId,
+            Callback<ResponseData<BleMainData>> callback
+    );
+
 
 }

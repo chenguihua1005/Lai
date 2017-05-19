@@ -9,6 +9,7 @@ public class PublicDyModel {
     private String keywordId;
     private String ClassId;
     private String Photos;
+    private String ThumbnailPhotos;
 
     @Override
     public String toString() {
@@ -19,6 +20,14 @@ public class PublicDyModel {
                 ", ClassId='" + ClassId + '\'' +
                 ", Photos='" + Photos + '\'' +
                 '}';
+    }
+
+    public String getThumbnailPhotos() {
+        return ThumbnailPhotos;
+    }
+
+    public void setThumbnailPhotos(String thumbnailPhotos) {
+        ThumbnailPhotos = thumbnailPhotos;
     }
 
     public long getAccountid() {

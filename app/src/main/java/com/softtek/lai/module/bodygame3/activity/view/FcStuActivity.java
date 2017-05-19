@@ -508,16 +508,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            fcStDataModel.setWeight(initWeight);
-                            adapter = new MyExpandableListAdapter(FcStuActivity.this, FcStuActivity.this, childArray, fcStDataModel, filest, photoname, isExistP,
-                                    resetstatus, IsEdit);
-                            exlisview_body.setAdapter(adapter);
-                            int groupCount = exlisview_body.getCount();
-                            for (int m = 0; m < groupCount; m++) {
-                                if (m == 0) {
-                                    exlisview_body.expandGroup(m);
-                                }
-                            }
                             return;
                         }
                     }).create().show();

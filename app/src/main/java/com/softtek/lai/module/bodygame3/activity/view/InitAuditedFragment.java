@@ -1,6 +1,9 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -97,6 +100,7 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
 
 
         setPresenter(new InitAuditPresenter(this));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_CHUSHI_YISHENHE_TABLIST));
     }
 
     @Override
@@ -136,8 +140,10 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
         InitdataAudit.putExtra("classId", classid);
         InitdataAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         InitdataAudit.putExtra("Audited", 1);//通过这个来判断 是已审核、未审核
-        InitdataAudit.putExtra("typeDate",typeDate);
+        InitdataAudit.putExtra("typeDate", typeDate);
         InitdataAudit.putExtra("type", 3);
+
+        InitdataAudit.putExtra("guangbo", UPDATE_UI_CHUSHI_YISHENHE_TABLIST);
         startActivity(InitdataAudit);
     }
 
@@ -160,8 +166,6 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
     @Override
     public void getInitAuditList(List<AuditListModel> list) {
         if (list != null && list.size() == 3) {
-//            memberListModels.addAll(list.get(1).getMemberList());
-//            adapter.notifyDataSetChanged();
 
             int unFuce_num = 0;
             int uncheck_num = 0;
@@ -177,7 +181,6 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
                     unFuce_num = Integer.parseInt(model.getCount());
                 }
             }
-
             adapter.notifyDataSetChanged();
 
 //            Intent intent = new Intent(InitAuditListActivity.UPDATENUMBER_CHUSHICHECK);
@@ -186,6 +189,7 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
 //            intent.putExtra("checked_num", checked_num);
 //            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 
+
         }
     }
 
@@ -193,4 +197,23 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+    }
+
+    public static final String UPDATE_UI_CHUSHI_YISHENHE_TABLIST = "UPDATE_UI_CHUSHI_YISHENHE_TABLIST";//初始待审核
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_UI_CHUSHI_YISHENHE_TABLIST.equalsIgnoreCase(intent.getAction())) {
+                memberListModels.clear();
+                getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, 10);
+            }
+        }
+    };
 }
