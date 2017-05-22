@@ -149,6 +149,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             case R.id.fucecheck_entry: //复测审核
                 Log.i(TAG, "recordId= " + recordId + " type= " + type + " classId = " + classId);
                 progressDialog = new ProgressDialog(FuceForStuActivity.this);
+                progressDialog.setMessage("请稍后...");
                 progressDialog.show();
                 FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
                 sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<AcmidModel>>() {
@@ -163,7 +164,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                                 acmid = bleMainDataResponseData.getData().getAcmid();
                             }
                             Intent intent = new Intent(from);
-                            intent.putExtra("acmid",acmid);
+                            intent.putExtra("acmid", acmid);
                             intent.putExtra("result_model", result_model);
                             LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
                             finish();
@@ -419,6 +420,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Log.i(TAG, "recordId= " + recordId + " type= " + type + " classId = " + classId);
                     progressDialog = new ProgressDialog(FuceForStuActivity.this);
+                    progressDialog.setMessage("请稍后...");
                     progressDialog.show();
                     FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
                     sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<AcmidModel>>() {
@@ -434,7 +436,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                                     acmid = bleMainDataResponseData.getData().getAcmid();
                                 }
                                 Intent intent = new Intent(from);
-                                intent.putExtra("acmid",acmid);
+                                intent.putExtra("acmid", acmid);
                                 intent.putExtra("result_model", result_model);
                                 LocalBroadcastManager.getInstance(FuceForStuActivity.this).sendBroadcast(intent);
                                 finish();
