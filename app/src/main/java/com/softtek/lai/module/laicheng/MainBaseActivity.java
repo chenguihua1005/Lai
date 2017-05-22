@@ -358,6 +358,10 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     }
                 }
             }
+            if (msg.what == 9999) {
+                SoundPlay.getInstance().playWait(R.raw.help_four);
+                handler.sendEmptyMessageDelayed(9999,2000);
+            }
             super.handleMessage(msg);
         }
     };
@@ -543,7 +547,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
     private void sendMessages(String message) {
-        if (!BleManager.getInstance().isConnected() && BleManager.getInstance().getWriteCharacteristic() == null){
+        if (!BleManager.getInstance().isConnected() && BleManager.getInstance().getWriteCharacteristic() == null) {
             return;
         }
         Log.d(TAG, "message = " + message + ",getWriteCharacteristic = " + BleManager.getInstance().getWriteCharacteristic());
@@ -595,20 +599,22 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                         SoundPlay.getInstance().playAndStop(R.raw.help_three);
                     }
                 }
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (state_current == CONNECTED_STATE_WEIGHT) {
-                            voiceIndex = 4;
-//                            soundHelper.play("four");
-                            if (isVoiceHelp) {
-                                SoundPlay.getInstance().playWait(R.raw.help_four);
-                            }
-
-                            handler.postDelayed(this, 2000);
-                        }
-                    }
-                }, 2000);
+                StartTestingVoice.getInstance(handler);
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (state_current == CONNECTED_STATE_WEIGHT) {
+//                            voiceIndex = 4;
+////                            soundHelper.play("four");
+//                            if (isVoiceHelp) {
+//                                SoundPlay.getInstance().stop();
+//                                SoundPlay.getInstance().playWait(R.raw.help_four);
+//                            }
+//
+//                            handler.postDelayed(this, 2000);
+//                        }
+//                    }
+//                }, 2000);
                 break;
             case CONNECTED_STATE_UPLOADING:
                 //阻抗数据上传
@@ -616,6 +622,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 break;
             case CONNECTED_STATE_UPLOADING_SUCCESS:
                 StartTimer.clearTimer();
+                StartTestingVoice.clearVoice();
+                handler.removeMessages(9999);
                 setStateTip("测量完成");
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
@@ -629,6 +637,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 break;
             case CONNECTED_STATE_UPLOADING_FAIL:
                 StartTimer.clearTimer();
+                StartTestingVoice.clearVoice();
+                handler.removeMessages(9999);
                 setStateTip("测量失败，请重新测量");
                 dialogDissmiss();
                 state_current = CONNECTED_STATE_SUCCESS;
@@ -643,6 +653,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 break;
             case CONNECTED_STATE_UPLOADING_TIMEOUT:
                 StartTimer.clearTimer();
+                StartTestingVoice.clearVoice();
+                handler.removeMessages(9999);
                 state_current = CONNECTED_STATE_SUCCESS;
                 setStateTip("测量失败，请重新测量");
                 dialogDissmiss();
@@ -928,8 +940,30 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             instance = null;
         }
 
-        public StartTimer(Handler handler) {
+        StartTimer(Handler handler) {
             handler.sendEmptyMessageDelayed(8888, 1000);//超时时间1分钟
         }
+    }
+
+    public static class StartTestingVoice {
+        private static StartTestingVoice instance;
+
+        public static StartTestingVoice getInstance(Handler handler) {
+            if (instance == null) {
+                synchronized (StartTestingVoice.class) {
+                    if (instance == null) {
+                        instance = new StartTestingVoice(handler);
+                    }
+                }
+            }
+            return instance;
+        }
+        public static void clearVoice(){
+            instance = null;
+        }
+        StartTestingVoice(Handler handler) {
+            handler.sendEmptyMessageDelayed(9999, 0);
+        }
+
     }
 }
