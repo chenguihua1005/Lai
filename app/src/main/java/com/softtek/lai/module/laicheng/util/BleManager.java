@@ -94,6 +94,17 @@ public class BleManager {
     }
 
     public BluetoothGattCharacteristic getWriteCharacteristic() {
+        BluetoothGattService bluetoothGattService = mBluetoothGatt.getService(BleManager.LIERDA_SERVICE_UUID);
+        if (bluetoothGattService != null) {
+            writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.LIERDA_WRITE_CHARACTERISTIC_UUID);
+        } else {
+            bluetoothGattService = mBluetoothGatt.getService(BleManager.KERUIER_SERVICE_UUID);
+            if (bluetoothGattService != null) {
+                writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.KERUIER_WRITE_CHARACTERISTIC_UUID);
+            } else {
+                Log.d("getWriteCharacteristic","NULL");
+            }
+        }
         return writeCharacteristic;
     }
 
@@ -189,10 +200,6 @@ public class BleManager {
                 @Override
                 public void onServicesDiscovered(BluetoothGatt gatt, int status) {
                     android.util.Log.d("discovered", "discovered----------");
-//                    Intent intent=new Intent(BleBaseActivity.GATT_TAG);
-//                    intent.putExtra("flag","Discovered");
-//                    LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext())
-//                            .sendBroadcast(intent);
                     BluetoothGattService bluetoothGattService = mBluetoothGatt.getService(BleManager.LIERDA_SERVICE_UUID);
                     if (bluetoothGattService != null) {
                         readCharacteristic = bluetoothGattService.getCharacteristic(BleManager.LIERDA_READ_CHARACTERISTIC_UUID);
