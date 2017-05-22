@@ -602,7 +602,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                             voiceIndex = 4;
 //                            soundHelper.play("four");
                             if (isVoiceHelp) {
-                                SoundPlay.getInstance().playAndStop(R.raw.help_four);
+                                SoundPlay.getInstance().playWait(R.raw.help_four);
                             }
 
                             handler.postDelayed(this, 2000);
@@ -735,19 +735,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private void storeOrSendCalcRsData(final float weight, final float f04RS1, final float f04RS2, final float f04RS3,
                                        final float f04RS4, final float f04RS5, final float f07RS1, final float f07RS2,
                                        final float f07RS3, final float f07RS4, final float f07RS5) {
-//        Log.d("zukangzhi", f04RS1 + ":f04RS1");
-//        Log.d("zukangzhi", f04RS2 + ":f04RS2");
-//        Log.d("zukangzhi", f04RS3 + ":f04RS3");
-//        Log.d("zukangzhi", f04RS4 + ":f04RS4");
-//        Log.d("zukangzhi", f04RS5 + ":f04RS5");
-//        Log.d("zukangzhi", f07RS1 + ":f07RS1");
-//        Log.d("zukangzhi", f07RS2 + ":f07RS2");
-//        Log.d("zukangzhi", f07RS3 + ":f07RS3");
-//        Log.d("zukangzhi", f07RS4 + ":f07RS4");
-//        Log.d("zukangzhi", f07RS5 + ":f07RS5");
-
         long accountId = -1;
-        int type;
         UploadImpedanceModel model = new UploadImpedanceModel();
         model.setAccess_token(token);
         model.setR10(String.valueOf(f04RS1));
@@ -829,22 +817,6 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             changeConnectionState(CONNECTED_STATE_SUCCESS);
         }
         Log.d("onResume-----", "onResume");
-    }
-
-    public void stopVoice() {
-//        soundHelper.release();
-//        SoundPlay.getInstance().stop();
-    }
-
-    public void addVoice() {
-//        soundHelper = new SoundHelper(this, 6);
-//        soundHelper.addAudio("one", R.raw.help_one);
-//        soundHelper.addAudio("two", R.raw.help_two);
-//        soundHelper.addAudio("three", R.raw.help_three);
-//        soundHelper.addAudio("four", R.raw.help_four);
-//        soundHelper.addAudio("five", R.raw.help_five);
-//        soundHelper.addAudio("six", R.raw.help_six);
-
     }
 
     //初始化页面
