@@ -122,11 +122,12 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             presenter.getLastData(0);
         } else if (getType() == 1) {
             presenter.getLastData(1);
-        } else if (getType() == 2) {
-            presenter.getLastData(2);
-        } else if (getType() == 3) {
-            presenter.getLastData(3);
         }
+//        else if (getType() == 2) {
+//            presenter.getLastData(2);
+//        } else if (getType() == 3) {
+//            presenter.getLastData(3);
+//        }
     }
 
     protected void setType(int type) {
@@ -682,7 +683,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         UserInfoEntity user = new UserInfoEntity();
         user.setId(556383);
         user.setGender(Integer.valueOf(UserInfoModel.getInstance().getUser().getGender()));
-        if (getType() != 0) {
+        if (getType() != 1) {
             if (getGuestInfo() != null) {
                 user.setHeight(getGuestInfo().getHeight());
             } else {
@@ -775,7 +776,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             model.setGender(UserInfoModel.getInstance().getUser().getGender().equals("0") ? 1 : 2);
         }
 
-        if (getType() == 2 || getType() == 3) {
+        if (getType() == 4) {
             presenter.upLoadImpedance(model, accountId, getType(), getGuestInfo().getClassId());
         } else {
             presenter.upLoadImpedance(model, accountId, getType(), "");
