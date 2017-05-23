@@ -207,8 +207,8 @@ public interface FuceSevice {
     void LBDataSubmit(
             @Header("token") String token,
             @Query("recordId") String recordId,
-//            @Query("type") int type,
-//            @Query("classId") String classId,
+            @Query("type") int type,
+            @Query("classId") String classId,
             Callback<ResponseData<AcmidModel>> callback
     );
 
