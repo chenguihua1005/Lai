@@ -152,7 +152,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 progressDialog.setMessage("请稍后...");
                 progressDialog.show();
                 FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-                sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<AcmidModel>>() {
+                sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, new Callback<ResponseData<AcmidModel>>() {
                     @Override
                     public void success(ResponseData<AcmidModel> bleMainDataResponseData, Response response) {
                         if (progressDialog != null) {
@@ -227,7 +227,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         classId = getIntent().getStringExtra("classId");
         AccountId = getIntent().getLongExtra("AccountId", 0);
         from = getIntent().getStringExtra("from");
-        type = getIntent().getIntExtra("type", -1); // 0：访客，1：自己，2：复测录入，3：复测初始录入
+//        type = getIntent().getIntExtra("type", -1); // 0：访客，1：自己，2：复测录入，3：复测初始录入
+        type = 4;
         isAudit = getIntent().getIntExtra("isAudit", -1);
 
         chengliang_success = false;
@@ -250,6 +251,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         mWeight.setTypeface(tf);
         permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION);
 //        setGuest(true);
+//        setType(type);
         setType(type);
 
         setBleStateListener(bleStateListener);
@@ -423,7 +425,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                     progressDialog.setMessage("请稍后...");
                     progressDialog.show();
                     FuceSevice sevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
-                    sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, type, classId, new Callback<ResponseData<AcmidModel>>() {
+                    sevice.LBDataSubmit(UserInfoModel.getInstance().getToken(), recordId, new Callback<ResponseData<AcmidModel>>() {
                         @Override
                         public void success(ResponseData<AcmidModel> bleMainDataResponseData, Response response) {
                             int status = bleMainDataResponseData.getStatus();
