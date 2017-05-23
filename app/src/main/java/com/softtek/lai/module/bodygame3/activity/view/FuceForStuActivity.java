@@ -227,8 +227,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         classId = getIntent().getStringExtra("classId");
         AccountId = getIntent().getLongExtra("AccountId", 0);
         from = getIntent().getStringExtra("from");
-//        type = getIntent().getIntExtra("type", -1); // 0：访客，1：自己，2：复测录入，3：复测初始录入
-        type = 4;
+        type = getIntent().getIntExtra("type", -1); // 0：访客，1：自己，2：复测录入，3：复测初始录入
+//        type = 4;
         isAudit = getIntent().getIntExtra("isAudit", -1);
 
         chengliang_success = false;
@@ -252,7 +252,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION);
 //        setGuest(true);
 //        setType(type);
-        setType(type);
+        setType(4);
 
         setBleStateListener(bleStateListener);
         mShakeListener.start();
