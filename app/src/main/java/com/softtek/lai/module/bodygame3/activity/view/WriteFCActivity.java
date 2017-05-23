@@ -969,6 +969,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                             int IsInitW = 1;
                             intent.putExtra("IsInitW", IsInitW);
                             setResult(RESULT_OK, intent);
+
+                            BleManager.getInstance().disconnectBluetooth();
                             finish();
                             break;
                         default:

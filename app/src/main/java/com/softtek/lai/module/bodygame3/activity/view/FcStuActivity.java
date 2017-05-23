@@ -107,6 +107,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     protected void initViews() {
         tv_title.setText("复测录入");
         tv_right.setText("提交");
+        tv_right.setVisibility(View.GONE);
         progressDialog = new ProgressDialog(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
@@ -536,6 +537,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                     int IsFcSt = 1;//代表学员复测完成
                                     intent.putExtra("IsFcSt", IsFcSt);
                                     setResult(RESULT_OK, intent);
+
+                                    BleManager.getInstance().disconnectBluetooth();
+
                                     finish();
                                     break;
                                 default:
@@ -583,6 +587,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                 }
 
                 if (IsEdit == 1) {
+                    tv_right.setVisibility(View.VISIBLE);
                     cheng_float.setVisibility(View.VISIBLE);
                 }
             }
