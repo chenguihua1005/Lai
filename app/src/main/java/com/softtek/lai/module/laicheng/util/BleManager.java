@@ -85,6 +85,17 @@ public class BleManager {
 
     private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
 
+    private BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            Intent intent = new Intent();
+            intent.setAction(BleBaseActivity.GATT_TAG);
+            intent.putExtra("flag","device");
+            intent.putExtra("device",device);
+            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).sendBroadcast(intent);
+        }
+    };
+
     public BluetoothGattCharacteristic getReadCharacteristic() {
         return readCharacteristic;
     }
@@ -131,7 +142,7 @@ public class BleManager {
         return instance;
     }
 
-    public boolean stopScane(BluetoothAdapter.LeScanCallback leScanCallback) {
+    public boolean stopScane() {
         if (isScanning()) {
             mScanning = false;
             mBlueToothState = BleManager.BLUETOOTH_STATE_SCAN_FINISH;
@@ -141,7 +152,7 @@ public class BleManager {
         return false;
     }
 
-    public boolean startScane(BluetoothAdapter.LeScanCallback leScanCallback) {
+    public boolean startScane() {
         mScanning = true;
         mBlueToothState = BLUETOOTH_STATE_SCANNING;
         UUID[] uuids = {LIERDA_SERVICE_UUID};
