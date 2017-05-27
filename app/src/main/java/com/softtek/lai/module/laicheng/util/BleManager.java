@@ -9,9 +9,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
@@ -90,8 +88,8 @@ public class BleManager {
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
             Intent intent = new Intent();
             intent.setAction(BleBaseActivity.GATT_TAG);
-            intent.putExtra("flag","device");
-            intent.putExtra("device",device);
+            intent.putExtra("flag", "device");
+            intent.putExtra("device", device);
             LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).sendBroadcast(intent);
         }
     };
@@ -113,7 +111,7 @@ public class BleManager {
             if (bluetoothGattService != null) {
                 writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.KERUIER_WRITE_CHARACTERISTIC_UUID);
             } else {
-                Log.d("getWriteCharacteristic","NULL");
+                Log.d("getWriteCharacteristic", "NULL");
             }
         }
         return writeCharacteristic;
@@ -297,11 +295,12 @@ public class BleManager {
         try {
             if (mBluetoothGatt != null) {
                 mBluetoothGatt.disconnect();
+            }
+            if(mBluetoothGatt!=null){
                 mBluetoothGatt.close();
             }
         } catch (Exception e) {
             Util.toastMsg("蓝牙关闭失败");
-            e.printStackTrace();
         }
         instance = null;
         EXIT = true;
@@ -309,9 +308,9 @@ public class BleManager {
     }
 
     private void loss() {
-        mBluetoothGatt = null;
         instance = null;
         EXIT = true;
+        mBluetoothGatt = null;
         MainBaseActivity.isConnecting = false;
     }
 
