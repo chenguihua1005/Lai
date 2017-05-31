@@ -95,7 +95,7 @@ public class DeviceListDialog extends Dialog {
     }
 
     public BluetoothDevice getBluetoothDevice(int position){
-        if(bluetoothDeviceList==null||bluetoothDeviceList.size()==0)
+        if(bluetoothDeviceList==null||bluetoothDeviceList.size()==0||position>bluetoothDeviceList.size()-1)
             return null;
         return bluetoothDeviceList.get(position);
     }

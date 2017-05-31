@@ -85,7 +85,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private String token;
 
-    protected MPermission permission;
+//    protected MPermission permission;
 
 //    protected SoundHelper soundHelper;
 
@@ -94,6 +94,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     private volatile int voiceIndex = 0;
 
     private boolean isClosed = false;
+
+    protected static int PERMISSION_REQUEST_COARSE_LOCATION = 233;
 
     private boolean getClosedType() {
         return isClosed;
@@ -138,17 +140,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         return type;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        permission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        permission = MPermission.with(this);
+//        permission = MPermission.with(this);
         mShakeListener = new ShakeListener(this);
 //        addVoice();
         SoundPlay.getInstance().init(LaiApplication.getInstance().getApplicationContext());
@@ -791,7 +789,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     protected void onDestroy() {
         deviceListDialog = null;
 //        soundHelper.release();
-        permission.recycle();
+//        permission.recycle();
         presenter.recycle();
         isVoiceHelp = true;
         handler.removeCallbacksAndMessages(null);

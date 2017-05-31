@@ -5,10 +5,15 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -56,38 +61,55 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     public void doBack() {
         finish();
     }
+//    @SuppressLint("LongLogTag")
+//    @PermissionOK(id = 1)
+//    private void initPermissionSuccess() {
+//        setBleStateListener(bleStateListener);
+//        mShakeListener.start();
+//        Log.d("enter bleStateListener --------", "bleStateListener");
+//    }
+//
+//    @PermissionFail(id = 1)
+//    private void initPermissionFail() {
+//        mShakeListener.stop();
+//        new AlertDialog.Builder(this)
+//                .setMessage("拒绝授权将无法正常运行软件！")
+//                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
+//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+//                        startActivity(intent);
+//                        dialog.dismiss();
+//                    }
+//                }).create().show();
+//    }
 
-    @SuppressLint("LongLogTag")
-    @PermissionOK(id = 1)
-    private void initPermissionSuccess() {
-        setBleStateListener(bleStateListener);
-        mShakeListener.start();
-        Log.d("enter bleStateListener --------", "bleStateListener");
-    }
-
-    @PermissionFail(id = 1)
-    private void initPermissionFail() {
-        mShakeListener.stop();
-        new AlertDialog.Builder(this)
-                .setMessage("拒绝授权将无法正常运行软件！")
-                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                        startActivity(intent);
-                        dialog.dismiss();
-                    }
-                }).create().show();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION){
+            if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                setBleStateListener(bleStateListener);
+                mShakeListener.start();
+                Log.d("enter bleStateListener", "bleStateListener--------------");
+            }
+        }
+//        permission.onRequestPermissionsResult(this,requestCode,permissions,grantResults);
     }
 
     @Override
     public void initUi() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(LaibalanceActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+            }
+        }
         setClosed(true);
         selftestFragment = SelftestFragment.newInstance(null);
         visitortestFragment = new VisitortestFragment();
         pageIndex = content.getCurrentItem();
-        permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION);
+//        permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION);
         fragmentModels.add(new FragmentModel("给自己测", selftestFragment));
         fragmentModels.add(new FragmentModel("给访客测", visitortestFragment));
         content.setOffscreenPageLimit(1);
@@ -138,7 +160,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
             }
         });
-
+        setBleStateListener(bleStateListener);
     }
 
     private void setVoice() {

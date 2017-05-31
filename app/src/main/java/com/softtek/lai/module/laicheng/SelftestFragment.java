@@ -33,7 +33,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_selftest)
-public class SelftestFragment extends LazyBaseFragment implements SelftestPresenter.SelftestView {
+public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implements SelftestPresenter.SelftestView {
     private static final String ARGUMENTS = "mainFragment";
     private VoiceListener listener;
     @InjectView(R.id.tv_weight_caption)
@@ -66,8 +66,6 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
     TextView mHealthReport;
     @InjectView(R.id.tv_time)
     TextView mLastTime;
-
-    private SelftestPresenter presenter;
 
     private Dialog dialog;//对话框
 
@@ -113,7 +111,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
 
     @Override
     protected void lazyLoad() {
-        presenter.getLastInfo(1);
+        getPresenter().getLastInfo(1);
     }
 
     @Override
@@ -121,7 +119,7 @@ public class SelftestFragment extends LazyBaseFragment implements SelftestPresen
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
 
-        presenter = new SelftestPresenter(this);
+        setPresenter(new SelftestPresenter(this));
     }
 
     @Override

@@ -33,8 +33,6 @@ public abstract class BleBaseActivity extends BaseActivity {
 
     private BleStateListener bleStateListener;
 
-//    protected boolean isConnected = false;
-
     private class BlueGattReceiver extends BroadcastReceiver {
 
         @Override
@@ -57,35 +55,14 @@ public abstract class BleBaseActivity extends BaseActivity {
                         sendMessage(newState);
                     }
                     break;
+                case "device":
+                    BluetoothDevice device = intent.getParcelableExtra("device");
+                    if (device != null){
+                        sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FOUND, device);
+                    }
             }
         }
     }
-
-    private static class LeScanCallback implements BluetoothAdapter.LeScanCallback {
-
-        private WeakReference<BleBaseActivity> weakReference;
-
-        public LeScanCallback(BleBaseActivity activity) {
-            this.weakReference = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-            if (weakReference != null && weakReference.get() != null) {
-                weakReference.get().sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FOUND, device);
-            }
-        }
-
-        public void recycle() {
-            if (weakReference != null) {
-                weakReference.clear();
-                weakReference = null;
-            }
-        }
-    }
-
-    private LeScanCallback leScanCallback;
-//    private BluetoothGattCall bluetoothGattCall;
 
     private BlueGattReceiver gattReceiver;
 
@@ -97,8 +74,6 @@ public abstract class BleBaseActivity extends BaseActivity {
         Log.i("finish", "1111111finishfinishfinishfinishfinishfinishfinishfinishfinishfinishfinish1111111111111111111111");
         mHandler.removeCallbacksAndMessages(null);
         cancelDiscoveryBluetooth();
-        leScanCallback.recycle();
-//        bluetoothGattCall.recycle();
         LocalBroadcastManager.getInstance(getApplicationContext())
                 .unregisterReceiver(gattReceiver);
         try {
@@ -112,7 +87,6 @@ public abstract class BleBaseActivity extends BaseActivity {
     @Override
     protected void initViews() {
 
-        leScanCallback = new LeScanCallback(this);
 //        bluetoothGattCall = new BluetoothGattCall(this);
         gattReceiver = new BlueGattReceiver();
         LocalBroadcastManager.getInstance(getApplicationContext())
@@ -172,7 +146,6 @@ public abstract class BleBaseActivity extends BaseActivity {
 
     public void setSettingBluetoothCtrl() {
         openBluetoothSettings();
-//        BleManager.getInstance().openBluetoothSetting();
         //打开蓝牙设置监听
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         try {
@@ -200,18 +173,18 @@ public abstract class BleBaseActivity extends BaseActivity {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (BleManager.getInstance().stopScane(leScanCallback)) {
+                        if (BleManager.getInstance().stopScane()) {
                             sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FINISH);
                             Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, BleManager.SCAN_PERIOD);
 
-                BleManager.getInstance().startScane(leScanCallback);
+                BleManager.getInstance().startScane();
                 sendMessage(BleManager.BLUETOOTH_STATE_SCANNING);
             }
         } else {
-            if (BleManager.getInstance().stopScane(leScanCallback)) {
+            if (BleManager.getInstance().stopScane()) {
                 sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FINISH);
             }
         }
@@ -239,7 +212,7 @@ public abstract class BleBaseActivity extends BaseActivity {
     protected int connectBluetooth(BluetoothDevice bluetoothDevice) {
         if (BleManager.getInstance().getBluetoothAdapter().isEnabled()) {
             //关闭扫描
-            if (BleManager.getInstance().stopScane(leScanCallback)) {
+            if (BleManager.getInstance().stopScane()) {
                 sendMessage(BleManager.BLUETOOTH_STATE_SCAN_FINISH);
             }
             //链接

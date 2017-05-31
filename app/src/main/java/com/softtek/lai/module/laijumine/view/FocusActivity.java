@@ -204,19 +204,23 @@ public class FocusActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void success(ResponseData<List<FocusInfoModel>> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
-                list_focus.onRefreshComplete();
-                switch (status) {
-                    case 200:
-                        focusInfoModels.addAll(listResponseData.getData());
-                        easyAdapter.notifyDataSetChanged();
-                        focusnum=focusInfoModels.size();
-                        tv_title.setText("关注（"+focusnum+"）");
-                        break;
-                    default:
-                        focusnum=0;
-                        Util.toastMsg(listResponseData.getMsg());
-                        tv_title.setText("关注（"+focusnum+"）");
-                        break;
+                try {
+                    list_focus.onRefreshComplete();
+                    switch (status) {
+                        case 200:
+                            focusInfoModels.addAll(listResponseData.getData());
+                            easyAdapter.notifyDataSetChanged();
+                            focusnum=focusInfoModels.size();
+                            tv_title.setText("关注（"+focusnum+"）");
+                            break;
+                        default:
+                            focusnum=0;
+                            Util.toastMsg(listResponseData.getMsg());
+                            tv_title.setText("关注（"+focusnum+"）");
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

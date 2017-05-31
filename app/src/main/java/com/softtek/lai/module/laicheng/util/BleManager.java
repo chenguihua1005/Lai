@@ -9,9 +9,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
@@ -85,6 +83,17 @@ public class BleManager {
 
     private BluetoothGattCharacteristic readCharacteristic;//蓝牙读写数据的载体
 
+    private BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            Intent intent = new Intent();
+            intent.setAction(BleBaseActivity.GATT_TAG);
+            intent.putExtra("flag", "device");
+            intent.putExtra("device", device);
+            LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).sendBroadcast(intent);
+        }
+    };
+
     public BluetoothGattCharacteristic getReadCharacteristic() {
         return readCharacteristic;
     }
@@ -102,7 +111,7 @@ public class BleManager {
             if (bluetoothGattService != null) {
                 writeCharacteristic = bluetoothGattService.getCharacteristic(BleManager.KERUIER_WRITE_CHARACTERISTIC_UUID);
             } else {
-                Log.d("getWriteCharacteristic","NULL");
+                Log.d("getWriteCharacteristic", "NULL");
             }
         }
         return writeCharacteristic;
@@ -131,7 +140,7 @@ public class BleManager {
         return instance;
     }
 
-    public boolean stopScane(BluetoothAdapter.LeScanCallback leScanCallback) {
+    public boolean stopScane() {
         if (isScanning()) {
             mScanning = false;
             mBlueToothState = BleManager.BLUETOOTH_STATE_SCAN_FINISH;
@@ -141,7 +150,7 @@ public class BleManager {
         return false;
     }
 
-    public boolean startScane(BluetoothAdapter.LeScanCallback leScanCallback) {
+    public boolean startScane() {
         mScanning = true;
         mBlueToothState = BLUETOOTH_STATE_SCANNING;
         UUID[] uuids = {LIERDA_SERVICE_UUID};
@@ -286,11 +295,12 @@ public class BleManager {
         try {
             if (mBluetoothGatt != null) {
                 mBluetoothGatt.disconnect();
+            }
+            if(mBluetoothGatt!=null){
                 mBluetoothGatt.close();
             }
         } catch (Exception e) {
             Util.toastMsg("蓝牙关闭失败");
-            e.printStackTrace();
         }
         instance = null;
         EXIT = true;
@@ -298,9 +308,9 @@ public class BleManager {
     }
 
     private void loss() {
-        mBluetoothGatt = null;
         instance = null;
         EXIT = true;
+        mBluetoothGatt = null;
         MainBaseActivity.isConnecting = false;
     }
 
