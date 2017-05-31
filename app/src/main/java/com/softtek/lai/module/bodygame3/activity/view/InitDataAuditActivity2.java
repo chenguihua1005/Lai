@@ -954,11 +954,13 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                     switch (status) {
                         case 200:
                             progressDialog.dismiss();
-//                            Intent intent = new Intent();
-//                            intent.putExtra("ACMID", ACMID);
-//                            setResult(RESULT_OK, intent);
-                            if (!TextUtils.isEmpty(GUANGBO_FROM)) {
-                                LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent(GUANGBO_FROM));
+                            if (!TextUtils.isEmpty(GUANGBO_FROM)) {//UPDATE_UI_CHUSHI_YISHENHE_TABLIST
+                                if ("UPDATE_UI_CHUSHI_DAISHENHE_TABLIST".equals(GUANGBO_FROM)) {
+                                    LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent("UPDATE_UI_CHUSHI_DAISHENHE_TABLIST"));
+                                    LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent("UPDATE_UI_CHUSHI_YISHENHE_TABLIST"));
+                                } else {
+                                    LocalBroadcastManager.getInstance(InitDataAuditActivity2.this).sendBroadcast(new Intent("UPDATE_UI_CHUSHI_YISHENHE_TABLIST"));
+                                }
                             }
                             finish();
                             break;

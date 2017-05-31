@@ -930,11 +930,13 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                     switch (status) {
                         case 200:
                             progressDialog.dismiss();
-//                            Intent intent = new Intent();
-//                            intent.putExtra("ACMID", acmId);
-//                            setResult(RESULT_OK, intent);
                             if (!TextUtils.isEmpty(GUANGBO_FROM)) {
-                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(GUANGBO_FROM));
+                                if ("UPDATE_UI_FCCHECK_DAISHENHE_TABLIST".equals(GUANGBO_FROM)) {
+                                    LocalBroadcastManager.getInstance(FcAuditStuActivity2.this).sendBroadcast(new Intent("UPDATE_UI_FCCHECK_DAISHENHE_TABLIST"));
+                                    LocalBroadcastManager.getInstance(FcAuditStuActivity2.this).sendBroadcast(new Intent("UPDATE_UI_FCCHECK_YISHENHE_TABLIST"));
+                                } else {
+                                    LocalBroadcastManager.getInstance(FcAuditStuActivity2.this).sendBroadcast(new Intent("UPDATE_UI_FCCHECK_YISHENHE_TABLIST"));
+                                }
                             }
 
                             finish();
