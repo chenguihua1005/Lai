@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.File.view;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -28,8 +30,11 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -110,12 +115,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     private boolean w = true;
 
-    //获取当前日期
-    Calendar ca = Calendar.getInstance();
-    int myear = ca.get(Calendar.YEAR);//获取年份
-    int mmonth = ca.get(Calendar.MONTH);//获取月份
-    int mday = ca.get(Calendar.DATE);//获取日
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +129,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         iv_left.setVisibility(View.GONE);
+        //获取当前年月日
+        currentMonth = DateUtil.getInstance().getCurrentMonth();
+        currentDay = DateUtil.getInstance().getCurrentDay();
     }
 
     /**
@@ -185,20 +187,17 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                     w = false;
                     break;
                 case R.id.ll_birth:
-                    show_birth_dialog();
+                    showDateDialog();
                     break;
                 case R.id.ll_sex:
-
                 case R.id.tv_sex:
                     showGradeDialog();
                     break;
                 case R.id.ll_height:
-
                 case R.id.tv_height:
                     show_height_dialog();
                     break;
                 case R.id.ll_weight:
-
                 case R.id.tv_weight:
                     show_weight_dialog();
                     break;
@@ -270,52 +269,47 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
         }
     }
+    int currentMonth;
+    int currentDay;
 
-
-    public void show_birth_dialog() {
-        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.birth_dialog, null);
-        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np1.setMaxValue(myear);
-        np1.setValue(1990);
-        np1.setMinValue(1900);
-        np1.setWrapSelectorWheel(false);
-        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np2.setMaxValue(12);
-        np2.setValue(mmonth + 1);
-        np2.setMinValue(1);
-        np2.setWrapSelectorWheel(false);
-        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        final NumberPicker np3 = (NumberPicker) view.findViewById(R.id.numberPicker3);
-        np3.setMaxValue(31);
-        np3.setValue(mday);
-        np3.setMinValue(1);
-        np3.setWrapSelectorWheel(false);
-        np3.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        birdialog.setTitle("选择生日(年-月-日)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                if (np1.getValue() == myear && np2.getValue() > (mmonth + 1)) {
-                    show_warn_dialog();
-                }
-                if (np1.getValue() == myear && np2.getValue() == (mmonth + 1) && np3.getValue() > mday) {
-                    show_warn_dialog();
-                } else {
-                    tv_birth.setText(String.valueOf(np1.getValue()) + "-"
-                            + (np2.getValue()<10?"0"+String.valueOf(np2.getValue())
-                            :String.valueOf(np2.getValue()))+ "-" + (np3.getValue()<10?"0"+String.valueOf(np3.getValue()):String.valueOf(np3.getValue())));
-                    tv_birth.setError(null);
-                }
-                dialog.dismiss();
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+    private void showDateDialog() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        DateTime minTime=new DateTime(1900,1,1,0,0);
+        DateTime maxTime=new DateTime();
+        DateTime defaultTime=new DateTime(1990,currentMonth-1,currentDay,0,0);
+        final DatePickerDialog dialog =
+                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(),defaultTime.getDayOfMonth());
+        dialog.getDatePicker().setMinDate(minTime.getMillis());
+        dialog.getDatePicker().setMaxDate(maxTime.getMillis());
+        dialog.setTitle("选择生日(年-月-日)");
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
-        }).create().show();
+        });
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                //通过mDialog.getDatePicker()获得dialog上的DatePicker组件，然后可以获取日期信息
+                DatePicker datePicker = dialog.getDatePicker();
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth() + 1;
+                int day = datePicker.getDayOfMonth();
+                String date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                int compare=DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date,DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+                if(compare==1){
+                    show_warn_dialog();
+                    return;
+                }
+                //输出当前日期
+                tv_birth.setText(date);
+                tv_birth.setError(null);
+
+            }
+        });
+        dialog.show();
 
     }
 
@@ -327,7 +321,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
-                                show_birth_dialog();
+                                showDateDialog();
                             }
                         }).create();
         dialog.show();

@@ -1,8 +1,12 @@
 package com.softtek.lai.module.laiClassroom;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
@@ -19,10 +23,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.danikula.videocache.HttpProxyCacheServer;
 import com.dl7.player.media.IjkPlayerView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity2;
 import com.softtek.lai.module.laiClassroom.model.VideoDetailModel;
@@ -57,18 +63,37 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     ListView lv;
     private EasyAdapter<VideoDetailModel.VideoList> adapter;
     private List<VideoDetailModel.VideoList> datas = new ArrayList<>();
+    private String videoUrl;
 
     @Override
     protected void initViews() {
         String videoImage = getIntent().getStringExtra("cover");
-        String videoUrl = getIntent().getStringExtra("videoUrl");
-        videoUrl=videoUrl.replace("https://","http://");
-        Log.i("视频地址="+videoUrl);
+        videoUrl = getIntent().getStringExtra("videoUrl");
+//        videoUrl=videoUrl.replace("https://","http://");
+//        Log.i("视频地址="+videoUrl);
         Picasso.with(this).load(videoImage).fit().placeholder(R.drawable.default_laiclass12).error(R.drawable.default_laiclass12).into(playerView.mPlayerThumb);
-        playerView.init()
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
+        }else {
+            playerView.init()
 //                .setSkipTip(1000*60*1)
-                .setVideoSource(null, videoUrl, null, null, null)
-                .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
+                    .setVideoSource(null, LaiApplication.getProxy(this).getProxyUrl(videoUrl), null, null, null)
+                    .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100&&grantResults.length>0){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                playerView.init()
+//                .setSkipTip(1000*60*1)
+                        .setVideoSource(null, LaiApplication.getProxy(this).getProxyUrl(videoUrl), null, null, null)
+                        .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
+            }
+        }
     }
 
     @Override

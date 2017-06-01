@@ -4,26 +4,39 @@
  */
 package com.softtek.lai;
 
+import android.*;
+import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.multidex.MultiDex;
+import android.support.v4.app.ActivityCompat;
 
+import com.danikula.videocache.HttpProxyCacheServer;
+import com.danikula.videocache.file.DiskUsage;
+import com.danikula.videocache.file.FileNameGenerator;
+import com.danikula.videocache.file.Md5FileNameGenerator;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.ImageDownLoader;
 import com.softtek.lai.common.MyOkClient;
 import com.softtek.lai.common.NetErrorHandler;
+import com.softtek.lai.common.UnlimitDiskUsage;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassMemberTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.MD5;
 import com.squareup.picasso.Picasso;
 import com.umeng.socialize.PlatformConfig;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import cn.jpush.android.api.JPushInterface;
@@ -66,7 +79,30 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
 //        LaiApplication application= (LaiApplication) context.getApplicationContext();
 //            return application.refWatcher;
 //    }
+    private HttpProxyCacheServer proxy;
 
+    public static HttpProxyCacheServer getProxy(Context context) {
+        LaiApplication app = (LaiApplication) context.getApplicationContext();
+        return app.proxy == null ? (app.proxy = app.newProxy()) : app.proxy;
+    }
+
+    private HttpProxyCacheServer newProxy() {
+        File video_dir=new File(Environment.getExternalStorageDirectory(),"lai_video");
+        if(!video_dir.exists()){
+            video_dir.mkdir();
+        }
+        return new HttpProxyCacheServer.Builder(this)
+                .cacheDirectory(video_dir)
+                .fileNameGenerator(new FileNameGenerator() {
+                    @Override
+                    public String generate(String s) {
+                        String subStr=s.substring(0,s.lastIndexOf("."));
+                        String videoId=MD5.md5WithEncoder(subStr);
+                        return videoId +s.substring(s.lastIndexOf("."),s.length());
+                    }
+                })
+                .diskUsage(new UnlimitDiskUsage()).build();
+    }
 
     public static LaiApplication getInstance() {
         return laiApplication;
