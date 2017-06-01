@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.danikula.videocache.HttpProxyCacheServer;
 import com.dl7.player.media.IjkPlayerView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -69,18 +68,17 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
     protected void initViews() {
         String videoImage = getIntent().getStringExtra("cover");
         videoUrl = getIntent().getStringExtra("videoUrl");
-//        videoUrl=videoUrl.replace("https://","http://");
-//        Log.i("视频地址="+videoUrl);
         Picasso.with(this).load(videoImage).fit().placeholder(R.drawable.default_laiclass12).error(R.drawable.default_laiclass12).into(playerView.mPlayerThumb);
+        playerView.init()
+//                .setSkipTip(1000*60*1)
+                .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
         }else {
-            playerView.init()
-//                .setSkipTip(1000*60*1)
-                    .setVideoSource(null, LaiApplication.getProxy(this).getProxyUrl(videoUrl), null, null, null)
-                    .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
+            videoUrl=LaiApplication.getProxy(this).getProxyUrl(videoUrl);
         }
+        playerView.setVideoSource(null, videoUrl, null, null, null);
     }
 
     @Override
@@ -88,10 +86,8 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==100&&grantResults.length>0){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                playerView.init()
-//                .setSkipTip(1000*60*1)
-                        .setVideoSource(null, LaiApplication.getProxy(this).getProxyUrl(videoUrl), null, null, null)
-                        .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
+                videoUrl=LaiApplication.getProxy(this).getProxyUrl(videoUrl);
+                playerView.setVideoSource(null, videoUrl, null, null, null);
             }
         }
     }
