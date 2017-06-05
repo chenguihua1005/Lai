@@ -72,25 +72,25 @@ public class VideoDetailActivity extends BaseActivity2<VideoDetailPresenter> imp
         playerView.init()
 //                .setSkipTip(1000*60*1)
                 .setMediaQuality(IjkPlayerView.MEDIA_QUALITY_HIGH);
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
-        }else {
-            videoUrl=LaiApplication.getProxy(this).getProxyUrl(videoUrl);
-        }
+//        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
+//        }else {
+//            videoUrl=LaiApplication.getProxy(this).getProxyUrl(videoUrl);
+//        }
         playerView.setVideoSource(null, videoUrl, null, null, null);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==100&&grantResults.length>0){
-            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                videoUrl=LaiApplication.getProxy(this).getProxyUrl(videoUrl);
-                playerView.setVideoSource(null, videoUrl, null, null, null);
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if(requestCode==100&&grantResults.length>0){
+//            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+//                videoUrl=LaiApplication.getProxy(this).getProxyUrl(videoUrl);
+//                playerView.setVideoSource(null, videoUrl, null, null, null);
+//            }
+//        }
+//    }
 
     @Override
     protected void initDatas() {
