@@ -10,7 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -18,7 +17,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -110,8 +108,8 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
     LinearLayout ll_left;
 
     //跳转
-    @InjectView(R.id.tv_setting)
-    TextView tv_setting;
+    @InjectView(R.id.rl_setting)
+    TextView rl_setting;
     @InjectView(R.id.tv_editor_signature)
     TextView tv_editor_signature;
     @InjectView(R.id.re_mydy)
@@ -167,7 +165,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         srl_refresh.setEnabled(false);
         srl_refresh.setOnRefreshListener(this);
         srl_refresh.setColorSchemeColors(getResources().getColor(R.color.btn_blue_normal));
-        tv_setting.setOnClickListener(this);
+        rl_setting.setOnClickListener(this);
         tv_editor_signature.setOnClickListener(this);
         re_mydy.setOnClickListener(this);
         re_guanzhu.setOnClickListener(this);
@@ -287,7 +285,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(login);
                 break;
-            case R.id.tv_setting:
+            case R.id.rl_setting:
                 startActivity(new Intent(getContext(), MySettingActivity.class));
                 break;
             //跳转到我的签名
