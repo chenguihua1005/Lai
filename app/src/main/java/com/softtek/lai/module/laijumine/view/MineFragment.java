@@ -34,7 +34,7 @@ import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.healthyreport.HistoryDataActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laijumine.model.MyInfoModel;
-import com.softtek.lai.module.laijumine.net.MineSevice;
+import com.softtek.lai.module.laijumine.presenter.MineFragmentPresenter;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
@@ -64,12 +64,13 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_mine_fragment)
-public class MineFragment extends LazyBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implements View.OnClickListener,
+        SwipeRefreshLayout.OnRefreshListener, MineFragmentPresenter.MineFragmentCallback {
 
     private UserModel model;
     private MyInfoModel myinfomodel;
     CharSequence[] items = {"拍照", "照片"};
-    private static final int CAMERA_PREMISSION=100;
+    private static final int CAMERA_PREMISSION = 100;
     private ImageFileCropSelector imageFileCropSelector;
 
     @InjectView(R.id.cir_userphoto)
@@ -136,15 +137,10 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
     ScrollView scro;
 
 
-//    @InjectView(R.id.rl_toolbar)
-//    RelativeLayout rl_toolbar;
-//    @InjectView(R.id.toolbar)
-//    Toolbar toolbar;
-
     private int GET_Sian = 1;//个人签名
-    MineSevice mineSevice;
+
     String photo;
-    boolean isUserPhot=true;
+    boolean isUserPhot = true;
 
     @Override
     protected void lazyLoad() {
@@ -152,16 +148,6 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void initViews() {
-//        if(rl_toolbar!=null){
-//            RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) rl_toolbar.getLayoutParams();
-//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-//            rl_toolbar.setLayoutParams(params);
-//        }
-//        if(toolbar!=null){
-//            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
-//            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
-//            toolbar.setLayoutParams(params);
-//        }
         srl_refresh.setEnabled(false);
         srl_refresh.setOnRefreshListener(this);
         srl_refresh.setColorSchemeColors(getResources().getColor(R.color.btn_blue_normal));
@@ -179,14 +165,14 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         im_banner.setOnClickListener(this);
         cir_userphoto.setOnClickListener(this);
         but_login.setOnClickListener(this);
-        scro.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
+        scro.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-                srl_refresh.setEnabled(scro.getScrollY()==0);
+                srl_refresh.setEnabled(scro.getScrollY() == 0);
             }
         });
         int px = DisplayUtil.dip2px(getContext(), 300);
-        imageFileCropSelector=new ImageFileCropSelector(getContext());
+        imageFileCropSelector = new ImageFileCropSelector(getContext());
         imageFileCropSelector.setOutPutImageSize(px, px);
         imageFileCropSelector.setQuality(30);
         imageFileCropSelector.setOutPutAspect(1, 1);
@@ -195,11 +181,9 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             @Override
             public void onSuccess(String file) {
                 dialogShow("上传图片");
-                if (isUserPhot)
-                {
+                if (isUserPhot) {
                     upload(new File(file));
-                }
-                else {
+                } else {
                     uploadBanner(file);
                 }
             }
@@ -207,12 +191,9 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             @Override
             public void onMutilSuccess(List<String> files) {
                 dialogShow("上传图片");
-                if (isUserPhot)
-                {
+                if (isUserPhot) {
                     upload(new File(files.get(0)));
-                }
-                else
-                {
+                } else {
                     uploadBanner(files.get(0));
                 }
             }
@@ -228,7 +209,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void initDatas() {
-        mineSevice = ZillaApi.NormalRestAdapter.create(MineSevice.class);
+        setPresenter(new MineFragmentPresenter(this));
     }
 
 
@@ -258,12 +239,11 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                     .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
         }
         if (StringUtils.isEmpty(model.getNickname())) {
-            tv_username.setText(model.getMobile()+"");
+            tv_username.setText(model.getMobile() + "");
         } else {
-            tv_username.setText(model.getNickname()+"");
+            tv_username.setText(model.getNickname() + "");
         }
 
-        String certification = model.getCertification();
         if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
             tv_renzh.setText("已认证");
             tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
@@ -271,8 +251,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             tv_renzh.setText("未认证");
             tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
         }
-
-        GetMyInfo();
+        getPresenter().getMyInfo();
     }
 
 
@@ -290,7 +269,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
             //跳转到我的签名
             case R.id.tv_editor_signature:
-                if(myinfomodel==null){
+                if (myinfomodel == null) {
                     return;
                 }
                 Intent intent1 = new Intent(getContext(), EditSignaActivity.class);
@@ -310,8 +289,8 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
             //跳转关注
             case R.id.re_guanzhu:
-                String focusnum=tv_guanzhunum.getText().toString();
-                if(TextUtils.isEmpty(focusnum)){
+                String focusnum = tv_guanzhunum.getText().toString();
+                if (TextUtils.isEmpty(focusnum)) {
                     return;
                 }
                 Intent intent = new Intent(getContext(), FocusActivity.class);
@@ -320,8 +299,8 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
             //跳转粉丝
             case R.id.re_fans:
-                String fansnum=tv_fansnum.getText().toString();
-                if(TextUtils.isEmpty(fansnum)){
+                String fansnum = tv_fansnum.getText().toString();
+                if (TextUtils.isEmpty(fansnum)) {
                     return;
                 }
                 Intent focusintent = new Intent(getContext(), FansActivity.class);
@@ -352,12 +331,10 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 break;
             case R.id.im_banner:
             case R.id.cir_userphoto:
-                if (view.getId()==R.id.cir_userphoto)
-                {
-                    isUserPhot=true;
-                }
-                else {
-                    isUserPhot=false;
+                if (view.getId() == R.id.cir_userphoto) {
+                    isUserPhot = true;
+                } else {
+                    isUserPhot = false;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -365,19 +342,19 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             //拍照
-                            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+                                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
                                     //允许弹出提示
                                     ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
-                                }else{
+                                } else {
                                     //不允许弹出提示
                                     ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                 }
-                            }else {
+                            } else {
                                 imageFileCropSelector.takePhoto(MineFragment.this);
                             }
                         } else if (which == 1) {
@@ -405,77 +382,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
         }
     }
 
-    //获取我的信息
-    private void GetMyInfo() {
-        mineSevice.GetMyInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<MyInfoModel>>() {
-            @Override
-            public void success(ResponseData<MyInfoModel> myInfoModelResponseData, Response response) {
-                int status = myInfoModelResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        myinfomodel = myInfoModelResponseData.getData();
-                        doSetData();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-
-    private void doSetData() {
-        try {
-            if (myinfomodel == null) {
-                return;
-            } else {
-                if (!TextUtils.isEmpty(myinfomodel.getSignature())) {
-                    tv_editor_signature.setText(myinfomodel.getSignature());
-                }
-                else {
-                    tv_editor_signature.setText("编辑个性签名");
-                }
-                if (!TextUtils.isEmpty(myinfomodel.getAcBanner())) {
-                    Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).placeholder(R.drawable.default_icon_rect).fit().centerCrop().into(im_banner);
-                }
-                else {
-                    Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
-                }
-                tv_dynum.setText(myinfomodel.getDynamicNum());
-                tv_guanzhunum.setText(myinfomodel.getFocusNum());
-                tv_fansnum.setText(myinfomodel.getLoveNum());
-                if (!TextUtils.isEmpty(myinfomodel.getRecordTime())) {
-                    String[] date = myinfomodel.getRecordTime().split("-");
-                    tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
-                }
-                if ("0".equals(myinfomodel.getLossLevel()))
-                {
-                    tv_level.setText("暂无减重等级");
-                }
-                else {
-                    tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
-                }
-                tv_sportlevelnum.setText("开发中，敬请期待");
-    //            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
-                if ("0".equals(myinfomodel.getUnReadMsgNum()))
-                {
-                    tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
-                }
-                else {
-                    String strs="您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
-                    int length=myinfomodel.getUnReadMsgNum().length();
-                    SpannableStringBuilder style=new SpannableStringBuilder(strs);
-                    style.setSpan(new ForegroundColorSpan(Color.RED),2,2+length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    tv_news.setText(style);
-                }
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void upload(final File file){
+    private void upload(final File file) {
         ZillaApi.NormalRestAdapter.create(LoginService.class).modifyPicture(UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), new TypedFile("image/*", file), new Callback<ResponseData<PhotoModel>>() {
                     @Override
@@ -501,6 +408,7 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void failure(RetrofitError error) {
                         dialogDissmiss();
@@ -509,16 +417,14 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                 });
     }
 
-    private void uploadBanner(final String file)
-    {
-        ZillaApi.NormalRestAdapter.create(ChartService.class).doUploadPhoto(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()+"",
+    private void uploadBanner(final String file) {
+        ZillaApi.NormalRestAdapter.create(ChartService.class).doUploadPhoto(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "",
                 "1", new TypedFile("image/png", new File(file)), new RequestCallback<ResponseData<PhotModel>>() {
                     @Override
                     public void success(ResponseData<PhotModel> photModelResponseData, Response response) {
                         try {
-                            int status=photModelResponseData.getStatus();
-                            switch (status)
-                            {
+                            int status = photModelResponseData.getStatus();
+                            switch (status) {
                                 case 200:
                                     Picasso.with(getContext()).load(new File(file)).centerCrop().placeholder(R.drawable.default_icon_rect).fit().into(im_banner);
                                     dialogDissmiss();
@@ -540,21 +446,17 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                     }
                 });
     }
+
     // Android 6.0的动态权限
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION) {
+        if (requestCode == CAMERA_PREMISSION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
                 imageFileCropSelector.takePhoto(MineFragment.this);
 
             } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
             }
         }
     }
@@ -581,12 +483,11 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
                     .centerCrop().error(R.drawable.img_default).into(cir_userphoto);
         }
         if (StringUtils.isEmpty(model.getNickname())) {
-            tv_username.setText(model.getMobile()+"");
+            tv_username.setText(model.getMobile() + "");
         } else {
-            tv_username.setText(model.getNickname()+"");
+            tv_username.setText(model.getNickname() + "");
         }
 
-        String certification = model.getCertification();
         if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
             tv_renzh.setText("已认证");
             tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
@@ -595,7 +496,50 @@ public class MineFragment extends LazyBaseFragment implements View.OnClickListen
             tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
         }
 
-        GetMyInfo();
+        getPresenter().getMyInfo();
         srl_refresh.setRefreshing(false);
+    }
+
+    @Override
+    public void myInfoCallback(MyInfoModel model) {
+        myinfomodel = model;
+        if (myinfomodel == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(myinfomodel.getSignature())) {
+            tv_editor_signature.setText(myinfomodel.getSignature());
+        } else {
+            tv_editor_signature.setText("编辑个性签名");
+        }
+        if (!TextUtils.isEmpty(myinfomodel.getAcBanner())) {
+            Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).placeholder(R.drawable.default_icon_rect).fit().centerCrop().into(im_banner);
+        } else {
+            Picasso.with(getContext()).load(AddressManager.get("photoHost") + myinfomodel.getAcBanner()).fit().centerCrop().into(im_banner);
+        }
+        tv_dynum.setText(myinfomodel.getDynamicNum());
+        tv_guanzhunum.setText(myinfomodel.getFocusNum());
+        tv_fansnum.setText(myinfomodel.getLoveNum());
+        if (!TextUtils.isEmpty(myinfomodel.getRecordTime())) {
+            String[] date = myinfomodel.getRecordTime().split("-");
+            tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
+        }
+        if ("0".equals(myinfomodel.getLossLevel())) {
+            tv_level.setText("暂无减重等级");
+        } else {
+            tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
+        }
+        tv_sportlevelnum.setText("开发中，敬请期待");
+        //            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
+        if ("0".equals(myinfomodel.getUnReadMsgNum())) {
+            tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
+        } else {
+            String strs = "您有" + myinfomodel.getUnReadMsgNum() + "条未读消息";
+            int length = myinfomodel.getUnReadMsgNum().length();
+            SpannableStringBuilder style = new SpannableStringBuilder(strs);
+            style.setSpan(new ForegroundColorSpan(Color.RED), 2, 2 + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_news.setText(style);
+        }
+
+
     }
 }
