@@ -125,8 +125,6 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     RelativeLayout re_losslevel;
     @InjectView(R.id.re_sportlevel)
     RelativeLayout re_sportlevel;
-    @InjectView(R.id.re_task)
-    RelativeLayout re_task;
     @InjectView(R.id.re_mynews)
     RelativeLayout re_mynews;
     @InjectView(R.id.re_renzheng)
@@ -159,7 +157,6 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
         re_health.setOnClickListener(this);
         re_losslevel.setOnClickListener(this);
         re_sportlevel.setOnClickListener(this);
-        re_task.setOnClickListener(this);
         re_mynews.setOnClickListener(this);
         re_renzheng.setOnClickListener(this);
         im_banner.setOnClickListener(this);
@@ -317,9 +314,6 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
                 break;
             //跳转运动等级
             case R.id.re_sportlevel:
-                break;
-            //跳转任务与积分
-            case R.id.re_task:
                 break;
             //跳转消息中心
             case R.id.re_mynews:
