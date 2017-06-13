@@ -26,9 +26,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyStore;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.text.DecimalFormat;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 /**
  *
@@ -55,6 +65,9 @@ public class UpdateService extends Service implements Runnable{
                     break;
                 case 2:
                     updateNotification(2,0+"%",0);
+                    break;
+                case 3:
+                    updateNotification(3,"0%",0);
                     break;
             }
             super.handleMessage(msg);
@@ -134,22 +147,51 @@ public class UpdateService extends Service implements Runnable{
         }
         File file = createFile();
         try {
-            //AddressManager.get("photoHost") + "apk/app-release_221.apk"
-            URL url = new URL(apkUrl);
-            try {
-                HttpURLConnection conn = (HttpURLConnection) url
-                        .openConnection();
-                InputStream is = conn.getInputStream();
-                conn.connect();
-                if(conn.getResponseCode()==200){
-                    writeFile2Disk(is, file,conn.getContentLength());
-                }else {
-                    sendHandler(3);
+            TrustManager tm=new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
                 }
-            } catch (IOException e) {
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+                }
+
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+            };
+            SSLContext sslContext=null;
+            TrustManagerFactory trustManagerFactory=null;
+            try {
+                sslContext=SSLContext.getInstance("TLS");
+                trustManagerFactory=TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                trustManagerFactory.init((KeyStore) null);
+                sslContext.init(null,new TrustManager[]{tm},null);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        } catch (MalformedURLException e) {
+            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+
+            URL url = new URL(apkUrl);
+            HttpURLConnection conn = (HttpURLConnection) url
+                    .openConnection();
+            InputStream is = conn.getInputStream();
+            conn.connect();
+            if(conn.getResponseCode()==200){
+                writeFile2Disk(is, file,conn.getContentLength());
+            }else {
+                sendHandler(3);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -188,7 +230,7 @@ public class UpdateService extends Service implements Runnable{
                 // 百分比格式，后面不足2位的用0补齐
                 String result = df1.format(tempresult);
                 int num=(int) (Float.parseFloat(result) * 100);
-                if(num%4==0){
+                if(num%2==0){
                     sendHandler(1,num);
                 }
             }
