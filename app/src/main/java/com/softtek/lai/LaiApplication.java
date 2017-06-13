@@ -72,7 +72,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 downloader(new ImageDownLoader(new OkHttpClient.Builder()))
                 .build());
 //        refWatcher=LeakCanary.install(this);
-//        CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
     }
 //
 //    public static  RefWatcher getWatch(Context context){

@@ -110,7 +110,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
 
     //跳转
     @InjectView(R.id.rl_setting)
-    TextView rl_setting;
+    RelativeLayout rl_setting;
     @InjectView(R.id.tv_editor_signature)
     TextView tv_editor_signature;
     @InjectView(R.id.re_mydy)
