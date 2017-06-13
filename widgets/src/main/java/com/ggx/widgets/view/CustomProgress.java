@@ -71,7 +71,7 @@ public class CustomProgress extends Dialog{
             txt.setText(message);
         }
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         // 设置居中
         dialog.getWindow().getAttributes().gravity = Gravity.CENTER;
 //        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
