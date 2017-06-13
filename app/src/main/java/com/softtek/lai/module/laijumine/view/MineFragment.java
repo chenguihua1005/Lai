@@ -523,7 +523,6 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
             tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
         }
         tv_sportlevelnum.setText("开发中，敬请期待");
-        //            tv_sportlevelnum.setText("运动等级为" + myinfomodel.getSportLevel() + "级");
         if ("0".equals(myinfomodel.getUnReadMsgNum())) {
             tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
         } else {
