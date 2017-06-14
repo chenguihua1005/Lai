@@ -31,6 +31,7 @@ import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -55,9 +56,12 @@ public class UpdateService extends Service implements Runnable{
         context.startService(intent);
     }
 
+    private int prePer;
+    private long totalApk;
+
     Handler handler=new Handler(){
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(final Message msg) {
             switch (msg.what){
                 case 1:
                     int per=msg.arg1;
@@ -101,14 +105,13 @@ public class UpdateService extends Service implements Runnable{
         contentView.setTextViewText(R.id.notificationPercent, per);
         contentView.setProgressBar(R.id.notificationProgress, 100, num, false);
         builder.setContent(contentView);
-        Notification notification = builder.build();
+        final Notification notification = builder.build();
         startForeground(0, notification);
 
         //获取通知管理器
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //发送通知
         nm.notify(R.string.app_name, notification);
-
 
     }
 
@@ -127,7 +130,7 @@ public class UpdateService extends Service implements Runnable{
 
     private boolean doing=false;
     private String apkUrl;
-
+    private File apkFile;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(!doing){
@@ -145,7 +148,8 @@ public class UpdateService extends Service implements Runnable{
             stopSelf();
             return;
         }
-        File file = createFile();
+        apkFile = createFile();
+        HttpURLConnection conn = null;
         try {
             TrustManager tm=new X509TrustManager() {
                 @Override
@@ -182,34 +186,48 @@ public class UpdateService extends Service implements Runnable{
             });
 
             URL url = new URL(apkUrl);
-            HttpURLConnection conn = (HttpURLConnection) url
+            conn = (HttpURLConnection) url
                     .openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
             InputStream is = conn.getInputStream();
             conn.connect();
             if(conn.getResponseCode()==200){
-                writeFile2Disk(is, file,conn.getContentLength());
+                totalApk=conn.getContentLength();
+                Log.i("文件总大小="+totalApk);
+                writeFile2Disk(is, apkFile,conn.getContentLength());
             }else {
                 sendHandler(3);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            if(conn!=null){
+                conn.disconnect();
+            }
+            Log.i("下载完成啦 文件大小"+apkFile.length());
+            Log.i("文件路径="+apkFile.getAbsolutePath());
+            openFile(apkFile);
         }
     }
 
 
     public File createFile() {
         File file;
-
         String state = Environment.getExternalStorageState();
-        String apkName= SystemClock.currentThreadTimeMillis()+"-com-soffteck-lai.apk";
+        String apkName= new Date().getTime()+"-com-soffteck-lai.apk";
         if (state.equals(Environment.MEDIA_MOUNTED)) {
-
-            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +File.separator+ apkName);
+            File apkDir=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"laiju_apk");
+            if(!apkDir.exists()){
+                apkDir.mkdir();
+            }else {
+                for (File apk:apkDir.listFiles()){
+                    apk.delete();
+                }
+            }
+            file = new File(apkDir,apkName);
         } else {
             file = new File(getExternalCacheDir().getAbsolutePath() +File.separator+ apkName);
         }
-        Log.i("vivi", "file " + file.getAbsolutePath());
-
         return file;
 
     }
@@ -231,10 +249,13 @@ public class UpdateService extends Service implements Runnable{
                 String result = df1.format(tempresult);
                 int num=(int) (Float.parseFloat(result) * 100);
                 if(num%2==0){
-                    sendHandler(1,num);
+                    if(num>prePer){
+                        sendHandler(1,num);
+                        prePer=num;
+                    }
                 }
             }
-            openFile(file);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -254,6 +275,7 @@ public class UpdateService extends Service implements Runnable{
                     e.printStackTrace();
                 }
             }
+
         }
     }
     private void openFile(File file) {
