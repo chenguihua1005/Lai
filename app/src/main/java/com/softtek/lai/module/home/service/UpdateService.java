@@ -86,7 +86,6 @@ public class UpdateService extends Service implements Runnable{
 //        PendingIntent contentIntent = PendingIntent.getBroadcast(this,0,new Intent("com.soffteck.lai.step_notify"),0);
         NotificationCompat.Builder  builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_HIGH)
-//                .setContentIntent(contentIntent)
                 .setSmallIcon(android.R.drawable.stat_sys_download_done)
                 .setOngoing(true);//设置不可清除
         //加载自定义布局
@@ -107,9 +106,6 @@ public class UpdateService extends Service implements Runnable{
         builder.setContent(contentView);
         final Notification notification = builder.build();
         startForeground(0, notification);
-
-        //获取通知管理器
-        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //发送通知
         nm.notify(R.string.app_name, notification);
 
@@ -128,15 +124,24 @@ public class UpdateService extends Service implements Runnable{
         handler.sendMessage(msg);
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        //获取通知管理器
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    }
+
     private boolean doing=false;
     private String apkUrl;
     private File apkFile;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(!doing){
+        if(intent!=null&&!doing){
             doing=true;
             apkUrl=intent.getStringExtra(APK_URL);
             new Thread(this).start();
+        }else {
+            stopSelf();
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -292,7 +297,10 @@ public class UpdateService extends Service implements Runnable{
     public void onDestroy() {
         doing=false;
         stopForeground(true);
-        nm.cancelAll();
+        if(nm!=null){
+            nm.cancelAll();
+        }
+        Log.i("更新服务停止啦啦啦啦啦啦啦");
         super.onDestroy();
     }
 
