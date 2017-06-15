@@ -155,6 +155,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         }
 
 
+
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
 
@@ -841,6 +842,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
 
     private void postImageFirstAndData() {
         progressDialog.setMessage("正在提交数据，请等待");
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
         fcAuditPostModel = new FcAuditPostModel();

@@ -69,19 +69,9 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     EasyAdapter<ListGroupModel> honorGroupRankAdapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();
     private WeekHonorManager weekHonorManager;
-    private CircleImageView civ_top1;
-    private CircleImageView civ_top2;
-    private CircleImageView civ_top3;
-    private TextView tv_top1_name;
-    private TextView tv_top2_name;
-    private TextView tv_top3_name;
-    private TextView tv_top1_per;
-    private TextView tv_top2_per;
-    private TextView tv_top3_per;
 
-    private TextView tv_top2_jianzhong;
-    private TextView tv_top1_jianzhong;
-    private TextView tv_top3_jianzhong;
+
+    private LinearLayout linear_showMenu;//顶部横条
     private TextView group_info_tv;//小组排名总信息
 
 
@@ -99,25 +89,14 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         ClassId = bundle.getString("classId");
         selectWeight();
         newAdapter();
-        ListView refreshableView = listHonorrank.getRefreshableView();
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.head_honnor_rank_month, null);
-        civ_top1 = (CircleImageView) view.findViewById(R.id.civ_top1);
-        civ_top2 = (CircleImageView) view.findViewById(R.id.civ_top2);
-        civ_top3 = (CircleImageView) view.findViewById(R.id.civ_top3);
-        tv_top1_name = (TextView) view.findViewById(R.id.tv_top1_name);
-        tv_top2_name = (TextView) view.findViewById(R.id.tv_top2_name);
-        tv_top3_name = (TextView) view.findViewById(R.id.tv_top3_name);
-        tv_top1_per = (TextView) view.findViewById(R.id.tv_top1_per);
-        tv_top2_per = (TextView) view.findViewById(R.id.tv_top2_per);
-        tv_top3_per = (TextView) view.findViewById(R.id.tv_top3_per);
-
-        tv_top1_jianzhong = (TextView) view.findViewById(R.id.tv_top1_jianzhong);
-        tv_top2_jianzhong = (TextView) view.findViewById(R.id.tv_top2_jianzhong);
-        tv_top3_jianzhong = (TextView) view.findViewById(R.id.tv_top3_jianzhong);
-        group_info_tv = (TextView) view.findViewById(R.id.group_info_tv);
-
-
-        refreshableView.addHeaderView(view);
+//        ListView refreshableView = listHonorrank.getRefreshableView();
+//        View view = LayoutInflater.from(getContext()).inflate(R.layout.honnor_rank_head, null);
+//        linear_showMenu = (LinearLayout) view.findViewById(R.id.linear_showMenu);
+//
+//        group_info_tv = (TextView) view.findViewById(R.id.group_info_tv);
+//
+//
+//        refreshableView.addHeaderView(view);
 //        listHonorrank.setAdapter(honorGroupRankAdapter);
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -210,9 +189,9 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             listHonorrank.onRefreshComplete();
 
             //前三名状态重置
-            setTop1Wating();
-            setTop2Wating();
-            setTop3Wating();
+//            setTop1Wating();
+//            setTop2Wating();
+//            setTop3Wating();
 
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
@@ -223,31 +202,31 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 return;
             }
 
-            if (model.getList_top3() != null && model.getList_top3().size() > 0) {
+//            if (model.getList_top3() != null && model.getList_top3().size() > 0) {
                 //list中显示减脂还是减重
-                for (ListTopModel topModel : model.getList_top3()) {
-                    switch (topModel.getRanking()) {
-                        case "1":
-                            tv_top1_name.setText(topModel.getUserName());
-                            tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                            tv_top1_jianzhong.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
-                            setImage(civ_top1, topModel.getUserIconUrl());
-                            break;
-                        case "2":
-                            tv_top2_name.setText(topModel.getUserName());
-                            tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                            tv_top2_jianzhong.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
-                            setImage(civ_top2, topModel.getUserIconUrl());
-                            break;
-                        case "3":
-                            tv_top3_name.setText(topModel.getUserName());
-                            tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                            tv_top3_jianzhong.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
-                            setImage(civ_top3, topModel.getUserIconUrl());
-                            break;
-                    }
-                }
-            }
+//                for (ListTopModel topModel : model.getList_top3()) {
+//                    switch (topModel.getRanking()) {
+//                        case "1":
+//                            tv_top1_name.setText(topModel.getUserName());
+//                            tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+//                            tv_top1_jianzhong.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
+//                            setImage(civ_top1, topModel.getUserIconUrl());
+//                            break;
+//                        case "2":
+//                            tv_top2_name.setText(topModel.getUserName());
+//                            tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+//                            tv_top2_jianzhong.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
+//                            setImage(civ_top2, topModel.getUserIconUrl());
+//                            break;
+//                        case "3":
+//                            tv_top3_name.setText(topModel.getUserName());
+//                            tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
+//                            tv_top3_jianzhong.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
+//                            setImage(civ_top3, topModel.getUserIconUrl());
+//                            break;
+//                    }
+//                }
+//            }
 
 
             if (model.getList_group() != null && model.getList_group().size() > 0) {
@@ -277,26 +256,26 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         }
     }
 
-    private void setTop1Wating() {
-        civ_top1.setImageResource(R.drawable.img_default);
-        tv_top1_name.setText("");
-        tv_top1_per.setText(R.string.waiting);
-        tv_top1_jianzhong.setText("");
-    }
-
-    private void setTop2Wating() {
-        civ_top2.setImageResource(R.drawable.img_default);
-        tv_top2_name.setText("");
-        tv_top2_per.setText(R.string.waiting);
-        tv_top2_jianzhong.setText("");
-    }
-
-    private void setTop3Wating() {
-        civ_top3.setImageResource(R.drawable.img_default);
-        tv_top3_name.setText("");
-        tv_top3_per.setText(R.string.waiting);
-        tv_top3_jianzhong.setText("");
-    }
+//    private void setTop1Wating() {
+//        civ_top1.setImageResource(R.drawable.img_default);
+//        tv_top1_name.setText("");
+//        tv_top1_per.setText(R.string.waiting);
+//        tv_top1_jianzhong.setText("");
+//    }
+//
+//    private void setTop2Wating() {
+//        civ_top2.setImageResource(R.drawable.img_default);
+//        tv_top2_name.setText("");
+//        tv_top2_per.setText(R.string.waiting);
+//        tv_top2_jianzhong.setText("");
+//    }
+//
+//    private void setTop3Wating() {
+//        civ_top3.setImageResource(R.drawable.img_default);
+//        tv_top3_name.setText("");
+//        tv_top3_per.setText(R.string.waiting);
+//        tv_top3_jianzhong.setText("");
+//    }
 
     @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
     public void onClick(View view) {

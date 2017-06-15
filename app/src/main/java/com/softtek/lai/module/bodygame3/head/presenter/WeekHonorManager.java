@@ -28,8 +28,10 @@ public class WeekHonorManager {
     }
 
     public void getWeekHonnorInfo(Long UID, String classId, String byWhichRatio, String sortTimeType, int whichTime, Boolean isFirst) {
+
+        Log.i("WeekHonorFragment", "UID= " + UID + "classId = " + classId + "byWhichRatio = " + byWhichRatio + " sortTimeType= " + sortTimeType + "  whichTime = " + whichTime + " isFirst= " + isFirst);
         String token = UserInfoModel.getInstance().getToken();
-        service.doGetHonorRoll(classId,token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
+        service.doGetHonorRoll(classId, token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
                 new Callback<ResponseData<HonorRankModel>>() {
                     @Override
                     public void success(ResponseData<HonorRankModel> honorRankModelResponseData, Response response) {
@@ -39,7 +41,7 @@ public class WeekHonorManager {
                                 HonorRankModel honorRankModel = honorRankModelResponseData.getData();
                                 if (callback != null) {
                                     callback.getModel(honorRankModel);
-                                    Log.e("curryddd", "getModel: " + honorRankModel.toString());
+                                    Log.i("WeekHonorFragment", "getModel: " + honorRankModel.toString());
                                 }
                                 break;
                             default:

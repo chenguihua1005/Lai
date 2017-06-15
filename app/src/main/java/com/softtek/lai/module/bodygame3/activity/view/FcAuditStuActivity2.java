@@ -854,6 +854,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private void postImageFirstAndData() {
         {
             progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
             fcAuditPostModel = new FcAuditPostModel();
@@ -870,12 +871,17 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                                     fcAuditPostModel.setFileName(data.getData().imgName);
                                     fcAuditPostModel.setThumbnail(data.getData().thubName);
                                     doSetPostData();
+                                } else {
+                                    progressDialog.dismiss();
+                                    Util.toastMsg("提交失败");
                                 }
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
                                 super.failure(error);
+                                progressDialog.dismiss();
+                                Util.toastMsg("提交失败");
                             }
                         });
 
@@ -955,6 +961,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
+                Util.toastMsg("提交失败");
                 progressDialog.dismiss();
             }
         });
