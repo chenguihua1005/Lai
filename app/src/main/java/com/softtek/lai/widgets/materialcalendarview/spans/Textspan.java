@@ -62,13 +62,5 @@ public class Textspan implements LineBackgroundSpan {
         float center = (right + left) / 2;
         float textLength = paint.measureText(mText);
         c.drawText(mText, center - textLength / 2, bottom + baseline - 13, paint);
-
-        //小圆点
-//        int oldColor = paint.getColor();
-//        if (rediuscolor != 0) {
-//            paint.setColor(rediuscolor);
-//        }
-//        c.drawCircle((left + right) / 2, bottom + radius + 29, radius, paint);
-//        paint.setColor(oldColor);
     }
 }

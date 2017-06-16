@@ -7,18 +7,17 @@
         <attr name="textTint" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="ArrowSpinner2">
-        <attr name="arrowTint2" format="color" />
-        <attr name="hideArrow2" format="boolean" />
-        <attr name="textTint2" format="color"/>
-        <attr name="textSize2" format="dimension"/>
+    <declare-styleable name="ArrowSpinner4">
+        <attr name="arrowTint4" format="color" />
+        <attr name="hideArrow4" format="boolean" />
+        <attr name="textTint4" format="color"/>
+        <attr name="textSize4" format="dimension"/>
         <attr name="pop2Width" format="dimension"/>
         <attr name="pop2Height" format="dimension"/>
     </declare-styleable>
-    <declare-styleable name="ArrowSpinner3">
-        <attr name="arrowColor" format="color" />
-        <attr name="hideArrow3" format="boolean" />
-        <attr name="textTint3" format="color"/>
+
+    <declare-styleable name="ListDialog">
+        <attr name="hide" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ArrowRectangleView">

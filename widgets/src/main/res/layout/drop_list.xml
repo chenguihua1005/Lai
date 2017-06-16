@@ -11,7 +11,7 @@
         app:arrow_width="16dp"
         app:arrow_height="8dp"
         app:radius="2dp"
-        app:background_color="#7eca2c"
+        app:background_color="#FFFFFF"
         app:shadow_color="#66000000"
         app:shadow_thickness="5dp">
     <ListView

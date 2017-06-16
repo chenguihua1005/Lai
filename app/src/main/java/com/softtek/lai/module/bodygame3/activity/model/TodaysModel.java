@@ -11,7 +11,16 @@ public class TodaysModel {
     private int Num;
     private int IsRetest;
     private int RetestStatus;
+    private int Weekth;
     private List<TodayactModel> list_Activity;
+
+    public int getWeekth() {
+        return Weekth;
+    }
+
+    public void setWeekth(int weekth) {
+        Weekth = weekth;
+    }
 
     public int getRetestStatus() {
         return RetestStatus;

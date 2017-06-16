@@ -106,11 +106,11 @@ public class ArrowSpinner4 extends LinearLayout {
         params.width = LayoutParams.WRAP_CONTENT;
         params.rightMargin = 8;
         textView.setLayoutParams(params);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArrowSpinner2);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArrowSpinner4);
         setClickable(true);
-        textColor = typedArray.getColor(R.styleable.ArrowSpinner2_arrowTint2, -1);
+        textColor = typedArray.getColor(R.styleable.ArrowSpinner4_arrowTint4, -1);
         textView.setTextColor(textColor);
-        textSize = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_textSize2, 10);
+        textSize = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner4_textSize4, 10);
         textView.setTextSize(textSize);
 
         View view = LayoutInflater.from(context).inflate(R.layout.drop_list4, null);
@@ -144,8 +144,8 @@ public class ArrowSpinner4 extends LinearLayout {
         });
         popupWindow = new PopupWindow(context);
         int defPopWidthValue = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 170, getContext().getResources().getDisplayMetrics());
-        int pop2Width = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_pop2Width, defPopWidthValue);
-        int pop2Height = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner2_pop2Height, WindowManager.LayoutParams.WRAP_CONTENT);
+        int pop2Width = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner4_pop2Width, defPopWidthValue);
+        int pop2Height = typedArray.getDimensionPixelSize(R.styleable.ArrowSpinner4_pop2Height, WindowManager.LayoutParams.WRAP_CONTENT);
         //popupWindow.setAnimationStyle(R.style.mypopupwindow);
         popupWindow.setWidth(pop2Width);
         popupWindow.setHeight(pop2Height);
@@ -170,10 +170,10 @@ public class ArrowSpinner4 extends LinearLayout {
             }
         });
 
-        isArrowHide = typedArray.getBoolean(R.styleable.ArrowSpinner2_hideArrow2, false);
+        isArrowHide = typedArray.getBoolean(R.styleable.ArrowSpinner4_hideArrow4, false);
         if (!isArrowHide) {
             Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow);
-            int resId = typedArray.getColor(R.styleable.ArrowSpinner2_arrowTint2, -1);
+            int resId = typedArray.getColor(R.styleable.ArrowSpinner4_arrowTint4, -1);
             if (basicDrawable != null) {
                 drawable = DrawableCompat.wrap(basicDrawable);
                 if (resId != -1) {

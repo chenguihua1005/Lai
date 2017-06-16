@@ -14,30 +14,29 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ggx.widgets.R;
-import com.ggx.widgets.drop.ArrowRectangleView;
 
 /**
  *
  * Created by jerry.guan on 11/16/2016.
  */
 
-public class ArrowSpinner3 extends TextView{
+public class ListDialog extends TextView{
 
-    private static final int MAX_LEVEL = 10000;
     private static final int DEFAULT_ELEVATION = 16;
     private static final String INSTANCE_STATE = "instance_state";
     private static final String SELECTED_INDEX = "selected_index";
@@ -45,26 +44,24 @@ public class ArrowSpinner3 extends TextView{
 
     private int selectedIndex;
     private Drawable drawable;
-    private PopupWindow popupWindow;
     private ListView listView;
     private ArrowSpinnerAdapter adapter;
     private AdapterView.OnItemClickListener onItemClickListener;
     private AdapterView.OnItemSelectedListener onItemSelectedListener;
     private boolean isArrowHide;
-    private int textColor;
+    private AlertDialog dialog;
 
-
-    public ArrowSpinner3(Context context) {
+    public ListDialog(Context context) {
         super(context);
         init(context, null);
     }
 
-    public ArrowSpinner3(Context context, AttributeSet attrs) {
+    public ListDialog(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public ArrowSpinner3(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ListDialog(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -78,25 +75,16 @@ public class ArrowSpinner3 extends TextView{
         Bundle bundle = new Bundle();
         bundle.putParcelable(INSTANCE_STATE, super.onSaveInstanceState());
         bundle.putInt(SELECTED_INDEX, selectedIndex);
-        if (popupWindow != null) {
-            bundle.putBoolean(IS_POPUP_SHOWING, popupWindow.isShowing());
-            dismissDropDown();
-        }
         return bundle;
     }
 
     private void init(Context context, AttributeSet attrs) {
         setGravity(Gravity.CENTER);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArrowSpinner3);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ListDialog);
         setClickable(true);
-        textColor = typedArray.getColor(R.styleable.ArrowSpinner3_textTint3, -1);
-        setTextColor(textColor);
 
-        View view= LayoutInflater.from(context).inflate(R.layout.drop_list,null);
-        ArrowRectangleView arv= (ArrowRectangleView) view.findViewById(R.id.arv);
-        arv.setArrowPosition(ArrowRectangleView.MIDDLE);
-        listView = (ListView) view.findViewById(R.id.lv);
-        listView.setDivider(new ColorDrawable(Color.WHITE));
+        listView = new ListView(getContext());
+        listView.setDivider(new ColorDrawable(Color.parseColor("#c0c0c0")));
         listView.setDividerHeight(2);
         listView.setItemsCanFocus(true);
         listView.setVerticalScrollBarEnabled(false);
@@ -118,33 +106,15 @@ public class ArrowSpinner3 extends TextView{
                 if (onItemSelectedListener != null) {
                     onItemSelectedListener.onItemSelected(parent, view, position, id);
                 }
-                dismissDropDown();
-            }
-        });
-        popupWindow = new PopupWindow(context);
-        //popupWindow.setAnimationStyle(R.style.mypopupwindow);
-        popupWindow.setWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,170,getContext().getResources().getDisplayMetrics()));
-        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setContentView(view);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            popupWindow.setElevation(DEFAULT_ELEVATION);
-        }
-        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
-
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                if (!isArrowHide) {
-                    animateArrow(false);
-                }
+                dialog.dismiss();
             }
         });
 
-        isArrowHide = typedArray.getBoolean(R.styleable.ArrowSpinner3_hideArrow3, false);
+        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+        builder.setView(listView);
+        dialog=builder.create();
+
+        isArrowHide = typedArray.getBoolean(R.styleable.ListDialog_hide, false);
         if (!isArrowHide) {
             Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow_white);
             if (basicDrawable != null) {
@@ -208,51 +178,32 @@ public class ArrowSpinner3 extends TextView{
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if(adapter!=null&&adapter.getCount()>5){
             int defPopWidthValue = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 215, getContext().getResources().getDisplayMetrics());
-            popupWindow.setHeight(defPopWidthValue);
+            AbsListView.LayoutParams params= (AbsListView.LayoutParams) listView.getLayoutParams();
+            params.height=defPopWidthValue;
+            listView.setLayoutParams(params);
         }
     }
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (!popupWindow.isShowing()) {
+            if (!dialog.isShowing()) {
                 if(adapter.getCount()>1){
                     showDropDown();
 
                 }
             } else {
-                dismissDropDown();
+                dialog.dismiss();
             }
         }
         return super.onTouchEvent(event);
     }
 
-    private void animateArrow(boolean shouldRotateUp) {
-        int start = shouldRotateUp ? 0 : MAX_LEVEL;
-        int end = shouldRotateUp ? MAX_LEVEL : 0;
-        ObjectAnimator animator = ObjectAnimator.ofInt(drawable, "level", start, end);
-        animator.setInterpolator(new LinearOutSlowInInterpolator());
-        animator.start();
-    }
 
-    public void dismissDropDown() {
-        if (!isArrowHide) {
-            animateArrow(false);
-        }
-        popupWindow.dismiss();
-    }
 
     public void showDropDown() {
-        if (!isArrowHide) {
-            animateArrow(true);
-        }
-        int[] location=new int[2];
-        getLocationOnScreen(location);
-        //计算差值
-        //int cha=popupWindow.getWidth()/2-getWidth()/2;
-        int cha=(popupWindow.getWidth()-getWidth())/2;
-        //popupWindow.showAtLocation(this,Gravity.NO_GRAVITY,location[0]-,location[1]+getHeight()-35);
-        popupWindow.showAsDropDown(this,-cha,-35);
+        dialog.show();
+
     }
 
     public void setTintColor(@ColorRes int resId) {

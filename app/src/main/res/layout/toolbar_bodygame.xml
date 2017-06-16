@@ -24,15 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back_home" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:layout_marginTop="5dp"
-            android:text="主页"
-            android:visibility="gone"
-            android:textColor="@color/white"
-            android:textSize="10sp" />
+
     </LinearLayout>
 
     <TextView
@@ -42,9 +34,10 @@
         android:drawablePadding="2dp"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text=""/>
 
-    <com.ggx.widgets.nicespinner.ArrowSpinner3
+    <com.ggx.widgets.nicespinner.ListDialog
         android:id="@+id/spinner_title1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -53,8 +46,8 @@
         android:textSize="18sp"
         android:maxLines="1"
         android:ellipsize="end"
+        android:textColor="#FFFFFF"
         android:maxEms="10"
-        app:textTint3="@color/white"
         />
     <FrameLayout
         android:id="@+id/fl_right"

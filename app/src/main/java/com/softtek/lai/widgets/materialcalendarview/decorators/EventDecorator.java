@@ -38,8 +38,6 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-
-
         view.addSpan(new Textspan(context,mode,4,role));
     }
 }

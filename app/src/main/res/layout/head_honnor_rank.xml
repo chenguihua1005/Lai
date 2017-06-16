@@ -175,11 +175,11 @@
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_week_frame"
                     android:padding="5dp"
-                    app:arrowTint2="#333333"
+                    app:arrowTint4="#333333"
                     app:pop2Height="100dp"
                     app:pop2Width="140dp"
-                    app:textSize2="11px"
-                    app:textTint2="#333333" />
+                    app:textSize4="11px"
+                    app:textTint4="#333333" />
 
             </RelativeLayout>
 

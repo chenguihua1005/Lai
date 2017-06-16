@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
@@ -18,13 +17,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyTypeAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner3;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
+import com.ggx.widgets.nicespinner.ListDialog;
 import com.ggx.widgets.nicespinner.NiceSpinner;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -87,7 +87,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.spinner_title1)
-    ArrowSpinner3 tv_title;
+    ListDialog tv_title;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.iv_right)
@@ -544,7 +544,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         video_type1.setText(tuijianModels.get(0).getVideoType());
                                         video_name1.setText(tuijianModels.get(0).getTitle());
                                         Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_video1_bg);
-//                                Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
                                         iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -751,34 +750,27 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                     int icon;
                                     switch (data.getClassRole()) {
                                         case 1:
-                                            icon = selected ? R.drawable.class_zongjiaolian_re : R.drawable.class_zongjiaolian;
+                                            icon =  R.drawable.class_zongjiaolian_re;
                                             break;
                                         case 2:
-                                            icon = selected ? R.drawable.class_jiaolian_re : R.drawable.class_jiaolian;
+                                            icon =  R.drawable.class_jiaolian_re ;
                                             break;
                                         case 3:
-                                            icon = selected ? R.drawable.class_zhujiao_re : R.drawable.class_zhujiao;
+                                            icon = R.drawable.class_zhujiao_re ;
                                             break;
                                         default:
-                                            icon = selected ? R.drawable.class_xueyuan_re : R.drawable.class_xueyuan;
+                                            icon = R.drawable.class_xueyuan_re;
                                             break;
                                     }
                                     iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                                    int color = selected ? 0xFF000000 : 0xFFFFFFFF;
-                                    TextView tv_role = holder.getView(R.id.tv_role_name);
-                                    int role = data.getClassRole();
-                                    tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
-                                    tv_role.setTextColor(color);
                                     TextView tv_number = holder.getView(R.id.tv_number);
-                                    tv_number.setText(data.getClassCode());
-                                    tv_number.setTextColor(color);
+                                    tv_number.setText("班级编号:"+data.getClassCode());
                                     TextView tv_class_name = holder.getView(R.id.tv_class_name);
                                     tv_class_name.setText(data.getClassName());
-                                    tv_class_name.setTextColor(color);
-                                    ImageView iv_sel = holder.getView(R.id.iv_select);
-                                    iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
-                                    RelativeLayout rl_bg = holder.getView(R.id.rl_bg);
-                                    rl_bg.setBackgroundColor(selected ? 0xFFFFFFFF : 0x00FFFFFF);
+                                    RadioButton iv_sel = holder.getView(R.id.iv_select);
+                                    //android:src="@drawable/more_select"
+                                    //iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+                                    iv_sel.setChecked(selected);
                                 }
 
                                 @Override

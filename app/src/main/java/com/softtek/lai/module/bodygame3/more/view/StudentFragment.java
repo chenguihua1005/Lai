@@ -201,10 +201,6 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                                             msg.what = 0x0001;
                                             handler.sendMessage(msg);
                                         } catch (HyphenateException e) {
-//                                            Util.toastMsg("退出班级失败！");
-//                                            Looper.prepare();
-//                                            dialogDissmiss();
-//                                            Looper.loop();
                                             Message msg = new Message();
                                             msg.what = 0x0002;
                                             msg.arg1 = e.getErrorCode();

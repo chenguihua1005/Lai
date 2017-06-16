@@ -17,7 +17,7 @@
             android:layout_alignParentLeft="true"
             android:textSize="15sp"
             android:text="当前班级"/>
-        <com.ggx.widgets.nicespinner.ArrowSpinner2
+        <com.ggx.widgets.nicespinner.ListDialog
             android:id="@+id/arrow_spinner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -25,9 +25,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:gravity="center"
-            app:textSize2="15px"
-            app:textTint2="#333333"
-            app:arrowTint2="#333333"
+            android:textSize="15sp"
+            android:textColor="#333333"
             />
     </RelativeLayout>
     <View

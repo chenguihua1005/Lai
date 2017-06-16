@@ -20,7 +20,7 @@ public class ActivitydataModel  {
     private int RetestStatus;//
     private List<TodayactModel> list_Activity;
     private List<ClassModel> list_Class;
-
+    private int Weekth;
 
 
 
@@ -37,7 +37,13 @@ public class ActivitydataModel  {
         RetestStatus = retestStatus;
     }
 
+    public int getWeekth() {
+        return Weekth;
+    }
 
+    public void setWeekth(int weekth) {
+        Weekth = weekth;
+    }
 
     public List<ActCalendarModel> getList_ActCalendar() {
         return list_ActCalendar;

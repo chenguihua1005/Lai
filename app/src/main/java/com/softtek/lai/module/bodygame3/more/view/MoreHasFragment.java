@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner2;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
+import com.ggx.widgets.nicespinner.ListDialog;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
@@ -34,7 +34,7 @@ import butterknife.InjectView;
 public class MoreHasFragment extends Fragment {
 
     @InjectView(R.id.arrow_spinner)
-    ArrowSpinner2 arrow;
+    ListDialog arrow;
     @InjectView(R.id.tv_role)
     TextView tv_role_name;
     @InjectView(R.id.tv_number)
@@ -75,7 +75,6 @@ public class MoreHasFragment extends Fragment {
         model=getArguments().getParcelable("classModel");
         if (classModels != null && !classModels.isEmpty()) {
             if(model!=null){
-                Log.i("传递过来的mode参数="+model.toString());
                 boolean isExist=false;
                 for (int i=0;i<classModels.size();i++){
                     ClassModel model=classModels.get(i);
@@ -109,43 +108,34 @@ public class MoreHasFragment extends Fragment {
             choosePanel(role);
 
         }
-
+        arrow.setTintColor(R.color.black);
         arrow.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
             @Override
             public void convert(ViewHolder holder, ClassModel data, int position) {
                 ImageView iv_icon = holder.getView(R.id.iv_icon);
-                boolean selected=arrow.getSelectedIndex()==position;
+                boolean selected = arrow.getSelectedIndex() == position;
                 int icon;
                 switch (data.getClassRole()) {
                     case 1:
-                        icon = selected?R.drawable.class_zongjiaolian_re:R.drawable.class_zongjiaolian;
+                        icon =  R.drawable.class_zongjiaolian_re;
                         break;
                     case 2:
-                        icon = selected?R.drawable.class_jiaolian_re:R.drawable.class_jiaolian;
+                        icon =  R.drawable.class_jiaolian_re ;
                         break;
                     case 3:
-                        icon = selected?R.drawable.class_zhujiao_re:R.drawable.class_zhujiao;
+                        icon = R.drawable.class_zhujiao_re ;
                         break;
                     default:
-                        icon = selected?R.drawable.class_xueyuan_re:R.drawable.class_xueyuan;
+                        icon = R.drawable.class_xueyuan_re;
                         break;
                 }
                 iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                int color=selected?0xFF000000:0xFFFFFFFF;
-                TextView tv_role = holder.getView(R.id.tv_role_name);
-                int role = data.getClassRole();
-                tv_role.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
-                tv_role.setTextColor(color);
                 TextView tv_number = holder.getView(R.id.tv_number);
-                tv_number.setText(data.getClassCode());
-                tv_number.setTextColor(color);
+                tv_number.setText("班级编号:"+data.getClassCode());
                 TextView tv_class_name = holder.getView(R.id.tv_class_name);
                 tv_class_name.setText(data.getClassName());
-                tv_class_name.setTextColor(color);
-                ImageView iv_sel=holder.getView(R.id.iv_select);
-                iv_sel.setVisibility(selected?View.VISIBLE:View.INVISIBLE);
-                RelativeLayout rl_bg=holder.getView(R.id.rl_bg);
-                rl_bg.setBackgroundColor(selected?0xFFFFFFFF:0x00FFFFFF);
+                RadioButton iv_sel = holder.getView(R.id.iv_select);
+                iv_sel.setChecked(selected);
             }
 
             @Override

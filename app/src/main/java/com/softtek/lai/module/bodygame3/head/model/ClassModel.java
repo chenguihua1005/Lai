@@ -11,7 +11,7 @@ public class ClassModel{
     private String ClassId;
     private String ClassName;
     private String ClassCode;
-    private int ClassRole;
+    private int ClassRole;//role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员"
     private String ClassWeek;
 
     public ClassModel(String classId, String className, String classCode, int classRole, String classWeek) {
