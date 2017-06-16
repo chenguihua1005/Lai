@@ -389,7 +389,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     }
 
     //是否有消息
-    private void gethasemail() {
+    private void getHasEmail() {
         service.hasemail(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<NewsModel>>() {
             @Override
             public void success(ResponseData<NewsModel> responseData, Response response) {
@@ -646,7 +646,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                     classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
                 } else {
                     classModels.clear();
-                    getallfirst(classId_first);
+                    getAllfirst(classId_first);
                 }
             }
 
@@ -722,10 +722,10 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        gethasemail();
+        getHasEmail();
     }
 
-    private void getallfirst(final String classId) {
+    private void getAllfirst(final String classId) {
         service.getfirst(classId, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), 10, classId, new RequestCallback<ResponseData<ClassinfoModel>>() {
             @Override
             public void success(ResponseData<ClassinfoModel> classinfoModelResponseData, Response response) {
@@ -890,7 +890,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 video_type1.setText(tuijianModels.get(0).getVideoType());
                                 video_name1.setText(tuijianModels.get(0).getTitle());
                                 Picasso.with(getContext()).load(path + tuijianModels.get(0).getPhoto()).fit().error(R.drawable.default_icon_rect).placeholder(R.drawable.default_icon_rect).into(iv_video1_bg);
-//                                Picasso.with(getContext()).load(R.drawable.default_icon_rect).into(iv_video2_bg);
                                 iv_imagevideo1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -901,7 +900,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         startActivity(intent4);
                                     }
                                 });
-//                                iv_imagevideo2.setVisibility(View.GONE);
                             }
                         } else {
                             lin_tuijian.setVisibility(View.GONE);
@@ -982,11 +980,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent in = new Intent(getContext(), PictureMoreActivity.class);
-//                        in.putStringArrayListExtra("images", photos);
-//                        in.putExtra("position", position);
-//                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(v, v.getWidth() / 2, v.getHeight() / 2, 0, 0);
-//                        ActivityCompat.startActivity(getContext(), in, optionsCompat.toBundle());
                         Intent intent = new Intent(getContext(), LookBigPicActivity.class);
                         Bundle bundle = new Bundle();
                         List<EaluationPicBean> list = EvaluateUtil.setupCoords4(getContext(), (ImageView) v, photos, position);
@@ -1026,9 +1019,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
             classModels.clear();
-            getallfirst(classId_first);
+            getAllfirst(classId_first);
         }
-        gethasemail();
+        getHasEmail();
     }
 
     @Override
