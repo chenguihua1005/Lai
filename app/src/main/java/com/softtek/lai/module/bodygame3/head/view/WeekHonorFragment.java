@@ -2,33 +2,30 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
-import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner4;
-import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.adapter.HonorAdapter;
+import com.softtek.lai.module.bodygame3.head.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
-import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
 import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
-import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.module.laiClassroom.adapter.TabAdapter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -56,7 +53,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private boolean is_first = true;
 
     @InjectView(R.id.list_honorrank)
-    PullToRefreshListView listHonorrank;//列表
+    PullToRefreshExpandableListView listHonorrank;//列表  PullToRefreshExpandableListView
     @InjectView(R.id.ll_weight_per)
     LinearLayout ll_weight_per;
     @InjectView(R.id.ll_fat_per)
@@ -74,24 +71,14 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @InjectView(R.id.ll_no_data)
     LinearLayout ll_no_data;
 
-    EasyAdapter<ListGroupModel> honorGroupRankAdapter;
+    private HonorAdapter adapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();
-    private WeekHonorManager weekHonorManager;
-    //    private CircleImageView civ_top1;
-//    private CircleImageView civ_top2;
-//    private CircleImageView civ_top3;
-//    TextView tv_top1_name;
-//    private TextView tv_top2_name;
-//    private TextView tv_top3_name;
-//    private TextView tv_top1_per;
-//    private TextView tv_top2_per;
-//    private TextView tv_top3_per;
-//    private ArrowSpinner4 spinner;
-//    private HonorRankModel honorRankModel;
+    private List<ClassMemberModel> classMemberModelList = new ArrayList<ClassMemberModel>();
+    private List<String> parentsTitle = new ArrayList<String>();
 
-    //    private TextView tv_top2_loss;//减重、脂数
-//    private TextView tv_top1_loss;
-//    private TextView tv_top3_loss;
+
+    private WeekHonorManager weekHonorManager;
+
     private TextView group_info_tv;//小组排名总信息
 
     List<ListdateModel> spinnerData = new ArrayList<>();
@@ -116,28 +103,36 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         Bundle bundle = getArguments();     //提交的话取消注释
         ClassId = bundle.getString("classId");
         selectWeight();
-        newAdapter();
+
         ListView refreshableView = listHonorrank.getRefreshableView();
         View view = LayoutInflater.from(getContext()).inflate(R.layout.honnor_rank_head, null);
-
-//        spinner = (ArrowSpinner4) view.findViewById(R.id.spinner);
-
-
         group_info_tv = (TextView) view.findViewById(R.id.group_info_tv);
-
         refreshableView.addHeaderView(view);
+
+
         //加上就先显示空的头部，这种效果不要。、
         //注释掉后第一种情况可以解决;第二种应该是因为没有给list一条空数据所以没有显示空头部；第三种情况依然正确。
         // 所以给list一条空数据就应该显示空的头部了
 //        listHonorrank.setAdapter(honorGroupRankAdapter);
 
+
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+
+        adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, ByWhichRatio);
+        listHonorrank.getRefreshableView().setAdapter(adapter);
+        listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
                 weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
             }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+
+            }
         });
+
+
         listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -157,49 +152,104 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     }
 
-    private void newAdapter() {
-        honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
-            @Override
-            public void convert(ViewHolder holder, ListGroupModel data, int position) {
-                if (TextUtils.isEmpty(data.getRanking())) {
-                    holder.getConvertView().setVisibility(View.GONE);
-                    return;
-                }
-                TextView tv_coach_type = holder.getView(R.id.tv_coach_type);
-                tv_coach_type.setText(data.getCoachType());
-                TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
-                tv_rank_number.setText(data.getRanking());
-                TextView tv_group_name = holder.getView(R.id.tv_group_name);
-                //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
-//                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
+//    private void newAdapter() {
+//        honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
+//            @Override
+//            public void convert(ViewHolder holder, ListGroupModel data, int position) {
+//                if (TextUtils.isEmpty(data.getRanking())) {
+//                    holder.getConvertView().setVisibility(View.GONE);
+//                    return;
+//                }
+//                TextView tv_coach_type = holder.getView(R.id.tv_coach_type);
+//                tv_coach_type.setText(data.getCoachType());
+//                TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
+//                tv_rank_number.setText(data.getRanking());
+//                TextView tv_group_name = holder.getView(R.id.tv_group_name);
+//                //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
+////                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
+//
+//                //减重、脂
+//                TextView loss_total_tv = holder.getView(R.id.loss_total_tv);
+//                loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + data.getLoss() + "斤" : "减脂" + data.getLoss() + "%");
+//
+//                tv_group_name.setText(data.getGroupName());
+//                CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
+//                setImage(civ_trainer_header, data.getCoachIco());
+////                Log.e("curry", "convert: " + data.getCoachIco());
+//                TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
+//                tv_trainer_name.setText(data.getCoachName());
+//                TextView tv_per_number = holder.getView(R.id.tv_per_number);
+//                if (TextUtils.isEmpty(data.getLossPer())) {
+//                    tv_per_number.setText("--");
+//                } else {
+//                    tv_per_number.setText(data.getLossPer());
+//                }
+//                TextView tv_by_which = holder.getView(R.id.tv_by_which);
+//                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
+//            }
+//        };
+//
+//        classRankAdapter = new EasyAdapter<ClassMemberModel>(getContext(), classMemberModelList, R.layout.classrank_item) {
+//            @Override
+//            public void convert(ViewHolder holder, ClassMemberModel data, int position) {
+//                Log.i("WeekHonorFragment", "data " + position + " = " + new Gson().toJson(data));
+//                if (TextUtils.isEmpty(data.getRanking())) {
+//                    holder.getConvertView().setVisibility(View.GONE);
+//                    return;
+//                }
+//
+//                CircleImageView civ = holder.getView(R.id.head_img);
+//                Picasso.with(getContext()).load(AddressManager.get("photoHost") + data.getUserIconUrl())
+//                        .fit().error(R.drawable.img_default)
+//                        .placeholder(R.drawable.img_default).into(civ);
+//                ImageView role_img = holder.getView(R.id.role_img);
+////                role_img.setVisibility("1".equals(data.getIsRetire()) ? View.VISIBLE : View.GONE);
+//
+//
+//                TextView paiming = holder.getView(R.id.paiming);
+//                paiming.setText(data.getRanking());
+//                TextView name_tv = holder.getView(R.id.name_tv);
+//                name_tv.setText(data.getUserName());
+//                ImageView fale = holder.getView(R.id.fale);
+//                if (data.getGender() == 1) {
+//                    fale.setImageResource(R.drawable.female_iv);
+//                } else if (data.getGender() == 0) {
+//                    fale.setImageResource(R.drawable.male_iv);
+//                }
+//
+//
+//                TextView group_tv = holder.getView(R.id.group_tv);
+//                group_tv.setText("(" + data.getCGName() + ")");
+//                TextView weight_first = holder.getView(R.id.weight_first);
+//                if ("ByWeightRatio".equals(ByWhichRatio)) {
+//                    weight_first.setText("初始" + data.getInitWeight() + "斤.减重：" + data.getLoss() + "斤");
+//                } else {
+//                    weight_first.setText("初始" + data.getInitWeight() + ".减重：" + data.getLoss());
+//                }
+//
+//                TextView tv_bi = holder.getView(R.id.tv_bi);
+//                TextView jianzhong_tv = holder.getView(R.id.jianzhong_tv);
+//                TextView jianzhong_tv2 = holder.getView(R.id.jianzhong_tv2);
+//                if ("ByWeightRatio".equals(ByWhichRatio)) {
+//                    tv_bi.setText("减重比");
+//                    jianzhong_tv.setText(data.getLossPer());
+//                } else {
+//                    tv_bi.setText("减脂比");
+//                    jianzhong_tv.setText(data.getLossPer());
+//                }
+//
+//            }
+//        };
+//    }
 
-                //减重、脂
-                TextView loss_total_tv = holder.getView(R.id.loss_total_tv);
-                loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + data.getLoss() + "斤" : "减脂" + data.getLoss() + "%");
-
-                tv_group_name.setText(data.getGroupName());
-                CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
-                setImage(civ_trainer_header, data.getCoachIco());
-//                Log.e("curry", "convert: " + data.getCoachIco());
-                TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
-                tv_trainer_name.setText(data.getCoachName());
-                TextView tv_per_number = holder.getView(R.id.tv_per_number);
-                if (TextUtils.isEmpty(data.getLossPer())) {
-                    tv_per_number.setText("--");
-                } else {
-                    tv_per_number.setText(data.getLossPer());
-                }
-                TextView tv_by_which = holder.getView(R.id.tv_by_which);
-                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
-            }
-        };
-    }
 
     /**
      * 每次切换都会执行
      */
     @Override
     protected void initDatas() {
+
+
         //根据position返回当前值给标题
 //        spinnerAdapter = new ArrowSpinnerAdapter<String>(getContext(), spinnerData2, R.layout.class_title) {
 //            @Override
@@ -239,34 +289,36 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     @Override
     public void getModel(HonorRankModel model) {
-//        Log.i("WeekHonorFragment", "获取到的数据= " + new Gson().toJson(model));
+        parentsTitle.clear();
+        groupModelList.clear();
+        classMemberModelList.clear();
         try {
             listHonorrank.onRefreshComplete();
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
-                groupModelList.clear();
-                newAdapter();
-                listHonorrank.setAdapter(honorGroupRankAdapter);
-                listHonorrank.setEmptyView(ll_no_data);
+//                adapter.notifyDataSetChanged();
+//                groups.clear();
+//                groups.addAll(temp);
+//                for (int i = 0; i < parents.size(); i++) {
+//                    lv.getRefreshableView().expandGroup(i);
+//                }
+
+
+//                parentsTitle.clear();
+//                groupModelList.clear();
+//                classMemberModelList.clear();
+                adapter.notifyDataSetChanged();
+//                listHonorrank.setEmptyView(ll_no_data);
                 return;
             }
             //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
             if (model.getList_date() != null) {
                 //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
                 if (model.getList_date().size() != 0) {
-                    WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
+//                    WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
+                    WhichTime = 8;
 
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            //默认请求当前周
-//                            WhichTime = Integer.valueOf(spinnerData.get(0).getDateValue());
-//                    loadData(false);
-//                        }
-//                    }, 500);
-
-
-                    spinnerData.clear();
+                    spinnerData.clear(); //.踢馆周期
                     spinnerData = model.getList_date();
 //                    for (int i = 0; i < spinnerData.size(); i++) {
 //                        spinnerData2.add(spinnerData.get(i).getDateName());
@@ -287,9 +339,10 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                     //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
                 } else {
                     if (is_first) {
+                        parentsTitle.clear();
                         groupModelList.clear();
-                        newAdapter();
-                        listHonorrank.setAdapter(honorGroupRankAdapter);
+                        classMemberModelList.clear();
+                        adapter.notifyDataSetChanged();
                         listHonorrank.setEmptyView(ll_no_data);
                         return;
                     }
@@ -299,18 +352,33 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             //不为null，list数据为零，显示“虚位以待”
 
             if (model.getList_group() != null && model.getList_group().size() > 0) {
-//                honorRankModel = model;
-                //更新list数据
                 groupModelList.clear();
                 groupModelList.addAll(model.getList_group());
-                newAdapter();
-                listHonorrank.setAdapter(honorGroupRankAdapter);
             } else {
                 groupModelList.clear();
-                groupModelList.add(new ListGroupModel());
-                honorGroupRankAdapter.notifyDataSetChanged();
             }
-            group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%");
+
+//            班级排名
+            if (model.getList_all() != null && model.getList_all().size() > 0) {
+                classMemberModelList.clear();
+                classMemberModelList.addAll(model.getList_all());
+            } else {
+                classMemberModelList.clear();
+            }
+
+            String str_group = "小组排名 ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%";
+            parentsTitle.add(str_group);
+            parentsTitle.add("班级排名");
+
+            Log.i("WeekHonorFragment", "parentsTitle= " + new Gson().toJson(parentsTitle));
+            Log.i("WeekHonorFragment", "groupModelList= " + new Gson().toJson(groupModelList));
+            Log.i("WeekHonorFragment", "classMemberModelList= " + new Gson().toJson(classMemberModelList));
+
+            adapter.notifyDataSetChanged();
+            for (int i = 0; i < parentsTitle.size(); i++) {
+                listHonorrank.getRefreshableView().expandGroup(i);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

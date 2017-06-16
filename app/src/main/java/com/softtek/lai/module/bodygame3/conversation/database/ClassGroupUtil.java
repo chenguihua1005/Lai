@@ -59,6 +59,7 @@ public class ClassGroupUtil {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             // TODO: handle exception
         } finally {
             if (cursor != null)

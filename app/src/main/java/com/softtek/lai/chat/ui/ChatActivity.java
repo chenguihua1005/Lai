@@ -31,6 +31,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassGroupUtil;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupModel;
+import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
@@ -101,7 +102,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
             if (classModel != null) {
                 tv_title.setText(classModel.getClassName());
-            } else if (ClassGroupUtil.getInstance().findGroup(toChatUsername) != null) {
+            } else if (ClassGroupUtil.getInstance().tableIsExist(GroupTable.TABLE_NAME) && ClassGroupUtil.getInstance().findGroup(toChatUsername) != null) {
                 GroupModel model = ClassGroupUtil.getInstance().findGroup(toChatUsername);
                 Log.i(TAG, "here 查询数据库 = " + model.getClassName());
                 tv_title.setText(model.getClassName());
