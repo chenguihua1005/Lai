@@ -923,6 +923,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
     void doSetPostData() {
         {
             progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
             Log.i("WriteFCActivity", "提交的初始录入数据 fcStDataModel = " + new Gson().toJson(fcStDataModel));

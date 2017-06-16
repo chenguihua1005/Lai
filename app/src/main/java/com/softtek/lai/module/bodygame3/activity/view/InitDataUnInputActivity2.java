@@ -895,6 +895,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     private void doSetPostData() {
         {
             progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
             if (isExistPhoto == 2) {
                 //上传图片
@@ -910,8 +911,8 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                     fcAuditPostModel.setThumbnail(imageResponse2ResponseData.getData().thubName);
                                     doPostInitData();
                                 } else {
-                                    progressDialog.setMessage("提交失败");
-                                    dialogDissmiss();
+                                    Util.toastMsg("提交失败");
+                                    progressDialog.dismiss();
                                 }
 
                             }
@@ -919,8 +920,8 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                             @Override
                             public void failure(RetrofitError error) {
                                 super.failure(error);
-                                progressDialog.setMessage("提交失败");
-                                dialogDissmiss();
+                                Util.toastMsg("提交失败");
+                                progressDialog.dismiss();
                             }
                         });
             } else {
@@ -989,6 +990,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
+                progressDialog.dismiss();
             }
         });
     }

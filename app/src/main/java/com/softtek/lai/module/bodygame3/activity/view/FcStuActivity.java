@@ -276,7 +276,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                         if (ActivityCompat.checkSelfPermission(FcStuActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                             //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
                                             //允许弹出提示
-                                            ActivityCompat.requestPermissions(FcStuActivity.this,new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                            ActivityCompat.requestPermissions(FcStuActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                         } else {
                                             imageFileSelector.takePhoto(FcStuActivity.this);
                                         }
@@ -595,6 +595,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         Log.i("FcStuActivity", "提交复测数据= " + new Gson().toJson(fcStDataModel));
         {
             progressDialog.setMessage("正在提交数据，请等待");
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
             multipartTypedOutput.addPart("accountId", new TypedString(UserInfoModel.getInstance().getUser().getUserid()));
             multipartTypedOutput.addPart("classId", new TypedString(classId));
