@@ -16,6 +16,7 @@
             android:id="@+id/paiming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="aa"
             android:textColor="@color/word"
             android:textSize="13sp"

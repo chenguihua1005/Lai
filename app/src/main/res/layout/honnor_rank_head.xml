@@ -18,12 +18,23 @@
         android:paddingRight="10dp"
         android:paddingTop="12dp">
 
-        <TextView
+        <!--       <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:gravity="center"
+                   android:text="第十一体馆周"
+                   android:textSize="14sp" />-->
+
+        <com.ggx.widgets.nicespinner.ListDialog
+            android:id="@+id/arrow_spinner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
             android:gravity="center"
-            android:text="第十一体馆周"
-            android:textSize="14sp" />
+            android:textColor="#333333"
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -37,8 +48,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textView3"

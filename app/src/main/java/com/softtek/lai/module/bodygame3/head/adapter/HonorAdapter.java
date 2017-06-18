@@ -28,57 +28,65 @@ import zilla.libcore.file.AddressManager;
  * Created by jessica.zhang on 6/16/2017.
  */
 
-public class HonorAdapter extends BaseExpandableListAdapter {
+public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableListAdapter
+
+    private static final String TAG = "HonorAdapter";
     private Context context;
     private List<String> parents = new ArrayList<String>();
 
+    //    private List<ListGroupModel> groupModelList = new ArrayList<ListGroupModel>(); //ClassMemberModel
     private List<ListGroupModel> groupModelList = new ArrayList<ListGroupModel>();
-    private List<ClassMemberModel> classMemberModelList = new ArrayList<ClassMemberModel>();
+
+    private List<ListGroupModel> classMemberModelList = new ArrayList<ListGroupModel>();
+    private List<List<ListGroupModel>> son_List = new ArrayList<>();
+
     private String ByWhichRatio = "";
 
-    public HonorAdapter(Context context, List<String> titiesList, List<ListGroupModel> groupModelList, List<ClassMemberModel> classMemberModelList, String ByWhichRatio) {
+    private final int TYPE_1 = 1;//小组
+    private final int TYPE_2 = 2;//班级
+
+    public HonorAdapter(Context context, List<String> titiesList, List<ListGroupModel> groupModelList, List<ListGroupModel> classMemberModelList, List<List<ListGroupModel>> son_List, String ByWhichRatio) {
         this.context = context;
         this.parents = titiesList;
         this.groupModelList = groupModelList;
         this.classMemberModelList = classMemberModelList;
+        this.son_List = son_List;
         this.ByWhichRatio = ByWhichRatio;
+        Log.i(TAG, "ByWhichRatio = " + ByWhichRatio);
     }
 
     @Override
     public int getGroupCount() {
-        return parents.size();
+        return parents != null ? parents.size() : 0;
     }
 
     @Override
-    public int getChildrenCount(int i) {
-        int count = 0;
-        if (i == 0) {
-            count = groupModelList.size();
-        } else if (i == 1) {
-            count = classMemberModelList.size();
+    public int getChildrenCount(int groupPosition) {
+        Log.i(TAG, "getChildrenCount ...groupPosition =  " + groupPosition);
+        //规避框架自动调用不合法参数的错误
+        if (groupPosition >= parents.size()) {
+            return 0;
         }
-        return count;
+        return son_List != null ? son_List.get(groupPosition).size() : 0;
     }
 
     @Override
-    public Object getGroup(int i) {
-        if (i == 0) {
-            return groupModelList;
-        } else if (i == 1) {
-            return classMemberModelList;
+    public Object getGroup(int groupPosition) {
+        Log.i(TAG, "getGroup ...groupPosition =  " + groupPosition);
+
+        if (parents != null && groupPosition < parents.size()) {
+            return parents.get(groupPosition);
+        } else {
+            return null;
         }
-        return null;
+
     }
 
     //获取父项的某个子项
     @Override
-    public Object getChild(int i, int i1) {
-        if (i == 0) {
-            return groupModelList.get(i1);
-        } else if (i == 1) {
-            return classMemberModelList.get(i1);
-        }
-        return null;
+    public Object getChild(int groupPosition, int childPosition) {//int groupPosition, int childPosition
+        Log.i(TAG, "getChild ...groupPosition =  " + groupPosition + "  childPosition= " + childPosition);
+        return son_List.get(groupPosition).get(childPosition);
     }
 
     @Override
@@ -92,112 +100,152 @@ public class HonorAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
+    public int getChildTypeCount() {
+        return 3;
+    }
+
+    @Override
+    public int getChildType(int groupPosition, int childPosition) {
+        Log.i(TAG, "getChildType ...groupPosition =  " + groupPosition + "  childPosition= " + childPosition);
+        int type = son_List.get(groupPosition).get(childPosition).getType();
+        if (type == 1) {
+            return TYPE_1;
+        } else {
+            return TYPE_2;
+        }
+    }
+
+    @Override
     public boolean hasStableIds() {
         return false;
     }
 
     @Override
     public View getGroupView(int parentPos, boolean b, View view, ViewGroup viewGroup) {
+        Log.i(TAG, "getGroupView ...parentPos =  " + parentPos);
+
+
+        final ViewHolderFather viewHolderFather;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_item, viewGroup, false);
+//            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_item, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_item, null);
+            viewHolderFather = new ViewHolderFather();
+            viewHolderFather.tvFather = (TextView) view.findViewById(R.id.group_name);
+            view.setTag(viewHolderFather);
+        } else {
+            viewHolderFather = (ViewHolderFather) view.getTag();
         }
 
         if (parentPos < parents.size()) {
-            TextView textView = (TextView) view.findViewById(R.id.group_name);
-            textView.setText(parents.get(parentPos));
+            viewHolderFather.tvFather.setText(parents.get(parentPos));
         }
+
         return view;
     }
 
     @Override
     public View getChildView(int parentPos, int childPos, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null) {
-            if (parentPos == 0) {
-                view = LayoutInflater.from(context).inflate(R.layout.item_honor_group, viewGroup, false);
-            } else if (parentPos == 1) {
-                view = LayoutInflater.from(context).inflate(R.layout.classrank_item, viewGroup, false);
-            }
-        }
+        Log.i(TAG, "getChildView ...groupPosition =  " + parentPos + "  childPosition= " + childPos);
 
-        if (parentPos == 0) {
-            final ListGroupModel groupModel = groupModelList.get(childPos);
-            Log.i("WeekHonorFragment", "parentPos = " + parentPos + "当前子项数据 = " + new Gson().toJson(groupModel));
-//            if (TextUtils.isEmpty(groupModel.getRanking())) {
-//                holder.getConvertView().setVisibility(View.GONE);
-//                return;
-//            }
-            TextView tv_coach_type = (TextView) view.findViewById(R.id.tv_coach_type);
-            tv_coach_type.setText(groupModel.getCoachType());
-            TextView tv_rank_number = (TextView) view.findViewById(R.id.tv_rank_number);
-            tv_rank_number.setText(groupModel.getRanking());
-            TextView tv_group_name = (TextView) view.findViewById(R.id.tv_group_name);
-            //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
-//                String substring = groupModel.getGroupName().substring(0, groupModel.getGroupName().toCharArray().length - 1);
+        int type = getChildType(parentPos, childPos);
+        if (type == 1) {
+            ViewHolderSon1 viewHolderSon1;
+            if (view == null) {
+                view = LayoutInflater.from(context).inflate(R.layout.item_honor_group, null);
+                viewHolderSon1 = new ViewHolderSon1();
 
-            //减重、脂
-            TextView loss_total_tv = (TextView) view.findViewById(R.id.loss_total_tv);
-            loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + groupModel.getLoss() + "斤" : "减脂" + groupModel.getLoss() + "%");
-
-            tv_group_name.setText(groupModel.getGroupName());
-            CircleImageView civ_trainer_header = (CircleImageView) view.findViewById(R.id.civ_trainer_header);
-            setImage(civ_trainer_header, groupModel.getCoachIco());
-//                Log.e("curry", "convert: " + groupModel.getCoachIco());
-            TextView tv_trainer_name = (TextView) view.findViewById(R.id.tv_trainer_name);
-            tv_trainer_name.setText(groupModel.getCoachName());
-            TextView tv_per_number = (TextView) view.findViewById(R.id.tv_per_number);
-            if (TextUtils.isEmpty(groupModel.getLossPer())) {
-                tv_per_number.setText("--");
+                viewHolderSon1.tv_coach_type = (TextView) view.findViewById(R.id.tv_coach_type);
+                viewHolderSon1.tv_rank_number = (TextView) view.findViewById(R.id.tv_rank_number);
+                viewHolderSon1.tv_group_name = (TextView) view.findViewById(R.id.tv_group_name);
+                viewHolderSon1.loss_total_tv = (TextView) view.findViewById(R.id.loss_total_tv);
+                viewHolderSon1.civ_trainer_header = (CircleImageView) view.findViewById(R.id.civ_trainer_header);
+                viewHolderSon1.tv_trainer_name = (TextView) view.findViewById(R.id.tv_trainer_name);
+                viewHolderSon1.tv_per_number = (TextView) view.findViewById(R.id.tv_per_number);
+                viewHolderSon1.tv_by_which = (TextView) view.findViewById(R.id.tv_by_which);
+                view.setTag(viewHolderSon1);
             } else {
-                tv_per_number.setText(groupModel.getLossPer());
+                viewHolderSon1 = (ViewHolderSon1) view.getTag();
             }
-            TextView tv_by_which = (TextView) view.findViewById(R.id.tv_by_which);
-            tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? context.getString(R.string.weight_per) : context.getString(R.string.fat_per));
 
-        } else if (parentPos == 1) {
-            final ClassMemberModel data = classMemberModelList.get(childPos);
-            Log.i("WeekHonorFragment", "parentPos = " + parentPos + "当前子项数据 = " + new Gson().toJson(data));
+//            final ListGroupModel groupModel = groupModelList.get(childPos);
+            ListGroupModel groupModel = son_List.get(parentPos).get(childPos);
+            Log.i("WeekHonorFragment", "parentPos = " + parentPos + "当前子项数据 = " + new Gson().toJson(groupModel));
 
-            CircleImageView civ = (CircleImageView) view.findViewById(R.id.head_img);
+
+            viewHolderSon1.tv_coach_type.setText(groupModel.getCoachType());
+            viewHolderSon1.tv_rank_number.setText(groupModel.getRanking());
+            //减重、脂
+            viewHolderSon1.loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + groupModel.getLoss() + "斤" : "减脂" + groupModel.getLoss() + "%");
+
+            setImage(viewHolderSon1.civ_trainer_header, groupModel.getCoachIco());
+            viewHolderSon1.tv_trainer_name.setText(groupModel.getCoachName());
+            if (TextUtils.isEmpty(groupModel.getLossPer())) {
+                viewHolderSon1.tv_per_number.setText("--");
+            } else {
+                viewHolderSon1.tv_per_number.setText(groupModel.getLossPer());
+            }
+            viewHolderSon1.tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? context.getString(R.string.weight_per) : context.getString(R.string.fat_per));
+
+        } else if (type == 2) {
+            ViewHolderSon2 viewHolderSon2;
+            if (view == null) {
+                view = LayoutInflater.from(context).inflate(R.layout.classrank_item, null);
+                viewHolderSon2 = new ViewHolderSon2();
+
+                viewHolderSon2.civ = (CircleImageView) view.findViewById(R.id.head_img);
+                viewHolderSon2.role_img = (ImageView) view.findViewById(R.id.role_img);
+
+                viewHolderSon2.paiming = (TextView) view.findViewById(R.id.paiming);
+                viewHolderSon2.name_tv = (TextView) view.findViewById(R.id.name_tv);
+                viewHolderSon2.fale = (ImageView) view.findViewById(R.id.fale);
+
+                viewHolderSon2.group_tv = (TextView) view.findViewById(R.id.group_tv);
+                viewHolderSon2.weight_first = (TextView) view.findViewById(R.id.weight_first);
+
+                viewHolderSon2.tv_bi = (TextView) view.findViewById(R.id.tv_bi);
+                viewHolderSon2.jianzhong_tv = (TextView) view.findViewById(R.id.jianzhong_tv);
+                viewHolderSon2.jianzhong_tv2 = (TextView) view.findViewById(R.id.jianzhong_tv2);
+                view.setTag(viewHolderSon2);
+
+            } else {
+                viewHolderSon2 = (ViewHolderSon2) view.getTag();
+            }
+//            final ListGroupModel data = classMemberModelList.get(childPos);
+            ListGroupModel data = son_List.get(parentPos).get(childPos);
+
             Picasso.with(context).load(AddressManager.get("photoHost") + data.getUserIconUrl())
                     .fit().error(R.drawable.img_default)
-                    .placeholder(R.drawable.img_default).into(civ);
-            ImageView role_img = (ImageView) view.findViewById(R.id.role_img);
-//                role_img.setVisibility("1".equals(data.getIsRetire()) ? View.VISIBLE : View.GONE);
+                    .placeholder(R.drawable.img_default).into(viewHolderSon2.civ);
+//                viewHolderSon2.role_img.setVisibility("1".equals(data.getIsRetire()) ? View.VISIBLE : View.GONE);
 
 
-            TextView paiming = (TextView) view.findViewById(R.id.paiming);
-            paiming.setText(data.getRanking());
-            TextView name_tv = (TextView) view.findViewById(R.id.name_tv);
-            name_tv.setText(data.getUserName());
-            ImageView fale = (ImageView) view.findViewById(R.id.fale);
+            viewHolderSon2.paiming.setText(data.getRanking());
+            viewHolderSon2.name_tv.setText(data.getUserName());
             if (data.getGender() == 1) {
-                fale.setImageResource(R.drawable.female_iv);
+                viewHolderSon2.fale.setImageResource(R.drawable.female_iv);
             } else if (data.getGender() == 0) {
-                fale.setImageResource(R.drawable.male_iv);
+                viewHolderSon2.fale.setImageResource(R.drawable.male_iv);
             }
 
 
-            TextView group_tv = (TextView) view.findViewById(R.id.group_tv);
-            group_tv.setText("(" + data.getCGName() + ")");
-            TextView weight_first = (TextView) view.findViewById(R.id.weight_first);
+            viewHolderSon2.group_tv.setText("(" + data.getCGName() + ")");
             if ("ByWeightRatio".equals(ByWhichRatio)) {
-                weight_first.setText("初始" + data.getInitWeight() + "斤.减重：" + data.getLoss() + "斤");
+                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + "斤.减重：" + data.getLoss() + "斤");
             } else {
-                weight_first.setText("初始" + data.getInitWeight() + ".减重：" + data.getLoss());
+                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + ".减脂：" + data.getLoss());
             }
 
-            TextView tv_bi = (TextView) view.findViewById(R.id.tv_bi);
-            TextView jianzhong_tv = (TextView) view.findViewById(R.id.jianzhong_tv);
-            TextView jianzhong_tv2 = (TextView) view.findViewById(R.id.jianzhong_tv2);
+
             if ("ByWeightRatio".equals(ByWhichRatio)) {
-                tv_bi.setText("减重比");
-                jianzhong_tv.setText(data.getLossPer());
+                viewHolderSon2.tv_bi.setText("减重比");
+                viewHolderSon2.jianzhong_tv.setText(data.getLossPer());
             } else {
-                tv_bi.setText("减脂比");
-                jianzhong_tv.setText(data.getLossPer());
+                viewHolderSon2.tv_bi.setText("减脂比");
+                viewHolderSon2.jianzhong_tv.setText(data.getLossPer());
             }
+
+
         }
-
 
         return view;
     }
@@ -206,6 +254,35 @@ public class HonorAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
+    }
+
+    private class ViewHolderFather {
+        TextView tvFather;
+    }
+
+    private class ViewHolderSon1 {
+        TextView tv_coach_type;
+        TextView tv_rank_number;
+        TextView tv_group_name;
+        TextView loss_total_tv;
+        CircleImageView civ_trainer_header;
+        TextView tv_trainer_name;
+        TextView tv_per_number;
+        TextView tv_by_which;
+    }
+
+    private class ViewHolderSon2 {
+        CircleImageView civ;
+        ImageView role_img;
+        TextView paiming;
+        TextView name_tv;
+        ImageView fale;
+        TextView group_tv;
+        TextView weight_first;
+        TextView tv_bi;
+        TextView jianzhong_tv;
+        TextView jianzhong_tv2;
+
     }
 
 

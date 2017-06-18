@@ -14,8 +14,93 @@ public class ListGroupModel implements Serializable{
     private String Ranking;//排名
     private String LossPer;//减比
     private String CoachType;//
-
     private String Loss;//减重、脂
+
+    private String UserId;
+    private String UserName;
+    private String UserIconUrl;
+//    private String Ranking;
+//    private String LossPer;//减脂比
+//    private String Loss;//减重斤数
+    private String CGName;//小组名
+    private String InitWeight;//初始体重
+    private int ClassRole;// 班级角色
+    private String ClassRoleName;//班级角色名称
+    private int Gender;
+
+    private int Type;//分类  1： 小组   2 ： 班级
+
+    public int getType() {
+        return Type;
+    }
+
+    public void setType(int type) {
+        Type = type;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getUserIconUrl() {
+        return UserIconUrl;
+    }
+
+    public void setUserIconUrl(String userIconUrl) {
+        UserIconUrl = userIconUrl;
+    }
+
+    public String getCGName() {
+        return CGName;
+    }
+
+    public void setCGName(String CGName) {
+        this.CGName = CGName;
+    }
+
+    public String getInitWeight() {
+        return InitWeight;
+    }
+
+    public void setInitWeight(String initWeight) {
+        InitWeight = initWeight;
+    }
+
+    public int getClassRole() {
+        return ClassRole;
+    }
+
+    public void setClassRole(int classRole) {
+        ClassRole = classRole;
+    }
+
+    public String getClassRoleName() {
+        return ClassRoleName;
+    }
+
+    public void setClassRoleName(String classRoleName) {
+        ClassRoleName = classRoleName;
+    }
+
+    public int getGender() {
+        return Gender;
+    }
+
+    public void setGender(int gender) {
+        Gender = gender;
+    }
 
     @Override
     public String toString() {

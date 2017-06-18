@@ -234,19 +234,19 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         });
 
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                classid = classModels.get(i).getClassId();
-                classrole = classModels.get(i).getClassRole();
-                material_calendar.invalidateDecorators();
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    classid = classModels.get(i).getClassId();
+                    classrole = classModels.get(i).getClassRole();
+                    material_calendar.invalidateDecorators();
 
-                saveclassModel.setClassId(classModels.get(i).getClassId());
-                saveclassModel.setClassName(classModels.get(i).getClassName());
-                saveclassModel.setClassRole(classModels.get(i).getClassRole());
-                saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
-                saveclassModel.setClassCode(classModels.get(i).getClassCode());
-                lazyLoad();
-            }
+                    saveclassModel.setClassId(classModels.get(i).getClassId());
+                    saveclassModel.setClassName(classModels.get(i).getClassName());
+                    saveclassModel.setClassRole(classModels.get(i).getClassRole());
+                    saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
+                    saveclassModel.setClassCode(classModels.get(i).getClassCode());
+                    lazyLoad();
+                }
         });
         EventBus.getDefault().register(this);
     }
