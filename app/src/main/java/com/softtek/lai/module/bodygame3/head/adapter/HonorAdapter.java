@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -199,16 +200,56 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
             } else {
                 viewHolderSon2 = (ViewHolderSon2) view.getTag();
             }
-//            final ListGroupModel data = classMemberModelList.get(childPos);
             ListGroupModel data = son_List.get(parentPos).get(childPos);
 
             Picasso.with(context).load(AddressManager.get("photoHost") + data.getUserIconUrl())
                     .fit().error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(viewHolderSon2.civ);
-//                viewHolderSon2.role_img.setVisibility("1".equals(data.getIsRetire()) ? View.VISIBLE : View.GONE);
+            switch (data.getClassRole()) {
+                case 1:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.head_coach);
+                    break;
+                case 2:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.coach);
+                    break;
+                case 3:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.assistant);
+                    break;
+                case 4:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.student);
+                    break;
+                default:
+                    break;
+
+            }
 
 
-            viewHolderSon2.paiming.setText(data.getRanking());
+            switch (data.getRanking()) {
+                case "1":
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.firstranking);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+                    viewHolderSon2.paiming.setText("");
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable, null);//画在右边
+                    break;
+                case "2":
+                    Drawable drawable2 = context.getResources().getDrawable(R.drawable.secondranking);
+                    drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight()); //设置边界
+                    viewHolderSon2.paiming.setText("");
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable2, null);//画在右边
+                    break;
+                case "3":
+                    Drawable drawable3 = context.getResources().getDrawable(R.drawable.thirdranking);
+                    drawable3.setBounds(0, 0, drawable3.getMinimumWidth(), drawable3.getMinimumHeight()); //设置边界
+                    viewHolderSon2.paiming.setText("");
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable3, null);//画在右边
+                    break;
+                default:
+                    viewHolderSon2.paiming.setText(data.getRanking());
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, null, null);//画在右边
+                    break;
+            }
+
+
             viewHolderSon2.name_tv.setText(data.getUserName());
             if (data.getGender() == 1) {
                 viewHolderSon2.fale.setImageResource(R.drawable.female_iv);

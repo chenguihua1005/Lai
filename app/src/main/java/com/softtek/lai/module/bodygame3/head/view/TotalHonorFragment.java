@@ -99,7 +99,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
-//        listHonorrank.setAdapter(adapter);
         listHonorrank.getRefreshableView().setAdapter(adapter);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
