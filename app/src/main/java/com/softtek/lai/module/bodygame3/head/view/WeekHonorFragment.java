@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -134,7 +135,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 if (spinnerData != null && !spinnerData.isEmpty()) {
                     return spinnerData.get(position).getDateName();
                 } else {
-                    return "没有日期";
+                    return "";
                 }
             }
         });
@@ -147,7 +148,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 String dateName = ((ListdateModel) spinnerData.get(i)).getDateName();
                 arrow.setText(dateName);
                 WhichTime = Integer.parseInt(((ListdateModel) spinnerData.get(i)).getDateValue());
-                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+                loadData(is_first);
             }
         });
 
@@ -173,7 +174,6 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
             }
         });
-
 
 
 //        listHonorrank.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -250,7 +250,6 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                     is_first = false;
                     //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
                 } else {
-//                    arrow.notifChange();
                     if (is_first) {
                         parentsTitle.clear();
                         groupModelList.clear();
@@ -303,7 +302,6 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             }
 
 
-
             adapter = null;
             adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
             listHonorrank.getRefreshableView().setAdapter(adapter);
@@ -320,23 +318,27 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     }
 
 
-
-    private void loadData(boolean is_first) {
+    private void loadData(final boolean is_first) {
         //第一次请求会请求两次，第一次不让显示刷新效果，所以不用setrefreshing()。
         // 以后的请求都是一次一次来的，要有刷新效果，所以都用setRefreshing()调用这个方法后，会自动调用他的刷新方法，网络请求在刷新方法里。。
         if (is_first) {
-            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+//            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+                }
+            }, 500);
+
         } else {
-            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
-//            try {
-//                listHonorrank.setRefreshing();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                listHonorrank.setRefreshing();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
-
 
 
     private void setImage(CircleImageView civ, String endUrl) {

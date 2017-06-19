@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.presenter;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
@@ -41,7 +42,7 @@ public class WeekHonorManager {
                                 HonorRankModel honorRankModel = honorRankModelResponseData.getData();
                                 if (callback != null) {
                                     callback.getModel(honorRankModel);
-                                    Log.i("WeekHonorFragment", "getModel: " + honorRankModel.toString());
+                                    Log.i("WeekHonorFragment", "getModel: " + new Gson().toJson(honorRankModel));
                                 }
                                 break;
                             default:
