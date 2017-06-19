@@ -257,7 +257,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 String url = AddressManager.get("photoHost");
                 //加载头像
                 if (!TextUtils.isEmpty(memberInfoModel.getUserPhoto())) {
-//                    Picasso.with(PersonDetailActivity.this).load(url + memberInfoModel.getUserPhoto()).error(R.drawable.img_default).fit().into(cir_userimg);
                     int px = DisplayUtil.dip2px(PersonDetailActivity2.this, 45);
                     Picasso.with(PersonDetailActivity2.this).load(AddressManager.get("photoHost") + memberInfoModel.getUserPhoto()).resize(px, px).centerCrop().placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(cir_userimg);
@@ -451,24 +450,19 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 }
                 startActivityForResult(intent1, GET_Sian);
                 break;
-//            case R.id.tv_dynamic:
-//                Intent personal = new Intent(this, PersionalActivity.class);
-//                personal.putExtra("personalId", AccountId + "");
-//                personal.putExtra("personalName", memberInfoModel.getUserName());
-//                personal.putExtra("isFocus", Integer.parseInt("true".equals(memberInfoModel.getIsFocus()) ? "1" : "0"));
-//                startActivityForResult(personal, PERSONDY);
-//                break;
             case R.id.tv_chart:
-                Log.i(TAG, "ClassId = " + ClassId);
-//                if (View.VISIBLE == ll_chart.getVisibility() && TextUtils.isEmpty(ClassId)) {
-//                    ClassId = memberInfoModel.getClassId();
-//                }
-
+                if(memberInfoModel==null){
+                    return;
+                }
+                //查看曲线图
                 Intent graph = new Intent(this, GraphActivity.class);
                 graph.putExtra("accountId", AccountId);
                 graph.putExtra("classId", ClassId);
+                //只有班级管理和自己能看到
+                int role = memberInfoModel.getLoginUserClassRole();
+                boolean isShow=role == 1||role==2||role==3||UserInfoModel.getInstance().getUserId()==AccountId;
+                graph.putExtra("isShow",isShow);
                 startActivity(graph);
-                //查看曲线图
                 break;
             case R.id.btn_chat:
                 final String hxid = SharedPreferenceService.getInstance().get("HXID", "-1");
@@ -588,8 +582,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
         String stri = getResources().getString(R.string.Is_sending_a_request);
         dialogShow(stri);
         Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
-
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -610,7 +602,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                                 btn_addguy.setVisibility(View.VISIBLE);//添加好友
                                 btn_addguy.setText("待确认");
                                 btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity2.this, R.color.white));
-//                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity.this, R.drawable.bg_isfriend_btn));
                                 btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity2.this, R.drawable.bg_assistant_refuse));
                                 iv_email.setVisibility(View.INVISIBLE);
                                 runOnUiThread(new Runnable() {
@@ -694,8 +685,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                                     }
                                 });
                             } else {
-                                Log.i(TAG, "error11111111 =" + response.toString());
-
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

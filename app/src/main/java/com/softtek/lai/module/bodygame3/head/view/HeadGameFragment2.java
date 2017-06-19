@@ -750,16 +750,16 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                     int icon;
                                     switch (data.getClassRole()) {
                                         case 1:
-                                            icon =  R.drawable.class_zongjiaolian_re;
+                                            icon =  R.drawable.class_zongjiaolian;
                                             break;
                                         case 2:
-                                            icon =  R.drawable.class_jiaolian_re ;
+                                            icon =  R.drawable.class_jiaolian ;
                                             break;
                                         case 3:
-                                            icon = R.drawable.class_zhujiao_re ;
+                                            icon = R.drawable.class_zhujiao;
                                             break;
                                         default:
-                                            icon = R.drawable.class_xueyuan_re;
+                                            icon = R.drawable.class_xueyuan;
                                             break;
                                     }
                                     iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));

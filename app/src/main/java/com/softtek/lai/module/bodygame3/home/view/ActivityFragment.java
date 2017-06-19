@@ -199,16 +199,16 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 int icon;
                 switch (data.getClassRole()) {
                     case 1:
-                        icon =  R.drawable.class_zongjiaolian_re;
+                        icon =  R.drawable.class_zongjiaolian;
                         break;
                     case 2:
-                        icon =  R.drawable.class_jiaolian_re ;
+                        icon =  R.drawable.class_jiaolian ;
                         break;
                     case 3:
-                        icon = R.drawable.class_zhujiao_re ;
+                        icon = R.drawable.class_zhujiao;
                         break;
                     default:
-                        icon = R.drawable.class_xueyuan_re;
+                        icon = R.drawable.class_xueyuan;
                         break;
                 }
                 iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
@@ -217,8 +217,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 TextView tv_class_name = holder.getView(R.id.tv_class_name);
                 tv_class_name.setText(data.getClassName());
                 RadioButton iv_sel = holder.getView(R.id.iv_select);
-                //android:src="@drawable/more_select"
-                //iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
                 iv_sel.setChecked(selected);
             }
 

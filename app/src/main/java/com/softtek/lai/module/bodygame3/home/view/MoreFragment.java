@@ -253,7 +253,13 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
                                         bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
                                         if(model!=null){
                                             //如果有班级说明的在当前页面下拉刷新
-                                            bundle.putParcelable("classModel",model);
+                                            for (ClassModel classModel:listResponseData.getData()){
+                                                if(classModel.getClassId().equals(model.getClassId())){
+                                                    model=classModel;
+                                                    bundle.putParcelable("classModel",model);
+                                                    break;
+                                                }
+                                            }
                                         }else {
                                             //第一次没有班级的情况默认选取首页选择的班级
                                             for (ClassModel classModel:listResponseData.getData()){

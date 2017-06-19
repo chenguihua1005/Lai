@@ -35,4 +35,12 @@ public class UpdateClass {
     public void setModel(ClassModel model) {
         this.model = model;
     }
+
+    @Override
+    public String toString() {
+        return "UpdateClass{" +
+                "status=" + status +
+                ", model=" + model +
+                '}';
+    }
 }

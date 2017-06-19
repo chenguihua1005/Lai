@@ -23,6 +23,15 @@ public class MemberInfoModel {
     private String ClassId;//班级ID
     private int IsCurrClass;//是否是当前班级 1：当前班级	0：往期班级	-1：无班级
     private String ClassName;//班级名称
+    private int LoginUserClassRole;//访问此页面的用户角色
+
+    public int getLoginUserClassRole() {
+        return LoginUserClassRole;
+    }
+
+    public void setLoginUserClassRole(int loginUserClassRole) {
+        LoginUserClassRole = loginUserClassRole;
+    }
 
     public String getClassName() {
         return ClassName;

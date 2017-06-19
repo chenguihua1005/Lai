@@ -117,16 +117,16 @@ public class MoreHasFragment extends Fragment {
                 int icon;
                 switch (data.getClassRole()) {
                     case 1:
-                        icon =  R.drawable.class_zongjiaolian_re;
+                        icon =  R.drawable.class_zongjiaolian;
                         break;
                     case 2:
-                        icon =  R.drawable.class_jiaolian_re ;
+                        icon =  R.drawable.class_jiaolian ;
                         break;
                     case 3:
-                        icon = R.drawable.class_zhujiao_re ;
+                        icon = R.drawable.class_zhujiao;
                         break;
                     default:
-                        icon = R.drawable.class_xueyuan_re;
+                        icon = R.drawable.class_xueyuan;
                         break;
                 }
                 iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
@@ -211,6 +211,7 @@ public class MoreHasFragment extends Fragment {
 
     @Subscribe
     public void updateClass(UpdateClass clazz) {
+        Log.i("收到班级通知啦啦啦啦啦啦啦啦啦"+clazz);
         if (clazz.getStatus() == 0) {
             //更新班级姓名
             ClassModel model = clazz.getModel();
@@ -248,6 +249,7 @@ public class MoreHasFragment extends Fragment {
                     tv_role_name.append(")");
                 }
                 tv_number.setText(model.getClassCode());
+                arrow.setTintColor(R.color.black);
                 choosePanel(this.model.getClassRole());
             }
         }
