@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.head.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +53,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
         this.classMemberModelList = classMemberModelList;
         this.son_List = son_List;
         this.ByWhichRatio = ByWhichRatio;
-        Log.i(TAG, "ByWhichRatio = " + ByWhichRatio);
     }
 
     @Override
@@ -62,7 +62,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        Log.i(TAG, "getChildrenCount ...groupPosition =  " + groupPosition);
         //规避框架自动调用不合法参数的错误
         if (groupPosition >= parents.size()) {
             return 0;
@@ -72,8 +71,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
     @Override
     public Object getGroup(int groupPosition) {
-        Log.i(TAG, "getGroup ...groupPosition =  " + groupPosition);
-
         if (parents != null && groupPosition < parents.size()) {
             return parents.get(groupPosition);
         } else {
@@ -85,7 +82,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
     //获取父项的某个子项
     @Override
     public Object getChild(int groupPosition, int childPosition) {//int groupPosition, int childPosition
-        Log.i(TAG, "getChild ...groupPosition =  " + groupPosition + "  childPosition= " + childPosition);
         return son_List.get(groupPosition).get(childPosition);
     }
 
@@ -106,7 +102,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
     @Override
     public int getChildType(int groupPosition, int childPosition) {
-        Log.i(TAG, "getChildType ...groupPosition =  " + groupPosition + "  childPosition= " + childPosition);
         int type = son_List.get(groupPosition).get(childPosition).getType();
         if (type == 1) {
             return TYPE_1;
@@ -122,9 +117,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
     @Override
     public View getGroupView(int parentPos, boolean b, View view, ViewGroup viewGroup) {
-        Log.i(TAG, "getGroupView ...parentPos =  " + parentPos);
-
-
         final ViewHolderFather viewHolderFather;
         if (view == null) {
 //            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_item, viewGroup, false);
@@ -145,8 +137,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
     @Override
     public View getChildView(int parentPos, int childPos, boolean b, View view, ViewGroup viewGroup) {
-        Log.i(TAG, "getChildView ...groupPosition =  " + parentPos + "  childPosition= " + childPos);
-
         int type = getChildType(parentPos, childPos);
         if (type == 1) {
             ViewHolderSon1 viewHolderSon1;
@@ -169,8 +159,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
 //            final ListGroupModel groupModel = groupModelList.get(childPos);
             ListGroupModel groupModel = son_List.get(parentPos).get(childPos);
-            Log.i("WeekHonorFragment", "parentPos = " + parentPos + "当前子项数据 = " + new Gson().toJson(groupModel));
-
 
             viewHolderSon1.tv_coach_type.setText(groupModel.getCoachType());
             viewHolderSon1.tv_rank_number.setText(groupModel.getRanking());
@@ -179,6 +167,8 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
             setImage(viewHolderSon1.civ_trainer_header, groupModel.getCoachIco());
             viewHolderSon1.tv_trainer_name.setText(groupModel.getCoachName());
+
+            viewHolderSon1.tv_group_name.setText(groupModel.getGroupName());
             if (TextUtils.isEmpty(groupModel.getLossPer())) {
                 viewHolderSon1.tv_per_number.setText("--");
             } else {
@@ -210,16 +200,56 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
             } else {
                 viewHolderSon2 = (ViewHolderSon2) view.getTag();
             }
-//            final ListGroupModel data = classMemberModelList.get(childPos);
             ListGroupModel data = son_List.get(parentPos).get(childPos);
 
             Picasso.with(context).load(AddressManager.get("photoHost") + data.getUserIconUrl())
                     .fit().error(R.drawable.img_default)
                     .placeholder(R.drawable.img_default).into(viewHolderSon2.civ);
-//                viewHolderSon2.role_img.setVisibility("1".equals(data.getIsRetire()) ? View.VISIBLE : View.GONE);
+            switch (data.getClassRole()) {
+                case 1:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.head_coach);
+                    break;
+                case 2:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.coach);
+                    break;
+                case 3:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.assistant);
+                    break;
+                case 4:
+                    viewHolderSon2.role_img.setImageResource(R.drawable.student);
+                    break;
+                default:
+                    break;
+
+            }
 
 
-            viewHolderSon2.paiming.setText(data.getRanking());
+            switch (data.getRanking()) {
+                case "1":
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.firstranking);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+                    viewHolderSon2.paiming.setText("");
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable, null);//画在右边
+                    break;
+                case "2":
+                    Drawable drawable2 = context.getResources().getDrawable(R.drawable.secondranking);
+                    drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight()); //设置边界
+                    viewHolderSon2.paiming.setText("");
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable2, null);//画在右边
+                    break;
+                case "3":
+                    Drawable drawable3 = context.getResources().getDrawable(R.drawable.thirdranking);
+                    drawable3.setBounds(0, 0, drawable3.getMinimumWidth(), drawable3.getMinimumHeight()); //设置边界
+                    viewHolderSon2.paiming.setText("");
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable3, null);//画在右边
+                    break;
+                default:
+                    viewHolderSon2.paiming.setText(data.getRanking());
+                    viewHolderSon2.paiming.setCompoundDrawables(null, null, null, null);//画在右边
+                    break;
+            }
+
+
             viewHolderSon2.name_tv.setText(data.getUserName());
             if (data.getGender() == 1) {
                 viewHolderSon2.fale.setImageResource(R.drawable.female_iv);

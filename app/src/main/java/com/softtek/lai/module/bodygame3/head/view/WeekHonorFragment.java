@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialog;
+import com.ggx.widgets.nicespinner.ListDialogHonor;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
@@ -24,12 +26,10 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.adapter.HonorAdapter;
-import com.softtek.lai.module.bodygame3.head.model.ClassMemberModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
-import com.softtek.lai.module.laiClassroom.adapter.TabAdapter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -48,6 +48,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_weekhonor)
 public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorManager.WeekHonnorCallback {
+    private static final String TAG = "WeekHonorFragment";
 
 
     private String ByWhichRatio = "ByWeightRatio";
@@ -58,7 +59,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     private boolean is_first = true;
 
     @InjectView(R.id.list_honorrank)
-    ExpandableListView listHonorrank;//列表  PullToRefreshExpandableListView
+    PullToRefreshExpandableListView listHonorrank;//列表  PullToRefreshExpandableListView
     @InjectView(R.id.ll_weight_per)
     LinearLayout ll_weight_per;
     @InjectView(R.id.ll_fat_per)
@@ -74,8 +75,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @InjectView(R.id.ll_no_data)
     LinearLayout ll_no_data;
 
-    LinearLayout linear_showMenu;
-    ListDialog arrow;
+
+    @InjectView(R.id.arrow_spinner)
+    ListDialogHonor arrow;
 
     private HonorAdapter adapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();//ListGroupModel
@@ -113,10 +115,9 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         selectWeight();
 
 //        ListView refreshableView = listHonorrank.getRefreshableView();
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.honnor_rank_head, null);
-//        group_info_tv = (TextView) view.findViewById(R.id.group_info_tv);
-        linear_showMenu = (LinearLayout) view.findViewById(R.id.linear_showMenu);
-        arrow = (ListDialog) view.findViewById(R.id.arrow_spinner);
+//        View view = LayoutInflater.from(getContext()).inflate(R.layout.honnor_rank_head, null);
+//        linear_showMenu = (LinearLayout) view.findViewById(R.id.linear_showMenu);
+//        arrow = (ListDialog) view.findViewById(R.id.arrow_spinner);
         arrow.setTintColor(R.color.black);
         arrow.attachCustomSource(new ArrowSpinnerAdapter<ListdateModel>(getContext(), spinnerData, R.layout.selector_rankdate_item) {
             @Override
@@ -134,28 +135,22 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 if (spinnerData != null && !spinnerData.isEmpty()) {
                     return spinnerData.get(position).getDateName();
                 } else {
-                    return "没有日期";
+                    return "";
                 }
             }
         });
 
-        listHonorrank.addHeaderView(view);
+//        listHonorrank.addHeaderView(view);
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                WhichTime = Integer.parseInt(((ListdateModel)spinnerData.get(i)).getDateValue());
-                String dateName = ((ListdateModel)spinnerData.get(i)).getDateName();
-
+                WhichTime = Integer.parseInt(((ListdateModel) spinnerData.get(i)).getDateValue());
+                String dateName = ((ListdateModel) spinnerData.get(i)).getDateName();
+                arrow.setText(dateName);
+                WhichTime = Integer.parseInt(((ListdateModel) spinnerData.get(i)).getDateValue());
+                loadData(is_first);
             }
         });
-
-
-//        linear_showMenu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
 
 
         //加上就先显示空的头部，这种效果不要。、
@@ -163,52 +158,45 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         // 所以给list一条空数据就应该显示空的头部了
 
 
-//        listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
 
         adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
-        listHonorrank.setAdapter(adapter);
-//        listHonorrank.getRefreshableView().setAdapter(adapter);
-//        listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
-//            @Override
-//            public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-//                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
-//            }
-//
-//            @Override
-//            public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-//
-//            }
-//        });
-
-//        listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ExpandableListView>() {
-//            @Override
-//            public void onRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-//                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
-//            }
-//        });
-
-
-        listHonorrank.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+//        listHonorrank.setAdapter(adapter);
+        listHonorrank.getRefreshableView().setAdapter(adapter);
+        listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int parentPos, int childPos, long l) {
-                ListGroupModel groupModel = list_Son.get(parentPos).get(childPos);
-                if (1 == groupModel.getType()) {
-                    Intent intent = new Intent(getContext(), GroupRankingActivity.class);
-                    intent.putExtra("ClassId", ClassId);
-                    intent.putExtra("ByWhichRatio", ByWhichRatio);
-                    intent.putExtra("SortTimeType", SortTimeType);
-                    ListdateModel listdateModel = spinnerData.get(selectedSpinner);
-                    intent.putExtra("listDataModel", listdateModel);
-//                    ListGroupModel model = groupModelList.get(i - 2);
-                    intent.putExtra("ListGroupModel", groupModel);
-                    startActivity(intent);
-                } else if (2 == groupModel.getType()) {
+            public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+            }
 
-                }
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
 
-                return true;
             }
         });
+
+
+//        listHonorrank.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+//            @Override
+//            public boolean onChildClick(ExpandableListView expandableListView, View view, int parentPos, int childPos, long l) {
+//                ListGroupModel groupModel = list_Son.get(parentPos).get(childPos);
+//                if (1 == groupModel.getType()) {
+//                    Intent intent = new Intent(getContext(), GroupRankingActivity.class);
+//                    intent.putExtra("ClassId", ClassId);
+//                    intent.putExtra("ByWhichRatio", ByWhichRatio);
+//                    intent.putExtra("SortTimeType", SortTimeType);
+//                    ListdateModel listdateModel = spinnerData.get(selectedSpinner);
+//                    intent.putExtra("listDataModel", listdateModel);
+////                    ListGroupModel model = groupModelList.get(i - 2);
+//                    intent.putExtra("ListGroupModel", groupModel);
+//                    startActivity(intent);
+//                } else if (2 == groupModel.getType()) {
+//
+//                }
+//
+//                return true;
+//            }
+//        });
 
     }
 
@@ -219,32 +207,6 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     @Override
     protected void initDatas() {
 
-
-        //根据position返回当前值给标题
-//        spinnerAdapter = new ArrowSpinnerAdapter<String>(getContext(), spinnerData2, R.layout.class_title) {
-//            @Override
-//            public void convert(ViewHolder holder, String data, int position) {
-//                TextView tv_class_name = holder.getView(R.id.tv_classed);
-//                tv_class_name.setText(data);
-//            }
-//
-//            @Override
-//            public String getText(int position) {
-//                //根据position返回当前值给标题
-//                return spinnerData2 == null || spinnerData2.size() == 0 ? "" : spinnerData2.get(position);
-//            }
-//
-//        };
-//        spinner.attachCustomSource(spinnerAdapter);
-//
-//        spinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                selectedSpinner = i;
-//                WhichTime = Integer.valueOf(spinnerData.get(i).getDateValue());
-//                loadData(false);
-//            }
-//        });
     }
 
     /**
@@ -259,27 +221,16 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     @Override
     public void getModel(HonorRankModel model) {
+        listHonorrank.onRefreshComplete();
+
         parentsTitle.clear();
         groupModelList.clear();
         classMemberModelList.clear();
         list_Son.clear();
         try {
-//            listHonorrank.onRefreshComplete();
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
-//                adapter.notifyDataSetChanged();
-//                groups.clear();
-//                groups.addAll(temp);
-//                for (int i = 0; i < parents.size(); i++) {
-//                    lv.getRefreshableView().expandGroup(i);
-//                }
-
-
-//                parentsTitle.clear();
-//                groupModelList.clear();
-//                classMemberModelList.clear();
                 adapter.notifyDataSetChanged();
-//                listHonorrank.setEmptyView(ll_no_data);
                 return;
             }
             //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
@@ -287,33 +238,18 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
                 if (model.getList_date().size() != 0) {
                     WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
-//                    WhichTime = 8;
 
                     spinnerData.clear(); //.踢馆周期
-                    spinnerData = model.getList_date();
-                    arrow.setSelected(0);
-//                    arrow.getAdapter().notifyDataSetChanged();
-                    arrow.notifChange();
+                    spinnerData.addAll(model.getList_date());
 
-//                    for (int i = 0; i < spinnerData.size(); i++) {
-//                        spinnerData2.add(spinnerData.get(i).getDateName());
-//                    }
-//                    spinner.attachCustomSource(spinnerAdapter);
-//                    listHonorrank.setAdapter(honorGroupRankAdapter);
-//                    //动态设置下拉框的高度
-//                    switch (spinnerData.size()) {
-//                        case 1:
-//                            spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 38));
-//                            break;
-//                        case 2:
-//                            spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 75));
-//                            break;
-//                    }
+                    arrow.setSelected(0);
+                    arrow.notifChange();
+                    arrow.setHeight(50 * 10);
+
                     //首次后设置为false
                     is_first = false;
                     //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
                 } else {
-//                    arrow.notifChange();
                     if (is_first) {
                         parentsTitle.clear();
                         groupModelList.clear();
@@ -366,18 +302,12 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
             }
 
 
-            Log.i("WeekHonorFragment", "parentsTitle= " + new Gson().toJson(parentsTitle));
-            Log.i("WeekHonorFragment", "groupModelList= " + new Gson().toJson(groupModelList));
-            Log.i("WeekHonorFragment", "classMemberModelList= " + new Gson().toJson(classMemberModelList));
-
-
-//            adapter.notifyDataSetChanged();
             adapter = null;
             adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
-            listHonorrank.setAdapter(adapter);
+            listHonorrank.getRefreshableView().setAdapter(adapter);
             for (int i = 0; i < parentsTitle.size(); i++) {
 //                listHonorrank.getRefreshableView().expandGroup(i);
-                listHonorrank.expandGroup(i);
+                listHonorrank.getRefreshableView().expandGroup(i);
             }
 
 
@@ -387,21 +317,29 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     }
 
-    private void loadData(boolean is_first) {
+
+    private void loadData(final boolean is_first) {
         //第一次请求会请求两次，第一次不让显示刷新效果，所以不用setrefreshing()。
         // 以后的请求都是一次一次来的，要有刷新效果，所以都用setRefreshing()调用这个方法后，会自动调用他的刷新方法，网络请求在刷新方法里。。
         if (is_first) {
-            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+//            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+                }
+            }, 500);
+
         } else {
-            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
-//            try {
-////                listHonorrank.setRefreshing();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                listHonorrank.setRefreshing();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
+
 
     private void setImage(CircleImageView civ, String endUrl) {
         String basePath = AddressManager.get("photoHost");
