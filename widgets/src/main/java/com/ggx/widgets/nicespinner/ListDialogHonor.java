@@ -1,19 +1,16 @@
 package com.ggx.widgets.nicespinner;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -22,12 +19,9 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ggx.widgets.R;
@@ -36,7 +30,7 @@ import com.ggx.widgets.R;
  * Created by jerry.guan on 11/16/2016.
  */
 
-public class ListDialog extends TextView {
+public class ListDialogHonor extends TextView {
 
     private static final int DEFAULT_ELEVATION = 16;
     private static final String INSTANCE_STATE = "instance_state";
@@ -52,17 +46,17 @@ public class ListDialog extends TextView {
     private boolean isArrowHide;
     private AlertDialog dialog;
 
-    public ListDialog(Context context) {
+    public ListDialogHonor(Context context) {
         super(context);
         init(context, null);
     }
 
-    public ListDialog(Context context, AttributeSet attrs) {
+    public ListDialogHonor(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public ListDialog(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ListDialogHonor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -120,7 +114,7 @@ public class ListDialog extends TextView {
 
         isArrowHide = typedArray.getBoolean(R.styleable.ListDialog_hide, false);
         if (!isArrowHide) {
-            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow_white);
+            Drawable basicDrawable = ContextCompat.getDrawable(context, R.drawable.drop_arrow_honor);
             if (basicDrawable != null) {
                 drawable = DrawableCompat.wrap(basicDrawable);
             }
