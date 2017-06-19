@@ -19,7 +19,7 @@
             android:id="@+id/tv_rank_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:textColor="#333333"
             android:textSize="18sp" />
 
