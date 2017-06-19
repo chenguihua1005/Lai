@@ -8,20 +8,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinner4;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
+import com.ggx.widgets.nicespinner.ListDialogHonor;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.head.adapter.HonorAdapter;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
@@ -44,7 +49,7 @@ import zilla.libcore.ui.InjectLayout;
 /**
  * Created by lareina.qiao on 11/25/2016.
  */
-@InjectLayout(R.layout.fragment_monthhonor)
+@InjectLayout(R.layout.fragment_weekhonor)//fragment_monthhonor
 public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorManager.WeekHonnorCallback {
 
     private String ByWhichRatio = "ByWeightRatio";
@@ -54,7 +59,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private int WhichTime = 1;
 
     @InjectView(R.id.list_honorrank)
-    PullToRefreshListView listHonorrank;//列表
+    PullToRefreshExpandableListView listHonorrank;//列表
     @InjectView(R.id.ll_weight_per)
     LinearLayout ll_weight_per;
     @InjectView(R.id.ll_fat_per)
@@ -70,30 +75,20 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @InjectView(R.id.ll_no_data)
     LinearLayout ll_no_data;
 
+    @InjectView(R.id.arrow_spinner)
+    ListDialogHonor arrow;
 
-    EasyAdapter<ListGroupModel> honorGroupRankAdapter;
-    private List<ListGroupModel> groupModelList = new ArrayList<>();
+
+    private HonorAdapter adapter;
+    private List<ListGroupModel> groupModelList = new ArrayList<>();//ListGroupModel
+    private List<ListGroupModel> classMemberModelList = new ArrayList<ListGroupModel>();
+    private List<List<ListGroupModel>> list_Son = new ArrayList<>();// 子层数据
+
+    private List<String> parentsTitle = new ArrayList<String>();
     private WeekHonorManager weekHonorManager;
-    private CircleImageView civ_top1;
-    private CircleImageView civ_top2;
-    private CircleImageView civ_top3;
-    private TextView tv_top1_name;
-    private TextView tv_top2_name;
-    private TextView tv_top3_name;
-    private TextView tv_top1_per;
-    private TextView tv_top2_per;
-    private TextView tv_top3_per;
-    private ArrowSpinner4 spinner;
-    private HonorRankModel honorRankModel;
-
-    private TextView tv_top2_loss;//减重、脂数
-    private TextView tv_top1_loss;
-    private TextView tv_top3_loss;
-    private TextView group_info_tv;//小组排名总信息
 
 
     List<ListdateModel> spinnerData = new ArrayList<>();
-    List<String> spinnerData2 = new ArrayList<>();
     private ArrowSpinnerAdapter spinnerAdapter;
     private boolean is_first = true;
     private int selectedSpinner = 0;
@@ -113,53 +108,84 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         Bundle bundle = getArguments();
         ClassId = bundle.getString("classId");
         selectWeight();
-        newAdapter();
-        ListView refreshableView = listHonorrank.getRefreshableView();
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.head_honnor_rank, null);
-        civ_top1 = (CircleImageView) view.findViewById(R.id.civ_top1);
-        civ_top2 = (CircleImageView) view.findViewById(R.id.civ_top2);
-        civ_top3 = (CircleImageView) view.findViewById(R.id.civ_top3);
-        tv_top1_name = (TextView) view.findViewById(R.id.tv_top1_name);
-        tv_top2_name = (TextView) view.findViewById(R.id.tv_top2_name);
-        tv_top3_name = (TextView) view.findViewById(R.id.tv_top3_name);
-        tv_top1_per = (TextView) view.findViewById(R.id.tv_top1_per);
-        tv_top2_per = (TextView) view.findViewById(R.id.tv_top2_per);
-        tv_top3_per = (TextView) view.findViewById(R.id.tv_top3_per);
 
-        tv_top2_loss = (TextView) view.findViewById(R.id.tv_top2_loss);
-        tv_top1_loss = (TextView) view.findViewById(R.id.tv_top1_loss);
-        tv_top3_loss = (TextView) view.findViewById(R.id.tv_top3_loss);
-        group_info_tv = (TextView) view.findViewById(R.id.group_info_tv);
-
-        spinner = (ArrowSpinner4) view.findViewById(R.id.spinner);
-
-        refreshableView.addHeaderView(view);
-//        listHonorrank.setAdapter(honorGroupRankAdapter);
-
-        listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        arrow.setTintColor(R.color.black);
+        arrow.attachCustomSource(new ArrowSpinnerAdapter<ListdateModel>(getContext(), spinnerData, R.layout.selector_rankdate_item) {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+            public void convert(ViewHolder holder, ListdateModel data, int position) {
+                boolean selected = arrow.getSelectedIndex() == position;
+
+                TextView tv_class_name = holder.getView(R.id.tv_date_name);
+                tv_class_name.setText(data.getDateName());
+                RadioButton iv_sel = holder.getView(R.id.iv_select);
+                iv_sel.setChecked(selected);
+            }
+
+            @Override
+            public String getText(int position) {
+                if (spinnerData != null && !spinnerData.isEmpty()) {
+                    return spinnerData.get(position).getDateName();
+                } else {
+                    return "";
+                }
             }
         });
 
-        listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i != 1) {
+                WhichTime = Integer.parseInt(((ListdateModel) spinnerData.get(i)).getDateValue());
+                String dateName = ((ListdateModel) spinnerData.get(i)).getDateName();
+                arrow.setText(dateName);
+                WhichTime = Integer.parseInt(((ListdateModel) spinnerData.get(i)).getDateValue());
+                loadData(is_first);
+            }
+        });
+
+//        ListView refreshableView = listHonorrank.getRefreshableView();
+//        View view = LayoutInflater.from(getContext()).inflate(R.layout.head_honnor_rank, null);
+
+//        refreshableView.addHeaderView(view);
+//        listHonorrank.setAdapter(honorGroupRankAdapter);
+
+        listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+//        listHonorrank.setAdapter(adapter);
+        listHonorrank.getRefreshableView().setAdapter(adapter);
+        listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+
+            }
+        });
+
+
+        listHonorrank.getRefreshableView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int parentPos, int childPos, long l) {
+                ListGroupModel groupModel = list_Son.get(parentPos).get(childPos);
+                if (1 == groupModel.getType()) {
                     Intent intent = new Intent(getContext(), GroupRankingActivity.class);
                     intent.putExtra("ClassId", ClassId);
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     intent.putExtra("SortTimeType", SortTimeType);
                     ListdateModel listdateModel = spinnerData.get(selectedSpinner);
                     intent.putExtra("listDataModel", listdateModel);
-                    ListGroupModel model = groupModelList.get(i - 2);
-                    intent.putExtra("ListGroupModel", model);
-
+//                    ListGroupModel model = groupModelList.get(i - 2);
+                    intent.putExtra("ListGroupModel", groupModel);
+                    startActivity(intent);
+                } else if (2 == groupModel.getType()) {//getPresenter().doGetClassMemberInfo(AccountId, classid);
+                    Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
+                    intent.putExtra("AccountId", Long.parseLong(groupModel.getUserId()));
                     startActivity(intent);
                 }
-                Log.e("curry", "onItemClick: " + i);
+
+                return true;
             }
         });
 
@@ -168,29 +194,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @Override
     protected void initDatas() {
         //根据position返回当前值给标题
-        spinnerAdapter = new ArrowSpinnerAdapter<String>(getContext(), spinnerData2, R.layout.class_title) {
-            @Override
-            public void convert(ViewHolder holder, String data, int position) {
-                TextView tv_class_name = holder.getView(R.id.tv_classed);
-                tv_class_name.setText(data);
-            }
 
-            @Override
-            public String getText(int position) {
-                //根据position返回当前值给标题
-                return spinnerData2 == null || spinnerData2.size() == 0 ? "" : spinnerData2.get(position);
-            }
-
-        };
-        spinner.attachCustomSource(spinnerAdapter);
-        spinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                WhichTime = Integer.valueOf(spinnerData.get(i).getDateValue());
-                selectedSpinner = i;
-                loadData(is_first);
-            }
-        });
     }
 
     @Override
@@ -213,180 +217,104 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         }
     }
 
-    private void newAdapter() {
-        honorGroupRankAdapter = new EasyAdapter<ListGroupModel>(getContext(), groupModelList, R.layout.item_honor_group) {
-            @Override
-            public void convert(ViewHolder holder, ListGroupModel data, int position) {
-                if (TextUtils.isEmpty(data.getRanking())) {
-                    holder.getConvertView().setVisibility(View.GONE);
-                    return;
-                }
-                TextView tv_rank_number = holder.getView(R.id.tv_rank_number);
-                tv_rank_number.setText(data.getRanking());
-                TextView tv_coach_type = holder.getView(R.id.tv_coach_type);
-                tv_coach_type.setText(data.getCoachType());
-                TextView tv_group_name = holder.getView(R.id.tv_group_name);
-                //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
-//                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
-                tv_group_name.setText(data.getGroupName());
-
-                //减重、脂
-                TextView loss_total_tv = holder.getView(R.id.loss_total_tv);
-                loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + data.getLoss() + "斤" : "减脂" + data.getLoss() + "%");
-
-                CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
-                setImage(civ_trainer_header, data.getCoachIco());
-//                Log.e("curry", "convert: " + data.getCoachIco());
-                TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
-                tv_trainer_name.setText(data.getCoachName());
-                TextView tv_per_number = holder.getView(R.id.tv_per_number);
-                tv_per_number.setText(data.getLossPer());
-                TextView tv_by_which = holder.getView(R.id.tv_by_which);
-                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
-            }
-        };
-    }
 
     @Override
     public void getModel(HonorRankModel model) {
-        try {
-            listHonorrank.onRefreshComplete();
-            //请求不到数据的时候全屏显示“暂无数据”
-            //前三名状态重置
-            setTop1Wating();
-            setTop2Wating();
-            setTop3Wating();
+        listHonorrank.onRefreshComplete();
 
+        parentsTitle.clear();
+        groupModelList.clear();
+        classMemberModelList.clear();
+        list_Son.clear();
+        try {
+            //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
-                groupModelList.clear();
-                newAdapter();
-                listHonorrank.setAdapter(honorGroupRankAdapter);
-                listHonorrank.setEmptyView(ll_no_data);
+                adapter.notifyDataSetChanged();
                 return;
             }
             //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
             if (model.getList_date() != null) {
                 //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
                 if (model.getList_date().size() != 0) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //默认请求当前周
-                            WhichTime = Integer.valueOf(spinnerData.get(0).getDateValue());
-                            loadData(false);
-                        }
-                    }, 500);
-                    spinnerData.clear();
-                    spinnerData = model.getList_date();
-                    for (int i = 0; i < spinnerData.size(); i++) {
-                        spinnerData2.add(spinnerData.get(i).getDateName());
-                    }
-                    spinner.attachCustomSource(spinnerAdapter);
-                    //在这里设置adapter后就可以显示空头部
-                    listHonorrank.setAdapter(honorGroupRankAdapter);
+                    WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
 
-                    //动态设置下拉框的高度
-                    switch (spinnerData.size()) {
-                        case 1:
-                            spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 38));
-                            break;
-                        case 2:
-                            spinner.setPop4Height(DisplayUtil.dip2px(getContext(), 75));
-                            break;
-                    }
+                    spinnerData.clear(); //.踢馆周期
+                    spinnerData.addAll(model.getList_date());
+
+                    arrow.setSelected(0);
+                    arrow.notifChange();
+                    arrow.setHeight(50 * 10);
+
                     //首次后设置为false
                     is_first = false;
                     //没有周数，第一次，全屏显示“暂无数据”return。非第一次，不return
                 } else {
                     if (is_first) {
+                        parentsTitle.clear();
                         groupModelList.clear();
-                        newAdapter();
-                        listHonorrank.setAdapter(honorGroupRankAdapter);
+                        classMemberModelList.clear();
+                        list_Son.clear();
+
+                        adapter.notifyDataSetChanged();
                         listHonorrank.setEmptyView(ll_no_data);
                         return;
                     }
+
                 }
+
             }
+            //不为null，list数据为零，显示“虚位以待”
 
-            if (model.getList_top3() != null && model.getList_top3().size() > 0) {
-                //list中显示减脂还是减重
-                for (ListTopModel topModel : model.getList_top3()) {
-                    switch (topModel.getRanking()) {
-                        case "1":
-                            tv_top1_name.setText(topModel.getUserName());
-                            tv_top1_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                            tv_top1_loss.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
-
-                            setImage(civ_top1, topModel.getUserIconUrl());
-                            break;
-                        case "2":
-                            tv_top2_name.setText(topModel.getUserName());
-                            tv_top2_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                            tv_top2_loss.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
-
-                            setImage(civ_top2, topModel.getUserIconUrl());
-                            break;
-                        case "3":
-                            tv_top3_name.setText(topModel.getUserName());
-                            tv_top3_per.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight) + topModel.getLossPer() + "%" : getString(R.string.lose_fat) + topModel.getLossPer() + "%");
-                            tv_top3_loss.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + topModel.getLoss() + "斤" : getString(R.string.lose_fat_ratio) + topModel.getLoss() + "%");
-                            setImage(civ_top3, topModel.getUserIconUrl());
-                            break;
-                    }
-                }
-            }
 
             if (model.getList_group() != null && model.getList_group().size() > 0) {
-                honorRankModel = model;
-                //更新list数据
                 groupModelList.clear();
                 groupModelList.addAll(model.getList_group());
-                newAdapter();
-                listHonorrank.setAdapter(honorGroupRankAdapter);
+                for (int i = 0; i < groupModelList.size(); i++) {
+                    ListGroupModel tempModel = groupModelList.get(i);
+                    tempModel.setType(1);
+                }
             } else {
                 groupModelList.clear();
-                groupModelList.add(new ListGroupModel());
-                honorGroupRankAdapter.notifyDataSetChanged();
+            }
+
+//            班级排名
+            if (model.getList_all() != null && model.getList_all().size() > 0) {
+                classMemberModelList.clear();
+                classMemberModelList.addAll(model.getList_all());
+                for (int i = 0; i < classMemberModelList.size(); i++) {
+                    ListGroupModel tempModel = classMemberModelList.get(i);
+                    tempModel.setType(2);
+                }
+            } else {
+                classMemberModelList.clear();
+            }
+
+            if (groupModelList != null && groupModelList.size() > 0) {
+                String str_group = "小组排名 ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%";
+                parentsTitle.add(str_group);
+                list_Son.add(groupModelList);
+            }
+
+            if (classMemberModelList != null && classMemberModelList.size() > 0) {
+                parentsTitle.add("班级排名");
+                list_Son.add(classMemberModelList);
             }
 
 
-            group_info_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%");
+            adapter = null;
+            adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+            listHonorrank.getRefreshableView().setAdapter(adapter);
+            for (int i = 0; i < parentsTitle.size(); i++) {
+//                listHonorrank.getRefreshableView().expandGroup(i);
+                listHonorrank.getRefreshableView().expandGroup(i);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void setImage(CircleImageView civ, String endUrl) {
-        String basePath = AddressManager.get("photoHost");
-        if (StringUtils.isNotEmpty(endUrl)) {
-//            Picasso.with(getContext()).load(basePath + endUrl).into(civ);
-            Picasso.with(getContext()).load(basePath + endUrl).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ);
-        } else {
-            Picasso.with(getContext()).load(R.drawable.img_default).into(civ);
-        }
-    }
-
-    private void setTop1Wating() {
-        civ_top1.setImageResource(R.drawable.img_default);
-        tv_top1_name.setText("");
-        tv_top1_per.setText(R.string.waiting);
-        tv_top1_loss.setText("");
-    }
-
-    private void setTop2Wating() {
-        civ_top2.setImageResource(R.drawable.img_default);
-        tv_top2_name.setText("");
-        tv_top2_per.setText(R.string.waiting);
-        tv_top2_loss.setText("");
-    }
-
-    private void setTop3Wating() {
-        civ_top3.setImageResource(R.drawable.img_default);
-        tv_top3_name.setText("");
-        tv_top3_per.setText(R.string.waiting);
-        tv_top3_loss.setText("");
-    }
 
     @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
     public void onClick(View view) {
