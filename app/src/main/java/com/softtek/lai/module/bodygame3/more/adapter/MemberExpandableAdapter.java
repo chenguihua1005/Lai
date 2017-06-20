@@ -47,6 +47,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 11/19/2016.
@@ -276,14 +277,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                                     new Callback<ResponseData>() {
                                                         @Override
                                                         public void success(ResponseData responseData, Response response) {
-//                                                            Looper.prepare();
-//                                                            if (pDialog != null && pDialog.isShowing()) {
-//                                                                pDialog.dismiss();
-//                                                            }
-//                                                            Looper.loop();
                                                             if (responseData.getStatus() == 200) {
-//                                                                datas.get(member.getCGName()).remove(member);
-//                                                                notifyDataSetChanged();
 
                                                                 Log.i("MemberExpandableAdapter", "移除成功。。。。。。。。。。。。");
 
@@ -328,7 +322,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                     }
                                     Looper.loop();
                                     e.printStackTrace();
-//                                    Util.toastMsg("移除失败");
+                                    Util.toastMsg("移除失败");
                                     Message msg = new Message();
                                     msg.what = 0x0012;
                                     handler.sendMessage(msg);

@@ -27,16 +27,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:drawablePadding="2dp"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        android:layout_height="wrap_content"
-        android:text=""/>
-
     <com.ggx.widgets.nicespinner.ListDialog
         android:id="@+id/spinner_title1"
         android:layout_width="wrap_content"

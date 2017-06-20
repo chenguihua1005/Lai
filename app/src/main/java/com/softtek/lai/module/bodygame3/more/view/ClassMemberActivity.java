@@ -44,7 +44,6 @@ public class ClassMemberActivity extends BaseActivity implements PullToRefreshBa
     @InjectView(R.id.lv)
     PullToRefreshExpandableListView lv;
 
-    //EasyAdapter<Member> adapter;
     MemberExpandableAdapter adapter;
     private Map<String, List<Member>> members = new HashMap<>();
     private List<String> parents = new ArrayList<>();

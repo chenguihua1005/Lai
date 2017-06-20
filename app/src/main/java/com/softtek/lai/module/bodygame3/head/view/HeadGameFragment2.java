@@ -331,7 +331,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                com.github.snowdream.android.util.Log.i("点击页面。。。。。=" + position);
                 int index = position - 2;
                 if (index < 0) {
                     return;
@@ -554,7 +553,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                                 startActivity(intent4);
                                             }
                                         });
-//                                iv_imagevideo2.setVisibility(View.GONE);
                                     }
                                 } else {
                                     lin_tuijian.setVisibility(View.GONE);
@@ -569,7 +567,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                         photos.clear();
                                         viewPager.removeAllViews();
                                         photos.addAll(zhaopianModel.getPhotoThumbnailList());
-//                                        pageradapter.notifyDataSetChanged();
                                         adapterData();
                                     } else {
                                         rl_container.setVisibility(View.GONE);
@@ -656,7 +653,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     @Subscribe
     public void updateClass(UpdateClass clazz) {
         if (clazz.getStatus() == 0) {
-            //更新班级姓名
             //更新班级姓名
             for (ClassModel model : classModels) {
                 if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
@@ -768,8 +764,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                     TextView tv_class_name = holder.getView(R.id.tv_class_name);
                                     tv_class_name.setText(data.getClassName());
                                     RadioButton iv_sel = holder.getView(R.id.iv_select);
-                                    //android:src="@drawable/more_select"
-                                    //iv_sel.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
                                     iv_sel.setChecked(selected);
                                 }
 

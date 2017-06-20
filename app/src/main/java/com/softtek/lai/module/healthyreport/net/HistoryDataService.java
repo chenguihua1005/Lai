@@ -17,7 +17,8 @@ public interface HistoryDataService {
     //获取历史记录列表
     @GET("/v1/DataSync/GetSelftHistory")
     void getHistoryDataList(@Header("token") String token,
-                            @Query("type") int accountId,
+                            @Query("type") int type,
+                            @Query("accountId")long accountId,
                             @Query("pageIndex") int pageIndex,
                             RequestCallback<ResponseData<HistoryDataModel>> callback);
 

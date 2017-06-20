@@ -35,7 +35,7 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
         if (!isPull&&getView()!=null){
             getView().dialogShow("加载中");
         }
-        service.getHistoryDataList(token, type, pageIndex,
+        service.getHistoryDataList(token, type, UserInfoModel.getInstance().getUserId(),pageIndex,
                 new RequestCallback<ResponseData<HistoryDataModel>>() {
                     @Override
                     public void success(ResponseData<HistoryDataModel> historyDataModelResponseData, Response response) {
