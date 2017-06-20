@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_hasdata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
@@ -85,10 +86,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="5dp"
                 android:id="@+id/loss_total_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:textSize="10sp" />
 
         </LinearLayout>
@@ -148,6 +149,13 @@
             android:src="@drawable/bodygame3_arrow" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tip_info"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
