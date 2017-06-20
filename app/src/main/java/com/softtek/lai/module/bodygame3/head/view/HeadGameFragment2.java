@@ -1009,12 +1009,13 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         page = 1;
-        if (saveclassModel != null) {
+        /*if (saveclassModel != null) {
             classinfo(saveclassModel.getClassId(), saveclassModel.getClassWeek());
         } else {
-            classModels.clear();
-            getAllfirst(classId_first);
-        }
+
+        }*/
+        classModels.clear();
+        getAllfirst(classId_first);
         getHasEmail();
     }
 

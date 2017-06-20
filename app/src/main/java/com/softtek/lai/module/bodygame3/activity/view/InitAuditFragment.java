@@ -195,7 +195,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
 
         }
     }
-
+    
     @Override
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
