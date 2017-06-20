@@ -243,7 +243,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
                     arrow.setSelected(0);
                     arrow.notifChange();
-                    arrow.setHeight(50 * 10);
+                    arrow.setHeight(150 * 6);
 
                     //首次后设置为false
                     is_first = false;
@@ -293,9 +293,15 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 String str_group = "ByWeightRatio".equals(ByWhichRatio) ? "小组排名（本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤）" : "小组排名（本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%）";
                 parentsTitle.add(str_group);
                 list_Son.add(groupModelList);
+            } else {
+                parentsTitle.add("小组排名");
+                list_Son.add(groupModelList);
             }
 
             if (classMemberModelList != null && classMemberModelList.size() > 0) {
+                parentsTitle.add("班级排名");
+                list_Son.add(classMemberModelList);
+            } else {
                 parentsTitle.add("班级排名");
                 list_Son.add(classMemberModelList);
             }
@@ -305,7 +311,6 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
             listHonorrank.getRefreshableView().setAdapter(adapter);
             for (int i = 0; i < parentsTitle.size(); i++) {
-//                listHonorrank.getRefreshableView().expandGroup(i);
                 listHonorrank.getRefreshableView().expandGroup(i);
             }
 
