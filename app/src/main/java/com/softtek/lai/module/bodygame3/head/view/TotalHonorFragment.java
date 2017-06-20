@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -203,12 +204,18 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             }
 
             if (groupModelList != null && groupModelList.size() > 0) {
-                String str_group = "小组排名 ByWeightRatio".equals(ByWhichRatio) ? "本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤" : "本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%";
+                String str_group = "ByWeightRatio".equals(ByWhichRatio) ? "小组排名（本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤)" : "小组排名（本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%）";
                 parentsTitle.add(str_group);
+                list_Son.add(groupModelList);
+            } else {
+                parentsTitle.add("小组排名");
                 list_Son.add(groupModelList);
             }
 
             if (classMemberModelList != null && classMemberModelList.size() > 0) {
+                parentsTitle.add("班级排名");
+                list_Son.add(classMemberModelList);
+            } else {
                 parentsTitle.add("班级排名");
                 list_Son.add(classMemberModelList);
             }
@@ -218,7 +225,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
             listHonorrank.getRefreshableView().setAdapter(adapter);
             for (int i = 0; i < parentsTitle.size(); i++) {
-//                listHonorrank.getRefreshableView().expandGroup(i);
                 listHonorrank.getRefreshableView().expandGroup(i);
             }
 

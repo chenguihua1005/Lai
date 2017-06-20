@@ -2,7 +2,11 @@ package com.softtek.lai.module.bodygame3.head.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -177,6 +181,8 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
             viewHolderSon1.tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? context.getString(R.string.weight_per) : context.getString(R.string.fat_per));
 
         } else if (type == 2) {
+
+            ListGroupModel data = son_List.get(parentPos).get(childPos);
             ViewHolderSon2 viewHolderSon2;
             if (view == null) {
                 view = LayoutInflater.from(context).inflate(R.layout.classrank_item, null);
@@ -200,7 +206,9 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
             } else {
                 viewHolderSon2 = (ViewHolderSon2) view.getTag();
             }
-            ListGroupModel data = son_List.get(parentPos).get(childPos);
+
+
+            Log.i(TAG, "sonList = " + new Gson().toJson(data));
 
             Picasso.with(context).load(AddressManager.get("photoHost") + data.getUserIconUrl())
                     .fit().error(R.drawable.img_default)
@@ -264,9 +272,38 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
             viewHolderSon2.group_tv.setText("(" + data.getCGName() + ")");
             if ("ByWeightRatio".equals(ByWhichRatio)) {
-                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + "斤.减重:" + data.getLoss() + "斤");
+//                String str = "初始:" + data.getInitWeight() + "斤.减重:" + data.getLoss() + "斤";
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                builder.append("初始:");
+
+                SpannableString str1 = new SpannableString(data.getInitWeight());
+                str1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.append(str1);
+                builder.append("斤.减重:");
+
+                SpannableString str2 = new SpannableString(data.getLoss());
+                str2.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.append(str2);
+
+                builder.append("斤");
+                viewHolderSon2.weight_first.setText(builder);
+
             } else {
-                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + ".减脂:" + data.getLoss());
+//                String str = "初始:" + data.getInitWeight() + "斤.减重:" + data.getLoss() + "斤";
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                builder.append("初始:");
+
+                SpannableString str1 = new SpannableString(data.getInitWeight());
+                str1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.append(str1);
+                builder.append("%.减脂:");
+
+                SpannableString str2 = new SpannableString(data.getLoss());
+                str2.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.append(str2);
+
+                builder.append("%");
+                viewHolderSon2.weight_first.setText(builder);
             }
 
 
