@@ -9,15 +9,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
-import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
@@ -41,7 +39,6 @@ import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.DragFloatActionButton;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
 import com.sw926.imagefileselector.ImageFileSelector;
 
@@ -55,7 +52,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -71,8 +67,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
     LinearLayout ll_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
 
     @InjectView(R.id.cheng_float)
     DragFloatActionButtonCheng cheng_float;
@@ -287,7 +281,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                             intent1.putExtra("images", files);//本地图片
                             intent1.putExtra("photoname", images_url);//网络图片
                             intent1.putExtra("IsEdit", IsEdit);
-//                            startActivity(intent1);
                             startActivityForResult(intent1, GET_PRE);
                         } else {//不存在照片  IsAudit = 1 {//已审核
                             if (IsAudit != 1 || canCommited) {
@@ -304,6 +297,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                                                 ActivityCompat.requestPermissions(InitDataAuditActivity2.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                             } else {
                                                 imageFileSelector.takePhoto(InitDataAuditActivity2.this);
+
                                             }
                                         } else if (which == 1) {
                                             //照片
@@ -389,13 +383,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                                         show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
                                     }
                                     break;
-//                                case 8:
-//                                    if ("1".equals(gender)) { //女的
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    } else {
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    }
-//                                    break;
                                 case 8:
                                     if ("1".equals(gender)) { //女的
                                         show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
@@ -445,14 +432,20 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                 return false;
             }
         });
-//        }
-
-
         //获取后台数据
-
         getPresenter().getFuceCheckData(ACMID);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(requestCode==100){
+            if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                imageFileSelector.takePhoto(InitDataAuditActivity2.this);
+            }
+        }
+    }
 
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
@@ -473,22 +466,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (num) {
-                    case 0:
-//                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-//                        exlisview_body.setAdapter(adapter);
-//                        int groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
-
-                        break;
                     case 1:
                         fcStDataModel.setInitWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -668,22 +645,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
                         }
                     }
                     break;
-//                    case 12: {//viscusFatIndex;     //内脏脂肪指数
-//                        fcStDataModel.setViscusFatIndex(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-//                        exlisview_body.setAdapter(adapter);
-//                        groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
-//                    }
-//                    break;
                     case 13: {//bodyWaterRate;//身体水分率
                         fcStDataModel.setBodyWaterRate(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);

@@ -1,16 +1,13 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,10 +33,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
-import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
-import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
@@ -1011,6 +1005,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
         switch (requestCode) {
             case CAMERA_PREMISSION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -1038,8 +1033,6 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
             if (intent != null && Constants.UPDATE_UI_STU_INITDATA_INPUT.equalsIgnoreCase(intent.getAction())) {
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
-                    android.util.Log.i("WriteFCActivity", "receiver 莱称获取数据= " + new Gson().toJson(result_model));
-
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
                     }

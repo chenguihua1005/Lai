@@ -1,15 +1,12 @@
 package com.softtek.lai.module.bodygame3.activity.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,8 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
-import com.softtek.lai.module.bodygame3.activity.view.FormData;
 import com.softtek.lai.module.bodygame3.activity.view.GuideActivity;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.squareup.picasso.Picasso;
@@ -156,16 +151,6 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                     Picasso.with(context).load(R.drawable.img_default).centerCrop()
                             .fit().into(holder.iv_write_head);
                 }
-//                if (childArray.get(groupPosition).size() == 3) {
-//                    holder.tv_retest_write_weekth.setVisibility(View.GONE);
-//                } else {
-//                    FormData formData = new FormData();
-//                    if (TextUtils.isEmpty(formData.formdata(fcStDataModel.getWeekNum()))) {
-//                        holder.tv_retest_write_weekth.setVisibility(View.GONE);
-//                    } else {
-//                        holder.tv_retest_write_weekth.setText("(第" + formData.formdata(fcStDataModel.getWeekNum()) + "周)");
-//                    }
-//                }
                 switch (firststatus) {
                     case 1:
                         //未录入
@@ -197,13 +182,6 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
                     holder.im_pic_icon.setVisibility(View.GONE);
                     holder.tv_takepho_guide.setVisibility(View.GONE);
                     holder.im_pic.setVisibility(View.VISIBLE);
-//                    if (!TextUtils.isEmpty(fcStDataModel.getThumbnail())) {//后台有图片
-//                        Picasso.with(context).load(AddressManager.get("photoHost") + fcStDataModel.getThumbnail()).centerCrop().fit().placeholder(R.drawable.default_icon_square).into(holder.im_pic);
-//                    } else {
-//                        Picasso.with(context).load(R.drawable.default_icon_square).centerCrop()
-//                                .fit().into(holder.im_pic);
-//                    }
-
                     switch (isWhatePic)  ////0没有图片1网络图片2文件图片
                     {
                         case 0:
@@ -436,17 +414,7 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
     }
 
 
-    private TextView getTextView() {
-        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 64);
-        TextView textView = new TextView(context);
-        textView.setLayoutParams(lp);
-        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-        textView.setPadding(36, 0, 0, 0);
-        textView.setTextSize(20);
-        return textView;
-    }
-
-    class GroupHolder {
+    private static class GroupHolder {
         public TextView groupName;
         public TextView tv_write_nick, tv_write_phone, tv_write_class, tv_start_time, tv_end_time;//昵称 电话 班级  班级开始时间 结束时间
         public ImageView arrow, im_pic_icon, im_pic, iv_write_head, //拍照审核照片   、  用户头像
@@ -458,7 +426,7 @@ public class FuceCheckExpandableListAdapter implements ExpandableListAdapter {
         public TextView tv_takepho_guide;
     }
 
-    class ChildHolder {
+    private static class ChildHolder {
         public TextView childName;
         public TextView tv_value;
         public TextView tv_danwei;
