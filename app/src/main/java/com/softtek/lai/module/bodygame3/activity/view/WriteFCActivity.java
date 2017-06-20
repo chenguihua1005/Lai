@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -142,6 +143,8 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
         classId = getIntent().getStringExtra("classId");
         typeDate = getIntent().getStringExtra("typeDate");
         firststatus = getIntent().getIntExtra("firststatus", 0);//接收数据审核状态,//初始数据状态：1：未录入 2：未审核 3：已复测
+
+        Log.i("+++++", "typeDate = " + typeDate + " firststatus =  " + firststatus);
 
         userId = UserInfoModel.getInstance().getUserId();
         Log.i("classid" + classId + "typedata" + typeDate);
