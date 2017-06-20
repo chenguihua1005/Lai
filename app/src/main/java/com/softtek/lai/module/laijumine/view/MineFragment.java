@@ -306,7 +306,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
                 break;
             //跳转历史测量数据
             case R.id.re_health:
-                startActivity(new Intent(getContext(), HistoryDataActivity.class));
+                startActivity(new Intent(getContext(), HistoryDataActivity.class).putExtra("accountId",UserInfoModel.getInstance().getUserId()));
                 break;
             //跳转减重等级
             case R.id.re_losslevel:

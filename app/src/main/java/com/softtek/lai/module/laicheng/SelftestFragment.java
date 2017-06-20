@@ -243,7 +243,7 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
 
     @OnClick(R.id.ll_more)
     public void goToMoreinfo() {
-        startActivity(new Intent(getActivity(), HistoryDataActivity.class));
+        startActivity(new Intent(getActivity(), HistoryDataActivity.class).putExtra("accountId",UserInfoModel.getInstance().getUserId()));
     }
 
 

@@ -63,6 +63,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     private int pageIndex = 0;
     private int totalPage = 0;
     private int type=0;//默认莱称选中
+    private long accountId;
 
     @Override
     protected void initViews() {
@@ -87,7 +88,8 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         ptrlv.setAdapter(adapter);
         pageIndex = 1;
         //默认加载莱称的数据
-        getPresenter().getHistoryDataList(0,pageIndex,false);
+        accountId=getIntent().getLongExtra("accountId",0);
+        getPresenter().getHistoryDataList(0,pageIndex,accountId,false);
     }
 
     @Override
@@ -226,14 +228,14 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        getPresenter().getHistoryDataList(type,pageIndex,true);
+        getPresenter().getHistoryDataList(type,pageIndex,accountId,true);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if (pageIndex <= totalPage) {
-            getPresenter().getHistoryDataList(type,pageIndex,true);
+            getPresenter().getHistoryDataList(type,pageIndex,accountId,true);
         } else {
             pageIndex--;
             new Handler().postDelayed(new Runnable() {
@@ -266,6 +268,6 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
             type=1;
         }
         pageIndex=1;
-        getPresenter().getHistoryDataList(type,pageIndex,false);
+        getPresenter().getHistoryDataList(type,pageIndex,accountId,false);
     }
 }

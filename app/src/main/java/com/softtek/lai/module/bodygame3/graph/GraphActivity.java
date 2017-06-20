@@ -49,7 +49,7 @@ public class GraphActivity extends BaseActivity {
                 finish();
             }
         });
-        long accountId = getIntent().getLongExtra("accountId", 0);
+        final long accountId = getIntent().getLongExtra("accountId", 0);
         String classId = getIntent().getStringExtra("classId");
         boolean isShow=getIntent().getBooleanExtra("isShow",false);
         if(isShow){
@@ -57,7 +57,9 @@ public class GraphActivity extends BaseActivity {
             tv_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(GraphActivity.this, HistoryDataActivity.class));
+                    Intent intent=new Intent(GraphActivity.this, HistoryDataActivity.class);
+                    intent.putExtra("accountId",accountId);
+                    startActivity(intent);
                 }
             });
         }else {
