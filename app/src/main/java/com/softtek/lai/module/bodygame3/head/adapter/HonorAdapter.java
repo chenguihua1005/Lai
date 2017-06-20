@@ -304,7 +304,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
                     SpannableString str1 = new SpannableString(data.getInitWeight());
                     str1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                     builder.append(str1);
-                    builder.append("斤.减重:");
+                    builder.append("斤·减重:");
 
                     SpannableString str2 = new SpannableString(data.getLoss());
                     str2.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -321,7 +321,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
                     SpannableString str1 = new SpannableString(data.getInitWeight());
                     str1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                     builder.append(str1);
-                    builder.append("%.减脂:");
+                    builder.append("%·减脂:");
 
                     SpannableString str2 = new SpannableString(data.getLoss());
                     str2.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -386,13 +386,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
     }
 
-    private class ViewHolderNoData {
-        public ViewHolderNoData(View view) {
-            tip_tv = (TextView) view.findViewById(R.id.tip_info);
-        }
 
-        TextView tip_tv;
-    }
 
 
     private void setImage(CircleImageView civ, String endUrl) {
