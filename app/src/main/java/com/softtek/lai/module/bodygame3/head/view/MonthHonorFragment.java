@@ -169,22 +169,23 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int parentPos, int childPos, long l) {
                 ListGroupModel groupModel = list_Son.get(parentPos).get(childPos);
-                if (1 == groupModel.getType()) {
-                    Intent intent = new Intent(getContext(), GroupRankingActivity.class);
-                    intent.putExtra("ClassId", ClassId);
-                    intent.putExtra("ByWhichRatio", ByWhichRatio);
-                    intent.putExtra("SortTimeType", SortTimeType);
-                    ListdateModel listdateModel = spinnerData.get(selectedSpinner);
-                    intent.putExtra("listDataModel", listdateModel);
+                if (!"nodata".equals(groupModel.getUserId())) {
+                    if (1 == groupModel.getType()) {
+                        Intent intent = new Intent(getContext(), GroupRankingActivity.class);
+                        intent.putExtra("ClassId", ClassId);
+                        intent.putExtra("ByWhichRatio", ByWhichRatio);
+                        intent.putExtra("SortTimeType", SortTimeType);
+                        ListdateModel listdateModel = spinnerData.get(selectedSpinner);
+                        intent.putExtra("listDataModel", listdateModel);
 //                    ListGroupModel model = groupModelList.get(i - 2);
-                    intent.putExtra("ListGroupModel", groupModel);
-                    startActivity(intent);
-                } else if (2 == groupModel.getType()) {//getPresenter().doGetClassMemberInfo(AccountId, classid);
-                    Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
-                    intent.putExtra("AccountId", Long.parseLong(groupModel.getUserId()));
-                    startActivity(intent);
+                        intent.putExtra("ListGroupModel", groupModel);
+                        startActivity(intent);
+                    } else if (2 == groupModel.getType()) {//getPresenter().doGetClassMemberInfo(AccountId, classid);
+                        Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
+                        intent.putExtra("AccountId", Long.parseLong(groupModel.getUserId()));
+                        startActivity(intent);
+                    }
                 }
-
                 return true;
             }
         });
@@ -295,6 +296,10 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 list_Son.add(groupModelList);
             } else {
                 parentsTitle.add("小组排名");
+                ListGroupModel groupModel = new ListGroupModel();
+                groupModel.setType(1);//小组排名没数据的项目
+                groupModel.setUserId("nodata");
+                groupModelList.add(groupModel);
                 list_Son.add(groupModelList);
             }
 
@@ -303,6 +308,10 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 list_Son.add(classMemberModelList);
             } else {
                 parentsTitle.add("班级排名");
+                ListGroupModel clsModel = new ListGroupModel();
+                clsModel.setType(2);//班级排名没数据的项目
+                clsModel.setUserId("nodata");
+                classMemberModelList.add(clsModel);
                 list_Son.add(classMemberModelList);
             }
 
