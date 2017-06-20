@@ -24,6 +24,7 @@ import com.softtek.lai.module.bodygame3.head.adapter.HonorAdapter;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
+import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -113,22 +114,26 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         });
 
 
-        listHonorrank.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listHonorrank.getRefreshableView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                if (i != 1) {
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int parentPos, int childPos, long l) {
+                ListGroupModel groupModel = list_Son.get(parentPos).get(childPos);
+                if (1 == groupModel.getType()) {
                     Intent intent = new Intent(getContext(), GroupRankingActivity.class);
-                    //classid
                     intent.putExtra("ClassId", ClassId);
                     //ByWhichRatio排序类型；ByFatRatio：按减脂排序ByWeightRatio：按减重比排序
                     intent.putExtra("ByWhichRatio", ByWhichRatio);
                     //SortTimeType按什么时间拍训；
                     intent.putExtra("SortTimeType", SortTimeType);
-                    ListGroupModel model = groupModelList.get(i - 2);
-                    intent.putExtra("ListGroupModel", model);
+                    intent.putExtra("ListGroupModel", groupModel);
+                    startActivity(intent);
+                } else if (2 == groupModel.getType()) {//getPresenter().doGetClassMemberInfo(AccountId, classid);
+                    Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
+                    intent.putExtra("AccountId", Long.parseLong(groupModel.getUserId()));
                     startActivity(intent);
                 }
+
+                return true;
             }
         });
 

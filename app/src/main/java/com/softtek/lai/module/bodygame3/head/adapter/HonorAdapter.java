@@ -183,7 +183,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
                 viewHolderSon2 = new ViewHolderSon2();
 
                 viewHolderSon2.civ = (CircleImageView) view.findViewById(R.id.head_img);
-                viewHolderSon2.role_img = (ImageView) view.findViewById(R.id.role_img);
+                viewHolderSon2.role_img = (TextView) view.findViewById(R.id.role_img);
 
                 viewHolderSon2.paiming = (TextView) view.findViewById(R.id.paiming);
                 viewHolderSon2.name_tv = (TextView) view.findViewById(R.id.name_tv);
@@ -207,16 +207,20 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
                     .placeholder(R.drawable.img_default).into(viewHolderSon2.civ);
             switch (data.getClassRole()) {
                 case 1:
-                    viewHolderSon2.role_img.setImageResource(R.drawable.head_coach);
+                    viewHolderSon2.role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                    viewHolderSon2.role_img.setText("总");
                     break;
                 case 2:
-                    viewHolderSon2.role_img.setImageResource(R.drawable.coach);
+                    viewHolderSon2.role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                    viewHolderSon2.role_img.setText("教");
                     break;
                 case 3:
-                    viewHolderSon2.role_img.setImageResource(R.drawable.assistant);
+                    viewHolderSon2.role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                    viewHolderSon2.role_img.setText("助");
                     break;
                 case 4:
-                    viewHolderSon2.role_img.setImageResource(R.drawable.student);
+                    viewHolderSon2.role_img.setBackground(null);
+                    viewHolderSon2.role_img.setText("");
                     break;
                 default:
                     break;
@@ -260,9 +264,9 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
             viewHolderSon2.group_tv.setText("(" + data.getCGName() + ")");
             if ("ByWeightRatio".equals(ByWhichRatio)) {
-                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + "斤.减重：" + data.getLoss() + "斤");
+                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + "斤.减重:" + data.getLoss() + "斤");
             } else {
-                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + ".减脂：" + data.getLoss());
+                viewHolderSon2.weight_first.setText("初始" + data.getInitWeight() + ".减脂:" + data.getLoss());
             }
 
 
@@ -303,7 +307,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {//BaseExpandableLis
 
     private class ViewHolderSon2 {
         CircleImageView civ;
-        ImageView role_img;
+        TextView role_img;
         TextView paiming;
         TextView name_tv;
         ImageView fale;
