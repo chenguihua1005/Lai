@@ -2,55 +2,42 @@ package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.ggx.widgets.nicespinner.ArrowSpinner4;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialogHonor;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.adapter.HonorAdapter;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
-import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
 import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
-import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
+import com.softtek.lai.module.bodygame3.head.presenter.HonorPresenter;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.widgets.CircleImageView;
-import com.squareup.picasso.Picasso;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by lareina.qiao on 11/25/2016.
  */
 @InjectLayout(R.layout.fragment_weekhonor)//fragment_monthhonor
-public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorManager.WeekHonnorCallback {
+public class MonthHonorFragment extends LazyBaseFragment<HonorPresenter> implements HonorPresenter.HonorView {
 
     private String ByWhichRatio = "ByWeightRatio";
     private String ClassId = "C4E8E179-FD99-4955-8BF9-CF470898788B";
@@ -88,11 +75,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     private List<List<ListGroupModel>> list_Son = new ArrayList<>();// 子层数据
 
     private List<String> parentsTitle = new ArrayList<String>();
-    private WeekHonorManager weekHonorManager;
-
 
     List<ListdateModel> spinnerData = new ArrayList<>();
-    private ArrowSpinnerAdapter spinnerAdapter;
     private boolean is_first = true;
     private int selectedSpinner = 0;
 
@@ -107,7 +91,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void initViews() {
-        weekHonorManager = new WeekHonorManager(this);
+        setPresenter(new HonorPresenter(this));
         Bundle bundle = getArguments();
         ClassId = bundle.getString("classId");
         selectWeight();
@@ -158,7 +142,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+                getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
             }
 
             @Override
@@ -211,7 +195,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         //第一次请求会请求两次，第一次不让显示刷新效果，所以不用setrefreshing()。
         // 以后的请求都是一次一次来的，要有刷新效果，所以都用setRefreshing()，调用这个方法后，会自动调用他的刷新方法，网络请求在刷新方法里。
         if (is_first) {
-            weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
+            getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
         } else {
             try {
                 listHonorrank.setRefreshing();
@@ -222,9 +206,39 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     }
 
 
+
+    @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_weight_per:
+                ByWhichRatio = "ByWeightRatio";
+                loadData(false);
+                selectWeight();
+                break;
+            case R.id.ll_fat_per:
+                ByWhichRatio = "ByFatRatio";
+                loadData(false);
+                selectFat();
+                break;
+        }
+    }
+
+    private void selectWeight() {
+        iv_weight_per.setImageResource(R.drawable.weight_per_select);
+        iv_fat_per.setImageResource(R.drawable.fat_per_unselect);
+        tv_weight_per.setTextColor(getResources().getColor(R.color.orange));
+        tv_fat_per.setTextColor(getResources().getColor(R.color.grey_honor));
+    }
+
+    private void selectFat() {
+        iv_weight_per.setImageResource(R.drawable.weight_per_unselect);
+        iv_fat_per.setImageResource(R.drawable.fat_per_select);
+        tv_weight_per.setTextColor(getResources().getColor(R.color.grey_honor));
+        tv_fat_per.setTextColor(getResources().getColor(R.color.orange));
+    }
+
     @Override
-    public void getModel(HonorRankModel model) {
-        listHonorrank.onRefreshComplete();
+    public void getHonorModel(HonorRankModel model) {
         ll_menu.setVisibility(View.VISIBLE);
 
         parentsTitle.clear();
@@ -249,7 +263,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
                     arrow.setSelected(0);
                     arrow.notifChange();
-                    arrow.setHeight(150 * 6);
+                    int px = DisplayUtil.dip2px(getContext(), 50 * 6);
+                    arrow.setHeight(px);
 
                     //首次后设置为false
                     is_first = false;
@@ -339,35 +354,9 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         }
     }
 
-
-    @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ll_weight_per:
-                ByWhichRatio = "ByWeightRatio";
-                loadData(false);
-                selectWeight();
-                break;
-            case R.id.ll_fat_per:
-                ByWhichRatio = "ByFatRatio";
-                loadData(false);
-                selectFat();
-                break;
-        }
-    }
-
-    private void selectWeight() {
-        iv_weight_per.setImageResource(R.drawable.weight_per_select);
-        iv_fat_per.setImageResource(R.drawable.fat_per_unselect);
-        tv_weight_per.setTextColor(getResources().getColor(R.color.orange));
-        tv_fat_per.setTextColor(getResources().getColor(R.color.grey_honor));
-    }
-
-    private void selectFat() {
-        iv_weight_per.setImageResource(R.drawable.weight_per_unselect);
-        iv_fat_per.setImageResource(R.drawable.fat_per_select);
-        tv_weight_per.setTextColor(getResources().getColor(R.color.grey_honor));
-        tv_fat_per.setTextColor(getResources().getColor(R.color.orange));
+    @Override
+    public void hidenLoading() {
+        listHonorrank.onRefreshComplete();
     }
 }
 

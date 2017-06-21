@@ -23,25 +23,25 @@ public class WholePresenter extends BasePresenter<WholePresenter.WholeView> {
 
     public WholePresenter(WholeView baseView) {
         super(baseView);
-        service= ZillaApi.NormalRestAdapter.create(LaiClassroomService.class);
+        service = ZillaApi.NormalRestAdapter.create(LaiClassroomService.class);
     }
 
-    public void getFilterData(){
+    public void getFilterData() {
         service.getFilteData(UserInfoModel.getInstance().getToken(),
                 String.valueOf(UserInfoModel.getInstance().getUserId()),
                 new RequestCallback<ResponseData<FilteData>>() {
-            @Override
-            public void success(ResponseData<FilteData> data, Response response) {
-                if(data.getStatus()==200){
-                    if(getView()!=null){
-                        getView().getData(data.getData());
+                    @Override
+                    public void success(ResponseData<FilteData> data, Response response) {
+                        if (data.getStatus() == 200) {
+                            if (getView() != null) {
+                                getView().getData(data.getData());
+                            }
+                        }
                     }
-                }
-            }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if(getView()!=null){
+                        if (getView() != null) {
                             getView().dialogDissmiss();
                         }
                         super.failure(error);
@@ -49,7 +49,7 @@ public class WholePresenter extends BasePresenter<WholePresenter.WholeView> {
                 });
     }
 
-    public void getArticleList(String type, String subjectId, String order, int pageIndex, final int upOrDown){
+    public void getArticleList(String type, String subjectId, String order, int pageIndex, final int upOrDown) {
         service.getArticleList(UserInfoModel.getInstance().getToken(),
                 String.valueOf(UserInfoModel.getInstance().getUserId()),
                 type,
@@ -60,13 +60,13 @@ public class WholePresenter extends BasePresenter<WholePresenter.WholeView> {
                 new RequestCallback<ResponseData<ArticalList>>() {
                     @Override
                     public void success(ResponseData<ArticalList> data, Response response) {
-                        if (getView()!=null){
+                        if (getView() != null) {
                             getView().dialogDissmiss();
                             getView().hidenLoading();
                         }
-                        if(data.getStatus()==200){
-                            if(getView()!=null){
-                                getView().getArticles(data.getData(),upOrDown);
+                        if (data.getStatus() == 200) {
+                            if (getView() != null) {
+                                getView().getArticles(data.getData(), upOrDown);
                             }
                         }
 
@@ -74,7 +74,7 @@ public class WholePresenter extends BasePresenter<WholePresenter.WholeView> {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if (getView()!=null){
+                        if (getView() != null) {
                             getView().dialogDissmiss();
                             getView().hidenLoading();
                         }
@@ -86,7 +86,8 @@ public class WholePresenter extends BasePresenter<WholePresenter.WholeView> {
 
 
     public interface WholeView extends BaseView1<FilteData> {
-        void getArticles(ArticalList data,int upOrDown);
+        void getArticles(ArticalList data, int upOrDown);
+
         void hidenLoading();
     }
 }
