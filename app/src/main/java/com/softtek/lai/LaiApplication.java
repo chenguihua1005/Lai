@@ -4,20 +4,14 @@
  */
 package com.softtek.lai;
 
-import android.*;
-import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
-import android.support.v4.app.ActivityCompat;
 
 import com.danikula.videocache.HttpProxyCacheServer;
-import com.danikula.videocache.file.DiskUsage;
 import com.danikula.videocache.file.FileNameGenerator;
-import com.danikula.videocache.file.Md5FileNameGenerator;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
@@ -36,7 +30,6 @@ import com.squareup.picasso.Picasso;
 import com.umeng.socialize.PlatformConfig;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import cn.jpush.android.api.JPushInterface;
@@ -72,7 +65,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 downloader(new ImageDownLoader(new OkHttpClient.Builder()))
                 .build());
 //        refWatcher=LeakCanary.install(this);
-//        CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
     }
 //
 //    public static  RefWatcher getWatch(Context context){

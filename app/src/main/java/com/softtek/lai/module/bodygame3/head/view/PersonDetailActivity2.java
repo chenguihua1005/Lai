@@ -62,6 +62,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
+ *
  * Created by jessica.zhang on 3/30/2017.
  */
 @InjectLayout(R.layout.activity_person_detail)
@@ -271,17 +272,13 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 HXAccountId = memberInfoModel.getHXAccountId();
                 UserName = memberInfoModel.getUserName();
                 if (UserInfoModel.getInstance().getUserId() == memberInfoModel.getAccountid()) {
-
-                    if (UserInfoModel.getInstance().getUser().getUserrole().equals("3")) {
-                    } else {
+                    if (!UserInfoModel.getInstance().getUser().getUserrole().equals("3")) {
                         tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                         tv_angle.setVisibility(View.VISIBLE);
                     }
 
                 } else {
-                    if ("1".equals(memberInfoModel.getClassRole())) {
-
-                    } else {
+                    if (!"1".equals(memberInfoModel.getClassRole())) {
                         tv_angle.setText((TextUtils.isEmpty(memberInfoModel.getMilkAngle()) ? "暂无奶昔天使" : "奶昔天使：" + memberInfoModel.getMilkAngle()));
                         tv_angle.setVisibility(View.VISIBLE);
                     }
@@ -304,7 +301,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                         String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
                         tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
                     } else {
-
                         tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
                     }
                     tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
@@ -356,9 +352,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     IsFriend = memberInfoModel.getIsFriend();
 
                     //如果是好友的话，并且对方是学员时候，可查看当前班级 曲线图放开
-
-
-                    Log.i(TAG, "角色 = " + memberInfoModel.getClassRole() + "  classId = " + memberInfoModel.getClassId() + " getIsCurrClass =  " + memberInfoModel.getIsCurrClass() + memberInfoModel.getClassName());
                     if ("4".equals(memberInfoModel.getClassRole())) {
                         ClassId = memberInfoModel.getClassId();
                         if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
