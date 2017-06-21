@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -46,6 +47,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_totalhonor)
 public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorManager.WeekHonnorCallback {
+    private static final String TAG = "TotalHonorFragment";
 
     private String ByWhichRatio = "ByWeightRatio";
     private String ClassId = "C4E8E179-FD99-4955-8BF9-CF470898788B";
@@ -71,12 +73,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     LinearLayout ll_no_data;
 
 
-    //    EasyAdapter<ListGroupModel> honorGroupRankAdapter;
     private WeekHonorManager weekHonorManager;
-
-
-    private LinearLayout linear_showMenu;//顶部横条
-    private TextView group_info_tv;//小组排名总信息
     private HonorAdapter adapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();//ListGroupModel
     private List<ListGroupModel> classMemberModelList = new ArrayList<ListGroupModel>();
@@ -102,9 +99,11 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
         listHonorrank.getRefreshableView().setAdapter(adapter);
+        listHonorrank.getRefreshableView().setEmptyView(ll_no_data);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+                Log.i(TAG, " 第一次加载。。。。。");
                 weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
             }
 
@@ -166,6 +165,10 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     public void getModel(HonorRankModel model) {
+        Log.i(TAG, "UID= " + UID + "classId = " + ClassId + "byWhichRatio = " + ByWhichRatio + " sortTimeType= " + SortTimeType + "  whichTime = " + WhichTime);
+        Log.i(TAG, "获取到的数据 = " + new Gson().toJson(model));
+
+        int count = 0;//计算次奥组排名和班级排名，当都不存在的时候，不显示列表
         try {
             listHonorrank.onRefreshComplete();
             parentsTitle.clear();
@@ -176,8 +179,10 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
+                adapter = null;
+                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+                listHonorrank.getRefreshableView().setAdapter(adapter);
                 listHonorrank.setEmptyView(ll_no_data);
-                adapter.notifyDataSetChanged();
                 return;
             }
 
@@ -209,6 +214,8 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 String str_group = "ByWeightRatio".equals(ByWhichRatio) ? "小组排名（本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤)" : "小组排名（本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%）";
                 parentsTitle.add(str_group);
                 list_Son.add(groupModelList);
+
+                count++;
             } else {
                 parentsTitle.add("小组排名");
                 ListGroupModel groupModel = new ListGroupModel();
@@ -221,6 +228,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             if (classMemberModelList != null && classMemberModelList.size() > 0) {
                 parentsTitle.add("班级排名");
                 list_Son.add(classMemberModelList);
+                count++;
             } else {
                 parentsTitle.add("班级排名");
                 ListGroupModel clsModel = new ListGroupModel();
@@ -231,11 +239,23 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             }
 
 
-            adapter = null;
-            adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
-            listHonorrank.getRefreshableView().setAdapter(adapter);
-            for (int i = 0; i < parentsTitle.size(); i++) {
-                listHonorrank.getRefreshableView().expandGroup(i);
+            if (count > 0) {
+                adapter = null;
+                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+                listHonorrank.getRefreshableView().setAdapter(adapter);
+                for (int i = 0; i < parentsTitle.size(); i++) {
+                    listHonorrank.getRefreshableView().expandGroup(i);
+                }
+            } else {
+
+                parentsTitle.clear();
+                groupModelList.clear();
+                classMemberModelList.clear();
+                list_Son.clear();
+                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+                listHonorrank.getRefreshableView().setAdapter(adapter);
+                listHonorrank.setEmptyView(ll_no_data);
+
             }
 
 

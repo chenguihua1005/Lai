@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialogHonor;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.softtek.lai.R;
@@ -64,6 +66,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
     TextView tv_fat_per;
     @InjectView(R.id.ll_no_data)
     LinearLayout ll_no_data;
+    @InjectView(R.id.ll_menu)
+    LinearLayout ll_menu;
 
 
     @InjectView(R.id.arrow_spinner)
@@ -147,8 +151,8 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
 
         adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
-//        listHonorrank.setAdapter(adapter);
         listHonorrank.getRefreshableView().setAdapter(adapter);
+        listHonorrank.getRefreshableView().setEmptyView(ll_no_data);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
@@ -210,8 +214,11 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
 
     @Override
     public void getModel(HonorRankModel model) {
-        listHonorrank.onRefreshComplete();
+        Log.i(TAG, "UID= " + UID + "classId = " + ClassId + "byWhichRatio = " + ByWhichRatio + " sortTimeType= " + SortTimeType + "  whichTime = " + WhichTime);
+        Log.i(TAG, "获取到的数据 = " + new Gson().toJson(model));
 
+        listHonorrank.onRefreshComplete();
+        ll_menu.setVisibility(View.VISIBLE);
         parentsTitle.clear();
         groupModelList.clear();
         classMemberModelList.clear();
@@ -219,6 +226,7 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
         try {
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
+                ll_menu.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
                 return;
             }
@@ -253,7 +261,12 @@ public class WeekHonorFragment extends LazyBaseFragment implements WeekHonorMana
                 }
 
             }
-            //不为null，list数据为零，显示“虚位以待”
+            //日期列表没有时间列表，则不显示
+            if (spinnerData == null || spinnerData.size() == 0) {
+                ll_menu.setVisibility(View.GONE);
+                listHonorrank.setEmptyView(ll_no_data);
+                return;
+            }
 
 
             if (model.getList_group() != null && model.getList_group().size() > 0) {

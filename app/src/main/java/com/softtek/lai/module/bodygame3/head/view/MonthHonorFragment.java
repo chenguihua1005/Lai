@@ -78,6 +78,9 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @InjectView(R.id.arrow_spinner)
     ListDialogHonor arrow;
 
+    @InjectView(R.id.ll_menu)
+    LinearLayout ll_menu;
+
 
     private HonorAdapter adapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();//ListGroupModel
@@ -150,8 +153,8 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
-//        listHonorrank.setAdapter(adapter);
         listHonorrank.getRefreshableView().setAdapter(adapter);
+        listHonorrank.getRefreshableView().setEmptyView(ll_no_data);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
@@ -222,6 +225,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
     @Override
     public void getModel(HonorRankModel model) {
         listHonorrank.onRefreshComplete();
+        ll_menu.setVisibility(View.VISIBLE);
 
         parentsTitle.clear();
         groupModelList.clear();
@@ -230,6 +234,7 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         try {
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
+                ll_menu.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
                 return;
             }
@@ -264,7 +269,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
                 }
 
             }
-            //不为null，list数据为零，显示“虚位以待”
+            //日期列表没有时间列表，则不显示
+            if (spinnerData == null || spinnerData.size() == 0) {
+                ll_menu.setVisibility(View.GONE);
+                listHonorrank.setEmptyView(ll_no_data);
+                return;
+            }
 
 
             if (model.getList_group() != null && model.getList_group().size() > 0) {
@@ -335,12 +345,12 @@ public class MonthHonorFragment extends LazyBaseFragment implements WeekHonorMan
         switch (view.getId()) {
             case R.id.ll_weight_per:
                 ByWhichRatio = "ByWeightRatio";
-                loadData(is_first);
+                loadData(false);
                 selectWeight();
                 break;
             case R.id.ll_fat_per:
                 ByWhichRatio = "ByFatRatio";
-                loadData(is_first);
+                loadData(false);
                 selectFat();
                 break;
         }

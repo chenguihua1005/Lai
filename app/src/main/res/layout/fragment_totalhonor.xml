@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -46,58 +47,67 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#e6e6e6" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:background="#fafafa"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#e6e6e6" />
 
         <LinearLayout
-            android:id="@+id/ll_weight_per"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:background="#fafafa"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/iv_weight_per"
+            <LinearLayout
+                android:id="@+id/ll_weight_per"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/weight_per_select" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_weight_per"
+                <ImageView
+                    android:id="@+id/iv_weight_per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/weight_per_select" />
+
+                <TextView
+                    android:id="@+id/tv_weight_per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lose_weight_per"
+                    android:textColor="@color/orange" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fat_per"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lose_weight_per"
-                android:textColor="@color/orange" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_fat_per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fat_per_unselect" />
+
+                <TextView
+                    android:id="@+id/tv_fat_per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lose_fat_per" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_fat_per"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_fat_per"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/fat_per_unselect" />
-
-            <TextView
-                android:id="@+id/tv_fat_per"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lose_fat_per" />
-        </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>
