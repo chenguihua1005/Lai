@@ -31,10 +31,9 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_current_class)
 public class CurrentClassFrament extends LazyBaseFragment2 {
-    private static final String TAG = "CurrentClassFrament";
 
     private LoverMemberAdapter adapter;
-    private List<LoverModel> loverModels = new ArrayList<LoverModel>();
+    private List<LoverModel> loverModels = new ArrayList<>();
 
     @InjectView(R.id.currentClass_listview)
     ListView listview;
@@ -107,7 +106,6 @@ public class CurrentClassFrament extends LazyBaseFragment2 {
 
     @Override
     protected void initDatas() {
-        loverModels = new ArrayList<LoverModel>();
         adapter = new LoverMemberAdapter(getContext(), loverModels);
         listview.setAdapter(adapter);
 

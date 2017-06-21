@@ -2,12 +2,10 @@ package com.softtek.lai.module.bodygame3.love;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment2;
 import com.softtek.lai.common.ResponseData;
@@ -33,7 +31,6 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_history_list)
 public class HistoryListFrament extends LazyBaseFragment2 {
-    private static final String TAG = "HistoryListFrament";
 
     private LoverMemberAdapter adapter;
     private List<LoverModel> loverModels = new ArrayList<>();
@@ -59,34 +56,41 @@ public class HistoryListFrament extends LazyBaseFragment2 {
         service.getIntroducerList(classId, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, 0, new RequestCallback<ResponseData<List<LoverModel>>>() {
             @Override
             public void success(ResponseData<List<LoverModel>> listResponseData, Response response) {
-                setContentEmpty(false);
-                setContentShown(true);
-                loverModels.clear();
-                int status = listResponseData.getStatus();
+                try {
+                    loverModels.clear();
+                    int status = listResponseData.getStatus();
+                    setContentEmpty(false);
+                    setContentShown(true);
+                    if (200 == status) {
+                        if (listResponseData.getData() != null) {
+                            loverModels.addAll(listResponseData.getData());
+                        }
 
-                if (200 == status) {
-                    if (listResponseData.getData() != null) {
-                        loverModels.addAll(listResponseData.getData());
-                    }
-
-                    if (loverModels != null && loverModels.size() > 0) {
-                        listview.setVisibility(View.VISIBLE);
-                        empty.setVisibility(View.GONE);
-                        adapter.updateData(loverModels);
+                        if (loverModels != null && loverModels.size() > 0) {
+                            listview.setVisibility(View.VISIBLE);
+                            empty.setVisibility(View.GONE);
+                            adapter.updateData(loverModels);
+                        } else {
+                            listview.setVisibility(View.GONE);
+                            empty.setVisibility(View.VISIBLE);
+                        }
                     } else {
-                        listview.setVisibility(View.GONE);
-                        empty.setVisibility(View.VISIBLE);
+                        Util.toastMsg(listResponseData.getMsg());
                     }
-                } else {
-                    Util.toastMsg(listResponseData.getMsg());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
-                setContentEmpty(true);
-                setContentShown(false);
+                try {
+                    setContentEmpty(true);
+                    setContentShown(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -99,7 +103,6 @@ public class HistoryListFrament extends LazyBaseFragment2 {
 
     @Override
     protected void initDatas() {
-        loverModels = new ArrayList<LoverModel>();
         adapter = new LoverMemberAdapter(getContext(), loverModels);
         listview.setAdapter(adapter);
 

@@ -89,7 +89,8 @@ public abstract class ProgressFragment extends Fragment {
     public void setContentView(View view) {
         ensureContent();
         if (view == null) {
-            throw new IllegalArgumentException("Content view can't be null");
+            return;
+//            throw new IllegalArgumentException("Content view can't be null");
         }
         if (mContentContainer instanceof ViewGroup) {
             ViewGroup contentContainer = (ViewGroup) mContentContainer;
@@ -103,7 +104,8 @@ public abstract class ProgressFragment extends Fragment {
             }
             mContentView = view;
         } else {
-            throw new IllegalStateException("Can't be used with a custom content view");
+            return;
+//            throw new IllegalStateException("Can't be used with a custom content view");
         }
     }
 
@@ -221,7 +223,8 @@ public abstract class ProgressFragment extends Fragment {
     public void setContentEmpty(boolean isEmpty) {
         ensureContent();
         if (mContentView == null) {
-            throw new IllegalStateException("Content view must be initialized before");
+            return ;
+            //throw new IllegalStateException("Content view must be initialized before");
         }
         if (isEmpty) {
             mEmptyView.setVisibility(View.VISIBLE);
@@ -247,11 +250,13 @@ public abstract class ProgressFragment extends Fragment {
         }
         mProgressContainer = root.findViewById(R.id.progress_container);
         if (mProgressContainer == null) {
-            throw new RuntimeException("Your content must have a ViewGroup whose id attribute is 'R.id.progress_container'");
+            return;
+//            throw new RuntimeException("Your content must have a ViewGroup whose id attribute is 'R.id.progress_container'");
         }
         mContentContainer = root.findViewById(R.id.content_container);
         if (mContentContainer == null) {
-            throw new RuntimeException("Your content must have a ViewGroup whose id attribute is 'R.id.content_container'");
+            return;
+//            throw new RuntimeException("Your content must have a ViewGroup whose id attribute is 'R.id.content_container'");
         }
         mEmptyView = root.findViewById(android.R.id.empty);
         if (mEmptyView != null) {
