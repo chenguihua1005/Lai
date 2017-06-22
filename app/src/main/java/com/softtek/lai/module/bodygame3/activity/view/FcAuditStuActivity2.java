@@ -19,34 +19,26 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
-import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.FuceCheckExpandableListAdapter;
-import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.FcAuditPostModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
-import com.softtek.lai.module.bodygame3.photowall.PublishDyActivity;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.widgets.DragFloatActionButton;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
-import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
@@ -59,7 +51,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -95,7 +86,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     private FuceCheckExpandableListAdapter adapter;
     private String gender = "1";//性别
     private boolean isExistPhoto = false;//0没有图片1 有
-    //    private String phtoPath = "";//图片路径
+
     private boolean IsZhankai = false;
     private static final int GET_PRE = 1;//查看大图
 
@@ -113,8 +104,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
     private MeasuredDetailsModel fcStDataModel;
 
-    private String typeDate;
-
     String images_url, files;//网络图片   拍照图片
     int isExistP = 0;//0没有图片1网络图片（后台有）2文件图片(新拍的照片)atePic;
 
@@ -130,7 +119,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
     @Override
     protected void initViews() {
         IsAudit = getIntent().getIntExtra("IsAudit", 0);//0 :待审核  1： 已审核
-        typeDate = getIntent().getStringExtra("typeDate");
+        //String typeDate = getIntent().getStringExtra("typeDate");
         classId = getIntent().getStringExtra("classId");//classId
 
         acmId = getIntent().getStringExtra("ACMId");
@@ -144,26 +133,12 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             IsEdit = 2;//不可编辑
             firstStatus = 3; //审核通过
             tv_right.setText("编辑");
-//            im_audit_states.setImageResource(R.drawable.passed);
         } else {//未审核
             tv_right.setText("审核通过");
             IsEdit = 1;
             firstStatus = 2; //待审核
             cheng_float.setVisibility(View.INVISIBLE);
 
-
-//            cheng_float.setVisibility(View.VISIBLE);
-////            resetdatestatus = getIntent().getIntExtra("resetdatestatus", resetdatestatus);
-//            switch (resetdatestatus) {
-//                //过去复测日，只能查看
-//                case 1:
-//                    tv_right.setVisibility(View.INVISIBLE);
-//                    cheng_float.setVisibility(View.INVISIBLE);
-//                    break;
-//                case 2:
-//                    break;
-//
-//            }
         }
 
 
@@ -265,8 +240,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 isExistP = 2;
                 images_url = "";
                 adapter = new FuceCheckExpandableListAdapter(FcAuditStuActivity2.this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
-//                adapter = new InitDataExpandableListAdapter(WriteFCActivity.this, WriteFCActivity.this, childArray, fcStDataModel
-//                        , filest, photoname, isExistP, firststatus, IsEdit);
                 exlisview_body.setAdapter(adapter);
                 int groupCount = exlisview_body.getCount();
                 for (int i = 0; i < groupCount; i++) {
@@ -332,14 +305,10 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                         startActivity(new Intent(FcAuditStuActivity2.this, GuideActivity.class));
                         break;
                     case 3:
-                        if (IsZhankai) {
-                            IsZhankai = false;
-                        } else {
-                            IsZhankai = true;
-                        }
+                        IsZhankai=!IsZhankai;
                         break;
                 }
-                return i == 0 || i == 1 || i == 2 ? true : false;
+                return i == 0 || i == 1 || i == 2;
             }
         });
 
@@ -402,13 +371,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                                         show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
                                     }
                                     break;
-//                                case 8:
-//                                    if ("1".equals(gender)) { //女的
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    } else {
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    }
-//                                    break;
                                 case 8:
                                     if ("1".equals(gender)) { //女的
                                         show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
@@ -458,9 +420,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             }
         });
 
-
         //获取后台数据
-
         getPresenter().getFuceCheckData(acmId);
 
     }
@@ -485,22 +445,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (num) {
-                    case 0:
-//                        fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-//                        exlisview_body.setAdapter(adapter);
-//                        int groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
-
-                        break;
                     case 1:
                         fcStDataModel.setWeight(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                         exlisview_body.setAdapter(adapter);
@@ -597,7 +541,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                                 }
                             }
                         }
-                        ;
                         break;
                     case 7:
                         fcStDataModel.setUpArmGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -613,7 +556,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                                 }
                             }
                         }
-                        ;
                         break;
                     case 8:
                         fcStDataModel.setUpLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -629,7 +571,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                                 }
                             }
                         }
-                        ;
                         break;
                     case 9: //小腿围
                         fcStDataModel.setDoLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -645,7 +586,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                                 }
                             }
                         }
-                        ;
                         break;
                     case 10: { //BMI
                         fcStDataModel.setBmi(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -679,22 +619,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                         }
                     }
                     break;
-//                    case 12: {//viscusFatIndex;     //内脏脂肪指数
-//                        fcStDataModel.setViscusFatIndex(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-//                        exlisview_body.setAdapter(adapter);
-//                        groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
-//                    }
-//                    break;
                     case 13: {//bodyWaterRate;//身体水分率
                         fcStDataModel.setBodyWaterRate(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
@@ -839,7 +763,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    return;
+
                 }
             }).create().show();
         } else {
@@ -989,12 +913,10 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
 
             if (!TextUtils.isEmpty(model.getImg())) {
                 isExistPhoto = true;
-//                phtoPath = model.getImg();
                 images_url = model.getImg();
                 isExistP = 1;
             } else {
                 isExistPhoto = false;
-//                phtoPath = "";
                 isExistP = 0;
                 images_url = "";
             }
@@ -1004,7 +926,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 firstStatus = 3; //审核通过
             } else {
                 firstStatus = 2; //待审核
-            }// String images_url, files;//网络图片   拍照图片
+            }
 
             adapter = new FuceCheckExpandableListAdapter(this, childArray, fcStDataModel, firstStatus, files, images_url, isExistP, IsEdit);//默认可编辑
             exlisview_body.setAdapter(adapter);
@@ -1085,7 +1007,7 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                     tv_right.setText("保存");
                     canCommited = true;
                     cheng_float.setVisibility(View.VISIBLE);
-                } else if (canCommited) {
+                } else {
                     validateLife.validate();
                 }
                 break;
@@ -1104,8 +1026,6 @@ public class FcAuditStuActivity2 extends BaseActivity<FuceCheckPresenter> implem
                 acmId = intent.getStringExtra("acmid");
 
                 if (result_model != null) {
-//                    acmId = result_model.getRecordId();
-
                     if (result_model.getWeight() != 0) {
                         fcStDataModel.setWeight(result_model.getWeight() + "");
                     }

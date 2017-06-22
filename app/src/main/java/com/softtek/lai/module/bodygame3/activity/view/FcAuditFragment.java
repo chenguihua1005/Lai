@@ -26,7 +26,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -35,31 +34,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
+ *
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
-public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> implements View.OnClickListener, AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckListPresenter.FuceCheckListView {
+public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> implements  AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckListPresenter.FuceCheckListView {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
-    FuceSevice fuceSevice;
+
     int pageIndex = 1;
-    Long userid;
-    private int FCAudit = 1;
-    private int IsAudit = 0;
+    long userid;
     private static String classid;
     private static String typedata;
     private static int resetdatestatus = 1;
     EasyAdapter<MemberListModel> adapter;
-    private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
+    private List<MemberListModel> memberListModels = new ArrayList<>();
 
     public static Fragment getInstance(String classId, String typeDate, int type) {
         FcAuditFragment fragment = new FcAuditFragment();
@@ -109,7 +104,6 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
 
     @Override
     protected void initDatas() {
-        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         userid = UserInfoModel.getInstance().getUserId();
         adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
@@ -136,17 +130,13 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
 
 
     @Override
-    public void onClick(View view) {
-
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent FcAudit = new Intent(getContext(), FcAuditStuActivity2.class);
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("classId", classid);//classId
-        FcAudit.putExtra("IsAudit", IsAudit);
+        int isAudit = 0;
+        FcAudit.putExtra("IsAudit", isAudit);
         FcAudit.putExtra("resetdatestatus", resetdatestatus);
         FcAudit.putExtra("typeDate", typedata);
         FcAudit.putExtra("type", 2);
@@ -206,9 +196,9 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
     @Override

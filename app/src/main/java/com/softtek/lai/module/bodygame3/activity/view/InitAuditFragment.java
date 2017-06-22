@@ -26,7 +26,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -35,11 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-
-import static android.app.Activity.RESULT_OK;
 
 
 @InjectLayout(R.layout.fragment_retest)
@@ -49,12 +45,10 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
-    FuceSevice fuceSevice;
+
     int pageIndex = 1;
-    private int ChuAudit = 1;
     EasyAdapter<MemberListModel> adapter;
     int IsAudit = 0;//0未审核
-    int Auditnum = 0;
     private List<MemberListModel> memberListModels = new ArrayList<>();
 
     private static String classid;
@@ -103,21 +97,18 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
 
 
         setPresenter(new InitAuditPresenter(this));
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_CHUSHI_DAISHENHE_TABLIST));
     }
 
     @Override
     protected void initDatas() {//audit_item
-        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);
                 TextView tv_group = holder.getView(R.id.tv_group);
-//                TextView tv_weight = holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);
                 tv_group.setText("(" + data.getGroupName() + ")");
-//                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
                 TextView tv_tip = holder.getView(R.id.tv_tip);
                 tv_tip.setText("初始数据审核");
@@ -190,7 +181,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
             intent.putExtra("unFuce_num", unFuce_num);
             intent.putExtra("uncheck_num", uncheck_num);
             intent.putExtra("checked_num", checked_num);
-            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
 
         }
@@ -202,9 +193,9 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+    public void onDestroyView() {
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
     public static final String UPDATE_UI_CHUSHI_DAISHENHE_TABLIST = "UPDATE_UI_CHUSHI_DAISHENHE_TABLIST";//初始待审核

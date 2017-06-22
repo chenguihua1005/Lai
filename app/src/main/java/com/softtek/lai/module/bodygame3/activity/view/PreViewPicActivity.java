@@ -30,6 +30,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ *
  * Created by lareina.qiao on 12/19/2016.
  */
 @InjectLayout(R.layout.activity_preview_layout)

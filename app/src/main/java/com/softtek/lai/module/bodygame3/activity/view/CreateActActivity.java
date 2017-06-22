@@ -80,11 +80,9 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.tv_activity_mark)
     TextView tv_activity_mark;
-    //    @InjectView(R.id.tv_activity_type)
-//    TextView tv_activity_type;
+
     @InjectView(R.id.type_iv)
     ImageView type_iv;
-    private LinearLayout.LayoutParams parm;
     private String date;
     EasyAdapter<ActtypeModel> adapter;
     private List<ActtypeModel> acttypeModels = new ArrayList<>();
@@ -149,13 +147,13 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 Intent addClassNameIntent = new Intent(this, ActTextActivity.class);
                 addClassNameIntent.putExtra("value", ActTextActivity.ADD_ACTIVITY_NAME);
                 addClassNameIntent.putExtra("name_value", tv_activity_name.getText());
-                startActivityForResult(addClassNameIntent, 001);
+                startActivityForResult(addClassNameIntent, 1);
                 break;
             case R.id.rl_activity_mark:
                 Intent addMarkIntent = new Intent(this, ActTextActivity.class);
                 addMarkIntent.putExtra("value", ActTextActivity.ADD_MARK);
                 addMarkIntent.putExtra("name_value", tv_activity_mark.getText());
-                startActivityForResult(addMarkIntent, 002);
+                startActivityForResult(addMarkIntent, 2);
                 break;
             case R.id.fl_right:
 
@@ -226,10 +224,10 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 001) {
+            if (requestCode == 1) {
                 String value = data.getStringExtra("value_name");
                 tv_activity_name.setText(value);
-            } else if (requestCode == 002) {
+            } else if (requestCode == 2) {
                 String value_mark = data.getStringExtra("value_name");
                 tv_activity_mark.setText(value_mark);
             }
@@ -243,9 +241,9 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
         ImageView iv_cancle = (ImageView) view.findViewById(R.id.iv_cancle);
         GridView type_view = (GridView) view.findViewById(R.id.type_view);
         LinearLayout ll_area = (LinearLayout) view.findViewById(R.id.ll_area);
-        parm = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT);
+        LinearLayout.LayoutParams parm = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
         parm.gravity = Gravity.CENTER;
 
         // 自定义布局控件，用来初始化并存放自定义imageView
@@ -258,14 +256,11 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ActtypeModel acttypeModel = acttypeModels.get(i);
-//                if (acttypeModel.getActivityTypeId() == 2) {
                 classActivityId = acttypeModel.getActivityTypeId();
-//                tv_activity_type.setText(acttypeModel.getActivityTypeName());
                 String path = AddressManager.get("photoHost");
                 Picasso.with(CreateActActivity.this).load(path + acttypeModel.getActivityTypeIcon()).fit().error(R.drawable.default_icon_square)
                         .placeholder(R.drawable.default_icon_square).into(type_iv);
                 builder.dismiss();
-//                }
             }
         });
         iv_cancle.setOnClickListener(new View.OnClickListener() {
@@ -275,8 +270,6 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 builder.dismiss();
             }
         });
-
-
         ll_area.setClickable(true);
         ll_area.setOnClickListener(new View.OnClickListener() {
 
@@ -285,7 +278,6 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 builder.dismiss();
             }
         });
-//
 
 
     }
@@ -312,7 +304,6 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
     Date curDate = new Date(System.currentTimeMillis());//获取当前时间
     String str = formatter.format(curDate);
-    String[] times = str.split(" ");
 
     private void showDateDialog() {
         final Calendar c = Calendar.getInstance();
@@ -359,34 +350,32 @@ public class CreateActActivity extends BaseActivity implements View.OnClickListe
                 String choosetime = date + " " + new StringBuilder()
                         .append(i < 10 ? "0" + i : i).append(":")
                         .append(i1 < 10 ? "0" + i1 : i1);
-                Date datestr = null;
-                Date datetime = null;
+                Date datestr;
+                Date datetime;
                 try {
                     datestr = formatter.parse(str);
                     datetime = formatter.parse(choosetime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
-                if (compare < 0) {
-                    com.github.snowdream.android.util.Log.i("123.....");
-                    tv_activity_time.setText(str);
-                } else if (compare == 0) {
-                    com.github.snowdream.android.util.Log.i("456...");
-                    if (datestr.getTime() > datetime.getTime()) {
+                    int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(dated, currentDate);
+                    if (compare < 0) {
                         tv_activity_time.setText(str);
+                    } else if (compare == 0) {
+                        if (datestr.getTime() > datetime.getTime()) {
+                            tv_activity_time.setText(str);
+                        } else {
+                            tv_activity_time.setText(date + "" + new StringBuilder()
+                                    .append(i < 10 ? "0" + i : i).append(":")
+                                    .append(i1 < 10 ? "0" + i1 : i1));
+                        }
                     } else {
                         tv_activity_time.setText(date + "" + new StringBuilder()
                                 .append(i < 10 ? "0" + i : i).append(":")
                                 .append(i1 < 10 ? "0" + i1 : i1));
-                    }
-                } else {
-                    com.github.snowdream.android.util.Log.i("567...");
-                    tv_activity_time.setText(date + "" + new StringBuilder()
-                            .append(i < 10 ? "0" + i : i).append(":")
-                            .append(i1 < 10 ? "0" + i1 : i1));
 
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
 
 
             }

@@ -74,9 +74,7 @@ public class CoachFragment extends Fragment implements View.OnClickListener {
                 case 0x0002:
                     dialogDissmiss();
                     int error_code = msg.arg1;
-                    Log.i("StudentFragment", "error_code = " + error_code + " EMError.GROUP_NOT_JOINED = " + EMError.GROUP_NOT_JOINED);
                     if (EMError.GROUP_NOT_JOINED == error_code) {
-                        Log.i("StudentFragment", "执行后台。。。。。。。");
                         ZillaApi.NormalRestAdapter.create(MoreService.class)
                                 .existClass(model.getClassId(), UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),

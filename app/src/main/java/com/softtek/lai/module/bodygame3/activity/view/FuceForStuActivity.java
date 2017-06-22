@@ -14,6 +14,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,7 +31,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
-import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.AcmidModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
@@ -85,10 +85,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     LinearLayout menu_layout;
 
     @InjectView(R.id.fucecheck_entry)  //复测审核入口
-            TextView fucecheck_entry;
+    TextView fucecheck_entry;
 
     @InjectView(R.id.heathyReport_entry) //健康报告
-            TextView heathyReport_entry;
+    TextView heathyReport_entry;
 
     @InjectView(R.id.img_head)
     CircleImageView img_head;
@@ -149,8 +149,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION){
-            if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setBleStateListener(bleStateListener);
                 mShakeListener.start();
                 Log.d("enter bleStateListener", "bleStateListener--------------");
@@ -201,13 +201,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                         Util.toastMsg("数据确认失败");
                     }
                 });
-
-//                Intent intent = new Intent(from);
-//                intent.putExtra("ACMID", recordId);
-//                intent.putExtra("result_model", result_model);
-//                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-//                finish();
-
                 break;
             case R.id.heathyReport_entry:
                 Intent health = new Intent(FuceForStuActivity.this, HealthyReportActivity.class);
@@ -224,12 +217,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     @OnClick(R.id.iv_voice)
     public void onClick() {
         if (MainBaseActivity.isVoiceHelp) {
-            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
-//            stopVoice();
+            mVoice.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.voice_icon_off));
             isVoiceHelp = false;
         } else {
-            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
-//            addVoice();
+            mVoice.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.voice_icon));
             isVoiceHelp = true;
         }
     }
@@ -238,8 +229,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     public void initUi() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
-                ActivityCompat.requestPermissions(FuceForStuActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                ActivityCompat.requestPermissions(FuceForStuActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
 
             }
         }
@@ -283,9 +273,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
         Typeface tf = Typeface.createFromAsset(this.getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
-//        permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION);
-//        setGuest(true);
-//        setType(type);
         setType(4);
 
         setBleStateListener(bleStateListener);

@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.view.GuideActivity;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.squareup.picasso.Picasso;
@@ -34,7 +33,6 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
     String filest_local, images_net;
     int isWhatePic; //
 
-    int firststatus; //
     int IsEdit;
     private String[] groupArray = new String[]{"group1", "group2", "group3", "group4"};
     private List<List<String>> childArray;
@@ -48,7 +46,7 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
         this.filest_local = filest_local;
         this.images_net = images_net;
         this.isWhatePic = isWhatePic;
-//        this.firststatus = firststatus;
+
         this.IsEdit = IsEdit;
 
     }
@@ -122,7 +120,6 @@ public class UnInputExpandableListAdapter implements ExpandableListAdapter {
 
             holder.im_state = (ImageView) view.findViewById(R.id.im_audit_states); // 初始录入状态  （如 已通过）
             holder.im_right5 = (ImageView) view.findViewById(R.id.im_right5); //拍照上传后面的 箭头
-//            holder.tv_retest_write_weekth = (TextView) view.findViewById(R.id.tv_retest_write_weekth);//第几周
             holder.tv_photoguide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

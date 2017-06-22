@@ -734,9 +734,6 @@
             android:name=".module.bodygame3.activity.view.PreViewPicActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygame3.activity.view.ResetStuActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.bodygame3.more.view.LoveStudentActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -24,7 +24,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -33,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ *
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
@@ -46,14 +45,12 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
-    FuceSevice fuceSevice;
+
     int pageIndex = 1;
-    private int FCAudit = 1;
-    private int IsAudit = 1;
     private static String classid;
     private static String typedate;
     EasyAdapter<MemberListModel> adapter;
-    private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
+    private List<MemberListModel> memberListModels = new ArrayList<>();
 
     public static Fragment getInstance(String classId, String typeDate) {
         FcAuditedFragment fragment = new FcAuditedFragment();
@@ -100,16 +97,13 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
     @Override
     protected void initDatas() {
-        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);//用户名
                 TextView tv_group = holder.getView(R.id.tv_group);//组名
-//                TextView tv_weight = holder.getView(R.id.tv_weight);//体重
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);//头像;
                 tv_group.setText("(" + data.getGroupName() + ")");
-//                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
@@ -133,7 +127,8 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("accountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("classId", classid);
-        FcAudit.putExtra("IsAudit", IsAudit);
+        int isAudit = 1;
+        FcAudit.putExtra("IsAudit", isAudit);
         FcAudit.putExtra("typeDate", typedate);
 
         FcAudit.putExtra("guangbo", UPDATE_UI_FCCHECK_YISHENHE_TABLIST);

@@ -27,6 +27,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ *
  * Created by Terry on 2016/11/29.
  */
 @InjectLayout(R.layout.activity_honorranking)
@@ -92,27 +93,6 @@ public class FcAuditListActivity extends BaseActivity<FuceCheckListPresenter> im
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onDestroy();
-    }
-
-
-
-    // 审核通过更新数据
-    public void update() {
-        getPresenter().getMeasureReviewedList(classId, typeDate, 1, 10);
-    }
-
-    //刷新列表时调用刷新title数字
-    public void updates(int Auditnu) {
-        uncheck_num = Auditnu;
-        tabtitle[0] = "未复测(" + unFuce_num + ")";
-        tabtitle[1] = "待审核(" + uncheck_num + ")";
-        tabtitle[2] = "已审核(" + (++checked_num) + ")";
-        TabLayout.Tab tab1 = tab.getTabAt(0);
-        tab1.setText(tabtitle[0]);
-        TabLayout.Tab tab2 = tab.getTabAt(1);
-        tab2.setText(tabtitle[1]);
-        TabLayout.Tab tab3 = tab.getTabAt(2);
-        tab3.setText(tabtitle[2]);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

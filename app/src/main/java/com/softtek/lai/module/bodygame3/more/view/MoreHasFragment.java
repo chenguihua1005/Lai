@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialog;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
@@ -211,7 +210,7 @@ public class MoreHasFragment extends Fragment {
 
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-        Log.i("收到班级通知啦啦啦啦啦啦啦啦啦"+clazz);
+
         if (clazz.getStatus() == 0) {
             //更新班级姓名
             ClassModel model = clazz.getModel();

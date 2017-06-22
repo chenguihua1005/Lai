@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -22,7 +23,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
-import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -52,7 +52,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -86,7 +85,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     private String gender = "1";//性别
     private int isExistPhoto = 0;//0没有图片1 网络图片2文件图片
     private String phtoPath_local = "";//图片路径
-    private String image_url_net = "";
     private boolean IsZhankai = false;
 
     private static final int GET_PRE = 1;//查看大图
@@ -116,7 +114,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private ImageFileSelector imageFileSelector;
     private CharSequence[] items = {"拍照", "从相册选择照片"};
-    private static int resetdatestatus = 1;
 
     private int isEditable = 1; //本页是否可编辑
     private String initWeight = ""; //记录初始体重
@@ -182,7 +179,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         typeforwhich = getIntent().getIntExtra("typeforwhich", -1); //录入类型： 0：为学员初始录入   1：为学员复测录入typeforwhich
 
         guangboname = getIntent().getStringExtra("guangboname");
-        resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
+        int resetdatestatus = getIntent().getIntExtra("resetdatestatus", 1);
 
         if (typeforwhich == 0) {
             tv_title.setText("初始数据审核");
@@ -258,6 +255,17 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(requestCode==CAMERA_PREMISSION){
+            if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                imageFileSelector.takePhoto(this);
+            }
+        }
+    }
+
+    @Override
     protected void initDatas() {
         progressDialog = new ProgressDialog(this);
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
@@ -286,7 +294,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         //jessica
         child3.add(6, "BMI");
         child3.add(7, "去脂体重");
-//        child3.add(8, "内脏脂肪指数");
         child3.add(8, "身体水分率");
         child3.add(9, "身体水分");
 
@@ -343,23 +350,14 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                             }
 
                             break;
-                        case 2:
-//                        startActivity(new Intent(FcAuditStuActivity2.this, GuideActivity.class));
-                            break;
                         case 3:
-                            if (IsZhankai) {
-                                IsZhankai = false;
-                            } else {
-                                IsZhankai = true;
-                            }
+                            IsZhankai=!IsZhankai;
                             break;
                     }
-                    return i == 0 || i == 1 || i == 2 ? true : false;
+                    return i == 0 || i == 1 || i == 2;
                 }
             });
 
-
-//        if (IsAudit == 0) {
             exlisview_body.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
@@ -395,10 +393,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                     }
                                     break;
                                 case 3:
-                                    if (typeforwhich == 0) {//初始
-
-                                    } else {
+                                    if (typeforwhich != 0) {//初始
                                         show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
+
                                     }
                                     break;
 
@@ -439,13 +436,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                         show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
                                     }
                                     break;
-//                                case 8:
-//                                    if ("1".equals(gender)) { //女的
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    } else {
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    }
-//                                    break;
                                 case 8:
                                     if ("1".equals(gender)) { //女的
                                         show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
@@ -494,12 +484,8 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 }
             });
         }
-
-
         //获取后台数据
-
-        Log.i(TAG, "classId =" + classId + " AccountId = " + AccountId + " typeDate = " + typeDate);
-        getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));//classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type
+        getPresenter().getStudentBasicalInfo(classId, AccountId, typeDate, String.valueOf(typeforwhich));
     }
 
 
@@ -636,7 +622,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                 }
                             }
                         }
-                        ;
                         break;
                     case 7:
                         fcStDataModel.setUpArmGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -652,7 +637,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                 }
                             }
                         }
-                        ;
                         break;
                     case 8:
                         fcStDataModel.setUpLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -668,7 +652,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                 }
                             }
                         }
-                        ;
                         break;
                     case 9: //小腿围
                         fcStDataModel.setDoLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -684,7 +667,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                                 }
                             }
                         }
-                        ;
                         break;
                     case 10: { //BMI
                         fcStDataModel.setBmi(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -718,22 +700,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                         }
                     }
                     break;
-//                    case 12: {//viscusFatIndex;     //内脏脂肪指数
-//                        fcStDataModel.setViscusFatIndex(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-//                        exlisview_body.setAdapter(adapter);
-//                        groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
-//                    }
-//                    break;
                     case 13: {//bodyWaterRate;//身体水分率
                         fcStDataModel.setBodyWaterRate(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
@@ -847,7 +813,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     @Override
     public void onValidationSucceeded() {
-        String selectWeight = "";
+        String selectWeight;
         if (0 == typeforwhich) {
             selectWeight = fcStDataModel.getInitWeight();
         } else {
@@ -883,7 +849,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    return;
                 }
             }).create().show();
         } else {
@@ -972,9 +937,6 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 switch (status) {
                     case 200:
                         progressDialog.dismiss();
-//                        Intent intent = new Intent();
-////                        intent.putExtra("ACMID", ACMID);
-//                        setResult(RESULT_OK, intent);
                         if (!TextUtils.isEmpty(guangboname)) {
                             LocalBroadcastManager.getInstance(InitDataUnInputActivity2.this).sendBroadcast(new Intent(guangboname));
                         }
@@ -1036,15 +998,11 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
                 ACMID = intent.getStringExtra("acmid");
                 BleMainData result_model = (BleMainData) intent.getSerializableExtra("result_model");
                 if (result_model != null) {
-//                    ACMID = result_model.getRecordId();
-
                     if (result_model.getWeight() != 0) {
                         if (typeforwhich == 0) {//初始数据审核
                             fcStDataModel.setInitWeight(result_model.getWeight() + "");
-//                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
                         } else {
                             fcStDataModel.setWeight(result_model.getWeight() + "");
-//                            fcStDataModel.setWeightUnit(result_model.getWeightUnit());
                         }
                     }
                     if (!TextUtils.isEmpty(result_model.getBodyFatRate())) {//体脂
@@ -1116,8 +1074,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             } else {//==1  复测进入
                 initWeight = fcStDataModel.getWeight();
             }
-
-            final String url = AddressManager.get("photoHost");
+            String image_url_net;
             if (!TextUtils.isEmpty(model.getImg())) {
                 isExistPhoto = 1;
                 fcAuditPostModel.setFileName(model.getImg());

@@ -96,13 +96,6 @@ public class ActivitydetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-//        if (UserInfoModel.getInstance().getUser().getUserrole().equals(String.valueOf(Constants.SP))) {
-//            sign_lin.setVisibility(View.VISIBLE);
-//            delete_activity.setVisibility(View.VISIBLE);
-//        } else {
-//            sign_lin.setVisibility(View.VISIBLE);
-//            delete_activity.setVisibility(View.GONE);
-//        }
         activityId = getIntent().getStringExtra("activityId");
         classrole = getIntent().getExtras().getInt("classrole", -1);
 

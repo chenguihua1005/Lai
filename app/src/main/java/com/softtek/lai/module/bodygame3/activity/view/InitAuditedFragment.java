@@ -107,10 +107,8 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);//用户名
                 TextView tv_group = holder.getView(R.id.tv_group);//组名
-//                TextView tv_weight = holder.getView(R.id.tv_weight);//体重
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);//头像;
                 tv_group.setText("(" + data.getGroupName() + ")");
-//                tv_weight.setText(data.getWeight());
                 username.setText(data.getUserName());
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
@@ -195,9 +193,9 @@ public class InitAuditedFragment extends LazyBaseFragment<InitAuditPresenter> im
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
     public static final String UPDATE_UI_CHUSHI_YISHENHE_TABLIST = "UPDATE_UI_CHUSHI_YISHENHE_TABLIST";//初始待审核

@@ -34,7 +34,6 @@ public class InitAuditPresenter extends BasePresenter<InitAuditPresenter.InitAud
         fuceSevice.dogetInitAuditList(classid, UserInfoModel.getInstance().getToken(), accountid, classid, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
                 if (getView() != null) {
                     getView().dialogDissmiss();
                     getView().hidenLoading();
