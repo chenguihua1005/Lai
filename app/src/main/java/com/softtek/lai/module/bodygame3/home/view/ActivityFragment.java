@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialog;
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -77,11 +79,14 @@ import static android.app.Activity.RESULT_OK;
 
 @InjectLayout(R.layout.fragment_activity2)
 public class ActivityFragment extends LazyBaseFragment implements OnDateSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+    private static final String TAG = "ActivityFragment";
 
     //学员版的三个复测状态
     private static final int FUCEING = 2;
     private static final int FUCE_FINISH = 1;
     private static final int FUCE_NOT_START = 3;
+
+    private static int IsFirst_save = 0;
 
     @InjectView(R.id.pull)
     MySwipRefreshView pull;
@@ -199,10 +204,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 int icon;
                 switch (data.getClassRole()) {
                     case 1:
-                        icon =  R.drawable.class_zongjiaolian;
+                        icon = R.drawable.class_zongjiaolian;
                         break;
                     case 2:
-                        icon =  R.drawable.class_jiaolian ;
+                        icon = R.drawable.class_jiaolian;
                         break;
                     case 3:
                         icon = R.drawable.class_zhujiao;
@@ -213,7 +218,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }
                 iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
                 TextView tv_number = holder.getView(R.id.tv_number);
-                tv_number.setText("班级编号:"+data.getClassCode());
+                tv_number.setText("班级编号:" + data.getClassCode());
                 TextView tv_class_name = holder.getView(R.id.tv_class_name);
                 tv_class_name.setText(data.getClassName());
                 RadioButton iv_sel = holder.getView(R.id.iv_select);
@@ -232,19 +237,19 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         });
 
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    classid = classModels.get(i).getClassId();
-                    classrole = classModels.get(i).getClassRole();
-                    material_calendar.invalidateDecorators();
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                classid = classModels.get(i).getClassId();
+                classrole = classModels.get(i).getClassRole();
+                material_calendar.invalidateDecorators();
 
-                    saveclassModel.setClassId(classModels.get(i).getClassId());
-                    saveclassModel.setClassName(classModels.get(i).getClassName());
-                    saveclassModel.setClassRole(classModels.get(i).getClassRole());
-                    saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
-                    saveclassModel.setClassCode(classModels.get(i).getClassCode());
-                    lazyLoad();
-                }
+                saveclassModel.setClassId(classModels.get(i).getClassId());
+                saveclassModel.setClassName(classModels.get(i).getClassName());
+                saveclassModel.setClassRole(classModels.get(i).getClassRole());
+                saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
+                saveclassModel.setClassCode(classModels.get(i).getClassCode());
+                lazyLoad();
+            }
         });
         EventBus.getDefault().register(this);
     }
@@ -279,16 +284,18 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         try {
                             if (data.getData() != null) {
                                 TodaysModel model = data.getData();
+                                Log.i(TAG, "获取到的数据 = " + new Gson().toJson(model));
                                 int resetstatus = model.getRetestStatus();//获取用户选择日期的复测状态
                                 BtnTag tag = new BtnTag();
                                 tag.date = datestr;
                                 tag.role = model.getClassRole();
                                 if (model.getClassRole() == Constants.STUDENT) {//如果这个人是学员
-                                    if(model.getWeekth()>0){
-                                        reset_name.setText("复测录入(第"+model.getWeekth()+"周)");
-                                    }else{
+                                    if (model.getWeekth() > 0) {
+                                        reset_name.setText("复测录入(第" + model.getWeekth() + "周)");
+                                    } else {
                                         reset_name.setText("复测录入");
                                     }
+
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
                                             ll_fuce.setVisibility(View.VISIBLE);
@@ -297,6 +304,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 ll_fuce.setEnabled(false);
                                                 reset_time.setText("未复测");
                                                 tag.resetstatus = model.getIsRetest();
+
                                             } else if (model.getIsRetest() == 2) {
                                                 ll_fuce.setEnabled(false);
                                                 reset_time.setText("未审核");
@@ -305,7 +313,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                 ll_fuce.setEnabled(true);
                                                 reset_time.setText("已审核");
                                                 tag.resetstatus = model.getIsRetest();
-
                                             }
                                             tag.status = FUCE_FINISH;
                                             break;
@@ -340,9 +347,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     ll_fuce.setTag(tag);
                                     ll_chuDate.setTag(tag);
                                 } else {//非学员
-                                    if(model.getWeekth()>0){
-                                        reset_name.setText("复测审核(第"+model.getWeekth()+"周)");
-                                    }else{
+                                    if (model.getWeekth() > 0) {
+                                        reset_name.setText("复测审核(第" + model.getWeekth() + "周)");
+                                    } else {
                                         reset_name.setText("复测审核");
                                     }
                                     switch (resetstatus) {
@@ -420,6 +427,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 if (tag.role == Constants.STUDENT) {//学员
                     Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
+                    if (tag.isfirst==0){
+                        tag.isfirst = IsFirst_save;
+                    }
                     chuDate.putExtra("firststatus", tag.isfirst);//初始数据录入状态 1：未录入，2：未审核，3：已审核
                     chuDate.putExtra("classId", classid);
                     startActivityForResult(chuDate, 2);
@@ -551,8 +561,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     }
 
 
-
-
     String now = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
 
     @Override
@@ -625,6 +633,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         tv_chustatus.setText("已审核");
                                     }
                                     tag.isfirst = activitydataModel.getIsFirst();//初始数据录入状态： 1：未录入 2：未审核 3：已审核
+
+                                    IsFirst_save = activitydataModel.getIsFirst();//获取
                                     tag.date = now;
                                     ll_chuDate.setTag(tag);
                                 } else {//非学员
@@ -642,9 +652,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                         if (model.getDateType() == 3 || model.getDateType() == Constants.CREATECLASS) {
                                             ll_fuce.setVisibility(View.VISIBLE);
                                             if (activitydataModel.getClassRole() == Constants.STUDENT) {//是学员
-                                                if (activitydataModel.getWeekth()>0){
-                                                    reset_name.setText("复测录入(第"+activitydataModel.getWeekth()+"周)");
-                                                }else {
+                                                if (activitydataModel.getWeekth() > 0) {
+                                                    reset_name.setText("复测录入(第" + activitydataModel.getWeekth() + "周)");
+                                                } else {
                                                     reset_name.setText("复测录入");
                                                 }
                                                 //学员复测的状态：未复测，未审核，已审核
@@ -696,9 +706,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                                     reset_time.setText("未开始");
                                                 } else {
                                                     ll_fuce.setEnabled(true);
-                                                    if (activitydataModel.getWeekth()>0){
-                                                        reset_name.setText("复测审核(第"+activitydataModel.getWeekth()+"周)");
-                                                    }else {
+                                                    if (activitydataModel.getWeekth() > 0) {
+                                                        reset_name.setText("复测审核(第" + activitydataModel.getWeekth() + "周)");
+                                                    } else {
                                                         reset_name.setText("复测审核");
                                                     }
                                                     reset_time.setText("待审核" + activitydataModel.getNum() + "人");
@@ -786,8 +796,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 return;
             }
             if (material_calendar != null) {
-                for (CalendarDayModel model:calendarModel_reset){
-                    ResetDecorator decorator = new ResetDecorator( model, getActivity());
+                for (CalendarDayModel model : calendarModel_reset) {
+                    ResetDecorator decorator = new ResetDecorator(model, getActivity());
                     material_calendar.addDecorator(decorator);
                 }
                 EventDecorator decorator_act = new EventDecorator(Constants.ACTIVITY, calendarModel_act, classrole, getActivity());
@@ -813,7 +823,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             if (material_calendar != null) {
                 ResetDecoratorDot eventDecorator_reset = new ResetDecoratorDot(Color.rgb(135, 199, 67), calendarModel_reset, getActivity());
                 material_calendar.addDecorator(eventDecorator_reset);
-                EventDecoratorDot  eventDecoratorDot_act = new EventDecoratorDot(Color.rgb(237, 118, 108), calendarModel_act, getActivity());
+                EventDecoratorDot eventDecoratorDot_act = new EventDecoratorDot(Color.rgb(237, 118, 108), calendarModel_act, getActivity());
                 material_calendar.addDecorator(eventDecoratorDot_act);
             }
         }
@@ -839,12 +849,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         calendarModel_reset.clear();
         calendarModel_act.clear();
         calendarModel_free.clear();
-        for (ActCalendarModel actCalendarModel:calendarModels) {
+        for (ActCalendarModel actCalendarModel : calendarModels) {
             int datetype = actCalendarModel.getDateType();
             String date = actCalendarModel.getMonthDate();
-            if (Constants.RESET == datetype||Constants.CREATECLASS == datetype) {
+            if (Constants.RESET == datetype || Constants.CREATECLASS == datetype) {
                 if (!TextUtils.isEmpty(date)) {
-                    CalendarDayModel model=new CalendarDayModel(getCalendarDay(actCalendarModel.getMonthDate()),actCalendarModel.getWeekth());
+                    CalendarDayModel model = new CalendarDayModel(getCalendarDay(actCalendarModel.getMonthDate()), actCalendarModel.getWeekth());
                     calendarModel_reset.add(model);
                 }
             } else if (Constants.ACTIVITY == datetype) {
