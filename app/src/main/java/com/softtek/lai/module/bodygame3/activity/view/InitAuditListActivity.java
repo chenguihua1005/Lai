@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -19,7 +18,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.adapter.RetestTabAdapter;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
 import com.softtek.lai.module.laicheng.util.BleManager;
 
@@ -27,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ *
  * Created by Terry on 2016/11/29.
  */
 @InjectLayout(R.layout.activity_honorranking)
@@ -47,7 +45,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     @InjectView(R.id.tv_title)
     TextView tv_title;
     List<Fragment> fragments;
-    FuceSevice fuceSevice;
+
     String[] tabtitle = {"未录入", "未审核", "已审核"};
 
     String classId;
@@ -55,13 +53,11 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     int Auditnum = 0;
     int Auditednum = 0;
 
-    private String typeDate;
-
     @Override
     protected void initViews() {
         tv_title.setText("初始数据审核");
         classId = getIntent().getStringExtra("classId");
-        typeDate = getIntent().getStringExtra("typeDate");
+        String typeDate = getIntent().getStringExtra("typeDate");
 
         fragments = new ArrayList<>();
         fragments.add(UnInputFragment.getInstance(classId, typeDate)); //未录入
@@ -89,14 +85,8 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
 
     @Override
     protected void initDatas() {
-        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+        dialogShow("数据加载中...");
         getPresenter().getInitAuditList(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
-    }
-
-
-    public void update() {
-        getPresenter().getInitAuditList(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), classId, 1, 100);
-
     }
 
 
@@ -157,6 +147,7 @@ public class InitAuditListActivity extends BaseActivity<InitAuditPresenter> impl
     public void hidenLoading() {
 
     }
+
 
     @Override
     protected void onDestroy() {

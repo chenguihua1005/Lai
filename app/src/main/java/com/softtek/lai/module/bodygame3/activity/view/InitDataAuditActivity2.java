@@ -135,12 +135,10 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         GUANGBO_FROM = getIntent().getStringExtra("guangbo");
 
         if (IsAudit == 1) {//已审核
-//            tv_right.setVisibility(View.INVISIBLE);
             tv_right.setText("编辑");
             cheng_float.setVisibility(View.INVISIBLE);
             IsEdit = 2;
             firstStatus = 3; //审核通过
-//            im_audit_states.setImageResource(R.drawable.passed);   //??????
         } else {//未审核 ：0
             tv_right.setText("审核通过");//保存数据
             cheng_float.setVisibility(View.INVISIBLE);
@@ -148,11 +146,8 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
             firstStatus = 2; //待审核
         }
 
-
-
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
-
 
         setPresenter(new FuceCheckPresenter(this));
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI_INPUTED));
@@ -180,7 +175,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
 
         child.add(0, "初始体重");
-//        child.add(1, "当前体重");
         child.add(1, "体脂率");
         child.add(2, "内脂");
         childArray.add(0, child);
@@ -194,7 +188,6 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         //jessica
         child3.add(6, "BMI");
         child3.add(7, "去脂体重");
-//        child3.add(8, "内脏脂肪指数");
         child3.add(8, "身体水分率");
         child3.add(9, "身体水分");
 
@@ -442,7 +435,7 @@ public class InitDataAuditActivity2 extends BaseActivity<FuceCheckPresenter> imp
         imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
         if(requestCode==100){
             if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                imageFileSelector.takePhoto(InitDataAuditActivity2.this);
+                imageFileSelector.takePhoto(this);
             }
         }
     }

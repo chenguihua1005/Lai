@@ -10,7 +10,6 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -28,7 +26,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -37,31 +34,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
+ *
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
-public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> implements View.OnClickListener, AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckListPresenter.FuceCheckListView {
+public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, FuceCheckListPresenter.FuceCheckListView {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
-    FuceSevice fuceSevice;
+
     int pageIndex = 1;
     Long userid;
-    private int FCAudit = 1;
-    private int IsAudit = 0;
     private static String classid;
     private static String typedata;
     private static int resetdatestatus = 1;
     EasyAdapter<MemberListModel> adapter;
-    private List<MemberListModel> memberListModels = new ArrayList<MemberListModel>();
+    private List<MemberListModel> memberListModels = new ArrayList<>();
 
     public static Fragment getInstance(String classId, String typeDate, int type) {
         UnFuceStuFragment fragment = new UnFuceStuFragment();
@@ -104,25 +97,20 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
-
-        setPresenter(new FuceCheckListPresenter(this));
-
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(UPDATE_UI_FCCHECK_TABLIST));
     }
 
     @Override
     protected void initDatas() {
-        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
+        setPresenter(new FuceCheckListPresenter(this));
         userid = UserInfoModel.getInstance().getUserId();
         adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
                 TextView username = holder.getView(R.id.tv_username);
                 TextView tv_group = holder.getView(R.id.tv_group);
-//                TextView tv_weight = holder.getView(R.id.tv_weight);
                 CircleImageView cir_headim = holder.getView(R.id.cir_headim);
                 tv_group.setText("(" + data.getGroupName() + ")");
-//                tv_weight.setText(data.getWeight());
 
                 TextView tv_tip = holder.getView(R.id.tv_tip);
                 tv_tip.setText("为其测量");
@@ -141,16 +129,12 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
 
 
     @Override
-    public void onClick(View view) {
-
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent FcAudit = new Intent(getContext(), InitDataUnInputActivity2.class);
         FcAudit.putExtra("ACMId", memberListModels.get(i - 1).getAcmId());
         FcAudit.putExtra("classId", classid);
-        FcAudit.putExtra("Audited", IsAudit);
+        int isAudit = 0;
+        FcAudit.putExtra("Audited", isAudit);
         FcAudit.putExtra("AccountId", Long.parseLong(memberListModels.get(i - 1).getUserId()));
         FcAudit.putExtra("resetdatestatus", resetdatestatus);
 
@@ -177,9 +161,9 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     };
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
 

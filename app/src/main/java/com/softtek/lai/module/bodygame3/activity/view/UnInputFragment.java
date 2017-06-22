@@ -10,7 +10,6 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -28,7 +26,6 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
-import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -37,11 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-
-import static android.app.Activity.RESULT_OK;
 
 
 @InjectLayout(R.layout.fragment_retest)
@@ -51,12 +45,12 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
-    FuceSevice fuceSevice;
+
     int pageIndex = 1;
-    private int ChuAudit = 1;
+
     EasyAdapter<MemberListModel> adapter;
     int IsAudit = 0;//0未审核
-    int Auditnum = 0;
+
     private List<MemberListModel> memberListModels = new ArrayList<>();
 
     private static String typeDate;
@@ -112,7 +106,6 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
 
     @Override
     protected void initDatas() {//audit_item
-        fuceSevice = ZillaApi.NormalRestAdapter.create(FuceSevice.class);
         adapter = new EasyAdapter<MemberListModel>(getContext(), memberListModels, R.layout.retest_list_audit_item) {
             @Override
             public void convert(ViewHolder holder, MemberListModel data, int position) {
@@ -150,8 +143,6 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
         InitdataAudit.putExtra("typeforwhich", 0);
 
         InitdataAudit.putExtra("guangboname", UPDATE_UI_UNINPUT_TABLIST);//广播
-
-//        InitdataAudit.putExtra("fromPage",11);
 
         startActivity(InitdataAudit);
     }
@@ -206,9 +197,9 @@ public class UnInputFragment extends LazyBaseFragment<InitAuditPresenter> implem
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
     public static final String UPDATE_UI_UNINPUT_TABLIST = "UPDATE_UI_UNINPUT_TABLIST";

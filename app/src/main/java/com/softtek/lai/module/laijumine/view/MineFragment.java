@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laijumine.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -148,7 +149,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     protected void initViews() {
         srl_refresh.setEnabled(false);
         srl_refresh.setOnRefreshListener(this);
-        srl_refresh.setColorSchemeColors(getResources().getColor(R.color.btn_blue_normal));
+        srl_refresh.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.btn_blue_normal));
         rl_setting.setOnClickListener(this);
         tv_editor_signature.setOnClickListener(this);
         re_mydy.setOnClickListener(this);
@@ -325,7 +326,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
                 break;
             case R.id.im_banner:
             case R.id.cir_userphoto:
-                if (view.getId() == R.id.cir_userphoto) {
+                if (R.id.cir_userphoto == view.getId()) {
                     isUserPhot = true;
                 } else {
                     isUserPhot = false;
@@ -337,17 +338,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
                         if (which == 0) {
                             //拍照
                             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-                                    //允许弹出提示
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-
-                                } else {
-                                    //不允许弹出提示
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
-                                }
+                                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                             } else {
                                 imageFileCropSelector.takePhoto(MineFragment.this);
                             }
@@ -368,7 +359,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
         imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
         imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         //个人编辑页返回更新本页签名
-        if (requestCode == GET_Sian && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == GET_Sian && resultCode == Activity.RESULT_OK) {
             if (!TextUtils.isEmpty(data.getStringExtra("sina"))) {
                 tv_editor_signature.setText(data.getStringExtra("sina"));
                 myinfomodel.setSignature(data.getStringExtra("sina"));
@@ -445,12 +436,12 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imageFileCropSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
         if (requestCode == CAMERA_PREMISSION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 imageFileCropSelector.takePhoto(MineFragment.this);
 
-            } else {
             }
         }
     }

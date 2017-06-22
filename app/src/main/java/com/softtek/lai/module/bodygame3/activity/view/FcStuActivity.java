@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -30,9 +29,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.activity.adapter.InitDataExpandableListAdapter;
 import com.softtek.lai.module.bodygame3.activity.adapter.MyExpandableListAdapter;
-import com.softtek.lai.module.bodygame3.activity.model.FcStDataModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
@@ -100,8 +97,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     MyExpandableListAdapter adapter;
 
     private String initWeight = "";
-
-    private boolean isPasses_weight = true;
 
     @Override
     protected void initViews() {
@@ -247,7 +242,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         //jessica
         child3.add(6, "BMI");
         child3.add(7, "去脂体重");
-//        child3.add(8, "内脏脂肪指数");
         child3.add(8, "身体水分率");
         child3.add(9, "身体水分");
 
@@ -299,14 +293,10 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         startActivity(new Intent(FcStuActivity.this, GuideActivity.class));
                         break;
                     case 3:
-                        if (IsZhankai) {
-                            IsZhankai = false;
-                        } else {
-                            IsZhankai = true;
-                        }
+                        IsZhankai=!IsZhankai;
                         break;
                 }
-                return i == 0 || i == 1 || i == 2 ? true : false;
+                return i == 0 || i == 1 || i == 2;
             }
         });
         if (IsEdit == 1) {
@@ -369,13 +359,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                         show_information("去脂体重", 180, 60, 0, 9, 0, 0, 11);
                                     }
                                     break;
-//                                case 8:
-//                                    if ("1".equals(gender)) { //女的
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    } else {
-//                                        show_information("内脏脂肪指数", 30, 10, 0, 9, 0, 0, 12);
-//                                    }
-//                                    break;
                                 case 8:
                                     if ("1".equals(gender)) { //女的
                                         show_information("身体水分率", 80, 50, 0, 9, 0, 0, 13);
@@ -427,6 +410,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
         }
 
     }
+
 
     private void doGetDataService(String type) {
         fuceSevice.doGetPreMeasureData(classId, UserInfoModel.getInstance().getToken(), userId, classId, typeDate, type, new RequestCallback<ResponseData<MeasuredDetailsModel>>() {
@@ -506,7 +490,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            return;
                         }
                     }).create().show();
                 } else {
@@ -607,21 +590,21 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
             multipartTypedOutput.addPart("weight", new TypedString(TextUtils.isEmpty(fcStDataModel.getWeight()) ? "0" : fcStDataModel.getWeight()));//现在体重
 
 
-            multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "0" : fcStDataModel.getCircum().toString()));//胸围
-            multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "0" : fcStDataModel.getWaistline().toString()));//腰围
-            multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "0" : fcStDataModel.getHiplie().toString()));//臀围
-            multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "0" : fcStDataModel.getUpArmGirth().toString()));//上臂围
-            multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "0" : fcStDataModel.getUpLegGirth().toString()));//大腿围
-            multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "0" : fcStDataModel.getDoLegGirth().toString()));//小腿围
+            multipartTypedOutput.addPart("circum", new TypedString(TextUtils.isEmpty(fcStDataModel.getCircum()) ? "0" : fcStDataModel.getCircum()));//胸围
+            multipartTypedOutput.addPart("waistline", new TypedString(TextUtils.isEmpty(fcStDataModel.getWaistline()) ? "0" : fcStDataModel.getWaistline()));//腰围
+            multipartTypedOutput.addPart("hiplie", new TypedString(TextUtils.isEmpty(fcStDataModel.getHiplie()) ? "0" : fcStDataModel.getHiplie()));//臀围
+            multipartTypedOutput.addPart("upArmGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpArmGirth()) ? "0" : fcStDataModel.getUpArmGirth()));//上臂围
+            multipartTypedOutput.addPart("upLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getUpLegGirth()) ? "0" : fcStDataModel.getUpLegGirth()));//大腿围
+            multipartTypedOutput.addPart("doLegGirth", new TypedString(TextUtils.isEmpty(fcStDataModel.getDoLegGirth()) ? "0" : fcStDataModel.getDoLegGirth()));//小腿围
 
-            multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "0" : fcStDataModel.getBmi().toString()));
-            multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "0" : fcStDataModel.getFatFreeMass().toString()));
-            multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "0" : fcStDataModel.getBodyWaterRate().toString()));
-            multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "0" : fcStDataModel.getBodyWater().toString()));
-            multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "0" : fcStDataModel.getMuscleMass().toString()));
-            multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "0" : fcStDataModel.getBoneMass().toString()));
-            multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "0" : fcStDataModel.getBasalMetabolism().toString()));
-            multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "0" : fcStDataModel.getPhysicalAge().toString()));
+            multipartTypedOutput.addPart("Bmi", new TypedString(TextUtils.isEmpty(fcStDataModel.getBmi()) ? "0" : fcStDataModel.getBmi()));
+            multipartTypedOutput.addPart("FatFreeMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getFatFreeMass()) ? "0" : fcStDataModel.getFatFreeMass()));
+            multipartTypedOutput.addPart("BodyWaterRate", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWaterRate()) ? "0" : fcStDataModel.getBodyWaterRate()));
+            multipartTypedOutput.addPart("BodyWater", new TypedString(TextUtils.isEmpty(fcStDataModel.getBodyWater()) ? "0" : fcStDataModel.getBodyWater()));
+            multipartTypedOutput.addPart("MuscleMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getMuscleMass()) ? "0" : fcStDataModel.getMuscleMass()));
+            multipartTypedOutput.addPart("BoneMass", new TypedString(TextUtils.isEmpty(fcStDataModel.getBoneMass()) ? "0" : fcStDataModel.getBoneMass()));
+            multipartTypedOutput.addPart("BasalMetabolism", new TypedString(TextUtils.isEmpty(fcStDataModel.getBasalMetabolism()) ? "0" : fcStDataModel.getBasalMetabolism()));
+            multipartTypedOutput.addPart("PhysicalAge", new TypedString(TextUtils.isEmpty(fcStDataModel.getPhysicalAge()) ? "0" : fcStDataModel.getPhysicalAge()));
 
             doPostInitData();
         }
@@ -653,7 +636,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                     }
                 }
             }
-            ;
         }
 
     }
@@ -694,7 +676,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 2:
                         fcStDataModel.setPysical(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -710,7 +691,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 3:
                         fcStDataModel.setFat(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -726,7 +706,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 4:
                         fcStDataModel.setCircum(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -742,7 +721,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 5:
                         fcStDataModel.setWaistline(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -758,7 +736,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 6:
                         fcStDataModel.setHiplie(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -774,7 +751,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 7:
                         fcStDataModel.setUpArmGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -790,7 +766,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 8:
                         fcStDataModel.setUpLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -806,7 +781,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
                     case 9:
                         fcStDataModel.setDoLegGirth(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
@@ -822,9 +796,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
-                        ;
                         break;
-
                     case 10: { //BMI
                         fcStDataModel.setBmi(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
@@ -857,22 +829,6 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         }
                     }
                     break;
-//                    case 12: {//viscusFatIndex;     //内脏脂肪指数
-//                        fcStDataModel.setViscusFatIndex(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-//                        exlisview_body.setAdapter(adapter);
-//                        groupCount = exlisview_body.getCount();
-//                        for (int i = 0; i < groupCount; i++) {
-//                            if (i == 0) {
-//                                exlisview_body.expandGroup(i);
-//                            }
-//                            if (i == 3) {
-//                                if (IsZhankai) {
-//                                    exlisview_body.expandGroup(i);
-//                                }
-//                            }
-//                        }
-//                    }
-//                    break;
                     case 13: {//bodyWaterRate;//身体水分率
                         fcStDataModel.setBodyWaterRate(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                         exlisview_body.setAdapter(adapter);
@@ -983,13 +939,11 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     //权限
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case CAMERA_PREMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    imageFileSelector.takePhoto(this);
-                }
-                break;
-
+        imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(requestCode==CAMERA_PREMISSION){
+            if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                imageFileSelector.takePhoto(this);
+            }
         }
     }
 

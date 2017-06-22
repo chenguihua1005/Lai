@@ -1,9 +1,7 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +27,6 @@ public class InputView extends LinearLayout {
     private ImageView activityicon;
     private String activityid;
     private int counts;
-    private String dates;
-    private String classid = "";
 
     public InputView(Fragment fragment, TodayactModel todayactModel, int counts, String classid, int classrole) {
         super(fragment.getContext());
@@ -38,8 +34,6 @@ public class InputView extends LinearLayout {
         this.todayactModel = todayactModel;
         this.role = classrole;
         this.counts = counts;
-        this.dates = dates;
-        this.classid = classid;
 
         initView();
         initData();

@@ -27,7 +27,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.ActCalendarModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivitydataModel;
-import com.softtek.lai.module.bodygame3.activity.model.ActscalendarModel;
 import com.softtek.lai.module.bodygame3.activity.model.CalendarDayModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodayactModel;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
@@ -772,11 +771,10 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
 
     //日历上活动信息展示
-    public class ApiSimulator extends AsyncTask<List<ActscalendarModel>, Void, Void> {
+    public class ApiSimulator extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected Void doInBackground(List<ActscalendarModel>... lists) {
-            //把各种类型改得数据过滤出来
+        protected Void doInBackground(Void... params) {
             return null;
         }
 

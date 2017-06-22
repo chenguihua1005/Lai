@@ -7,10 +7,8 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -105,14 +103,6 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                             }
                         } else {
                             Util.toastMsg("请输入活动标题");
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(ActTextActivity.this);
-//                            builder.setMessage("请输入活动标题");
-//                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    dialogDissmiss();
-//                                }
-//                            }).show();
                         }
 
                         break;
@@ -135,14 +125,6 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
                             }
                         } else {
                             Util.toastMsg("请输入活动说明");
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(ActTextActivity.this);
-//                            builder.setMessage("请输入活动说明");
-//                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    dialogDissmiss();
-//                                }
-//                            }).show();
                         }
                         break;
                 }
@@ -151,12 +133,6 @@ public class ActTextActivity extends BaseActivity implements View.OnClickListene
             case R.id.ll_left:
                 finish();
                 break;
-//            case R.id.iv_delete:
-//                et_mark.setText("");
-//                break;
-//            case R.id.iv_del:
-//                et_title.setText("");
-//                break;
         }
     }
 
