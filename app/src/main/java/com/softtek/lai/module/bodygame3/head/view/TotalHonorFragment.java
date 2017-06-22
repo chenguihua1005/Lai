@@ -4,41 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ggx.widgets.adapter.EasyAdapter;
-import com.ggx.widgets.adapter.ViewHolder;
-import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.adapter.HonorAdapter;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
-import com.softtek.lai.module.bodygame3.head.model.ListTopModel;
-import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
-import com.softtek.lai.module.bodygame3.head.presenter.WeekHonorManager;
-import com.softtek.lai.widgets.CircleImageView;
-import com.squareup.picasso.Picasso;
-
-import org.apache.commons.lang3.StringUtils;
+import com.softtek.lai.module.bodygame3.head.presenter.HonorPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 
@@ -46,7 +32,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by lareina.qiao on 11/25/2016.
  */
 @InjectLayout(R.layout.fragment_totalhonor)
-public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorManager.WeekHonnorCallback {
+public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> implements HonorPresenter.HonorView {
     private static final String TAG = "TotalHonorFragment";
 
     private String ByWhichRatio = "ByWeightRatio";
@@ -73,7 +59,6 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     LinearLayout ll_no_data;
 
 
-    private WeekHonorManager weekHonorManager;
     private HonorAdapter adapter;
     private List<ListGroupModel> groupModelList = new ArrayList<>();//ListGroupModel
     private List<ListGroupModel> classMemberModelList = new ArrayList<ListGroupModel>();
@@ -96,6 +81,8 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         ClassId = bundle.getString("classId");
         selectWeight();
 
+        setPresenter(new HonorPresenter(this));
+
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
         listHonorrank.getRefreshableView().setAdapter(adapter);
@@ -104,7 +91,8 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
                 Log.i(TAG, " 第一次加载。。。。。");
-                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
+//                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
+                getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
             }
 
             @Override
@@ -148,9 +136,7 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
 
     @Override
     protected void lazyLoad() {
-        String token = UserInfoModel.getInstance().getToken();
         UID = UserInfoModel.getInstance().getUserId();
-        weekHonorManager = new WeekHonorManager(this);
         loadData(false);
     }
 
@@ -163,14 +149,143 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
     }
 
 
-    @Override
-    public void getModel(HonorRankModel model) {
-        Log.i(TAG, "UID= " + UID + "classId = " + ClassId + "byWhichRatio = " + ByWhichRatio + " sortTimeType= " + SortTimeType + "  whichTime = " + WhichTime);
-        Log.i(TAG, "获取到的数据 = " + new Gson().toJson(model));
+//    @Override
+//    public void getModel(HonorRankModel model) {
+//        Log.i(TAG, "UID= " + UID + "classId = " + ClassId + "byWhichRatio = " + ByWhichRatio + " sortTimeType= " + SortTimeType + "  whichTime = " + WhichTime);
+//        Log.i(TAG, "获取到的数据 = " + new Gson().toJson(model));
+//
+//        int count = 0;//计算次奥组排名和班级排名，当都不存在的时候，不显示列表
+//        try {
+//            listHonorrank.onRefreshComplete();
+//            parentsTitle.clear();
+//            groupModelList.clear();
+//            classMemberModelList.clear();
+//            list_Son.clear();
+//
+//
+//            //请求不到数据的时候全屏显示“暂无数据”
+//            if (model == null) {
+//                adapter = null;
+//                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+//                listHonorrank.getRefreshableView().setAdapter(adapter);
+//                listHonorrank.setEmptyView(ll_no_data);
+//                return;
+//            }
+//
+//
+//            if (model.getList_group() != null && model.getList_group().size() > 0) {
+//                groupModelList.clear();
+//                groupModelList.addAll(model.getList_group());
+//                for (int i = 0; i < groupModelList.size(); i++) {
+//                    ListGroupModel tempModel = groupModelList.get(i);
+//                    tempModel.setType(1);
+//                }
+//            } else {
+//                groupModelList.clear();
+//            }
+//
+////            班级排名
+//            if (model.getList_all() != null && model.getList_all().size() > 0) {
+//                classMemberModelList.clear();
+//                classMemberModelList.addAll(model.getList_all());
+//                for (int i = 0; i < classMemberModelList.size(); i++) {
+//                    ListGroupModel tempModel = classMemberModelList.get(i);
+//                    tempModel.setType(2);
+//                }
+//            } else {
+//                classMemberModelList.clear();
+//            }
+//
+//            if (groupModelList != null && groupModelList.size() > 0) {
+//                String str_group = "ByWeightRatio".equals(ByWhichRatio) ? "小组排名（本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤)" : "小组排名（本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%）";
+//                parentsTitle.add(str_group);
+//                list_Son.add(groupModelList);
+//
+//                count++;
+//            } else {
+//                parentsTitle.add("小组排名");
+//                ListGroupModel groupModel = new ListGroupModel();
+//                groupModel.setType(1);//小组排名没数据的项目
+//                groupModel.setUserId("nodata");
+//                groupModelList.add(groupModel);
+//                list_Son.add(groupModelList);
+//            }
+//
+//            if (classMemberModelList != null && classMemberModelList.size() > 0) {
+//                parentsTitle.add("班级排名");
+//                list_Son.add(classMemberModelList);
+//                count++;
+//            } else {
+//                parentsTitle.add("班级排名");
+//                ListGroupModel clsModel = new ListGroupModel();
+//                clsModel.setType(2);//班级排名没数据的项目
+//                clsModel.setUserId("nodata");
+//                classMemberModelList.add(clsModel);
+//                list_Son.add(classMemberModelList);
+//            }
+//
+//
+//            if (count > 0) {
+//                adapter = null;
+//                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+//                listHonorrank.getRefreshableView().setAdapter(adapter);
+//                for (int i = 0; i < parentsTitle.size(); i++) {
+//                    listHonorrank.getRefreshableView().expandGroup(i);
+//                }
+//            } else {
+//
+//                parentsTitle.clear();
+//                groupModelList.clear();
+//                classMemberModelList.clear();
+//                list_Son.clear();
+//                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+//                listHonorrank.getRefreshableView().setAdapter(adapter);
+//                listHonorrank.setEmptyView(ll_no_data);
+//
+//            }
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
+
+    @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_weight_per:
+                ByWhichRatio = "ByWeightRatio";
+                loadData(false);
+                selectWeight();
+                break;
+            case R.id.ll_fat_per:
+                ByWhichRatio = "ByFatRatio";
+                loadData(false);
+                selectFat();
+                break;
+        }
+    }
+
+    private void selectWeight() {
+        iv_weight_per.setImageResource(R.drawable.weight_per_select);
+        iv_fat_per.setImageResource(R.drawable.fat_per_unselect);
+        tv_weight_per.setTextColor(getResources().getColor(R.color.orange));
+        tv_fat_per.setTextColor(getResources().getColor(R.color.grey_honor));
+    }
+
+    private void selectFat() {
+        iv_weight_per.setImageResource(R.drawable.weight_per_unselect);
+        iv_fat_per.setImageResource(R.drawable.fat_per_select);
+        tv_weight_per.setTextColor(getResources().getColor(R.color.grey_honor));
+        tv_fat_per.setTextColor(getResources().getColor(R.color.orange));
+    }
+
+    @Override
+    public void getHonorModel(HonorRankModel model) {
         int count = 0;//计算次奥组排名和班级排名，当都不存在的时候，不显示列表
         try {
-            listHonorrank.onRefreshComplete();
+
             parentsTitle.clear();
             groupModelList.clear();
             classMemberModelList.clear();
@@ -264,35 +379,9 @@ public class TotalHonorFragment extends LazyBaseFragment implements WeekHonorMan
         }
     }
 
-
-    @OnClick({R.id.ll_weight_per, R.id.ll_fat_per})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ll_weight_per:
-                ByWhichRatio = "ByWeightRatio";
-                loadData(false);
-                selectWeight();
-                break;
-            case R.id.ll_fat_per:
-                ByWhichRatio = "ByFatRatio";
-                loadData(false);
-                selectFat();
-                break;
-        }
-    }
-
-    private void selectWeight() {
-        iv_weight_per.setImageResource(R.drawable.weight_per_select);
-        iv_fat_per.setImageResource(R.drawable.fat_per_unselect);
-        tv_weight_per.setTextColor(getResources().getColor(R.color.orange));
-        tv_fat_per.setTextColor(getResources().getColor(R.color.grey_honor));
-    }
-
-    private void selectFat() {
-        iv_weight_per.setImageResource(R.drawable.weight_per_unselect);
-        iv_fat_per.setImageResource(R.drawable.fat_per_select);
-        tv_weight_per.setTextColor(getResources().getColor(R.color.grey_honor));
-        tv_fat_per.setTextColor(getResources().getColor(R.color.orange));
+    @Override
+    public void hidenLoading() {
+        listHonorrank.onRefreshComplete();
     }
 }
 
