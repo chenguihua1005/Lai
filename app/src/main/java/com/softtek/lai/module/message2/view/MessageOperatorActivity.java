@@ -127,7 +127,8 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     tv_status.setText("已忽略");
                 }
                 TextView tv_title=holder.getView(R.id.tv_title);
-                if(data.getMsgtype()==2){
+                tv_title.setText(data.getMsgTitle());
+                /*if(data.getMsgtype()==2){
                     tv_title.setText("邀请成为教练");
                 }else if (data.getMsgtype()==3){
                     tv_title.setText("邀请成为助教");
@@ -135,7 +136,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     tv_title.setText("邀请成为学员");
                 } else if (data.getMsgtype()==5){
                     tv_title.setText("申请加入班级");
-                }
+                }*/
                 ImageView iv_head=holder.getView(R.id.iv_head);
                 if(TextUtils.isEmpty(data.getSenderPhoto())){
                     Picasso.with(MessageOperatorActivity.this).load(R.drawable.img_default).into(iv_head);
