@@ -929,6 +929,7 @@ public class WriteFCActivity extends BaseActivity implements View.OnClickListene
                         default:
                             progressDialog.dismiss();
                             Util.toastMsg(responseData.getMsg());
+                            finish();
                             break;
                     }
                 } catch (Exception e) {

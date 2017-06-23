@@ -293,7 +293,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                         startActivity(new Intent(FcStuActivity.this, GuideActivity.class));
                         break;
                     case 3:
-                        IsZhankai=!IsZhankai;
+                        IsZhankai = !IsZhankai;
                         break;
                 }
                 return i == 0 || i == 1 || i == 2;
@@ -523,6 +523,7 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
                                 default:
                                     progressDialog.dismiss();
                                     Util.toastMsg(responseData.getMsg());
+                                    finish();
                                     break;
                             }
                         } catch (Exception e) {
@@ -939,9 +940,9 @@ public class FcStuActivity extends BaseActivity implements View.OnClickListener 
     //权限
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if(requestCode==CAMERA_PREMISSION){
-            if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        imageFileSelector.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PREMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 imageFileSelector.takePhoto(this);
             }
         }
