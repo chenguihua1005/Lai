@@ -92,6 +92,10 @@ public class JpushReceiver extends BroadcastReceiver {
                 }else if(!extra.isEmpty()){
                     try {
                         JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
+                        String ascription=json.optString("ascription");
+                        if(ascription!=null&&!ascription.equals(String.valueOf(UserInfoModel.getInstance().getUserId()))){
+                            return;
+                        }
                         //拿到通知类型
                         int msgType=json.optInt("msgtype");
                         if(msgType==0||msgType==4){//普通通知直接跳转到消息列表
