@@ -454,7 +454,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 //只有班级管理和自己能看到
                 int role = memberInfoModel.getLoginUserClassRole();
                 boolean isShow=role == 1||role==2||role==3||UserInfoModel.getInstance().getUserId()==AccountId
-                        ||String.valueOf(UserInfoModel.getInstance().getUserId()).equals(memberInfoModel.getIntroducerId());
+                        ||String.valueOf(UserInfoModel.getInstance().getUserId()).equals(memberInfoModel.getMilkAngleId());
                 graph.putExtra("isShow",isShow);
                 startActivity(graph);
                 break;
