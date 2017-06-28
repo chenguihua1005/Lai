@@ -121,22 +121,16 @@ public class MonthHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                WhichTime = Integer.parseInt(((ListdateModel) spinnerData.get(i)).getDateValue());
-                String dateName = ((ListdateModel) spinnerData.get(i)).getDateName();
+                WhichTime = Integer.parseInt(( spinnerData.get(i)).getDateValue());
+                String dateName = (spinnerData.get(i)).getDateName();
                 arrow.setText(dateName);
-                WhichTime = Integer.parseInt(((ListdateModel) spinnerData.get(i)).getDateValue());
+                WhichTime = Integer.parseInt(( spinnerData.get(i)).getDateValue());
                 loadData(is_first);
             }
         });
 
-//        ListView refreshableView = listHonorrank.getRefreshableView();
-//        View view = LayoutInflater.from(getContext()).inflate(R.layout.head_honnor_rank, null);
-
-//        refreshableView.addHeaderView(view);
-//        listHonorrank.setAdapter(honorGroupRankAdapter);
-
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+        adapter = new HonorAdapter(getContext(), parentsTitle, list_Son, ByWhichRatio);
         listHonorrank.getRefreshableView().setAdapter(adapter);
         listHonorrank.getRefreshableView().setEmptyView(ll_no_data);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
@@ -174,6 +168,15 @@ public class MonthHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
                     }
                 }
                 return true;
+            }
+        });
+        listHonorrank.getRefreshableView().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+
+                return groupPosition==0?true:false;
             }
         });
 
@@ -303,7 +306,7 @@ public class MonthHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
                 groupModelList.clear();
             }
 
-//            班级排名
+            //班级排名
             if (model.getList_all() != null && model.getList_all().size() > 0) {
                 classMemberModelList.clear();
                 classMemberModelList.addAll(model.getList_all());
@@ -342,7 +345,7 @@ public class MonthHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
 
 
             adapter = null;
-            adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+            adapter = new HonorAdapter(getContext(), parentsTitle, list_Son, ByWhichRatio);
             listHonorrank.getRefreshableView().setAdapter(adapter);
             for (int i = 0; i < parentsTitle.size(); i++) {
                 listHonorrank.getRefreshableView().expandGroup(i);

@@ -60,11 +60,11 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
 
 
     private HonorAdapter adapter;
-    private List<ListGroupModel> groupModelList = new ArrayList<>();//ListGroupModel
-    private List<ListGroupModel> classMemberModelList = new ArrayList<ListGroupModel>();
+    private List<ListGroupModel> groupModelList = new ArrayList<>();
+    private List<ListGroupModel> classMemberModelList = new ArrayList<>();
     private List<List<ListGroupModel>> list_Son = new ArrayList<>();// 子层数据
 
-    private List<String> parentsTitle = new ArrayList<String>();
+    private List<String> parentsTitle = new ArrayList<>();
 
 
     public static TotalHonorFragment getInstance(String classId) {
@@ -84,14 +84,13 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
         setPresenter(new HonorPresenter(this));
 
         listHonorrank.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+        adapter = new HonorAdapter(getContext(), parentsTitle, list_Son, ByWhichRatio);
         listHonorrank.getRefreshableView().setAdapter(adapter);
         listHonorrank.getRefreshableView().setEmptyView(ll_no_data);
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
                 Log.i(TAG, " 第一次加载。。。。。");
-//                weekHonorManager.getWeekHonnorInfo(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
                 getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, true);
             }
 
@@ -126,7 +125,15 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
                 return true;
             }
         });
+        listHonorrank.getRefreshableView().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+
+                return groupPosition==0?true:false;
+            }
+        });
     }
 
     @Override
@@ -137,10 +144,10 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
     @Override
     protected void lazyLoad() {
         UID = UserInfoModel.getInstance().getUserId();
-        loadData(false);
+        loadData();
     }
 
-    private void loadData(boolean is_first) {
+    private void loadData() {
         try {
             listHonorrank.setRefreshing();
         } catch (Exception e) {
@@ -156,12 +163,12 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
         switch (view.getId()) {
             case R.id.ll_weight_per:
                 ByWhichRatio = "ByWeightRatio";
-                loadData(false);
+                loadData();
                 selectWeight();
                 break;
             case R.id.ll_fat_per:
                 ByWhichRatio = "ByFatRatio";
-                loadData(false);
+                loadData();
                 selectFat();
                 break;
         }
@@ -195,7 +202,7 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
             //请求不到数据的时候全屏显示“暂无数据”
             if (model == null) {
                 adapter = null;
-                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+                adapter = new HonorAdapter(getContext(), parentsTitle, list_Son, ByWhichRatio);
                 listHonorrank.getRefreshableView().setAdapter(adapter);
                 listHonorrank.setEmptyView(ll_no_data);
                 return;
@@ -256,7 +263,7 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
 
             if (count > 0) {
                 adapter = null;
-                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+                adapter = new HonorAdapter(getContext(), parentsTitle, list_Son, ByWhichRatio);
                 listHonorrank.getRefreshableView().setAdapter(adapter);
                 for (int i = 0; i < parentsTitle.size(); i++) {
                     listHonorrank.getRefreshableView().expandGroup(i);
@@ -267,7 +274,7 @@ public class TotalHonorFragment extends LazyBaseFragment<HonorPresenter> impleme
                 groupModelList.clear();
                 classMemberModelList.clear();
                 list_Son.clear();
-                adapter = new HonorAdapter(getContext(), parentsTitle, groupModelList, classMemberModelList, list_Son, ByWhichRatio);
+                adapter = new HonorAdapter(getContext(), parentsTitle, list_Son, ByWhichRatio);
                 listHonorrank.getRefreshableView().setAdapter(adapter);
                 listHonorrank.setEmptyView(ll_no_data);
 

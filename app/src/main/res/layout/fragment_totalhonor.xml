@@ -19,6 +19,7 @@
             android:background="#ffffff"
             android:divider="@android:color/transparent"
             android:footerDividersEnabled="false"
+            android:groupIndicator="@null"
             android:scrollbars="none" />
 
         <LinearLayout

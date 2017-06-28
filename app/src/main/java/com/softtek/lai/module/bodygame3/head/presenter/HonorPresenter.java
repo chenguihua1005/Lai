@@ -53,6 +53,10 @@ public class HonorPresenter extends BasePresenter<HonorPresenter.HonorView> {
                     public void failure(RetrofitError error) {
                         if (getView() != null)
                             getView().getHonorModel(null);
+                        if (getView() != null) {
+                            getView().dialogDissmiss();
+                            getView().hidenLoading();
+                        }
                         ZillaApi.dealNetError(error);
                     }
                 });

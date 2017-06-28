@@ -15,6 +15,17 @@
         android:paddingLeft="10dp"
         android:textColor="#333333"
         android:textSize="13sp" />
+    <TextView
+        android:id="@+id/tv_more"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:text="更多"
+        android:visibility="gone"/>
     <View
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
