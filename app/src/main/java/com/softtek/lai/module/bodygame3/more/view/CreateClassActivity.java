@@ -224,7 +224,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         currentYear = DateUtil.getInstance().getCurrentYear();
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();
-        int afterDay = currentDay + 1;
+        int afterDay = currentDay;
         String currentDate = currentYear + "年" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "月" + (afterDay < 10 ? "0" + afterDay : afterDay) + "日";
         tv_class_time.setText(currentDate);
         clazz.setStartDate(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(currentDate, DateUtil.yyyy_MM_dd));
@@ -295,7 +295,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_YEAR, 1);
+//        c.add(Calendar.DAY_OF_YEAR,0);
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMinDate(c.getTime().getTime());
@@ -319,7 +319,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                     if(month<currentMonth){
                         return;
                     }else if(month==currentMonth){
-                        if(day<=currentDay){
+                        if(day<currentDay){
                             return;
                         }
                     }
