@@ -22,6 +22,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
@@ -36,7 +37,6 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- *
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
@@ -141,14 +141,14 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-        getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, 10);
+        getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, Constants.PAGESIZE_FUCE);
     }
 
     //下拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         ++pageIndex;
-        getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, 10);
+        getPresenter().getMeasureReviewedList(classid, typedate, pageIndex, Constants.PAGESIZE_FUCE);
     }
 
 
@@ -190,7 +190,7 @@ public class FcAuditedFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_FCCHECK_YISHENHE_TABLIST.equalsIgnoreCase(intent.getAction())) {
                 memberListModels.clear();
-                getPresenter().getMeasureReviewedList(classid, typedate, 1, 10);
+                getPresenter().getMeasureReviewedList(classid, typedate, 1, Constants.PAGESIZE_FUCE);
             }
         }
     };

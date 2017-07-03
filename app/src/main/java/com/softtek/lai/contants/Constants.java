@@ -111,6 +111,8 @@ public class Constants {
     public static final int FROM_CONTACT = 0x0008;  //来自于通讯录
     public static final int FROM_OLD_CLASS = 0;//来自往期班级
 
+    public static final int PAGESIZE_FUCE = 20;
+
     public final static String UPDATE_UI_STU_INITDATA_INPUT = "UPDATE_UI_STU_INITDATA_INPUT"; //学员身份  初始数据录入
     public final static String UPDATE_UI_STU_FUCEDATA_INPUT = "UPDATE_UI_STU_FUCEDATA_INPUT"; //学员身份  复测数据录入
 

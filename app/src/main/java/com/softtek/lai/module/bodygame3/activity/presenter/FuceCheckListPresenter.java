@@ -30,7 +30,7 @@ public class FuceCheckListPresenter extends BasePresenter<FuceCheckListPresenter
 
 
     public void getMeasureReviewedList(String classid, String typeDate, int pageIndex, int pageSize) {
-        fuceSevice.dogetAuditList(classid, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, typeDate, pageIndex, 100, new RequestCallback<ResponseData<List<AuditListModel>>>() {
+        fuceSevice.dogetAuditList(classid, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classid, typeDate, pageIndex, pageSize, new RequestCallback<ResponseData<List<AuditListModel>>>() {
             @Override
             public void success(ResponseData<List<AuditListModel>> listResponseData, Response response) {
                 int status = listResponseData.getStatus();

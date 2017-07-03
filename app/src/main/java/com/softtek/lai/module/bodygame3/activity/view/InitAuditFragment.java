@@ -24,6 +24,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.presenter.InitAuditPresenter;
@@ -147,13 +148,13 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-        getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, pageIndex, 10);
+        getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, pageIndex, Constants.PAGESIZE_FUCE);
     }
 
     //上拉加载
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, ++pageIndex, 10);
+        getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, ++pageIndex, Constants.PAGESIZE_FUCE);
     }
 
 
@@ -205,7 +206,7 @@ public class InitAuditFragment extends LazyBaseFragment<InitAuditPresenter> impl
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_CHUSHI_DAISHENHE_TABLIST.equalsIgnoreCase(intent.getAction())) {
                 memberListModels.clear();
-                getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, 10);
+                getPresenter().getInitAuditList(UserInfoModel.getInstance().getUserId(), classid, 1, Constants.PAGESIZE_FUCE);
             }
         }
     };

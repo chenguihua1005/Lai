@@ -24,6 +24,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
@@ -38,7 +39,6 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- *
  * Created by lareina.qiao on 11/24/2016.
  */
 @InjectLayout(R.layout.fragment_retest)
@@ -155,7 +155,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_FCCHECK_TABLIST.equalsIgnoreCase(intent.getAction())) {
                 memberListModels.clear();
-                getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
+                getPresenter().getMeasureReviewedList(classid, typedata, 1, Constants.PAGESIZE_FUCE);
             }
         }
     };
@@ -167,13 +167,12 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     }
 
 
-
     //下拉刷新
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
+        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, Constants.PAGESIZE_FUCE);
 
     }
 
@@ -181,7 +180,7 @@ public class UnFuceStuFragment extends LazyBaseFragment<FuceCheckListPresenter> 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         ++pageIndex;
-        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
+        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, Constants.PAGESIZE_FUCE);
     }
 
 

@@ -24,6 +24,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.activity.model.AuditListModel;
 import com.softtek.lai.module.bodygame3.activity.model.MemberListModel;
 import com.softtek.lai.module.bodygame3.activity.presenter.FuceCheckListPresenter;
@@ -152,7 +153,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         memberListModels.clear();
         pageIndex = 1;
-        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
+        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, Constants.PAGESIZE_FUCE);
 
     }
 
@@ -160,7 +161,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         ++pageIndex;
-        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, 10);
+        getPresenter().getMeasureReviewedList(classid, typedata, pageIndex, Constants.PAGESIZE_FUCE);
     }
 
 
@@ -213,7 +214,7 @@ public class FcAuditFragment extends LazyBaseFragment<FuceCheckListPresenter> im
         public void onReceive(Context context, Intent intent) {
             if (intent != null && UPDATE_UI_FCCHECK_DAISHENHE_TABLIST.equalsIgnoreCase(intent.getAction())) {
                 memberListModels.clear();
-                getPresenter().getMeasureReviewedList(classid, typedata, 1, 10);
+                getPresenter().getMeasureReviewedList(classid, typedata, 1, Constants.PAGESIZE_FUCE);
             }
         }
     };
