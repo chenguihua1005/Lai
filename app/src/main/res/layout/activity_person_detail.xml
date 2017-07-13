@@ -194,7 +194,7 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:paddingTop="10dp"
-                    android:text="体重变化"
+                    android:text="复测相册"
                     android:textColor="#333333"
                     android:textSize="12sp" />
 

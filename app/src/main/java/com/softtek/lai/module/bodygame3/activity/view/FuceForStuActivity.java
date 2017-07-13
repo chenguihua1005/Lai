@@ -1,7 +1,6 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -9,9 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,8 +34,6 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.util.BleManager;
-import com.softtek.lai.mpermission.PermissionFail;
-import com.softtek.lai.mpermission.PermissionOK;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -122,29 +117,29 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     private AlertDialog dialog;
 
 
-    @SuppressLint("LongLogTag")
-    @PermissionOK(id = 1)
-    private void initPermissionSuccess() {
-        setBleStateListener(bleStateListener);
-        mShakeListener.start();
-        Log.d("enter bleStateListener --------", "bleStateListener");
-    }
-
-    @PermissionFail(id = 1)
-    private void initPermissionFail() {
-        mShakeListener.stop();
-        new AlertDialog.Builder(this)
-                .setMessage("拒绝授权将无法正常运行软件！")
-                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                        startActivity(intent);
-                        dialog.dismiss();
-                    }
-                }).create().show();
-    }
+//    @SuppressLint("LongLogTag")
+//    @PermissionOK(id = 1)
+//    private void initPermissionSuccess() {
+//        setBleStateListener(bleStateListener);
+//        mShakeListener.start();
+//        Log.d("enter bleStateListener --------", "bleStateListener");
+//    }
+//
+//    @PermissionFail(id = 1)
+//    private void initPermissionFail() {
+//        mShakeListener.stop();
+//        new AlertDialog.Builder(this)
+//                .setMessage("拒绝授权将无法正常运行软件！")
+//                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
+//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+//                        startActivity(intent);
+//                        dialog.dismiss();
+//                    }
+//                }).create().show();
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

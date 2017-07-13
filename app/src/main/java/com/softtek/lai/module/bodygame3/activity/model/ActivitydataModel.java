@@ -21,12 +21,37 @@ public class ActivitydataModel  {
     private List<TodayactModel> list_Activity;
     private List<ClassModel> list_Class;
     private int Weekth;
+    private int HasInitMeasuredData;
 
 
 
 
     public ActivitydataModel() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "ActivitydataModel{" +
+                "IsFirst=" + IsFirst +
+                ", list_ActCalendar=" + list_ActCalendar +
+                ", ClassRole=" + ClassRole +
+                ", Num=" + Num +
+                ", IsRetest=" + IsRetest +
+                ", RetestStatus=" + RetestStatus +
+                ", list_Activity=" + list_Activity +
+                ", list_Class=" + list_Class +
+                ", Weekth=" + Weekth +
+                ", HasInitMeasuredData=" + HasInitMeasuredData +
+                '}';
+    }
+
+    public int getHasInitMeasuredData() {
+        return HasInitMeasuredData;
+    }
+
+    public void setHasInitMeasuredData(int hasInitMeasuredData) {
+        HasInitMeasuredData = hasInitMeasuredData;
     }
 
     public int getRetestStatus() {

@@ -1,12 +1,14 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialog;
 import com.google.gson.Gson;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -45,6 +48,8 @@ import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
+import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -131,6 +136,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private String dateStr;
     private int classrole;
     private ClassModel classModel;
+    private int HasInitMeasuredData;//是否有初录入数据 0：没有 1：有
 
     public ActivityFragment() {
 
@@ -411,7 +417,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.fl_right:
                 Intent intent = new Intent(getContext(), CreateActActivity.class);
@@ -445,17 +451,45 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 break;
             case R.id.ll_fuce://学员：复测录入    其他：复测审核
             {
-                BtnTag tag = (BtnTag) view.getTag();
+                final BtnTag tag = (BtnTag) view.getTag();
                 if (tag == null) {
                     return;
                 }
                 if (tag.role == Constants.STUDENT) {//学员
-                    Intent fuce = new Intent(getContext(), FcStuActivity.class);
-                    fuce.putExtra("classId", classid);
-                    fuce.putExtra("resetstatus", tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
-                    fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
-                    fuce.putExtra("typeDate", tag.date);
-                    startActivityForResult(fuce, 3);
+                    if(HasInitMeasuredData==0){
+                        final AlertDialog builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+                                .setTitle("温馨提示").setMessage("您尚未录入初始数据, 请先录入初始数据")
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        if (tag.role == Constants.STUDENT) {//学员
+                                            Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
+                                            chuDate.putExtra("typeDate", tag.date);
+                                            if (tag.isfirst == 0) {
+                                                tag.isfirst = IsFirst_save;
+                                            }
+                                            chuDate.putExtra("firststatus", tag.isfirst);//初始数据录入状态 1：未录入，2：未审核，3：已审核
+                                            chuDate.putExtra("classId", classid);
+                                            startActivityForResult(chuDate, 2);
+                                        }
+                                    }
+                                }).setCancelable(false).create();
+                        builder.show();
+                    }else {
+                        Intent fuce = new Intent(getContext(), FcStuActivity.class);
+                        fuce.putExtra("classId", classid);
+                        fuce.putExtra("resetstatus", tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
+                        fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
+                        fuce.putExtra("typeDate", tag.date);
+                        startActivityForResult(fuce, 3);
+                    }
                 } else {
                     Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
                     fuce.putExtra("classId", classid);
@@ -493,6 +527,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             } else if (requestCode == 2) {
                 if (classrole == Constants.STUDENT) {
+                    HasInitMeasuredData=1;
                     int IsInitW = data.getExtras().getInt("IsInitW");
                     if (IsInitW == 1) {
                         tv_chustatus.setText("待审核");
@@ -575,6 +610,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             if (data.getData() != null) {
                                 material_calendar.removeDecorators();
                                 ActivitydataModel activitydataModel = data.getData();
+                                HasInitMeasuredData=activitydataModel.getHasInitMeasuredData();
                                 classrole = activitydataModel.getClassRole();
                                 if (Constants.HEADCOACH == classrole) {
                                     fl_right.setVisibility(View.VISIBLE);

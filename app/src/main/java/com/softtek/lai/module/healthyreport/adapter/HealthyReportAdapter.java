@@ -56,9 +56,10 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<HealthyReportAdap
             }
         }
         if(isVisitor){
-            holder.tv_standard.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+            //holder.tv_standard.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+            holder.tv_standard.setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.img_act_detail_more),null);
         }else {
-            holder.tv_standard.setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.healthy_chart),null);
+            holder.tv_standard.setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.img_act_detail_more),null);
         }
         if(!TextUtils.isEmpty(item.getValue())){
             SpannableString ss=new SpannableString(item.getValue()+item.getUnit());
