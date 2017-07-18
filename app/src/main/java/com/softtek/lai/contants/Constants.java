@@ -4,6 +4,9 @@ package com.softtek.lai.contants;
  * Created by jerry.guan on 3/4/2016.
  */
 public class Constants {
+    //是否上传文件
+    public static String IS_UPLOAD = "1";  //0上传 1不上传
+
     //是否在登录环信
     public static String IS_LOGINIMG = "0";  //0不再登录 1在登录
 

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.healthyreport;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.File.view.DimensionRecordActivity;
+import com.softtek.lai.module.File.view.ExplainActivity;
 import com.softtek.lai.module.healthyreport.model.HealthModel;
 import com.softtek.lai.module.healthyreport.model.LastestRecordModel;
 import com.softtek.lai.module.healthyreport.presenter.HealthyEntryPresenter;
@@ -84,6 +87,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     RelativeLayout rl_base_metabolize;
     @InjectView(R.id.rl_body_age)
     RelativeLayout rl_body_age;
+    @InjectView(R.id.ll_explain)
+    LinearLayout ll_explain;
 
 
     @InjectView(R.id.tv_weight)
@@ -145,6 +150,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         rl_left.setOnClickListener(this);
         rl_weight.setOnClickListener(this);
         rl_pysical.setOnClickListener(this);
+        ll_explain.setOnClickListener(this);
         rl_fat.setOnClickListener(this);
         rl_circum.setOnClickListener(this);
         rl_waistline.setOnClickListener(this);
@@ -178,6 +184,9 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_explain:
+                startActivity(new Intent(HealthEntryActivity.this, ExplainActivity.class));
+                break;
             case R.id.ll_left:
                 finish();
                 break;

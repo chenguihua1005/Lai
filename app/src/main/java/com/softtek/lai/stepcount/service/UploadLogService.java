@@ -7,6 +7,7 @@ import android.os.Environment;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.model.ImageResponse;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.utils.RequestCallback;
@@ -48,21 +49,26 @@ public class UploadLogService extends IntentService {
             }
             //上传
             if(StringUtils.isNotEmpty(UserInfoModel.getInstance().getToken())&&zip.exists()){
-                ZillaApi.NormalRestAdapter.create(CommunityService.class)
-                        .uploadMutilpartImage(UserInfoModel.getInstance().getToken(), new TypedFile("*/*", zip), new RequestCallback<ResponseData<ImageResponse>>() {
-                            @Override
-                            public void success(ResponseData<ImageResponse> imageResponseResponseData, Response response) {
-                                deleteFile(log);
-                                zip.delete();
-                                Log.i("上传日志成功");
+                if("0".equals(Constants.IS_UPLOAD)){
+                    deleteFile(log);
+                    zip.delete();
+                } else {
+                    ZillaApi.NormalRestAdapter.create(CommunityService.class)
+                            .uploadMutilpartImage(UserInfoModel.getInstance().getToken(), new TypedFile("*/*", zip), new RequestCallback<ResponseData<ImageResponse>>() {
+                                @Override
+                                public void success(ResponseData<ImageResponse> imageResponseResponseData, Response response) {
+                                    deleteFile(log);
+                                    zip.delete();
+                                    Log.i("上传日志成功");
 
-                            }
+                                }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                zip.delete();
-                            }
-                        });
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    zip.delete();
+                                }
+                            });
+                }
             }
         }
     }

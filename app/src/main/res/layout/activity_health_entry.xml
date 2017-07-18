@@ -647,13 +647,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#78BC27" />
+            <LinearLayout
+                android:id="@+id/ll_explain"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:layout_marginTop="20dip"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="填写说明"
+                        android:textSize="16sp"
+                        android:textColor="#75BA2B"
+                        android:id="@+id/textView5"/>
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="15dp"
+                        android:background="@drawable/drop_arrow"
+                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center|right"
+                        android:id="@+id/imageView2"/>
+                </LinearLayout>
 
+            </LinearLayout>
             <Button
                 android:id="@+id/btn_sure"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="60dp"
-                android:layout_marginTop="20dp"
+
                 android:background="@drawable/bg_login_btn"
                 android:text="确认"
                 android:textColor="#ffffff"
