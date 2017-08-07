@@ -320,6 +320,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 if (AccountId == userid)//如果是本人，显示查看曲线图,如果没有爱心天使可修改爱心天使
                 {   //是本人可编辑个性签名
 
+                    ClassId = memberInfoModel.getClassId();
                     tv_personlityName.setEnabled(true);
                     //个性签名已存在现实个性签名内容并隐藏图标
                     if (!TextUtils.isEmpty(memberInfoModel.getPersonalityName())) {
