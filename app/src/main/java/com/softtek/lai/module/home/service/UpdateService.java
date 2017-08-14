@@ -6,12 +6,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.widget.RemoteViews;
@@ -41,6 +43,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  *
  * Created by jerry.guan on 3/30/2017.
@@ -49,11 +53,13 @@ import javax.net.ssl.X509TrustManager;
 public class UpdateService extends Service implements Runnable{
 
     private static final String APK_URL="apkUrl";
+    private static Context mContext;
 
     public static void startUpdate(Context context,String apkUrl){
         Intent intent = new Intent(context, UpdateService.class);
         intent.putExtra(APK_URL,apkUrl);
         context.startService(intent);
+        mContext = context;
     }
 
     private int prePer;
@@ -285,9 +291,16 @@ public class UpdateService extends Service implements Runnable{
     }
     private void openFile(File file) {
         Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(android.content.Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file),
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= 24){
+            uri = FileProvider.getUriForFile(mContext,mContext.getPackageName() + ".fileProvider",file);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | FLAG_ACTIVITY_NEW_TASK);
+        }else {
+            uri = Uri.fromFile(file);
+        }
+        intent.setDataAndType(uri,
                 "application/vnd.android.package-archive");
         startActivity(intent);
         stopSelf();

@@ -822,6 +822,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
         <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity" />
+        
+        <provider
+            android:name="com.softtek.lai.module.home.adapter.MyFileProvider"
+            android:authorities="com.softtek.lai.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_path"/>
+        </provider>
+
     </application>
 
 </manifest>

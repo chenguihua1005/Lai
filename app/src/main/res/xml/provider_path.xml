@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path name="laiju_apk" path="laiju_apk"/>
+    <external-path name="laiju_apk" path=""/>
+    <external-path name="laiju_apk" path="."/>
+</paths>
