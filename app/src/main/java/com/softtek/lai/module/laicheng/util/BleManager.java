@@ -93,14 +93,14 @@ public class BleManager {
             LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).sendBroadcast(intent);
         }
     };
-
-    public BluetoothGattCharacteristic getReadCharacteristic() {
-        return readCharacteristic;
-    }
-
-    public void setReadCharacteristic(BluetoothGattCharacteristic readCharacteristic) {
-        this.readCharacteristic = readCharacteristic;
-    }
+//
+//    public BluetoothGattCharacteristic getReadCharacteristic() {
+//        return readCharacteristic;
+//    }
+//
+//    public void setReadCharacteristic(BluetoothGattCharacteristic readCharacteristic) {
+//        this.readCharacteristic = readCharacteristic;
+//    }
 
     public BluetoothGattCharacteristic getWriteCharacteristic() {
         BluetoothGattService bluetoothGattService = mBluetoothGatt.getService(BleManager.LIERDA_SERVICE_UUID);
@@ -117,9 +117,9 @@ public class BleManager {
         return writeCharacteristic;
     }
 
-    public void setWriteCharacteristic(BluetoothGattCharacteristic writeCharacteristic) {
-        this.writeCharacteristic = writeCharacteristic;
-    }
+//    public void setWriteCharacteristic(BluetoothGattCharacteristic writeCharacteristic) {
+//        this.writeCharacteristic = writeCharacteristic;
+//    }
 
     private BluetoothGattCharacteristic writeCharacteristic;//蓝牙读写数据的载体
 
@@ -314,21 +314,21 @@ public class BleManager {
         MainBaseActivity.isConnecting = false;
     }
 
-    /**
-     * 重新连接
-     *
-     * @param gattCallback
-     * @return
-     */
-    public int reConnectBluetooth(final BluetoothGattCallback gattCallback) {
-        try {
-            isReconnect = false;
-            mBluetoothGatt = mBluetoothDevice.connectGatt(LaiApplication.getInstance().getApplicationContext(), false, gattCallback);
-            return BLUETOOTH_ERROR_NONE;
-        } catch (Exception e) {
-            return BLUETOOTH_CONNECT_ERROR;
-        }
-    }
+//    /**
+//     * 重新连接
+//     *
+//     * @param gattCallback
+//     * @return
+//     */
+//    public int reConnectBluetooth(final BluetoothGattCallback gattCallback) {
+//        try {
+//            isReconnect = false;
+//            mBluetoothGatt = mBluetoothDevice.connectGatt(LaiApplication.getInstance().getApplicationContext(), false, gattCallback);
+//            return BLUETOOTH_ERROR_NONE;
+//        } catch (Exception e) {
+//            return BLUETOOTH_CONNECT_ERROR;
+//        }
+//    }
 
     /**
      * 查看蓝牙模块是否可用
