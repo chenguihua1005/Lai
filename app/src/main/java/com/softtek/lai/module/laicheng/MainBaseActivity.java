@@ -772,6 +772,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         if (getType() == 4) {
             presenter.upLoadImpedance(model, accountId, getType(), getGuestInfo().getClassId());
         } else {
+            Log.d("model",model.toString());
             presenter.upLoadImpedance(model, accountId, getType(), "");
         }
 
