@@ -36,6 +36,8 @@ import zilla.libcore.ui.InjectLayout;
 public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implements SelftestPresenter.SelftestView {
     private static final String ARGUMENTS = "mainFragment";
     private VoiceListener listener;
+    private StartLinkListener linkListener;
+
     @InjectView(R.id.tv_weight_caption)
     TextView mWeightCaption;
     @InjectView(R.id.tv_info_state)
@@ -91,12 +93,19 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
         void onVoiceListener();
     }
 
+    public interface StartLinkListener {
+        void onLinkListener();
+    }
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof VoiceListener) {
             listener = (SelftestFragment.VoiceListener) context;
+        }
+        if (context instanceof StartLinkListener){
+            linkListener = (StartLinkListener)context;
         }
     }
 
@@ -136,6 +145,13 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
         }
         if (listener != null) {
             listener.onVoiceListener();
+        }
+    }
+
+    @OnClick(R.id.tv_info_state)
+    public void onLinkClick(){
+        if (linkListener != null){
+            linkListener.onLinkListener();
         }
     }
 

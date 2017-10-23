@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -22,6 +23,7 @@ import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.util.BleManager;
+import com.softtek.lai.module.laicheng_new.view.NewLaiBalanceActivity;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -34,12 +36,16 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_laibalance)
-public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener, VisitortestFragment.ShakeSwitch, VisitortestFragment.VisitorVoiceListener {
+public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener,
+        VisitortestFragment.ShakeSwitch, VisitortestFragment.VisitorVoiceListener, SelftestFragment.StartLinkListener ,
+        VisitortestFragment.StartVisitorLinkListener{
 
     @InjectView(R.id.tab_balance)
     TabLayout tab_balance;
     @InjectView(R.id.content)
     ViewPager content;
+    @InjectView(R.id.tv_title)
+    TextView mTitle;
 
     private int pageIndex;
 
@@ -86,7 +92,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION){
             if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 setBleStateListener(bleStateListener);
-                mShakeListener.start();
+//                mShakeListener.start();
                 Log.d("enter bleStateListener", "bleStateListener--------------");
             }
         }
@@ -131,7 +137,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 pageIndex = position;
                 if (pageIndex == 0) {
                     setType(1);
-                    mShakeListener.start();
+//                    mShakeListener.start();
                     if (!isDestroyed()) {
                         selftestFragment.refreshVoiceIcon();
 //                        selftestFragment.setStateTip("摇一摇，连接莱秤");
@@ -156,6 +162,13 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             }
         });
         setBleStateListener(bleStateListener);
+        mTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(LaibalanceActivity.this, NewLaiBalanceActivity.class));
+            }
+        });
     }
 
     private void setVoice() {
@@ -222,7 +235,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (!BleManager.getInstance().isConnected()) {
-                                mShakeListener.start();
+//                                mShakeListener.start();
                                 changeConnectionState(0);
                             }
                             dialog.dismiss();
@@ -290,7 +303,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         });
         noVisitorBuilder.create();
         noVisitorBuilder.show();
-        mShakeListener.stop();
+//        mShakeListener.stop();
     }
 
     @Override
@@ -306,7 +319,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @Override
     public void setOnShakeON() {
-        mShakeListener.start();
+//        mShakeListener.start();
     }
 
 
@@ -323,4 +336,13 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         startActivity(new Intent(LaibalanceActivity.this, InstructionsActivity.class));
     }
 
+    @Override
+    public void onLinkListener() {
+        linkStart();
+    }
+
+    @Override
+    public void onLinkVisitorListener() {
+        linkStart();
+    }
 }

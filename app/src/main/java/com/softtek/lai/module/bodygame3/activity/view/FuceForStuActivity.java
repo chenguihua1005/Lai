@@ -147,7 +147,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setBleStateListener(bleStateListener);
-                mShakeListener.start();
+//                mShakeListener.start();
                 Log.d("enter bleStateListener", "bleStateListener--------------");
             }
         }
@@ -271,7 +271,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         setType(4);
 
         setBleStateListener(bleStateListener);
-        mShakeListener.start();
+//        mShakeListener.start();
 
         fucecheck_entry.setOnClickListener(this);
         heathyReport_entry.setOnClickListener(this);
@@ -367,7 +367,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (!BleManager.getInstance().isConnected()) {
-                                mShakeListener.start();
+//                                mShakeListener.start();
                                 changeConnectionState(0);
                             }
                             dialog.dismiss();

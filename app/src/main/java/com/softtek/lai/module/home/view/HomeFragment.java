@@ -12,7 +12,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -22,6 +24,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -54,6 +57,7 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.home.service.UpdateService;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
+import com.softtek.lai.module.laicheng_new.view.NewLaiBalanceActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message2.net.Message2Service;
@@ -129,6 +133,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     FragementAdapter fragementAdapter;
     private MessageReceiver mMessageReceiver;
     UserModel user;
+
+    private AlertDialog mDialog;
 
     @Override
     protected void initViews() {
@@ -410,6 +416,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     /**
      * 功能模块按钮
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
@@ -435,7 +442,28 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(), "LaiClassEvent");
                     break;
                 case Constants.LAI_CHEN:
-                    startActivity(new Intent(getContext(), LaibalanceActivity.class));
+                    TextView mOld;
+                    TextView mNew;
+                    View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_choose, null);
+                    mOld = (TextView) dialogView.findViewById(R.id.tv_old);
+                    mNew = (TextView) dialogView.findViewById(R.id.tv_new);
+                    mOld.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            startActivity(new Intent(getContext(),LaibalanceActivity.class));
+                        }
+                    });
+                    mNew.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            startActivity(new Intent(getContext(), NewLaiBalanceActivity.class));
+                        }
+                    });
+                    mDialog = new AlertDialog.Builder(getActivity()).create();
+                    mDialog.setView(dialogView,0,0,0,0);
+                    mDialog.show();
                     MobclickAgent.onEvent(getContext(), "BalanceEvent");
                     break;
                 case Constants.LAI_SHOP:

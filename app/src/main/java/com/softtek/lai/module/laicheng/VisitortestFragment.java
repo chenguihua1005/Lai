@@ -50,6 +50,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     @InjectView(R.id.bt_again)
     Button bt_again;
     private LinearLayout.LayoutParams parm;
+    private StartVisitorLinkListener linkListener;
+
     @InjectView(R.id.tv_weight)
     TextView tv_weight;//体重
     @InjectView(R.id.tv_weight_caption)
@@ -117,6 +119,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         presenter.GetData(UserInfoModel.getInstance().getToken(), 0);
     }
 
+    public interface StartVisitorLinkListener {
+        void onLinkVisitorListener();
+    }
+
     //第一次进入为访客测获取最新访客测量信息
     @Override
     public void getDatasuccess(LastInfoData data) {
@@ -133,7 +139,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             bodyAge = data.getPhysicalAge();
             tv_weight.setText(data.getWeight() + "");//体重
             tv_weight_caption.setText(data.getBodyTypeTitle());//状态
-            tv_body_fat_rate.setText(data.getBodyFatRate()+"%");
+            tv_body_fat_rate.setText(data.getBodyFatRate() + "%");
             tv_bmi.setText(data.getBMI());
             tv_internal_fat_rate.setText(data.getViscusFatIndex());
             if (data.getVisitor() != null) {
@@ -187,6 +193,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             listener = (VisitortestFragment.VisitorVoiceListener) context;
             shakeOFF = (ShakeSwitch) context;
         }
+        if (context instanceof StartVisitorLinkListener) {
+            linkListener = (StartVisitorLinkListener) context;
+        }
     }
 
     @Override
@@ -195,6 +204,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         bt_history.setOnClickListener(this);
         health_btn.setOnClickListener(this);
         share_btn.setOnClickListener(this);
+        mBleState.setOnClickListener(this);
     }
 
     VisitorBroadCast visitorBroadCast;
@@ -254,6 +264,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             case R.id.share_btn:
                 showDialog();
                 break;
+            case R.id.tv_info_state:
+                linkListener.onLinkVisitorListener();
+                break;
+
         }
     }
 
@@ -382,7 +396,6 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             }
 
 
-
             bodyFatRate = data.getBodyFatRate();
         }
 
@@ -401,6 +414,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             mBleState.setText(state);
         }
     }
+
+//    @OnClick(R.id.tv_info_state)
+//    public void linkVisitorClick(){
+//        linkListener.onLinkVisitorListener();
+//    }
 
     @Override
     public void onDestroyView() {

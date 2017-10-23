@@ -23,7 +23,6 @@ import com.softtek.lai.module.laicheng.model.UploadImpedanceModel;
 import com.softtek.lai.module.laicheng.model.UserInfoEntity;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.BleBasePresenter;
-import com.softtek.lai.module.laicheng.shake.ShakeListener;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.BleStateListener;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
@@ -75,7 +74,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     private int bluetoothPosition;
 
-    protected ShakeListener mShakeListener;
+//    protected ShakeListener mShakeListener;
     private Vibrator vibrator;
 
     private String token;
@@ -100,7 +99,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         isClosed = closed;
     }
 
-    private void shake() {
+    protected void linkStart() {
         isDeviceChoosed = false;
         if (getGuestInfo() == null && getType() != 1) {
             showNoVisitorDialog();
@@ -114,7 +113,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 SoundPlay.getInstance().play(R.raw.help_one);
             }
         }
-        mShakeListener.stop();
+//        mShakeListener.stop();
         if (getType() == 0) {
             presenter.getLastData(0);
         } else if (getType() == 1) {
@@ -142,23 +141,23 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //        permission = MPermission.with(this);
-        mShakeListener = new ShakeListener(this);
+//        mShakeListener = new ShakeListener(this);
 //        addVoice();
         SoundPlay.getInstance().init(LaiApplication.getInstance().getApplicationContext());
 
         presenter = new BleBasePresenter(this);
 
-        mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
-            @Override
-            public void onShake() {
-                if (state_current != CONNECTED_STATE_SHAKE_IT) {
-                    return;
-                }
-                LogManager.getLogger().d(TAG, "bluetooth shakeing!!!");
-                vibrator.vibrate(200);
-                shake();
-            }
-        });
+//        mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
+//            @Override
+//            public void onShake() {
+//                if (state_current != CONNECTED_STATE_SHAKE_IT) {
+//                    return;
+//                }
+//                LogManager.getLogger().d(TAG, "bluetooth shakeing!!!");
+//                vibrator.vibrate(200);
+//                linkStart();
+//            }
+//        });
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         //选择的蓝牙的对话框
@@ -188,7 +187,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             public void onCancel(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
                 voiceIndex = 0;
-                mShakeListener.start();
+//                mShakeListener.start();
             }
         });
         deviceListDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -196,7 +195,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             public void onDismiss(DialogInterface dialogInterface) {
                 cancelDiscoveryBluetooth();
                 voiceIndex = 0;
-                mShakeListener.start();
+//                mShakeListener.start();
             }
         });
 
@@ -252,7 +251,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 } else {
                     dialogDissmiss();
                     if (!isOnStop) {
-                        mShakeListener.start();
+//                        mShakeListener.start();
                     }
                     voiceIndex = 0;
                 }
@@ -264,13 +263,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 changeConnectionState(CONNECTED_STATE_SUCCESS);
                 isConnecting = true;
                 Log.e("CONNECTED_STATE_SUCCESS-----", "CONNECTED_STATE_SUCCESS");
-                mShakeListener.stop();
+//                mShakeListener.stop();
             }
 
             @Override
             public void BleConnectFail() {
                 changeConnectionState(CONNECTED_STATE_SHAKE_IT);
-                mShakeListener.start();
+//                mShakeListener.start();
             }
 
             @Override
@@ -286,7 +285,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                     changeConnectionState(CONNECTED_STATE_SHAKE_IT);
                 }
                 Toast.makeText(getApplicationContext(), "设备连接断开，请重新连接", Toast.LENGTH_SHORT).show();
-                mShakeListener.start();
+//                mShakeListener.start();
                 dialogDissmiss();
             }
 
@@ -797,7 +796,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     @Override
     public void onPause() {
         super.onPause();
-        mShakeListener.stop();
+//        mShakeListener.stop();
         Log.d("onPause-----", "onPause");
     }
 
@@ -817,7 +816,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public void onResume() {
         isOnStop = false;
         super.onResume();
-        mShakeListener.start();
+//        mShakeListener.start();
         if (!isConnecting) {
             changeConnectionState(CONNECTED_STATE_SHAKE_IT);
         } else {

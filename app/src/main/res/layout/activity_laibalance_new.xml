@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.laicheng.LaibalanceActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|snap">
+
+        <FrameLayout
+            android:id="@+id/fl_left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/back"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginRight="70dp"
+            android:text="莱秤"
+            android:textSize="20sp" />
+
+        <FrameLayout
+            android:id="@+id/fl_right"
+            android:layout_width="96dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@drawable/text_selector"
+            android:transitionName="sharedView">
+
+            <TextView
+                android:id="@+id/use_description"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="使用说明"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </FrameLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_balance"
+        style="@style/myTabLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
