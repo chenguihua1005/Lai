@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.kitnew.ble.QNBleDevice;
 import com.softtek.lai.R;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class DeviceListDialog extends Dialog {
     private TextView cTitle;
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
     private List<BluetoothDevice> bluetoothDeviceList;
+    private List<QNBleDevice> qn_bluetoothDeviceList;
     private BluetoothDialogListener mBluetoothDialogListener;
 
     public DeviceListDialog(Context context, int theme) {
@@ -94,10 +96,30 @@ public class DeviceListDialog extends Dialog {
         mNewDevicesArrayAdapter.notifyDataSetChanged();
     }
 
+    public void addBluetoothDevice(QNBleDevice qnBleDevice){
+        if(qn_bluetoothDeviceList==null)
+            qn_bluetoothDeviceList = new ArrayList<QNBleDevice>();
+        if(qn_bluetoothDeviceList.size()!=0){
+            for(QNBleDevice tem:qn_bluetoothDeviceList){
+                if(tem.getMac().equals(qnBleDevice.getMac()))
+                    return;//排重
+            }
+        }
+        qn_bluetoothDeviceList.add(qnBleDevice);
+        mNewDevicesArrayAdapter.add(qnBleDevice.getDeviceName() + "\n" + qnBleDevice.getMac());
+        mNewDevicesArrayAdapter.notifyDataSetChanged();
+    }
+
     public BluetoothDevice getBluetoothDevice(int position){
         if(bluetoothDeviceList==null||bluetoothDeviceList.size()==0||position>bluetoothDeviceList.size()-1)
             return null;
         return bluetoothDeviceList.get(position);
+    }
+
+    public QNBleDevice getQNBluetoothDevice(int position){
+        if(qn_bluetoothDeviceList==null||qn_bluetoothDeviceList.size()==0||position>qn_bluetoothDeviceList.size()-1)
+            return null;
+        return qn_bluetoothDeviceList.get(position);
     }
 
     public void clearBluetoothDevice(){

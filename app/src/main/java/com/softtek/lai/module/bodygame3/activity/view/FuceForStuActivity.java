@@ -215,7 +215,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
             mVoice.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.voice_icon_off));
             isVoiceHelp = false;
         } else {
-            mVoice.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.voice_icon));
+            mVoice.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.voice_icon_on));
             isVoiceHelp = true;
         }
     }

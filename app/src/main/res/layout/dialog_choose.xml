@@ -24,7 +24,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
-            android:text="选择您要链接的莱秤"
+            android:text="选择您要连接的莱秤"
             android:textSize="17sp" />
     </LinearLayout>
 

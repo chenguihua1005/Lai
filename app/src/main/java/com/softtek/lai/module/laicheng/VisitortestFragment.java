@@ -40,8 +40,6 @@ import butterknife.OnClick;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
-import static android.app.Activity.RESULT_OK;
-
 @InjectLayout(R.layout.fragment_visitortest)
 public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> implements VisitGetPresenter.VisitGetView, View.OnClickListener {
     private VisitortestFragment.VisitorVoiceListener listener;
@@ -227,7 +225,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         if (MainBaseActivity.isVoiceHelp) {
             iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         } else {
-            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
         }
         if (listener != null) {
             listener.onVisitorVoiceListener();
@@ -403,7 +401,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     public void refreshVoiceIcon() {
         if (MainBaseActivity.isVoiceHelp) {
-            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
         } else {
             iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }

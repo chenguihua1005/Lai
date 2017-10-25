@@ -152,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="点击按钮，链接莱秤"
+            android:text="点击按钮，连接莱秤"
             android:drawableStart="@drawable/shake"
             android:drawablePadding="4dp"
             android:textColor="#278B69"
@@ -167,7 +167,7 @@
                 android:id="@+id/iv_voice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/voice_icon" />
+                android:src="@drawable/voice_icon_on" />
         </LinearLayout>
 
     </LinearLayout>

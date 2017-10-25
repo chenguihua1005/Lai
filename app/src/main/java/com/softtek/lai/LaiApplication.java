@@ -13,6 +13,8 @@ import android.support.multidex.MultiDex;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.danikula.videocache.file.FileNameGenerator;
 import com.github.snowdream.android.util.Log;
+import com.kitnew.ble.QNApiManager;
+import com.kitnew.ble.QNResultCallback;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.ImageDownLoader;
@@ -57,6 +59,12 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     public void onCreate() {
         super.onCreate();
         laiApplication = this;
+        QNApiManager.getApi(getApplicationContext()).initSDK("123456789", false, new QNResultCallback() {
+            @Override
+            public void onCompete(int i) {
+                android.util.Log.d("maki","执行结果校验" + i);
+            }
+        });
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
         JPushInterface.init(this);
@@ -65,7 +73,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
                 downloader(new ImageDownLoader(new OkHttpClient.Builder()))
                 .build());
 //        refWatcher=LeakCanary.install(this);
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
     }
 //
 //    public static  RefWatcher getWatch(Context context){

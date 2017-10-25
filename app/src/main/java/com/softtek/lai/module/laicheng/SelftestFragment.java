@@ -141,7 +141,7 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
         if (MainBaseActivity.isVoiceHelp) {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         } else {
-            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
         }
         if (listener != null) {
             listener.onVoiceListener();
@@ -237,7 +237,7 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
 
     public void refreshVoiceIcon() {
         if (MainBaseActivity.isVoiceHelp) {
-            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon));
+            mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
         } else {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }
