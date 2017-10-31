@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -46,28 +47,30 @@ import zilla.libcore.api.ZillaApi;
 public class NewVisitorFragment extends Fragment implements View.OnClickListener {
     private static final String ARGUMENTS = "mainFragment";
     private View view;
-    Button bt_again;
-    TextView tv_weight;//体重
-    TextView tv_weight_caption;//状态
-    TextView tv_body_fat_rate;//体脂率
-    TextView tv_bmi;//BMI;
-    TextView tv_internal_fat_rate;//内脂率
-    ImageView iv_voice;
-    TextView mBleState;
+    private Button bt_again;
+    private TextView tv_weight;//体重
+    private TextView tv_weight_caption;//状态
+    private TextView tv_body_fat_rate;//体脂率
+    private TextView tv_bmi;//BMI;
+    private TextView tv_internal_fat_rate;//内脂率
+    private ImageView iv_voice;
+    private TextView mBleState;
 
-    Button health_btn;
-    Button share_btn;
-    Button bt_create;//
-    Button bt_history;
+    private Button health_btn;
+    private Button share_btn;
+    private Button bt_create;//
+    private Button bt_history;
 
     //访客信息
-    LinearLayout ll_visitor;
-    TextView tv_name;
-    TextView tv_phoneNo;
-    TextView tv_age;
-    TextView tv_gender;
-    TextView tv_height;
-    LinearLayout mid_lay;
+    private LinearLayout ll_visitor;
+    private TextView tv_name;
+    private TextView tv_phoneNo;
+    private TextView tv_age;
+    private TextView tv_gender;
+    private TextView tv_height;
+    private LinearLayout mid_lay;
+    private ImageView mBleIcon;
+
 
     private String recordId;
 
@@ -85,6 +88,15 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     int NowYear = Integer.parseInt(format.format(new Date()));
     private int choose_year;
 
+    private boolean isNeedReconnect = false;
+
+    public boolean isNeedReconnect() {
+        return isNeedReconnect;
+    }
+
+    public void setNeedReconnect(boolean needReconnect) {
+        isNeedReconnect = needReconnect;
+    }
 
     @Nullable
     @Override
@@ -116,6 +128,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         tv_gender = (TextView) view.findViewById(R.id.tv_gender);
         tv_height = (TextView) view.findViewById(R.id.tv_height);
         mid_lay = (LinearLayout) view.findViewById(R.id.mid_lay);
+        mBleIcon = (ImageView)view.findViewById(R.id.iv_ble_icon);
 
         mBleState.setOnClickListener(this);
         bt_history.setOnClickListener(this);
@@ -123,9 +136,12 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         bt_create.setOnClickListener(this);
         share_btn.setOnClickListener(this);
         iv_voice.setOnClickListener(this);
+
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
+        tv_weight.setTypeface(tf);
     }
 
-    private void initData(){
+    private void initData() {
         manager = LocalBroadcastManager.getInstance(getContext());
         visitorBroadCast = new NewVisitorFragment.VisitorBroadCast();
         manager.registerReceiver(visitorBroadCast, new IntentFilter("visitorinfo"));
@@ -134,8 +150,8 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 .getData(UserInfoModel.getInstance().getToken(), 0, new Callback<ResponseData<LastInfoData>>() {
                     @Override
                     public void success(ResponseData<LastInfoData> data, Response response) {
-                        if (200 == data.getStatus()){
-                            if (data.getData() != null){
+                        if (200 == data.getStatus()) {
+                            if (data.getData() != null) {
                                 getLastData(data.getData());
                             }
                         }
@@ -286,11 +302,28 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                     tv_bmi.setText("- -");
                     tv_internal_fat_rate.setText("- -");
                 }
+                linkListener.onLinkVisitorListener();
+                isNeedReconnect = true;
             }
+        }
+    }
+
+    public void setStateTip(String state) {
+        if (mBleState != null) {
+            mBleState.setText(state);
+        }
+    }
+
+    public void setBleIcon(boolean isVisibility) {
+        if (isVisibility) {
+            mBleIcon.setVisibility(View.VISIBLE);
+        } else {
+            mBleIcon.setVisibility(View.INVISIBLE);
         }
     }
 
     public VisitorModel getVisitorModel() {
         return model;
     }
+
 }

@@ -42,7 +42,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:layout_marginRight="70dp"
-            android:text="莱秤"
+            android:text="莱秤 Lite（四电极）"
             android:textSize="20sp" />
 
         <FrameLayout

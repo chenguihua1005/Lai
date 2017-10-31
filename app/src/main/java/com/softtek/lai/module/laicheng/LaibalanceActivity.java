@@ -2,9 +2,11 @@ package com.softtek.lai.module.laicheng;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -12,7 +14,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -23,6 +28,7 @@ import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.util.BleManager;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
 import com.softtek.lai.module.laicheng_new.view.NewLaiBalanceActivity;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -57,6 +63,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private AlertDialog dialog;
 
     private AlertDialog.Builder noVisitorBuilder;
+    private AlertDialog chooseDialog;
+    private SharedPreferences sharedPreferences;
 
     @OnClick(R.id.fl_left)
     public void doBack() {
@@ -106,6 +114,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 ActivityCompat.requestPermissions(LaibalanceActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
             }
         }
+        sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         setClosed(true);
         selftestFragment = SelftestFragment.newInstance(null);
         visitortestFragment = new VisitortestFragment();
@@ -165,10 +174,42 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         mTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-                startActivity(new Intent(LaibalanceActivity.this, NewLaiBalanceActivity.class));
+                createChangeDialog();
             }
         });
+    }
+
+    private void createChangeDialog(){
+        LinearLayout mOld;
+        LinearLayout mNew;
+        ImageView mChooseImage;
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_choose, null);
+        mOld = (LinearLayout) dialogView.findViewById(R.id.ll_old);
+        mNew = (LinearLayout) dialogView.findViewById(R.id.ll_new);
+        mChooseImage = (ImageView)dialogView.findViewById(R.id.iv_old_choose);
+        mChooseImage.setImageDrawable(getResources().getDrawable(R.drawable.radio_green));
+        mOld.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseDialog.dismiss();
+            }
+        });
+        mNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(Contacts.CHOOSE_KEY,"new");
+                editor.apply();
+                chooseDialog.dismiss();
+                finish();
+                startActivity(new Intent(LaibalanceActivity.this,NewLaiBalanceActivity.class));
+            }
+        });
+        if (chooseDialog == null) {
+            chooseDialog = new AlertDialog.Builder(this).create();
+            chooseDialog.setView(dialogView, 0, 0, 0, 0);
+        }
+        chooseDialog.show();
     }
 
     private void setVoice() {

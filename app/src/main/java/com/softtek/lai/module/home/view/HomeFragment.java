@@ -6,11 +6,13 @@
 package com.softtek.lai.module.home.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -57,6 +59,7 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.home.service.UpdateService;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
 import com.softtek.lai.module.laicheng_new.view.NewLaiBalanceActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -135,6 +138,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     UserModel user;
 
     private AlertDialog mDialog;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void initViews() {
@@ -195,6 +199,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         modelAdapter = new ModelAdapter(getContext(), models);
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
+        mSharedPreferences = getActivity().getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
 
     }
 
@@ -442,28 +447,49 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     MobclickAgent.onEvent(getContext(), "LaiClassEvent");
                     break;
                 case Constants.LAI_CHEN:
-                    TextView mOld;
-                    TextView mNew;
+                    LinearLayout mOld;
+                    LinearLayout mNew;
                     View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_choose, null);
-                    mOld = (TextView) dialogView.findViewById(R.id.tv_old);
-                    mNew = (TextView) dialogView.findViewById(R.id.tv_new);
+                    mOld = (LinearLayout) dialogView.findViewById(R.id.ll_old);
+                    mNew = (LinearLayout) dialogView.findViewById(R.id.ll_new);
+//                    SharedPreferences.Editor editor = mSharedPreferences.edit();
                     mOld.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.putString(Contacts.CHOOSE_KEY, "old");
+                            editor.apply();
                             mDialog.dismiss();
-                            startActivity(new Intent(getContext(),LaibalanceActivity.class));
+                            startActivity(new Intent(getContext(), LaibalanceActivity.class));
                         }
                     });
                     mNew.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.putString(Contacts.CHOOSE_KEY, "new");
+                            editor.apply();
                             mDialog.dismiss();
                             startActivity(new Intent(getContext(), NewLaiBalanceActivity.class));
                         }
                     });
-                    mDialog = new AlertDialog.Builder(getActivity()).create();
-                    mDialog.setView(dialogView,0,0,0,0);
-                    mDialog.show();
+                    if (mDialog == null) {
+                        mDialog = new AlertDialog.Builder(getActivity()).create();
+                        mDialog.setView(dialogView, 0, 0, 0, 0);
+                    }
+                    String mode = mSharedPreferences.getString(Contacts.CHOOSE_KEY, "");
+                    switch (mode) {
+                        case "old":
+                            startActivity(new Intent(getContext(), LaibalanceActivity.class));
+                            break;
+                        case "new":
+                            startActivity(new Intent(getContext(), NewLaiBalanceActivity.class));
+                            break;
+                        default:
+                            mDialog.show();
+
+                            break;
+                    }
                     MobclickAgent.onEvent(getContext(), "BalanceEvent");
                     break;
                 case Constants.LAI_SHOP:

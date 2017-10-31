@@ -2,9 +2,11 @@ package com.softtek.lai.module.laicheng_new.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,11 +19,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.mapcore.util.co;
 import com.ggx.widgets.view.CustomProgress;
 import com.kitnew.ble.QNApiManager;
 import com.kitnew.ble.QNBleApi;
@@ -32,15 +38,22 @@ import com.kitnew.ble.QNData;
 import com.kitnew.ble.QNUser;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.laicheng.SelftestFragment;
 import com.softtek.lai.module.laicheng.VisitorinfoActivity;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
+import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.SoundPlay;
+import com.softtek.lai.module.laicheng_new.model.BleResponseData;
+import com.softtek.lai.module.laicheng_new.model.PostQnData;
+import com.softtek.lai.module.laicheng_new.net.NewBleService;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +69,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 
 import java.util.Date;
@@ -64,7 +80,7 @@ import java.util.Date;
  * Created by jia.lu on 2017/10/20.
  */
 
-public class NewLaiBalanceActivity extends FragmentActivity implements View.OnClickListener, NewSelfFragment.StartLinkListener,NewVisitorFragment.StartVisitorLinkListener {
+public class NewLaiBalanceActivity extends FragmentActivity implements View.OnClickListener, NewSelfFragment.StartLinkListener, NewVisitorFragment.StartVisitorLinkListener {
     private static int PERMISSION_REQUEST_COARSE_LOCATION = 233;
     private FrameLayout mLeftBack;
     private ViewPager mViewPager;
@@ -82,12 +98,16 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private Disposable connectTimeout;
     private Disposable testingTimeout;
     private Disposable voiceOfTesting;
-    private Disposable voiceDelay;
-    private boolean isFindDevice = false;//是否找到过设备
     private boolean isStartTesting = true;//是否开始测量
-    private AlertDialog dialog;
+    private AlertDialog testFailDialog;
     private AlertDialog.Builder noVisitorBuilder;
+    private AlertDialog chooseDialog;
+
     private int type = 1;//0自己，1访客
+    private QNBleDevice connectedDevice;
+    private int count;
+    private BleMainData mainData;
+    private SharedPreferences sharedPreferences;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -96,6 +116,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         setContentView(R.layout.activity_laibalance_new);
         SoundPlay.getInstance().init(LaiApplication.getInstance().getApplicationContext());
         qnBleApi = QNApiManager.getApi(this);
+        qnBleApi.setScanMode(QNBleApi.SCAN_MODE_ALL);
+        qnBleApi.setWeightUnit(QNBleApi.WEIGHT_UNIT_JIN);
         createLinkDialog();
         initUi();
     }
@@ -112,13 +134,19 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         }
     }
 
+    /***
+     * 创建qn用户
+     * @return
+     */
     private QNUser createUser() {
         int gender;
         String birthdayString;
         Date birthday = null;
         int height;
         String userID;
-//        if (pageIndex == 0) {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
+        if (pageIndex == 0) {
             gender = Integer.valueOf(UserInfoModel.getInstance().getUser().getGender());
             if (gender == 0) {
                 gender = 1;
@@ -126,23 +154,36 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 gender = 0;
             }
             birthdayString = UserInfoModel.getInstance().getUser().getBirthday();
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
-            try {
-                birthday = dateFormat.parse(birthdayString);
-            } catch (Exception e) {
-                Log.d("maki", "birthday is not init");
-            }
+
             height = Integer.valueOf(UserInfoModel.getInstance().getUser().getHight());
             userID = String.valueOf(UserInfoModel.getInstance().getUserId());
-//        } else {
-//
-//        }
+        } else {
+            if (visitorFragment.getVisitorModel() == null) {
+                return null;
+            }
+            gender = visitorFragment.getVisitorModel().getGender();
+            if (gender == 0) {
+                gender = 1;
+            } else {
+                gender = 0;
+            }
+            birthdayString = visitorFragment.getVisitorModel().getBirthDate();
+            height = (int) visitorFragment.getVisitorModel().getHeight();
+            userID = String.valueOf(visitorFragment.getVisitorModel().getVisitorId());
+        }
+        try {
+            birthday = dateFormat.parse(birthdayString);
+        } catch (Exception e) {
+            Log.d("maki", "birthday is not init");
+        }
         return new QNUser(userID, height, gender, birthday);
     }
 
+    /***
+     * 测量超时对话框
+     */
     private void createTimeoutDialog() {
-        if (dialog == null) {
+        if (testFailDialog == null) {
             Log.d("maki", "dialogNULL");
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -151,17 +192,26 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                             dialog.dismiss();
                         }
                     });
-            builder.setMessage("测量超时，请重新测量");
-            dialog = builder.create();
+            builder.setMessage("测量失败，请重新测量");
+            testFailDialog = builder.create();
         }
-        if (!dialog.isShowing()) {
-            dialog.setMessage("测量超时，请重新测量");
-            dialog.show();
+        if (!testFailDialog.isShowing()) {
+            testFailDialog.setMessage("测量失败，请重新测量");
+            testFailDialog.show();
         }
     }
 
+    /***
+     * 链接蓝牙
+     * @param bleDevice
+     */
     private void connectBleDevice(QNBleDevice bleDevice) {
         qnUser = createUser();
+        if (qnUser == null && type == 0) {
+            showNoVisitorDialog();
+            return;
+        }
+        assert qnUser != null;
         qnBleApi.connectDevice(bleDevice, qnUser.getId(), qnUser.getHeight(), qnUser.getGender(), qnUser.getBirthday(), new QNBleCallback() {
             @Override
             public void onConnectStart(QNBleDevice qnBleDevice) {
@@ -171,6 +221,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onConnected(QNBleDevice qnBleDevice) {
                 selfFragment.setStateTip("已连接，请上秤");
+                visitorFragment.setStateTip("已连接，请上秤");
+                selfFragment.setBleIcon(true);
+                visitorFragment.setBleIcon(true);
                 if (isVoiceHelp) {
                     SoundPlay.getInstance().play(R.raw.help_two);
                 }
@@ -180,48 +233,37 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onDisconnected(QNBleDevice qnBleDevice, int i) {
                 Toast.makeText(getApplicationContext(), "设备连接断开，请重新连接", Toast.LENGTH_SHORT).show();
-                selfFragment.setStateTip("点击按钮，连接莱秤");
+                selfFragment.setStateTip("点击连接莱秤");
+                visitorFragment.setStateTip("点击连接莱秤");
+                selfFragment.setBleIcon(false);
+                visitorFragment.setBleIcon(false);
             }
 
             @Override
             public void onUnsteadyWeight(QNBleDevice qnBleDevice, float v) {
+                if (v <= 10) {
+                    return;
+                }
                 if (isStartTesting) {
                     isStartTesting = false;
                     dialogShow("亲，请稍等，测量中...");
-                    if (isVoiceHelp) {
-                        SoundPlay.getInstance().play(R.raw.help_three);
-                    }
-                    voiceDelay = Flowable.timer(3, TimeUnit.SECONDS)
+                    voiceOfTesting = Flowable.interval(2, TimeUnit.SECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Consumer<Long>() {
                                 @Override
                                 public void accept(Long aLong) throws Exception {
-                                    voiceOfTesting = Flowable.interval(1, TimeUnit.SECONDS)
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(new Consumer<Long>() {
-                                                @Override
-                                                public void accept(Long aLong) throws Exception {
-                                                    if (isVoiceHelp) {
-                                                        SoundPlay.getInstance().play(R.raw.help_four);
-                                                    }
-                                                }
-                                            });
+                                    if (isVoiceHelp) {
+                                        SoundPlay.getInstance().play(R.raw.help_four);
+                                    }
                                 }
                             });
+
                     testingTimeout = Flowable.timer(20, TimeUnit.SECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Consumer<Long>() {
                                 @Override
                                 public void accept(Long aLong) throws Exception {
-                                    createTimeoutDialog();
-                                    dialogDismiss();
-                                    isStartTesting = true;
-                                    if (voiceOfTesting != null) {
-                                        voiceOfTesting.dispose();
-                                    }
-                                    if (isVoiceHelp) {
-                                        SoundPlay.getInstance().play(R.raw.help_six);
-                                    }
+                                    testFail();
                                 }
                             });
                 }
@@ -229,6 +271,39 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void onReceivedData(QNBleDevice qnBleDevice, QNData qnData) {
+                if (qnData.getAll().size() < 3) {
+                    testFail();
+                    if (testingTimeout != null) {
+                        testingTimeout.dispose();
+                    }
+                    Log.d("maki", "测量姿势不对");
+                    return;
+                }
+                PostQnData data = createPostData(qnData);
+                ZillaApi.NormalRestAdapter.create(NewBleService.class)
+                        .uploadTestData(UserInfoModel.getInstance().getToken(),
+                                (int) UserInfoModel.getInstance().getUserId(),
+                                type,
+                                "", data, new RequestCallback<ResponseData<BleResponseData>>() {
+                                    @Override
+                                    public void success(ResponseData<BleResponseData> bleResponseData, Response response) {
+                                        if (bleResponseData.getStatus() == 200) {
+                                            Log.d("maki", "访问成功");
+                                            mainData.setRecordId(bleResponseData.getData().getRecordId());
+                                            mainData.setBodyTypeTitle(bleResponseData.getData().getBodyTypeTile());
+                                            mainData.setBodyTypeColor(bleResponseData.getData().getBodyTypeColor());
+                                            selfFragment.updateUI(mainData);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        Log.d("maki", error.toString());
+                                    }
+                                });
+
+
                 isStartTesting = true;
                 dialogDismiss();
                 if (isVoiceHelp) {
@@ -240,6 +315,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 if (voiceOfTesting != null) {
                     voiceOfTesting.dispose();
                 }
+                selfFragment.setStateTip("测量完成");
+                visitorFragment.setStateTip("测量完成");
             }
 
             @Override
@@ -264,6 +341,97 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         });
     }
 
+    private void testFail() {
+        createTimeoutDialog();
+        dialogDismiss();
+        isStartTesting = true;
+        if (voiceOfTesting != null) {
+            voiceOfTesting.dispose();
+        }
+        if (isVoiceHelp) {
+            SoundPlay.getInstance().play(R.raw.help_six);
+        }
+    }
+
+    private PostQnData createPostData(QNData qnData) {
+        PostQnData postQnData = new PostQnData();
+        postQnData.setHeight(qnUser.getHeight());
+        postQnData.setGender(qnUser.getGender());
+        postQnData.setAge(-1);
+        postQnData.setWeight(qnData.getWeight());
+        mainData.setWeight((int) qnData.getWeight() * 100 / 100);
+        postQnData.setWeight_unit("");
+        postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd").format(qnData.getCreateTime()));
+        Log.d("nishikinomaki", String.valueOf(qnData.getAll().size()));
+        for (int i = 0; i < qnData.getAll().size(); i++) {
+            int type = qnData.getAll().get(i).type;
+            if (type == QNData.TYPE_BMI) {
+                postQnData.setBmi(qnData.getAll().get(i).value);
+                mainData.setBMI(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_BMR) {
+                postQnData.setBmr(qnData.getAll().get(i).value);
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_BODYFAT) {
+                postQnData.setBodyfat(qnData.getAll().get(i).value);
+                mainData.setBodyFatRate(String.valueOf(qnData.getAll().get(i).value));
+                mainData.setBodyFatRateUnit("%");
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_BONE) {
+                postQnData.setBone(qnData.getAll().get(i).value);
+                mainData.setBonemass(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_VISFAT) {
+                postQnData.setVisfat(qnData.getAll().get(i).value);
+                mainData.setViscusFatIndex(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_WATER) {
+                postQnData.setWater(qnData.getAll().get(i).value);
+                mainData.setWaterContentUnit(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_BODYWATER) {
+                postQnData.setWater_mass(qnData.getAll().get(i).value);
+                mainData.setWaterContent(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_BODYAGE) {
+                postQnData.setBodyage(qnData.getAll().get(i).value);
+                mainData.setPhysicalAge(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_SINEW) {
+                postQnData.setSinew(qnData.getAll().get(i).value);
+                mainData.setMusclemass(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_FAT_FREE_WEIGHT) {
+                postQnData.setFat_free_weight(qnData.getAll().get(i).value);
+                mainData.setFatFreemass(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_BODYFAT_MASS) {
+                postQnData.setFat_mass(qnData.getAll().get(i).value);
+                mainData.setBodyFat(String.valueOf(qnData.getAll().get(i).value));
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            } else if (type == QNData.TYPE_BODY_SHAPE) {
+//                postQnData.setBody_shape(Integer.parseInt(qnData.getAll().get(i).valueStr));
+                postQnData.setBody_shape(1);
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).valueStr));
+            } else if (type == QNData.TYPE_SCORE) {
+                postQnData.setScore(qnData.getAll().get(i).value);
+                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+            }
+
+
+        }
+
+        if (pageIndex == 0) {
+            postQnData.setBirthdate(UserInfoModel.getInstance().getUser().getBirthday());
+        } else {
+            postQnData.setBirthdate(visitorFragment.getVisitorModel().getBirthDate());
+        }
+        return postQnData;
+    }
+
+    /**
+     * 选择连接蓝牙的对话框
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void createLinkDialog() {
         deviceListDialog = new DeviceListDialog(this, R.style.ActivityDialogStyle);
@@ -275,6 +443,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
                     deviceListDialog.dismiss();
                     connectBleDevice(deviceListDialog.getQNBluetoothDevice(positions));
+                    connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
                 }
             }
 
@@ -285,8 +454,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         });
     }
 
+    /**
+     * 开始扫描蓝牙设备
+     */
     private void doStartScan() {
-        isFindDevice = false;
         if (qnBleApi.isScanning()) {
             return;
         }
@@ -298,20 +469,35 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     public void accept(Long aLong) throws Exception {
                         dialogDismiss();
                         doStopScan();
-                        if (!isFindDevice) {
-                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
-                        }
+                        count = 0;
+                        Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
                     }
                 });
+
         qnBleApi.startLeScan(null, null, new QNBleScanCallback() {
             @Override
             public void onScan(QNBleDevice qnBleDevice) {
-                isFindDevice = true;
-                if (!deviceListDialog.isShowing()) {
-                    deviceListDialog.show();
-                    dialogDismiss();
-                }
+                count++;
+                Log.d("maki", String.valueOf(count));
                 deviceListDialog.addBluetoothDevice(qnBleDevice);
+                if (count > 4) {
+                    doStopScan();
+                    Flowable.timer(1, TimeUnit.SECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<Long>() {
+                                @Override
+                                public void accept(Long aLong) throws Exception {
+                                    if (!deviceListDialog.isShowing()) {
+                                        deviceListDialog.show();
+                                    }
+                                    dialogDismiss();
+                                    count = 0;
+                                    if (connectTimeout != null) {
+                                        connectTimeout.dispose();
+                                    }
+                                }
+                            });
+                }
             }
 
             @Override
@@ -321,6 +507,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         });
     }
 
+    /**
+     * 停止扫描设备
+     */
     private void doStopScan() {
         if (!qnBleApi.isScanning()) {
             return;
@@ -328,15 +517,21 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         qnBleApi.stopScan();
     }
 
+    /**
+     * 初始化UI
+     */
     private void initUi() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(NewLaiBalanceActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
             } else {
+
             }
         } else {
+
         }
 
+        sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         selfFragment = NewSelfFragment.newInstance(null);
         visitorFragment = NewVisitorFragment.newInstance(null);
 
@@ -373,12 +568,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onPageSelected(int position) {
                 pageIndex = position;
-                if (position == 0){
+                if (position == 0) {
                     selfFragment.refreshVoiceIcon();
                     type = 1;
-                }else {
+                } else {
                     visitorFragment.refreshVoiceIcon();
                     type = 0;
+                }
+                if (connectedDevice != null) {
+                    qnBleApi.disconnectDevice(connectedDevice.getMac());
                 }
             }
 
@@ -387,7 +585,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             }
         });
-
+        mainData = new BleMainData();
     }
 
     @Override
@@ -397,26 +595,76 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 finish();
                 break;
             case R.id.tv_title:
-                finish();
-                startActivity(new Intent(this, LaibalanceActivity.class));
+                createChangeDialog();
         }
     }
 
+    private void createChangeDialog(){
+        LinearLayout mOld;
+        LinearLayout mNew;
+        ImageView mChooseImage;
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_choose, null);
+        mOld = (LinearLayout) dialogView.findViewById(R.id.ll_old);
+        mNew = (LinearLayout) dialogView.findViewById(R.id.ll_new);
+        mChooseImage = (ImageView)dialogView.findViewById(R.id.iv_new_choose);
+        mChooseImage.setImageDrawable(getResources().getDrawable(R.drawable.radio_green));
+        mOld.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(Contacts.CHOOSE_KEY,"old");
+                editor.apply();
+                chooseDialog.dismiss();
+                finish();
+                startActivity(new Intent(NewLaiBalanceActivity.this,LaibalanceActivity.class));
+            }
+        });
+        mNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseDialog.dismiss();
+            }
+        });
+        if (chooseDialog == null) {
+            chooseDialog = new AlertDialog.Builder(this).create();
+            chooseDialog.setView(dialogView, 0, 0, 0, 0);
+        }
+        chooseDialog.show();
+    }
+
+    /**
+     * fragment的点击链接按钮
+     */
     @Override
     public void onLinkListener() {
         doStartScan();
     }
 
 
+    /**
+     * fragment的点击链接按钮
+     */
     @Override
     public void onLinkVisitorListener() {
         if (visitorFragment.getVisitorModel() == null && type != 1) {
             showNoVisitorDialog();
             return;
         }
-        doStartScan();
+        if (visitorFragment.isNeedReconnect()) {
+            visitorFragment.setNeedReconnect(false);
+            if (connectedDevice != null) {
+                connectBleDevice(connectedDevice);
+            }
+        } else {
+            doStartScan();
+        }
     }
 
+    /**
+     * 通用progressDialog
+     *
+     * @param value
+     */
     public void dialogShow(String value) {
         if (progressDialog == null || !progressDialog.isShowing()) {
             progressDialog = CustomProgress.build(this, value);
@@ -425,6 +673,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         }
     }
 
+    /**
+     * 通用progressDialog
+     */
     public void dialogDismiss() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
@@ -432,7 +683,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         }
     }
 
-    private void showNoVisitorDialog(){
+    /**
+     * 没有访客信息时候显示对话框
+     */
+    private void showNoVisitorDialog() {
         if (noVisitorBuilder == null) {
             noVisitorBuilder = new AlertDialog.Builder(this, R.style.whiteDialog);
         }
@@ -457,9 +711,6 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         }
         if (testingTimeout != null) {
             testingTimeout.dispose();
-        }
-        if (voiceDelay != null) {
-            voiceDelay.dispose();
         }
     }
 

@@ -15,6 +15,7 @@ import com.danikula.videocache.file.FileNameGenerator;
 import com.github.snowdream.android.util.Log;
 import com.kitnew.ble.QNApiManager;
 import com.kitnew.ble.QNResultCallback;
+import com.kitnew.ble.utils.QNLog;
 import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.ImageDownLoader;
@@ -59,12 +60,13 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     public void onCreate() {
         super.onCreate();
         laiApplication = this;
-        QNApiManager.getApi(getApplicationContext()).initSDK("123456789", false, new QNResultCallback() {
+        QNApiManager.getApi(getApplicationContext()).initSDK("123456789", new QNResultCallback() {
             @Override
             public void onCompete(int i) {
                 android.util.Log.d("maki","执行结果校验" + i);
             }
         });
+        QNLog.DEBUG = true;
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
         JPushInterface.init(this);

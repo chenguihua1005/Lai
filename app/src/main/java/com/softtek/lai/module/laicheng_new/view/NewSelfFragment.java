@@ -2,6 +2,8 @@ package com.softtek.lai.module.laicheng_new.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,6 +51,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private TextView mHealthReport;
     private TextView mLastTime;
     private TextView mReadMore;
+    private ImageView mBleIcon;
 
     private StartLinkListener linkListener;
 
@@ -119,6 +122,8 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         mLastTime = (TextView)mView.findViewById(R.id.tv_time);
         mReadMore = (TextView)mView.findViewById(R.id.tv_history_record);
         mReadMore.setOnClickListener(this);
+        mBleIcon = (ImageView)mView.findViewById(R.id.iv_ble_icon);
+
 
         ZillaApi.NormalRestAdapter.create(BleService.class).
                 getLastData(UserInfoModel.getInstance().getToken(), 1, new RequestCallback<ResponseData<LastInfoData>>() {
@@ -134,6 +139,8 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
+        mWeight.setTypeface(tf);
     }
 
     public void refreshUi(LastInfoData data) {
@@ -189,11 +196,50 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void setBleIcon(boolean isVisibility){
+        if (isVisibility) {
+            mBleIcon.setVisibility(View.VISIBLE);
+        }else {
+            mBleIcon.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public void refreshVoiceIcon() {
         if (NewLaiBalanceActivity.isVoiceHelp) {
             mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
         } else {
             mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
         }
+    }
+
+    public void updateUI(BleMainData data) {
+        if (data != null) {
+            mWeight.setText(data.getWeight() + "");
+            if (data.getBodyTypeTitle() != null) {
+                mWeightCaption.setText(data.getBodyTypeTitle());
+            }
+            if (data.getBodyTypeColor() != null) {
+//                mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+            }
+            if (data.getBodyFatRate() != null) {
+                mBodyFatRate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
+            }
+            if (data.getBMI() != null) {
+                mBmi.setText(data.getBMI() + "");
+            }
+            if (data.getViscusFatIndex() != null) {
+                mInternalFatRate.setText(data.getViscusFatIndex());
+            }
+
+//            recordId = data.getRecordId();
+
+//            weight = String.valueOf(data.getWeight());
+//            bodyFatRate = data.getBodyFatRate();
+//            bodyAge = data.getPhysicalAge();
+//            value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
+        }
+        mWeightCaption.setVisibility(View.VISIBLE);
+        mShare.setVisibility(View.VISIBLE);
+        mHealthReport.setVisibility(View.VISIBLE);
     }
 }
