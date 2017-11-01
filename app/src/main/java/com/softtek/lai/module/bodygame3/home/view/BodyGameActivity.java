@@ -52,10 +52,10 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
-    @InjectView(R.id.btn_chat)
-    SimpleButton btn_chat;
-    @InjectView(R.id.btn_contact)
-    SimpleButton btn_contact;
+//    @InjectView(R.id.btn_chat)
+//    SimpleButton btn_chat;
+//    @InjectView(R.id.btn_contact)
+//    SimpleButton btn_contact;
     @InjectView(R.id.btn_activity)
     SimpleButton btn_activity;
     @InjectView(R.id.btn_more)
@@ -76,18 +76,18 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
-        btn_chat.setOnClickListener(this);
-        btn_contact.setOnClickListener(this);
+//        btn_chat.setOnClickListener(this);
+//        btn_contact.setOnClickListener(this);
         btn_activity.setOnClickListener(this);
         btn_more.setOnClickListener(this);
 
         fragments = new ArrayList<>();
         fragments.add(new BodyGameFragment());
-        fragments.add(new ChatFragment());
-        fragments.add(new ContactFragment());
+//        fragments.add(new ChatFragment());
+//        fragments.add(new ContactFragment());
         fragments.add(new ActivityFragment());
         fragments.add(new MoreFragment());
-        content.setOffscreenPageLimit(5);
+        content.setOffscreenPageLimit(3);
         adapter = new MainPageAdapter(getSupportFragmentManager(), fragments);
         content.setAdapter(adapter);
 
@@ -121,16 +121,16 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
             case 0:
                 btn_bodygame.setProgress(1);
                 break;
+//            case 1:
+//                btn_chat.setProgress(1);
+//                break;
+//            case 2:
+//                btn_contact.setProgress(1);
+//                break;
             case 1:
-                btn_chat.setProgress(1);
-                break;
-            case 2:
-                btn_contact.setProgress(1);
-                break;
-            case 3:
                 btn_activity.setProgress(1);
                 break;
-            case 4:
+            case 2:
                 btn_more.setProgress(1);
                 break;
 
@@ -171,7 +171,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
 
         //检查是否有进群邀请
-        getMsgHxInviteToGroup();
+//        getMsgHxInviteToGroup();
 
 
     }
@@ -182,16 +182,16 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
             case 0:
                 btn_bodygame.setProgress(progress);
                 break;
+//            case 1:
+//                btn_chat.setProgress(progress);
+//                break;
+//            case 2:
+//                btn_contact.setProgress(progress);
+//                break;
             case 1:
-                btn_chat.setProgress(progress);
-                break;
-            case 2:
-                btn_contact.setProgress(progress);
-                break;
-            case 3:
                 btn_activity.setProgress(progress);
                 break;
-            case 4:
+            case 2:
                 btn_more.setProgress(progress);
                 break;
         }
@@ -209,16 +209,16 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
                 case 0:
                     btn_bodygame.setProgress(1);
                     break;
+//                case 1:
+//                    btn_chat.setProgress(1);
+//                    break;
+//                case 2:
+//                    btn_contact.setProgress(1);
+//                    break;
                 case 1:
-                    btn_chat.setProgress(1);
-                    break;
-                case 2:
-                    btn_contact.setProgress(1);
-                    break;
-                case 3:
                     btn_activity.setProgress(1);
                     break;
-                case 4:
+                case 2:
                     btn_more.setProgress(1);
                     break;
 
@@ -326,21 +326,21 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
                 btn_bodygame.setProgress(1);
                 current = 0;
                 break;
-            case R.id.btn_chat:
-                btn_chat.setProgress(1);
-                current = 1;
-                break;
-            case R.id.btn_contact:
-                btn_contact.setProgress(1);
-                current = 2;
-                break;
+//            case btn_chat:
+//                btn_chat.setProgress(1);
+//                current = 1;
+//                break;
+//            case btn_contact:
+//                btn_contact.setProgress(1);
+//                current = 2;
+//                break;
             case R.id.btn_activity:
                 btn_activity.setProgress(1);
-                current = 3;
+                current = 1;
                 break;
             case R.id.btn_more:
                 btn_more.setProgress(1);
-                current = 4;
+                current = 2;
                 break;
         }
         content.setCurrentItem(current, false);
@@ -349,8 +349,8 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     private void restoreState() {
         btn_bodygame.setProgress(0);
-        btn_chat.setProgress(0);
-        btn_contact.setProgress(0);
+//        btn_chat.setProgress(0);
+//        btn_contact.setProgress(0);
         btn_activity.setProgress(0);
         btn_more.setProgress(0);
 
@@ -386,72 +386,72 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     private List<HxInviteToGroupModel> needGroupList = new ArrayList<HxInviteToGroupModel>();
 
     //    查看学员是否有加入环信群的消息
-    private void getMsgHxInviteToGroup() {
-        Log.i(TAG, " 查看学员是否有加入环信群的消息......");
-        needGroupList.clear();
-        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
-            @Override
-            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                if (200 == status) {
-                    needGroupList = listResponseData.getData();
-                    if (needGroupList != null && needGroupList.size() > 0) {
-                        for (int i = 0; i < needGroupList.size(); i++) {
-                            final HxInviteToGroupModel model = needGroupList.get(i);
-                            if (model != null) {
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
-
-                                            //环迅同意进群之后，告知后台
-                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
-                                                @Override
-                                                public void success(ResponseData responseData, Response response) {
-                                                    if (200 == responseData.getStatus()) {
-
-
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void failure(RetrofitError error) {
-                                                    error.printStackTrace();
-                                                    ZillaApi.dealNetError(error);
-                                                }
-                                            });
-
-
-                                        } catch (HyphenateException e) {
-                                            e.printStackTrace();
-//                                            runOnUiThread(new Runnable() {
+//    private void getMsgHxInviteToGroup() {
+//        Log.i(TAG, " 查看学员是否有加入环信群的消息......");
+//        needGroupList.clear();
+//        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
+//            @Override
+//            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
+//                int status = listResponseData.getStatus();
+//                if (200 == status) {
+//                    needGroupList = listResponseData.getData();
+//                    if (needGroupList != null && needGroupList.size() > 0) {
+//                        for (int i = 0; i < needGroupList.size(); i++) {
+//                            final HxInviteToGroupModel model = needGroupList.get(i);
+//                            if (model != null) {
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+////                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
+//
+//                                            //环迅同意进群之后，告知后台
+//                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
 //                                                @Override
-//                                                public void run() {
-//                                                    dialogDissmiss();
-//                                                    Util.toastMsg("环信异常");
+//                                                public void success(ResponseData responseData, Response response) {
+//                                                    if (200 == responseData.getStatus()) {
+//
+//
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void failure(RetrofitError error) {
+//                                                    error.printStackTrace();
+//                                                    ZillaApi.dealNetError(error);
 //                                                }
 //                                            });
-                                        }
-
-                                    }
-                                }).start();
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-
-    }
+//
+//
+//                                        } catch (HyphenateException e) {
+//                                            e.printStackTrace();
+////                                            runOnUiThread(new Runnable() {
+////                                                @Override
+////                                                public void run() {
+////                                                    dialogDissmiss();
+////                                                    Util.toastMsg("环信异常");
+////                                                }
+////                                            });
+//                                        }
+//
+//                                    }
+//                                }).start();
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//
+//            }
+//        });
+//
+//
+//    }
 
 
 }
