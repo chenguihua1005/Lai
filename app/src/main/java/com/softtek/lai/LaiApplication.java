@@ -29,6 +29,7 @@ import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.MD5;
+import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.Picasso;
 import com.umeng.socialize.PlatformConfig;
 
@@ -74,6 +75,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         Picasso.setSingletonInstance(new Picasso.Builder(this).
                 downloader(new ImageDownLoader(new OkHttpClient.Builder()))
                 .build());
+        LeakCanary.install(this);
 //        refWatcher=LeakCanary.install(this);
 //        CrashHandler.getInstance().init(this);
     }

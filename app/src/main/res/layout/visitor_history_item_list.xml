@@ -95,10 +95,17 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/iv_cheng_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="27dp"
-            android:src="@drawable/action_right" />
+            android:src="@drawable/laicheng_icon"
+            android:layout_marginRight="8dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/action_right"
+            android:layout_marginRight="24dp"/>
 
     </LinearLayout>
 

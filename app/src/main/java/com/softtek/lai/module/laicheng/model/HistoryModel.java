@@ -10,6 +10,15 @@ public class HistoryModel implements Serializable{
     private String recordId;//访客记录id
     private String measuredTime;//访客测量时间
     private VisitorInfoModel visitor;
+    private int SourceType;//6(new),5(old)
+
+    public int getSourceType() {
+        return SourceType;
+    }
+
+    public void setSourceType(int sourceType) {
+        SourceType = sourceType;
+    }
 
     public HistoryModel(String recordId, String measuredTime, VisitorInfoModel visitor) {
         this.recordId = recordId;
@@ -50,7 +59,7 @@ public class HistoryModel implements Serializable{
         return "HistoryModel{" +
                 "recordId='" + recordId + '\'' +
                 ", measuredTime='" + measuredTime + '\'' +
-                ", visitor=" + visitor +
+                ", visitor=" + visitor + ", SourceType" + SourceType +
                 '}';
     }
 }

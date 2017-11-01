@@ -233,7 +233,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         } else {
 
             if (visitortestFragment.isCreatedView() && !visitortestFragment.isDetached()) {
-                visitortestFragment.UpdateData(data);
+                visitortestFragment.updateData(data);
                 visitortestFragment.setStateTip("测量完成");
             }
         }

@@ -1,9 +1,12 @@
 package com.softtek.lai.module.laicheng_new.view;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +36,9 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.net.VisitorService;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +47,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jia.lu on 2017/10/20.
@@ -87,6 +96,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     SimpleDateFormat format = new SimpleDateFormat("yyyy");
     int NowYear = Integer.parseInt(format.format(new Date()));
     private int choose_year;
+    private Dialog dialog;//分享对话框
 
     private boolean isNeedReconnect = false;
 
@@ -128,7 +138,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         tv_gender = (TextView) view.findViewById(R.id.tv_gender);
         tv_height = (TextView) view.findViewById(R.id.tv_height);
         mid_lay = (LinearLayout) view.findViewById(R.id.mid_lay);
-        mBleIcon = (ImageView)view.findViewById(R.id.iv_ble_icon);
+        mBleIcon = (ImageView) view.findViewById(R.id.iv_ble_icon);
 
         mBleState.setOnClickListener(this);
         bt_history.setOnClickListener(this);
@@ -184,7 +194,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 startActivity(health);
                 break;
             case R.id.share_btn:
-//                showDialog();
+                showDialog();
                 break;
             case R.id.tv_info_state:
                 linkListener.onLinkVisitorListener();
@@ -275,6 +285,78 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    String value;
+    String url;
+    String title_value = "莱聚+体测，精彩人生";
+    //分享对话框
+    private void showDialog() {
+        url = AddressManager.get("shareHost") + "ShareLastRecord?type=0&accountId=" + visitorId;
+        value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
+        if (dialog == null) {
+            dialog = new Dialog(getActivity(), R.style.custom_dialog);
+            dialog.setCanceledOnTouchOutside(true);
+            Window win = dialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            assert win != null;
+            win.setAttributes(params);
+            dialog.setContentView(R.layout.share_dialog);
+            dialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle(title_value)
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(getActivity(), R.drawable.img_share_logo))
+                            .share();
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        dialog.show();
+    }
+
     public class VisitorBroadCast extends BroadcastReceiver {
 
         @Override
@@ -303,7 +385,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                     tv_internal_fat_rate.setText("- -");
                 }
                 linkListener.onLinkVisitorListener();
-                isNeedReconnect = true;
+                setNeedReconnect(true);
             }
         }
     }
@@ -319,6 +401,34 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
             mBleIcon.setVisibility(View.VISIBLE);
         } else {
             mBleIcon.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void updateData(BleMainData data) {
+        if (data != null) {
+            tv_weight_caption.setVisibility(View.VISIBLE);
+            mid_lay.setVisibility(View.VISIBLE);
+            recordId = data.getRecordId();
+            bodyAge = data.getPhysicalAge();
+            weight = String.valueOf(data.getWeight());
+            tv_weight.setText(data.getWeight() + "");
+            if (data.getBodyTypeTitle() != null) {
+                tv_weight_caption.setText(data.getBodyTypeTitle());
+            }
+            if (data.getBodyTypeColor() != null) {
+                tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+            }
+            if (data.getBodyFatRate() != null) {
+                tv_body_fat_rate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
+            }
+            if (data.getBMI() != null) {
+                tv_bmi.setText(data.getBMI() + "");
+            }
+            if (data.getViscusFatIndex() != null) {
+                tv_internal_fat_rate.setText(data.getViscusFatIndex());
+            }
+            bodyFatRate = data.getBodyFatRate();
         }
     }
 

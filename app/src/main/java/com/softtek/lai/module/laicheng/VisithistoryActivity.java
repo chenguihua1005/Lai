@@ -155,6 +155,12 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                 TextView tv_phoneNo = (TextView) holder.getView(R.id.tv_phoneNo);
                 tv_phoneNo.setText(data.getVisitor().getPhoneNo());
                 TextView tv_gender = (TextView) holder.getView(R.id.tv_gender);
+                ImageView mChengIcon = (ImageView)holder.getView(R.id.iv_cheng_icon);
+                if (data.getSourceType() == 5){
+                    mChengIcon.setImageDrawable(getResources().getDrawable(R.drawable.laicheng_icon));
+                }else if (data.getSourceType() == 6){
+                    mChengIcon.setImageDrawable(getResources().getDrawable(R.drawable.laicheng_lite_icon));
+                }
                 if (data.getVisitor().getGender() == 0) {
                     tv_gender.setText("男");
                 } else {
