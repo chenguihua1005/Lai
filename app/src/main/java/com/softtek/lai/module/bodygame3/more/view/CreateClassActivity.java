@@ -22,10 +22,6 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.drop.DoubleListView;
 import com.ggx.widgets.drop.SimpleTextAdapter;
 import com.ggx.widgets.view.CheckTextView;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
-import com.hyphenate.chat.EMGroupManager;
-import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -313,13 +309,13 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 int year = datePicker.getYear();
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
-                if(year<currentYear){
+                if (year < currentYear) {
                     return;
-                }else if(year==currentYear){
-                    if(month<currentMonth){
+                } else if (year == currentYear) {
+                    if (month < currentMonth) {
                         return;
-                    }else if(month==currentMonth){
-                        if(day<currentDay){
+                    } else if (month == currentMonth) {
+                        if (day < currentDay) {
                             return;
                         }
                     }
@@ -403,19 +399,19 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             clazz.setClassGroup(builder.toString());
             dialogShow("正在创建班级...");
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    try {
-                        EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
-                        option.maxUsers = 200;
-                        option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;//私有群，群成员也能邀请人进群；EMGroupStylePrivateMemberCanInvite
-                        String[] members = {};
-                        EMGroup group = EMClient.getInstance().groupManager().createGroup(clazz.getClassName(), "", members, "", option);
-
-                        String groupId = group.getGroupId();
-                        clazz.setHxGroupId(groupId);
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    try {
+//                        EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
+//                        option.maxUsers = 200;
+//                        option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;//私有群，群成员也能邀请人进群；EMGroupStylePrivateMemberCanInvite
+//                        String[] members = {};
+//                        EMGroup group = EMClient.getInstance().groupManager().createGroup(clazz.getClassName(), "", members, "", option);
+//
+//                        String groupId = group.getGroupId();
+//                        clazz.setHxGroupId(groupId);
 
                         service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
                             @Override
@@ -464,18 +460,18 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         });
 
 
-                    } catch (final HyphenateException e) {
-                        e.printStackTrace();
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                dialogDissmiss();
-                                Toast.makeText(CreateClassActivity.this, "创建群组失败:" + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-
-                }
-            }).start();
+//                    } catch (final HyphenateException e) {
+//                        e.printStackTrace();
+//                        runOnUiThread(new Runnable() {
+//                            public void run() {
+//                                dialogDissmiss();
+//                                Toast.makeText(CreateClassActivity.this, "创建群组失败:" + e.getMessage(), Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//                    }
+//
+//                }
+//            }).start();
         }
     }
 
