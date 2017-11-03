@@ -143,7 +143,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
     @Override
     protected void initDatas() {
         setPresenter(new HistoryVisitorPresenter(this));
-        dialogShow("正在加载。。。");
+        dialogShow("正在加载...");
         getPresenter().GetData();
         historyAdapter = new EasyAdapter<HistoryModel>(this, historyModelList, R.layout.visitor_history_item_list) {
             @Override

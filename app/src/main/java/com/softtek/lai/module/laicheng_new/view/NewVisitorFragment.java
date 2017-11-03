@@ -169,7 +169,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                        ZillaApi.dealNetError(error);
                     }
                 });
     }

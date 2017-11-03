@@ -121,7 +121,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         pageIndex = content.getCurrentItem();
 //        permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION);
         fragmentModels.add(new FragmentModel("给自己测", selftestFragment));
-        fragmentModels.add(new FragmentModel("给访客测", visitortestFragment));
+        fragmentModels.add(new FragmentModel("给客户测", visitortestFragment));
         content.setOffscreenPageLimit(1);
         content.setAdapter(new BalanceAdapter(getSupportFragmentManager(), fragmentModels));
         tab_balance.setupWithViewPager(content);

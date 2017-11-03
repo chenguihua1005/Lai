@@ -101,13 +101,13 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private Disposable voiceOfTesting;
     private Disposable dialogLag;
     private boolean isStartTesting = true;//是否开始测量
+    private boolean isFindDevice = false;
     private AlertDialog testFailDialog;
     private AlertDialog.Builder noVisitorBuilder;
     private AlertDialog chooseDialog;
 
     private int type = 1;//0自己，1访客
     private QNBleDevice connectedDevice;
-    private int count;
     private BleMainData mainData;
     private SharedPreferences sharedPreferences;
     private BluetoothAdapter bluetoothAdapter;
@@ -295,9 +295,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 }
                 PostQnData data = createPostData(qnData);
                 long accountId = 0;
-                if (type == 0){
+                if (type == 0) {
                     accountId = visitorFragment.getVisitorModel().getVisitorId();
-                }else if (type == 1){
+                } else if (type == 1) {
                     accountId = UserInfoModel.getInstance().getUserId();
                 }
                 ZillaApi.NormalRestAdapter.create(NewBleService.class)
@@ -314,33 +314,39 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             mainData.setBodyTypeColor(bleResponseData.getData().getBodyTypeColor());
                                             if (pageIndex == 0) {
                                                 selfFragment.updateUI(mainData);
-                                            }else if (pageIndex == 1){
+                                            } else if (pageIndex == 1) {
                                                 visitorFragment.updateData(mainData);
                                             }
+                                            dialogDismiss();
+                                            if (isVoiceHelp) {
+                                                SoundPlay.getInstance().play(R.raw.help_five);
+                                            }
+                                            if (testingTimeout != null) {
+                                                testingTimeout.dispose();
+                                            }
+                                            if (voiceOfTesting != null) {
+                                                voiceOfTesting.dispose();
+                                            }
+                                            selfFragment.setStateTip("测量完成");
+                                            visitorFragment.setStateTip("测量完成");
                                         }
                                     }
 
                                     @Override
                                     public void failure(RetrofitError error) {
                                         super.failure(error);
+                                        ZillaApi.dealNetError(error);
                                         Log.d("maki", error.toString());
+                                        dialogDismiss();
+                                        if (testingTimeout != null) {
+                                            testingTimeout.dispose();
+                                        }
+                                        testFail();
                                     }
                                 });
 
 
                 isStartTesting = true;
-                dialogDismiss();
-                if (isVoiceHelp) {
-                    SoundPlay.getInstance().play(R.raw.help_five);
-                }
-                if (testingTimeout != null) {
-                    testingTimeout.dispose();
-                }
-                if (voiceOfTesting != null) {
-                    voiceOfTesting.dispose();
-                }
-                selfFragment.setStateTip("测量完成");
-                visitorFragment.setStateTip("测量完成");
             }
 
             @Override
@@ -381,9 +387,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         PostQnData postQnData = new PostQnData();
         postQnData.setHeight(qnUser.getHeight());
         postQnData.setGender(qnUser.getGender());
-        postQnData.setAge(-1);
+        postQnData.setAge(0);
         postQnData.setWeight(qnData.getWeight() / 2);
-        String weight = String.format("%.1f",qnData.getWeight());
+        String weight = String.format("%.1f", qnData.getWeight());
         mainData.setWeight(Double.parseDouble(weight));
         postQnData.setWeight_unit("");
         postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(qnData.getCreateTime()));
@@ -478,12 +484,19 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         deviceListDialog.create();
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
-            public void bluetoothDialogClick(int positions) {
+            public void bluetoothDialogClick(final int positions) {
                 if (deviceListDialog.getQNBluetoothDevice(positions) != null && deviceListDialog.getQNBluetoothDevice(positions).getDeviceName() != null &&
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
                     deviceListDialog.dismiss();
-                    connectBleDevice(deviceListDialog.getQNBluetoothDevice(positions));
                     connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
+                    dialogLag = Flowable.timer(500, TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<Long>() {
+                                @Override
+                                public void accept(Long aLong) throws Exception {
+                                    connectBleDevice(deviceListDialog.getQNBluetoothDevice(positions));
+                                }
+                            });
                 }
             }
 
@@ -512,37 +525,27 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        dialogDismiss();
-                        doStopScan();
-                        count = 0;
-                        Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
+                        if (!isFindDevice) {
+                            dialogDismiss();
+                            doStopScan();
+                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
         qnBleApi.startLeScan(null, null, new QNBleScanCallback() {
             @Override
             public void onScan(QNBleDevice qnBleDevice) {
-                count++;
-                Log.d("maki", String.valueOf(count));
+                isFindDevice = true;
                 deviceListDialog.addBluetoothDevice(qnBleDevice);
-                if (count > 3) {
-                    doStopScan();
-                    dialogLag = Flowable.timer(2, TimeUnit.SECONDS)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<Long>() {
-                                @Override
-                                public void accept(Long aLong) throws Exception {
-                                    if (!deviceListDialog.isShowing()) {
-                                        deviceListDialog.show();
-                                    }
-                                    dialogDismiss();
-                                    count = 0;
-                                    if (connectTimeout != null) {
-                                        connectTimeout.dispose();
-                                    }
-                                }
-                            });
+                if (!deviceListDialog.isShowing()) {
+                    deviceListDialog.show();
                 }
+                dialogDismiss();
+                if (connectTimeout != null) {
+                    connectTimeout.dispose();
+                }
+                doStopScan();
             }
 
             @Override
@@ -559,6 +562,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (!qnBleApi.isScanning()) {
             return;
         }
+        isFindDevice = false;
         qnBleApi.stopScan();
     }
 
@@ -578,7 +582,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         mTitle.setOnClickListener(this);
 
         fragmentModels.add(new FragmentModel("给自己测量", selfFragment));
-        fragmentModels.add(new FragmentModel("给访客测", visitorFragment));
+        fragmentModels.add(new FragmentModel("给客户测", visitorFragment));
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(new BalanceAdapter(getSupportFragmentManager(), fragmentModels));
         pageIndex = mViewPager.getCurrentItem();
@@ -747,10 +751,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (testingTimeout != null) {
             testingTimeout.dispose();
         }
-        if (dialogLag != null){
+        if (dialogLag != null) {
             dialogLag.dispose();
         }
-        if (voiceOfTesting != null){
+        if (voiceOfTesting != null) {
             voiceOfTesting.dispose();
         }
     }
@@ -759,7 +763,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     protected void onStop() {
         super.onStop();
         if (qnBleApi != null) {
-            qnBleApi.disconnectAll();
+            if (connectedDevice != null) {
+                qnBleApi.disconnectDevice(connectedDevice.getMac());
+            }
         }
     }
 
