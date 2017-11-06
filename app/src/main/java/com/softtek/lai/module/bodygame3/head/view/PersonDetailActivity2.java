@@ -62,7 +62,6 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
- *
  * Created by jessica.zhang on 3/30/2017.
  */
 @InjectLayout(R.layout.activity_person_detail)
@@ -166,10 +165,11 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
         im_guanzhu.setOnClickListener(this);
         ll_weigh.setOnClickListener(this);
 
+
         ll_news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(memberInfoModel!=null){
+                if (memberInfoModel != null) {
                     Intent personal = new Intent(PersonDetailActivity2.this, PersionalActivity.class);
                     personal.putExtra("personalId", AccountId + "");
                     personal.putExtra("personalName", memberInfoModel.getUserName());
@@ -238,6 +238,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 
         //获取个人信息
         doGetService(AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, HXAccountId);
+
 
     }
 
@@ -406,8 +407,14 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 
                     }
                 }
+
+
                 doGetPhotoView();//展示图片
             }
+
+
+            btn_chat.setVisibility(View.GONE);
+            btn_addguy.setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -445,7 +452,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 startActivityForResult(intent1, GET_Sian);
                 break;
             case R.id.tv_chart:
-                if(memberInfoModel==null){
+                if (memberInfoModel == null) {
                     return;
                 }
                 //查看曲线图
@@ -454,9 +461,9 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 graph.putExtra("classId", ClassId);
                 //只有班级管理和自己能看到
                 int role = memberInfoModel.getLoginUserClassRole();
-                boolean isShow=role == 1||role==2||role==3||UserInfoModel.getInstance().getUserId()==AccountId
-                        ||String.valueOf(UserInfoModel.getInstance().getUserId()).equals(memberInfoModel.getMilkAngleId());
-                graph.putExtra("isShow",isShow);
+                boolean isShow = role == 1 || role == 2 || role == 3 || UserInfoModel.getInstance().getUserId() == AccountId
+                        || String.valueOf(UserInfoModel.getInstance().getUserId()).equals(memberInfoModel.getMilkAngleId());
+                graph.putExtra("isShow", isShow);
                 startActivity(graph);
                 break;
             case R.id.btn_chat:

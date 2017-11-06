@@ -115,15 +115,15 @@
 
             <TextView
                 android:id="@+id/tv_regist"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="@string/regist"
-                android:gravity="center"
-                android:textSize="17sp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_next_btn"
-                android:textColor="#FFFFFd"/>
-            
+                android:gravity="center"
+                android:text="@string/regist"
+                android:textColor="#FFFFFd"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/tv_forgetpsd"
                 android:layout_width="match_parent"

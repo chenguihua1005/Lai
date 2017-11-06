@@ -168,15 +168,12 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
                         if (200 == status) {
                             classModel = contactClassModelResponseData.getData();
-                            Log.i(TAG, "获取的班级信息 = " + new Gson().toJson(classModel));
                             if (classModel != null) {
                                 String end_date = classModel.getEndDate();
                                 long CoachId = classModel.getCoachId();
 
                                 HXGroupId = toChatUsername;
                                 ClassId = classModel.getClassId();
-
-                                Log.i(TAG, "HXGroupId = " + HXGroupId + " ClassId = " + ClassId);
 
                                 int dismiss_status = classModel.getStatus();
                                 if (CoachId == UserInfoModel.getInstance().getUserId()) {
@@ -284,7 +281,6 @@ public class ClassDetailActivity extends BaseActivity implements View.OnClickLis
 
     //解散班级
     private void dissolutionHxGroup() {
-        Log.i(TAG, "ClassId() = " + ClassId + " classModel.getHXGroupId() = " + HXGroupId);
         final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
         dialogShow(getResources().getString(R.string.Is_sending_a_request));
 

@@ -21,9 +21,7 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
-import com.hyphenate.exceptions.HyphenateException;
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -298,20 +296,20 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                         CheckedTextView tv = holder.getView(android.R.id.text1);
                         tv.setText(data.getRoleName());
                         SpannableString ss = null;
-                        if("助教".equals(data.getRoleName())){
+                        if ("助教".equals(data.getRoleName())) {
                             tv.append("\n");
-                            ss=new SpannableString("(线下体管赛班级中的助教及复测，摄影等工作人员)");
-                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                        }else if ("教练".equals(data.getRoleName())){
+                            ss = new SpannableString("(线下体管赛班级中的助教及复测，摄影等工作人员)");
+                            ss.setSpan(new AbsoluteSizeSpan(12, true), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        } else if ("教练".equals(data.getRoleName())) {
                             tv.append("\n");
-                            ss=new SpannableString("(线下体管赛班级中的小组长)");
-                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                        }else if ("学员".equals(data.getRoleName())){
+                            ss = new SpannableString("(线下体管赛班级中的小组长)");
+                            ss.setSpan(new AbsoluteSizeSpan(12, true), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        } else if ("学员".equals(data.getRoleName())) {
                             tv.append("\n");
-                            ss=new SpannableString("(线下体管赛班级中的学员)");
-                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                            ss = new SpannableString("(线下体管赛班级中的学员)");
+                            ss.setSpan(new AbsoluteSizeSpan(12, true), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                         }
-                        if (ss!=null){
+                        if (ss != null) {
                             tv.append(ss);
                         }
                     }
@@ -353,106 +351,35 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 //确定
                 dialogShow("审批确认");
                 model.status = 1;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //群主加人调用此方法
-                        try {
-                            String hxGroupId = confirm.getClassHxId();
-                            String[] newmembers = {confirm.getApplyHxId()};
 
-                            EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(hxGroupId);
+                Log.i(TAG, "token = " + UserInfoModel.getInstance().getToken());
+                Log.i(TAG, "model = " + new Gson().toJson(model));
 
-                            Log.i("ExamineActivity", "hxGroupId = " + hxGroupId + " newmembers = " + confirm.getApplyHxId());
-                            Log.i(TAG, "getCurrentUser() = " + EMClient.getInstance().getCurrentUser() + " group.getOwner() = " + group.getOwner());
+                ZillaApi.NormalRestAdapter.create(Message2Service.class)
+                        .examine(UserInfoModel.getInstance().getToken(),
+                                model,
+                                new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(final ResponseData responseData, Response response) {
+                                        int status = responseData.getStatus();
+                                        if (status == 200) {
+                                            dialogDissmiss();
+                                            Intent intent = getIntent();
+                                            intent.putExtra("msgStatus", 1);
+                                            setResult(RESULT_OK, intent);
+                                            finish();
 
-//                            EMClient.getInstance().groupManager().acceptApplication(confirm.getApplyHxId(), confirm.getClassHxId());
+                                        } else {
+                                            dialogDissmiss();
+                                        }
+                                    }
 
-                            //根据群组ID从服务器获取群组基本信息
-//                            EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());
-                            if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
-                                EMClient.getInstance().groupManager().addUsersToGroup(confirm.getClassHxId(), newmembers);
-                            } else {
-                                // 一般成员调用invite方法
-                                EMClient.getInstance().groupManager().inviteUser(confirm.getClassHxId(), newmembers, null);
-                            }
-
-                            ZillaApi.NormalRestAdapter.create(Message2Service.class)
-                                    .examine(UserInfoModel.getInstance().getToken(),
-                                            model,
-                                            new RequestCallback<ResponseData>() {
-                                                @Override
-                                                public void success(final ResponseData responseData, Response response) {
-                                                    int status = responseData.getStatus();
-                                                    if (status == 200) {
-                                                        Intent intent = getIntent();
-                                                        intent.putExtra("msgStatus", 1);
-                                                        setResult(RESULT_OK, intent);
-                                                        finish();
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                dialogDissmiss();
-                                                                Util.toastMsg("加入成功");
-                                                            }
-                                                        });
-//
-                                                    } else if (202 == status || 203 == status || 300 == status) {
-                                                        //如果后台加人失败，侧群组踢人
-                                                        try {
-                                                            EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
-                                                        } catch (HyphenateException e) {
-                                                            e.printStackTrace();
-                                                            runOnUiThread(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    dialogDissmiss();
-                                                                }
-                                                            });
-                                                        }
-                                                    } else {
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                dialogDissmiss();
-                                                                Util.toastMsg(responseData.getMsg());
-                                                            }
-                                                        });
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void failure(RetrofitError error) {
-                                                    super.failure(error);
-                                                    try {
-                                                        EMClient.getInstance().groupManager().removeUserFromGroup(confirm.getClassHxId(), confirm.getApplyHxId());//需异步处理
-                                                    } catch (HyphenateException e) {
-                                                        e.printStackTrace();
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                dialogDissmiss();
-                                                            }
-                                                        });
-                                                    }
-                                                }
-                                            });
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialogDissmiss();
-                                    Util.toastMsg("通讯服务器异常");
-                                }
-                            });
-                        }
-
-
-                    }
-                }).start();
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        dialogDissmiss();
+                                    }
+                                });
                 break;
 
         }

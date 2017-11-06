@@ -21,8 +21,6 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.github.snowdream.android.util.Log;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -116,7 +114,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         invitation.setInviterId(invitaterId);
         dialogShow();
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getClassInfoForInvite(classId,UserInfoModel.getInstance().getToken(),
+                .getClassInfoForInvite(classId, UserInfoModel.getInstance().getToken(),
                         classId, UserInfoModel.getInstance().getUserId(), invitaterId,
                         new RequestCallback<ResponseData<ClassInvitater>>() {
                             @Override
@@ -206,20 +204,20 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                         CheckedTextView tv = holder.getView(android.R.id.text1);
                         tv.setText(data.getRoleName());
                         SpannableString ss = null;
-                        if("助教".equals(data.getRoleName())){
+                        if ("助教".equals(data.getRoleName())) {
                             tv.append("\n");
-                            ss=new SpannableString("(线下体管赛班级中的助教及复测，摄影等工作人员)");
-                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                        }else if ("教练".equals(data.getRoleName())){
+                            ss = new SpannableString("(线下体管赛班级中的助教及复测，摄影等工作人员)");
+                            ss.setSpan(new AbsoluteSizeSpan(12, true), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        } else if ("教练".equals(data.getRoleName())) {
                             tv.append("\n");
-                            ss=new SpannableString("(线下体管赛班级中的小组长)");
-                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                        }else if ("学员".equals(data.getRoleName())){
+                            ss = new SpannableString("(线下体管赛班级中的小组长)");
+                            ss.setSpan(new AbsoluteSizeSpan(12, true), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        } else if ("学员".equals(data.getRoleName())) {
                             tv.append("\n");
-                            ss=new SpannableString("(线下体管赛班级中的学员)");
-                            ss.setSpan(new AbsoluteSizeSpan(12,true),0,ss.length(),Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                            ss = new SpannableString("(线下体管赛班级中的学员)");
+                            ss.setSpan(new AbsoluteSizeSpan(12, true), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                         }
-                        if (ss!=null){
+                        if (ss != null) {
                             tv.append(ss);
                         }
                     }
@@ -241,17 +239,17 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            String[] inviterHXIds = {inviterHXId};
+//                            String[] inviterHXIds = {inviterHXId};
 
                             try {//群主加人调用此方法
                                 //根据群组ID从服务器获取群组基本信息
-                                EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());
-                                if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
-                                    EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
-                                } else {
-                                    // 一般成员调用invite方法
-                                    EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);
-                                }
+//                                EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());
+//                                if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+//                                    EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
+//                                } else {
+//                                    // 一般成员调用invite方法
+//                                    EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);
+//                                }
 
 //                                EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
 
@@ -383,7 +381,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                             invitation.setClassRole(role.getRoleId());
                         }
                     }
-                    if(dialog!=null){
+                    if (dialog != null) {
                         dialog.dismiss();
                     }
                 }
@@ -393,7 +391,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dialog!=null){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
             }

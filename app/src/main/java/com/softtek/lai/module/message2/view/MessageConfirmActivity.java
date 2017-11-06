@@ -21,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
-import com.hyphenate.chat.EMClient;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -210,7 +209,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void run() {
                         try {
-                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
                             //莱后台请求
                             service.makeSureJoin(UserInfoModel.getInstance().getToken(),
                                     msgId,
@@ -272,7 +271,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                 @Override
                                 public void run() {
                                     dialogDissmiss();
-                                    Util.toastMsg("环信异常");
+//                                    Util.toastMsg("环信异常");
                                 }
                             });
                         }

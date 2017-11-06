@@ -24,8 +24,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -268,9 +266,9 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                             @Override
                             public void run() {
                                 try {
-                                    EMClient.getInstance().groupManager().removeUserFromGroup(classHxId, member.getHxAccountId());//需异步处理
+//                                    EMClient.getInstance().groupManager().removeUserFromGroup(classHxId, member.getHxAccountId());//需异步处理
                                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                            .removeFromGroup(classId,UserInfoModel.getInstance().getToken(),
+                                            .removeFromGroup(classId, UserInfoModel.getInstance().getToken(),
                                                     member.getAccountId(),
                                                     classId,
                                                     member.getCGId(),
@@ -315,7 +313,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                                     });
 
 
-                                } catch (HyphenateException e) {
+                                } catch (Exception e) {
                                     Looper.prepare();
                                     if (pDialog != null && pDialog.isShowing()) {
                                         pDialog.dismiss();
@@ -331,46 +329,6 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                         }).start();
 
 
-//                        ZillaApi.NormalRestAdapter.create(MoreService.class)
-//                                .removeFromGroup(UserInfoModel.getInstance().getToken(),
-//                                        member.getAccountId(),
-//                                        classId,
-//                                        member.getCGId(),
-//                                        new Callback<ResponseData>() {
-//                                            @Override
-//                                            public void success(ResponseData responseData, Response response) {
-//                                                if(pDialog!=null&&pDialog.isShowing()){
-//                                                    pDialog.dismiss();
-//                                                }
-//                                                if (responseData.getStatus() == 200) {
-//                                                    datas.get(member.getCGName()).remove(member);
-//                                                    notifyDataSetChanged();
-//                                                    //环信移除个人
-//                                                    //把username从群组里删除
-//                                                    new Thread(new Runnable() {
-//                                                        @Override
-//                                                        public void run() {
-//                                                            try {
-//                                                                EMClient.getInstance().groupManager().removeUserFromGroup(classHxId, member.getHxAccountId());//需异步处理
-//                                                            } catch (HyphenateException e) {
-//                                                                e.printStackTrace();
-//                                                            }
-//                                                        }
-//                                                    }).start();
-//
-//                                                } else {
-//                                                    Util.toastMsg(responseData.getMsg());
-//                                                }
-//                                            }
-//
-//                                            @Override
-//                                            public void failure(RetrofitError error) {
-//                                                if(pDialog!=null&&pDialog.isShowing()){
-//                                                    pDialog.dismiss();
-//                                                }
-//                                                ZillaApi.dealNetError(error);
-//                                            }
-//                                        });
                     }
                 }).show();
     }

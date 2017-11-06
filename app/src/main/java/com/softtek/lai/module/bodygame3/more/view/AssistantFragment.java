@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.hyphenate.EMError;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -108,6 +106,7 @@ public class AssistantFragment extends Fragment implements View.OnClickListener 
     };
 
     private ClassModel model;
+
     public AssistantFragment() {
         // Required empty public constructor
     }
@@ -157,7 +156,7 @@ public class AssistantFragment extends Fragment implements View.OnClickListener 
                 startActivity(intent);
             }
             break;
-            case R.id.rl_exit:{
+            case R.id.rl_exit: {
                 new AlertDialog.Builder(getContext())
                         .setTitle("温馨提示")
                         .setMessage("您确定退出当前班级？")
@@ -166,29 +165,53 @@ public class AssistantFragment extends Fragment implements View.OnClickListener 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogShow("退出班级");
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            EMClient.getInstance().groupManager().leaveGroup(model.getHXGroupId());
-                                            Message msg = new Message();
-                                            msg.what = 0x0001;
-                                            handler.sendMessage(msg);
-                                        } catch (HyphenateException e) {
-                                            Message msg = new Message();
-                                            msg.what = 0x0002;
-                                            msg.arg1 = e.getErrorCode();
-                                            handler.sendMessage(msg);
-                                            e.printStackTrace();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).start();
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+//                                            EMClient.getInstance().groupManager().leaveGroup(model.getHXGroupId());
+//                                            Message msg = new Message();
+//                                            msg.what = 0x0001;
+//                                            handler.sendMessage(msg);
+//                                        } catch (HyphenateException e) {
+//                                            Message msg = new Message();
+//                                            msg.what = 0x0002;
+//                                            msg.arg1 = e.getErrorCode();
+//                                            handler.sendMessage(msg);
+//                                            e.printStackTrace();
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                }).start();
+
+                                ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                        .existClass(model.getClassId(), UserInfoModel.getInstance().getToken(),
+                                                UserInfoModel.getInstance().getUserId(),
+                                                model.getClassId(),
+                                                new retrofit.Callback<ResponseData>() {
+                                                    @Override
+                                                    public void success(ResponseData responseData, Response response) {
+                                                        dialogDissmiss();
+                                                        if (responseData.getStatus() == 200) {
+                                                            Util.toastMsg("退出班级成功！");
+                                                            EventBus.getDefault().post(new UpdateClass(2, model));
+                                                        } else {
+                                                            Util.toastMsg(responseData.getMsg());
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void failure(RetrofitError error) {
+                                                        dialogDissmiss();
+                                                        ZillaApi.dealNetError(error);
+                                                        Util.toastMsg("退出班级失败！");
+                                                    }
+                                                });
                             }
                         }).create().show();
             }
-                break;
+            break;
         }
     }
 

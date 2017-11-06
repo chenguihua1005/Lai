@@ -8,7 +8,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -18,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
@@ -30,8 +28,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.conversation.adapter.GroupAdapter;
 import com.softtek.lai.module.bodygame3.conversation.database.ClassGroupUtil;
-import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
-import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
@@ -168,7 +164,7 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
                 startActivityForResult(intent, 0);
 
                 //    查看学员是否有加入环信群的消息
-                getMsgHxInviteToGroup();
+//                getMsgHxInviteToGroup();
 
 
             }
@@ -281,71 +277,71 @@ public class GroupsActivity extends BaseActivity implements View.OnClickListener
     private List<HxInviteToGroupModel> needGroupList = new ArrayList<HxInviteToGroupModel>();
 
     //    查看学员是否有加入环信群的消息
-    private void getMsgHxInviteToGroup() {
-        com.github.snowdream.android.util.Log.i(TAG, " 查看学员是否有加入环信群的消息......");
-        needGroupList.clear();
-        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
-            @Override
-            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                if (200 == status) {
-                    needGroupList = listResponseData.getData();
-                    if (needGroupList != null && needGroupList.size() > 0) {
-                        for (int i = 0; i < needGroupList.size(); i++) {
-                            final HxInviteToGroupModel model = needGroupList.get(i);
-                            if (model != null) {
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
-
-                                            //环迅同意进群之后，告知后台
-                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
-                                                @Override
-                                                public void success(ResponseData responseData, Response response) {
-                                                    if (200 == responseData.getStatus()) {
-
-
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void failure(RetrofitError error) {
-                                                    error.printStackTrace();
-                                                    ZillaApi.dealNetError(error);
-                                                }
-                                            });
-
-
-                                        } catch (HyphenateException e) {
-                                            e.printStackTrace();
-//                                            runOnUiThread(new Runnable() {
+//    private void getMsgHxInviteToGroup() {
+//        com.github.snowdream.android.util.Log.i(TAG, " 查看学员是否有加入环信群的消息......");
+//        needGroupList.clear();
+//        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
+//            @Override
+//            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
+//                int status = listResponseData.getStatus();
+//                if (200 == status) {
+//                    needGroupList = listResponseData.getData();
+//                    if (needGroupList != null && needGroupList.size() > 0) {
+//                        for (int i = 0; i < needGroupList.size(); i++) {
+//                            final HxInviteToGroupModel model = needGroupList.get(i);
+//                            if (model != null) {
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+////                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
+//
+//                                            //环迅同意进群之后，告知后台
+//                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
 //                                                @Override
-//                                                public void run() {
-//                                                    dialogDissmiss();
-//                                                    Util.toastMsg("环信异常");
+//                                                public void success(ResponseData responseData, Response response) {
+//                                                    if (200 == responseData.getStatus()) {
+//
+//
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void failure(RetrofitError error) {
+//                                                    error.printStackTrace();
+//                                                    ZillaApi.dealNetError(error);
 //                                                }
 //                                            });
-                                        }
-
-                                    }
-                                }).start();
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-
-    }
+//
+//
+//                                        } catch (HyphenateException e) {
+//                                            e.printStackTrace();
+////                                            runOnUiThread(new Runnable() {
+////                                                @Override
+////                                                public void run() {
+////                                                    dialogDissmiss();
+////                                                    Util.toastMsg("环信异常");
+////                                                }
+////                                            });
+//                                        }
+//
+//                                    }
+//                                }).start();
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//
+//            }
+//        });
+//
+//
+//    }
 
 }

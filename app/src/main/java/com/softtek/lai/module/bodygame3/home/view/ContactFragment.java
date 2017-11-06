@@ -18,7 +18,6 @@ import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ui.SeceltGroupSentActivity;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -31,7 +30,6 @@ import com.softtek.lai.module.bodygame3.conversation.database.ContactTable;
 import com.softtek.lai.module.bodygame3.conversation.database.ContactUtil;
 import com.softtek.lai.module.bodygame3.conversation.model.ChatContactModel;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactListModel;
-import com.softtek.lai.module.bodygame3.conversation.model.CountModel;
 import com.softtek.lai.module.bodygame3.conversation.model.HxInviteToGroupModel;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.conversation.view.ContactSearchActivity;
@@ -269,7 +267,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         super.onResume();
 //        getFriendPendingCount();
         //查看学员是否有加入环信群的消息
-        getMsgHxInviteToGroup();
+//        getMsgHxInviteToGroup();
 
     }
 
@@ -286,37 +284,37 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         }
     }
 
-    private void getFriendPendingCount() {
-        try {
-            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-            service.getFriendPendingCount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<CountModel>>() {
-                @Override
-                public void success(ResponseData responseData, Response response) {
-                    if (200 == responseData.getStatus()) {
-                        CountModel countModel = (CountModel) responseData.getData();
-                        if (countModel != null) {
-                            count = countModel.getCount();
-                            if (count >= 0) {
-                                menuAdapter.updateCount(count);
-                            }
-                        }
-                    } else {
-                        Util.toastMsg(responseData.getMsg());
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    ZillaApi.dealNetError(error);
-                    error.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
+//    private void getFriendPendingCount() {
+//        try {
+//            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//            service.getFriendPendingCount(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<CountModel>>() {
+//                @Override
+//                public void success(ResponseData responseData, Response response) {
+//                    if (200 == responseData.getStatus()) {
+//                        CountModel countModel = (CountModel) responseData.getData();
+//                        if (countModel != null) {
+//                            count = countModel.getCount();
+//                            if (count >= 0) {
+//                                menuAdapter.updateCount(count);
+//                            }
+//                        }
+//                    } else {
+//                        Util.toastMsg(responseData.getMsg());
+//                    }
+//                }
+//
+//                @Override
+//                public void failure(RetrofitError error) {
+//                    ZillaApi.dealNetError(error);
+//                    error.printStackTrace();
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
 
     private void getDataAndUpdate() {
         try {
@@ -427,71 +425,71 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
     private List<HxInviteToGroupModel> needGroupList = new ArrayList<HxInviteToGroupModel>();
 
     //    查看学员是否有加入环信群的消息
-    private void getMsgHxInviteToGroup() {
-        com.github.snowdream.android.util.Log.i(TAG, " 查看学员是否有加入环信群的消息......");
-        needGroupList.clear();
-        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
-            @Override
-            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                if (200 == status) {
-                    needGroupList = listResponseData.getData();
-                    if (needGroupList != null && needGroupList.size() > 0) {
-                        for (int i = 0; i < needGroupList.size(); i++) {
-                            final HxInviteToGroupModel model = needGroupList.get(i);
-                            if (model != null) {
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-//                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
-
-                                            //环迅同意进群之后，告知后台
-                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
-                                                @Override
-                                                public void success(ResponseData responseData, Response response) {
-                                                    if (200 == responseData.getStatus()) {
-
-
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void failure(RetrofitError error) {
-                                                    error.printStackTrace();
-                                                    ZillaApi.dealNetError(error);
-                                                }
-                                            });
-
-
-                                        } catch (HyphenateException e) {
-                                            e.printStackTrace();
-//                                            runOnUiThread(new Runnable() {
+//    private void getMsgHxInviteToGroup() {
+//        com.github.snowdream.android.util.Log.i(TAG, " 查看学员是否有加入环信群的消息......");
+//        needGroupList.clear();
+//        final ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//        service.getMsgHxInviteToGroup(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new Callback<ResponseData<List<HxInviteToGroupModel>>>() {
+//            @Override
+//            public void success(ResponseData<List<HxInviteToGroupModel>> listResponseData, Response response) {
+//                int status = listResponseData.getStatus();
+//                if (200 == status) {
+//                    needGroupList = listResponseData.getData();
+//                    if (needGroupList != null && needGroupList.size() > 0) {
+//                        for (int i = 0; i < needGroupList.size(); i++) {
+//                            final HxInviteToGroupModel model = needGroupList.get(i);
+//                            if (model != null) {
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+////                                        EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
+//                                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(model.getClassGroupHxId()), String.valueOf(model.getCoachHxId()));
+//
+//                                            //环迅同意进群之后，告知后台
+//                                            service.completeJoinHx(UserInfoModel.getInstance().getToken(), model.getClassId(), model.getMessageId(), new Callback<ResponseData>() {
 //                                                @Override
-//                                                public void run() {
-//                                                    dialogDissmiss();
-//                                                    Util.toastMsg("环信异常");
+//                                                public void success(ResponseData responseData, Response response) {
+//                                                    if (200 == responseData.getStatus()) {
+//
+//
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void failure(RetrofitError error) {
+//                                                    error.printStackTrace();
+//                                                    ZillaApi.dealNetError(error);
 //                                                }
 //                                            });
-                                        }
-
-                                    }
-                                }).start();
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-            }
-        });
-
-
-    }
+//
+//
+//                                        } catch (HyphenateException e) {
+//                                            e.printStackTrace();
+////                                            runOnUiThread(new Runnable() {
+////                                                @Override
+////                                                public void run() {
+////                                                    dialogDissmiss();
+////                                                    Util.toastMsg("环信异常");
+////                                                }
+////                                            });
+//                                        }
+//
+//                                    }
+//                                }).start();
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                ZillaApi.dealNetError(error);
+//            }
+//        });
+//
+//
+//    }
 
 }
