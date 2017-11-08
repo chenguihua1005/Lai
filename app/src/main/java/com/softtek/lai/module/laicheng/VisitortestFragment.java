@@ -455,4 +455,12 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             }
         }
     }
+
+    public void setClickable(boolean available){
+        if (available){
+            mBleState.setEnabled(true);
+        }else {
+            mBleState.setEnabled(false);
+        }
+    }
 }

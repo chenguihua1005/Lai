@@ -409,6 +409,11 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     }
 
+    @Override
+    public void setClickable(boolean available) {
+
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

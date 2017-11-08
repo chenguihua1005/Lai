@@ -238,6 +238,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 visitorFragment.setStateTip("已连接，请上秤");
                 selfFragment.setBleIcon(true);
                 visitorFragment.setBleIcon(true);
+                selfFragment.setClickable(false);
+                visitorFragment.setClickable(false);
                 if (isVoiceHelp) {
                     SoundPlay.getInstance().play(R.raw.help_two);
                 }
@@ -251,6 +253,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 visitorFragment.setStateTip("点击连接莱秤");
                 selfFragment.setBleIcon(false);
                 visitorFragment.setBleIcon(false);
+                selfFragment.setClickable(true);
+                visitorFragment.setClickable(true);
             }
 
             @Override
@@ -392,7 +396,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         String weight = String.format("%.1f", qnData.getWeight());
         mainData.setWeight(Double.parseDouble(weight));
         postQnData.setWeight_unit("");
-        postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(qnData.getCreateTime()));
+        postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(qnData.getCreateTime()));
         Log.d("nishikinomaki", String.valueOf(qnData.getAll().size()));
         for (int i = 0; i < qnData.getAll().size(); i++) {
             int type = qnData.getAll().get(i).type;
@@ -767,6 +771,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 qnBleApi.disconnectDevice(connectedDevice.getMac());
             }
         }
+        dialogDismiss();
     }
 
 }

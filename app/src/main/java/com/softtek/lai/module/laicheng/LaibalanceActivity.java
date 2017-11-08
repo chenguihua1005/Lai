@@ -348,6 +348,12 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
+    public void setClickable(boolean available) {
+        selftestFragment.setClickable(available);
+        visitortestFragment.setClickable(available);
+    }
+
+    @Override
     public void showProgressDialog() {
         dialogShow("亲，请稍等，测量中...");
     }

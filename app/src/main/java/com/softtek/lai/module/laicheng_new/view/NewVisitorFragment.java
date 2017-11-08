@@ -239,6 +239,14 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    public void setClickable(boolean available){
+        if (available){
+            mBleState.setEnabled(true);
+        }else {
+            mBleState.setEnabled(false);
+        }
+    }
+
     public void getLastData(LastInfoData data) {
         if (data != null && !TextUtils.isEmpty(data.getRecordId())) {
             tv_weight_caption.setVisibility(View.VISIBLE);

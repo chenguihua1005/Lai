@@ -7,7 +7,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION as int
+    compileSdkVersion 26
     buildToolsVersion BUILD_TOOLS_VERSION
     sourceSets {
         main {

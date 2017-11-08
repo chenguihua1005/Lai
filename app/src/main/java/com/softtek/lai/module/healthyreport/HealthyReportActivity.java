@@ -146,13 +146,13 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         if (!isExpand) {
             //展开
             isExpand = true;
-            animateArrow(!isExpand);
+            animateArrow(isExpand);
             tv_des.setMaxLines(lineCount);
             tv_des.invalidate();
 
         } else {
             isExpand = false;
-            animateArrow(!isExpand);
+            animateArrow(isExpand);
             //收起
             tv_des.setMaxLines(4);
             tv_des.invalidate();
@@ -166,11 +166,16 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         tv_user.setText(data.getUsername());
         tv_time.setText(data.getMeasureTime());
         String des = data.getBodyTypeDesc();
+        String[] split;
         if (TextUtils.isEmpty(des)) {
             tv_des.setVisibility(View.GONE);
         } else {
             tv_des.setVisibility(View.VISIBLE);
-            String[] split = des.split("<br/>");
+            if (des.contains("<br />")) {
+                split = des.split("<br />");
+            }else {
+                split = des.split("<br/>");
+            }
             SpannableStringBuilder ssb = new SpannableStringBuilder();
             if (split.length > 1) {
                 SpannableString ss = new SpannableString(split[0]);
