@@ -772,6 +772,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             }
         }
         dialogDismiss();
+        if (voiceOfTesting != null){
+            voiceOfTesting.dispose();
+        }
     }
 
 }
