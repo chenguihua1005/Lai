@@ -1,5 +1,6 @@
 package com.softtek.lai.module.healthyreport;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 11/8/2017.
@@ -69,12 +71,18 @@ public class PKSelectActivity extends BaseActivity<HistoryDataManager> implement
                     tv_tip.setText("开始对比(已选中" + number + "条)");
                     break;
                 case 0x0013:
-                    tv_tip.setText(--number + "");
+                    int count3 = (int) msg.obj;
+                    number = count3;
                     tv_tip.setText("开始对比(已选中" + number + "条)");
                     break;
 
             }
-            adapter.notifyDataSetChanged();
+
+            if (number <= 0) {
+                tv_tip.setBackgroundColor(getResources().getColor(R.color.btn_grey_true));
+            } else {
+                tv_tip.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
         }
     };
 
@@ -89,6 +97,7 @@ public class PKSelectActivity extends BaseActivity<HistoryDataManager> implement
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
 
         ll_left.setOnClickListener(this);
+        ll_footer.setOnClickListener(this);
 
     }
 
@@ -110,8 +119,34 @@ public class PKSelectActivity extends BaseActivity<HistoryDataManager> implement
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.footer:
+                if (number < 2) {
+                    Util.toastMsg("请先选两条记录再开始比较");
+                } else {
+                    HistoryDataItemModel model1 = null;
+                    HistoryDataItemModel model2 = null;
 
+                    int count = 0;
+                    for (HistoryDataItemModel itemModel : dataItemModels) {
+                        if (itemModel.isChecked()) {
+                            count++;
+                            if (count == 1) {
+                                model1 = itemModel;
+                            } else if (count == 2) {
+                                model2 = itemModel;
+                                break;
+                            }
+                        }
+                    }
 
+                    String url = "http://115.29.187.163:8042/MeasuredRecord/DataComparison?AcInfoId1=" + model1.getDataModel().getRecordId() + "&AcInfoId2=" + model2.getDataModel().getRecordId() + "&Type1=" + model1.getDataModel().getSourceType() + "&Type2=" + model2.getDataModel().getSourceType();
+
+                    Intent intent = new Intent(PKSelectActivity.this, HistoryPKDetailActivity.class);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                }
+
+                break;
         }
 
     }

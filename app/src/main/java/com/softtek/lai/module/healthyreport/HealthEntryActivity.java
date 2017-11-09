@@ -540,6 +540,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         String uparmgirth = tv_uparmgirth.getText().toString();
         String upleggirth = tv_upleggirth.getText().toString();
         String doleggirth = tv_doleggirth.getText().toString();
+        String MeasuredTime = tv_measure_date.getText().toString();
 
 
         healthModele = new HealthModel();
@@ -565,6 +566,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         healthModele.setPhysicalAge(tv_body_age.getText().toString());
 
         healthModele.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+
+        healthModele.setMeasuredTime(MeasuredTime);
         getPresenter().entryhealthrecord(healthModele);
 
     }

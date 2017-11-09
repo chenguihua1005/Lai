@@ -829,8 +829,10 @@
             android:theme="@style/AppTheme2" />
         <activity
             android:name=".module.healthyreport.PKSelectActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2" />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.healthyreport.HistoryPKDetailActivity"
+            android:screenOrientation="portrait" />
 
 
         <provider

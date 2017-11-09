@@ -76,32 +76,56 @@ public class HistoryDataPKAdapter extends BaseAdapter {
                 model.setChecked(isChecked);
                 if (!isChecked) {
 //                    cb_all.setChecked(false);
-                    Message msg = new Message();
-                    msg.obj = -1;
-                    msg.what = 0x0013;
-                    handler.sendMessage(msg);
-                } else {
-                    //检查是否是全部选中了
-                    boolean all = true;
                     int count = 0;
                     for (HistoryDataItemModel itemModel : dataModels) {
                         if (itemModel.isChecked()) {
                             count++;
-                            if (count > 2) {
-//                                itemModel.setChecked(false);//刷新界面
-                                model.setChecked(false);
-                                Message msg = new Message();
-                                msg.obj = 2;
-                                msg.what = 0x0011;
-                                handler.sendMessage(msg);
-                            } else {
-                                Message msg = new Message();
-                                msg.obj = count;
-                                msg.what = 0x0012;
-                                handler.sendMessage(msg);
-                            }
                         }
                     }
+                    Message msg = new Message();
+                    msg.obj = count;
+                    msg.what = 0x0013;
+                    handler.sendMessage(msg);
+                } else {
+                    //检查是否是全部选中了
+                    int count = 0;
+                    for (HistoryDataItemModel itemModel : dataModels) {
+                        if (itemModel.isChecked()) {
+                            count++;
+                        }
+                    }
+
+                    if (count >= 0 && count <= 2) {
+                        Message msg = new Message();
+                        msg.obj = count;
+                        msg.what = 0x0012;
+                        handler.sendMessage(msg);
+                    } else {//点击>2个
+                        model.setChecked(false);
+                        Message msg = new Message();
+                        msg.obj = 2;
+                        msg.what = 0x0011;
+                        handler.sendMessage(msg);
+                    }
+
+//                    for (HistoryDataItemModel itemModel : dataModels) {
+//                        if (itemModel.isChecked()) {
+//                            count++;
+//                            if (count > 2) {
+////                                itemModel.setChecked(false);//刷新界面
+//                                model.setChecked(false);
+//                                Message msg = new Message();
+//                                msg.obj = 2;
+//                                msg.what = 0x0011;
+//                                handler.sendMessage(msg);
+//                            } else {
+//                                Message msg = new Message();
+//                                msg.obj = count;
+//                                msg.what = 0x0012;
+//                                handler.sendMessage(msg);
+//                            }
+//                        }
+//                    }
 
 
 //                    cb_all.setChecked(all);

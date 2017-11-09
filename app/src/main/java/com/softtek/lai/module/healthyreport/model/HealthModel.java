@@ -26,6 +26,15 @@ public class HealthModel {
     private String BoneMass;//骨量
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
+    private String MeasuredTime;//测量时间
+
+    public String getMeasuredTime() {
+        return MeasuredTime;
+    }
+
+    public void setMeasuredTime(String measuredTime) {
+        MeasuredTime = measuredTime;
+    }
 
     public String getWeight() {
         return Weight;

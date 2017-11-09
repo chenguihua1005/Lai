@@ -9,7 +9,9 @@
     android:orientation="vertical"
     tools:context=".module.healthyreport.PKSelectActivity">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
 
     <LinearLayout
@@ -82,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:background="#f3f3f3"
+        android:background="#a99f9f"
         android:orientation="horizontal"
         android:visibility="visible">
 
@@ -94,7 +96,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="开始对比(已选中0条)"
-            android:textColor="@color/gray_normal"
+            android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>
