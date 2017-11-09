@@ -1,8 +1,13 @@
 package com.softtek.lai.widgets;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -218,6 +223,19 @@ public class TextViewExpandable extends LinearLayout
         } else {
             tvState.setText(textShrink);
         }
+        if (!isExpand) {
+            //展开
+            isExpand = true;
+            animateArrow(isExpand);
+            tvState.invalidate();
+
+        } else {
+            isExpand = false;
+            animateArrow(isExpand);
+            //收起
+            tvState.invalidate();
+        }
+
 
     }
 
@@ -229,7 +247,6 @@ public class TextViewExpandable extends LinearLayout
      */
     @SuppressWarnings("deprecation")
     private void setExpandState(int endIndex) {
-
         if (endIndex < textLines) {
             isShrink = true;
             rlToggleLayout.setVisibility(View.VISIBLE);
@@ -241,7 +258,21 @@ public class TextViewExpandable extends LinearLayout
             textView.setOnClickListener(null);
             tvState.setText(textShrink);
         }
-
+    }
+    boolean isExpand;
+    private void animateArrow(boolean shouldRotateUp) {
+        int start = shouldRotateUp ? 0 : 10000;
+        int end = shouldRotateUp ? 10000 : 0;
+        ObjectAnimator animator = ObjectAnimator.ofInt(tvState.getCompoundDrawables()[2], "level", start, end);
+        animator.setInterpolator(new LinearOutSlowInInterpolator());
+        animator.setDuration(500);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                tvState.setText(!isExpand ? "展开" : "收起");
+            }
+        });
+        animator.start();
     }
 
     /**

@@ -279,6 +279,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
             @Override
             public void BleConnectLost() {
+                setClickable(true);
                 if (state_current == CONNECTED_STATE_WEIGHT) {
                     changeConnectionState(CONNECTED_STATE_FAILED);
                 } else {
@@ -573,6 +574,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤
                 setStateTip("已连接，请上秤");
+                setClickable(false);
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 2) {
                     voiceIndex = 2;
@@ -854,6 +856,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public abstract void refreshUi(LastInfoData data);
 
     public abstract void showNoVisitorDialog();
+
+    public abstract void setClickable(boolean available);
 
     @Override
     public void checkMacSuccess() {

@@ -73,10 +73,10 @@ import static android.view.View.GONE;
 public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,CommunityManager.CommunityManagerCallback<HealthyRecommendModel>,View.OnClickListener
 ,HealthyCommunityAdapter.OperationCall,SendCommend {
 
-    @InjectView(R.id.iv_left)
-    ImageView iv_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
+//    @InjectView(R.id.iv_left)
+//    ImageView iv_left;
+//    @InjectView(R.id.tv_title)
+//    TextView tv_title;
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -133,8 +133,8 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
 //            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
 //            toolbar.setLayoutParams(params);
 //        }
-        tv_title.setText("关注");
-        iv_left.setVisibility(View.INVISIBLE);
+//        tv_title.setText("关注");
+//        iv_left.setVisibility(View.INVISIBLE);
         EventBus.getDefault().register(this);
         but_login.setOnClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);

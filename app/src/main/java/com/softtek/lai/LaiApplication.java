@@ -53,7 +53,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     private static LaiApplication laiApplication;
     private WeakReference<Context> context;
 
-
 //    private RefWatcher refWatcher;
 
     @Override

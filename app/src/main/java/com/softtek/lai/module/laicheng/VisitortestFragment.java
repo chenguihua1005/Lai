@@ -361,7 +361,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
 
     @SuppressLint("SetTextI18n")
-    public void UpdateData(BleMainData data) {
+    public void updateData(BleMainData data) {
         if (data != null) {
             tv_weight_caption.setVisibility(View.VISIBLE);
             mid_lay.setVisibility(View.VISIBLE);
@@ -453,6 +453,14 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     shakeOFF.setOnShakeON();
                 }
             }
+        }
+    }
+
+    public void setClickable(boolean available){
+        if (available){
+            mBleState.setEnabled(true);
+        }else {
+            mBleState.setEnabled(false);
         }
     }
 }

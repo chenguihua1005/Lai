@@ -20,7 +20,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_healthy_chart)
-public class HealthyChartActivity extends BaseActivity implements View.OnClickListener{
+public class HealthyChartActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -30,7 +30,7 @@ public class HealthyChartActivity extends BaseActivity implements View.OnClickLi
     TabLayout tab;
     @InjectView(R.id.tab_content)
     NoSlidingViewPage tab_content;
-    List<FragmentModel> fragmentList=new ArrayList<>();
+    List<FragmentModel> fragmentList = new ArrayList<>();
 
 
     @Override
@@ -41,31 +41,31 @@ public class HealthyChartActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        Bundle bundle1=getIntent().getBundleExtra("base");
-        int type=getIntent().getIntExtra("pid",0);
-        ArrayList<HealthyItem> items=getIntent().getParcelableArrayListExtra("items");
-        int selector=0;
-        for (int i=0;i<items.size();i++){
-            HealthyItem item=items.get(i);
-            if(item.getPid()==type){
-                selector=i;
+        Bundle bundle1 = getIntent().getBundleExtra("base");
+        int type = getIntent().getIntExtra("pid", 0);
+        ArrayList<HealthyItem> items = getIntent().getParcelableArrayListExtra("items");
+        int selector = 0;
+        for (int i = 0; i < items.size(); i++) {
+            HealthyItem item = items.get(i);
+            if (item.getPid() == type) {
+                selector = i;
             }
-            Bundle bundle=new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putAll(bundle1);
-            bundle.putString("chartTitle",item.getTitle());
-            bundle.putInt("pid",item.getPid());
-            fragmentList.add(new FragmentModel(item.getTitle(),HealthyChartFragment.newInstance(bundle)));
+            bundle.putString("chartTitle", item.getTitle());
+            bundle.putInt("pid", item.getPid());
+            fragmentList.add(new FragmentModel(item.getTitle(), HealthyChartFragment.newInstance(bundle)));
         }
         tab_content.setAdapter(new HealthyRecordFragmentAdapter(getSupportFragmentManager(), fragmentList));
         tab.setupWithViewPager(tab_content);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         tab_content.setOffscreenPageLimit(4);
-        tab_content.setCurrentItem(selector,false);
+        tab_content.setCurrentItem(selector, false);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;

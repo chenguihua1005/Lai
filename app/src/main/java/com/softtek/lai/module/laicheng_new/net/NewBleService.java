@@ -19,7 +19,7 @@ import retrofit.http.Query;
 public interface NewBleService {
     @POST("/v1/DataSync/UploadData6")
     void uploadTestData(@Header("token") String token,
-                        @Query("accountId") int accountId,
+                        @Query("accountId") long accountId,
                         @Query("type") int type,
                         @Query("classId") String classId,
                         @Body PostQnData postQnData,

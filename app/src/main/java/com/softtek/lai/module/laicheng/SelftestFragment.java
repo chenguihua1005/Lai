@@ -339,4 +339,12 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
         }
     }
 
+    public void setClickable(boolean available){
+        if (available){
+            mBleState.setEnabled(true);
+        }else {
+            mBleState.setEnabled(false);
+        }
+    }
+
 }

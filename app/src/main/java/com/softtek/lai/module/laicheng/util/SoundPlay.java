@@ -56,7 +56,10 @@ public class SoundPlay {
         }catch (IllegalStateException e){
             e.printStackTrace();
         }
-        AssetFileDescriptor fileDesc = context.getResources().openRawResourceFd(resourceId);
+        AssetFileDescriptor fileDesc = null;
+        if (context != null) {
+            fileDesc = context.getResources().openRawResourceFd(resourceId);
+        }
         if (fileDesc != null) {
             try {
                 mediaPlayer.reset();

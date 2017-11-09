@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -98,16 +99,18 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private Disposable connectTimeout;
     private Disposable testingTimeout;
     private Disposable voiceOfTesting;
+    private Disposable dialogLag;
     private boolean isStartTesting = true;//是否开始测量
+    private boolean isFindDevice = false;
     private AlertDialog testFailDialog;
     private AlertDialog.Builder noVisitorBuilder;
     private AlertDialog chooseDialog;
 
     private int type = 1;//0自己，1访客
     private QNBleDevice connectedDevice;
-    private int count;
     private BleMainData mainData;
     private SharedPreferences sharedPreferences;
+    private BluetoothAdapter bluetoothAdapter;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -119,6 +122,12 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         qnBleApi.setScanMode(QNBleApi.SCAN_MODE_ALL);
         qnBleApi.setWeightUnit(QNBleApi.WEIGHT_UNIT_JIN);
         createLinkDialog();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(NewLaiBalanceActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+            }
+        }
         initUi();
     }
 
@@ -127,6 +136,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (bluetoothAdapter != null) {
+                    if (bluetoothAdapter.isEnabled()) {
+                        bluetoothAdapter.enable();
+                    }
+                }
                 Log.d("enter bleStateListener", "bleStateListener--------------");
             } else {
                 Toast.makeText(this, "请先获取蓝牙位置权限", Toast.LENGTH_SHORT).show();
@@ -224,6 +238,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 visitorFragment.setStateTip("已连接，请上秤");
                 selfFragment.setBleIcon(true);
                 visitorFragment.setBleIcon(true);
+                selfFragment.setClickable(false);
+                visitorFragment.setClickable(false);
                 if (isVoiceHelp) {
                     SoundPlay.getInstance().play(R.raw.help_two);
                 }
@@ -237,6 +253,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 visitorFragment.setStateTip("点击连接莱秤");
                 selfFragment.setBleIcon(false);
                 visitorFragment.setBleIcon(false);
+                selfFragment.setClickable(true);
+                visitorFragment.setClickable(true);
             }
 
             @Override
@@ -280,9 +298,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     return;
                 }
                 PostQnData data = createPostData(qnData);
+                long accountId = 0;
+                if (type == 0) {
+                    accountId = visitorFragment.getVisitorModel().getVisitorId();
+                } else if (type == 1) {
+                    accountId = UserInfoModel.getInstance().getUserId();
+                }
                 ZillaApi.NormalRestAdapter.create(NewBleService.class)
                         .uploadTestData(UserInfoModel.getInstance().getToken(),
-                                (int) UserInfoModel.getInstance().getUserId(),
+                                accountId,
                                 type,
                                 "", data, new RequestCallback<ResponseData<BleResponseData>>() {
                                     @Override
@@ -292,31 +316,41 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             mainData.setRecordId(bleResponseData.getData().getRecordId());
                                             mainData.setBodyTypeTitle(bleResponseData.getData().getBodyTypeTile());
                                             mainData.setBodyTypeColor(bleResponseData.getData().getBodyTypeColor());
-                                            selfFragment.updateUI(mainData);
+                                            if (pageIndex == 0) {
+                                                selfFragment.updateUI(mainData);
+                                            } else if (pageIndex == 1) {
+                                                visitorFragment.updateData(mainData);
+                                            }
+                                            dialogDismiss();
+                                            if (isVoiceHelp) {
+                                                SoundPlay.getInstance().play(R.raw.help_five);
+                                            }
+                                            if (testingTimeout != null) {
+                                                testingTimeout.dispose();
+                                            }
+                                            if (voiceOfTesting != null) {
+                                                voiceOfTesting.dispose();
+                                            }
+                                            selfFragment.setStateTip("测量完成");
+                                            visitorFragment.setStateTip("测量完成");
                                         }
                                     }
 
                                     @Override
                                     public void failure(RetrofitError error) {
                                         super.failure(error);
+                                        ZillaApi.dealNetError(error);
                                         Log.d("maki", error.toString());
+                                        dialogDismiss();
+                                        if (testingTimeout != null) {
+                                            testingTimeout.dispose();
+                                        }
+                                        testFail();
                                     }
                                 });
 
 
                 isStartTesting = true;
-                dialogDismiss();
-                if (isVoiceHelp) {
-                    SoundPlay.getInstance().play(R.raw.help_five);
-                }
-                if (testingTimeout != null) {
-                    testingTimeout.dispose();
-                }
-                if (voiceOfTesting != null) {
-                    voiceOfTesting.dispose();
-                }
-                selfFragment.setStateTip("测量完成");
-                visitorFragment.setStateTip("测量完成");
             }
 
             @Override
@@ -357,65 +391,81 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         PostQnData postQnData = new PostQnData();
         postQnData.setHeight(qnUser.getHeight());
         postQnData.setGender(qnUser.getGender());
-        postQnData.setAge(-1);
-        postQnData.setWeight(qnData.getWeight());
-        mainData.setWeight((int) qnData.getWeight() * 100 / 100);
+        postQnData.setAge(0);
+        postQnData.setWeight(qnData.getWeight() / 2);
+        String weight = String.format("%.1f", qnData.getWeight());
+        mainData.setWeight(Double.parseDouble(weight));
         postQnData.setWeight_unit("");
-        postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd").format(qnData.getCreateTime()));
+        postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(qnData.getCreateTime()));
         Log.d("nishikinomaki", String.valueOf(qnData.getAll().size()));
         for (int i = 0; i < qnData.getAll().size(); i++) {
             int type = qnData.getAll().get(i).type;
-            if (type == QNData.TYPE_BMI) {
-                postQnData.setBmi(qnData.getAll().get(i).value);
-                mainData.setBMI(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_BMR) {
-                postQnData.setBmr(qnData.getAll().get(i).value);
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_BODYFAT) {
-                postQnData.setBodyfat(qnData.getAll().get(i).value);
-                mainData.setBodyFatRate(String.valueOf(qnData.getAll().get(i).value));
-                mainData.setBodyFatRateUnit("%");
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_BONE) {
-                postQnData.setBone(qnData.getAll().get(i).value);
-                mainData.setBonemass(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_VISFAT) {
-                postQnData.setVisfat(qnData.getAll().get(i).value);
-                mainData.setViscusFatIndex(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_WATER) {
-                postQnData.setWater(qnData.getAll().get(i).value);
-                mainData.setWaterContentUnit(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_BODYWATER) {
-                postQnData.setWater_mass(qnData.getAll().get(i).value);
-                mainData.setWaterContent(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_BODYAGE) {
-                postQnData.setBodyage(qnData.getAll().get(i).value);
-                mainData.setPhysicalAge(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_SINEW) {
-                postQnData.setSinew(qnData.getAll().get(i).value);
-                mainData.setMusclemass(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_FAT_FREE_WEIGHT) {
-                postQnData.setFat_free_weight(qnData.getAll().get(i).value);
-                mainData.setFatFreemass(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_BODYFAT_MASS) {
-                postQnData.setFat_mass(qnData.getAll().get(i).value);
-                mainData.setBodyFat(String.valueOf(qnData.getAll().get(i).value));
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
-            } else if (type == QNData.TYPE_BODY_SHAPE) {
+            switch (type) {
+                case QNData.TYPE_BMI:
+                    postQnData.setBmi(qnData.getAll().get(i).value);
+                    mainData.setBMI(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_BMR:
+                    postQnData.setBmr(qnData.getAll().get(i).value);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_BODYFAT:
+                    postQnData.setBodyfat(qnData.getAll().get(i).value);
+                    mainData.setBodyFatRate(String.valueOf(qnData.getAll().get(i).value));
+                    mainData.setBodyFatRateUnit("%");
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_BONE:
+                    postQnData.setBone(qnData.getAll().get(i).value);
+                    mainData.setBonemass(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_VISFAT:
+                    postQnData.setVisfat(qnData.getAll().get(i).value);
+                    mainData.setViscusFatIndex(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_WATER:
+                    postQnData.setWater(qnData.getAll().get(i).value);
+                    mainData.setWaterContentUnit(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_BODYWATER:
+                    postQnData.setWater_mass(qnData.getAll().get(i).value);
+                    mainData.setWaterContent(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_BODYAGE:
+                    postQnData.setBodyage(qnData.getAll().get(i).value);
+                    mainData.setPhysicalAge(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_SINEW:
+                    postQnData.setSinew(qnData.getAll().get(i).value);
+                    mainData.setMusclemass(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_FAT_FREE_WEIGHT:
+                    postQnData.setFat_free_weight(qnData.getAll().get(i).value);
+                    mainData.setFatFreemass(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_BODYFAT_MASS:
+                    postQnData.setFat_mass(qnData.getAll().get(i).value);
+                    mainData.setBodyFat(String.valueOf(qnData.getAll().get(i).value));
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_BODY_SHAPE:
+                    postQnData.setBody_shape(qnData.getAll().get(i).valueIndex);
 //                postQnData.setBody_shape(Integer.parseInt(qnData.getAll().get(i).valueStr));
-                postQnData.setBody_shape(1);
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).valueStr));
-            } else if (type == QNData.TYPE_SCORE) {
-                postQnData.setScore(qnData.getAll().get(i).value);
-                Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+//                postQnData.setBody_shape(1);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).valueStr));
+                    break;
+                case QNData.TYPE_SCORE:
+                    postQnData.setScore(qnData.getAll().get(i).value);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
             }
 
 
@@ -438,12 +488,19 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         deviceListDialog.create();
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
-            public void bluetoothDialogClick(int positions) {
+            public void bluetoothDialogClick(final int positions) {
                 if (deviceListDialog.getQNBluetoothDevice(positions) != null && deviceListDialog.getQNBluetoothDevice(positions).getDeviceName() != null &&
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
                     deviceListDialog.dismiss();
-                    connectBleDevice(deviceListDialog.getQNBluetoothDevice(positions));
                     connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
+                    dialogLag = Flowable.timer(500, TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<Long>() {
+                                @Override
+                                public void accept(Long aLong) throws Exception {
+                                    connectBleDevice(deviceListDialog.getQNBluetoothDevice(positions));
+                                }
+                            });
                 }
             }
 
@@ -458,6 +515,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
      * 开始扫描蓝牙设备
      */
     private void doStartScan() {
+        if (bluetoothAdapter != null) {
+            if (!bluetoothAdapter.isEnabled()) {
+                bluetoothAdapter.enable();
+            }
+        }
         if (qnBleApi.isScanning()) {
             return;
         }
@@ -467,37 +529,27 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        dialogDismiss();
-                        doStopScan();
-                        count = 0;
-                        Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
+                        if (!isFindDevice) {
+                            dialogDismiss();
+                            doStopScan();
+                            Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
         qnBleApi.startLeScan(null, null, new QNBleScanCallback() {
             @Override
             public void onScan(QNBleDevice qnBleDevice) {
-                count++;
-                Log.d("maki", String.valueOf(count));
+                isFindDevice = true;
                 deviceListDialog.addBluetoothDevice(qnBleDevice);
-                if (count > 4) {
-                    doStopScan();
-                    Flowable.timer(1, TimeUnit.SECONDS)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<Long>() {
-                                @Override
-                                public void accept(Long aLong) throws Exception {
-                                    if (!deviceListDialog.isShowing()) {
-                                        deviceListDialog.show();
-                                    }
-                                    dialogDismiss();
-                                    count = 0;
-                                    if (connectTimeout != null) {
-                                        connectTimeout.dispose();
-                                    }
-                                }
-                            });
+                if (!deviceListDialog.isShowing()) {
+                    deviceListDialog.show();
                 }
+                dialogDismiss();
+                if (connectTimeout != null) {
+                    connectTimeout.dispose();
+                }
+                doStopScan();
             }
 
             @Override
@@ -514,6 +566,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (!qnBleApi.isScanning()) {
             return;
         }
+        isFindDevice = false;
         qnBleApi.stopScan();
     }
 
@@ -521,16 +574,6 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
      * 初始化UI
      */
     private void initUi() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(NewLaiBalanceActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
-            } else {
-
-            }
-        } else {
-
-        }
-
         sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         selfFragment = NewSelfFragment.newInstance(null);
         visitorFragment = NewVisitorFragment.newInstance(null);
@@ -543,7 +586,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         mTitle.setOnClickListener(this);
 
         fragmentModels.add(new FragmentModel("给自己测量", selfFragment));
-        fragmentModels.add(new FragmentModel("给访客测", visitorFragment));
+        fragmentModels.add(new FragmentModel("给客户测", visitorFragment));
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(new BalanceAdapter(getSupportFragmentManager(), fragmentModels));
         pageIndex = mViewPager.getCurrentItem();
@@ -599,24 +642,24 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         }
     }
 
-    private void createChangeDialog(){
+    private void createChangeDialog() {
         LinearLayout mOld;
         LinearLayout mNew;
         ImageView mChooseImage;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_choose, null);
         mOld = (LinearLayout) dialogView.findViewById(R.id.ll_old);
         mNew = (LinearLayout) dialogView.findViewById(R.id.ll_new);
-        mChooseImage = (ImageView)dialogView.findViewById(R.id.iv_new_choose);
+        mChooseImage = (ImageView) dialogView.findViewById(R.id.iv_new_choose);
         mChooseImage.setImageDrawable(getResources().getDrawable(R.drawable.radio_green));
         mOld.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(Contacts.CHOOSE_KEY,"old");
+                editor.putString(Contacts.CHOOSE_KEY, "old");
                 editor.apply();
                 chooseDialog.dismiss();
                 finish();
-                startActivity(new Intent(NewLaiBalanceActivity.this,LaibalanceActivity.class));
+                startActivity(new Intent(NewLaiBalanceActivity.this, LaibalanceActivity.class));
             }
         });
         mNew.setOnClickListener(new View.OnClickListener() {
@@ -712,14 +755,23 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (testingTimeout != null) {
             testingTimeout.dispose();
         }
+        if (dialogLag != null) {
+            dialogLag.dispose();
+        }
+        if (voiceOfTesting != null) {
+            voiceOfTesting.dispose();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         if (qnBleApi != null) {
-            qnBleApi.disconnectAll();
+            if (connectedDevice != null) {
+                qnBleApi.disconnectDevice(connectedDevice.getMac());
+            }
         }
+        dialogDismiss();
     }
 
 }

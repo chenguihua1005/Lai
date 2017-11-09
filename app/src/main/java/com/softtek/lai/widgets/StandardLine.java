@@ -123,7 +123,13 @@ public class StandardLine extends View {
         }
         if(curValue>0){
             paintLine.setStrokeWidth(tagLineWidth);
-            paintLine.setColor(Color.parseColor(curColor));
+            if (!String.valueOf(curColor).equals("#null")) {
+                paintLine.setColor(Color.parseColor(curColor));
+                textPaint.setColor(Color.parseColor(curColor));
+            }else {
+                paintLine.setColor(Color.parseColor("#000000"));
+                textPaint.setColor(Color.parseColor("#000000"));
+            }
             float width = (curValue-minValue)*valueWidth;
             canvas.drawLine(width, lineTop - lineHeight, width, lineTop + lineHeight, paintLine);//当前数值的标线
 
@@ -141,7 +147,7 @@ public class StandardLine extends View {
             ssb.append(value);
             ssb.append(unit);
             textPaint.setTextSize(DisplayUtil.sp2px(context,18f));
-            textPaint.setColor(Color.parseColor(curColor));
+
             float textWidth = textPaint.measureText(ssb.toString());
             if((width-textWidth/2)<0)
                 canvas.drawText(ssb,0,ssb.length(), 0, lineTop - lineHeight*2 , textPaint);

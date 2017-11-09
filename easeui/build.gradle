@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION as int
+    compileSdkVersion 25
     buildToolsVersion BUILD_TOOLS_VERSION
 
     useLibrary 'org.apache.http.legacy'
@@ -45,5 +45,5 @@ dependencies {
     //compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/MiPush_SDK_Client_2_2_19.jar')
     compile project(path: ':takePhoto')
-//    compile files('libs/hyphenatechat_3.2.3.jar')
+    //    compile files('libs/hyphenatechat_3.2.3.jar')
 }
