@@ -43,7 +43,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_search_contact)
-public class SearchContactActivity extends BaseActivity implements View.OnClickListener,TextWatcher{
+public class SearchContactActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -58,11 +58,12 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.pb)
     ProgressBar pb;
 
-    List<Contact> contacts=new ArrayList<>();
+    List<Contact> contacts = new ArrayList<>();
     EasyAdapter<Contact> adapter;
+
     @Override
     protected void initViews() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         tv_title.setText("邀请小伙伴");
         ll_left.setVisibility(View.INVISIBLE);
         tv_cancel.setOnClickListener(this);
@@ -70,16 +71,15 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 //判断是不是搜索
-                if(i== EditorInfo.IME_ACTION_SEARCH){
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
                      /*隐藏软键盘*/
                     SoftInputUtil.hidden(SearchContactActivity.this);
-                    UserModel user=UserInfoModel.getInstance().getUser();
-                    if(edit.length()==0){
+                    UserModel user = UserInfoModel.getInstance().getUser();
+                    if (edit.length() == 0) {
                         edit.requestFocus();
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号/资格证号</font>"));
                         return false;
-                    }else if(edit.getText().toString().equals(user.getMobile())||
-                            edit.getText().toString().equals(user.getCertification())){
+                    } else if (edit.getText().toString().equals(user.getMobile())) {
                         edit.requestFocus();
                         edit.setError(Html.fromHtml("<font color=#FFFFFF>无此用户</font>"));
                         return false;
@@ -93,22 +93,22 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                                         public void success(ResponseData<List<Contact>> data, Response response) {
                                             try {
                                                 pb.setVisibility(View.GONE);
-                                                if(data.getStatus()==200){
-                                                    if(data.getData()!=null&&!data.getData().isEmpty()){
+                                                if (data.getStatus() == 200) {
+                                                    if (data.getData() != null && !data.getData().isEmpty()) {
                                                         contacts.clear();
-                                                        Iterator<Contact> itr=data.getData().iterator();
-                                                        while (itr.hasNext()){
-                                                            Contact contact=itr.next();
-                                                            if(contact.getAccountId()==UserInfoModel.getInstance().getUserId()){
+                                                        Iterator<Contact> itr = data.getData().iterator();
+                                                        while (itr.hasNext()) {
+                                                            Contact contact = itr.next();
+                                                            if (contact.getAccountId() == UserInfoModel.getInstance().getUserId() || contact.getMobile().equals(edit.getText())) {
                                                                 itr.remove();
                                                             }
                                                         }
                                                         contacts.addAll(data.getData());
                                                         adapter.notifyDataSetChanged();
-                                                    }else {
+                                                    } else {
                                                         Util.toastMsg("无此用户只支持精确查询");
                                                     }
-                                                }else {
+                                                } else {
                                                     Util.toastMsg(data.getMsg());
                                                 }
                                             } catch (Exception e) {
@@ -136,22 +136,22 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
-        adapter=new EasyAdapter<Contact>(this,contacts,R.layout.search_contact_item) {
+        adapter = new EasyAdapter<Contact>(this, contacts, R.layout.search_contact_item) {
             @Override
             public void convert(ViewHolder holder, Contact data, int position) {
-                TextView tv_name=holder.getView(R.id.tv_name);
+                TextView tv_name = holder.getView(R.id.tv_name);
                 tv_name.setText(data.getUserName());
-                TextView tv_certificate=holder.getView(R.id.tv_certificate);
+                TextView tv_certificate = holder.getView(R.id.tv_certificate);
                 tv_certificate.setText("(");
-                tv_certificate.append(TextUtils.isEmpty(data.getCertification())?"暂无资格证号":data.getCertification());
+                tv_certificate.append(TextUtils.isEmpty(data.getCertification()) ? "暂无资格证号" : data.getCertification());
                 tv_certificate.append(")");
-                TextView tv_phone=holder.getView(R.id.tv_phone);
+                TextView tv_phone = holder.getView(R.id.tv_phone);
                 tv_phone.setText(data.getMobile());
-                CircleImageView head_image=holder.getView(R.id.head_image);
-                if(TextUtils.isEmpty(data.getPhoto())){
+                CircleImageView head_image = holder.getView(R.id.head_image);
+                if (TextUtils.isEmpty(data.getPhoto())) {
                     Picasso.with(SearchContactActivity.this).load(R.drawable.img_default).into(head_image);
-                }else {
-                    Picasso.with(SearchContactActivity.this).load(AddressManager.get("photoHost")+data.getPhoto())
+                } else {
+                    Picasso.with(SearchContactActivity.this).load(AddressManager.get("photoHost") + data.getPhoto())
                             .error(R.drawable.img_default).placeholder(R.drawable.img_default).into(head_image);
                 }
             }
@@ -160,11 +160,11 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Contact contact=contacts.get(i);
-                Intent intent=new Intent(SearchContactActivity.this,InvitationSettingActivity.class);
-                intent.putExtra("classId",getIntent().getStringExtra("classId"));
-                intent.putExtra("inviterId",contact.getAccountId());
-                intent.putExtra("inviterHXId",contact.getHXAccountId());
+                Contact contact = contacts.get(i);
+                Intent intent = new Intent(SearchContactActivity.this, InvitationSettingActivity.class);
+                intent.putExtra("classId", getIntent().getStringExtra("classId"));
+                intent.putExtra("inviterId", contact.getAccountId());
+                intent.putExtra("inviterHXId", contact.getHXAccountId());
                 startActivity(intent);
             }
         });
@@ -172,11 +172,11 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_cancel:
                 SoftInputUtil.hidden(SearchContactActivity.this);
                 finish();
-                overridePendingTransition(0,0);
+                overridePendingTransition(0, 0);
                 break;
         }
     }
@@ -188,31 +188,33 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            isOut=true;
+        isOut = true;
     }
+
     boolean isOut;
+
     @Override
     public void afterTextChanged(Editable editable) {
-        isOut=false;
-        String text=editable.toString();
+        isOut = false;
+        String text = editable.toString();
         contacts.clear();
-        if(text.trim().length()==0){
+        if (text.trim().length() == 0) {
             adapter.notifyDataSetChanged();
             return;
         }
-        Set<String> keys=ContactsActivity.datas.keySet();
-        for (String key:keys){
-            if(isOut){
+        Set<String> keys = ContactsActivity.datas.keySet();
+        for (String key : keys) {
+            if (isOut) {
                 break;
             }
-            for (Contact contact:ContactsActivity.datas.get(key)){
-                if(isOut){
+            for (Contact contact : ContactsActivity.datas.get(key)) {
+                if (isOut) {
                     break;
                 }
-                if(contact.getMobile().contains(text)
-                        ||contact.getUserName().contains(text)
-                        ||contact.getMobile().contains(text)
-                        ||TextUtils.isEmpty(contact.getUserEn())?false:contact.getUserEn().toLowerCase().contains(text.toLowerCase())){
+                if (contact.getMobile().contains(text)
+                        || contact.getUserName().contains(text)
+                        || contact.getMobile().contains(text)
+                        || TextUtils.isEmpty(contact.getUserEn()) ? false : contact.getUserEn().toLowerCase().contains(text.toLowerCase())) {
                     contacts.add(contact);
                 }
             }

@@ -373,24 +373,24 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 
                     if ("1".equals(IsFriend))//如果是好友，显示发起聊天
                     {
-                        btn_chat.setVisibility(View.VISIBLE);
-                        titlePopup.addAction(new ActionItem(PersonDetailActivity2.this, "删除好友", R.drawable.deletefriend));
-                        fl_right.setVisibility(View.VISIBLE);
+//                        btn_chat.setVisibility(View.VISIBLE);
+//                        titlePopup.addAction(new ActionItem(PersonDetailActivity2.this, "删除好友", R.drawable.deletefriend));
+//                        fl_right.setVisibility(View.VISIBLE);
 
 
                     } else {//不是好友，可发起临时会话，显示添加好友
                         if (issendFriend > 0) {//如果大于0，则为已发送过该好友请求
-                            btn_chat.setVisibility(View.VISIBLE);
-                            btn_chat.setText("发起临时会话");
-                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
-                            btn_addguy.setText("待确认");
-                            btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity2.this, R.color.white));
-                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity2.this, R.drawable.bg_assistant_refuse));
+//                            btn_chat.setVisibility(View.VISIBLE);
+//                            btn_chat.setText("发起临时会话");
+//                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
+//                            btn_addguy.setText("待确认");
+//                            btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity2.this, R.color.white));
+//                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity2.this, R.drawable.bg_assistant_refuse));
                             iv_email.setVisibility(View.INVISIBLE);
                         } else {
-                            btn_chat.setVisibility(View.VISIBLE);
-                            btn_chat.setText("发起临时会话");
-                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
+//                            btn_chat.setVisibility(View.VISIBLE);
+//                            btn_chat.setText("发起临时会话");
+//                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
                             iv_email.setVisibility(View.INVISIBLE);
 
                         }
@@ -479,18 +479,18 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     Util.toastMsg("不能给自己发消息！");
                 }
                 break;
-            case R.id.btn_addguy://添加好友
-                if ("0".equals(IsFriend)) {//0:不是好友
-                    if (issendFriend > 0) {//未发送过好友申请
-                        Util.toastMsg("您已发送过好友申请，请等待确认");
-                        return;
-                    } else {
-                        //参数为要添加的好友的username和添加理由
-                        sentFriendApply();
-                    }
-                }
-
-                break;
+//            case R.id.btn_addguy://添加好友
+//                if ("0".equals(IsFriend)) {//0:不是好友
+//                    if (issendFriend > 0) {//未发送过好友申请
+//                        Util.toastMsg("您已发送过好友申请，请等待确认");
+//                        return;
+//                    } else {
+//                        //参数为要添加的好友的username和添加理由
+//                        sentFriendApply();
+//                    }
+//                }
+//
+//                break;
             case R.id.ll_left:
                 finish();
                 break;

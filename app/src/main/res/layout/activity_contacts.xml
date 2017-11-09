@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
-    <include layout="@layout/toolbar"/>
+
+    <include layout="@layout/toolbar" />
+
     <LinearLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
@@ -51,47 +53,50 @@
             android:paddingLeft="15dp"
             android:text="从您的体管赛通讯录中直接邀请"
             android:textColor="#333333"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
+
     <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
         android:id="@+id/elv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_layout"
+        android:divider="#e1e1e1"
         android:dividerHeight="0.5dp"
         android:groupIndicator="@null"
         android:overScrollMode="never"
-        app:ptrAnimationStyle="flip"
-        app:ptrShowIndicator="false"
         android:scrollbars="none"
-        android:divider="#e1e1e1"/>
+        app:ptrAnimationStyle="flip"
+        app:ptrShowIndicator="false" />
 
     <TextView
         android:id="@+id/tv_perview"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_centerInParent="true"
         android:background="#B2898787"
-        android:textColor="#FFFFFF"
         android:gravity="center"
+        android:textColor="#FFFFFF"
         android:textSize="70sp"
-        android:visibility="gone"
-        android:layout_centerInParent="true"/>
+        android:visibility="gone" />
 
     <com.ggx.widgets.view.ChooseView
         android:id="@+id/choose"
         android:layout_width="25dp"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/toolbar"
+        android:gravity="center" />
+
     <TextView
         android:id="@+id/tv_nomessage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:text=""
         android:textSize="12sp"
-        android:visibility="gone"
-        android:text="您的体管赛通讯录中还没有好友，请通过搜索的方式邀请吧"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

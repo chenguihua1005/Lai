@@ -1,10 +1,12 @@
 package com.softtek.lai.module.healthyreport;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -16,12 +18,16 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
 import com.softtek.lai.module.File.view.ExplainActivity;
 import com.softtek.lai.module.healthyreport.model.HealthModel;
 import com.softtek.lai.module.healthyreport.model.LastestRecordModel;
 import com.softtek.lai.module.healthyreport.presenter.HealthyEntryPresenter;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.StringUtil;
+
+import org.joda.time.DateTime;
+
+import java.util.Calendar;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -73,7 +79,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     RelativeLayout rl_bmi;
     @InjectView(R.id.rl_quzhi)
     RelativeLayout rl_quzhi;
-//    @InjectView(R.id.rl_visceral_fat)
+    //    @InjectView(R.id.rl_visceral_fat)
 //    RelativeLayout rl_visceral_fat;
     @InjectView(R.id.rl_body_water_per)
     RelativeLayout rl_body_water_per;
@@ -89,6 +95,11 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     RelativeLayout rl_body_age;
     @InjectView(R.id.ll_explain)
     LinearLayout ll_explain;
+
+    @InjectView(R.id.rl_measure_date) //测量日期
+            RelativeLayout rl_measure_date;
+    @InjectView(R.id.tv_measure_date)
+    TextView tv_measure_date;
 
 
     @InjectView(R.id.tv_weight)
@@ -122,7 +133,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     TextView tv_bmi;
     @InjectView(R.id.tv_quzhi)
     TextView tv_quzhi;
-//    @InjectView(R.id.tv_visceral_fat)
+    //    @InjectView(R.id.tv_visceral_fat)
 //    TextView tv_visceral_fat;
     @InjectView(R.id.tv_body_water_per)
     TextView tv_body_water_per;
@@ -168,6 +179,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         rl_bone.setOnClickListener(this);
         rl_base_metabolize.setOnClickListener(this);
         rl_body_age.setOnClickListener(this);
+        rl_measure_date.setOnClickListener(this);
+
 
         btn_sure.setOnClickListener(this);
     }
@@ -177,6 +190,10 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         tv_title.setText("健康记录录入");
         setPresenter(new HealthyEntryPresenter(this));
         getPresenter().doGetLastestRecord(UserInfoModel.getInstance().getUserId());
+
+        //获取当前年月日
+        currentMonth = DateUtil.getInstance().getCurrentMonth();
+        currentDay = DateUtil.getInstance().getCurrentDay();
     }
 
     AlertDialog weightDialog;
@@ -432,10 +449,57 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                     }
                 }).show();
                 break;
+            case R.id.rl_measure_date:
+                showDateDialog();
+                break;
             case R.id.btn_sure:
                 validateLife.validate();
                 break;
         }
+    }
+
+    int currentMonth;
+    int currentDay;
+
+    private void showDateDialog() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        DateTime minTime=new DateTime(1900,1,1,0,0);
+        DateTime maxTime=new DateTime();
+        DateTime defaultTime=new DateTime(1990,currentMonth-1,currentDay,0,0);
+        final DatePickerDialog dialog =
+                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(),defaultTime.getDayOfMonth());
+        dialog.getDatePicker().setMinDate(minTime.getMillis());
+        dialog.getDatePicker().setMaxDate(maxTime.getMillis());
+        dialog.setTitle("选择测量日期(年-月-日)");
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                //通过mDialog.getDatePicker()获得dialog上的DatePicker组件，然后可以获取日期信息
+                DatePicker datePicker = dialog.getDatePicker();
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth() + 1;
+                int day = datePicker.getDayOfMonth();
+                String date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                int compare= DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date,DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+                if(compare==1){
+//                    show_warn_dialog();
+                    return;
+                }
+                //输出当前日期
+                tv_measure_date.setText(date);
+                tv_measure_date.setError(null);
+
+            }
+        });
+        dialog.show();
+
     }
 
     private AlertDialog createDialog(String title, int min, int max, int defaultValue, final DoSelectedListener listener) {
@@ -476,7 +540,6 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         String uparmgirth = tv_uparmgirth.getText().toString();
         String upleggirth = tv_upleggirth.getText().toString();
         String doleggirth = tv_doleggirth.getText().toString();
-
 
 
         healthModele = new HealthModel();

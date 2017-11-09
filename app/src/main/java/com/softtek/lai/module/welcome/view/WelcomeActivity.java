@@ -10,10 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.widget.RelativeLayout;
 
 import com.softtek.lai.LaiApplication;
@@ -24,7 +21,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
@@ -118,10 +114,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 UserInfoModel.getInstance().saveUserCache(model);
 
                                 //检查是否存在环信帐号
-                                if (!TextUtils.isEmpty(model.getHXAccountId())) {
-                                    //开启登录服务
-                                    startService(new Intent(getApplicationContext(), HXLoginService.class));
-                                }
+//                                if (!TextUtils.isEmpty(model.getHXAccountId())) {
+//                                    //开启登录服务
+//                                    startService(new Intent(getApplicationContext(), HXLoginService.class));
+//                                }
                                 //如果用户加入了跑团
                                 if("1".equals(model.getIsJoin())){
                                     stepDeal(WelcomeActivity.this,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));

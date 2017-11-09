@@ -6,7 +6,6 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
-import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,9 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hyphenate.EMError;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -44,7 +40,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_regist)
 public class RegistActivity extends BaseActivity<RegistPresenter> implements View.OnClickListener,
-        Validator.ValidationListener,RegistPresenter.RegistView{
+        Validator.ValidationListener, RegistPresenter.RegistView {
 
     private MyCountDown countDown;
 
@@ -125,7 +121,7 @@ public class RegistActivity extends BaseActivity<RegistPresenter> implements Vie
         switch (v.getId()) {
             case R.id.tv_get_identify:
                 String phone = et_phone.getText().toString();
-                boolean validate = getPresenter().validateGetIdentify(this,et_phone, et_password, et_repassword);
+                boolean validate = getPresenter().validateGetIdentify(this, et_phone, et_password, et_repassword);
                 if (!validate) {
                     return;
                 }
@@ -188,27 +184,29 @@ public class RegistActivity extends BaseActivity<RegistPresenter> implements Vie
         final String phoneNum = et_phone.getText().toString();
         final String password = et_password.getText().toString();
 
-        // 欢心环信注册
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // call method in SDK
-                try {
-                    EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
-                    Looper.prepare();
-                    getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
-                    Looper.loop();
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                    if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
-                        Looper.prepare();
-                        getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
-                        Looper.loop();
-                    }
-                }
+        getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
 
-            }
-        }).start();
+        // 欢心环信注册
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // call method in SDK
+//                try {
+//                    EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
+//                    Looper.prepare();
+//                    getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
+//                    Looper.loop();
+//                } catch (HyphenateException e) {
+//                    e.printStackTrace();
+//                    if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
+//                        Looper.prepare();
+//                        getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
+//                        Looper.loop();
+//                    }
+//                }
+//
+//            }
+//        }).start();
 
     }
 

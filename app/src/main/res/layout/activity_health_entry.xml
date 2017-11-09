@@ -647,6 +647,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#78BC27" />
+            <RelativeLayout
+                android:id="@+id/rl_measure_date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="测量日期"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_measure_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffbb00"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
             <LinearLayout
                 android:id="@+id/ll_explain"
                 android:orientation="horizontal"

@@ -1,11 +1,8 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -84,10 +81,12 @@ public class EditSignaActivity extends BaseActivity implements View.OnClickListe
     }
     private void doPostService()
     {
+        dialogShow("请稍候...");
         editSignaModel.setPName(edit_content.getText().toString().trim());
         headService.doCommitSina(UserInfoModel.getInstance().getToken(),editSignaModel, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
+                dialogDissmiss();
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:

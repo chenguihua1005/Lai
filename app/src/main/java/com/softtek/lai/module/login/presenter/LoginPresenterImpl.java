@@ -24,7 +24,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
@@ -154,7 +153,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         SharedPreferenceService.getInstance().put(Constants.USER, userName);
                         SharedPreferenceService.getInstance().put(Constants.PDW, password);
                         //开启登录服务
-                        context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
+//                        context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
                         //如果用户加入了跑团
                         if ("1".equals(model.getIsJoin())) {
                             stepDeal(context, model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt()) ? 0 : Long.parseLong(model.getTodayStepCnt()));

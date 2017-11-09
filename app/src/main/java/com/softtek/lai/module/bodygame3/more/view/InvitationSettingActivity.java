@@ -230,100 +230,47 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 } else if (invitation.getClassRole() == 0) {
                     Util.toastMsg("请为用户分配角色");
                     return;
-                }
-                if (TextUtils.isEmpty(inviterHXId)) {
-                    Util.toastMsg("无法邀请此用户");
-                    return;
                 } else {
                     dialogShow(getResources().getString(R.string.Is_sending_a_request));
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            String[] inviterHXIds = {inviterHXId};
 
-                            try {//群主加人调用此方法
-                                //根据群组ID从服务器获取群组基本信息
-//                                EMGroup group = EMClient.getInstance().groupManager().getGroupFromServer(classInvitater.getClassGroupHxId());
-//                                if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
-//                                    EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
-//                                } else {
-//                                    // 一般成员调用invite方法
-//                                    EMClient.getInstance().groupManager().inviteUser(classInvitater.getClassGroupHxId(), inviterHXIds, null);
-//                                }
+                    ZillaApi.NormalRestAdapter.create(MoreService.class)
+                            .sendInviter(UserInfoModel.getInstance().getToken(),
+                                    invitation,
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(final ResponseData responseData, final Response response) {
+                                            if (responseData.getStatus() == 200) {
+                                                Util.toastMsg("成功发送邀请！");
+                                                InvitatedContact contact = new InvitatedContact();
+                                                contact.setClassRole(invitation.getClassRole());
+                                                contact.setInviterCertification("");
+                                                contact.setInviterId((int) invitation.getInviterId());
+                                                contact.setInviterMobile(classInvitater.getInviterMobile());
+                                                contact.setInviterPhoto(classInvitater.getInviterPhoto());
+                                                contact.setInviterStatus(0);
+                                                contact.setMessageId("0");
+                                                contact.setInviterUserName(classInvitater.getInviterName());
+                                                contact.setJoinGroupId(invitation.getClassGroupId());
+                                                contact.setJoinGroupName(tv_group_name.getText().toString());
+                                                Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
+                                                intent.putExtra("invitater", contact);
+                                                intent.putExtra("classId", invitation.getClassId());
+                                                dialogDissmiss();
+                                                startActivity(intent);
 
-//                                EMClient.getInstance().groupManager().addUsersToGroup(classInvitater.getClassGroupHxId(), inviterHXIds);
+                                            } else {
+                                                dialogDissmiss();
+                                                Util.toastMsg(responseData.getMsg());
+                                            }
+                                        }
 
-                                ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                        .sendInviter(UserInfoModel.getInstance().getToken(),
-                                                invitation,
-                                                new RequestCallback<ResponseData>() {
-                                                    @Override
-                                                    public void success(final ResponseData responseData, final Response response) {
-                                                        if (responseData.getStatus() == 200) {
-                                                            runOnUiThread(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    Util.toastMsg("成功发送邀请！");
-                                                                    InvitatedContact contact = new InvitatedContact();
-                                                                    contact.setClassRole(invitation.getClassRole());
-                                                                    contact.setInviterCertification("");
-                                                                    contact.setInviterId((int) invitation.getInviterId());
-                                                                    contact.setInviterMobile(classInvitater.getInviterMobile());
-                                                                    contact.setInviterPhoto(classInvitater.getInviterPhoto());
-                                                                    contact.setInviterStatus(0);
-                                                                    contact.setMessageId("0");
-                                                                    contact.setInviterUserName(classInvitater.getInviterName());
-                                                                    contact.setJoinGroupId(invitation.getClassGroupId());
-                                                                    contact.setJoinGroupName(tv_group_name.getText().toString());
-                                                                    Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
-                                                                    intent.putExtra("invitater", contact);
-                                                                    intent.putExtra("classId", invitation.getClassId());
-                                                                    dialogDissmiss();
-                                                                    startActivity(intent);
-                                                                }
-                                                            });
-
-
-                                                        } else {
-                                                            runOnUiThread(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    dialogDissmiss();
-                                                                    Util.toastMsg(responseData.getMsg());
-                                                                }
-                                                            });
-
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void failure(RetrofitError error) {
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                dialogDissmiss();
-                                                                Util.toastMsg(getResources().getString(R.string.Add_group_members_fail));
-
-                                                            }
-                                                        });
-                                                        super.failure(error);
-                                                    }
-                                                });
-
-                                //莱后台请求
-                            } catch (final Exception e) {
-                                e.printStackTrace();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        dialogDissmiss();
-                                        Util.toastMsg(getResources().getString(R.string.Add_group_members_fail) + e.getMessage());
-
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            super.failure(error);
+                                            dialogDissmiss();
+                                            Util.toastMsg("邀请发送失败！");
+                                        }
+                                    });
                 }
                 break;
         }

@@ -16,7 +16,6 @@ import com.hyphenate.chat.EMClient;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.conversation.service.HXLoginService;
 import com.softtek.lai.module.home.view.AboutMeActivity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
@@ -113,7 +112,7 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                 @Override
                 public void onSuccess() {
                     //关闭环信服务
-                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
+//                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                     LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
                     Looper.prepare();
                     UserInfoModel.getInstance().loginOut();

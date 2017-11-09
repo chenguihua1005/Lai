@@ -34,9 +34,9 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_history_data)
-public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener, View.OnClickListener
+public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, View.OnClickListener
         , HistoryDataManager.HistoryDataManagerCallback, PullToRefreshBase.OnRefreshListener2<ListView>
-,RadioGroup.OnCheckedChangeListener{
+        , RadioGroup.OnCheckedChangeListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -57,12 +57,15 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @InjectView(R.id.rg)
     RadioGroup rg;
 
+    @InjectView(R.id.pk_btn)
+    TextView pk_btn;
+
 
     private List<HistoryDataItemModel> dataItemModels = new ArrayList<>();
     private HistoryDataAdapter adapter;
     private int pageIndex = 0;
     private int totalPage = 0;
-    private int type=0;//默认莱称选中
+    private int type = 0;//默认莱称选中
     private long accountId;
 
     @Override
@@ -78,7 +81,9 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         cb_all.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
         tv_cancle.setOnClickListener(this);
-        rg.setOnCheckedChangeListener(this );
+        rg.setOnCheckedChangeListener(this);
+        pk_btn.setOnClickListener(this);
+
     }
 
     @Override
@@ -88,45 +93,47 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         ptrlv.setAdapter(adapter);
         pageIndex = 1;
         //默认加载莱称的数据
-        accountId=getIntent().getLongExtra("accountId",0);
-        getPresenter().getHistoryDataList(0,pageIndex,accountId,false);
+        accountId = getIntent().getLongExtra("accountId", 0);
+        getPresenter().getHistoryDataList(0, pageIndex, accountId, false);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(isEditor){
+        if (isEditor) {
             return;
         }
         //点击进入健康报告
-        HistoryDataModel.RecordsBean bean=dataItemModels.get(position-1).getDataModel();
-        Intent intent=new Intent(this,HealthyReportActivity.class);
-        intent.putExtra("reportId",bean.getRecordId());
-        intent.putExtra("since",type==0?HealthyReportActivity.SINCE_LAICHEN:HealthyReportActivity.SINCE_OTHER);
-        intent.putExtra("isVisitor",HealthyReportActivity.NON_VISITOR);
+        HistoryDataModel.RecordsBean bean = dataItemModels.get(position - 1).getDataModel();
+        Intent intent = new Intent(this, HealthyReportActivity.class);
+        intent.putExtra("reportId", bean.getRecordId());
+        intent.putExtra("since", type == 0 ? HealthyReportActivity.SINCE_LAICHEN : HealthyReportActivity.SINCE_OTHER);
+        intent.putExtra("isVisitor", HealthyReportActivity.NON_VISITOR);
         startActivity(intent);
     }
 
     boolean isEditor;
-    private void openEditor(int position){
-        for (int i=0,j=dataItemModels.size();i<j;i++) {
-            HistoryDataItemModel model=dataItemModels.get(i);
-            model.setChecked(position==i);
+
+    private void openEditor(int position) {
+        for (int i = 0, j = dataItemModels.size(); i < j; i++) {
+            HistoryDataItemModel model = dataItemModels.get(i);
+            model.setChecked(position == i);
             model.setShow(isEditor);
         }
 
         ptrlv.setMode(PullToRefreshBase.Mode.DISABLED);
         ll_footer.setVisibility(View.VISIBLE);
         adapter.notifyDataSetChanged();
-        if(empty==null){
-            empty=new View(this);
-            empty.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,DisplayUtil.dip2px(this,48)));
+        if (empty == null) {
+            empty = new View(this);
+            empty.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(this, 48)));
         }
         ptrlv.getRefreshableView().addFooterView(empty);
 
     }
-    private void closeEditor(){
-        for (int i=0,j=dataItemModels.size();i<j;i++) {
-            HistoryDataItemModel model=dataItemModels.get(i);
+
+    private void closeEditor() {
+        for (int i = 0, j = dataItemModels.size(); i < j; i++) {
+            HistoryDataItemModel model = dataItemModels.get(i);
             model.setChecked(false);
             model.setShow(false);
         }
@@ -136,18 +143,20 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
         ptrlv.getRefreshableView().removeFooterView(empty);
 
     }
+
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        isEditor=!isEditor;
-        if(isEditor){
-            openEditor(position-1);
-        }else {
+        isEditor = !isEditor;
+        if (isEditor) {//长按出现底层菜单
+            openEditor(position - 1);
+        } else {
             closeEditor();
         }
         return true;
     }
 
     View empty;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -155,7 +164,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                 finish();
                 break;
             case R.id.fl_right:
-                startActivity(new Intent(this,HealthEntryActivity.class));
+                startActivity(new Intent(this, HealthEntryActivity.class));
                 break;
             case R.id.tv_delete:
                 //提交删除选项
@@ -170,7 +179,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                 if (TextUtils.isEmpty(ids)) {
                     break;
                 }
-                getPresenter().deleteHistoryData(type,ids.deleteCharAt(ids.length()-1).toString());
+                getPresenter().deleteHistoryData(type, ids.deleteCharAt(ids.length() - 1).toString());
                 break;
             case R.id.cb_all:
                 for (HistoryDataItemModel model : dataItemModels) {
@@ -181,39 +190,48 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
             case R.id.tv_cancle:
                 closeEditor();
                 break;
+            case R.id.pk_btn:
+                Intent intent = new Intent(HistoryDataActivity.this, PKSelectActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
     @Override
     public void historyDataCallback(HistoryDataModel model) {
-        totalPage = model.getTotalPages();
-        List<HistoryDataModel.RecordsBean> datas = model.getRecords();
-        if (pageIndex == 1) {
-            dataItemModels.clear();
-        }
-        if(datas!=null&&!datas.isEmpty()){
-            for (HistoryDataModel.RecordsBean data: datas) {
-                dataItemModels.add(new HistoryDataItemModel(false, false, data));
+        if (model != null) {
+            totalPage = model.getTotalPages();
+            List<HistoryDataModel.RecordsBean> datas = model.getRecords();
+            if (pageIndex == 1) {
+                dataItemModels.clear();
             }
-        }else {
-            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+            if (datas != null && !datas.isEmpty()) {
+                for (HistoryDataModel.RecordsBean data : datas) {
+                    dataItemModels.add(new HistoryDataItemModel(false, false, data));
+                }
+            } else {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+            }
+            adapter.notifyDataSetChanged();
+        } else {
+            dataItemModels.clear();
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void deleteResult() {
-        Iterator<HistoryDataItemModel> its=dataItemModels.iterator();
-        while (its.hasNext()){
-            HistoryDataItemModel model=its.next();
-            if(model.isChecked()){
+        Iterator<HistoryDataItemModel> its = dataItemModels.iterator();
+        while (its.hasNext()) {
+            HistoryDataItemModel model = its.next();
+            if (model.isChecked()) {
                 its.remove();
-            }else {
+            } else {
                 model.setShow(false);
             }
         }
-        isEditor=false;
+        isEditor = false;
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ll_footer.setVisibility(View.GONE);
         adapter.notifyDataSetChanged();
@@ -228,14 +246,14 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        getPresenter().getHistoryDataList(type,pageIndex,accountId,true);
+        getPresenter().getHistoryDataList(type, pageIndex, accountId, true);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if (pageIndex <= totalPage) {
-            getPresenter().getHistoryDataList(type,pageIndex,accountId,true);
+            getPresenter().getHistoryDataList(type, pageIndex, accountId, true);
         } else {
             pageIndex--;
             new Handler().postDelayed(new Runnable() {
@@ -250,8 +268,8 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if(isEditor) {
-                isEditor=false;
+            if (isEditor) {
+                isEditor = false;
                 closeEditor();
                 return true;
             }
@@ -262,12 +280,14 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
 
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-        if(checkedId==R.id.rb_laichen){
-            type=0;
-        }else if(checkedId==R.id.rb_all){
-            type=1;
+        if (checkedId == R.id.rb_laichen) {
+            type = 0;
+        } else if (checkedId == R.id.rb_all) {
+            type = 1;
+        } else if (checkedId == R.id.rb_fuce) {//复测
+            type = 2;
         }
-        pageIndex=1;
-        getPresenter().getHistoryDataList(type,pageIndex,accountId,false);
+        pageIndex = 1;
+        getPresenter().getHistoryDataList(type, pageIndex, accountId, false);
     }
 }

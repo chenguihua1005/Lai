@@ -94,8 +94,6 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     long introducerId;
 
 
-
-
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -154,8 +152,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
             tv_invitater_name.setText(show.getSender());
             tv_head_coach_name.setText(show.getClassMasterName());
             if (!TextUtils.isEmpty(show.getClassMasterPhoto())) {
-                int px=DisplayUtil.dip2px(this,30);
-                Picasso.with(this).load(AddressManager.get("photoHost") + show.getClassMasterPhoto()).resize(px,px).centerCrop()
+                int px = DisplayUtil.dip2px(this, 30);
+                Picasso.with(this).load(AddressManager.get("photoHost") + show.getClassMasterPhoto()).resize(px, px).centerCrop()
                         .placeholder(R.drawable.img_default)
                         .error(R.drawable.img_default)
                         .into(head_image);
@@ -165,9 +163,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
             tv_first_time.setText(show.getClassStart());
             int role = show.getClassRole();
             tv_role_name.setText(role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员" : "");
-            if (role==4){
+            if (role == 4) {
                 rl_aixin.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 rl_aixin.setVisibility(View.GONE);
             }
             tv_group_name.setText(show.getCGName());
@@ -205,78 +203,43 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 dialogShow();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-//                            EMClient.getInstance().groupManager().acceptInvitation(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));
-                            //莱后台请求
-                            service.makeSureJoin(UserInfoModel.getInstance().getToken(),
-                                    msgId,
-                                    1,
-                                    introducerId,
-                                    new RequestCallback<ResponseData>() {
-                                        @Override
-                                        public void success(final ResponseData responseData, Response response) {
-                                            dialogDissmiss();
-                                            Log.i(responseData.toString());
-                                            if (responseData.getStatus() == 200) {
-                                                ClassModel model = new ClassModel();
-                                                model.setClassId(show.getClassId());
-                                                model.setClassName(show.getClassName());
-                                                model.setClassCode(show.getClassCode());
-                                                model.setHXGroupId(show.getClassHxGroupId());
-                                                model.setClassRole(show.getClassRole());
-                                                model.setClassMasterName(show.getClassMasterName());
-                                                model.setClassStatus(show.getClassStatus());
-                                                model.setCGName(show.getCGName());
-                                                model.setCGId(show.getCGId());
-                                                EventBus.getDefault().post(new UpdateClass(1, model));
-                                                Intent intent=getIntent();
-                                                intent.putExtra("msgStatus",1);
-                                                setResult(RESULT_OK,intent);
-                                                finish();
-                                            } else {// 此时需要环信剔除处理
-                                                (MessageConfirmActivity.this).runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Util.toastMsg(responseData.getMsg());
-                                                    }
-                                                });
-
-                                            }
-                                        }
-
-                                        @Override
-                                        public void failure(final RetrofitError error) {
-//                                            try {
-////                                                    EMClient.getInstance().groupManager().removeUserFromGroup(String.valueOf(show.getClassHxGroupId()), String.valueOf(show.getClassMasterHxId()));//需异步处理
-//                                                EMClient.getInstance().groupManager().leaveGroup(String.valueOf(show.getClassHxGroupId()));//后台处理失败，退群
-//                                            } catch (HyphenateException e) {
-//                                                e.printStackTrace();
-//                                            }
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    dialogDissmiss();
-                                                }
-                                            });
-                                            super.failure(error);
-                                        }
-                                    });
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialogDissmiss();
-//                                    Util.toastMsg("环信异常");
+                //莱后台请求
+                service.makeSureJoin(UserInfoModel.getInstance().getToken(),
+                        msgId,
+                        1,
+                        introducerId,
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(final ResponseData responseData, Response response) {
+                                dialogDissmiss();
+                                Log.i(responseData.toString());
+                                if (responseData.getStatus() == 200) {
+                                    ClassModel model = new ClassModel();
+                                    model.setClassId(show.getClassId());
+                                    model.setClassName(show.getClassName());
+                                    model.setClassCode(show.getClassCode());
+                                    model.setHXGroupId(show.getClassHxGroupId());
+                                    model.setClassRole(show.getClassRole());
+                                    model.setClassMasterName(show.getClassMasterName());
+                                    model.setClassStatus(show.getClassStatus());
+                                    model.setCGName(show.getCGName());
+                                    model.setCGId(show.getCGId());
+                                    EventBus.getDefault().post(new UpdateClass(1, model));
+                                    Intent intent = getIntent();
+                                    intent.putExtra("msgStatus", 1);
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                } else {// 此时需要环信剔除处理
+                                    Util.toastMsg(responseData.getMsg());
                                 }
-                            });
-                        }
-                    }
-                }).start();
+                            }
+
+                            @Override
+                            public void failure(final RetrofitError error) {
+                                dialogDissmiss();
+                                super.failure(error);
+                            }
+                        });
 
                 break;
             case R.id.btn_no:
@@ -290,9 +253,9 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                             public void success(ResponseData responseData, Response response) {
                                 dialogDissmiss();
                                 //确认成
-                                Intent intent=getIntent();
-                                intent.putExtra("msgStatus",2);
-                                setResult(RESULT_OK,intent);
+                                Intent intent = getIntent();
+                                intent.putExtra("msgStatus", 2);
+                                setResult(RESULT_OK, intent);
                                 finish();
                             }
 
@@ -304,10 +267,10 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                         });
                 break;
             case R.id.rl_aixin: {
-                if(show!=null){
+                if (show != null) {
                     Intent intent = new Intent(this, EditorPhoneActivity.class);
                     intent.putExtra("aixin", tv_aixin_phone.getText().toString());
-                    intent.putExtra("classId",show.getClassId());
+                    intent.putExtra("classId", show.getClassId());
                     startActivityForResult(intent, 100);
                 }
 

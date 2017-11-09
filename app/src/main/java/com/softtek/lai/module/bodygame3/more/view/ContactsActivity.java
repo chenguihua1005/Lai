@@ -139,30 +139,30 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 tv_perview.setVisibility(View.GONE);
             }
         });
-        dialogShow();
-        ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getContactsList(UserInfoModel.getInstance().getToken(),
-                        UserInfoModel.getInstance().getUserId(),
-                        20, 1,
-                        new RequestCallback<ResponseData<List<Contact>>>() {
-                            @Override
-                            public void success(ResponseData<List<Contact>> data, Response response) {
-                                dialogDissmiss();
-                                if(data.getStatus()==200){
-                                    try {
-                                        onResult(data.getData());
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                dialogDissmiss();
-                                super.failure(error);
-                            }
-                        });
+//        dialogShow();
+//        ZillaApi.NormalRestAdapter.create(MoreService.class)
+//                .getContactsList(UserInfoModel.getInstance().getToken(),
+//                        UserInfoModel.getInstance().getUserId(),
+//                        20, 1,
+//                        new RequestCallback<ResponseData<List<Contact>>>() {
+//                            @Override
+//                            public void success(ResponseData<List<Contact>> data, Response response) {
+//                                dialogDissmiss();
+//                                if(data.getStatus()==200){
+//                                    try {
+//                                        onResult(data.getData());
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void failure(RetrofitError error) {
+//                                dialogDissmiss();
+//                                super.failure(error);
+//                            }
+//                        });
     }
 
 
