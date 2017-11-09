@@ -25,6 +25,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.model.Comment;
 import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.view.DynamicFragment;
+import com.softtek.lai.module.community.view.DynamicMergeFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.laijumine.view.MineFragment;
@@ -51,8 +52,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @InjectView(R.id.btn_healthy)
     SimpleButton btn_healthy;
 
-    @InjectView(R.id.btn_healthy_record)
-    SimpleButton btn_healthy_record;
+//    @InjectView(R.id.btn_healthy_record)
+//    SimpleButton btn_healthy_record;
 
     @InjectView(R.id.btn_mine)
     SimpleButton btn_mine;
@@ -79,9 +80,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     protected void initViews() {
         btn_home.setOnClickListener(this);
         btn_healthy.setOnClickListener(this);
-        btn_healthy_record.setOnClickListener(this);
+//        btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        content.setOffscreenPageLimit(4);
+        content.setOffscreenPageLimit(3);
         //**************************
         et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
         et_input.addTextChangedListener(new TextWatcher() {
@@ -116,10 +117,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 comment.CommentUserId = UserInfoModel.getInstance().getUserId();
                 comment.CommentUserName = UserInfoModel.getInstance().getUser().getNickname();
                 comment.isReply = 0;
+                DynamicFragment dynamicFragment = (DynamicFragment)((DynamicMergeFragment)fragments.get(1)).getFragmentList().get(0);
+                FocusFragment focusFragment = (FocusFragment)((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
                 if (DynamicFragment.DYNAMIC.equals(tag)) {
-                    ((DynamicFragment) fragments.get(1)).doSend(position, comment);
+                    dynamicFragment.doSend(position,comment);
                 } else if (FocusFragment.FOCUSFRAGMENT.equals(tag)) {
-                    ((FocusFragment) fragments.get(2)).doSend(position, comment);
+//                    ((FocusFragment) fragments.get(2)).doSend(position, comment);
+                    focusFragment.doSend(position,comment);
                 }
             }
         });
@@ -130,8 +134,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
         fragments.add(new HomeFragment());
-        fragments.add(DynamicFragment.getInstance(this));
-        fragments.add(FocusFragment.getInstance(this));//关注
+        fragments.add(new DynamicMergeFragment(this));
+//        fragments.add(DynamicFragment.getInstance(this));
+//        fragments.add(FocusFragment.getInstance(this));//关注
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -141,7 +146,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                     setChildProgress(position, 1 - positionOffset);
                     setChildProgress(position + 1, positionOffset);
                 }
-
             }
 
             @Override
@@ -196,15 +200,15 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 btn_healthy.setProgress(1);
                 currentId = 1;
                 MobclickAgent.onEvent(this, "HealthyCommunityEvent");
-                break;
-            case R.id.btn_healthy_record:
-                btn_healthy_record.setProgress(1);
-                currentId = 2;
                 MobclickAgent.onEvent(this, "HealthyRecordEvent");
                 break;
+//            case R.id.btn_healthy_record:
+//                btn_healthy_record.setProgress(1);
+//                currentId = 2;
+//                break;
             case R.id.btn_mine:
                 btn_mine.setProgress(1);
-                currentId = 3;
+                currentId = 2;
                 break;
         }
         content.setCurrentItem(currentId, false);
@@ -224,10 +228,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             case 1:
                 btn_healthy.setProgress(progress);
                 break;
+//            case 2:
+//                btn_healthy_record.setProgress(progress);
+//                break;
             case 2:
-                btn_healthy_record.setProgress(progress);
-                break;
-            case 3:
                 btn_mine.setProgress(progress);
                 break;
         }
@@ -236,7 +240,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     private void restoreState() {
         btn_home.setProgress(0);
         btn_healthy.setProgress(0);
-        btn_healthy_record.setProgress(0);
+//        btn_healthy_record.setProgress(0);
         btn_mine.setProgress(0);
 
     }
@@ -278,10 +282,14 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 int[] position2 = new int[2];
                 rl_send.getLocationOnScreen(position2);
+                DynamicFragment dynamicFragment = (DynamicFragment)((DynamicMergeFragment)fragments.get(1)).getFragmentList().get(0);
+                FocusFragment focusFragment = (FocusFragment)((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
                 if (DynamicFragment.DYNAMIC.equals(tag)) {
-                    ((DynamicFragment) fragments.get(1)).doScroll(position, itemHeight, position2[1]);
+                    dynamicFragment.doScroll(position,itemHeight,position2[1]);
+//                    ((DynamicFragment) fragments.get(1)).doScroll(position, itemHeight, position2[1]);
                 } else if (FocusFragment.FOCUSFRAGMENT.equals(tag)) {
-                    ((FocusFragment) fragments.get(2)).doScroll(position, itemHeight, position2[1]);
+                    focusFragment.doScroll(position,itemHeight,position2[1]);
+//                    ((FocusFragment) fragments.get(2)).doScroll(position, itemHeight, position2[1]);
                 }
             }
         }, 1000);

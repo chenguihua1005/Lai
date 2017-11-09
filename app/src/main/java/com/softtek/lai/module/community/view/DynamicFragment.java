@@ -75,12 +75,12 @@ import static android.view.View.GONE;
 public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>,
         RecommentHealthyManager.RecommentHealthyManagerCallback, HealthyCommunityAdapter.OperationCall, SendCommend {
 
-    @InjectView(R.id.iv_left)
-    ImageView iv_left;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
+//    @InjectView(R.id.iv_left)
+//    ImageView iv_left;
+//    @InjectView(R.id.tv_right)
+//    TextView tv_right;
+//    @InjectView(R.id.tv_title)
+//    TextView tv_title;
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -172,9 +172,9 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
 //            params.topMargin= DisplayUtil.getStatusHeight(getActivity());
 //            toolbar.setLayoutParams(params);
 //        }
-        tv_title.setText("动态");
-        iv_left.setVisibility(View.INVISIBLE);
-        tv_right.setText("更多话题");
+//        tv_title.setText("动态");
+//        iv_left.setVisibility(View.INVISIBLE);
+//        tv_right.setText("更多话题");
         EventBus.getDefault().register(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
@@ -248,10 +248,10 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         startActivityForResult(intent, OPEN_SENDER_REQUEST);
     }
 
-    @OnClick(R.id.fl_right)
-    public void moreTopicClick(View view) {
-        startActivity(new Intent(getContext(), TopicListActivity.class));
-    }
+//    @OnClick(R.id.fl_right)
+//    public void moreTopicClick(View view) {
+//        startActivity(new Intent(getContext(), TopicListActivity.class));
+//    }
 
 
     @Subscribe

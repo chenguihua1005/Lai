@@ -47,15 +47,15 @@
             app:text="动态"
             app:wx_alpha="true" />
 
-        <com.softtek.lai.widgets.SimpleButton
-            android:id="@+id/btn_healthy_record"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:normalBitmap="@drawable/ic_focus"
-            app:pitchBitmap="@drawable/ic_refocus"
-            app:text="关注"
-            app:wx_alpha="true" />
+        <!--<com.softtek.lai.widgets.SimpleButton-->
+            <!--android:id="@+id/btn_healthy_record"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--app:normalBitmap="@drawable/ic_focus"-->
+            <!--app:pitchBitmap="@drawable/ic_refocus"-->
+            <!--app:text="关注"-->
+            <!--app:wx_alpha="true" />-->
 
         <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_mine"
