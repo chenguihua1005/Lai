@@ -33,7 +33,6 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
- *
  * Created by Zilla on 22/1/16.
  */
 public class NetErrorHandler implements IApiErrorHandler {
@@ -102,13 +101,16 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 if (EMClient.getInstance().isLoggedInBefore()) {
                                     EMClient.getInstance().logout(true, new EMCallBack() {
                                         @Override
-                                        public void onSuccess() {}
+                                        public void onSuccess() {
+                                        }
 
                                         @Override
-                                        public void onProgress(int progress, String status) {}
+                                        public void onProgress(int progress, String status) {
+                                        }
 
                                         @Override
-                                        public void onError(int code, String message) {}
+                                        public void onError(int code, String message) {
+                                        }
                                     });
                                 }
                                 if (builder == null || !builder.isShowing()) {
@@ -208,6 +210,22 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         }).setCancelable(false).create();
                                 //dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog2.show();
+                                break;
+                            case 4004:
+                                AlertDialog dialog3 = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+                                        .setTitle("服务器维护公告").setMessage(customData)
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                UserInfoModel.getInstance().loginOut();
+                                                Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                LaiApplication.getInstance().startActivity(intent);
+                                            }
+                                        }).setCancelable(false).create();
+                                //dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+                                dialog3.show();
                                 break;
                             default:
                                 break;
