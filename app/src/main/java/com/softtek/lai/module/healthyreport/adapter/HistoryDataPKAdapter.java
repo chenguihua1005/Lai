@@ -107,28 +107,6 @@ public class HistoryDataPKAdapter extends BaseAdapter {
                         msg.what = 0x0011;
                         handler.sendMessage(msg);
                     }
-
-//                    for (HistoryDataItemModel itemModel : dataModels) {
-//                        if (itemModel.isChecked()) {
-//                            count++;
-//                            if (count > 2) {
-////                                itemModel.setChecked(false);//刷新界面
-//                                model.setChecked(false);
-//                                Message msg = new Message();
-//                                msg.obj = 2;
-//                                msg.what = 0x0011;
-//                                handler.sendMessage(msg);
-//                            } else {
-//                                Message msg = new Message();
-//                                msg.obj = count;
-//                                msg.what = 0x0012;
-//                                handler.sendMessage(msg);
-//                            }
-//                        }
-//                    }
-
-
-//                    cb_all.setChecked(all);
                 }
             }
         });
@@ -136,10 +114,14 @@ public class HistoryDataPKAdapter extends BaseAdapter {
         HistoryDataModel.RecordsBean data = model.getDataModel();
         if (0 == data.getSourceType()) {
             //莱秤数据
-            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laichen));
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_hand));
         } else if (1 == data.getSourceType() || 4 == data.getSourceType()) {
             //复测
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.history_data_fuce));
+        } else if (5 == data.getSourceType()) {
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_icon));
+        } else if (6 == data.getSourceType()) {
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_lite_icon));
         } else {
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.shoudongluru));
         }

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -192,8 +193,13 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         getPresenter().doGetLastestRecord(UserInfoModel.getInstance().getUserId());
 
         //获取当前年月日
+        currentYear = DateUtil.getInstance().getCurrentYear();
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();
+
+        tv_measure_date.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+
+
     }
 
     AlertDialog weightDialog;
@@ -458,17 +464,19 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         }
     }
 
+    int currentYear;
     int currentMonth;
     int currentDay;
 
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_YEAR, 1);
-        DateTime minTime=new DateTime(1900,1,1,0,0);
-        DateTime maxTime=new DateTime();
-        DateTime defaultTime=new DateTime(1990,currentMonth-1,currentDay,0,0);
+        DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
+        DateTime maxTime = new DateTime();
+
+        DateTime defaultTime = new DateTime(currentYear, currentMonth - 1, currentDay, 0, 0);
         final DatePickerDialog dialog =
-                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(),defaultTime.getDayOfMonth());
+                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
         dialog.getDatePicker().setMinDate(minTime.getMillis());
         dialog.getDatePicker().setMaxDate(maxTime.getMillis());
         dialog.setTitle("选择测量日期(年-月-日)");
@@ -487,8 +495,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 String date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
-                int compare= DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date,DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-                if(compare==1){
+                int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date, DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+                if (compare == 1) {
 //                    show_warn_dialog();
                     return;
                 }
@@ -541,6 +549,10 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         String upleggirth = tv_upleggirth.getText().toString();
         String doleggirth = tv_doleggirth.getText().toString();
         String MeasuredTime = tv_measure_date.getText().toString();
+
+        String str = DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getCurrentDate();
+        String[] result = str.split(" ");
+        MeasuredTime = MeasuredTime + " " + result[1];
 
 
         healthModele = new HealthModel();

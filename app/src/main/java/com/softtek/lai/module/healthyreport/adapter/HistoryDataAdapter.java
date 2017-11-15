@@ -92,7 +92,7 @@ public class HistoryDataAdapter extends BaseAdapter {
         HistoryDataModel.RecordsBean data = model.getDataModel();
         if (0 == data.getSourceType()) {
             //莱秤数据
-            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laichen));
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_hand));//laicheng
         } else if (1 == data.getSourceType() || 4 == data.getSourceType()) {
             //复测
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.history_data_fuce));

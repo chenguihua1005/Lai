@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -50,7 +51,7 @@ public class PKSelectActivity extends BaseActivity<HistoryDataManager> implement
     private HistoryDataPKAdapter adapter;
     private int pageIndex = 0;
     private int totalPage = 0;
-    private int type = 0;//默认莱称选中
+    private int type = 1;//默认莱称选中
     private long accountId;
 
     private int number = 0;
@@ -139,7 +140,8 @@ public class PKSelectActivity extends BaseActivity<HistoryDataManager> implement
                         }
                     }
 
-                    String url = "http://115.29.187.163:8042/MeasuredRecord/DataComparison?AcInfoId1=" + model1.getDataModel().getRecordId() + "&AcInfoId2=" + model2.getDataModel().getRecordId() + "&Type1=" + model1.getDataModel().getSourceType() + "&Type2=" + model2.getDataModel().getSourceType();
+                    String path = AddressManager.get("photoBase", "");
+                    String url = path + "/MeasuredRecord/DataComparison?AcInfoId1=" + model1.getDataModel().getRecordId() + "&AcInfoId2=" + model2.getDataModel().getRecordId() + "&Type1=" + model1.getDataModel().getSourceType() + "&Type2=" + model2.getDataModel().getSourceType();
 
                     Intent intent = new Intent(PKSelectActivity.this, HistoryPKDetailActivity.class);
                     intent.putExtra("url", url);
