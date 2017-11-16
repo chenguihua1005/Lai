@@ -52,32 +52,32 @@ public class StandardLine extends View {
     public StandardLine(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        lineHeight = DisplayUtil.dip2px(context,LINE_HEIGHT_DP);
-        tagLineWidth = DisplayUtil.dip2px(context,TAG_LINE_WIDTH_DP);
+        lineHeight = DisplayUtil.dip2px(context, LINE_HEIGHT_DP);
+        tagLineWidth = DisplayUtil.dip2px(context, TAG_LINE_WIDTH_DP);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if( maxValue == 0 || colorList.size() - valueList.size() != 1 ){
+        if (maxValue == 0 || colorList.size() - valueList.size() != 1) {
             Paint paintLine = new Paint();
             paintLine.setStrokeWidth(lineHeight);
             paintLine.setColor(getResources().getColor(R.color.background_green));
-            RectF rect = new RectF(0, lineTop , getWidth(), lineTop + lineHeight);
+            RectF rect = new RectF(0, lineTop, getWidth(), lineTop + lineHeight);
             canvas.drawRoundRect(rect,
                     lineHeight / 2, //x轴的半径
                     lineHeight / 2, //y轴的半径
                     paintLine);
             return;
         }
-        valueWidth = getWidth()/rangeValue;
+        valueWidth = getWidth() / rangeValue;
 
         TextPaint textPaint = new TextPaint();
-        textPaint.setTextSize(DisplayUtil.sp2px(context,10f));
+        textPaint.setTextSize(DisplayUtil.sp2px(context, 10f));
         textPaint.setColor(getResources().getColor(R.color.history_chart_text_color));
 
         Paint paintLine = new Paint();
 
-        if(valueList.size()!=0) {
+        if (valueList.size() != 0) {
             for (int i = 0; i < colorList.size(); i++) {
                 paintLine.setStrokeWidth(lineHeight);
                 paintLine.setColor(Color.parseColor(colorList.get(i)));
@@ -93,90 +93,103 @@ public class StandardLine extends View {
                     canvas.drawLine(getWidth() - width, lineTop + lineHeight / 2, getWidth() - lineHeight / 2, lineTop + lineHeight / 2, paintLine);
                     paintLine.setStrokeWidth(tagLineWidth);
                     canvas.drawLine(getWidth() - width, lineTop, getWidth() - width, lineTop + 2 * lineHeight, paintLine);
-                    String value = ""+ StringMath.fourRemoveFiveAdd1(""+valueList.get(i - 1));
+                    String value = "" + StringMath.fourRemoveFiveAdd2("" + valueList.get(i - 1));
                     if (isInt)
-                        value = ""+(valueList.get(i - 1).intValue());
+                        value = "" + (valueList.get(i - 1).intValue());
                     canvas.drawText(value, getWidth() - width, lineTop + 3 * lineHeight, textPaint);
                 } else {
                     float width = (valueList.get(i) - valueList.get(i - 1)) * valueWidth;
                     canvas.drawLine(lastEndX, lineTop + lineHeight / 2, lastEndX + width, lineTop + lineHeight / 2, paintLine);
                     paintLine.setStrokeWidth(tagLineWidth);
-                    canvas.drawLine(lastEndX, lineTop, lastEndX, lineTop + 2 * lineHeight, paintLine);
-                    String value = ""+ StringMath.fourRemoveFiveAdd1(""+valueList.get(i - 1));
+                    String value = "" + StringMath.fourRemoveFiveAdd2("" + valueList.get(i - 1));
                     if (isInt)
-                        value = ""+(valueList.get(i - 1).intValue());
+                        value = "" + (valueList.get(i - 1).intValue());
                     float textWidth = textPaint.measureText(value);
-                    if(textWidth>width)//判断文字是否需要靠左对齐
-                        canvas.drawText(value, lastEndX-textWidth, lineTop + 3 * lineHeight, textPaint);
-                    else
-                        canvas.drawText(value, lastEndX, lineTop + 3 * lineHeight, textPaint);
+                    if (i % 2 == 0) {
+                        if (textWidth > width) {//判断文字是否需要靠左对齐
+                            canvas.drawText(value, lastEndX - textWidth, lineTop - lineHeight , textPaint);
+                        } else {
+                            canvas.drawText(value, lastEndX, lineTop - lineHeight , textPaint);
+                        }
+                        canvas.drawLine(lastEndX, lineTop, lastEndX, lineTop - lineHeight  , paintLine);
+                    } else {
+                        if (textWidth > width) {//判断文字是否需要靠左对齐
+                            canvas.drawText(value, lastEndX - textWidth, lineTop + 3 * lineHeight, textPaint);
+                        } else {
+                            canvas.drawText(value, lastEndX, lineTop + 3 * lineHeight, textPaint);
+                        }
+                        canvas.drawLine(lastEndX, lineTop, lastEndX, lineTop + 2 * lineHeight, paintLine);
+                    }
+
                     lastEndX += width;
                 }
             }
-        }else{
+        } else {
             paintLine.setStrokeWidth(lineHeight);
             paintLine.setColor(Color.parseColor(colorList.get(0)));
-            RectF rect = new RectF(0, lineTop , getWidth(), lineTop + lineHeight);
+            RectF rect = new RectF(0, lineTop, getWidth(), lineTop + lineHeight);
             canvas.drawRoundRect(rect, lineHeight / 2, //x轴的半径
                     lineHeight / 2, //y轴的半径
                     paintLine);
         }
-        if(curValue>0){
+        if (curValue > 0) {
             paintLine.setStrokeWidth(tagLineWidth);
             if (!String.valueOf(curColor).equals("#null")) {
                 paintLine.setColor(Color.parseColor(curColor));
                 textPaint.setColor(Color.parseColor(curColor));
-            }else {
+            } else {
                 paintLine.setColor(Color.parseColor("#000000"));
                 textPaint.setColor(Color.parseColor("#000000"));
             }
-            float width = (curValue-minValue)*valueWidth;
+            float width = (curValue - minValue) * valueWidth;
             canvas.drawLine(width, lineTop - lineHeight, width, lineTop + lineHeight, paintLine);//当前数值的标线
 
             Path path = new Path(); //定义一条路径
-            path.moveTo(width, lineTop-lineHeight/2); //移动到 坐标10,10
+            path.moveTo(width, lineTop - lineHeight / 2); //移动到 坐标10,10
             path.lineTo(width - lineHeight / 2, lineTop - lineHeight);
-            path.lineTo(width+lineHeight/2, lineTop-lineHeight);
-            path.lineTo(width, lineTop-lineHeight/2);
+            path.lineTo(width + lineHeight / 2, lineTop - lineHeight);
+            path.lineTo(width, lineTop - lineHeight / 2);
             canvas.drawPath(path, paintLine);
             //写当前数值
-            SpannableStringBuilder ssb=new SpannableStringBuilder();
-            String value = StringMath.fourRemoveFiveAdd1(""+curValue)+"";
-            if(isInt)
-                value = ((int) curValue)+"";
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
+            String value = StringMath.fourRemoveFiveAdd2("" + curValue) + "";
+            if (isInt)
+                value = ((int) curValue) + "";
             ssb.append(value);
             ssb.append(unit);
-            textPaint.setTextSize(DisplayUtil.sp2px(context,18f));
+            textPaint.setTextSize(DisplayUtil.sp2px(context, 18f));
 
             float textWidth = textPaint.measureText(ssb.toString());
-            if((width-textWidth/2)<0)
-                canvas.drawText(ssb,0,ssb.length(), 0, lineTop - lineHeight*2 , textPaint);
-            else if((width-textWidth/2+textWidth)>getWidth())
-                canvas.drawText(ssb,0,ssb.length(),getWidth()-textWidth, lineTop - lineHeight*2 , textPaint);
-            else
-                canvas.drawText(ssb,0,ssb.length(), width-textWidth/2, lineTop - lineHeight*2 , textPaint);
+            if ((width - textWidth / 2) < 0) {
+                canvas.drawText(ssb, 0, ssb.length(), 0, lineTop - lineHeight * 2, textPaint);
+            } else if ((width - textWidth / 2 + textWidth) > getWidth()) {
+                canvas.drawText(ssb, 0, ssb.length(), getWidth() - textWidth, lineTop - lineHeight * 2, textPaint);
+            } else {
+                canvas.drawText(ssb, 0, ssb.length(), width - textWidth / 2, lineTop - lineHeight * 2, textPaint);
+            }
         }
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if(changed){
-            lineTop = getHeight() - 5*lineHeight;
+        if (changed) {
+            lineTop = getHeight() - 5 * lineHeight;
         }
     }
 
     /**
      * 设置数据
-     * @param maxValue 最大值
-     * @param minValue 最小值
-     * @param curValue 当前值
+     *
+     * @param maxValue  最大值
+     * @param minValue  最小值
+     * @param curValue  当前值
      * @param valueList 刻度的list
      * @param colorList 每段颜色的list
-     * @param curColor 当前值的颜色
+     * @param curColor  当前值的颜色
      */
-    public void setData(final float minValue,final float maxValue,final float curValue,final SpannableString unit,
-                        final List<Float> valueList,final List<String> colorList,final String curColor,final boolean isInt){
+    public void setData(final float minValue, final float maxValue, final float curValue, final SpannableString unit,
+                        final List<Float> valueList, final List<String> colorList, final String curColor, final boolean isInt) {
         this.maxValue = maxValue;
         this.minValue = minValue;
         this.curValue = curValue;
@@ -185,10 +198,10 @@ public class StandardLine extends View {
         this.curColor = curColor;
         this.unit = unit;
         this.isInt = isInt;
-        if(this.unit==null)
+        if (this.unit == null)
             this.unit = new SpannableString("");
 
-        rangeValue = this.maxValue-this.minValue;
+        rangeValue = this.maxValue - this.minValue;
         invalidate();
     }
 }

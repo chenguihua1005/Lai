@@ -263,6 +263,14 @@ public class StringMath {
         int valueInt = new BigDecimal(valueDouble).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
         return ((float) valueInt)/10.0f;
     }
+
+    public static float fourRemoveFiveAdd2(String value){
+        double valueDouble = new Double(value).doubleValue();
+        valueDouble = valueDouble*100;
+        int valueInt = new BigDecimal(valueDouble).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+        return ((float) valueInt)/100.0f;
+    }
+
     /**
      * 有小数就进一
      * @param value

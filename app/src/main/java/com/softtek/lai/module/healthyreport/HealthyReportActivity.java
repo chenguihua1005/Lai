@@ -11,10 +11,12 @@ import android.os.Looper;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AlignmentSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -179,7 +181,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
             SpannableStringBuilder ssb = new SpannableStringBuilder();
             if (split.length > 1) {
                 SpannableString ss = new SpannableString(split[0]);
-                ss.setSpan(new ForegroundColorSpan(0xFFF6BB07), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_NORMAL), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 ssb.append(ss);
                 ssb.append("\n\n");
                 ssb.append(split[1]);
@@ -190,7 +192,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
                     if (des.indexOf(":") == lenght || des.indexOf("：") == lenght) {
                         String title = des.substring(0, data.getBodyTypeTitle().length() + 1);
                         SpannableString ss = new SpannableString(title);
-                        ss.setSpan(new ForegroundColorSpan(0xFFF6BB07), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        ss.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_NORMAL), 0, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                         ssb.append(ss);
                         ssb.append("\n");
                         ssb.append(des.substring(data.getBodyTypeTitle().length() + 1));

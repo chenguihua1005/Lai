@@ -55,6 +55,7 @@ import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.SoundPlay;
+import com.softtek.lai.module.laicheng.util.StringMath;
 import com.softtek.lai.module.laicheng_new.model.BleResponseData;
 import com.softtek.lai.module.laicheng_new.model.PostQnData;
 import com.softtek.lai.module.laicheng_new.net.NewBleService;
@@ -425,7 +426,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         postQnData.setGender(gender);
         postQnData.setAge(0);
         postQnData.setWeight(qnData.getWeight());
-        String weight = String.format("%.1f", qnData.getWeight());
+//        String weight = String.format("%.2f", qnData.getWeight() * 2);
+        String weight = String.valueOf(StringMath.fourRemoveFiveAdd2(String.valueOf(qnData.getWeight() * 2)));
         mainData.setWeight(Double.parseDouble(weight));
         postQnData.setWeight_unit("");
         postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(qnData.getCreateTime()));
