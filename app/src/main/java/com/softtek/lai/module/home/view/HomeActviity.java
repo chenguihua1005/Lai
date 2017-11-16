@@ -24,6 +24,7 @@ import com.softtek.lai.module.community.presenter.OpenComment;
 import com.softtek.lai.module.community.view.DynamicFragment;
 import com.softtek.lai.module.community.view.DynamicMergeFragment;
 import com.softtek.lai.module.community.view.FocusFragment;
+import com.softtek.lai.module.customermanagement.CustomerManageFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.laijumine.view.MineFragment;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -52,6 +53,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 //    @InjectView(R.id.btn_healthy_record)
 //    SimpleButton btn_healthy_record;
 
+    @InjectView(R.id.btn_customer_manage)
+    SimpleButton btn_customer_manage;
+
     @InjectView(R.id.btn_mine)
     SimpleButton btn_mine;
 
@@ -77,9 +81,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     protected void initViews() {
         btn_home.setOnClickListener(this);
         btn_healthy.setOnClickListener(this);
-//        btn_healthy_record.setOnClickListener(this);
+        btn_customer_manage.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        content.setOffscreenPageLimit(3);
+        content.setOffscreenPageLimit(4);
         //**************************
         et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
         et_input.addTextChangedListener(new TextWatcher() {
@@ -114,13 +118,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 comment.CommentUserId = UserInfoModel.getInstance().getUserId();
                 comment.CommentUserName = UserInfoModel.getInstance().getUser().getNickname();
                 comment.isReply = 0;
-                DynamicFragment dynamicFragment = (DynamicFragment)((DynamicMergeFragment)fragments.get(1)).getFragmentList().get(0);
-                FocusFragment focusFragment = (FocusFragment)((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
+                DynamicFragment dynamicFragment = (DynamicFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(0);
+                FocusFragment focusFragment = (FocusFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
                 if (DynamicFragment.DYNAMIC.equals(tag)) {
-                    dynamicFragment.doSend(position,comment);
+                    dynamicFragment.doSend(position, comment);
                 } else if (FocusFragment.FOCUSFRAGMENT.equals(tag)) {
 //                    ((FocusFragment) fragments.get(2)).doSend(position, comment);
-                    focusFragment.doSend(position,comment);
+                    focusFragment.doSend(position, comment);
                 }
             }
         });
@@ -131,9 +135,11 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
         fragments.add(new HomeFragment());
+        fragments.add(new CustomerManageFragment());//关注
         fragments.add(new DynamicMergeFragment(this));
 //        fragments.add(DynamicFragment.getInstance(this));
 //        fragments.add(FocusFragment.getInstance(this));//关注
+
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -149,15 +155,15 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void onPageSelected(int position) {
                 //页面切换了
                 isClick = false;
-                if (!UserInfoModel.getInstance().isVr()){
-                    TypedValue typedValue = new  TypedValue();
+                if (!UserInfoModel.getInstance().isVr()) {
+                    TypedValue typedValue = new TypedValue();
                     getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-                    if(position==3){
+                    if (position == 3) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getWindow().setStatusBarColor(typedValue.data);
                         }
                         tintManager.setStatusBarTintColor(typedValue.data);
-                    }else {
+                    } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getWindow().setStatusBarColor(typedValue.data);
                         }
@@ -193,19 +199,20 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 btn_home.setProgress(1);
                 currentId = 0;
                 break;
+            case R.id.btn_customer_manage:
+                btn_customer_manage.setProgress(1);
+                currentId = 1;
+                break;
             case R.id.btn_healthy:
                 btn_healthy.setProgress(1);
-                currentId = 1;
+                currentId = 2;
                 MobclickAgent.onEvent(this, "HealthyCommunityEvent");
                 MobclickAgent.onEvent(this, "HealthyRecordEvent");
                 break;
-//            case R.id.btn_healthy_record:
-//                btn_healthy_record.setProgress(1);
-//                currentId = 2;
-//                break;
+
             case R.id.btn_mine:
                 btn_mine.setProgress(1);
-                currentId = 2;
+                currentId = 3;
                 break;
         }
         content.setCurrentItem(currentId, false);
@@ -223,12 +230,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 btn_home.setProgress(progress);
                 break;
             case 1:
+                btn_customer_manage.setProgress(progress);
+                break;
+            case 2:
                 btn_healthy.setProgress(progress);
                 break;
-//            case 2:
-//                btn_healthy_record.setProgress(progress);
-//                break;
-            case 2:
+            case 3:
                 btn_mine.setProgress(progress);
                 break;
         }
@@ -237,7 +244,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     private void restoreState() {
         btn_home.setProgress(0);
         btn_healthy.setProgress(0);
-//        btn_healthy_record.setProgress(0);
+        btn_customer_manage.setProgress(0);
         btn_mine.setProgress(0);
 
     }
@@ -279,13 +286,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 int[] position2 = new int[2];
                 rl_send.getLocationOnScreen(position2);
-                DynamicFragment dynamicFragment = (DynamicFragment)((DynamicMergeFragment)fragments.get(1)).getFragmentList().get(0);
-                FocusFragment focusFragment = (FocusFragment)((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
+                DynamicFragment dynamicFragment = (DynamicFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(0);
+                FocusFragment focusFragment = (FocusFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
                 if (DynamicFragment.DYNAMIC.equals(tag)) {
-                    dynamicFragment.doScroll(position,itemHeight,position2[1]);
+                    dynamicFragment.doScroll(position, itemHeight, position2[1]);
 //                    ((DynamicFragment) fragments.get(1)).doScroll(position, itemHeight, position2[1]);
                 } else if (FocusFragment.FOCUSFRAGMENT.equals(tag)) {
-                    focusFragment.doScroll(position,itemHeight,position2[1]);
+                    focusFragment.doScroll(position, itemHeight, position2[1]);
 //                    ((FocusFragment) fragments.get(2)).doScroll(position, itemHeight, position2[1]);
                 }
             }
