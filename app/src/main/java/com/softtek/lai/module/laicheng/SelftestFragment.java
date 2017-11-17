@@ -68,6 +68,8 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
     TextView mHealthReport;
     @InjectView(R.id.tv_time)
     TextView mLastTime;
+    @InjectView(R.id.iv_ble_icon)
+    ImageView mBleIcon;
 
     private Dialog dialog;//对话框
 
@@ -240,6 +242,14 @@ public class SelftestFragment extends LazyBaseFragment<SelftestPresenter> implem
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
         } else {
             mVoice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+        }
+    }
+
+    public void setBleIcon(boolean alive){
+        if (alive){
+            mBleIcon.setVisibility(View.VISIBLE);
+        }else {
+            mBleIcon.setVisibility(View.GONE);
         }
     }
 

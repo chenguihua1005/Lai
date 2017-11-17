@@ -1,8 +1,10 @@
 package com.softtek.lai.module.laicheng.util;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,7 +15,9 @@ import android.widget.TextView;
 
 
 import com.kitnew.ble.QNBleDevice;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +36,14 @@ public class DeviceListDialog extends Dialog {
     private List<BluetoothDevice> bluetoothDeviceList;
     private List<QNBleDevice> qn_bluetoothDeviceList;
     private BluetoothDialogListener mBluetoothDialogListener;
+    private SharedPreferences mSharedPreferences;
 
     public DeviceListDialog(Context context, int theme) {
         super(context, theme);
         mContext = context;
     }
 
-    public DeviceListDialog(Context context){
+    public DeviceListDialog(Context context) {
         super(context);
         mContext = context;
     }
@@ -47,13 +52,14 @@ public class DeviceListDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_list);
+        mSharedPreferences = mContext.getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         cTitle = (TextView) findViewById(R.id.title_paired_devices_main_title);
 
         ImageButton closeBtn = (ImageButton) findViewById(R.id.device_list_close);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mBluetoothDialogListener!=null)
+                if (mBluetoothDialogListener != null)
                     mBluetoothDialogListener.bluetoothClose();
             }
         });
@@ -82,12 +88,12 @@ public class DeviceListDialog extends Dialog {
         this.mBluetoothDialogListener = mBluetoothDialogListener;
     }
 
-    public void addBluetoothDevice(BluetoothDevice bluetoothDevice){
-        if(bluetoothDeviceList==null)
+    public void addBluetoothDevice(BluetoothDevice bluetoothDevice) {
+        if (bluetoothDeviceList == null)
             bluetoothDeviceList = new ArrayList<BluetoothDevice>();
-        if(bluetoothDeviceList.size()!=0){
-            for(BluetoothDevice tem:bluetoothDeviceList){
-                if(tem.getAddress().equals(bluetoothDevice.getAddress()))
+        if (bluetoothDeviceList.size() != 0) {
+            for (BluetoothDevice tem : bluetoothDeviceList) {
+                if (tem.getAddress().equals(bluetoothDevice.getAddress()))
                     return;//排重
             }
         }
@@ -96,48 +102,52 @@ public class DeviceListDialog extends Dialog {
         mNewDevicesArrayAdapter.notifyDataSetChanged();
     }
 
-    public void addBluetoothDevice(QNBleDevice qnBleDevice){
-        if(qn_bluetoothDeviceList==null)
+    public void addBluetoothDevice(QNBleDevice qnBleDevice) {
+        if (qn_bluetoothDeviceList == null)
             qn_bluetoothDeviceList = new ArrayList<QNBleDevice>();
-        if(qn_bluetoothDeviceList.size()!=0){
-            for(QNBleDevice tem:qn_bluetoothDeviceList){
-                if(tem.getMac().equals(qnBleDevice.getMac()))
+        if (qn_bluetoothDeviceList.size() != 0) {
+            for (QNBleDevice tem : qn_bluetoothDeviceList) {
+                if (tem.getMac().equals(qnBleDevice.getMac()))
                     return;//排重
             }
         }
         qn_bluetoothDeviceList.add(qnBleDevice);
-        mNewDevicesArrayAdapter.add(qnBleDevice.getDeviceName() + "\n" + qnBleDevice.getMac());
+        String name = mSharedPreferences.getString(qnBleDevice.getMac(), qnBleDevice.getMac());
+        mNewDevicesArrayAdapter.add(name);
         mNewDevicesArrayAdapter.notifyDataSetChanged();
     }
 
-    public BluetoothDevice getBluetoothDevice(int position){
-        if(bluetoothDeviceList==null||bluetoothDeviceList.size()==0||position>bluetoothDeviceList.size()-1)
+    public BluetoothDevice getBluetoothDevice(int position) {
+        if (bluetoothDeviceList == null || bluetoothDeviceList.size() == 0 || position > bluetoothDeviceList.size() - 1)
             return null;
         return bluetoothDeviceList.get(position);
     }
 
-    public QNBleDevice getQNBluetoothDevice(int position){
-        if(qn_bluetoothDeviceList==null||qn_bluetoothDeviceList.size()==0||position>qn_bluetoothDeviceList.size()-1)
+    public QNBleDevice getQNBluetoothDevice(int position) {
+        if (qn_bluetoothDeviceList == null || qn_bluetoothDeviceList.size() == 0 || position > qn_bluetoothDeviceList.size() - 1)
             return null;
         return qn_bluetoothDeviceList.get(position);
     }
 
-    public void clearBluetoothDevice(){
-        if(bluetoothDeviceList!=null)
+    public void clearBluetoothDevice() {
+        if (bluetoothDeviceList != null)
             bluetoothDeviceList.clear();
-        if(mNewDevicesArrayAdapter!=null)
+        if (qn_bluetoothDeviceList != null)
+            qn_bluetoothDeviceList.clear();
+        if (mNewDevicesArrayAdapter != null){
             mNewDevicesArrayAdapter.clear();
+        }
     }
 
-    public void startScan(){
+    public void startScan() {
         bluetoothDeviceList = new ArrayList<BluetoothDevice>();
-        if(cTitle!=null){
+        if (cTitle != null) {
             cTitle.setText("正在搜索设备");
         }
     }
 
-    public void finishScan(){
-        if(cTitle!=null)
+    public void finishScan() {
+        if (cTitle != null)
             cTitle.setText(mContext.getText(R.string.select_device).toString());
     }
 
@@ -147,8 +157,9 @@ public class DeviceListDialog extends Dialog {
     }
 
 
-    public interface BluetoothDialogListener{
+    public interface BluetoothDialogListener {
         void bluetoothDialogClick(int position);
+
         void bluetoothClose();
     }
 }

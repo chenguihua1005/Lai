@@ -354,6 +354,17 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     }
 
     @Override
+    public void setBleIcon(boolean alive) {
+        if (alive){
+            selftestFragment.setBleIcon(true);
+            visitortestFragment.setBleIcon(true);
+        }else {
+            selftestFragment.setBleIcon(false);
+            visitortestFragment.setBleIcon(false);
+        }
+    }
+
+    @Override
     public void showProgressDialog() {
         dialogShow("亲，请稍等，测量中...");
     }

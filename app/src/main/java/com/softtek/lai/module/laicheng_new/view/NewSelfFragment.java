@@ -60,8 +60,10 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private TextView mLastTime;
     private LinearLayout mReadMore;
     private ImageView mBleIcon;
+    private ImageView mNote;
 
     private StartLinkListener linkListener;
+    private RenameListener renameListener;
     private String recordId;
 
     private String weight = "";
@@ -84,6 +86,9 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         if (context instanceof StartLinkListener) {
             linkListener = (StartLinkListener) context;
+        }
+        if (context instanceof RenameListener){
+            renameListener = (RenameListener)context;
         }
     }
 
@@ -117,11 +122,18 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_share:
                 showDialog();
                 break;
+            case R.id.iv_note:
+                renameListener.onRenameListener();
+                break;
         }
     }
 
     public interface StartLinkListener {
         void onLinkListener();
+    }
+
+    public interface RenameListener{
+        void onRenameListener();
     }
 
     private void initView() {
@@ -147,6 +159,8 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         mReadMore = (LinearLayout) mView.findViewById(R.id.ll_more);
         mReadMore.setOnClickListener(this);
         mBleIcon = (ImageView) mView.findViewById(R.id.iv_ble_icon);
+        mNote = (ImageView)mView.findViewById(R.id.iv_note);
+        mNote.setOnClickListener(this);
 
 
         ZillaApi.NormalRestAdapter.create(BleService.class).
@@ -233,6 +247,14 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
             mBleState.setEnabled(true);
         }else {
             mBleState.setEnabled(false);
+        }
+    }
+
+    public void setRenameIcon(boolean alive){
+        if (alive){
+            mNote.setVisibility(View.VISIBLE);
+        }else {
+            mNote.setVisibility(View.INVISIBLE);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laicheng_new.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -69,6 +70,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     private Button share_btn;
     private Button bt_create;//
     private Button bt_history;
+    private ImageView mNote;
 
     //访客信息
     private LinearLayout ll_visitor;
@@ -84,6 +86,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     private String recordId;
 
     private StartVisitorLinkListener linkListener;
+    private RenameVisitorListener renameVisitorListener;
 
     private VisitorModel model;
     private String weight = "";//体重
@@ -118,27 +121,28 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
-        bt_again = (Button) view.findViewById(R.id.bt_again);
-        tv_weight = (TextView) view.findViewById(R.id.tv_weight);
-        tv_weight_caption = (TextView) view.findViewById(R.id.tv_weight_caption);
-        tv_body_fat_rate = (TextView) view.findViewById(R.id.tv_body_fat_rate);
-        tv_bmi = (TextView) view.findViewById(R.id.tv_bmi);
-        tv_internal_fat_rate = (TextView) view.findViewById(R.id.tv_internal_fat_rate);
-        iv_voice = (ImageView) view.findViewById(R.id.iv_voice);
-        mBleState = (TextView) view.findViewById(R.id.tv_info_state);
-        health_btn = (Button) view.findViewById(R.id.health_btn);
-        share_btn = (Button) view.findViewById(R.id.share_btn);
-        bt_create = (Button) view.findViewById(R.id.bt_create);
-        bt_history = (Button) view.findViewById(R.id.bt_history);
+        bt_again = view.findViewById(R.id.bt_again);
+        tv_weight = view.findViewById(R.id.tv_weight);
+        tv_weight_caption = view.findViewById(R.id.tv_weight_caption);
+        tv_body_fat_rate = view.findViewById(R.id.tv_body_fat_rate);
+        tv_bmi = view.findViewById(R.id.tv_bmi);
+        tv_internal_fat_rate =  view.findViewById(R.id.tv_internal_fat_rate);
+        iv_voice =  view.findViewById(R.id.iv_voice);
+        mBleState = view.findViewById(R.id.tv_info_state);
+        health_btn =  view.findViewById(R.id.health_btn);
+        share_btn = view.findViewById(R.id.share_btn);
+        bt_create = view.findViewById(R.id.bt_create);
+        bt_history = view.findViewById(R.id.bt_history);
 
-        ll_visitor = (LinearLayout) view.findViewById(R.id.ll_visitor);
-        tv_name = (TextView) view.findViewById(R.id.tv_name);
-        tv_phoneNo = (TextView) view.findViewById(R.id.tv_phoneNo);
-        tv_age = (TextView) view.findViewById(R.id.tv_age);
-        tv_gender = (TextView) view.findViewById(R.id.tv_gender);
-        tv_height = (TextView) view.findViewById(R.id.tv_height);
-        mid_lay = (LinearLayout) view.findViewById(R.id.mid_lay);
-        mBleIcon = (ImageView) view.findViewById(R.id.iv_ble_icon);
+        ll_visitor = view.findViewById(R.id.ll_visitor);
+        tv_name = view.findViewById(R.id.tv_name);
+        tv_phoneNo = view.findViewById(R.id.tv_phoneNo);
+        tv_age = view.findViewById(R.id.tv_age);
+        tv_gender = view.findViewById(R.id.tv_gender);
+        tv_height = view.findViewById(R.id.tv_height);
+        mid_lay = view.findViewById(R.id.mid_lay);
+        mBleIcon = view.findViewById(R.id.iv_ble_icon);
+        mNote = view.findViewById(R.id.iv_note);
 
         mBleState.setOnClickListener(this);
         bt_history.setOnClickListener(this);
@@ -146,6 +150,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         bt_create.setOnClickListener(this);
         share_btn.setOnClickListener(this);
         iv_voice.setOnClickListener(this);
+        mNote.setOnClickListener(this);
 
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
@@ -208,6 +213,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                     NewLaiBalanceActivity.isVoiceHelp = true;
                 }
                 break;
+            case R.id.iv_note:
+                renameVisitorListener.onVRenameListener();
+
         }
     }
 
@@ -215,11 +223,18 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         void onLinkVisitorListener();
     }
 
+    public interface RenameVisitorListener{
+        void onVRenameListener();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof StartVisitorLinkListener) {
             linkListener = (StartVisitorLinkListener) context;
+        }
+        if (context instanceof RenameVisitorListener){
+            renameVisitorListener = (RenameVisitorListener)context;
         }
     }
 
@@ -244,6 +259,14 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
             mBleState.setEnabled(true);
         }else {
             mBleState.setEnabled(false);
+        }
+    }
+
+    public void setRenameIcon(boolean alive){
+        if (alive){
+            mNote.setVisibility(View.VISIBLE);
+        }else {
+            mNote.setVisibility(View.INVISIBLE);
         }
     }
 

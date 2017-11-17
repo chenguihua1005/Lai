@@ -280,6 +280,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void BleConnectLost() {
                 setClickable(true);
+                setBleIcon(false);
                 if (state_current == CONNECTED_STATE_WEIGHT) {
                     changeConnectionState(CONNECTED_STATE_FAILED);
                 } else {
@@ -332,6 +333,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     }
 
 
+    @SuppressLint("HandlerLeak")
     protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -559,7 +561,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             case CONNECTED_STATE_SHAKE_IT:
                 //称前摇一摇
                 state_current = CONNECTED_STATE_SHAKE_IT;
-                setStateTip("摇一摇，连接莱秤");
+                setStateTip("点击按钮，连接莱秤");
 
                 break;
             case CONNECTED_STATE_LOADING:
@@ -569,12 +571,13 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             case CONNECTED_STATE_FAILED:
                 //连接失败，请重试
                 state_current = CONNECTED_STATE_FAILED;
-                setStateTip("摇一摇，连接莱秤");
+                setStateTip("点击按钮，连接莱秤");
                 break;
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤
                 setStateTip("已连接，请上秤");
                 setClickable(false);
+                setBleIcon(true);
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 2) {
                     voiceIndex = 2;
@@ -807,6 +810,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
         super.onStop();
         if (getClosedType()) {
             disconnectBluetooth();
+            setBleIcon(false);
+            setClickable(true);
         }
         isOnStop = true;
         testTimeOut = 0;
@@ -858,6 +863,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
     public abstract void showNoVisitorDialog();
 
     public abstract void setClickable(boolean available);
+
+    public abstract void setBleIcon(boolean alive);
 
     @Override
     public void checkMacSuccess() {
