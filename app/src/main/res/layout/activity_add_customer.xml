@@ -7,5 +7,17 @@
 
     <include layout="@layout/toolbar" />
 
+    <EditText
+        android:id="@+id/telnum_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_text"
+        android:gravity="center_vertical"
+        android:hint="请输入手机号码"
+        android:paddingLeft="5dp" />
+
 
 </LinearLayout>
