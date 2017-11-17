@@ -33,7 +33,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
     protected void initViews() {
         tv_title.setText("添加客户");
         tv_right.setText("下一步");
-        tv_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
+//        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
         ll_left.setOnClickListener(this);
 
     }
