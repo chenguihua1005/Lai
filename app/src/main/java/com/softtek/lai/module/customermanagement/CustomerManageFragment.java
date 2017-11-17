@@ -1,7 +1,6 @@
 package com.softtek.lai.module.customermanagement;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -16,7 +15,14 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.customermanagement.adapter.CustomerAdapter;
 import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
+import com.softtek.lai.module.customermanagement.model.CustomerModel;
+import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
+import com.softtek.lai.module.customermanagement.view.CustomerDetailActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -44,6 +50,9 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
 
+    private CustomerAdapter customerAdapter;
+    private List<CustomerModel> modelList = new ArrayList<CustomerModel>();
+
 
     @Override
     protected void initViews() {
@@ -51,7 +60,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         ll_left.setVisibility(View.GONE);
 
         plv_audit.setOnItemClickListener(this);
-        plv_audit.setMode(PullToRefreshBase.Mode.BOTH);
+        plv_audit.setMode(PullToRefreshBase.Mode.DISABLED);
         plv_audit.setOnRefreshListener(this);
         plv_audit.setEmptyView(im_nomessage);
         ILoadingLayout startLabelse = plv_audit.getLoadingLayoutProxy(true, false);
@@ -70,18 +79,35 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     protected void initDatas() {
         menuAdapter = new CustomerMenuAdapter(getContext());
         menu_gv.setAdapter(menuAdapter);
+        menu_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    Intent intent = new Intent(getContext(), AddCustomerActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+        modelList.add(new CustomerModel("haha", "Tom", "由张三于2017.10.10添加"));
+        modelList.add(new CustomerModel("haha", "Nicole", "由张三于2017.10.10添加"));
+        customerAdapter = new CustomerAdapter(getContext(), modelList);
+        plv_audit.setAdapter(customerAdapter);
+
+//        plv_audit.onRefreshComplete();
 
 
     }
 
     @Override
     protected void lazyLoad() {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                plv_audit.setRefreshing();
-            }
-        }, 300);
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                plv_audit.setRefreshing();
+//            }
+//        }, 300);
     }
 
     @Override
@@ -98,7 +124,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent intent = new Intent(getContext(), CustomerDetailActivity.class);
+        startActivity(intent);
     }
 
     @Override

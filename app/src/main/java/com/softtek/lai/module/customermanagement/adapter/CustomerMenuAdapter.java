@@ -17,7 +17,6 @@ import com.softtek.lai.R;
 public class CustomerMenuAdapter extends BaseAdapter {
     private Context mContext;
 
-    //    private int[] menu_icons = {R.drawable.group_contact, R.drawable.addfri_contact, R.drawable.msg_contact};
     private int[] menu_icons = {R.drawable.group_contact, R.drawable.msg_contact, R.drawable.group_contact, R.drawable.msg_contact};
     private String[] menu_names = {"添加客户", "注册账户", "创建活动", "体馆班"};
 
@@ -62,9 +61,9 @@ public class CustomerMenuAdapter extends BaseAdapter {
 //                holder.unread_msg_number.setVisibility(View.GONE);
 //            }
 //        }
-        if (3 == i) {
-            holder.shuxian.setVisibility(View.GONE);
-        }
+//        if (3 == i) {
+//            holder.shuxian.setVisibility(View.GONE);
+//        }
         return view;
     }
 

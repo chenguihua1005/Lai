@@ -58,6 +58,7 @@
     </LinearLayout>
 
     <View
+        android:visibility="gone"
         android:id="@+id/shuxian"
         android:layout_width="0.5dp"
         android:layout_height="match_parent"

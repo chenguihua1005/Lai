@@ -9,6 +9,12 @@ public class CustomerModel {
     private String name;
     private String remark;
 
+    public CustomerModel(String iconhead_url, String name, String remark) {
+        this.iconhead_url = iconhead_url;
+        this.name = name;
+        this.remark = remark;
+    }
+
     public String getIconhead_url() {
         return iconhead_url;
     }
