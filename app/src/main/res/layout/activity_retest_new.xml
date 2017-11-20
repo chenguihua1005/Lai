@@ -19,12 +19,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/cheng_layout" />
+            <include layout="@layout/cheng_layout_new" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#AED4CC"/>
+                android:background="#AED4CC"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"

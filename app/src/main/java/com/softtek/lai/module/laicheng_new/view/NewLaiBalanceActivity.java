@@ -111,6 +111,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private Disposable testingTimeout;
     private Disposable voiceOfTesting;
     private Disposable dialogLag;
+    private Disposable dialogDismissLag;
     private boolean isStartTesting = true;//是否开始测量
     private boolean isFindDevice = false;
     private AlertDialog testFailDialog;
@@ -418,9 +419,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         PostQnData postQnData = new PostQnData();
         postQnData.setHeight(qnUser.getHeight());
         int gender;
-        if (qnUser.getGender() == 0){
+        if (qnUser.getGender() == 0) {
             gender = 1;
-        }else {
+        } else {
             gender = 0;
         }
         postQnData.setGender(gender);
@@ -553,7 +554,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         deviceListDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-//                deviceListDialog.clearBluetoothDevice();
+                doStopScan();
+                dialogLag = Flowable.timer(550, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) throws Exception {
+                                deviceListDialog.clearBluetoothDevice();
+                            }
+                        });
             }
         });
     }
@@ -596,7 +605,6 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 if (connectTimeout != null) {
                     connectTimeout.dispose();
                 }
-                doStopScan();
             }
 
             @Override
@@ -751,6 +759,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     }
 
     private AlertDialog renameDialog;
+
     private void createRenameDialog() {
         isReceiveData = false;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_rename, null);
@@ -859,6 +868,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         }
         if (voiceOfTesting != null) {
             voiceOfTesting.dispose();
+        }
+        if (dialogDismissLag != null){
+            dialogDismissLag.dispose();
         }
     }
 

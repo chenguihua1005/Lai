@@ -1,10 +1,12 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,6 +18,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,12 +31,15 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.activity.net.FuceSevice;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
+import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.AcmidModel;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.util.BleManager;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
+import com.softtek.lai.module.laicheng_new.view.NewLaiBalanceActivity;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -115,31 +121,9 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     private boolean chengliang_success = false;//默认称没有测量成果
     private AlertDialog dialog;
+    private AlertDialog chooseDialog;
+    private SharedPreferences sharedPreferences;
 
-
-//    @SuppressLint("LongLogTag")
-//    @PermissionOK(id = 1)
-//    private void initPermissionSuccess() {
-//        setBleStateListener(bleStateListener);
-//        mShakeListener.start();
-//        Log.d("enter bleStateListener --------", "bleStateListener");
-//    }
-//
-//    @PermissionFail(id = 1)
-//    private void initPermissionFail() {
-//        mShakeListener.stop();
-//        new AlertDialog.Builder(this)
-//                .setMessage("拒绝授权将无法正常运行软件！")
-//                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
-//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                        startActivity(intent);
-//                        dialog.dismiss();
-//                    }
-//                }).create().show();
-//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -204,9 +188,44 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 health.putExtra("isVisitor", HealthyReportActivity.VISITOR);
                 startActivity(health);
                 break;
+            case R.id.tv_title:
+//                createChangeDialog();
 
         }
     }
+
+//    private void createChangeDialog() {
+//        LinearLayout mOld;
+//        LinearLayout mNew;
+//        ImageView mChooseImage;
+//        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_choose, null);
+//        mOld = dialogView.findViewById(R.id.ll_old);
+//        mNew = dialogView.findViewById(R.id.ll_new);
+//        mChooseImage = dialogView.findViewById(R.id.iv_new_choose);
+//        mChooseImage.setImageDrawable(getResources().getDrawable(R.drawable.radio_green));
+//        mOld.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                chooseDialog.dismiss();
+//            }
+//        });
+//        mNew.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString(Contacts.CHOOSE_KEY, "new");
+//                editor.apply();
+//                finish();
+//                startActivity(new Intent(FuceForStuActivity.this, NewRetestActivity.class));
+//                chooseDialog.dismiss();
+//            }
+//        });
+//        if (chooseDialog == null) {
+//            chooseDialog = new AlertDialog.Builder(this).create();
+//            chooseDialog.setView(dialogView, 0, 0, 0, 0);
+//        }
+//        chooseDialog.show();
+//    }
 
 
     @OnClick(R.id.iv_voice)
@@ -228,8 +247,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
             }
         }
+        sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         setClosed(false);
         tv_title.setText("莱秤测量");
+        tv_title.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
 
