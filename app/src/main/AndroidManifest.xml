@@ -840,6 +840,13 @@
         <activity
             android:name=".module.customermanagement.view.AddCustomerActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.customermanagement.view.NewCustomerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.customermanagement.view.RegistForCustomerActivity"
+            android:screenOrientation="portrait" />
+
 
 
         <provider

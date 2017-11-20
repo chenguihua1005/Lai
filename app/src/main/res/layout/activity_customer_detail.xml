@@ -13,7 +13,7 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab"
-        style="@style/myTabLayout6"
+        style="@style/myTabLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"/>

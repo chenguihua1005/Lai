@@ -340,4 +340,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="readeAndAgress_customer">已告知用户并同意遵守</string>
+
+
 </resources>

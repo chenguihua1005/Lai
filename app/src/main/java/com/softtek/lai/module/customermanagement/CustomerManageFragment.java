@@ -20,6 +20,7 @@ import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
 import com.softtek.lai.module.customermanagement.model.CustomerModel;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.CustomerDetailActivity;
+import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     @Override
     protected void initViews() {
         tv_title.setText("客户管理");
-        ll_left.setVisibility(View.GONE);
+        ll_left.setVisibility(View.INVISIBLE);
 
         plv_audit.setOnItemClickListener(this);
         plv_audit.setMode(PullToRefreshBase.Mode.DISABLED);
@@ -84,6 +85,9 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     Intent intent = new Intent(getContext(), AddCustomerActivity.class);
+                    startActivity(intent);
+                } else if (position == 1) {
+                    Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
                     startActivity(intent);
                 }
             }

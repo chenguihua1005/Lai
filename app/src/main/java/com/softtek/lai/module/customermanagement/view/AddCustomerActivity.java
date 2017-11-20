@@ -1,5 +1,6 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -35,6 +36,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
         tv_right.setText("下一步");
 //        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
         ll_left.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
 
     }
 
@@ -48,6 +50,10 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.fl_right:
+                Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
+                startActivity(intent);
                 break;
 
 

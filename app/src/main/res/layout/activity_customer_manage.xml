@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
@@ -83,7 +84,15 @@
         android:id="@+id/plv_audit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null">
+        android:divider="#e0e0e0"
+        android:dividerHeight="1dp"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:ptrShowIndicator="false"
+      >
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
