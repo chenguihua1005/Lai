@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -22,6 +24,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +55,7 @@ import com.softtek.lai.module.laicheng.model.FragmentModel;
 import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.SoundPlay;
+import com.softtek.lai.module.laicheng.util.StringMath;
 import com.softtek.lai.module.laicheng_new.model.BleResponseData;
 import com.softtek.lai.module.laicheng_new.model.PostQnData;
 import com.softtek.lai.module.laicheng_new.net.NewBleService;
@@ -62,7 +68,9 @@ import org.reactivestreams.Publisher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -81,7 +89,10 @@ import java.util.Date;
  * Created by jia.lu on 2017/10/20.
  */
 
-public class NewLaiBalanceActivity extends FragmentActivity implements View.OnClickListener, NewSelfFragment.StartLinkListener, NewVisitorFragment.StartVisitorLinkListener {
+public class NewLaiBalanceActivity extends FragmentActivity implements View.OnClickListener,
+        NewSelfFragment.StartLinkListener,
+        NewVisitorFragment.StartVisitorLinkListener,
+        NewSelfFragment.RenameListener, NewVisitorFragment.RenameVisitorListener {
     private static int PERMISSION_REQUEST_COARSE_LOCATION = 233;
     private FrameLayout mLeftBack;
     private ViewPager mViewPager;
@@ -112,15 +123,18 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private SharedPreferences sharedPreferences;
     private BluetoothAdapter bluetoothAdapter;
 
+    private boolean isReceiveData = true;//重命名对话框弹出的时候是不接受数据的开关
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laibalance_new);
         SoundPlay.getInstance().init(LaiApplication.getInstance().getApplicationContext());
         qnBleApi = QNApiManager.getApi(this);
         qnBleApi.setScanMode(QNBleApi.SCAN_MODE_ALL);
-        qnBleApi.setWeightUnit(QNBleApi.WEIGHT_UNIT_JIN);
+        qnBleApi.setWeightUnit(QNBleApi.WEIGHT_UNIT_KG);
         createLinkDialog();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -240,10 +254,14 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 visitorFragment.setBleIcon(true);
                 selfFragment.setClickable(false);
                 visitorFragment.setClickable(false);
+                selfFragment.setRenameIcon(true);
+                visitorFragment.setRenameIcon(true);
                 if (isVoiceHelp) {
                     SoundPlay.getInstance().play(R.raw.help_two);
                 }
                 dialogDismiss();
+                connectedDevice = qnBleDevice;
+                deviceListDialog.clearBluetoothDevice();
             }
 
             @Override
@@ -253,12 +271,18 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 visitorFragment.setStateTip("点击连接莱秤");
                 selfFragment.setBleIcon(false);
                 visitorFragment.setBleIcon(false);
+                selfFragment.setRenameIcon(false);
+                visitorFragment.setRenameIcon(false);
                 selfFragment.setClickable(true);
                 visitorFragment.setClickable(true);
+                connectedDevice = null;
             }
 
             @Override
             public void onUnsteadyWeight(QNBleDevice qnBleDevice, float v) {
+                if (!isReceiveData) {
+                    return;
+                }
                 if (v <= 10) {
                     return;
                 }
@@ -289,6 +313,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void onReceivedData(QNBleDevice qnBleDevice, QNData qnData) {
+                if (!isReceiveData) {
+                    return;
+                }
                 if (qnData.getAll().size() < 3) {
                     testFail();
                     if (testingTimeout != null) {
@@ -390,10 +417,17 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private PostQnData createPostData(QNData qnData) {
         PostQnData postQnData = new PostQnData();
         postQnData.setHeight(qnUser.getHeight());
-        postQnData.setGender(qnUser.getGender());
+        int gender;
+        if (qnUser.getGender() == 0){
+            gender = 1;
+        }else {
+            gender = 0;
+        }
+        postQnData.setGender(gender);
         postQnData.setAge(0);
-        postQnData.setWeight(qnData.getWeight() / 2);
-        String weight = String.format("%.1f", qnData.getWeight());
+        postQnData.setWeight(qnData.getWeight());
+//        String weight = String.format("%.2f", qnData.getWeight() * 2);
+        String weight = String.valueOf(StringMath.fourRemoveFiveAdd2(String.valueOf(qnData.getWeight() * 2)));
         mainData.setWeight(Double.parseDouble(weight));
         postQnData.setWeight_unit("");
         postQnData.setMeasure_time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(qnData.getCreateTime()));
@@ -492,7 +526,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 if (deviceListDialog.getQNBluetoothDevice(positions) != null && deviceListDialog.getQNBluetoothDevice(positions).getDeviceName() != null &&
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
                     deviceListDialog.dismiss();
-                    connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
+//                    connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
                     dialogLag = Flowable.timer(500, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Consumer<Long>() {
@@ -507,6 +541,19 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void bluetoothClose() {
                 deviceListDialog.dismiss();
+            }
+        });
+
+        deviceListDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+//                deviceListDialog.clearBluetoothDevice();
+            }
+        });
+        deviceListDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+//                deviceListDialog.clearBluetoothDevice();
             }
         });
     }
@@ -647,9 +694,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         LinearLayout mNew;
         ImageView mChooseImage;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_choose, null);
-        mOld = (LinearLayout) dialogView.findViewById(R.id.ll_old);
-        mNew = (LinearLayout) dialogView.findViewById(R.id.ll_new);
-        mChooseImage = (ImageView) dialogView.findViewById(R.id.iv_new_choose);
+        mOld = dialogView.findViewById(R.id.ll_old);
+        mNew = dialogView.findViewById(R.id.ll_new);
+        mChooseImage = dialogView.findViewById(R.id.iv_new_choose);
         mChooseImage.setImageDrawable(getResources().getDrawable(R.drawable.radio_green));
         mOld.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -703,6 +750,57 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         }
     }
 
+    private AlertDialog renameDialog;
+    private void createRenameDialog() {
+        isReceiveData = false;
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_rename, null);
+        final EditText mInput = dialogView.findViewById(R.id.edt_rename);
+        Button mRename = dialogView.findViewById(R.id.btn_rename);
+        Button mCancel = dialogView.findViewById(R.id.btn_cancel);
+        if (connectedDevice != null) {
+            String name = sharedPreferences.getString(connectedDevice.getMac(), connectedDevice.getMac());
+            mInput.setText(name);
+        }
+        mRename.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                renameDialog.dismiss();
+                isReceiveData = true;
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if (connectedDevice != null && !mInput.getText().toString().equals("")) {
+                    editor.putString(connectedDevice.getMac(), mInput.getText().toString());
+                    if (!LaiApplication.macLists.contains(connectedDevice.getMac())) {
+                        LaiApplication.macLists.add(connectedDevice.getMac());
+                    }
+                    editor.apply();
+                }
+            }
+        });
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                renameDialog.dismiss();
+                isReceiveData = true;
+            }
+        });
+        if (renameDialog == null) {
+            renameDialog = new AlertDialog.Builder(this).create();
+            renameDialog.setView(dialogView, 0, 0, 0, 0);
+        }
+        renameDialog.show();
+    }
+
+    @Override
+    public void onRenameListener() {
+        createRenameDialog();
+    }
+
+    @Override
+    public void onVRenameListener() {
+        createRenameDialog();
+    }
+
     /**
      * 通用progressDialog
      *
@@ -710,9 +808,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
      */
     public void dialogShow(String value) {
         if (progressDialog == null || !progressDialog.isShowing()) {
-            progressDialog = CustomProgress.build(this, value);
-            progressDialog.show();
-
+            if (!NewLaiBalanceActivity.this.isFinishing()) {
+                progressDialog = CustomProgress.build(this, value);
+                progressDialog.show();
+            }
         }
     }
 
@@ -772,6 +871,13 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             }
         }
         dialogDismiss();
+        if (voiceOfTesting != null) {
+            voiceOfTesting.dispose();
+        }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
 }

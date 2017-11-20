@@ -34,6 +34,8 @@ import com.umeng.socialize.PlatformConfig;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
@@ -52,6 +54,8 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
 
     private static LaiApplication laiApplication;
     private WeakReference<Context> context;
+    public static List<String> macLists = new ArrayList<>();
+
 
 //    private RefWatcher refWatcher;
 

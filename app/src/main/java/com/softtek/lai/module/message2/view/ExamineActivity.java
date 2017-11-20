@@ -364,6 +364,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                         int status = responseData.getStatus();
                                         if (status == 200) {
                                             dialogDissmiss();
+                                            Util.toastMsg("加入成功");
                                             Intent intent = getIntent();
                                             intent.putExtra("msgStatus", 1);
                                             setResult(RESULT_OK, intent);
@@ -371,6 +372,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
 
                                         } else {
                                             dialogDissmiss();
+                                            Util.toastMsg(responseData.getMsg());
                                         }
                                     }
 

@@ -89,6 +89,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     TextView tv_height;
     @InjectView(R.id.mid_lay)
     LinearLayout mid_lay;
+    @InjectView(R.id.iv_ble_icon)
+    ImageView mBleIcon;
 
     VisitorModel model;
     VisitGetPresenter presenter;
@@ -410,6 +412,14 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     public void setStateTip(String state) {
         if (mBleState != null) {
             mBleState.setText(state);
+        }
+    }
+
+    public void setBleIcon(boolean alive){
+        if (alive){
+            mBleIcon.setVisibility(View.VISIBLE);
+        }else {
+            mBleIcon.setVisibility(View.GONE);
         }
     }
 

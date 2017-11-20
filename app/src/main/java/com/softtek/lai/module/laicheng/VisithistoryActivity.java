@@ -125,9 +125,19 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                     historyNewmodels.clear();
 //                    adapter.getFilter().filter(et_input.getText().toString().trim()); // 设置ListView的过滤关键词
                     for (HistoryModel model : historyModelList) {
-                        if (model.getVisitor().getName().contains(text) ||
-                                model.getVisitor().getPhoneNo().contains(text)) {
-                            historyNewmodels.add(model);
+                        if (model.getVisitor().getName() != null && model.getVisitor().getPhoneNo() != null) {
+                            if (model.getVisitor().getName().contains(text) ||
+                                    model.getVisitor().getPhoneNo().contains(text)) {
+                                historyNewmodels.add(model);
+                            }
+                        }else if (model.getVisitor().getPhoneNo() == null && model.getVisitor().getName() != null){
+                            if (model.getVisitor().getName().contains(text)){
+                                historyNewmodels.add(model);
+                            }
+                        }else if (model.getVisitor().getPhoneNo() != null && model.getVisitor().getName() == null){
+                            if (model.getVisitor().getPhoneNo().contains(text)){
+                                historyNewmodels.add(model);
+                            }
                         }
                     }
                     historyModelList.clear();

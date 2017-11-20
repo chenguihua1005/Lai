@@ -80,8 +80,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     RelativeLayout rl_bmi;
     @InjectView(R.id.rl_quzhi)
     RelativeLayout rl_quzhi;
-    //    @InjectView(R.id.rl_visceral_fat)
-//    RelativeLayout rl_visceral_fat;
+
     @InjectView(R.id.rl_body_water_per)
     RelativeLayout rl_body_water_per;
     @InjectView(R.id.rl_body_water)

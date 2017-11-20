@@ -21,6 +21,8 @@ import com.softtek.lai.utils.StringUtil;
 
 import java.util.List;
 
+import retrofit.http.HEAD;
+
 /**
  * Created by jerry.guan on 4/20/2016.
  */

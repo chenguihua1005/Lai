@@ -414,6 +414,11 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     }
 
+    @Override
+    public void setBleIcon(boolean alive) {
+
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
