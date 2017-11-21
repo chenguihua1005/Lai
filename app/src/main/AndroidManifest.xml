@@ -826,11 +826,7 @@
         <activity android:name=".module.laicheng_new.view.NewLaiBalanceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"/>
-        <activity android:name=".module.bodygame3.activity.view.NewRetestActivity"
-            android:theme="@style/AppTheme2"
-            android:screenOrientation="portrait"/>
 
-        
         <provider
             android:name="com.softtek.lai.module.home.adapter.MyFileProvider"
             android:authorities="com.softtek.lai.fileProvider"

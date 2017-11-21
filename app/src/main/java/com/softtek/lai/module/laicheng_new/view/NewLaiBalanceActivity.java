@@ -501,6 +501,13 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     postQnData.setScore(qnData.getAll().get(i).value);
                     Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
                     break;
+                case QNData.TYPE_HEART_INDEX:
+                    postQnData.setHeart_index(qnData.getAll().get(i).value);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_HEART_RATE:
+                    postQnData.setHeart_rate(qnData.getAll().get(i).valueIndex);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).valueIndex));
             }
 
 

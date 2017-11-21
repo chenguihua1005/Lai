@@ -25,6 +25,24 @@ public class PostQnData {
     private float score;
     private String measure_time;
     private String weight_unit;
+    private float heart_index;
+    private int heart_rate;
+
+    public float getHeart_index() {
+        return heart_index;
+    }
+
+    public void setHeart_index(float heart_index) {
+        this.heart_index = heart_index;
+    }
+
+    public int getHeart_rate() {
+        return heart_rate;
+    }
+
+    public void setHeart_rate(int heart_rate) {
+        this.heart_rate = heart_rate;
+    }
 
     public float getHeight() {
         return height;
