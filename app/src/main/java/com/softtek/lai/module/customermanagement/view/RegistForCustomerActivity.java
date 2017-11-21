@@ -262,8 +262,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistPresenter> imp
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+
             return true;
         }
         return super.onKeyDown(keyCode, event);

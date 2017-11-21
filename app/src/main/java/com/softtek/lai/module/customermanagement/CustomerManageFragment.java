@@ -10,10 +10,8 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
@@ -21,6 +19,7 @@ import com.softtek.lai.module.customermanagement.adapter.TypeFragmentAdapter;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
+import com.softtek.lai.module.customermanagement.view.SearchCustomerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,10 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
     @InjectView(R.id.menu_gv)
     GridView menu_gv;
+
+    @InjectView(R.id.ll_search)
+    LinearLayout ll_search;
+
     private CustomerMenuAdapter menuAdapter;
 
 
@@ -64,6 +67,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         tv_title.setText("客户管理");
         ll_left.setVisibility(View.INVISIBLE);
         iv_email.setBackgroundResource(R.drawable.club);
+
+        ll_search.setOnClickListener(this);
 
         fragments.add(IntendCustomerFragment.getInstance());
         fragments.add(IntendCustomerFragment.getInstance());
@@ -105,6 +110,10 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         switch (v.getId()) {
             case R.id.ll_left:
 
+                break;
+            case R.id.ll_search:
+                Intent intent = new Intent(getContext(), SearchCustomerActivity.class);
+                startActivity(intent);
                 break;
         }
 
