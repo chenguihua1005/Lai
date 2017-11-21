@@ -80,10 +80,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     LinearLayout menu_layout;
 
     @InjectView(R.id.fucecheck_entry)  //复测审核入口
-    TextView fucecheck_entry;
+            TextView fucecheck_entry;
 
     @InjectView(R.id.heathyReport_entry) //健康报告
-    TextView heathyReport_entry;
+            TextView heathyReport_entry;
 
     @InjectView(R.id.img_head)
     CircleImageView img_head;
@@ -91,12 +91,14 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     TextView tv_name;
     @InjectView(R.id.tv_mobile)
     TextView tv_mobile;
-    @InjectView(R.id.tv_className)
+    @InjectView(R.id.tv_class_name)
     TextView tv_className;
     @InjectView(R.id.tv_period_start)
     TextView tv_period_start;
     @InjectView(R.id.tv_period_end)
     TextView tv_period_end;
+    @InjectView(R.id.iv_ble_icon)
+    ImageView mbleIcon;
 
 
     MeasuredDetailsModel fucDataModel;
@@ -116,30 +118,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
     private boolean chengliang_success = false;//默认称没有测量成果
     private AlertDialog dialog;
 
-
-//    @SuppressLint("LongLogTag")
-//    @PermissionOK(id = 1)
-//    private void initPermissionSuccess() {
-//        setBleStateListener(bleStateListener);
-//        mShakeListener.start();
-//        Log.d("enter bleStateListener --------", "bleStateListener");
-//    }
-//
-//    @PermissionFail(id = 1)
-//    private void initPermissionFail() {
-//        mShakeListener.stop();
-//        new AlertDialog.Builder(this)
-//                .setMessage("拒绝授权将无法正常运行软件！")
-//                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
-//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                        startActivity(intent);
-//                        dialog.dismiss();
-//                    }
-//                }).create().show();
-//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -204,7 +182,8 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 health.putExtra("isVisitor", HealthyReportActivity.VISITOR);
                 startActivity(health);
                 break;
-
+            case R.id.tv_info_state:
+                linkStart();
         }
     }
 
@@ -231,7 +210,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
         setClosed(false);
         tv_title.setText("莱秤测量");
         ll_left.setOnClickListener(this);
-
+        mBleState.setOnClickListener(this);
 
         fucDataModel = (MeasuredDetailsModel) getIntent().getSerializableExtra("fucedata");
 
@@ -308,8 +287,6 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
             result_model = data;
         }
-
-
     }
 
     @Override
@@ -411,12 +388,20 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 
     @Override
     public void setClickable(boolean available) {
-
+        if (available) {
+            mBleState.setEnabled(true);
+        } else {
+            mBleState.setEnabled(false);
+        }
     }
 
     @Override
     public void setBleIcon(boolean alive) {
-
+        if (alive){
+            mbleIcon.setVisibility(View.VISIBLE);
+        }else {
+            mbleIcon.setVisibility(View.GONE);
+        }
     }
 
 

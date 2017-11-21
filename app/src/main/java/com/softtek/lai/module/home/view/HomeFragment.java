@@ -450,8 +450,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                     LinearLayout mOld;
                     LinearLayout mNew;
                     View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_choose, null);
-                    mOld = (LinearLayout) dialogView.findViewById(R.id.ll_old);
-                    mNew = (LinearLayout) dialogView.findViewById(R.id.ll_new);
+                    mOld = dialogView.findViewById(R.id.ll_old);
+                    mNew = dialogView.findViewById(R.id.ll_new);
 //                    SharedPreferences.Editor editor = mSharedPreferences.edit();
                     mOld.setOnClickListener(new View.OnClickListener() {
                         @Override
