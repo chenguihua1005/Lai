@@ -33,14 +33,13 @@
 
             <ImageView
                 android:id="@+id/menu_icon"
-                android:layout_width="32dp"
+                android:layout_width="38dp"
                 android:layout_height="28dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/group_contact" />
+                android:scaleType="fitXY" />
         </RelativeLayout>
 
         <TextView
@@ -50,21 +49,20 @@
             android:layout_alignBottom="@+id/img_container"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
-            android:textSize="10sp"
             android:layout_marginTop="4dp"
-            android:text="班级群" />
+            android:textSize="10sp" />
 
 
     </LinearLayout>
 
     <View
-        android:visibility="gone"
         android:id="@+id/shuxian"
         android:layout_width="0.5dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="6dp"
-        android:background="@color/word16"></View>
+        android:background="@color/word16"
+        android:visibility="gone"></View>
 
 </LinearLayout>

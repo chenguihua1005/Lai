@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -41,6 +42,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.menu_gv)
     GridView menu_gv;
@@ -59,6 +62,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     protected void initViews() {
         tv_title.setText("客户管理");
         ll_left.setVisibility(View.INVISIBLE);
+        iv_email.setBackgroundResource(R.drawable.club);
 
         plv_audit.setOnItemClickListener(this);
         plv_audit.setMode(PullToRefreshBase.Mode.DISABLED);

@@ -374,7 +374,7 @@
         </service>
 
         <!-- 环信登录检测（被踢）服务 -->
-        <service
+<!--        <service
             android:name=".module.bodygame3.conversation.service.HXLoginService"
             android:enabled="true"
             android:exported="true">
@@ -383,7 +383,7 @@
 
                 <category android:name="com.softtek.lai" />
             </intent-filter>
-        </service>
+        </service>-->
 
         <!-- Required SDK核心功能 -->
         <receiver

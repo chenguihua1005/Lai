@@ -13,7 +13,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 
 
-@InjectLayout(R.layout.fragment_basicinfo)
+@InjectLayout(R.layout.fragment_statistic)
 public class StatisticsFragment extends LazyBaseFragment {
 
     public static Fragment getInstance() {

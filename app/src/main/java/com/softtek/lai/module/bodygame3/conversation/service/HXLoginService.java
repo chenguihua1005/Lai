@@ -41,7 +41,8 @@ import static com.softtek.lai.stepcount.service.StepService.STEP_CLOSE_SELF;
  * Created by jessica.zhang on 2016/12/22.
  */
 
-public class HXLoginService extends Service implements Runnable {
+public class
+HXLoginService extends Service implements Runnable {
     UserModel model;
     String account = "";
     private static boolean isExit = false;

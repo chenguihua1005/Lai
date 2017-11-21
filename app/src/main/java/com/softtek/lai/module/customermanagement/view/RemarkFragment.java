@@ -1,20 +1,41 @@
 package com.softtek.lai.module.customermanagement.view;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.widget.RelativeLayout;
 
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.customermanagement.adapter.RemarkAdapter;
+import com.softtek.lai.module.customermanagement.model.RemarkModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- * Created by jessica.zhang on 11/17/2017.
+ * Created by jessica.zhang on 11/17/2017.  PullToRefreshBase.OnRefreshListener2<ListView>
  */
 
 
-@InjectLayout(R.layout.fragment_basicinfo)
-public class RemarkFragment extends LazyBaseFragment {
+@InjectLayout(R.layout.fragment_remark)
+public class RemarkFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2 {
+    @InjectView(R.id.plv_history)
+    PullToRefreshListView plv_history;
+    @InjectView(R.id.ll_nomessage)
+    RelativeLayout im_nomessage;
+
+
+    private int pageindex = 1;
+    private List<RemarkModel> remarkModels = new ArrayList<>();
+    private RemarkAdapter adapter;
 
     public static Fragment getInstance() {
         Fragment fragment = new RemarkFragment();
@@ -26,17 +47,64 @@ public class RemarkFragment extends LazyBaseFragment {
 
     @Override
     protected void lazyLoad() {
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                plv_history.setRefreshing();
+//            }
+//        }, 300);
+
+//        plv_history.onRefreshComplete();
 
     }
 
     @Override
     protected void initViews() {
+        plv_history.setMode(PullToRefreshBase.Mode.BOTH);
+        plv_history.setOnRefreshListener(this);
+        plv_history.setEmptyView(im_nomessage);
+        ILoadingLayout startLabelse = plv_history.getLoadingLayoutProxy(true, false);
+        startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
+        startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
+        startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+        ILoadingLayout endLabelsr = plv_history.getLoadingLayoutProxy(false, true);
+        endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
+        endLabelsr.setRefreshingLabel("正在加载数据");
+        endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
+
+
+        adapter = new RemarkAdapter(remarkModels,getContext());
+        plv_history.setAdapter(adapter);
+
+        RemarkModel model = new RemarkModel("Tom", "如果你不能简单地解释一样东西说明你没有真正的理解他", "2017年11月11日");
+        RemarkModel model2 = new RemarkModel("Jack", "如果你不能简单地解释一样东西说明你没有真正的理解他", "2017年11月11日");
+
+        remarkModels.add(model);
+        remarkModels.add(model2);
+        adapter.notifyDataSetChanged();
+
+
 
 
     }
 
     @Override
     protected void initDatas() {
+
+
+
+
+
+
+    }
+
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase refreshView) {
 
     }
 }

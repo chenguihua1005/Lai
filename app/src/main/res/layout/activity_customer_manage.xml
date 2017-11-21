@@ -72,7 +72,6 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="市场人员" />
-
     </LinearLayout>
 
     <View
