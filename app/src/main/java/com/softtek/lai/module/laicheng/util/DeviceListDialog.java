@@ -104,7 +104,7 @@ public class DeviceListDialog extends Dialog {
 
     public void addBluetoothDevice(QNBleDevice qnBleDevice) {
         if (qn_bluetoothDeviceList == null)
-            qn_bluetoothDeviceList = new ArrayList<QNBleDevice>();
+            qn_bluetoothDeviceList = new ArrayList<>();
         if (qn_bluetoothDeviceList.size() != 0) {
             for (QNBleDevice tem : qn_bluetoothDeviceList) {
                 if (tem.getMac().equals(qnBleDevice.getMac()))
