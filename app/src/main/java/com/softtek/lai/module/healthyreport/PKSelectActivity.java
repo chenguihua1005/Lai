@@ -110,7 +110,7 @@ public class PKSelectActivity extends BaseActivity<HistoryDataManager> implement
         pageIndex = 1;
         //默认加载莱称的数据
         accountId = getIntent().getLongExtra("accountId", 0);
-        getPresenter().getHistoryDataList(0, pageIndex, accountId, false);
+        getPresenter().getHistoryDataList(type, pageIndex, accountId, false);
 
     }
 
