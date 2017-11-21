@@ -190,14 +190,10 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
                 health.putExtra("isVisitor", HealthyReportActivity.VISITOR);
                 startActivity(health);
                 break;
-<<<<<<< HEAD
             case R.id.tv_info_state:
                 linkStart();
-=======
             case R.id.tv_title:
 //                createChangeDialog();
-
->>>>>>> 新莱秤整合
         }
     }
 
@@ -211,7 +207,7 @@ public class FuceForStuActivity extends MainBaseActivity implements View.OnClick
 //        mChooseImage = dialogView.findViewById(R.id.iv_new_choose);
 //        mChooseImage.setImageDrawable(getResources().getDrawable(R.drawable.radio_green));
 //        mOld.setOnClickListener(new View.OnClickListener() {
-//            @Override
+//            @Overridex
 //            public void onClick(View v) {
 //                chooseDialog.dismiss();
 //            }
