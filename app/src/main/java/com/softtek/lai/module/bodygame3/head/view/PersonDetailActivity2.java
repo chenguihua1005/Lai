@@ -143,16 +143,16 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
     ArrayList<String> images = new ArrayList<>();
     private int issendFriend = 0;
 
-    private static final int GET_Sian = 1;//发布签名
+    private static final int GET_Sian = 0x0011;//发布签名
     private String IsFriend;//是否是好友
 
     private int comeFromClass = 1;//来自于哪一个班级   1  当前班级   0 往期
 
 
-    int SetLove = 1;
+    private static final int SetLove = 0x0012;
     private MemberInfoModel memberInfoModel;
 
-    private int PERSONDY = 3;
+    private static final int PERSONDY = 0x0013;
 
     private Long userid;
 
