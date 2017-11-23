@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-/**
- * Created by jerry.guan on 4/11/2016.
- */
+
 public class TypeFragmentAdapter extends FragmentPagerAdapter {
 
     String[] titles = {"意向客户", "市场人员"};
