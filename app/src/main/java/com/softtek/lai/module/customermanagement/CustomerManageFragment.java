@@ -19,6 +19,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
 import com.softtek.lai.module.customermanagement.adapter.TypeFragmentAdapter;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
+import com.softtek.lai.module.customermanagement.view.ClubActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
 
@@ -64,6 +65,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         tv_title.setText("客户管理");
         ll_left.setVisibility(View.INVISIBLE);
         iv_email.setBackgroundResource(R.drawable.club);
+        fl_right.setOnClickListener(this);
 
         fragments.add(IntendCustomerFragment.getInstance());
         fragments.add(IntendCustomerFragment.getInstance());
@@ -106,6 +108,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
             case R.id.ll_left:
 
                 break;
+            case R.id.fl_right:
+                startActivity(new Intent(getActivity(), ClubActivity.class));
         }
 
     }
