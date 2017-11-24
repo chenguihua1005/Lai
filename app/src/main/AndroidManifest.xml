@@ -849,10 +849,19 @@
         <activity
             android:name=".module.customermanagement.view.SearchCustomerActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.customermanagement.view.AddRemarkActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.customermanagement.view.ClubActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".module.customermanagement.view.CreateClubActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name="com.softtek.lai.module.home.adapter.MyFileProvider"

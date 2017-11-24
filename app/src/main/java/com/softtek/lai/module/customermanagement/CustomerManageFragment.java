@@ -19,6 +19,7 @@ import com.softtek.lai.module.customermanagement.adapter.TypeFragmentAdapter;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
+import com.softtek.lai.module.customermanagement.view.ClubActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.SearchCustomerActivity;
@@ -70,6 +71,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         iv_email.setBackgroundResource(R.drawable.club);
 
         ll_search.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
 
         fragments.add(IntendCustomerFragment.getInstance());
         fragments.add(IntendCustomerFragment.getInstance());
@@ -116,6 +118,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 Intent intent = new Intent(getContext(), SearchCustomerActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.fl_right:
+                startActivity(new Intent(getActivity(), ClubActivity.class));
         }
 
     }

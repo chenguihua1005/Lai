@@ -46,6 +46,8 @@
     <color name="backPressTrue1">#A83F8970</color>
     <color name="background_green">#78bc27</color><!--背景绿色-->
     <color name="transparent">#00000000</color>
+    <color name="club_personnel">#b7b7b7</color>
+    <color name="count_personnel">#70af2c</color>
 
     <color name="history_chart_text_color">#adadad</color>
 </resources>
