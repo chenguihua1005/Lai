@@ -65,7 +65,7 @@
                         android:background="#75BA2B" />
                 </FrameLayout>
 
-                <FrameLayout
+<!--                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:visibility="gone">
@@ -133,7 +133,7 @@
                         android:layout_height="1dp"
                         android:layout_gravity="bottom"
                         android:background="#75BA2B" />
-                </FrameLayout>
+                </FrameLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

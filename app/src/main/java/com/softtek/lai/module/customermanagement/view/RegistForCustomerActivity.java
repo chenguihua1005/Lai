@@ -5,7 +5,9 @@
 
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,21 +19,15 @@ import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
-import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.login.presenter.RegistPresenter;
-import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.customermanagement.presenter.RegistCustomerPresenter;
 import com.softtek.lai.module.login.view.TermActivity;
 import com.softtek.lai.utils.JCountDownTimer;
-import com.softtek.lai.utils.MD5;
+import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
@@ -41,8 +37,8 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_regist_customer)
-public class RegistForCustomerActivity extends BaseActivity<RegistPresenter> implements View.OnClickListener,
-        Validator.ValidationListener, RegistPresenter.RegistView {
+public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresenter> implements View.OnClickListener,
+        Validator.ValidationListener,RegistCustomerPresenter.RegisterForCustomerCallback{
 
     private MyCountDown countDown;
 
@@ -54,15 +50,15 @@ public class RegistForCustomerActivity extends BaseActivity<RegistPresenter> imp
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Password(order = 3, messageResId = R.string.passwordValidateNull)
-    @Regex(order = 4, pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}", messageResId = R.string.passwordValidate)
-    @InjectView(R.id.et_password)
-    EditText et_password;
-
-    @Required(order = 5, messageResId = R.string.confirmPasswordNull)
-    @ConfirmPassword(order = 6, messageResId = R.string.confirmPassword)
-    @InjectView(R.id.et_repassword)
-    EditText et_repassword;
+//    @Password(order = 3, messageResId = R.string.passwordValidateNull)
+//    @Regex(order = 4, pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}", messageResId = R.string.passwordValidate)
+//    @InjectView(R.id.et_password)
+//    EditText et_password;
+//
+//    @Required(order = 5, messageResId = R.string.confirmPasswordNull)
+//    @ConfirmPassword(order = 6, messageResId = R.string.confirmPassword)
+//    @InjectView(R.id.et_repassword)
+//    EditText et_repassword;
 
     @Required(order = 7, messageResId = R.string.identiftValidtae)
     @InjectView(R.id.et_identify)
@@ -99,7 +95,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistPresenter> imp
     @Override
     protected void initDatas() {
         //初始化倒计时
-        setPresenter(new RegistPresenter(this));
+        setPresenter(new RegistCustomerPresenter(this));
         countDown = new MyCountDown(60000, 1000);
     }
 
@@ -123,19 +119,16 @@ public class RegistForCustomerActivity extends BaseActivity<RegistPresenter> imp
         switch (v.getId()) {
             case R.id.tv_get_identify:
                 String phone = et_phone.getText().toString();
-                boolean validate = getPresenter().validateGetIdentify(this, et_phone, et_password, et_repassword);
+                boolean validate = validateGetIdentify(this,et_phone);
                 if (!validate) {
                     return;
                 }
-                et_password.setError(null);
-                et_repassword.setError(null);
+
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 getPresenter().getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;
             case R.id.btn_regist:
-                et_password.setError(null);
-                et_repassword.setError(null);
                 validateLife.validate();
                 break;
             case R.id.tv_protocol:
@@ -183,7 +176,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistPresenter> imp
         }
         btn_regist.setEnabled(false);
         final String phoneNum = et_phone.getText().toString();
-        final String password = et_password.getText().toString();
+//        final String password = et_password.getText().toString();
 
 //        getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
 
@@ -207,24 +200,46 @@ public class RegistForCustomerActivity extends BaseActivity<RegistPresenter> imp
         }
     }
 
-    @Override
-    public void registSuccess(UserModel model) {
-        dialogDissmiss();
-        btn_regist.setEnabled(true);
-        model.setIsJoin("0");
-        UserInfoModel.getInstance().saveUserCache(model);
-        UserInfoModel.getInstance().setToken("");
-        Intent intent = new Intent(this, CreatFlleActivity.class);
-        intent.putExtra("token", model.getToken());
-        finish();
-        startActivity(intent);
+    public boolean validateGetIdentify(Context context, EditText et_phone) {
+        String phone = et_phone.getText().toString();
+
+        if ("".equals(phone)) {
+            et_phone.requestFocus();
+            et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.phoneValidateNull) + "</font>"));
+            return false;
+        }
+        if (!RegexUtil.match(context.getString(R.string.phonePattern), phone)) {
+            et_phone.requestFocus();
+            et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.phoneValidate) + "</font>"));
+            return false;
+        }
+//        String password = et_password.getText().toString();
+//        if ("".equals(password)) {
+//            et_password.requestFocus();
+//            et_password.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.passwordValidateNull) + "</font>"));
+//            return false;
+//        }
+//        if (!RegexUtil.match(context.getString(R.string.psdReg), password)) {
+//            et_password.requestFocus();
+//            et_password.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.passwordValidate) + "</font>"));
+//            return false;
+//        }
+//        String rePassword = et_rePassword.getText().toString();
+//        if ("".equals(rePassword)) {
+//            et_rePassword.requestFocus();
+//            et_rePassword.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.confirmPasswordNull) + "</font>"));
+//            return false;
+//        }
+//        if (!rePassword.equals(password)) {
+//            et_rePassword.requestFocus();
+//            et_rePassword.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.confirmPassword) + "</font>"));
+//            return false;
+//        }
+        return true;
     }
 
-    @Override
-    public void registFail() {
-        dialogDissmiss();
-        btn_regist.setEnabled(true);
-    }
+
+
 
     public class MyCountDown extends JCountDownTimer {
 

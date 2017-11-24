@@ -4,16 +4,17 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/top"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/top"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -306,16 +307,6 @@
             android:background="#78BC27" />
 
 
-        <Button
-            android:id="@+id/btn_Add_bodydimension"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/bg_addbody_btn"
-            android:text="添加身体围度"
-            android:textColor="#FFA302"
-            android:textSize="18sp"
-            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_finish"
@@ -325,7 +316,7 @@
             android:text="完成"
             android:textColor="#FFFFFD"
             android:textSize="18sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </LinearLayout>
 

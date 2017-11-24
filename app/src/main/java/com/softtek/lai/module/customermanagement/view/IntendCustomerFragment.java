@@ -1,10 +1,14 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -75,13 +79,12 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
-
-
     }
 
     @Override
     protected void initDatas() {
         setPresenter(new IntendCustomerPresenter(this));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_INTENTCUSTOMER_LIST));
 
         customerAdapter = new CustomerAdapter(getContext(), modelList);
         plv_audit.setAdapter(customerAdapter);
@@ -110,7 +113,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
     @Override
     public void getIntentCustomerList(CustomerListModel model) {
-        if (model.getItems()!=null) {
+        if (model.getItems() != null) {
             modelList.addAll(model.getItems());
         }
         customerAdapter.notifyDataSetChanged();
@@ -120,4 +123,22 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
+    public static final String UPDATE_INTENTCUSTOMER_LIST = "UPDATE_INTENTCUSTOMER_LIST";
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && UPDATE_INTENTCUSTOMER_LIST.equalsIgnoreCase(intent.getAction())) {
+                pageindex = 1;
+                modelList.clear();
+                getPresenter().getIntentCustomerList(pageindex, pageSize);
+            }
+        }
+    };
 }

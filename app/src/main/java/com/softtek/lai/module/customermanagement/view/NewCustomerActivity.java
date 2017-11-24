@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,15 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.model.FileModel;
-import com.softtek.lai.module.File.presenter.CreateFileImpl;
-import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
+import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
+import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
+import com.softtek.lai.module.customermanagement.presenter.SaveCustomerPresenter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
@@ -44,17 +47,18 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.R.attr.data;
+
 
 /**
  * Created by jessica.zhang on 11/17/2017.
  */
 
 @InjectLayout(R.layout.activity_creatfile_customer)
-public class NewCustomerActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener {
+public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener, SaveCustomerPresenter.SaveCustomerCallback {
     private List<String> gradeList = new ArrayList<>();
     private List<String> gradeIDList = new ArrayList<>();
     private String select_grade = "";
-    private ICreateFilepresenter ICreateFilepresenter;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -79,13 +83,15 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.tv_weight)
     EditText tv_weight;
 
+    @InjectView(R.id.remark_et)   //备注
+            EditText remark_et;
+
     //添加身体围度按钮
-    @InjectView(R.id.btn_Add_bodydimension)
-    Button btn_Add_bodydimension;
+//    @InjectView(R.id.btn_Add_bodydimension)
+//    Button btn_Add_bodydimension;
     //完成按钮
     @InjectView(R.id.btn_finish)
     Button btn_finish;
-
 
 
     @InjectView(R.id.ll_nickname)
@@ -122,10 +128,13 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
     FrameLayout fl_right;
 
     //存储用户表单数据
-    private FileModel file;
+    private CustomerInfoModel file;
     private static final int GET_BODY_DIMENSION = 1;
 
     private boolean w = true;
+
+    private FindCustomerModel model = null;
+    private String mobile = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,18 +144,30 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
         ll_height.setOnTouchListener(this);
         ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
-        btn_Add_bodydimension.setOnClickListener(this);
 
         ll_left.setOnClickListener(this);
         //        iv_left.setVisibility(View.GONE);
         tv_right.setText("下一步");
 //        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
         fl_right.setOnClickListener(this);
-
+        setPresenter(new SaveCustomerPresenter(this));
     }
 
     @Override
     protected void initViews() {
+        model = (FindCustomerModel) getIntent().getSerializableExtra("model");
+        mobile = getIntent().getStringExtra("mobile");
+        if (model != null) {
+            et_nickname.setText(model.getName());
+            tv_birth.setText(model.getBirthDay());
+            if (0 == model.getGender()) {
+                tv_sex.setText("男");
+            } else {
+                tv_sex.setText("女");
+            }
+
+            tv_weight.setText(model.getWeight());
+        }
 
         //获取当前年月日
         currentMonth = DateUtil.getInstance().getCurrentMonth();
@@ -170,9 +191,8 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-        ICreateFilepresenter = new CreateFileImpl(this);
         tv_title.setText("创建新客户");
-        file = new FileModel();
+        file = new CustomerInfoModel();
         addGrade();
     }
 
@@ -182,17 +202,8 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.btn_finish:
-                validateLife.validate();
-                break;
-            case R.id.btn_Add_bodydimension:
-                Intent intent = new Intent(NewCustomerActivity.this, DimensionRecordActivity.class);
-                intent.putExtra("file", file);
-                startActivityForResult(intent, GET_BODY_DIMENSION);
-                w = false;
-                break;
             case R.id.fl_right:
-
+                validateLife.validate();
                 break;
         }
     }
@@ -202,15 +213,15 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (v.getId()) {
-                case R.id.btn_finish:
-                    validateLife.validate();
-                    break;
-                case R.id.btn_Add_bodydimension:
-                    Intent intent = new Intent(NewCustomerActivity.this, DimensionRecordActivity.class);
-                    intent.putExtra("file", file);
-                    startActivityForResult(intent, GET_BODY_DIMENSION);
-                    w = false;
-                    break;
+//                case R.id.btn_finish:
+//                    validateLife.validate();
+//                    break;
+//                case btn_Add_bodydimension:
+//                    Intent intent = new Intent(NewCustomerActivity.this, DimensionRecordActivity.class);
+//                    intent.putExtra("file", file);
+//                    startActivityForResult(intent, GET_BODY_DIMENSION);
+//                    w = false;
+//                    break;
                 case R.id.ll_birth:
                     showDateDialog();
                     break;
@@ -257,17 +268,18 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
+        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
         } else {
 
             if (w == true) {
-                file = new FileModel();
+                file = new CustomerInfoModel();
             }
 
-            file.setNickname(nick);
-            file.setBirthday(birthday);
+            file.setName(nick);
+            file.setBirthDay(birthday);
             file.setGender(gender.equals("男") ? 0 : 1);
 
             String heights = height.split("cm")[0];
@@ -275,8 +287,13 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-            String token = getIntent().getStringExtra("token");
-            ICreateFilepresenter.createFile(token, file);
+            file.setRemark(remark);
+            if (!TextUtils.isEmpty(mobile)) {
+                file.setMobile(mobile);
+            }
+
+            Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
+            getPresenter().saveCustomerInfo(file);
         }
     }
 
@@ -290,7 +307,7 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == GET_BODY_DIMENSION) {
-            file = (FileModel) data.getSerializableExtra("file");
+//            file = (FileModel) data.getSerializableExtra("file");
 
         }
     }
@@ -502,5 +519,12 @@ public class NewCustomerActivity extends BaseActivity implements View.OnClickLis
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void SaveCustomerSucsess() {
+//   需刷新前面列表
+        Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
