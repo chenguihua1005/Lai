@@ -277,6 +277,12 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 selfFragment.setClickable(true);
                 visitorFragment.setClickable(true);
                 selfFragment.setInvisible();
+                if (!isStartTesting){
+                    testFail();
+                    if (testingTimeout != null){
+                        testingTimeout.dispose();
+                    }
+                }
                 connectedDevice = null;
             }
 
