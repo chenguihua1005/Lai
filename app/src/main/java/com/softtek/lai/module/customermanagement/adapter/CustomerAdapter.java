@@ -1,7 +1,12 @@
 package com.softtek.lai.module.customermanagement.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
+
+import static android.R.attr.data;
+import static android.R.attr.mode;
 
 /**
  * Created by jessica.zhang on 11/16/2017.
@@ -67,7 +75,21 @@ public class CustomerAdapter extends BaseAdapter {
 
         holder.name_tv.setText(model.getName());
         holder.label_tv.setText(model.getTag());
-        holder.desc_tv.setText(model.getRemark());
+
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append("由");
+        SpannableString str1 = new SpannableString(model.getCreator());
+        str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        builder.append(str1);
+        builder.append("于");
+        SpannableString str2 = new SpannableString(model.getCreatedTime());
+        str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        builder.append(str2);
+
+        builder.append("添加");
+        holder.desc_tv.setText(builder);
+
 
         return convertView;
     }

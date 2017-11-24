@@ -21,6 +21,7 @@ import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresent
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.ClubActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
+import com.softtek.lai.module.customermanagement.view.MarketerListFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.SearchCustomerActivity;
 
@@ -35,7 +36,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 
 @InjectLayout(R.layout.activity_customer_manage)
-public class CustomerManageFragment extends LazyBaseFragment implements View.OnClickListener{
+public class CustomerManageFragment extends LazyBaseFragment implements View.OnClickListener {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -74,7 +75,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         fl_right.setOnClickListener(this);
 
         fragments.add(IntendCustomerFragment.getInstance());
-        fragments.add(IntendCustomerFragment.getInstance());
+        fragments.add(MarketerListFragment.getInstance());
 
         adapter = new TypeFragmentAdapter(getChildFragmentManager(), fragments);
         container.setAdapter(adapter);

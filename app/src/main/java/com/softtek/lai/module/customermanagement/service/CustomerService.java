@@ -15,12 +15,28 @@ import retrofit.http.Query;
 public interface CustomerService {
 
     /**
-     *获取意向客户列表
+     * 获取意向客户列表 /v1/Club/FindCustomer
+     *
      * @param token
      * @param callback
      */
     @GET("/v1/Club/FindCustomer")
     void getIntentCustomerList(
+            @Header("token") String token,
+            @Query("index") int index,//当前页码，必填，可以填0
+            @Query("size") int size,//每页显示的记录数量，必填，可以填0
+            RequestCallback<ResponseData<CustomerListModel>> callback
+    );
+
+
+    /**
+     * 获取市场人员列表 /v1/Club/FindMarketingStaff
+     *
+     * @param token
+     * @param callback
+     */
+    @GET("/v1/Club/FindMarketingStaff")
+    void getMarketingStaffList(
             @Header("token") String token,
             @Query("index") int index,//当前页码，必填，可以填0
             @Query("size") int size,//每页显示的记录数量，必填，可以填0

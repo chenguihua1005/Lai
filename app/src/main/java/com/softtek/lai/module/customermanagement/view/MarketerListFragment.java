@@ -18,7 +18,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.CustomerAdapter;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.model.CustomerModel;
-import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
+import com.softtek.lai.module.customermanagement.presenter.MarketerListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 
 @InjectLayout(R.layout.fragment_customer)
-public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, IntendCustomerPresenter.IntendCustomerCallback {
+public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, MarketerListPresenter.MarketingStaffCallback {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
@@ -44,7 +44,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     private int pageSize = 10;
 
     public static Fragment getInstance() {
-        Fragment fragment = new IntendCustomerFragment();
+        Fragment fragment = new MarketerListFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
@@ -81,11 +81,11 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
     @Override
     protected void initDatas() {
-        setPresenter(new IntendCustomerPresenter(this));
+        setPresenter(new MarketerListPresenter(this));
 
         customerAdapter = new CustomerAdapter(getContext(), modelList);
         plv_audit.setAdapter(customerAdapter);
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
+        getPresenter().getMarketingStaffList(pageindex, pageSize);
 
     }
 
@@ -99,18 +99,19 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex = 1;
         modelList.clear();
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
+        getPresenter().getMarketingStaffList(pageindex, pageSize);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex++;
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
+        getPresenter().getMarketingStaffList(pageindex, pageSize);
     }
 
+
     @Override
-    public void getIntentCustomerList(CustomerListModel model) {
-        if (model.getItems()!=null) {
+    public void getMarketingStaffList(CustomerListModel model) {
+        if (model.getItems() != null) {
             modelList.addAll(model.getItems());
         }
         customerAdapter.notifyDataSetChanged();
