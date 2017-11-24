@@ -250,6 +250,11 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void setInvisible(){
+        mHealthReport.setVisibility(View.INVISIBLE);
+        mShare.setVisibility(View.INVISIBLE);
+    }
+
     public void setRenameIcon(boolean alive){
         if (alive){
             mNote.setVisibility(View.VISIBLE);
