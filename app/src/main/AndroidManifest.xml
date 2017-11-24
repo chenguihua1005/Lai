@@ -124,9 +124,9 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="f04fa77453f2b3894d05b894" />
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="herbalifeuat#laiapp" />
+        <!--<meta-data-->
+            <!--android:name="EASEMOB_APPKEY"-->
+            <!--android:value="herbalifeuat#laiapp" />-->
         <!-- ============================================================================== -->
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -374,16 +374,16 @@
         </service>
 
         <!-- 环信登录检测（被踢）服务 -->
-        <service
-            android:name=".module.bodygame3.conversation.service.HXLoginService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="cn.hx.android.intent.HXLoginService" />
+        <!--<service-->
+            <!--android:name=".module.bodygame3.conversation.service.HXLoginService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="cn.hx.android.intent.HXLoginService" />-->
 
-                <category android:name="com.softtek.lai" />
-            </intent-filter>
-        </service>
+                <!--<category android:name="com.softtek.lai" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <!-- Required SDK核心功能 -->
         <receiver

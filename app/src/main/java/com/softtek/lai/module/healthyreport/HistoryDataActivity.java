@@ -164,7 +164,9 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                 finish();
                 break;
             case R.id.fl_right:
-                startActivity(new Intent(this, HealthEntryActivity.class));
+                Intent intent2 = new Intent(this, HealthEntryActivity.class);
+//                intent2.putExtra("type", type);
+                startActivityForResult(intent2, 0x0001);//如果当前选中的是全部（type = 1），添加成功回来需要刷新列表
                 break;
             case R.id.tv_delete:
                 //提交删除选项
@@ -194,6 +196,17 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
                 Intent intent = new Intent(HistoryDataActivity.this, PKSelectActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0x0001 && type == 1) {
+                pageIndex = 1;
+                getPresenter().getHistoryDataList(type, pageIndex, accountId, true);
+            }
         }
     }
 

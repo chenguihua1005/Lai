@@ -66,12 +66,12 @@ public interface Message2Service {
     );
 
 
-    @POST("/MsgCenter/DeleteOneOrMoreMsg")
-    @FormUrlEncoded
-    void deleteOneMsg(@Header("token") String token,
-                    @Field("msgtype") String msgtype,
-                    @Field("msgid") String msgid,
-                    Callback<ResponseData> callback);
+//    @POST("/MsgCenter/DeleteOneOrMoreMsg")
+//    @FormUrlEncoded
+//    void deleteOneMsg(@Header("token") String token,
+//                    @Field("Msgtype") String msgtype,
+//                    @Field("Msgid") String msgid,
+//                    Callback<ResponseData> callback);
 
     //参赛邀请详情
     @GET("/V1/MsgCenter/ShowJionClassInfo")
