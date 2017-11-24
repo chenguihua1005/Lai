@@ -371,6 +371,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                         super.failure(error);
                                         ZillaApi.dealNetError(error);
                                         Log.d("maki", error.toString());
+                                        if (voiceOfTesting != null) {
+                                            voiceOfTesting.dispose();
+                                        }
                                         dialogDismiss();
                                         testFail();
                                     }
