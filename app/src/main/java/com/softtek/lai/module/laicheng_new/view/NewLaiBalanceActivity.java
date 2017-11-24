@@ -276,6 +276,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 visitorFragment.setRenameIcon(false);
                 selfFragment.setClickable(true);
                 visitorFragment.setClickable(true);
+                selfFragment.setInvisible();
                 connectedDevice = null;
             }
 
@@ -301,7 +302,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                 }
                             });
 
-                    testingTimeout = Flowable.timer(20, TimeUnit.SECONDS)
+                    testingTimeout = Flowable.timer(35, TimeUnit.SECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Consumer<Long>() {
                                 @Override
@@ -332,6 +333,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 } else if (type == 1) {
                     accountId = UserInfoModel.getInstance().getUserId();
                 }
+                if (testingTimeout != null) {
+                    testingTimeout.dispose();
+                }
                 ZillaApi.NormalRestAdapter.create(NewBleService.class)
                         .uploadTestData(UserInfoModel.getInstance().getToken(),
                                 accountId,
@@ -353,9 +357,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             if (isVoiceHelp) {
                                                 SoundPlay.getInstance().play(R.raw.help_five);
                                             }
-                                            if (testingTimeout != null) {
-                                                testingTimeout.dispose();
-                                            }
+
                                             if (voiceOfTesting != null) {
                                                 voiceOfTesting.dispose();
                                             }
@@ -369,10 +371,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                         super.failure(error);
                                         ZillaApi.dealNetError(error);
                                         Log.d("maki", error.toString());
-                                        dialogDismiss();
-                                        if (testingTimeout != null) {
-                                            testingTimeout.dispose();
+                                        if (voiceOfTesting != null) {
+                                            voiceOfTesting.dispose();
                                         }
+                                        dialogDismiss();
                                         testFail();
                                     }
                                 });
@@ -506,8 +508,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
                     break;
                 case QNData.TYPE_HEART_RATE:
-                    postQnData.setHeart_rate(qnData.getAll().get(i).valueIndex);
-                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).valueIndex));
+                    postQnData.setHeart_rate((int)qnData.getAll().get(i).value);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
             }
 
 
@@ -893,6 +895,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (voiceOfTesting != null) {
             voiceOfTesting.dispose();
         }
+        isStartTesting = true;
     }
 
     @Override
