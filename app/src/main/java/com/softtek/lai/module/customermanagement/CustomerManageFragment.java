@@ -16,6 +16,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
 import com.softtek.lai.module.customermanagement.adapter.TypeFragmentAdapter;
+import com.softtek.lai.module.customermanagement.model.CustomerListModel;
+import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
@@ -32,7 +34,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 
 @InjectLayout(R.layout.activity_customer_manage)
-public class CustomerManageFragment extends LazyBaseFragment implements View.OnClickListener {
+public class CustomerManageFragment extends LazyBaseFragment implements View.OnClickListener{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -59,7 +61,6 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
     List<Fragment> fragments = new ArrayList<>();
     TypeFragmentAdapter adapter;
-
 
 
     @Override
@@ -118,6 +119,5 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         }
 
     }
-
 
 }

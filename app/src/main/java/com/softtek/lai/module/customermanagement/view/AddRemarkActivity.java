@@ -1,9 +1,7 @@
 package com.softtek.lai.module.customermanagement.view;
 
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,28 +12,26 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- * Created by jessica.zhang on 11/17/2017.
+ * Created by jessica.zhang on 11/23/2017.
  */
 
-@InjectLayout(R.layout.activity_add_customer)
-public class AddCustomerActivity extends BaseActivity implements View.OnClickListener {
+@InjectLayout(R.layout.activity_add_remark)
+public class AddRemarkActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
-    @InjectView(R.id.fl_right)
-    FrameLayout fl_right;
+    @InjectView(R.id.remark_et)
+    EditText remark_et;
 
     @Override
     protected void initViews() {
-        tv_title.setText("添加客户");
-        tv_right.setText("下一步");
+        tv_title.setText("添加备注");
+        tv_right.setText("保存");
         ll_left.setOnClickListener(this);
-        fl_right.setOnClickListener(this);
 
     }
 
@@ -50,12 +46,8 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.fl_right:
-                Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
-                startActivity(intent);
-                break;
-
 
         }
+
     }
 }

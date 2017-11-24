@@ -849,6 +849,9 @@
         <activity
             android:name=".module.customermanagement.view.SearchCustomerActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.customermanagement.view.AddRemarkActivity"
+            android:screenOrientation="portrait" />
 
 
         <provider

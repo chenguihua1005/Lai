@@ -2,6 +2,8 @@ package com.softtek.lai.module.customermanagement.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +16,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.CustomerAdapter;
+import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.model.CustomerModel;
+import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +26,14 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
+import static com.softtek.lai.R.id.plv_history;
+
 /**
  * Created by jessica.zhang on 11/21/2017.
  */
 
 @InjectLayout(R.layout.fragment_customer)
-public class IntendCustomerFragment extends LazyBaseFragment implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
+public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, IntendCustomerPresenter.IntendCustomerCallback {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
@@ -36,6 +42,8 @@ public class IntendCustomerFragment extends LazyBaseFragment implements AdapterV
 
     private CustomerAdapter customerAdapter;
     private List<CustomerModel> modelList = new ArrayList<CustomerModel>();
+    private int pageindex = 1;
+    private int pageSize = 10;
 
     public static Fragment getInstance() {
         Fragment fragment = new IntendCustomerFragment();
@@ -46,7 +54,13 @@ public class IntendCustomerFragment extends LazyBaseFragment implements AdapterV
 
     @Override
     protected void lazyLoad() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                plv_audit.setRefreshing();
+            }
 
+        }, 300);
     }
 
     @Override
@@ -64,15 +78,16 @@ public class IntendCustomerFragment extends LazyBaseFragment implements AdapterV
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
 
-        modelList.add(new CustomerModel("haha", "Tom", "由张三于2017.10.10添加"));
-        modelList.add(new CustomerModel("haha", "Nicole", "由张三于2017.10.10添加"));
-        customerAdapter = new CustomerAdapter(getContext(), modelList);
-        plv_audit.setAdapter(customerAdapter);
 
     }
 
     @Override
     protected void initDatas() {
+        setPresenter(new IntendCustomerPresenter(this));
+
+        customerAdapter = new CustomerAdapter(getContext(), modelList);
+        plv_audit.setAdapter(customerAdapter);
+        getPresenter().getIntentCustomerList(pageindex, pageSize);
 
     }
 
@@ -84,13 +99,27 @@ public class IntendCustomerFragment extends LazyBaseFragment implements AdapterV
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        plv_audit.onRefreshComplete();
-
+        pageindex = 1;
+        modelList.clear();
+        getPresenter().getIntentCustomerList(pageindex, pageSize);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        plv_audit.onRefreshComplete();
+        pageindex++;
+        getPresenter().getIntentCustomerList(pageindex, pageSize);
+    }
 
+    @Override
+    public void getIntentCustomerList(CustomerListModel model) {
+        if (model.getItems()!=null) {
+            modelList.addAll(model.getItems());
+        }
+        customerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void hidenLoading() {
+        plv_audit.onRefreshComplete();
     }
 }

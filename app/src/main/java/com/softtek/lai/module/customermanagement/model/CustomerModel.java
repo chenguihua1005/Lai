@@ -5,30 +5,20 @@ package com.softtek.lai.module.customermanagement.model;
  */
 
 public class CustomerModel {
-    private String iconhead_url;
-    private String name;
+    private String Name;
     private String remark;
-
-    public CustomerModel(String iconhead_url, String name, String remark) {
-        this.iconhead_url = iconhead_url;
-        this.name = name;
-        this.remark = remark;
-    }
-
-    public String getIconhead_url() {
-        return iconhead_url;
-    }
-
-    public void setIconhead_url(String iconhead_url) {
-        this.iconhead_url = iconhead_url;
-    }
+    private String Tag;//标签
+    private String UserRole;//角色
+    private String Photo;//头像
+    private String Creator;//添加人姓名
+    private String Mobile;//手机号码
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        Name = name;
     }
 
     public String getRemark() {
@@ -37,5 +27,58 @@ public class CustomerModel {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getTag() {
+        return Tag;
+    }
+
+    public void setTag(String tag) {
+        Tag = tag;
+    }
+
+    public String getUserRole() {
+        return UserRole;
+    }
+
+    public void setUserRole(String userRole) {
+        UserRole = userRole;
+    }
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getCreator() {
+        return Creator;
+    }
+
+    public void setCreator(String creator) {
+        Creator = creator;
+    }
+
+    public String getMobile() {
+        return Mobile;
+    }
+
+    public void setMobile(String mobile) {
+        Mobile = mobile;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerModel{" +
+                "Name='" + Name + '\'' +
+                ", remark='" + remark + '\'' +
+                ", Tag='" + Tag + '\'' +
+                ", UserRole='" + UserRole + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Creator='" + Creator + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                '}';
     }
 }

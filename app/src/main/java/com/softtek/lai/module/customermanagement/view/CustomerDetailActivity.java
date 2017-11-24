@@ -1,5 +1,6 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -24,7 +25,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 
 @InjectLayout(R.layout.activity_customer_detail)
-public class CustomerDetailActivity extends BaseActivity {
+public class CustomerDetailActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -36,6 +37,9 @@ public class CustomerDetailActivity extends BaseActivity {
     TabLayout tab;
     @InjectView(R.id.container)
     ViewPager container;
+
+    @InjectView(R.id.addremark_tv)
+    TextView addremark_tv;
 
     List<Fragment> fragments = new ArrayList<>();
     FragmentAdapter adapter;
@@ -57,6 +61,7 @@ public class CustomerDetailActivity extends BaseActivity {
 
     @Override
     protected void initDatas() {
+        addremark_tv.setOnClickListener(this);
 
     }
 
@@ -69,6 +74,10 @@ public class CustomerDetailActivity extends BaseActivity {
                 break;
             case R.id.tv_right:
 
+                break;
+            case R.id.addremark_tv:
+                Intent intent = new Intent(CustomerDetailActivity.this, AddRemarkActivity.class);
+                startActivity(intent);
                 break;
         }
     }
