@@ -364,51 +364,51 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                         public void failure(RetrofitError error) {
                         }
                     });
-            if (EMClient.getInstance().isLoggedInBefore()) {
-                EMClient.getInstance().chatManager().addMessageListener(messageListener);
-                int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-                updateMessage(unreadNum);
-            }
+//            if (EMClient.getInstance().isLoggedInBefore()) {
+//                EMClient.getInstance().chatManager().addMessageListener(messageListener);
+//                int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+//                updateMessage(unreadNum);
+//            }
         }
     }
 
-    EMMessageListener messageListener = new EMMessageListener() {
-
-        @Override
-        public void onMessageReceived(List<EMMessage> messages) {
-            // 提示新消息
-            int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-            Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
-            msgIntent.putExtra("count", unreadNum);
-            LaiApplication.getInstance().sendBroadcast(msgIntent);
-        }
-
-        @Override
-        public void onCmdMessageReceived(List<EMMessage> list) {
-
-        }
-
-        @Override
-        public void onMessageRead(List<EMMessage> list) {
-
-        }
-
-        @Override
-        public void onMessageDelivered(List<EMMessage> list) {
-
-        }
-
-        @Override
-        public void onMessageChanged(EMMessage emMessage, Object o) {
-
-        }
-    };
+//    EMMessageListener messageListener = new EMMessageListener() {
+//
+//        @Override
+//        public void onMessageReceived(List<EMMessage> messages) {
+//            // 提示新消息
+//            int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+//            Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
+//            msgIntent.putExtra("count", unreadNum);
+//            LaiApplication.getInstance().sendBroadcast(msgIntent);
+//        }
+//
+//        @Override
+//        public void onCmdMessageReceived(List<EMMessage> list) {
+//
+//        }
+//
+//        @Override
+//        public void onMessageRead(List<EMMessage> list) {
+//
+//        }
+//
+//        @Override
+//        public void onMessageDelivered(List<EMMessage> list) {
+//
+//        }
+//
+//        @Override
+//        public void onMessageChanged(EMMessage emMessage, Object o) {
+//
+//        }
+//    };
 
     @Override
     public void onPause() {
         super.onPause();
         rhv_adv.stopRoll();
-        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
+//        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
 
     }
 

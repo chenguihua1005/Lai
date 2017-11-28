@@ -261,8 +261,46 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                         pDialog.setMessage("移除成员");
                         pDialog.show();
 
-                        //把username从群组里删除
-                        new Thread(new Runnable() {
+
+                        ZillaApi.NormalRestAdapter.create(MoreService.class)
+                                .removeFromGroup(classId, UserInfoModel.getInstance().getToken(),
+                                        member.getAccountId(),
+                                        classId,
+                                        member.getCGId(),
+                                        new Callback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                                if (responseData.getStatus() == 200) {
+                                                    Log.i("MemberExpandableAdapter", "移除成功。。。。。。。。。。。。");
+                                                    Util.toastMsg(responseData.getMsg());
+                                                    Message msg = new Message();
+                                                    msg.obj = member;
+                                                    msg.what = 0x0011;
+                                                    handler.sendMessage(msg);
+                                                    //环信移除个人
+
+                                                } else {
+                                                    Util.toastMsg(responseData.getMsg());
+                                                    Log.i("MemberExpandableAdapter", "移除失败。。。。。。。。。。。。" + responseData.getMsg());
+                                                    Message msg = new Message();
+                                                    msg.what = 0x0012;
+                                                    handler.sendMessage(msg);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                Log.i("MemberExpandableAdapter", "移除失败。。。。。。。。。。。。" + error.toString());
+                                                Message msg = new Message();
+                                                msg.what = 0x0012;
+                                                handler.sendMessage(msg);
+                                                ZillaApi.dealNetError(error);
+                                            }
+                                        });
+
+
+
+ /*                       new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
@@ -326,7 +364,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                                     handler.sendMessage(msg);
                                 }
                             }
-                        }).start();
+                        }).start();*/
 
 
                     }
