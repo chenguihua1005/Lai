@@ -48,6 +48,16 @@
             android:background="@drawable/cheng_bg"
             android:gravity="center"
             android:text="测量历史" />
+        <Button
+            android:id="@+id/bt_from"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:background="@drawable/cheng_bg"
+            android:gravity="center"
+            android:text="为顾客测量" />
     </LinearLayout>
 
     <ScrollView
