@@ -228,57 +228,14 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
         if (fcStDataModel != null) {
-            Intent intent;
-            LinearLayout mOld;
-            LinearLayout mNew;
-            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_choose, null);
-            mOld = dialogView.findViewById(R.id.ll_old);
-            mNew = dialogView.findViewById(R.id.ll_new);
-//                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-            mOld.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString(Contacts.CHOOSE_KEY, "old");
-                    editor.apply();
-                    mDialog.dismiss();
-                    Intent intent1 = new Intent(InitDataUnInputActivity2.this, LaibalanceActivity.class);
-                    sendData(intent1);
-                    startActivity(intent1);
-                }
-            });
-            mNew.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString(Contacts.CHOOSE_KEY, "new");
-                    editor.apply();
-                    mDialog.dismiss();
-                    Intent intent1 = new Intent(InitDataUnInputActivity2.this, NewLaiBalanceActivity.class);
-                    sendData(intent1);
-                    startActivity(intent1);
-                }
-            });
-            if (mDialog == null) {
-                mDialog = new AlertDialog.Builder(InitDataUnInputActivity2.this).create();
-                mDialog.setView(dialogView, 0, 0, 0, 0);
-            }
-            String mode = mSharedPreferences.getString(Contacts.CHOOSE_KEY, "");
-            switch (mode) {
-                case "old":
-                    intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);
-                    sendData(intent);
-                    startActivity(intent);
-                    break;
-                case "new":
-                    intent = new Intent(InitDataUnInputActivity2.this, NewRetestActivity.class);
-                    sendData(intent);
-                    startActivity(intent);
-                    break;
-                default:
-                    mDialog.show();
-                    break;
-            }
+            Intent intent = new Intent(InitDataUnInputActivity2.this, FuceForStuActivity.class);//跳转到发布动态界面
+            intent.putExtra("fucedata", fcStDataModel);
+            intent.putExtra("ACMID", ACMID);
+            intent.putExtra("type", type);
+            intent.putExtra("classId", classId);
+            intent.putExtra("AccountId", AccountId);
+            intent.putExtra("from", UPDATE_UI_UNINPUT);
+            startActivity(intent);
         }
     }
 
