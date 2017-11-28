@@ -6,18 +6,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -62,6 +59,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import static android.view.View.GONE;
 
@@ -360,11 +358,18 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
-                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,Where.FOCUS_LIST));
+
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
+                                int status = responseData.getStatus();
+                                if (200 == status) {
+                                    EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,Where.FOCUS_LIST));
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    Util.toastMsg(responseData.getMsg());
+                                }
                             }
 
                             @Override
@@ -379,7 +384,7 @@ public class FocusFragment extends LazyBaseFragment implements PullToRefreshBase
                                 adapter.notifyDataSetChanged();
                             }
                         });
-                adapter.notifyDataSetChanged();
+
             }
 
 

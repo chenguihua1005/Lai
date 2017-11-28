@@ -55,6 +55,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_create_class)
 public class CreateClassActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -413,51 +414,56 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 //                        String groupId = group.getGroupId();
 //                        clazz.setHxGroupId(groupId);
 
-                        service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
-                            @Override
-                            public void success(final ResponseData<LaiClass> data, Response response) {
-                                if (data.getStatus() == 200) {
-                                    UserModel user = UserInfoModel.getInstance().getUser();
-                                    user.setHasThClass(1);
-                                    UserInfoModel.getInstance().saveUserCache(user);
-                                    Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
-                                    intent.putExtra("classId", data.getData().getClassId());
-                                    intent.putExtra("createClass", true);
-                                    startActivity(intent);
-                                    ClassModel classModel = new ClassModel();
-                                    classModel.setClassId(data.getData().getClassId());
-                                    classModel.setClassCode(data.getData().getClassCode());
-                                    classModel.setClassName(clazz.getClassName());
-                                    classModel.setClassMasterName(UserInfoModel.getInstance().getUser().getNickname());
-                                    classModel.setClassRole(1);
-                                    classModel.setClassStatus(0);
-                                    List<String> meausres = new ArrayList<>(12);
-                                    for (int i = 0; i < 12; i++) {
-                                        meausres.add(DateUtil.getInstance(DateUtil.yyyy_MM_dd).jumpDateByDay(
-                                                clazz.getStartDate(), i * 7));
-                                    }
-                                    classModel.setClassMeasureDateList(meausres);
-                                    EventBus.getDefault().post(new UpdateClass(1, classModel));
-                                }
+            service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {
+                @Override
+                public void success(final ResponseData<LaiClass> data, Response response) {
+                    dialogDissmiss();
+                    if (data.getStatus() == 200) {
+                        UserModel user = UserInfoModel.getInstance().getUser();
+                        user.setHasThClass(1);
+                        UserInfoModel.getInstance().saveUserCache(user);
+                        Intent intent = new Intent(CreateClassActivity.this, ContactsActivity.class);
+                        intent.putExtra("classId", data.getData().getClassId());
+                        intent.putExtra("createClass", true);
+                        startActivity(intent);
+                        ClassModel classModel = new ClassModel();
+                        classModel.setClassId(data.getData().getClassId());
+                        classModel.setClassCode(data.getData().getClassCode());
+                        classModel.setClassName(clazz.getClassName());
+                        classModel.setClassMasterName(UserInfoModel.getInstance().getUser().getNickname());
+                        classModel.setClassRole(1);
+                        classModel.setClassStatus(0);
+                        List<String> meausres = new ArrayList<>(12);
+                        for (int i = 0; i < 12; i++) {
+                            meausres.add(DateUtil.getInstance(DateUtil.yyyy_MM_dd).jumpDateByDay(
+                                    clazz.getStartDate(), i * 7));
+                        }
+                        classModel.setClassMeasureDateList(meausres);
+                        EventBus.getDefault().post(new UpdateClass(1, classModel));
+                    } else {
+                        Util.toastMsg(data.getMsg());
+                    }
 
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        dialogDissmiss();
-                                    }
-                                });
-                            }
+//                                runOnUiThread(new Runnable() {
+//                                    public void run() {
+//                                        dialogDissmiss();
+//                                    }
+//                                });
+                }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        dialogDissmiss();
-                                        Toast.makeText(CreateClassActivity.this, "创建群组失败", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                                super.failure(error);
-                            }
-                        });
+                @Override
+                public void failure(RetrofitError error) {
+                    super.failure(error);
+                    dialogDissmiss();
+                    Toast.makeText(CreateClassActivity.this, "创建群组失败", Toast.LENGTH_LONG).show();
+//                                runOnUiThread(new Runnable() {
+//                                    public void run() {
+//                                        dialogDissmiss();
+//                                        Toast.makeText(CreateClassActivity.this, "创建群组失败", Toast.LENGTH_LONG).show();
+//                                    }
+//                                });
+                }
+            });
 
 
 //                    } catch (final HyphenateException e) {
