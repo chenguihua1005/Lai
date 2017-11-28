@@ -853,6 +853,9 @@
         <activity
             android:name=".module.customermanagement.view.AddRemarkActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.customermanagement.view.RegistForCustomerInfoActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".module.customermanagement.view.ClubActivity"

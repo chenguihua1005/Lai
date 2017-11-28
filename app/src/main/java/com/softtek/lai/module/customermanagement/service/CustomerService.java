@@ -95,4 +95,17 @@ public interface CustomerService {
             @Field("status") String status,
             Callback<ResponseData<IdentifyModel>> callback);
 
+    /**
+     * 帮客户注册中创建档案
+     * @param token
+     * @param model
+     * @param callback
+     */
+    @POST("/v1/Club/RegisterForCustomer")
+    void registerForCustomer(
+            @Header("token") String token,
+            @Body CustomerInfoModel model,
+            RequestCallback<ResponseData> callback
+    );
+
 }
