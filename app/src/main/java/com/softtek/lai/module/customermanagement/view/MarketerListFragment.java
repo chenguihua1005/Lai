@@ -1,14 +1,10 @@
 package com.softtek.lai.module.customermanagement.view;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,7 +18,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.CustomerAdapter;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.model.CustomerModel;
-import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
+import com.softtek.lai.module.customermanagement.presenter.MarketerListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +31,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 
 @InjectLayout(R.layout.fragment_customer)
-public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, IntendCustomerPresenter.IntendCustomerCallback {
+public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter> implements AdapterView.OnItemClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, MarketerListPresenter.MarketingStaffCallback {
     @InjectView(R.id.plv_audit)
     PullToRefreshListView plv_audit;
     @InjectView(R.id.ll_nomessage)
@@ -48,7 +44,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     private int pageSize = 10;
 
     public static Fragment getInstance() {
-        Fragment fragment = new IntendCustomerFragment();
+        Fragment fragment = new MarketerListFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
@@ -79,16 +75,17 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
+
+
     }
 
     @Override
     protected void initDatas() {
-        setPresenter(new IntendCustomerPresenter(this));
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_INTENTCUSTOMER_LIST));
+        setPresenter(new MarketerListPresenter(this));
 
         customerAdapter = new CustomerAdapter(getContext(), modelList);
         plv_audit.setAdapter(customerAdapter);
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
+        getPresenter().getMarketingStaffList(pageindex, pageSize);
 
     }
 
@@ -102,17 +99,18 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex = 1;
         modelList.clear();
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
+        getPresenter().getMarketingStaffList(pageindex, pageSize);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageindex++;
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
+        getPresenter().getMarketingStaffList(pageindex, pageSize);
     }
 
+
     @Override
-    public void getIntentCustomerList(CustomerListModel model) {
+    public void getMarketingStaffList(CustomerListModel model) {
         if (model.getItems() != null) {
             modelList.addAll(model.getItems());
         }
@@ -123,22 +121,4 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     public void hidenLoading() {
         plv_audit.onRefreshComplete();
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
-    }
-
-    public static final String UPDATE_INTENTCUSTOMER_LIST = "UPDATE_INTENTCUSTOMER_LIST";
-    public BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null && UPDATE_INTENTCUSTOMER_LIST.equalsIgnoreCase(intent.getAction())) {
-                pageindex = 1;
-                modelList.clear();
-                getPresenter().getIntentCustomerList(pageindex, pageSize);
-            }
-        }
-    };
 }

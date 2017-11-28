@@ -16,9 +16,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
 import com.softtek.lai.module.customermanagement.adapter.TypeFragmentAdapter;
+import com.softtek.lai.module.customermanagement.model.CustomerListModel;
+import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.ClubActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
+import com.softtek.lai.module.customermanagement.view.MarketerListFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.SearchCustomerActivity;
 
@@ -62,7 +65,6 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     TypeFragmentAdapter adapter;
 
 
-
     @Override
     protected void initViews() {
         tv_title.setText("客户管理");
@@ -73,7 +75,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         fl_right.setOnClickListener(this);
 
         fragments.add(IntendCustomerFragment.getInstance());
-        fragments.add(IntendCustomerFragment.getInstance());
+        fragments.add(MarketerListFragment.getInstance());
 
         adapter = new TypeFragmentAdapter(getChildFragmentManager(), fragments);
         container.setAdapter(adapter);
@@ -122,6 +124,5 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         }
 
     }
-
 
 }

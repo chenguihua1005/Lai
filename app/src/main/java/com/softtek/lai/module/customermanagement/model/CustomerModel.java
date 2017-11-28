@@ -5,37 +5,80 @@ package com.softtek.lai.module.customermanagement.model;
  */
 
 public class CustomerModel {
-    private String iconhead_url;
-    private String name;
-    private String remark;
+    private long AccountId;//用户编号/莱聚+账号 (市场人员使用)
+    private String Mobile;//手机号码
+    private String Name;//姓名
+    private String Tag;//标签
+    private String Photo;//头像
+    private String Creator;//添加人姓名
+    private String CreatedTime;//添加时间
 
-    public CustomerModel(String iconhead_url, String name, String remark) {
-        this.iconhead_url = iconhead_url;
-        this.name = name;
-        this.remark = remark;
+    public long getAccountId() {
+        return AccountId;
     }
 
-    public String getIconhead_url() {
-        return iconhead_url;
+    public void setAccountId(long accountId) {
+        AccountId = accountId;
     }
 
-    public void setIconhead_url(String iconhead_url) {
-        this.iconhead_url = iconhead_url;
+    public String getMobile() {
+        return Mobile;
+    }
+
+    public void setMobile(String mobile) {
+        Mobile = mobile;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        Name = name;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getTag() {
+        return Tag;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setTag(String tag) {
+        Tag = tag;
+    }
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getCreator() {
+        return Creator;
+    }
+
+    public void setCreator(String creator) {
+        Creator = creator;
+    }
+
+    public String getCreatedTime() {
+        return CreatedTime;
+    }
+
+    public void setCreatedTime(String createdTime) {
+        CreatedTime = createdTime;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerModel{" +
+                "AccountId=" + AccountId +
+                ", Mobile='" + Mobile + '\'' +
+                ", Name='" + Name + '\'' +
+                ", Tag='" + Tag + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Creator='" + Creator + '\'' +
+                ", CreatedTime='" + CreatedTime + '\'' +
+                '}';
     }
 }

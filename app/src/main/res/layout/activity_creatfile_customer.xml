@@ -4,17 +4,18 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/top"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/top"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll_nickname"
@@ -93,7 +94,7 @@
                     android:background="@null"
                     android:editable="false"
                     android:gravity="right"
-                    android:hint="必填（一旦保存,则无法修改）"
+                    android:hint="请选择"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textSize="15sp" />
@@ -143,7 +144,7 @@
                     android:background="@null"
                     android:editable="false"
                     android:gravity="right"
-                    android:hint="必填（一旦保存,则无法修改）"
+                    android:hint="请选择"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textSize="15sp" />
@@ -193,7 +194,7 @@
                     android:background="@null"
                     android:editable="false"
                     android:gravity="right"
-                    android:hint="必填项"
+                    android:hint="请选择"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textSize="15sp" />
@@ -243,7 +244,7 @@
                     android:background="@null"
                     android:editable="false"
                     android:gravity="right"
-                    android:hint="必填（一旦保存,则无法修改）"
+                    android:hint="请选择"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textSize="15sp" />
@@ -258,36 +259,64 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:background="#78BC27" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/weight_h" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="备注"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/remark_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入备注"
+                    android:padding="5dp"
+                    android:textColor="#808080"
+                    android:textSize="15sp" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginBottom="30dp"
             android:background="#78BC27" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:gravity="center"
-            android:background="@null"
-            android:hint="备注信息" />
+
 
         <Button
-            android:id="@+id/btn_Add_bodydimension"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/bg_addbody_btn"
-            android:text="添加身体围度"
-            android:textColor="#FFA302"
-            android:textSize="18sp"
-            android:visibility="gone" />
-
-        <Button
-            android:visibility="gone"
             android:id="@+id/btn_finish"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@drawable/bg_login_btn"
             android:text="完成"
             android:textColor="#FFFFFD"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
