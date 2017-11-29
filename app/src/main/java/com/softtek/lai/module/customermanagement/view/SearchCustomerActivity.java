@@ -1,6 +1,9 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.text.Html;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -9,6 +12,8 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
@@ -40,6 +45,36 @@ public class SearchCustomerActivity extends BaseActivity implements View.OnClick
         edit.setHint("请输入手机号或姓名查找客户");
         tv_cancel.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        tv_cancel.setOnClickListener(this);
+
+        overridePendingTransition(0, 0);
+        edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //判断是不是搜索
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                     /*隐藏软键盘*/
+                    SoftInputUtil.hidden(SearchCustomerActivity.this);
+                    UserModel user = UserInfoModel.getInstance().getUser();
+                    if (edit.length() == 0) {
+                        edit.requestFocus();
+                        edit.setError(Html.fromHtml("<font color=#FFFFFF>请输入姓名/手机号</font>"));
+                        return false;
+                    } else if (edit.getText().toString().equals(user.getMobile())) {
+                        edit.requestFocus();
+                        edit.setError(Html.fromHtml("<font color=#FFFFFF>无此用户</font>"));
+                        return false;
+                    }
+                    pb.setVisibility(View.VISIBLE);
+
+
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
     }
 

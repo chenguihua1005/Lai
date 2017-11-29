@@ -48,7 +48,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_toRightOf="@+id/im_search_bottom"
                 android:imeOptions="actionSearch"
                 android:background="@null"
                 android:cursorVisible="true"
@@ -56,7 +55,9 @@
                 android:hint="请输入姓名、手机号或资格证号进行搜索"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/im_search_bottom" />
 
         </RelativeLayout>
     </RelativeLayout>
