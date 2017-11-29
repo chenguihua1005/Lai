@@ -14,12 +14,17 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
 import com.softtek.lai.module.customermanagement.adapter.TypeFragmentAdapter;
+import com.softtek.lai.module.customermanagement.model.ClubAuthorityModel;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
+import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.ClubActivity;
+import com.softtek.lai.module.customermanagement.view.CreateClubActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.MarketerListFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
@@ -29,7 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jessica.zhang on 11/16/2017.
@@ -120,8 +130,39 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 startActivity(intent);
                 break;
             case R.id.fl_right:
-                startActivity(new Intent(getActivity(), ClubActivity.class));
+                judgeClubAuthority();
+                break;
+
         }
+
+    }
+
+
+    private void judgeClubAuthority() {
+        CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
+        service.getClubAuthority(UserInfoModel.getInstance().getToken(), new Callback<ResponseData<ClubAuthorityModel>>() {
+            @Override
+            public void success(ResponseData<ClubAuthorityModel> responseData, Response response) {
+                int status = responseData.getStatus();
+                if (200 == status) {
+                    ClubAuthorityModel model = responseData.getData();
+                    boolean HasClub = model.isHasClub();//是否有俱乐部
+                    boolean HasAuthorityOfCreate = model.isHasAuthorityOfCreate();
+                    if (HasClub) {
+                        startActivity(new Intent(getActivity(), ClubActivity.class));
+                    } else if (HasAuthorityOfCreate) {
+                        startActivity(new Intent(getActivity(), CreateClubActivity.class));
+                    }
+                } else {
+                    Util.toastMsg(responseData.getMsg());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+            }
+        });
 
     }
 

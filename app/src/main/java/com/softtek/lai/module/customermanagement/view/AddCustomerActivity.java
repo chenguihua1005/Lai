@@ -28,6 +28,8 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static com.softtek.lai.R.string.phoneNum;
+
 /**
  * Created by jessica.zhang on 11/17/2017.
  */
@@ -84,27 +86,32 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onValidationSucceeded() {
         final String phoneNum = et_phone.getText().toString().trim();
-        CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
-        service.findCustomerByMobile(UserInfoModel.getInstance().getToken(), phoneNum, new RequestCallback<ResponseData<FindCustomerModel>>() {
-            @Override
-            public void success(ResponseData<FindCustomerModel> responseData, Response response) {
-                int status = responseData.getStatus();
-                if (200 == status) {
-                    FindCustomerModel model = responseData.getData();
-                    Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
-                    intent.putExtra("mobile", phoneNum);
-                    intent.putExtra("model", model);
-                    startActivity(intent);
-                } else {
-                    Util.toastMsg(responseData.getMsg());
-                }
-            }
+        Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
+        intent.putExtra("mobile", phoneNum);
+//        intent.putExtra("model", null);
+        startActivity(intent);
 
-            @Override
-            public void failure(RetrofitError error) {
-                super.failure(error);
-            }
-        });
+//        CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
+//        service.findCustomerByMobile(UserInfoModel.getInstance().getToken(), phoneNum, new RequestCallback<ResponseData<FindCustomerModel>>() {
+//            @Override
+//            public void success(ResponseData<FindCustomerModel> responseData, Response response) {
+//                int status = responseData.getStatus();
+//                if (200 == status) {
+//                    FindCustomerModel model = responseData.getData();
+//                    Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
+//                    intent.putExtra("mobile", phoneNum);
+//                    intent.putExtra("model", model);
+//                    startActivity(intent);
+//                } else {
+//                    Util.toastMsg(responseData.getMsg());
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                super.failure(error);
+//            }
+//        });
 
 
     }

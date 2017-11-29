@@ -526,5 +526,6 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        finish();
     }
 }
