@@ -392,7 +392,8 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (lv.getFirstVisiblePosition() != 0) {
+                        int select = lv.getFirstVisiblePosition();
+                        if (select != 0 && select < groups.size()) {
                             lv.getParent().requestDisallowInterceptTouchEvent(true);
                         }
                         break;
@@ -406,7 +407,8 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (lv.getCheckedItemPosition() == -1) {
+                int select = lv.getCheckedItemPosition();
+                if (select == -1 || select >= groups.size()) {
                     return;
                 }
                 final ClassGroup group = groups.get(lv.getCheckedItemPosition());
