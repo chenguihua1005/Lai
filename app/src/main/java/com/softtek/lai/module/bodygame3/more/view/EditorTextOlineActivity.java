@@ -148,8 +148,8 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 et_value.setError(Html.fromHtml("<font color=#FFFFFF>请输入11位手机号码</font>"));
             }
         } else if (StringUtil.length(et_value.getText().toString()) > 24) {
-            String message="";
-            switch (flag){
+            String message = "";
+            switch (flag) {
 
                 case UPDATE_CLASS_NAME:
                     message = "班级名称不能超过12个汉字";
@@ -165,59 +165,76 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
             switch (flag) {
                 case UPDATE_CLASS_NAME: {
                     final String value = et_value.getText().toString();
-                    Log.i("EditorTextOlineActivity","classHXId = " + classHXId +" changedGroupName =  " + value);
+
+                    ZillaApi.NormalRestAdapter.create(MoreService.class)
+                            .updateClassName(classId, UserInfoModel.getInstance().getToken(),
+                                    classId,
+                                    value,
+                                    new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(final ResponseData responseData, Response response) {
+                                            if (responseData.getStatus() == 200) {
+                                                Intent back = getIntent();
+                                                back.putExtra("value", value);
+                                                setResult(RESULT_OK, back);
+                                                finish();
+                                            } else {
+                                                Util.toastMsg(responseData.getMsg());
+                                            }
+                                        }
+                                    });
+
+
                     //环信群组名称修改
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            String changedGroupName = value;
-                            try {
-                                EMClient.getInstance().groupManager().changeGroupName(classHXId, value);//需异步处理
-
-                                ZillaApi.NormalRestAdapter.create(MoreService.class)
-                                        .updateClassName(classId,UserInfoModel.getInstance().getToken(),
-                                                classId,
-                                                value,
-                                                new RequestCallback<ResponseData>() {
-                                                    @Override
-                                                    public void success(final ResponseData responseData, Response response) {
-                                                        if (responseData.getStatus() == 200) {
-                                                            Intent back = getIntent();
-                                                            back.putExtra("value", value);
-                                                            setResult(RESULT_OK, back);
-                                                            finish();
-                                                        } else {
-                                                            runOnUiThread(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    Util.toastMsg(responseData.getMsg());
-                                                                }
-                                                            });
-
-                                                        }
-                                                    }
-                                                });
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Util.toastMsg("修改班级名称失败！");
-                                    }
-                                });
-                            }
-
-                        }
-                    }).start();
-
-
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+////                            String changedGroupName = value;
+//                            try {
+//                                EMClient.getInstance().groupManager().changeGroupName(classHXId, value);//需异步处理
+//
+//                                ZillaApi.NormalRestAdapter.create(MoreService.class)
+//                                        .updateClassName(classId,UserInfoModel.getInstance().getToken(),
+//                                                classId,
+//                                                value,
+//                                                new RequestCallback<ResponseData>() {
+//                                                    @Override
+//                                                    public void success(final ResponseData responseData, Response response) {
+//                                                        if (responseData.getStatus() == 200) {
+//                                                            Intent back = getIntent();
+//                                                            back.putExtra("value", value);
+//                                                            setResult(RESULT_OK, back);
+//                                                            finish();
+//                                                        } else {
+//                                                            runOnUiThread(new Runnable() {
+//                                                                @Override
+//                                                                public void run() {
+//                                                                    Util.toastMsg(responseData.getMsg());
+//                                                                }
+//                                                            });
+//
+//                                                        }
+//                                                    }
+//                                                });
+//
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        Util.toastMsg("修改班级名称失败！");
+//                                    }
+//                                });
+//                            }
+//
+//                        }
+//                    }).start();
                 }
                 break;
                 case UPDATE_GROUP_NAME: {
                     final String value = et_value.getText().toString();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .updateGroupName(classId,UserInfoModel.getInstance().getToken(),
+                            .updateGroupName(classId, UserInfoModel.getInstance().getToken(),
                                     classId,
                                     getIntent().getStringExtra("groupId"),
                                     value,
@@ -239,7 +256,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                 case ADD_GROUP_NAME: {
                     final String value = et_value.getText().toString();
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
-                            .addGroup(classId,UserInfoModel.getInstance().getToken(),
+                            .addGroup(classId, UserInfoModel.getInstance().getToken(),
                                     classId,
                                     value,
                                     UserInfoModel.getInstance().getUserId(),
