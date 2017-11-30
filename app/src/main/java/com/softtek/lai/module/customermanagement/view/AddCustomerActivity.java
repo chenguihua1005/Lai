@@ -16,10 +16,12 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
+import com.softtek.lai.module.customermanagement.model.SituationOfMobileModel;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.utils.RequestCallback;
 
 import butterknife.InjectView;
+import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -91,28 +93,23 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 //        intent.putExtra("model", null);
         startActivity(intent);
 
-//        CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
-//        service.findCustomerByMobile(UserInfoModel.getInstance().getToken(), phoneNum, new RequestCallback<ResponseData<FindCustomerModel>>() {
-//            @Override
-//            public void success(ResponseData<FindCustomerModel> responseData, Response response) {
-//                int status = responseData.getStatus();
-//                if (200 == status) {
-//                    FindCustomerModel model = responseData.getData();
-//                    Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
-//                    intent.putExtra("mobile", phoneNum);
-//                    intent.putExtra("model", model);
-//                    startActivity(intent);
-//                } else {
-//                    Util.toastMsg(responseData.getMsg());
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                super.failure(error);
-//            }
-//        });
+        CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
+        service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), new Callback<ResponseData<SituationOfMobileModel>>() {
+            @Override
+            public void success(ResponseData<SituationOfMobileModel> responseData, Response response) {
+                int status = responseData.getStatus();
+                if (200 == status) {
 
+                } else {
+                    Util.toastMsg(responseData.getMsg());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+            }
+        });
 
     }
 

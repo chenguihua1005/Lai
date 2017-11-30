@@ -6,6 +6,7 @@ import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
 import com.softtek.lai.module.customermanagement.model.SearchCustomerOuterModel;
+import com.softtek.lai.module.customermanagement.model.SituationOfMobileModel;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -139,6 +140,17 @@ public interface CustomerService {
     void getClubAuthority(
             @Header("token") String token,
             Callback<ResponseData<ClubAuthorityModel>> callback
+    );
+
+    /**
+     * 获取手机号码相关的信息
+     * @param token
+     * @param callback
+     */
+    @GET("/v1/Club/GetSituationOfTheMobile")
+    void getSituationOfTheMobile(
+            @Header("token") String token,
+            Callback<ResponseData<SituationOfMobileModel>> callback
     );
 
 }
