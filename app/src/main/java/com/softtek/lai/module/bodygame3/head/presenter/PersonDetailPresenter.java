@@ -56,7 +56,7 @@ public class PersonDetailPresenter extends BasePresenter<PersonDetailPresenter.P
     }
 
     public void doGetClassMemberInfo(long AccountId, String classid) {
-        headService.doGetClassMemberInfo(classid, UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+        headService.doGetClassMemberInfo( UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
             @Override
             public void success(ResponseData<MemberInfoModel> memberInfoModel, Response response) {
                 int status = memberInfoModel.getStatus();

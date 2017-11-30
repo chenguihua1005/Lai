@@ -94,7 +94,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                         Log.i("return code=====" + customCode);
                         switch (customCode) {
                             case 401:
-                                SharedPreferenceService.getInstance().put("HXID", "-1");
+//                                SharedPreferenceService.getInstance().put("HXID", "-1");
 //                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
 //                                if (EMClient.getInstance().isLoggedInBefore()) {
