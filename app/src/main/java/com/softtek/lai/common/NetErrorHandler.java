@@ -94,24 +94,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                         Log.i("return code=====" + customCode);
                         switch (customCode) {
                             case 401:
-//                                SharedPreferenceService.getInstance().put("HXID", "-1");
-//                                LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(HXLoginService.HXLOGIN_CLOSE_SELF));
                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-//                                if (EMClient.getInstance().isLoggedInBefore()) {
-//                                    EMClient.getInstance().logout(true, new EMCallBack() {
-//                                        @Override
-//                                        public void onSuccess() {
-//                                        }
-//
-//                                        @Override
-//                                        public void onProgress(int progress, String status) {
-//                                        }
-//
-//                                        @Override
-//                                        public void onError(int code, String message) {
-//                                        }
-//                                    });
-//                                }
                                 if (builder == null || !builder.isShowing()) {
                                     builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                             .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
