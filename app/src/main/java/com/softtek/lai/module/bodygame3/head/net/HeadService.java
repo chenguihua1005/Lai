@@ -100,7 +100,7 @@ public interface HeadService {
     //个人详情
     @GET("/V1/HerbalifeClass/GetClassMemberInfo")
     void doGetClassMemberInfo(
-            @Header("classid") String CId,
+//            @Header("classid") String CId,
             @Header("token") String token,
             @Query("loginuserid") long loginuserid,//登录id
             @Query("accountid") long accountid,//学员id

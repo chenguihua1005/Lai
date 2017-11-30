@@ -341,6 +341,7 @@
     <string name="title_notifications">Notifications</string>
 
     <string name="readeAndAgress_customer">已告知用户并同意遵守</string>
+    <string name="loading">正在加载数据...</string>
 
 
 </resources>

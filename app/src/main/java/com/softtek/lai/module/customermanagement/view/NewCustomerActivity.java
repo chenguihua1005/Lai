@@ -47,6 +47,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static android.R.attr.bufferType;
 import static android.R.attr.data;
 
 
@@ -150,24 +151,13 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         tv_right.setText("下一步");
 //        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
         fl_right.setOnClickListener(this);
-        setPresenter(new SaveCustomerPresenter(this));
+
     }
 
     @Override
     protected void initViews() {
-        model = (FindCustomerModel) getIntent().getSerializableExtra("model");
         mobile = getIntent().getStringExtra("mobile");
-        if (model != null) {
-            et_nickname.setText(model.getName());
-            tv_birth.setText(model.getBirthDay());
-            if (0 == model.getGender()) {
-                tv_sex.setText("男");
-            } else {
-                tv_sex.setText("女");
-            }
-
-            tv_weight.setText(model.getWeight());
-        }
+        setPresenter(new SaveCustomerPresenter(this));
 
         //获取当前年月日
         currentMonth = DateUtil.getInstance().getCurrentMonth();
@@ -194,6 +184,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         tv_title.setText("创建新客户");
         file = new CustomerInfoModel();
         addGrade();
+        dialogShow(getResources().getString(R.string.loading));
+        getPresenter().getDetailOfCustomer(mobile);
     }
 
     @Override
@@ -523,9 +515,29 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     @Override
     public void SaveCustomerSucsess() {
-//   需刷新前面列表
+        //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         finish();
+    }
+
+    @Override
+    public void getDetailOfCustomer(FindCustomerModel model) {
+        if (model != null) {
+            et_nickname.setText(model.getName());
+            tv_birth.setText(model.getBirthDay());
+            if (0 == model.getGender()) {
+                tv_sex.setText("男");
+            } else {
+                tv_sex.setText("女");
+            }
+
+            tv_weight.setText(model.getWeight());
+        }
+    }
+
+    @Override
+    public void disMissLoadingDialog() {
+        dialogDissmiss();
     }
 }

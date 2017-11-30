@@ -70,6 +70,13 @@ public interface CustomerService {
 
     );
 
+    @GET("/v1/Club/GetDetailOfCustomer")
+    void getDetailOfCustomer(
+            @Header("token") String token,
+            @Query("mobile") String mobile,
+            RequestCallback<ResponseData<FindCustomerModel>> callback
+    );
+
 
     /**
      * 名称	添加/修改客户
@@ -144,12 +151,14 @@ public interface CustomerService {
 
     /**
      * 获取手机号码相关的信息
+     *
      * @param token
      * @param callback
      */
     @GET("/v1/Club/GetSituationOfTheMobile")
     void getSituationOfTheMobile(
             @Header("token") String token,
+            @Query("mobile") String mobile,//手机
             Callback<ResponseData<SituationOfMobileModel>> callback
     );
 

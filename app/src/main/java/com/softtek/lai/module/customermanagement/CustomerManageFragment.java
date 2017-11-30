@@ -149,7 +149,9 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                     boolean HasClub = model.isHasClub();//是否有俱乐部
                     boolean HasAuthorityOfCreate = model.isHasAuthorityOfCreate();
                     if (HasClub) {
-                        startActivity(new Intent(getActivity(), ClubActivity.class));
+                        Intent intent = new Intent(getContext(), ClubActivity.class);
+                        intent.putExtra("hasAuthorityOfCreate", HasAuthorityOfCreate);
+                        startActivity(intent);
                     } else if (HasAuthorityOfCreate) {
                         startActivity(new Intent(getActivity(), CreateClubActivity.class));
                     }
