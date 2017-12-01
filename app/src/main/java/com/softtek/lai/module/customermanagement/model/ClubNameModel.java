@@ -7,6 +7,15 @@ package com.softtek.lai.module.customermanagement.model;
 public class ClubNameModel {
     private String clubName;
     private boolean isSelected;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getClubName() {
         return clubName;

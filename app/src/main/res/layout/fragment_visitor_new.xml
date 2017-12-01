@@ -17,15 +17,15 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/bt_again"
+            android:id="@+id/bt_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:background="@drawable/cheng_bg"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            android:text="重新测量" />
+            android:text="访客历史" />
 
         <Button
             android:id="@+id/bt_create"
@@ -36,18 +36,8 @@
             android:textColor="@color/white"
             android:background="@drawable/cheng_bg"
             android:gravity="center"
-            android:text="新建测量" />
+            android:text="新建访客" />
 
-        <Button
-            android:id="@+id/bt_history"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2dp"
-            android:textColor="@color/white"
-            android:layout_weight="1"
-            android:background="@drawable/cheng_bg"
-            android:gravity="center"
-            android:text="测量历史" />
         <Button
             android:id="@+id/bt_from"
             android:layout_width="match_parent"
@@ -57,7 +47,7 @@
             android:layout_weight="1"
             android:background="@drawable/cheng_bg"
             android:gravity="center"
-            android:text="为顾客测量" />
+            android:text="选择客户" />
     </LinearLayout>
 
     <ScrollView

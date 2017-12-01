@@ -15,6 +15,8 @@ import com.softtek.lai.module.customermanagement.model.InviteModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
@@ -22,14 +24,16 @@ import zilla.libcore.file.AddressManager;
 
 public class InviteRecyclerViewAdapter extends RecyclerView.Adapter<InviteRecyclerViewAdapter.ViewHolder> {
 
-    private List<InviteModel> myItems;
+    private List<InviteModel.ItemsBean> myItems;
     private ItemListener myListener;
+    private InviteListener inviteListener;
     private Context mContext;
 
-    public InviteRecyclerViewAdapter(List<InviteModel> items, ItemListener listener,Context context) {
+    public InviteRecyclerViewAdapter(List<InviteModel.ItemsBean> items, ItemListener listener,InviteListener inviteListener,Context context) {
         myItems = items;
         myListener = listener;
         mContext = context;
+        this.inviteListener = inviteListener;
     }
 
     public void setListener(ItemListener listener) {
@@ -53,52 +57,66 @@ public class InviteRecyclerViewAdapter extends RecyclerView.Adapter<InviteRecycl
     }
 
     public interface ItemListener {
-        void onItemClick(InviteModel item);
+        void onItemClick(InviteModel.ItemsBean item);
+    }
+
+    public interface InviteListener{
+        void onInviteClickListener(View view,int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private CircleImageView mHeadPhoto;
         private TextView mUsername;
-        private TextView mState;
+        private TextView mPhone;
+        private TextView mStatus;
         private String path = AddressManager.get("photoHost");
 
         // TODO - Your view members
-        public InviteModel item;
+        public InviteModel.ItemsBean item;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mHeadPhoto = itemView.findViewById(R.id.civ_head);
             mUsername = itemView.findViewById(R.id.tv_username);
-            mState = itemView.findViewById(R.id.tv_invite_state);
+            mPhone = itemView.findViewById(R.id.tv_phone);
+            mStatus = itemView.findViewById(R.id.tv_invite_state);
             itemView.setOnClickListener(this);
             // TODO instantiate/assign view members
         }
 
         @SuppressLint("SetTextI18n")
-        public void setData(InviteModel item) {
+        public void setData(InviteModel.ItemsBean item) {
             this.item = item;
             if (item == null){
                 return;
             }
-            if (!TextUtils.isEmpty(item.getUserPhoto())) {
-                Picasso.with(mContext).load(path + item.getUserPhoto()).fit().error(R.drawable.img_default)
+            if (!TextUtils.isEmpty(item.getPhoto())) {
+                Picasso.with(mContext).load(path + item.getPhoto()).fit().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(mHeadPhoto);
             }
-            mUsername.setText(item.getUsername() + "(" + item.getPhoneNumber() + ")");
-            if (item.getState() == 0){
-                mState.setText("邀 请");
-                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_unclick));
-            }else if (item.getState() == 1){
-                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
-                mState.setText("已同意");
-            }else if (item.getState() == 2){
-                mState.setText("已拒绝");
-                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
-            }else if (item.getState() == 3){
-                mState.setText("待处理");
-                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
+            mUsername.setText(item.getUserName());
+            mPhone.setText(item.getMobile() + "");
+            if (item.getStatus() == 0){
+                mStatus.setText("邀 请");
+                mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_unclick));
+            }else if (item.getStatus() == 1){
+                mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
+                mStatus.setText("已同意");
+            }else if (item.getStatus() == 2){
+                mStatus.setText("已拒绝");
+                mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
+            }else if (item.getStatus() == -1){
+                mStatus.setText("忽 略");
+                mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
             }
-            // TODO set data to view
+            mStatus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (inviteListener != null) {
+                        inviteListener.onInviteClickListener(view,getAdapterPosition());
+                    }
+                }
+            });
         }
 
         @Override

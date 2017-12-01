@@ -862,6 +862,15 @@
             android:name=".module.customermanagement.view.CreateClubActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity android:name=".module.laicheng_new.view.ChooseCustomerAvtivity"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.customermanagement.view.InviteActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.customermanagement.view.FindAccountsActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="com.softtek.lai.module.home.adapter.MyFileProvider"

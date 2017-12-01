@@ -20,13 +20,28 @@
             android:layout_marginEnd="12dp"
             android:src="@drawable/img_default" />
 
-        <TextView
-            android:id="@+id/tv_username"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:gravity="center"
-            android:text="invited name" />
+            android:orientation="vertical"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="invited name" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="phone mumber"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

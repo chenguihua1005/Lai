@@ -57,7 +57,6 @@ import zilla.libcore.file.AddressManager;
 public class NewVisitorFragment extends Fragment implements View.OnClickListener {
     private static final String ARGUMENTS = "mainFragment";
     private View view;
-    private Button bt_again;
     private TextView tv_weight;//体重
     private TextView tv_weight_caption;//状态
     private TextView tv_body_fat_rate;//体脂率
@@ -70,6 +69,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     private Button share_btn;
     private Button bt_create;//
     private Button bt_history;
+    private Button mCustomerFrom;
     private ImageView mNote;
 
     //访客信息
@@ -121,7 +121,6 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
-        bt_again = view.findViewById(R.id.bt_again);
         tv_weight = view.findViewById(R.id.tv_weight);
         tv_weight_caption = view.findViewById(R.id.tv_weight_caption);
         tv_body_fat_rate = view.findViewById(R.id.tv_body_fat_rate);
@@ -143,6 +142,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         mid_lay = view.findViewById(R.id.mid_lay);
         mBleIcon = view.findViewById(R.id.iv_ble_icon);
         mNote = view.findViewById(R.id.iv_note);
+        mCustomerFrom = view.findViewById(R.id.bt_from);
 
         mBleState.setOnClickListener(this);
         bt_history.setOnClickListener(this);
@@ -151,6 +151,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         share_btn.setOnClickListener(this);
         iv_voice.setOnClickListener(this);
         mNote.setOnClickListener(this);
+        mCustomerFrom.setOnClickListener(this);
 
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
@@ -215,6 +216,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.iv_note:
                 renameVisitorListener.onVRenameListener();
+                break;
+            case R.id.bt_from:
+                startActivity(new Intent(getActivity(),ChooseCustomerAvtivity.class));
 
         }
     }

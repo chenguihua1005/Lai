@@ -1,13 +1,16 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,21 +19,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ggx.widgets.view.CustomProgress;
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.adapter.ChooseClubRecyclerViewAdapter;
 import com.softtek.lai.module.customermanagement.adapter.ClueRecyclerViewAdapter;
 import com.softtek.lai.module.customermanagement.model.ClubNameModel;
 import com.softtek.lai.module.customermanagement.model.PersonnelModel;
+import com.softtek.lai.module.customermanagement.service.ClubService;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.MySwipRefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+
 /**
  * Created by jia.lu on 11/21/2017.
  */
 
-public class ClubActivity extends Activity implements View.OnClickListener {
+public class ClubActivity extends MakiBaseActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private TextView mCustomerNum;
     private TextView mCustomerToday;
@@ -40,17 +52,38 @@ public class ClubActivity extends Activity implements View.OnClickListener {
     private TextView mTitle;
     private LinearLayout mBack;
     private TextView mAddClub;
+    private TextView mSort;
     private MySwipRefreshView mSwipRefreshView;
     private ClueRecyclerViewAdapter recyclerViewAdapter;
     private AlertDialog renameDialog;
-    private List<PersonnelModel> personnelModelList = new ArrayList<>();
+    private List<PersonnelModel.WorkersBean> personnelModelList = new ArrayList<>();
     private AlertDialog chooseDialog;
+    private AlertDialog.Builder closeDialogBuilder;
+    private AlertDialog closeDialog;
+    private boolean hasRuler;
+    private PersonnelModel.ClubsBean clubsBean;
+    private ClubService service;
+    private List<PersonnelModel.ClubsBean> clubs = new ArrayList<>();
+    private int nowClubId = 0;
+    private int nowField = 0;//按照意向客户还是市场人员，默认0,0是意向客户
+    private int nowSort = 1;//正序还是倒序，默认0,0是倒序
+    private CustomProgress progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club);
+        service = ZillaApi.NormalRestAdapter.create(ClubService.class);
+        Intent intent = getIntent();
+        hasRuler = intent.getBooleanExtra("", true);
         initView();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setData(nowClubId, nowField, nowSort);
     }
 
     private void initView() {
@@ -64,22 +97,14 @@ public class ClubActivity extends Activity implements View.OnClickListener {
         mBack = findViewById(R.id.ll_left);
         mAddClub = findViewById(R.id.tv_right);
         mSwipRefreshView = findViewById(R.id.msrv_pull);
+        mSort = findViewById(R.id.tv_new_personnel);
+        mSort.setOnClickListener(this);
         mBack.setOnClickListener(this);
         mInvitePersonnel.setOnClickListener(this);
         mChangeClubName.setOnClickListener(this);
         mCloseClub.setOnClickListener(this);
         mAddClub.setOnClickListener(this);
         mTitle.setOnClickListener(this);
-        for (int i = 0; i < 20; i++) {
-            PersonnelModel personnelModel = new PersonnelModel();
-            personnelModel.setCustomerSum(10);
-            personnelModel.setCustomerToday(1 + i);
-            personnelModel.setMarketSum(12);
-            personnelModel.setMarketToday(2);
-            personnelModel.setPersonnelPhone("123");
-            personnelModel.setPersonnelName("maki");
-            personnelModelList.add(personnelModel);
-        }
         mSwipRefreshView.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
@@ -87,54 +112,122 @@ public class ClubActivity extends Activity implements View.OnClickListener {
         mSwipRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(ClubActivity.this, "pull success", Toast.LENGTH_SHORT).show();
-                if (mSwipRefreshView.isRefreshing()) {
-                    mSwipRefreshView.setRefreshing(false);
-                }
+                setData(nowClubId, nowField, nowSort);
             }
         });
         initRecyclerView();
     }
 
-    private void initRecyclerView() {
-        recyclerViewAdapter = new ClueRecyclerViewAdapter(personnelModelList, new ClueRecyclerViewAdapter.ItemListener() {
+    private void setData(final int clubId, final int field, final int sort) {
+        dialogShow("正在加载");
+        personnelModelList.clear();
+        service.getClubInfo(UserInfoModel.getInstance().getToken(), clubId, field, sort, new RequestCallback<ResponseData<PersonnelModel>>() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onItemClick(PersonnelModel item) {
-
+            public void success(ResponseData<PersonnelModel> responseData, Response response) {
+                dialogDismiss();
+                if (responseData.getStatus() == 200) {
+                    if (responseData.getData() == null) {
+                        return;
+                    }
+                    clubs = responseData.getData().getClubs();
+                    clubsBean = clubs.get(0);
+                    for (int i = 0; i < clubs.size(); i++) {
+                        if (clubs.get(i).getID() == clubId) {
+                            clubsBean = clubs.get(i);
+                        }
+                    }
+                    mTitle.setText(clubsBean.getName() + "俱乐部");
+                    mCustomerNum.setText(responseData.getData().getTotalCustomer() + "");
+                    mCustomerToday.setText(responseData.getData().getTodayCustomer() + "");
+                    personnelModelList.addAll(responseData.getData().getWorkers());
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+                if (mSwipRefreshView.isRefreshing()) {
+                    mSwipRefreshView.setRefreshing(false);
+                }
+                nowClubId = clubsBean.getID();
+                Log.d("maki",String.valueOf(nowClubId));
             }
-        }, this);
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+                dialogDismiss();
+                if (mSwipRefreshView.isRefreshing()) {
+                    mSwipRefreshView.setRefreshing(false);
+                }
+            }
+        });
+
+    }
+
+    private void initRecyclerView() {
+        recyclerViewAdapter = new ClueRecyclerViewAdapter(personnelModelList, this, clubsBean);
         mRecyclerView.setAdapter(recyclerViewAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
     }
 
-    private void createChangeDialog() {
+    private void createChangeDialog(boolean isTitle) {
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_choose_club, null);
         RecyclerView clubRecyclerView = dialogView.findViewById(R.id.rcv_club);
-        List<ClubNameModel> nameModels = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            ClubNameModel clubNameModel = new ClubNameModel();
-            clubNameModel.setClubName("maki" + i);
-            clubNameModel.setSelected(true);
-            nameModels.add(clubNameModel);
-        }
-        ClubNameModel clubNameModel5 = new ClubNameModel();
-        clubNameModel5.setClubName("maki5");
-        clubNameModel5.setSelected(false);
-        nameModels.add(clubNameModel5);
-        ChooseClubRecyclerViewAdapter adapter = new ChooseClubRecyclerViewAdapter(nameModels, new ChooseClubRecyclerViewAdapter.ItemListener() {
-            @Override
-            public void onItemClick(ClubNameModel item,int position) {
-                Toast.makeText(ClubActivity.this,position + "",Toast.LENGTH_SHORT).show();
+        ChooseClubRecyclerViewAdapter adapter = null;
+        if (isTitle) {
+            List<ClubNameModel> nameModels = new ArrayList<>();
+            for (int i = 0; i < clubs.size(); i++) {
+                ClubNameModel clubNameModel = new ClubNameModel();
+                clubNameModel.setClubName(clubs.get(i).getName());
+                clubNameModel.setId(clubs.get(i).getID());
+                if (clubs.get(i).getID() == nowClubId) {
+                    clubNameModel.setSelected(true);
+                } else {
+                    clubNameModel.setSelected(false);
+                }
+                nameModels.add(clubNameModel);
             }
-        },this);
+            adapter = new ChooseClubRecyclerViewAdapter(nameModels, new ChooseClubRecyclerViewAdapter.ItemListener() {
+                @Override
+                public void onItemClick(ClubNameModel item, int position) {
+                    nowClubId = item.getId();
+                    setData(nowClubId, nowField, nowSort);
+                    chooseDialog.dismiss();
+                }
+            }, this);
+        } else {
+            List<ClubNameModel> models = new ArrayList<>();
+            ClubNameModel clubNameModel1 = new ClubNameModel();
+            clubNameModel1.setClubName("新增意向客户");
+            if (nowField == 0) {
+                clubNameModel1.setSelected(true);
+            } else {
+                clubNameModel1.setSelected(false);
+            }
+            ClubNameModel clubNameModel2 = new ClubNameModel();
+            clubNameModel2.setClubName("新增市场人员");
+            models.add(clubNameModel1);
+            if (nowField == 1) {
+                clubNameModel2.setSelected(true);
+            } else {
+                clubNameModel2.setSelected(false);
+            }
+            models.add(clubNameModel2);
+            adapter = new ChooseClubRecyclerViewAdapter(models, new ChooseClubRecyclerViewAdapter.ItemListener() {
+                @Override
+                public void onItemClick(ClubNameModel item, int position) {
+                    nowField = position;
+                    setData(nowClubId, position, nowSort);
+                    chooseDialog.dismiss();
+                }
+            }, this);
+        }
         clubRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         clubRecyclerView.setLayoutManager(manager);
-        if (chooseDialog == null) {
+//        if (chooseDialog == null) {
             chooseDialog = new AlertDialog.Builder(this).create();
             chooseDialog.setView(dialogView, 0, 0, 0, 0);
-        }
+//        }
         chooseDialog.show();
     }
 
@@ -149,8 +242,27 @@ public class ClubActivity extends Activity implements View.OnClickListener {
         mRename.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mTitle.setText(mInput.getText());
-                renameDialog.dismiss();
+                String name = mInput.getText().toString().trim();
+                service.changeClubName(UserInfoModel.getInstance().getToken(), nowClubId, name, new RequestCallback<ResponseData>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        if (responseData.getStatus() == 200) {
+                            mTitle.setText(mInput.getText() + "俱乐部");
+                        } else {
+                            Toast.makeText(ClubActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                        renameDialog.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                        Toast.makeText(ClubActivity.this, "修改失败" + error.toString(), Toast.LENGTH_SHORT).show();
+                        renameDialog.dismiss();
+                    }
+                });
+
             }
         });
         mCancel.setOnClickListener(new View.OnClickListener() {
@@ -170,19 +282,81 @@ public class ClubActivity extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_invite_personnel:
-                startActivity(new Intent(this, CreateClubActivity.class));
+                Intent intent = new Intent(this,InviteActivity.class);
+                intent.putExtra("maki",nowClubId);
+                startActivity(intent);
                 break;
             case R.id.tv_change_club_name:
                 createRenameDialog();
                 break;
             case R.id.tv_close_club:
+                closeDialogBuilder = new AlertDialog.Builder(this);
+                closeDialogBuilder
+                        .setMessage("确实要关闭俱乐部吗？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                service.closeClub(UserInfoModel.getInstance().getToken(), nowClubId, new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        if (responseData.getStatus() == 200) {
+                                            closeDialog.dismiss();
+                                            finish();
+                                        } else {
+                                            Toast.makeText(ClubActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
+                                            closeDialog.dismiss();
+                                        }
+                                    }
+                                });
+
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                closeDialog.dismiss();
+                            }
+                        });
+                if (closeDialog == null) {
+                    closeDialog = closeDialogBuilder.create();
+                }
+                closeDialog.show();
                 break;
             case R.id.ll_left:
                 finish();
                 break;
             case R.id.tv_title:
-                createChangeDialog();
+                createChangeDialog(true);
                 break;
+            case R.id.tv_right:
+                startActivity(new Intent(this, CreateClubActivity.class));
+                break;
+            case R.id.tv_new_personnel:
+                createChangeDialog(false);
         }
     }
+
+//    /**
+//     * 通用progressDialog
+//     *
+//     * @param value
+//     */
+//    public void dialogShow(String value) {
+//        if (progressDialog == null || !progressDialog.isShowing()) {
+//            if (!ClubActivity.this.isFinishing()) {
+//                progressDialog = CustomProgress.build(this, value);
+//                progressDialog.show();
+//            }
+//        }
+//    }
+//
+//    /**
+//     * 通用progressDialog
+//     */
+//    public void dialogDismiss() {
+//        if (progressDialog != null && progressDialog.isShowing()) {
+//            progressDialog.dismiss();
+//            progressDialog = null;
+//        }
+//    }
 }
