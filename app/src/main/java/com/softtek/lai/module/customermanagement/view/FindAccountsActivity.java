@@ -111,12 +111,12 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
     }
 
     private void doSearch() {
-        dialogShow("加载中");
         inviteModelList.clear();
         if (mSearch.getText().toString().equals("")) {
             Toast.makeText(this, "CN号或者电话号不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        dialogShow("加载中");
         service.findAccounts(UserInfoModel.getInstance().getToken(), mSearch.getText().toString().trim(), 0, 999, new RequestCallback<ResponseData<InviteModel>>() {
             @Override
             public void success(ResponseData<InviteModel> responseData, Response response) {
