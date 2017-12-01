@@ -1,13 +1,17 @@
 package com.softtek.lai.module.customermanagement.service;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.customermanagement.model.ClubAuthorityModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
+import com.softtek.lai.module.customermanagement.model.SearchCustomerOuterModel;
+import com.softtek.lai.module.customermanagement.model.SituationOfMobileModel;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.Callback;
+import retrofit.ResponseCallback;
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -28,7 +32,7 @@ public interface CustomerService {
      * @param token
      * @param callback
      */
-    @GET("/v1/Club/FindCustomer")
+    @GET("/v1/Club/GetListOfCustomer")
     void getIntentCustomerList(
             @Header("token") String token,
             @Query("index") int index,//当前页码，必填，可以填0
@@ -43,7 +47,7 @@ public interface CustomerService {
      * @param token
      * @param callback
      */
-    @GET("/v1/Club/FindMarketingStaff")
+    @GET("/v1/Club/GetListOfMarketingStaff")
     void getMarketingStaffList(
             @Header("token") String token,
             @Query("index") int index,//当前页码，必填，可以填0
@@ -66,6 +70,13 @@ public interface CustomerService {
 
     );
 
+    @GET("/v1/Club/GetDetailOfCustomer")
+    void getDetailOfCustomer(
+            @Header("token") String token,
+            @Query("mobile") String mobile,
+            RequestCallback<ResponseData<FindCustomerModel>> callback
+    );
+
 
     /**
      * 名称	添加/修改客户
@@ -74,7 +85,7 @@ public interface CustomerService {
      * @param model
      * @param callback
      */
-    @POST("/v1/Club/SaveCustomer")
+    @POST("/v1/Club/AddCustomer")
     void saveCustomer(
             @Header("token") String token,
             @Body CustomerInfoModel model,
@@ -94,5 +105,61 @@ public interface CustomerService {
             @Field("phone") String phone,
             @Field("status") String status,
             Callback<ResponseData<IdentifyModel>> callback);
+
+    /**
+     * 帮客户注册中创建档案
+     *
+     * @param token
+     * @param model
+     * @param callback
+     */
+    @POST("/v1/Club/RegisterForCustomer")
+    void registerForCustomer(
+            @Header("token") String token,
+            @Body CustomerInfoModel model,
+            RequestCallback<ResponseData> callback
+    );
+
+    /**
+     * 客户搜索
+     *
+     * @param token
+     * @param index
+     * @param size
+     * @param callback
+     */
+    @GET("/v1/Club/FindCustomers")
+    void findCustomers(
+            @Header("token") String token,
+            @Query("input") String input,//手机或姓名
+            @Query("index") int index,//当前页码，必填，可以填0
+            @Query("size") int size,//每页显示的记录数量，必填，可以填0
+            RequestCallback<ResponseData<SearchCustomerOuterModel>> callback
+    );
+
+    /**
+     * 获取当前用户的身份和权限
+     *
+     * @param token
+     * @param callback
+     */
+    @GET("/v1/Club/GetClubAuthority")
+    void getClubAuthority(
+            @Header("token") String token,
+            Callback<ResponseData<ClubAuthorityModel>> callback
+    );
+
+    /**
+     * 获取手机号码相关的信息
+     *
+     * @param token
+     * @param callback
+     */
+    @GET("/v1/Club/GetSituationOfTheMobile")
+    void getSituationOfTheMobile(
+            @Header("token") String token,
+            @Query("mobile") String mobile,//手机
+            Callback<ResponseData<SituationOfMobileModel>> callback
+    );
 
 }

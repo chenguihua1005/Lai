@@ -46,79 +46,30 @@
                 android:id="@+id/edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:imeOptions="actionSearch"
+                android:layout_toEndOf="@+id/im_search_bottom"
                 android:background="@null"
                 android:cursorVisible="true"
                 android:gravity="center_vertical"
                 android:hint="请输入姓名、手机号或资格证号进行搜索"
+                android:imeOptions="actionSearch"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="14sp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/im_search_bottom" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
     </RelativeLayout>
 
-    <!--   <LinearLayout
-           android:id="@+id/ll"
-           android:layout_width="match_parent"
-           android:layout_height="50dp"
-           android:layout_below="@id/toolbar"
-           android:background="#e6e6e6"
-           android:orientation="horizontal">
 
-           <RelativeLayout
-               android:layout_width="280dp"
-               android:layout_height="35dp"
-               android:layout_gravity="center|left"
-               android:layout_marginLeft="20dp"
-               android:background="@drawable/border">
-
-               <ImageView
-                   android:id="@+id/iv"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentLeft="true"
-                   android:layout_centerInParent="true"
-                   android:layout_marginLeft="12dp"
-                   android:src="@drawable/contact_search" />
-
-               <EditText
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:layout_marginLeft="7dp"
-                   android:layout_toRightOf="@id/iv"
-                   android:background="@null"
-                   android:hint="请输入姓名或手机号进行搜索"
-                   android:imeOptions="actionSearch"
-                   android:maxLines="1"
-                   android:singleLine="true"
-                   android:textColor="#333333"
-                   android:textColorHint="#57000000"
-                   android:textSize="14sp" />
-
-           </RelativeLayout>
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center"
-               android:layout_marginLeft="20dp"
-               android:text="取消"
-               android:textSize="15sp" />
-       </LinearLayout>-->
-
-    <ListView
-        android:id="@+id/lv"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/plv_audit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ll"
-        android:divider="#e1e1e1"
-        android:dividerHeight="0.5dp"
-        android:overScrollMode="never" />
+        android:divider="@null"></com.handmark.pulltorefresh.library.PullToRefreshListView>
+
 
     <ProgressBar
         android:id="@+id/pb"

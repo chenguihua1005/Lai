@@ -262,7 +262,7 @@
             android:background="#78BC27" />
 
         <LinearLayout
-
+            android:id="@+id/ll_remark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
@@ -275,6 +275,7 @@
                 android:src="@drawable/weight_h" />
 
             <TextView
+                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -305,7 +306,6 @@
             android:layout_height="1dp"
             android:layout_marginBottom="30dp"
             android:background="#78BC27" />
-
 
 
         <Button

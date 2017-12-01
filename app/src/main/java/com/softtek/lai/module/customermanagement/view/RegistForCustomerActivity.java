@@ -38,7 +38,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_regist_customer)
 public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresenter> implements View.OnClickListener,
-        Validator.ValidationListener,RegistCustomerPresenter.RegisterForCustomerCallback{
+        Validator.ValidationListener, RegistCustomerPresenter.RegisterForCustomerCallback {
 
     private MyCountDown countDown;
 
@@ -107,7 +107,6 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
-
                 SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
             }
         }
@@ -119,7 +118,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         switch (v.getId()) {
             case R.id.tv_get_identify:
                 String phone = et_phone.getText().toString();
-                boolean validate = validateGetIdentify(this,et_phone);
+                boolean validate = validateGetIdentify(this, et_phone);
                 if (!validate) {
                     return;
                 }
@@ -176,12 +175,10 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         }
         btn_regist.setEnabled(false);
         final String phoneNum = et_phone.getText().toString();
-//        final String password = et_password.getText().toString();
 
-//        getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
-
-
-
+        Intent intent = new Intent(this, RegistForCustomerInfoActivity.class);
+        intent.putExtra("mobile", phoneNum);
+        startActivity(intent);
     }
 
     @Override
@@ -237,8 +234,6 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
 //        }
         return true;
     }
-
-
 
 
     public class MyCountDown extends JCountDownTimer {

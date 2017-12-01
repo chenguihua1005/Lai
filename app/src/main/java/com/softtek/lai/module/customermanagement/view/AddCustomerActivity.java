@@ -16,10 +16,12 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
+import com.softtek.lai.module.customermanagement.model.SituationOfMobileModel;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.utils.RequestCallback;
 
 import butterknife.InjectView;
+import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -27,6 +29,9 @@ import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
+
+import static com.softtek.lai.R.string.phoneNum;
+import static java.security.AccessController.getContext;
 
 /**
  * Created by jessica.zhang on 11/17/2017.
@@ -84,17 +89,36 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onValidationSucceeded() {
         final String phoneNum = et_phone.getText().toString().trim();
+
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
-        service.findCustomerByMobile(UserInfoModel.getInstance().getToken(), phoneNum, new RequestCallback<ResponseData<FindCustomerModel>>() {
+        service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), phoneNum, new Callback<ResponseData<SituationOfMobileModel>>() {
             @Override
-            public void success(ResponseData<FindCustomerModel> responseData, Response response) {
+            public void success(ResponseData<SituationOfMobileModel> responseData, Response response) {
                 int status = responseData.getStatus();
                 if (200 == status) {
-                    FindCustomerModel model = responseData.getData();
-                    Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
-                    intent.putExtra("mobile", phoneNum);
-                    intent.putExtra("model", model);
-                    startActivity(intent);
+                    SituationOfMobileModel model = responseData.getData();
+                    boolean IsLocked = model.isLocked();//是否被锁定，true-是，false-否
+                    boolean IsDownline = model.isDownline();//是否是下线，true-是，false-否
+                    boolean IsRegistered = model.isRegistered();//是否注册，true-是，false-否
+                    boolean IsInMyClub = model.isInMyClub();//是否是本俱乐部客户，true-是，false-否
+
+//                    如果已经被锁定且为本人下级直接跳转到个人详情页
+                    if (IsLocked && IsDownline) {
+                        Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
+                        startActivity(intent);
+                    } else if (IsLocked && !IsDownline) {//如果已经被锁定且不是本人下级，提示添加失败
+                        Util.toastMsg(responseData.getMsg());
+                    } else if (IsInMyClub) {//如果已经被本俱乐部录为线索，跳转至个人详情页
+                        Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
+                        startActivity(intent);
+                    } else if (IsRegistered && !IsLocked) {//如果已经注册账号但未被锁定，下一步时在新客户页面关联档案信息，可添加备注信息
+                        Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
+                        intent.putExtra("mobile", phoneNum);
+                        startActivity(intent);
+                    } else if (!IsRegistered) {//如果没有注册跳转到新客户页面
+                        Intent intent = new Intent(AddCustomerActivity.this, RegistForCustomerActivity.class);
+                        startActivity(intent);
+                    }
                 } else {
                     Util.toastMsg(responseData.getMsg());
                 }
@@ -102,10 +126,9 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+                ZillaApi.dealNetError(error);
             }
         });
-
 
     }
 

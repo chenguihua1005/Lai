@@ -30,7 +30,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
-import com.softtek.lai.module.customermanagement.presenter.SaveCustomerPresenter;
+import com.softtek.lai.module.customermanagement.presenter.RegistCustomerInfoPresenter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
@@ -47,16 +47,13 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-import static android.R.attr.bufferType;
-import static android.R.attr.data;
-
 
 /**
  * Created by jessica.zhang on 11/17/2017.
  */
 
 @InjectLayout(R.layout.activity_creatfile_customer)
-public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener, SaveCustomerPresenter.SaveCustomerCallback {
+public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerInfoPresenter> implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener, RegistCustomerInfoPresenter.SaveCustomerCallback {
     private List<String> gradeList = new ArrayList<>();
     private List<String> gradeIDList = new ArrayList<>();
     private String select_grade = "";
@@ -86,6 +83,9 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     @InjectView(R.id.remark_et)   //备注
             EditText remark_et;
+
+    @InjectView(R.id.ll_remark)//备注需要隐藏
+    LinearLayout ll_remark;
 
     //添加身体围度按钮
 //    @InjectView(R.id.btn_Add_bodydimension)
@@ -146,19 +146,19 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
 
-        ll_left.setOnClickListener(this);
-        //        iv_left.setVisibility(View.GONE);
-        tv_right.setText("下一步");
-//        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
-        fl_right.setOnClickListener(this);
+        ll_remark.setVisibility(View.GONE);
 
+
+
+        ll_left.setOnClickListener(this);
+        tv_right.setText("下一步");
+        fl_right.setOnClickListener(this);
+        setPresenter(new RegistCustomerInfoPresenter(this));
     }
 
     @Override
     protected void initViews() {
         mobile = getIntent().getStringExtra("mobile");
-        setPresenter(new SaveCustomerPresenter(this));
-
         //获取当前年月日
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();
@@ -184,8 +184,6 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         tv_title.setText("创建新客户");
         file = new CustomerInfoModel();
         addGrade();
-        dialogShow(getResources().getString(R.string.loading));
-        getPresenter().getDetailOfCustomer(mobile);
     }
 
     @Override
@@ -260,7 +258,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-        String remark = remark_et.getText().toString();
+//        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
@@ -279,13 +277,13 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-            file.setRemark(remark);
+//            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
                 file.setMobile(mobile);
             }
 
             Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
-            getPresenter().saveCustomerInfo(file);
+            getPresenter().registerForCustomer(file);
         }
     }
 
@@ -429,7 +427,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (np1.getValue() < 80) {
-                    Dialog dialog1 = new AlertDialog.Builder(NewCustomerActivity.this)
+                    Dialog dialog1 = new AlertDialog.Builder(RegistForCustomerInfoActivity.this)
                             .setMessage("体重单位为斤,是否确认数值?")
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
@@ -513,31 +511,12 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         return super.onKeyDown(keyCode, event);
     }
 
+
     @Override
-    public void SaveCustomerSucsess() {
+    public void registerForCustomerSucsess() {
         //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-        finish();
-    }
 
-    @Override
-    public void getDetailOfCustomer(FindCustomerModel model) {
-        if (model != null) {
-            et_nickname.setText(model.getName());
-            tv_birth.setText(model.getBirthDay());
-            if (0 == model.getGender()) {
-                tv_sex.setText("男");
-            } else {
-                tv_sex.setText("女");
-            }
-
-            tv_weight.setText(model.getWeight());
-        }
-    }
-
-    @Override
-    public void disMissLoadingDialog() {
-        dialogDissmiss();
     }
 }

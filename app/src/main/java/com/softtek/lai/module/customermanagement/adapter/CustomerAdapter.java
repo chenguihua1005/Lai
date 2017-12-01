@@ -78,16 +78,16 @@ public class CustomerAdapter extends BaseAdapter {
 
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append("由");
+        builder.append("由 ");
         SpannableString str1 = new SpannableString(model.getCreator());
         str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(str1);
-        builder.append("于");
+        builder.append(" 于 ");
         SpannableString str2 = new SpannableString(model.getCreatedTime());
         str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(str2);
 
-        builder.append("添加");
+        builder.append(" 添加");
         holder.desc_tv.setText(builder);
 
 
