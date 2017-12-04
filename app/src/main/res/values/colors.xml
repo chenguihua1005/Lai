@@ -17,7 +17,7 @@
     <color name="green">#75BA29</color>
     <color name="green1">#75BA2B</color>
     <color name="white">#FFFFFF</color>
-    <color name="green_cheng">#278B69</color>
+    <color name="green_cheng">#75BA2B</color>
     <color name="word">#333333</color>
     <color name="word2">#C2C2C2</color>
     <color name="word3">#6f6f6f</color>
@@ -46,6 +46,7 @@
     <color name="backPressTrue1">#A83F8970</color>
     <color name="background_green">#78bc27</color><!--背景绿色-->
     <color name="transparent">#00000000</color>
+    <color name="new_cheng_bg">#F1F7E9</color>
 
     <color name="history_chart_text_color">#adadad</color>
 </resources>

@@ -794,7 +794,7 @@
         <activity
             android:name=".module.healthyreport.HealthyReportActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".module.bodygame3.activity.view.FuceForStuActivity"
             android:screenOrientation="portrait" />
@@ -805,7 +805,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.healthyreport.HealthyChartActivity"
-            android:theme="@style/AppTheme2" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".module.bodygame3.activity.view.FcAuditStuActivity2"
             android:screenOrientation="portrait" />
@@ -826,7 +826,7 @@
         <activity
             android:name=".module.laicheng_new.view.NewLaiBalanceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".module.healthyreport.PKSelectActivity"
             android:screenOrientation="portrait" />

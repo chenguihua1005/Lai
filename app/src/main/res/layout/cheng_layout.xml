@@ -175,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:text="点击按钮，连接莱秤"
+                android:text="点击连接莱秤"
                 android:textColor="#278B69"
                 android:textSize="14sp" />
 
