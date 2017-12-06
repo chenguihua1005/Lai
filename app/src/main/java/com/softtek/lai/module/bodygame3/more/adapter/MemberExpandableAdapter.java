@@ -152,6 +152,8 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
             Picasso.with(context).load(AddressManager.get("photoHost") + member.getPhoto())
                     .placeholder(R.drawable.img_default)
                     .resize(headPX, headPX).centerCrop().error(R.drawable.img_default).into(head_image);
+        } else {
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(head_image);
         }
         TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_name.setText(StringUtil.showName(member.getUserName(), member.getMobile()));
