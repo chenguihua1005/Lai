@@ -23,7 +23,7 @@
             android:layout_marginLeft="2dp"
             android:textColor="@color/white"
             android:layout_weight="1"
-            android:background="@drawable/cheng_bg"
+            android:background="@color/green_cheng"
             android:gravity="center"
             android:text="访客历史" />
 
