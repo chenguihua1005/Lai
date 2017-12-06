@@ -270,13 +270,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 Toast.makeText(getApplicationContext(), "设备连接断开，请重新连接", Toast.LENGTH_SHORT).show();
                 selfFragment.setStateTip("点击连接莱秤");
                 visitorFragment.setStateTip("点击连接莱秤");
-                selfFragment.setBleIcon(false);
-                visitorFragment.setBleIcon(false);
-                selfFragment.setRenameIcon(false);
-                visitorFragment.setRenameIcon(false);
-                selfFragment.setClickable(true);
-                visitorFragment.setClickable(true);
-                selfFragment.setInvisible();
+                if (!isFinishing()) {
+                    selfFragment.setBleIcon(false);
+                    visitorFragment.setBleIcon(false);
+                    selfFragment.setRenameIcon(false);
+                    visitorFragment.setRenameIcon(false);
+                    selfFragment.setClickable(true);
+                    visitorFragment.setClickable(true);
+                    selfFragment.setInvisible();
+                }
                 if (!isStartTesting){
                     testFail();
                     if (testingTimeout != null){

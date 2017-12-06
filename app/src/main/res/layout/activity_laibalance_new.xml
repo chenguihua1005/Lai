@@ -47,7 +47,8 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="莱秤 Lite(四电极)"
-                android:drawableEnd="@drawable/down_arrow1"
+                android:drawablePadding="4dp"
+                android:drawableEnd="@drawable/down_arrow_cheng"
                 android:textSize="20sp" />
         </LinearLayout>
 
