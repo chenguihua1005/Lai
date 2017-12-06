@@ -32,19 +32,26 @@
                 />
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/tv_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginRight="70dp"
-            android:text="莱秤 Lite（四电极）"
-            android:textSize="20sp" />
+            android:layout_marginEnd="70dp">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="莱秤 Lite(四电极)"
+                android:drawablePadding="4dp"
+                android:drawableEnd="@drawable/down_arrow_cheng"
+                android:textSize="20sp" />
+        </LinearLayout>
+
 
         <FrameLayout
             android:id="@+id/fl_right"
@@ -61,7 +68,8 @@
                 android:gravity="center"
                 android:text="使用说明"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone"/>
 
         </FrameLayout>
 

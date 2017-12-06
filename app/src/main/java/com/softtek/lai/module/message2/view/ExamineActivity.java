@@ -326,10 +326,15 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
-                                        Intent intent = getIntent();
-                                        intent.putExtra("msgStatus", 2);
-                                        setResult(RESULT_OK, intent);
-                                        finish();
+                                        int status = responseData.getStatus();
+                                        if (200 == status) {
+                                            Intent intent = getIntent();
+                                            intent.putExtra("msgStatus", 2);
+                                            setResult(RESULT_OK, intent);
+                                            finish();
+                                        } else {
+                                            Util.toastMsg(responseData.getMsg());
+                                        }
                                     }
 
                                     @Override

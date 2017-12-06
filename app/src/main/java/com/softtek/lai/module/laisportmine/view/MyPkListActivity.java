@@ -113,8 +113,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 dialogShow("删除中");
-                    delManager.DodeleteOneMsg("5", msgId);
-
+                    delManager.DodeleteOneMsg(6, msgId);
                 break;
             case R.id.cb_all:
             case R.id.ll_select:

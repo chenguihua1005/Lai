@@ -30,8 +30,14 @@ public class DeleteMessageManager {
         service = ZillaApi.NormalRestAdapter.create(Message2Service.class);
     }
 
-    public void DodeleteOneMsg(String msgtype, String msgid) {
-        service.deleteOneMsg(UserInfoModel.getInstance().getToken(), msgtype, msgid, new RequestCallback<ResponseData>() {
+    /**
+     * (1:小助手类;  2:服务窗类; 3:复测; 4:慈善; 5:活动; 6:挑战 )
+     *
+     * @param msgtype
+     * @param msgid
+     */
+    public void DodeleteOneMsg(int msgtype, String msgid) {
+        service.deleteMssage(UserInfoModel.getInstance().getToken(), msgid, msgtype, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.e("jarvis", responseData.toString());

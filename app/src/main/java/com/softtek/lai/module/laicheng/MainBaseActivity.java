@@ -561,7 +561,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             case CONNECTED_STATE_SHAKE_IT:
                 //称前摇一摇
                 state_current = CONNECTED_STATE_SHAKE_IT;
-                setStateTip("点击按钮，连接莱秤");
+                setStateTip("点击连接莱秤");
 
                 break;
             case CONNECTED_STATE_LOADING:
@@ -571,7 +571,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             case CONNECTED_STATE_FAILED:
                 //连接失败，请重试
                 state_current = CONNECTED_STATE_FAILED;
-                setStateTip("点击按钮，连接莱秤");
+                setStateTip("点击连接莱秤");
                 break;
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤

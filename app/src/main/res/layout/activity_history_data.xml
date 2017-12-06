@@ -53,7 +53,7 @@
                     android:background="@drawable/cb_healthy_data_l"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="莱秤Lite"
+                    android:text="莱秤"
                     android:textColor="@color/healthy_data_text"
                     android:textSize="11sp" />
 

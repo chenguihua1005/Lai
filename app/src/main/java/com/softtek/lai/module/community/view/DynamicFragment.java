@@ -64,6 +64,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import static android.view.View.GONE;
 
@@ -110,7 +111,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     private OpenComment openComment;
 
     private static final int OPEN_SENDER_REQUEST = 2;
-    public static final String DYNAMIC="dynamic";
+    public static final String DYNAMIC = "dynamic";
 
 
     @Override
@@ -143,8 +144,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     rl_hot.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(getContext(),TopicDetailActivity.class);
-                            intent.putExtra("topicId",info.getTopicType());
+                            Intent intent = new Intent(getContext(), TopicDetailActivity.class);
+                            intent.putExtra("topicId", info.getTopicType());
                             startActivity(intent);
 
                         }
@@ -187,9 +188,9 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
         endLabelsr.setRefreshingLabel("正在刷新数据");
         endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
-        if(UserInfoModel.getInstance().isVr()){
+        if (UserInfoModel.getInstance().isVr()) {
             fab_sender.setVisibility(GONE);
-        }else {
+        } else {
             fab_sender.setVisibility(View.VISIBLE);
         }
 
@@ -205,7 +206,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         if (StringUtils.isEmpty(token)) {
             accountId = -1;
         } else {
-            accountId =UserInfoModel.getInstance().getUserId();
+            accountId = UserInfoModel.getInstance().getUserId();
         }
         final Object tag = new Object();
         adapter = new HealthyCommunityAdapter(this, getContext(), communityModels, tag);
@@ -257,21 +258,21 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
     @Subscribe
     public void refreshList(FocusEvent event) {
 //        if(event.getWhere()!=Where.DYNAMIC_LIST) {
-            for (DynamicModel model : communityModels) {
-                if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
-                    model.setIsFocus(event.getFocusStatus());
-                }
+        for (DynamicModel model : communityModels) {
+            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                model.setIsFocus(event.getFocusStatus());
             }
-            adapter.notifyDataSetChanged();
+        }
+        adapter.notifyDataSetChanged();
 //        }
     }
 
     @Subscribe
     public void refreshListDelete(DeleteRecommedEvent event) {
-        if(event.getWhere()!= Where.DYNAMIC_LIST){
-            Iterator<DynamicModel> iterator=communityModels.iterator();
-            while (iterator.hasNext()){
-                DynamicModel model=iterator.next();
+        if (event.getWhere() != Where.DYNAMIC_LIST) {
+            Iterator<DynamicModel> iterator = communityModels.iterator();
+            while (iterator.hasNext()) {
+                DynamicModel model = iterator.next();
                 if (model.getDynamicId().equals(event.getDynamicId())) {
                     iterator.remove();
                     break;
@@ -312,7 +313,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     tv_dynamic_num.append("条动态");
                     if (!TextUtils.isEmpty(info.getTopicName())) {
                         tv_hot_topic.setText("#");
-                        tv_hot_topic.append(info.getTopicName()==null?"":info.getTopicName());
+                        tv_hot_topic.append(info.getTopicName() == null ? "" : info.getTopicName());
                         tv_hot_topic.append("#");
                     }
                     if (TextUtils.isEmpty(info.getTopicPhoto())) {
@@ -329,8 +330,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     rl_hot.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(getContext(),TopicDetailActivity.class);
-                            intent.putExtra("topicId",info.getTopicType());
+                            Intent intent = new Intent(getContext(), TopicDetailActivity.class);
+                            intent.putExtra("topicId", info.getTopicType());
                             startActivity(intent);
 
                         }
@@ -421,8 +422,8 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         final TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
         tv_zan.setEnabled(data.getIsPraise() != 1);
-        if(data.getIsPraise() ==1){
-            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(),R.drawable.zan_has),null,null,null);
+        if (data.getIsPraise() == 1) {
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.zan_has), null, null, null);
         }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -436,11 +437,18 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                 data.setUsernameSet(praise);
                 //向服务器提交
                 String token = infoModel.getToken();
-                EventBus.getDefault().post(new ZanEvent(data.getDynamicId(),true,Where.DYNAMIC_LIST));
+
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getDynamicId()),
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
+                                int status = responseData.getStatus();
+                                if (200 == status) {
+                                    EventBus.getDefault().post(new ZanEvent(data.getDynamicId(), true, Where.DYNAMIC_LIST));
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    Util.toastMsg(responseData.getMsg());
+                                }
                             }
 
                             @Override
@@ -455,7 +463,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                                 adapter.notifyDataSetChanged();
                             }
                         });
-                adapter.notifyDataSetChanged();
+
             }
 
 
@@ -529,13 +537,13 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
         int[] position = new int[2];
         ptrlv.getLocationOnScreen(position);
         //用弹出软件盘输入框在屏幕中的y值减去listView的顶部在屏幕中的Y值就是listView的剩余可显示高度。
-        int emptyHeight=inputY - position[1];
-        if (emptyHeight>=itemHeight){
+        int emptyHeight = inputY - position[1];
+        if (emptyHeight >= itemHeight) {
             //如果可显示高度大于整个item的高度则只需移动这个item到第一个区域即可
-            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,0);
-        }else {
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1, 0);
+        } else {
             //把被软件盘遮住的部分显示出来
-            ptrlv.getRefreshableView().setSelectionFromTop(index + 1,(inputY - position[1])-itemHeight);
+            ptrlv.getRefreshableView().setSelectionFromTop(index + 1, (inputY - position[1]) - itemHeight);
         }
 
     }

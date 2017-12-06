@@ -17,17 +17,17 @@ import zilla.libcore.util.Util;
  * Created by jerry.guan on 4/24/2017.
  */
 
-public class ClassDetailPresenter extends BasePresenter<ClassDetailPresenter.ClassDetailView>{
+public class ClassDetailPresenter extends BasePresenter<ClassDetailPresenter.ClassDetailView> {
 
     HeadService headService;
 
     public ClassDetailPresenter(ClassDetailView baseView) {
         super(baseView);
-        headService= ZillaApi.NormalRestAdapter.create(HeadService.class);
+        headService = ZillaApi.NormalRestAdapter.create(HeadService.class);
     }
 
-    public void getClassDate(String classId){
-        if(getView()!=null){
+    public void getClassDate(String classId) {
+        if (getView() != null) {
             getView().dialogShow("加载中");
         }
         headService.doGetClassDetial(UserInfoModel.getInstance().getToken(),
@@ -35,11 +35,10 @@ public class ClassDetailPresenter extends BasePresenter<ClassDetailPresenter.Cla
                 classId, new RequestCallback<ResponseData<ClassDetailModel>>() {
                     @Override
                     public void success(ResponseData<ClassDetailModel> classDetailModelResponseData, Response response) {
-                        int status=classDetailModelResponseData.getStatus();
-                        switch (status)
-                        {
+                        int status = classDetailModelResponseData.getStatus();
+                        switch (status) {
                             case 200:
-                                if(getView()!=null){
+                                if (getView() != null) {
                                     getView().getClassDate(classDetailModelResponseData.getData());
                                 }
                                 break;
@@ -47,14 +46,14 @@ public class ClassDetailPresenter extends BasePresenter<ClassDetailPresenter.Cla
                                 Util.toastMsg(classDetailModelResponseData.getMsg());
                                 break;
                         }
-                        if (getView()!=null){
+                        if (getView() != null) {
                             getView().dialogDissmiss();
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if (getView()!=null){
+                        if (getView() != null) {
                             getView().dialogDissmiss();
                         }
                         super.failure(error);
@@ -62,20 +61,20 @@ public class ClassDetailPresenter extends BasePresenter<ClassDetailPresenter.Cla
                 });
     }
 
-    public void doJoinClass(String classId){
-        if(getView()!=null){
+    public void doJoinClass(String classId) {
+        if (getView() != null) {
             getView().dialogShow("加入班级中");
         }
         headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
-                if(getView()!=null){
+                if (getView() != null) {
                     getView().dialogDissmiss();
                 }
                 switch (status) {
                     case 200:
-                        if(getView()!=null){
+                        if (getView() != null) {
                             getView().doFinish();
                         }
                         break;
@@ -84,13 +83,22 @@ public class ClassDetailPresenter extends BasePresenter<ClassDetailPresenter.Cla
                         break;
                 }
             }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
+            }
         });
     }
 
 
-    public interface ClassDetailView extends BaseView{
+    public interface ClassDetailView extends BaseView {
 
         void getClassDate(ClassDetailModel model);
+
         void doFinish();
     }
 }

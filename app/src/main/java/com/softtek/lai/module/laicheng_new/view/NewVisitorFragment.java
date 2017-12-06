@@ -57,6 +57,7 @@ import zilla.libcore.file.AddressManager;
 public class NewVisitorFragment extends Fragment implements View.OnClickListener {
     private static final String ARGUMENTS = "mainFragment";
     private View view;
+    private Button bt_again;
     private TextView tv_weight;//体重
     private TextView tv_weight_caption;//状态
     private TextView tv_body_fat_rate;//体脂率
@@ -69,8 +70,8 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     private Button share_btn;
     private Button bt_create;//
     private Button bt_history;
-    private Button mCustomerFrom;
     private ImageView mNote;
+    private LinearLayout mNoteContent;
 
     //访客信息
     private LinearLayout ll_visitor;
@@ -121,6 +122,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
+        bt_again = view.findViewById(R.id.bt_again);
         tv_weight = view.findViewById(R.id.tv_weight);
         tv_weight_caption = view.findViewById(R.id.tv_weight_caption);
         tv_body_fat_rate = view.findViewById(R.id.tv_body_fat_rate);
@@ -142,7 +144,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         mid_lay = view.findViewById(R.id.mid_lay);
         mBleIcon = view.findViewById(R.id.iv_ble_icon);
         mNote = view.findViewById(R.id.iv_note);
-        mCustomerFrom = view.findViewById(R.id.bt_from);
+        mNoteContent = view.findViewById(R.id.ll_note);
 
         mBleState.setOnClickListener(this);
         bt_history.setOnClickListener(this);
@@ -151,7 +153,6 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         share_btn.setOnClickListener(this);
         iv_voice.setOnClickListener(this);
         mNote.setOnClickListener(this);
-        mCustomerFrom.setOnClickListener(this);
 
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
@@ -207,18 +208,15 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.iv_voice:
                 if (NewLaiBalanceActivity.isVoiceHelp) {
-                    iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+                    iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off_new));
                     NewLaiBalanceActivity.isVoiceHelp = false;
                 } else {
-                    iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
+                    iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on_new));
                     NewLaiBalanceActivity.isVoiceHelp = true;
                 }
                 break;
             case R.id.iv_note:
                 renameVisitorListener.onVRenameListener();
-                break;
-            case R.id.bt_from:
-                startActivity(new Intent(getActivity(),ChooseCustomerAvtivity.class));
 
         }
     }
@@ -252,9 +250,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
 
     public void refreshVoiceIcon() {
         if (NewLaiBalanceActivity.isVoiceHelp) {
-            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on_new));
         } else {
-            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+            iv_voice.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off_new));
         }
     }
 
@@ -268,22 +266,24 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
 
     public void setRenameIcon(boolean alive){
         if (alive){
-            mNote.setVisibility(View.VISIBLE);
+//            mNote.setVisibility(View.VISIBLE);
+            mNoteContent.setVisibility(View.VISIBLE);
         }else {
-            mNote.setVisibility(View.INVISIBLE);
+//            mNote.setVisibility(View.INVISIBLE);
+            mNoteContent.setVisibility(View.INVISIBLE);
         }
     }
 
     public void getLastData(LastInfoData data) {
         if (data != null && !TextUtils.isEmpty(data.getRecordId())) {
-            tv_weight_caption.setVisibility(View.VISIBLE);
+//            tv_weight_caption.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
             mid_lay.setVisibility(View.VISIBLE);
             weight = String.valueOf(data.getWeight());
             bodyFatRate = data.getBodyFatRate();
             bodyAge = data.getPhysicalAge();
             tv_weight.setText(data.getWeight() + "");//体重
-            tv_weight_caption.setText(data.getBodyTypeTitle());//状态
+//            tv_weight_caption.setText(data.getBodyTypeTitle());//状态
             tv_body_fat_rate.setText(data.getBodyFatRate() + "%");
             tv_bmi.setText(data.getBMI());
             tv_internal_fat_rate.setText(data.getViscusFatIndex());
@@ -312,7 +312,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
             mid_lay.setVisibility(View.INVISIBLE);
             ll_visitor.setVisibility(View.INVISIBLE);
             tv_weight.setText("0.0");//体重
-            tv_weight_caption.setVisibility(View.INVISIBLE);//状态
+//            tv_weight_caption.setVisibility(View.INVISIBLE);//状态
             tv_body_fat_rate.setText("--");
             tv_bmi.setText("--");
             tv_internal_fat_rate.setText("--");
@@ -413,7 +413,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                     tv_height.setText(String.valueOf(model.getHeight()));
 
                     tv_weight.setText(String.valueOf(0.0));
-                    tv_weight_caption.setVisibility(View.INVISIBLE);
+//                    tv_weight_caption.setVisibility(View.INVISIBLE);
                     tv_body_fat_rate.setText("- -");
                     mid_lay.setVisibility(View.INVISIBLE);
                     tv_bmi.setText("- -");
@@ -433,26 +433,28 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
 
     public void setBleIcon(boolean isVisibility) {
         if (isVisibility) {
-            mBleIcon.setVisibility(View.VISIBLE);
+//            mBleIcon.setVisibility(View.VISIBLE);
+            mBleIcon.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ble_icon_on));
         } else {
-            mBleIcon.setVisibility(View.INVISIBLE);
+//            mBleIcon.setVisibility(View.INVISIBLE);
+            mBleIcon.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ble_icon_off));
         }
     }
 
     @SuppressLint("SetTextI18n")
     public void updateData(BleMainData data) {
         if (data != null) {
-            tv_weight_caption.setVisibility(View.VISIBLE);
+//            tv_weight_caption.setVisibility(View.VISIBLE);
             mid_lay.setVisibility(View.VISIBLE);
             recordId = data.getRecordId();
             bodyAge = data.getPhysicalAge();
             weight = String.valueOf(data.getWeight());
             tv_weight.setText(data.getWeight() + "");
             if (data.getBodyTypeTitle() != null) {
-                tv_weight_caption.setText(data.getBodyTypeTitle());
+//                tv_weight_caption.setText(data.getBodyTypeTitle());
             }
             if (data.getBodyTypeColor() != null) {
-                tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+//                tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
             }
             if (data.getBodyFatRate() != null) {
                 tv_body_fat_rate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
