@@ -41,8 +41,8 @@ public class CustomerIntentionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = View.inflate(getActivity(), R.layout.fragment_customer_intention,null);
-        initData();
         initView();
+        initData();
         return mView;
     }
 
