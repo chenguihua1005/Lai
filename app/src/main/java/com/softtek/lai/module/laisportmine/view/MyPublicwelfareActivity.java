@@ -133,7 +133,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
                     Util.toastMsg("请先选择要删除的数据");
                     return;
                 }
-                delManager.DodeleteOneMsg("1", msgId);
+                delManager.DodeleteOneMsg(1, msgId);
                 break;
             case R.id.lin_select:
                 if (myPublicWealfareAdapter == null) {

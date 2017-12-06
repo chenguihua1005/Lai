@@ -1,12 +1,14 @@
 package com.softtek.lai.module.bodygame3.activity.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -36,7 +39,10 @@ import com.softtek.lai.module.bodygame3.activity.presenter.UnInputPresenter;
 import com.softtek.lai.module.bodygame3.head.model.MeasuredDetailsModel;
 import com.softtek.lai.module.community.model.ImageResponse2;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
+import com.softtek.lai.module.laicheng_new.view.NewLaiBalanceActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.DragFloatActionButtonCheng;
@@ -117,12 +123,15 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
     private int isEditable = 1; //本页是否可编辑
     private String initWeight = ""; //记录初始体重
+    private AlertDialog mDialog;
+    private SharedPreferences mSharedPreferences;
 
 
     @Override
     protected void initViews() {
         int px = DisplayUtil.dip2px(this, 300);
         //*************************
+        mSharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         imageFileSelector = new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(px, px);
         imageFileSelector.setQuality(60);
@@ -215,6 +224,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(UPDATE_UI_UNINPUT));
     }
 
+
     @OnClick(R.id.cheng_float)
     public void enterIntoLaicheng(View view) {
         if (fcStDataModel != null) {
@@ -227,6 +237,15 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
             intent.putExtra("from", UPDATE_UI_UNINPUT);
             startActivity(intent);
         }
+    }
+
+    private void sendData(Intent intent) {
+        intent.putExtra("fucedata", fcStDataModel);
+        intent.putExtra("ACMID", ACMID);
+        intent.putExtra("type", type);
+        intent.putExtra("classId", classId);
+        intent.putExtra("AccountId", AccountId);
+        intent.putExtra("from", UPDATE_UI_UNINPUT);
     }
 
     @Override
@@ -257,9 +276,9 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if(requestCode==CAMERA_PREMISSION){
-            if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        imageFileSelector.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PREMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 imageFileSelector.takePhoto(this);
             }
         }
@@ -351,7 +370,7 @@ public class InitDataUnInputActivity2 extends BaseActivity<UnInputPresenter> imp
 
                             break;
                         case 3:
-                            IsZhankai=!IsZhankai;
+                            IsZhankai = !IsZhankai;
                             break;
                     }
                     return i == 0 || i == 1 || i == 2;

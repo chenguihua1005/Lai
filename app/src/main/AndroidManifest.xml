@@ -127,6 +127,7 @@
         <!--        <meta-data
                     android:name="EASEMOB_APPKEY"
                     android:value="herbalifeuat#laiapp" />-->
+
         <!-- ============================================================================== -->
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -374,6 +375,7 @@
         </service>
 
         <!-- 环信登录检测（被踢）服务 -->
+
         <!--        <service
                     android:name=".module.bodygame3.conversation.service.HXLoginService"
                     android:enabled="true"
@@ -383,7 +385,8 @@
 
                         <category android:name="com.softtek.lai" />
                     </intent-filter>
-                </service>-->
+           </service>-->
+
 
         <!-- Required SDK核心功能 -->
         <receiver
@@ -794,7 +797,7 @@
         <activity
             android:name=".module.healthyreport.HealthyReportActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".module.bodygame3.activity.view.FuceForStuActivity"
             android:screenOrientation="portrait" />
@@ -805,7 +808,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.healthyreport.HealthyChartActivity"
-            android:theme="@style/AppTheme2" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".module.bodygame3.activity.view.FcAuditStuActivity2"
             android:screenOrientation="portrait" />
@@ -826,7 +829,7 @@
         <activity
             android:name=".module.laicheng_new.view.NewLaiBalanceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".module.healthyreport.PKSelectActivity"
             android:screenOrientation="portrait" />
@@ -865,15 +868,22 @@
             android:name=".module.customermanagement.view.CreateClubActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".module.laicheng_new.view.ChooseCustomerAvtivity"
-            android:theme="@style/AppTheme2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.customermanagement.view.InviteActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.customermanagement.view.FindAccountsActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.laicheng_new.view.ChooseCustomerAvtivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".module.customermanagement.view.InviteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".module.customermanagement.view.FindAccountsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".module.bodygame3.activity.view.NewRetestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
 
         <provider
             android:name="com.softtek.lai.module.home.adapter.MyFileProvider"

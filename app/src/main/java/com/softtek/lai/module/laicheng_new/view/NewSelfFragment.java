@@ -61,6 +61,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private LinearLayout mReadMore;
     private ImageView mBleIcon;
     private ImageView mNote;
+    private LinearLayout mNoteContent;
 
     private StartLinkListener linkListener;
     private RenameListener renameListener;
@@ -103,10 +104,10 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
             case R.id.iv_voice:
                 if (NewLaiBalanceActivity.isVoiceHelp) {
                     NewLaiBalanceActivity.isVoiceHelp = false;
-                    mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+                    mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off_new));
                 } else {
                     NewLaiBalanceActivity.isVoiceHelp = true;
-                    mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
+                    mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on_new));
                 }
                 break;
             case R.id.ll_more:
@@ -161,6 +162,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         mBleIcon = (ImageView) mView.findViewById(R.id.iv_ble_icon);
         mNote = (ImageView)mView.findViewById(R.id.iv_note);
         mNote.setOnClickListener(this);
+        mNoteContent = mView.findViewById(R.id.ll_note);
 
 
         ZillaApi.NormalRestAdapter.create(BleService.class).
@@ -182,7 +184,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     }
 
     public void refreshUi(LastInfoData data) {
-        mWeightCaption.setVisibility(View.INVISIBLE);
+//        mWeightCaption.setVisibility(View.INVISIBLE);
         mShare.setVisibility(View.INVISIBLE);
         mHealthReport.setVisibility(View.INVISIBLE);
         mWeight.setText("0.0");
@@ -236,9 +238,11 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
 
     public void setBleIcon(boolean isVisibility) {
         if (isVisibility) {
-            mBleIcon.setVisibility(View.VISIBLE);
+//            mBleIcon.setVisibility(View.VISIBLE);
+            mBleIcon.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ble_icon_on));
         } else {
-            mBleIcon.setVisibility(View.INVISIBLE);
+//            mBleIcon.setVisibility(View.INVISIBLE);
+            mBleIcon.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ble_icon_off));
         }
     }
 
@@ -250,19 +254,26 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void setInvisible(){
+        mHealthReport.setVisibility(View.INVISIBLE);
+        mShare.setVisibility(View.INVISIBLE);
+    }
+
     public void setRenameIcon(boolean alive){
         if (alive){
-            mNote.setVisibility(View.VISIBLE);
+//            mNote.setVisibility(View.VISIBLE);
+            mNoteContent.setVisibility(View.VISIBLE);
         }else {
-            mNote.setVisibility(View.INVISIBLE);
+//            mNote.setVisibility(View.INVISIBLE);
+            mNoteContent.setVisibility(View.INVISIBLE);
         }
     }
 
     public void refreshVoiceIcon() {
         if (NewLaiBalanceActivity.isVoiceHelp) {
-            mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on));
+            mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_on_new));
         } else {
-            mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off));
+            mVoiceSwitch.setImageDrawable(getResources().getDrawable(R.drawable.voice_icon_off_new));
         }
     }
 
@@ -270,10 +281,10 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         if (data != null) {
             mWeight.setText(data.getWeight() + "");
             if (data.getBodyTypeTitle() != null) {
-                mWeightCaption.setText(data.getBodyTypeTitle());
+//                mWeightCaption.setText(data.getBodyTypeTitle());
             }
             if (data.getBodyTypeColor() != null) {
-                mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
+//                mWeightCaption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
             }
             if (data.getBodyFatRate() != null) {
                 mBodyFatRate.setText(data.getBodyFatRate() + data.getBodyFatRateUnit());
@@ -292,7 +303,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
             bodyAge = data.getPhysicalAge();
             value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
         }
-        mWeightCaption.setVisibility(View.VISIBLE);
+//        mWeightCaption.setVisibility(View.VISIBLE);
         mShare.setVisibility(View.VISIBLE);
         mHealthReport.setVisibility(View.VISIBLE);
     }

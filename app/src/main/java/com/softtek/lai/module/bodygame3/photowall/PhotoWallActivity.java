@@ -106,9 +106,9 @@ import zilla.libcore.util.Util;
 import static android.view.View.GONE;
 
 @InjectLayout(R.layout.activity_photo_wall)
-public class PhotoWallActivity extends BaseActivity implements OpenComment, SendCommend,PullToRefreshBase.OnRefreshListener2<ListView>,
+public class PhotoWallActivity extends BaseActivity implements OpenComment, SendCommend, PullToRefreshBase.OnRefreshListener2<ListView>,
         View.OnClickListener,
-        View.OnLayoutChangeListener{
+        View.OnLayoutChangeListener {
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -148,8 +148,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
     @Override
     protected void initViews() {
         //阀值设置为屏幕高度的1/3
-        classId=getIntent().getStringExtra("classId");
-        classRole=getIntent().getIntExtra("classRole",-1);
+        classId = getIntent().getStringExtra("classId");
+        classRole = getIntent().getIntExtra("classRole", -1);
         tv_title.setText("照片墙");
         fl_right.setOnClickListener(this);
         iv_email.setBackground(ContextCompat.getDrawable(this, R.drawable.camera));
@@ -177,27 +177,27 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                 UploadImage image = new UploadImage();
                 image.setImage(new File(file));
                 image.setUri(Uri.fromFile(new File(file)));
-                ArrayList<UploadImage> uploadImages=new ArrayList<>();
+                ArrayList<UploadImage> uploadImages = new ArrayList<>();
                 uploadImages.add(image);
-                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
-                intent.putExtra("classId",classId);
+                intent.putParcelableArrayListExtra("uploadImages", uploadImages);
+                intent.putExtra("classId", classId);
                 startActivityForResult(intent, OPEN_SENDER_REQUEST);
             }
 
             @Override
             public void onMutilSuccess(List<String> files) {
-                Intent intent=new Intent(PhotoWallActivity.this,PublishDyActivity.class);//跳转到发布动态界面
-                ArrayList<UploadImage> uploadImages=new ArrayList<>();
-                for (int i=files.size()-1;i>=0;i--){
-                    UploadImage image=new UploadImage();
-                    File file=new File(files.get(i));
+                Intent intent = new Intent(PhotoWallActivity.this, PublishDyActivity.class);//跳转到发布动态界面
+                ArrayList<UploadImage> uploadImages = new ArrayList<>();
+                for (int i = files.size() - 1; i >= 0; i--) {
+                    UploadImage image = new UploadImage();
+                    File file = new File(files.get(i));
                     image.setImage(file);
                     image.setUri(Uri.fromFile(file));
                     uploadImages.add(image);
                 }
-                intent.putParcelableArrayListExtra("uploadImages",uploadImages);
-                intent.putExtra("classId",classId);
-                startActivityForResult(intent,OPEN_SENDER_REQUEST);
+                intent.putParcelableArrayListExtra("uploadImages", uploadImages);
+                intent.putExtra("classId", classId);
+                startActivityForResult(intent, OPEN_SENDER_REQUEST);
             }
 
             @Override
@@ -219,9 +219,9 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable.length()==0){
+                if (editable.length() == 0) {
                     btn_send.setEnabled(false);
-                }else {
+                } else {
                     btn_send.setEnabled(true);
                 }
             }
@@ -244,7 +244,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResult(RESULT_OK,getIntent());
+                setResult(RESULT_OK, getIntent());
                 finish();
             }
         });
@@ -273,7 +273,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
     @Override
     protected void initDatas() {
         photoWallService = ZillaApi.NormalRestAdapter.create(PhotoWallService.class);
-        service=ZillaApi.NormalRestAdapter.create(CommunityService.class);
+        service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
         adapter = new EasyAdapter<PhotoWallslistModel>(this, photoWallItemModels, R.layout.photowall_list_item) {
             @Override
             public void convert(final ViewHolder holder, final PhotoWallslistModel data, final int position) {
@@ -290,41 +290,41 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                     Picasso.with(PhotoWallActivity.this).load(R.drawable.img_default)
                             .into(civ_header_image);
                 }
-                TextView tv_week=holder.getView(R.id.tv_week);
-                if(data.getCurrWeek()!=0){
+                TextView tv_week = holder.getView(R.id.tv_week);
+                if (data.getCurrWeek() != 0) {
                     tv_week.setVisibility(View.VISIBLE);
                     tv_week.setText("第");
                     tv_week.append(String.valueOf(data.getCurrWeek()));
                     tv_week.append("体管周");
-                }else {
+                } else {
                     tv_week.setVisibility(GONE);
                 }
                 TextViewExpandableAnimation tv_content = holder.getView(R.id.tv_content);
-                final String content=data.getContent();
-                SpannableStringBuilder builder=new SpannableStringBuilder(content);
-                if(data.getIsHasTheme()==1&&data.getTopicList()!=null){
-                    int from=0;
-                    int lastIndex=content.lastIndexOf("#");
+                final String content = data.getContent();
+                SpannableStringBuilder builder = new SpannableStringBuilder(content);
+                if (data.getIsHasTheme() == 1 && data.getTopicList() != null) {
+                    int from = 0;
+                    int lastIndex = content.lastIndexOf("#");
                     do {
                         //先获取第一个#号出现的下标
-                        int firstIndex=content.indexOf("#",from);
+                        int firstIndex = content.indexOf("#", from);
                         //然后获取下一个#号出现的位置
-                        int next=content.indexOf("#",firstIndex+1);
-                        if(next==-1){
+                        int next = content.indexOf("#", firstIndex + 1);
+                        if (next == -1) {
                             break;
                         }
                         //截取两个#号之间的字符
-                        String sub=content.substring(firstIndex+1,next);
+                        String sub = content.substring(firstIndex + 1, next);
                         //将开始下标移动至下一个#号出现的位置
-                        from=next;
-                        for (final TopicList topic:data.getTopicList()){
-                            if(sub.equals(topic.getTopicName())){
-                                from=next+1;
+                        from = next;
+                        for (final TopicList topic : data.getTopicList()) {
+                            if (sub.equals(topic.getTopicName())) {
+                                from = next + 1;
                                 builder.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(View widget) {
-                                        Intent intent=new Intent(PhotoWallActivity.this, TopicDetailActivity.class);
-                                        intent.putExtra("topicId",topic.getTopicType());
+                                        Intent intent = new Intent(PhotoWallActivity.this, TopicDetailActivity.class);
+                                        intent.putExtra("topicId", topic.getTopicType());
                                         startActivity(intent);
                                     }
 
@@ -334,11 +334,11 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                                         ds.setColor(0xFFFFA202);
                                         ds.setUnderlineText(false);//去除超链接的下划线
                                     }
-                                }, firstIndex, next+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                                }, firstIndex, next + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                                 break;
                             }
                         }
-                    }while (from<lastIndex);
+                    } while (from < lastIndex);
                 }
                 tv_content.getTextView().setHighlightColor(ContextCompat.getColor(PhotoWallActivity.this, android.R.color.transparent));
                 tv_content.setText(builder);
@@ -351,10 +351,10 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                 });
                 tv_content.resetState(!data.isOpen());
                 final CheckBox cb_focus = holder.getView(R.id.cb_focus);
-                boolean isMine=Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId();
-                if(isMine){
+                boolean isMine = Long.parseLong(TextUtils.isEmpty(data.getAccountid()) ? "0" : data.getAccountid()) == UserInfoModel.getInstance().getUserId();
+                if (isMine) {
                     cb_focus.setVisibility(GONE);
-                }else {
+                } else {
                     cb_focus.setVisibility(View.VISIBLE);
                     cb_focus.setChecked(1 == data.getIsFocus());//是否关注
                     //关注点击事件
@@ -362,7 +362,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                         @Override
                         public void onClick(View view) {
                             if (cb_focus.isChecked()) {
-                                EventBus.getDefault().post(new FocusEvent(String.valueOf(data.getHealtId()),1, Where.PHOTOWALL_LIST));
+                                EventBus.getDefault().post(new FocusEvent(String.valueOf(data.getHealtId()), 1, Where.PHOTOWALL_LIST));
                                 service.focusAccount(UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
                                         Long.parseLong(data.getAccountid()),
@@ -384,7 +384,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                                             }
                                         });
                             } else {
-                                EventBus.getDefault().post(new FocusEvent(String.valueOf(data.getHealtId()),1, Where.PHOTOWALL_LIST));
+                                EventBus.getDefault().post(new FocusEvent(String.valueOf(data.getHealtId()), 1, Where.PHOTOWALL_LIST));
                                 EventBus.getDefault().post(new DeleteFocusEvent(String.valueOf(data.getAccountid())));
                                 service.cancleFocusAccount(UserInfoModel.getInstance().getToken(),
                                         UserInfoModel.getInstance().getUserId(),
@@ -411,21 +411,21 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                     });
                 }
                 TextView tv_date = holder.getView(R.id.tv_date);
-                String time="";
-                    long[] days= DateUtil.getInstance().getDaysForNow(data.getCreatedate());
-                    if(days[0]==0){//今天
-                        if (days[3]<60){//小于1分钟
-                            time="刚刚";
-                        }else if(days[3]>=60&&days[3]<3600){//>=一分钟小于一小时
-                            time=days[2]+"分钟前";
-                        }else {//大于一小时
-                            time=days[1]+"小时前";
-                        }
-                    }else if(days[0]==1) {//昨天
-                        time="昨天";
-                    }else {
-                        time=days[0]+"天前";
+                String time = "";
+                long[] days = DateUtil.getInstance().getDaysForNow(data.getCreatedate());
+                if (days[0] == 0) {//今天
+                    if (days[3] < 60) {//小于1分钟
+                        time = "刚刚";
+                    } else if (days[3] >= 60 && days[3] < 3600) {//>=一分钟小于一小时
+                        time = days[2] + "分钟前";
+                    } else {//大于一小时
+                        time = days[1] + "小时前";
                     }
+                } else if (days[0] == 1) {//昨天
+                    time = "昨天";
+                } else {
+                    time = days[0] + "天前";
+                }
                 tv_date.setText(time);//日期
                 LinearLayout ll_dianzan = holder.getView(R.id.ll_dianzan);
                 TextView tv_zan_name = holder.getView(R.id.tv_zan_name);
@@ -444,7 +444,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                 }
 
                 CustomGridView photos = holder.getView(R.id.photos);
-                photos.setAdapter(new PhotosAdapter(data.getThumbnailPhotoList(), PhotoWallActivity.this,new Object()));
+                photos.setAdapter(new PhotosAdapter(data.getThumbnailPhotoList(), PhotoWallActivity.this, new Object()));
                 //添加评论
                 LinearLayout ll_comment = holder.getView(R.id.ll_comment);
                 if (!data.getPhotoWallCommendsList().isEmpty()) {
@@ -472,17 +472,17 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                         Intent intent = new Intent(PhotoWallActivity.this, LookBigPicActivity.class);
                         Bundle bundle = new Bundle();
-                        List<EaluationPicBean> list= EvaluateUtil.setupCoords(PhotoWallActivity.this,(ImageView) v,data.getPhotoList(),position);
+                        List<EaluationPicBean> list = EvaluateUtil.setupCoords(PhotoWallActivity.this, (ImageView) v, data.getPhotoList(), position);
                         bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
                         intent.putExtras(bundle);
                         intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
                         startActivity(intent);
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
                 });
                 //操作按钮
                 ImageView iv_operator = holder.getView(R.id.iv_operator);
-                final RelativeLayout rl_item=holder.getView(R.id.rl_item);
+                final RelativeLayout rl_item = holder.getView(R.id.rl_item);
                 iv_operator.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -502,11 +502,11 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(ptrlv!=null){
+                if (ptrlv != null) {
                     ptrlv.setRefreshing();
                 }
             }
-        },500);
+        }, 500);
     }
 
     @Override
@@ -541,11 +541,11 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         }
     }
 
-    private PopupWindow createPop( final PhotoWallslistModel data, final int itemHeight, final int position){
+    private PopupWindow createPop(final PhotoWallslistModel data, final int itemHeight, final int position) {
         //弹出popwindow
         final PopupWindow popupWindow = new PopupWindow(PhotoWallActivity.this);
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(DisplayUtil.dip2px(PhotoWallActivity.this,30));
+        popupWindow.setHeight(DisplayUtil.dip2px(PhotoWallActivity.this, 30));
         popupWindow.setAnimationStyle(R.style.operation_anim_style);
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(PhotoWallActivity.this, R.drawable.opteration_drawable));
         popupWindow.setOutsideTouchable(true);
@@ -553,9 +553,9 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         final View contentView = LayoutInflater.from(PhotoWallActivity.this).inflate(R.layout.pop_operator, null);
         TextView tv_zan = (TextView) contentView.findViewById(R.id.tv_oper_zan);
         //点击点赞按钮
-        tv_zan.setEnabled(data.getIsPraise()!=1);
-        if(data.getIsPraise() ==1){
-            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this,R.drawable.zan_has),null,null,null);
+        tv_zan.setEnabled(data.getIsPraise() != 1);
+        if (data.getIsPraise() == 1) {
+            tv_zan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.zan_has), null, null, null);
         }
         tv_zan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -564,12 +564,12 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                 final UserInfoModel infoModel = UserInfoModel.getInstance();
                 data.setPraiseNum(data.getPraiseNum() + 1);
                 data.setIsPraise(1);
-                List<String> praiseName=data.getPraiseNameList();
+                List<String> praiseName = data.getPraiseNameList();
                 praiseName.add(infoModel.getUser().getNickname());
                 data.setPraiseNameList(praiseName);
                 //向服务器提交
                 String token = infoModel.getToken();
-                EventBus.getDefault().post(new ZanEvent(data.getHealtId(),true,Where.PHOTOWALL_LIST));
+                EventBus.getDefault().post(new ZanEvent(data.getHealtId(), true, Where.PHOTOWALL_LIST));
                 service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), data.getHealtId()),
                         new RequestCallback<ResponseData>() {
                             @Override
@@ -582,8 +582,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                                 int priase = data.getPraiseNum() - 1 < 0 ? 0 : data.getPraiseNum() - 1;
                                 data.setPraiseNum(priase);
                                 data.setIsPraise(0);
-                                List<String> praise=data.getPraiseNameList();
-                                praise.remove(praise.size()-1);
+                                List<String> praise = data.getPraiseNameList();
+                                praise.remove(praise.size() - 1);
                                 data.setPraiseNameList(praise);
                                 adapter.notifyDataSetChanged();
                             }
@@ -612,8 +612,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
         });
         TextView tv_delete = (TextView) contentView.findViewById(R.id.tv_oper_delete);
         //点击删除按钮只有总教练或者自己发的动态才可以有删除功能
-        if(classRole==1
-                ||Long.parseLong(TextUtils.isEmpty(data.getAccountid())?"0":data.getAccountid()) == UserInfoModel.getInstance().getUserId()){
+        if (classRole == 1
+                || Long.parseLong(TextUtils.isEmpty(data.getAccountid()) ? "0" : data.getAccountid()) == UserInfoModel.getInstance().getUserId()) {
             tv_delete.setVisibility(View.VISIBLE);
             tv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -647,7 +647,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                     }).create().show();
                 }
             });
-        }else {
+        } else {
             tv_delete.setVisibility(GONE);
         }
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -667,10 +667,10 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     @Subscribe
     public void refreshListDelete(DeleteRecommedEvent event) {
-        if(event.getWhere()!= Where.DYNAMIC_LIST){
-            Iterator<PhotoWallslistModel> iterator=photoWallItemModels.iterator();
-            while (iterator.hasNext()){
-                PhotoWallslistModel model=iterator.next();
+        if (event.getWhere() != Where.DYNAMIC_LIST) {
+            Iterator<PhotoWallslistModel> iterator = photoWallItemModels.iterator();
+            while (iterator.hasNext()) {
+                PhotoWallslistModel model = iterator.next();
                 if (model.getHealtId().equals(event.getDynamicId())) {
                     iterator.remove();
                     break;
@@ -709,7 +709,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        photoWallService.doGetPhotoWalls(classId,UserInfoModel.getInstance().getToken(),
+        photoWallService.doGetPhotoWalls(classId, UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
                 classId,
                 pageIndex,
@@ -724,10 +724,10 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                                 case 200:
                                     photoWallListModel = photoWallListModelResponseData.getData();
                                     photoWallItemModels.clear();
-                                    if (photoWallListModel != null) {
+                                    if (photoWallListModel != null && photoWallListModel.getPhotoWallslist() != null) {
                                         photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                                        adapter.notifyDataSetChanged();
                                     }
+                                    adapter.notifyDataSetChanged();
                                     break;
                                 default:
                                     Util.toastMsg(photoWallListModelResponseData.getMsg());
@@ -752,8 +752,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        pageIndex ++;
-        photoWallService.doGetPhotoWalls(classId,UserInfoModel.getInstance().getToken(),
+        pageIndex++;
+        photoWallService.doGetPhotoWalls(classId, UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(),
                 classId,
                 pageIndex,
@@ -767,15 +767,15 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                             switch (status) {
                                 case 200:
 
-                                        photoWallListModel = photoWallListModelResponseData.getData();
-                                        if (photoWallListModel != null) {
-                                            if(!photoWallListModel.getPhotoWallslist().isEmpty()){
-                                                photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
-                                                adapter.notifyDataSetChanged();
-                                            }else {
-                                                pageIndex--;
-                                            }
+                                    photoWallListModel = photoWallListModelResponseData.getData();
+                                    if (photoWallListModel != null) {
+                                        if (!photoWallListModel.getPhotoWallslist().isEmpty()) {
+                                            photoWallItemModels.addAll(photoWallListModel.getPhotoWallslist());
+                                            adapter.notifyDataSetChanged();
+                                        } else {
+                                            pageIndex--;
                                         }
+                                    }
 
                                     break;
                                 default:
@@ -787,6 +787,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                         }
 
                     }
+
                     @Override
                     public void failure(RetrofitError error) {
                         try {
@@ -803,8 +804,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== -1&&requestCode==OPEN_SENDER_REQUEST){//result_ok
-                onPullDownToRefresh(null);
+        if (resultCode == -1 && requestCode == OPEN_SENDER_REQUEST) {//result_ok
+            onPullDownToRefresh(null);
         }
 
     }
@@ -843,7 +844,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
                             if (ActivityCompat.checkSelfPermission(PhotoWallActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
                                 //允许弹出提示
-                                ActivityCompat.requestPermissions(PhotoWallActivity.this,new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
+                                ActivityCompat.requestPermissions(PhotoWallActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                             } else {
                                 imageFileSelector.takePhoto(PhotoWallActivity.this);
                             }
@@ -859,12 +860,12 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.VISIBLE){
+        if (keyCode == KeyEvent.KEYCODE_BACK && rl_send.getVisibility() == View.VISIBLE) {
             rl_send.setVisibility(View.INVISIBLE);
             SoftInputUtil.hidden(this);
             return true;
-        }else if(keyCode==KeyEvent.KEYCODE_BACK&&rl_send.getVisibility()==View.INVISIBLE){
-            setResult(RESULT_OK,getIntent());
+        } else if (keyCode == KeyEvent.KEYCODE_BACK && rl_send.getVisibility() == View.INVISIBLE) {
+            setResult(RESULT_OK, getIntent());
             finish();
             return true;
         }
@@ -873,8 +874,8 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
 
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        if(rl_send.getVisibility()==View.VISIBLE){
-            if(oldBottom-bottom<0){
+        if (rl_send.getVisibility() == View.VISIBLE) {
+            if (oldBottom - bottom < 0) {
                 //键盘收起来
                 rl_send.setVisibility(View.INVISIBLE);
             }
@@ -900,7 +901,7 @@ public class PhotoWallActivity extends BaseActivity implements OpenComment, Send
     @Override
     public void doSend(int position, Comment comment) {
         PhotoWallslistModel model = photoWallItemModels.get(position);
-        CommentModel comment1=new CommentModel();
+        CommentModel comment1 = new CommentModel();
         comment1.setCommentUserName(comment.CommentUserName);
         comment1.setCommnets(comment.Comment);
         model.getPhotoWallCommendsList().add(comment1);

@@ -214,6 +214,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                                 dialogDissmiss();
                                 Log.i(responseData.toString());
                                 if (responseData.getStatus() == 200) {
+                                    Util.toastMsg(responseData.getMsg());
                                     ClassModel model = new ClassModel();
                                     model.setClassId(show.getClassId());
                                     model.setClassName(show.getClassName());

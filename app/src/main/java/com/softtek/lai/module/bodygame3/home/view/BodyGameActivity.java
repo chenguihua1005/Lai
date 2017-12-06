@@ -151,23 +151,23 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         ChatUserInfoModel.getInstance().setUser(chatUserModel);
 
         //从服务器获取自己加入的和创建的群组列表，此api获取的群组sdk会自动保存到内存和db。
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
-                    for (EMGroup group : grouplist) {
-                        String groupId = group.getGroupId();
-//                        EMClient.getInstance().groupManager().destroyGroup(groupId);//需异步处理
-//                        Log.i(TAG, " 解散成功！" + groupId);
-                    }
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-//                    Log.i(TAG, " 解散失败！");
-                }
-
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();//需异步处理
+//                    for (EMGroup group : grouplist) {
+//                        String groupId = group.getGroupId();
+////                        EMClient.getInstance().groupManager().destroyGroup(groupId);//需异步处理
+////                        Log.i(TAG, " 解散成功！" + groupId);
+//                    }
+//                } catch (HyphenateException e) {
+//                    e.printStackTrace();
+////                    Log.i(TAG, " 解散失败！");
+//                }
+//
+//            }
+//        }).start();
 
 
         //检查是否有进群邀请
@@ -233,57 +233,57 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         registerMessageReceiver();
 
         //此处获取群组信息，并缓存在本地
-        getContactGroups();
+//        getContactGroups();
 
     }
 
 
     //伙计班级群信息，并存入列表
-    private void getContactGroups() {
-        try {
-            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-            service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
-                @Override
-                public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
-                    int status = listResponseData.getStatus();
-                    if (200 == status) {
-                        classModels = listResponseData.getData();
-                        if (classModels != null) {
-
-                            //存入数据库
-                            com.github.snowdream.android.util.Log.i(TAG, "判断表明是否存在......");
-                            if (ClassGroupUtil.getInstance().tableIsExist(GroupTable.TABLE_NAME)) {
-                                com.github.snowdream.android.util.Log.i(TAG, "存在。。。。。");
-                                ClassGroupUtil.getInstance().insert(classModels);
-                            } else {
-                                com.github.snowdream.android.util.Log.i(TAG, "不存在。。。。。");
-                            }
-                        }
-
-                    } else {
-                        Util.toastMsg(listResponseData.getMsg());
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    ZillaApi.dealNetError(error);
-                    error.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void getContactGroups() {
+//        try {
+//            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//            service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
+//                @Override
+//                public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
+//                    int status = listResponseData.getStatus();
+//                    if (200 == status) {
+//                        classModels = listResponseData.getData();
+//                        if (classModels != null) {
+//
+//                            //存入数据库
+//                            com.github.snowdream.android.util.Log.i(TAG, "判断表明是否存在......");
+//                            if (ClassGroupUtil.getInstance().tableIsExist(GroupTable.TABLE_NAME)) {
+//                                com.github.snowdream.android.util.Log.i(TAG, "存在。。。。。");
+//                                ClassGroupUtil.getInstance().insert(classModels);
+//                            } else {
+//                                com.github.snowdream.android.util.Log.i(TAG, "不存在。。。。。");
+//                            }
+//                        }
+//
+//                    } else {
+//                        Util.toastMsg(listResponseData.getMsg());
+//                    }
+//                }
+//
+//                @Override
+//                public void failure(RetrofitError error) {
+//                    ZillaApi.dealNetError(error);
+//                    error.printStackTrace();
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (EMClient.getInstance().isLoggedInBefore()) {
-            int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-            Log.i("onResume 获取还信未读消息=" + unreadNum);
-            updateMessage(unreadNum);
-        }
+//        if (EMClient.getInstance().isLoggedInBefore()) {
+//            int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+//            Log.i("onResume 获取还信未读消息=" + unreadNum);
+//            updateMessage(unreadNum);
+//        }
 
 
     }
@@ -383,7 +383,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    private List<HxInviteToGroupModel> needGroupList = new ArrayList<HxInviteToGroupModel>();
+//    private List<HxInviteToGroupModel> needGroupList = new ArrayList<HxInviteToGroupModel>();
 
     //    查看学员是否有加入环信群的消息
 //    private void getMsgHxInviteToGroup() {

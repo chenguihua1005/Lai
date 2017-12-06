@@ -111,6 +111,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private Disposable testingTimeout;
     private Disposable voiceOfTesting;
     private Disposable dialogLag;
+    private Disposable dialogDismissLag;
     private boolean isStartTesting = true;//是否开始测量
     private boolean isFindDevice = false;
     private AlertDialog testFailDialog;
@@ -269,12 +270,21 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 Toast.makeText(getApplicationContext(), "设备连接断开，请重新连接", Toast.LENGTH_SHORT).show();
                 selfFragment.setStateTip("点击连接莱秤");
                 visitorFragment.setStateTip("点击连接莱秤");
-                selfFragment.setBleIcon(false);
-                visitorFragment.setBleIcon(false);
-                selfFragment.setRenameIcon(false);
-                visitorFragment.setRenameIcon(false);
-                selfFragment.setClickable(true);
-                visitorFragment.setClickable(true);
+                if (!isFinishing()) {
+                    selfFragment.setBleIcon(false);
+                    visitorFragment.setBleIcon(false);
+                    selfFragment.setRenameIcon(false);
+                    visitorFragment.setRenameIcon(false);
+                    selfFragment.setClickable(true);
+                    visitorFragment.setClickable(true);
+                    selfFragment.setInvisible();
+                }
+                if (!isStartTesting){
+                    testFail();
+                    if (testingTimeout != null){
+                        testingTimeout.dispose();
+                    }
+                }
                 connectedDevice = null;
             }
 
@@ -300,7 +310,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                 }
                             });
 
-                    testingTimeout = Flowable.timer(20, TimeUnit.SECONDS)
+                    testingTimeout = Flowable.timer(35, TimeUnit.SECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Consumer<Long>() {
                                 @Override
@@ -331,6 +341,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 } else if (type == 1) {
                     accountId = UserInfoModel.getInstance().getUserId();
                 }
+                if (testingTimeout != null) {
+                    testingTimeout.dispose();
+                }
                 ZillaApi.NormalRestAdapter.create(NewBleService.class)
                         .uploadTestData(UserInfoModel.getInstance().getToken(),
                                 accountId,
@@ -352,9 +365,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             if (isVoiceHelp) {
                                                 SoundPlay.getInstance().play(R.raw.help_five);
                                             }
-                                            if (testingTimeout != null) {
-                                                testingTimeout.dispose();
-                                            }
+
                                             if (voiceOfTesting != null) {
                                                 voiceOfTesting.dispose();
                                             }
@@ -368,10 +379,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                         super.failure(error);
                                         ZillaApi.dealNetError(error);
                                         Log.d("maki", error.toString());
-                                        dialogDismiss();
-                                        if (testingTimeout != null) {
-                                            testingTimeout.dispose();
+                                        if (voiceOfTesting != null) {
+                                            voiceOfTesting.dispose();
                                         }
+                                        dialogDismiss();
                                         testFail();
                                     }
                                 });
@@ -418,9 +429,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         PostQnData postQnData = new PostQnData();
         postQnData.setHeight(qnUser.getHeight());
         int gender;
-        if (qnUser.getGender() == 0){
+        if (qnUser.getGender() == 0) {
             gender = 1;
-        }else {
+        } else {
             gender = 0;
         }
         postQnData.setGender(gender);
@@ -500,6 +511,13 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     postQnData.setScore(qnData.getAll().get(i).value);
                     Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
                     break;
+                case QNData.TYPE_HEART_INDEX:
+                    postQnData.setHeart_index(qnData.getAll().get(i).value);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
+                    break;
+                case QNData.TYPE_HEART_RATE:
+                    postQnData.setHeart_rate((int)qnData.getAll().get(i).value);
+                    Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
             }
 
 
@@ -553,7 +571,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         deviceListDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-//                deviceListDialog.clearBluetoothDevice();
+                doStopScan();
+                dialogLag = Flowable.timer(550, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) throws Exception {
+                                deviceListDialog.clearBluetoothDevice();
+                            }
+                        });
             }
         });
     }
@@ -596,7 +622,6 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 if (connectTimeout != null) {
                     connectTimeout.dispose();
                 }
-                doStopScan();
             }
 
             @Override
@@ -751,6 +776,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     }
 
     private AlertDialog renameDialog;
+
     private void createRenameDialog() {
         isReceiveData = false;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_rename, null);
@@ -860,6 +886,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (voiceOfTesting != null) {
             voiceOfTesting.dispose();
         }
+        if (dialogDismissLag != null){
+            dialogDismissLag.dispose();
+        }
     }
 
     @Override
@@ -874,6 +903,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (voiceOfTesting != null) {
             voiceOfTesting.dispose();
         }
+        isStartTesting = true;
     }
 
     @Override
