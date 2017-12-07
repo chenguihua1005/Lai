@@ -35,25 +35,25 @@ public interface ClubService {
 
     @POST("/v1/Club/CloseClub")
     void closeClub(@Header("token") String token,
-                   @Query("id") int clubId,
+                   @Query("clubId") String clubId,
                    RequestCallback<ResponseData> callback);
 
     @POST("/v1/Club/RemoveWorker")
     void deleteWorker(@Header("token") String token,
-                      @Query("clubId") int clubId,
+                      @Query("clubId") String clubId,
                       @Query("userId") long userId,
                       RequestCallback<ResponseData> callback);
 
     @GET("/v1/Club/ClubIndex")
     void getClubInfo(@Header("token")String token,
-                     @Query("id") int id,
+                     @Query("clubId") String id,
                      @Query("field") int field,
                      @Query("sort")int sort,
                      RequestCallback<ResponseData<PersonnelModel>> callback);
 
     @POST("/v1/Club/UpdateClubName")
     void changeClubName(@Header("token") String token,
-                        @Query("id") int id,
+                        @Query("clubId") String id,
                         @Query("name") String name,
                         RequestCallback<ResponseData> callback);
 

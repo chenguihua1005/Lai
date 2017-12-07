@@ -64,7 +64,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
     private PersonnelModel.ClubsBean clubsBean;
     private ClubService service;
     private List<PersonnelModel.ClubsBean> clubs = new ArrayList<>();
-    private int nowClubId = 0;
+    private String nowClubId = "";
     private int nowField = 0;//按照意向客户还是市场人员，默认0,0是意向客户
     private int nowSort = 1;//正序还是倒序，默认0,0是倒序
     private CustomProgress progressDialog;
@@ -118,7 +118,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         initRecyclerView();
     }
 
-    private void setData(final int clubId, final int field, final int sort) {
+    private void setData(final String clubId, final int field, final int sort) {
         dialogShow("正在加载");
         personnelModelList.clear();
         service.getClubInfo(UserInfoModel.getInstance().getToken(), clubId, field, sort, new RequestCallback<ResponseData<PersonnelModel>>() {
@@ -133,7 +133,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     clubs = responseData.getData().getClubs();
                     clubsBean = clubs.get(0);
                     for (int i = 0; i < clubs.size(); i++) {
-                        if (clubs.get(i).getID() == clubId) {
+                        if (clubs.get(i).getID().equals(clubId)) {
                             clubsBean = clubs.get(i);
                         }
                     }
@@ -147,7 +147,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     mSwipRefreshView.setRefreshing(false);
                 }
                 nowClubId = clubsBean.getID();
-                Log.d("maki",String.valueOf(nowClubId));
+                Log.d("maki",nowClubId);
             }
 
             @Override
@@ -179,7 +179,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                 ClubNameModel clubNameModel = new ClubNameModel();
                 clubNameModel.setClubName(clubs.get(i).getName());
                 clubNameModel.setId(clubs.get(i).getID());
-                if (clubs.get(i).getID() == nowClubId) {
+                if (clubs.get(i).getID().equals(nowClubId)) {
                     clubNameModel.setSelected(true);
                 } else {
                     clubNameModel.setSelected(false);
