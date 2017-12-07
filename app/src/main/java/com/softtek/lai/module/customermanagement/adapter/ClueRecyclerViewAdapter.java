@@ -40,6 +40,16 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
     private AlertDialog deleteDialog;
     protected PersonnelModel.ClubsBean clubsBean;
 
+    private boolean isHasRuler() {
+        return hasRuler;
+    }
+
+    public void setHasRuler(boolean hasRuler) {
+        this.hasRuler = hasRuler;
+    }
+
+    private boolean hasRuler;
+
     public ClueRecyclerViewAdapter(List<PersonnelModel.WorkersBean> items,Context context,PersonnelModel.ClubsBean clubsBean) {
         myItems = items;
 //        myListener = listener;
@@ -115,6 +125,11 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
             mCustomerToday.setText(item.getTodayCustomer() + "");
             mMarketSum.setText(item.getTotalMarketingStaff() + "");
             mMarketToady.setText(item.getTodayMarketingStaff() + "");
+            if (hasRuler){
+                mDelete.setVisibility(View.GONE);
+            }else {
+                mDelete.setVisibility(View.VISIBLE);
+            }
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

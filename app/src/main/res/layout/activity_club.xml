@@ -207,6 +207,7 @@
     </com.softtek.lai.widgets.MySwipRefreshView>
 
     <LinearLayout
+        android:id="@+id/ll_customer_operation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"

@@ -53,6 +53,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
     private LinearLayout mBack;
     private TextView mAddClub;
     private TextView mSort;
+    private LinearLayout mCustomerOperation;
     private MySwipRefreshView mSwipRefreshView;
     private ClueRecyclerViewAdapter recyclerViewAdapter;
     private AlertDialog renameDialog;
@@ -77,7 +78,6 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         Intent intent = getIntent();
         hasRuler = intent.getBooleanExtra("", true);
         initView();
-
     }
 
     @Override
@@ -98,6 +98,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         mAddClub = findViewById(R.id.tv_right);
         mSwipRefreshView = findViewById(R.id.msrv_pull);
         mSort = findViewById(R.id.tv_new_personnel);
+        mCustomerOperation = findViewById(R.id.ll_customer_operation);
         mSort.setOnClickListener(this);
         mBack.setOnClickListener(this);
         mInvitePersonnel.setOnClickListener(this);
@@ -116,6 +117,11 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
             }
         });
         initRecyclerView();
+        if (!hasRuler){
+            mCustomerOperation.setVisibility(View.INVISIBLE);
+        }else {
+            mCustomerOperation.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setData(final String clubId, final int field, final int sort) {
@@ -164,6 +170,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
 
     private void initRecyclerView() {
         recyclerViewAdapter = new ClueRecyclerViewAdapter(personnelModelList, this, clubsBean);
+        recyclerViewAdapter.setHasRuler(hasRuler);
         mRecyclerView.setAdapter(recyclerViewAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
