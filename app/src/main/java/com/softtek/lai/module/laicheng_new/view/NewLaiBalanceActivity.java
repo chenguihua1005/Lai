@@ -249,8 +249,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void onConnected(QNBleDevice qnBleDevice) {
-                selfFragment.setStateTip("已连接，请上秤");
-                visitorFragment.setStateTip("已连接，请上秤");
+                selfFragment.setStateTip("已连接");
+                visitorFragment.setStateTip("已连接");
                 selfFragment.setBleIcon(true);
                 visitorFragment.setBleIcon(true);
                 selfFragment.setClickable(false);
@@ -279,6 +279,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     visitorFragment.setClickable(true);
                     selfFragment.setInvisible();
                 }
+                Log.d("maki","isStartTesting " + String.valueOf(isStartTesting));
                 if (!isStartTesting){
                     testFail();
                     if (testingTimeout != null){
@@ -371,6 +372,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             }
                                             selfFragment.setStateTip("测量完成");
                                             visitorFragment.setStateTip("测量完成");
+                                        }else {
+                                            testFail();
+                                            if (testingTimeout != null){
+                                                testingTimeout.dispose();
+                                            }
                                         }
                                     }
 
@@ -541,9 +547,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
             public void bluetoothDialogClick(final int positions) {
+                    deviceListDialog.dismiss();
                 if (deviceListDialog.getQNBluetoothDevice(positions) != null && deviceListDialog.getQNBluetoothDevice(positions).getDeviceName() != null &&
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
-                    deviceListDialog.dismiss();
 //                    connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
                     dialogLag = Flowable.timer(500, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
@@ -572,7 +578,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 doStopScan();
-                dialogLag = Flowable.timer(550, TimeUnit.MILLISECONDS)
+                dialogLag = Flowable.timer(600, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<Long>() {
                             @Override

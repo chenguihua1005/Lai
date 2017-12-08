@@ -575,7 +575,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 break;
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤
-                setStateTip("已连接，请上秤");
+                setStateTip("已连接");
                 setClickable(false);
                 setBleIcon(true);
                 state_current = CONNECTED_STATE_SUCCESS;
