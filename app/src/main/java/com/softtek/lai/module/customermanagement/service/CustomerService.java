@@ -11,7 +11,6 @@ import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.Callback;
-import retrofit.ResponseCallback;
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -159,6 +158,7 @@ public interface CustomerService {
     void getSituationOfTheMobile(
             @Header("token") String token,
             @Query("mobile") String mobile,//手机
+            @Query("code") String code,//短信验证码，默认为空串
             Callback<ResponseData<SituationOfMobileModel>> callback
     );
 

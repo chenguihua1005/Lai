@@ -91,7 +91,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
         final String phoneNum = et_phone.getText().toString().trim();
 
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
-        service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), phoneNum, new Callback<ResponseData<SituationOfMobileModel>>() {
+        service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), phoneNum,"", new Callback<ResponseData<SituationOfMobileModel>>() {
             @Override
             public void success(ResponseData<SituationOfMobileModel> responseData, Response response) {
                 int status = responseData.getStatus();
@@ -116,7 +116,8 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
                         intent.putExtra("mobile", phoneNum);
                         startActivity(intent);
                     } else if (!IsRegistered) {//如果没有注册跳转到新客户页面
-                        Intent intent = new Intent(AddCustomerActivity.this, RegistForCustomerActivity.class);
+                        Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
+                        intent.putExtra("mobile", phoneNum);
                         startActivity(intent);
                     }
                 } else {

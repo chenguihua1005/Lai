@@ -13,6 +13,8 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
+import static android.R.attr.id;
+
 /**
  * Created by jessica.zhang on 11/24/2017.
  */
@@ -30,6 +32,9 @@ public class RegistCustomerInfoPresenter extends BasePresenter<RegistCustomerInf
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
+                if (getView() != null) {
+                    getView().disMissLoadingDialog();
+                }
                 switch (status) {
                     case 200:
                         Util.toastMsg(responseData.getMsg());
@@ -46,6 +51,9 @@ public class RegistCustomerInfoPresenter extends BasePresenter<RegistCustomerInf
 
             @Override
             public void failure(RetrofitError error) {
+                if (getView() != null) {
+                    getView().disMissLoadingDialog();
+                }
                 super.failure(error);
             }
         });
@@ -56,5 +64,7 @@ public class RegistCustomerInfoPresenter extends BasePresenter<RegistCustomerInf
 
     public interface SaveCustomerCallback extends BaseView {
         void registerForCustomerSucsess();
+
+        void disMissLoadingDialog();
     }
 }

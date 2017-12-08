@@ -27,40 +27,43 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
     }
 
 
-    public void getDetailOfCustomer(String mobile) {
-        service.getDetailOfCustomer(UserInfoModel.getInstance().getToken(), mobile, new RequestCallback<ResponseData<FindCustomerModel>>() {
-            @Override
-            public void success(ResponseData<FindCustomerModel> responseData, Response response) {
-                int status = responseData.getStatus();
-                if (200 == status) {
-                    if (getView() != null) {
-                        getView().getDetailOfCustomer(responseData.getData());
-                    }
-                } else {
-                    Util.toastMsg(responseData.getMsg());
-                }
-                if (getView() != null) {
-                    getView().disMissLoadingDialog();
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                super.failure(error);
-                if (getView() != null) {
-                    getView().disMissLoadingDialog();
-                }
-            }
-        });
-
-
-    }
+//    public void getDetailOfCustomer(String mobile) {
+//        service.getDetailOfCustomer(UserInfoModel.getInstance().getToken(), mobile, new RequestCallback<ResponseData<FindCustomerModel>>() {
+//            @Override
+//            public void success(ResponseData<FindCustomerModel> responseData, Response response) {
+//                int status = responseData.getStatus();
+//                if (200 == status) {
+//                    if (getView() != null) {
+//                        getView().getDetailOfCustomer(responseData.getData());
+//                    }
+//                } else {
+//                    Util.toastMsg(responseData.getMsg());
+//                }
+//                if (getView() != null) {
+//                    getView().disMissLoadingDialog();
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                super.failure(error);
+//                if (getView() != null) {
+//                    getView().disMissLoadingDialog();
+//                }
+//            }
+//        });
+//
+//
+//    }
 
     public void saveCustomerInfo(CustomerInfoModel model) {
         service.saveCustomer(UserInfoModel.getInstance().getToken(), model, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
+                if (getView() != null) {
+                    getView().disMissLoadingDialog();
+                }
                 switch (status) {
                     case 200:
                         Util.toastMsg(responseData.getMsg());
@@ -77,6 +80,9 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
 
             @Override
             public void failure(RetrofitError error) {
+                if (getView() != null) {
+                    getView().disMissLoadingDialog();
+                }
                 super.failure(error);
             }
         });
@@ -88,7 +94,7 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
     public interface SaveCustomerCallback extends BaseView {
         void SaveCustomerSucsess();
 
-        void getDetailOfCustomer(FindCustomerModel model);
+//        void getDetailOfCustomer(FindCustomerModel model);
 
         void disMissLoadingDialog();
     }

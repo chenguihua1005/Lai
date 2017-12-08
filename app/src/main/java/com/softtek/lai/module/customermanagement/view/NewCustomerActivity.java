@@ -184,8 +184,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         tv_title.setText("创建新客户");
         file = new CustomerInfoModel();
         addGrade();
-        dialogShow(getResources().getString(R.string.loading));
-        getPresenter().getDetailOfCustomer(mobile);
+//        dialogShow(getResources().getString(R.string.loading));
+//        getPresenter().getDetailOfCustomer(mobile);
     }
 
     @Override
@@ -285,6 +285,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             }
 
             Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
+            dialogShow("正在提交数据...");
             getPresenter().saveCustomerInfo(file);
         }
     }
@@ -521,20 +522,6 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         finish();
     }
 
-    @Override
-    public void getDetailOfCustomer(FindCustomerModel model) {
-        if (model != null) {
-            et_nickname.setText(model.getName());
-            tv_birth.setText(model.getBirthDay());
-            if (0 == model.getGender()) {
-                tv_sex.setText("男");
-            } else {
-                tv_sex.setText("女");
-            }
-
-            tv_weight.setText(model.getWeight());
-        }
-    }
 
     @Override
     public void disMissLoadingDialog() {
