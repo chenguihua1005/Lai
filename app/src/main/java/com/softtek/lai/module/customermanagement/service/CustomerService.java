@@ -1,12 +1,15 @@
 package com.softtek.lai.module.customermanagement.service;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.ClubAuthorityModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
+import com.softtek.lai.module.customermanagement.model.RemarkModel;
 import com.softtek.lai.module.customermanagement.model.SearchCustomerOuterModel;
 import com.softtek.lai.module.customermanagement.model.SituationOfMobileModel;
+import com.softtek.lai.module.customermanagement.model.TimeAxisModel;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -161,5 +164,61 @@ public interface CustomerService {
             @Query("code") String code,//短信验证码，默认为空串
             Callback<ResponseData<SituationOfMobileModel>> callback
     );
+
+    /**
+     * 获取客户基本信息
+     *
+     * @param token
+     * @param mobile
+     * @param callback
+     */
+    @GET("/v1/Club/GetBasicsOfCustomer")
+    void getBasicsOfCustomer(
+            @Header("token") String token,
+            @Query("mobile") String mobile,//手机
+            Callback<ResponseData<BasicInfoModel>> callback
+    );
+
+
+    /**
+     * 获取客户的统计信息(时间轴)
+     *
+     * @param token
+     * @param cludId
+     * @param mobile
+     * @param index
+     * @param size
+     * @param callback
+     */
+    @GET("/v1/Club/GetTimeAxisOfCustomer")
+    void getTimeAxisOfCustomer(
+            @Header("token") String token,
+            @Query("cludId") String cludId,
+            @Query("mobile") String mobile,
+            @Query("index") int index,
+            @Query("size") int size,
+            Callback<ResponseData<TimeAxisModel>> callback
+    );
+
+    /**
+     * 获取客户的备注时间轴
+     *
+     * @param token
+     * @param cludId
+     * @param mobile
+     * @param index
+     * @param size
+     * @param callback
+     */
+    @GET("/v1/Club/GetRemarkOfCustomer")
+    void getRemarkOfCustomer(
+            @Header("token") String token,
+            @Query("cludId") String cludId,
+            @Query("mobile") String mobile,
+            @Query("index") int index,
+            @Query("size") int size,
+            Callback<ResponseData<RemarkModel>> callback
+    );
+
 
 }

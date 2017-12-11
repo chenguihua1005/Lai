@@ -7,7 +7,9 @@ import android.widget.ListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.StatisAdapter;
-import com.softtek.lai.module.customermanagement.model.StatisticModel;
+import com.softtek.lai.module.customermanagement.model.TimeAxisItemModel;
+import com.softtek.lai.module.customermanagement.model.TimeAxisModel;
+import com.softtek.lai.module.customermanagement.presenter.TimeAxisPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +23,18 @@ import zilla.libcore.ui.InjectLayout;
 
 
 @InjectLayout(R.layout.fragment_statistic)
-public class StatisticsFragment extends LazyBaseFragment {
+public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> implements TimeAxisPresenter.TimeAxisCallBack {
     @InjectView(R.id.lv)
     ListView lv;
 
-    private List<StatisticModel> modelList = new ArrayList<StatisticModel>();
+    private List<TimeAxisItemModel> modelList = new ArrayList<TimeAxisItemModel>();
     private StatisAdapter adapter;
+    private static String mobile = "";
 
-    public static Fragment getInstance() {
+
+    public static Fragment getInstance(String mobileNum) {
         Fragment fragment = new StatisticsFragment();
+        mobile = mobileNum;
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
@@ -43,25 +48,25 @@ public class StatisticsFragment extends LazyBaseFragment {
 
     @Override
     protected void initViews() {
-        StatisticModel model = new StatisticModel("2017年11月11日", "添加线索");
-        StatisticModel model2 = new StatisticModel("2017年11月12日", "由Tom代注册帐号");
-        StatisticModel model3 = new StatisticModel("2017年11月13日", "参加体馆赛：XX班");
-        StatisticModel model4 = new StatisticModel("2017年11月15日", "复测");
-        StatisticModel model5 = new StatisticModel("2017年11月21日", "身份认证");
-        modelList.add(model);
-        modelList.add(model2);
-        modelList.add(model3);
-        modelList.add(model4);
-        modelList.add(model5);
-        adapter = new StatisAdapter(getContext(),modelList);
+        setPresenter(new TimeAxisPresenter(this));
+        adapter = new StatisAdapter(getContext(), modelList);
         lv.setAdapter(adapter);
 
-
+        getPresenter().getTimeAxisOfCustomer("", mobile, 1, 100);
 
     }
 
     @Override
     protected void initDatas() {
 
+    }
+
+    @Override
+    public void getTimeAxisOfCustomer(TimeAxisModel model) {
+        if (model != null) {
+            modelList.clear();
+            modelList.addAll(model.getItems());
+            adapter.notifyDataSetChanged();
+        }
     }
 }

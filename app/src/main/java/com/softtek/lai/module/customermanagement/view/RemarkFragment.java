@@ -1,8 +1,6 @@
 package com.softtek.lai.module.customermanagement.view;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.widget.RelativeLayout;
 
@@ -12,7 +10,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.RemarkAdapter;
+import com.softtek.lai.module.customermanagement.model.RemarkItemModel;
 import com.softtek.lai.module.customermanagement.model.RemarkModel;
+import com.softtek.lai.module.customermanagement.presenter.RemarkListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +26,22 @@ import zilla.libcore.ui.InjectLayout;
 
 
 @InjectLayout(R.layout.fragment_remark)
-public class RemarkFragment extends LazyBaseFragment implements PullToRefreshBase.OnRefreshListener2 {
+public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implements PullToRefreshBase.OnRefreshListener2, RemarkListPresenter.RemarkListCallback {
     @InjectView(R.id.plv_history)
     PullToRefreshListView plv_history;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
 
+    private static String mobile = "";
+
 
     private int pageindex = 1;
-    private List<RemarkModel> remarkModels = new ArrayList<>();
+    private List<RemarkItemModel> remarkModels = new ArrayList<>();
     private RemarkAdapter adapter;
 
-    public static Fragment getInstance() {
+    public static Fragment getInstance(String mobileNum) {
         Fragment fragment = new RemarkFragment();
+        mobile = mobileNum;
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
@@ -60,7 +63,8 @@ public class RemarkFragment extends LazyBaseFragment implements PullToRefreshBas
 
     @Override
     protected void initViews() {
-        plv_history.setMode(PullToRefreshBase.Mode.BOTH);
+
+        plv_history.setMode(PullToRefreshBase.Mode.DISABLED);
         plv_history.setOnRefreshListener(this);
         plv_history.setEmptyView(im_nomessage);
         ILoadingLayout startLabelse = plv_history.getLoadingLayoutProxy(true, false);
@@ -72,28 +76,17 @@ public class RemarkFragment extends LazyBaseFragment implements PullToRefreshBas
         endLabelsr.setRefreshingLabel("正在加载数据");
         endLabelsr.setReleaseLabel("松开立即加载");// 下来达到一定距离时，显示的提示
 
-
-        adapter = new RemarkAdapter(remarkModels,getContext());
+        setPresenter(new RemarkListPresenter(this));
+        adapter = new RemarkAdapter(remarkModels, getContext());
         plv_history.setAdapter(adapter);
 
-        RemarkModel model = new RemarkModel("Tom", "如果你不能简单地解释一样东西说明你没有真正的理解他", "2017年11月11日");
-        RemarkModel model2 = new RemarkModel("Jack", "如果你不能简单地解释一样东西说明你没有真正的理解他", "2017年11月11日");
-
-        remarkModels.add(model);
-        remarkModels.add(model2);
-        adapter.notifyDataSetChanged();
-
-
+        getPresenter().getRemarkList("", mobile, 1, 100);
 
 
     }
 
     @Override
     protected void initDatas() {
-
-
-
-
 
 
     }
@@ -106,5 +99,14 @@ public class RemarkFragment extends LazyBaseFragment implements PullToRefreshBas
     @Override
     public void onPullUpToRefresh(PullToRefreshBase refreshView) {
 
+    }
+
+    @Override
+    public void getRemarkList(RemarkModel model) {
+        remarkModels.clear();
+        if (model != null) {
+            remarkModels.addAll(model.getItems());
+            adapter.notifyDataSetChanged();
+        }
     }
 }

@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -21,8 +21,7 @@
             android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="TOM" />
+            android:layout_marginTop="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,15 +37,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="如果你不能简单地解释一样东西说明你没有真正的理解他"
             android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/time_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="2017年11月21日 11：23" />
+            android:gravity="left" />
     </LinearLayout>
 
 </LinearLayout>

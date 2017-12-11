@@ -1,41 +1,36 @@
 package com.softtek.lai.module.customermanagement.model;
 
+import java.util.List;
+
 /**
- * Created by jessica.zhang on 11/21/2017.
+ * Created by jessica.zhang on 12/11/2017.
  */
 
 public class RemarkModel {
-    private String name;
-    private String remark;
-    private String time;
+    private int PageCount;
+    private List<RemarkItemModel> Items;
 
-    public RemarkModel(String name, String remark, String time) {
-        this.name = name;
-        this.remark = remark;
-        this.time = time;
+    public int getPageCount() {
+        return PageCount;
     }
 
-    public String getName() {
-        return name;
+    public void setPageCount(int pageCount) {
+        PageCount = pageCount;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public List<RemarkItemModel> getItems() {
+        return Items;
     }
 
-    public String getRemark() {
-        return remark;
+    public void setItems(List<RemarkItemModel> items) {
+        Items = items;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    @Override
+    public String toString() {
+        return "RemarkModel{" +
+                "PageCount=" + PageCount +
+                ", Items=" + Items +
+                '}';
     }
 }

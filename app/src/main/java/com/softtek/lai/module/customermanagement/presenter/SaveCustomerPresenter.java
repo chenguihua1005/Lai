@@ -4,11 +4,13 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
+import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.utils.RequestCallback;
 
+import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -26,6 +28,33 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
         service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
     }
 
+
+    public void getCustomerBasicInfo(String mobile) {
+        service.getBasicsOfCustomer(UserInfoModel.getInstance().getToken(), mobile, new Callback<ResponseData<BasicInfoModel>>() {
+            @Override
+            public void success(ResponseData<BasicInfoModel> responseData, Response response) {
+                int status = responseData.getStatus();
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
+                if (200 == status) {
+                    if (getView() != null) {
+                        getView().getBasicInfo(responseData.getData());
+                    }
+                } else {
+                    Util.toastMsg(responseData.getMsg());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
+            }
+        });
+    }
 
 //    public void getDetailOfCustomer(String mobile) {
 //        service.getDetailOfCustomer(UserInfoModel.getInstance().getToken(), mobile, new RequestCallback<ResponseData<FindCustomerModel>>() {
@@ -52,8 +81,6 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
 //                }
 //            }
 //        });
-//
-//
 //    }
 
     public void saveCustomerInfo(CustomerInfoModel model) {
@@ -62,7 +89,7 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
                 if (getView() != null) {
-                    getView().disMissLoadingDialog();
+                    getView().dialogDissmiss();
                 }
                 switch (status) {
                     case 200:
@@ -81,7 +108,7 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
             @Override
             public void failure(RetrofitError error) {
                 if (getView() != null) {
-                    getView().disMissLoadingDialog();
+                    getView().dialogDissmiss();
                 }
                 super.failure(error);
             }
@@ -92,10 +119,10 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
 
 
     public interface SaveCustomerCallback extends BaseView {
+        void getBasicInfo(BasicInfoModel model);
+
+//        void disMissLoadingDialog();
+
         void SaveCustomerSucsess();
-
-//        void getDetailOfCustomer(FindCustomerModel model);
-
-        void disMissLoadingDialog();
     }
 }

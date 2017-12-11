@@ -4,7 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
-import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
+import com.softtek.lai.module.customermanagement.model.RemarkModel;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
 
 import retrofit.Callback;
@@ -14,28 +14,25 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
 /**
- * Created by jessica.zhang on 12/8/2017.
+ * Created by jessica.zhang on 12/11/2017.
  */
 
-public class BasicInfoPresenter extends BasePresenter<BasicInfoPresenter.BasicInfoCallBack> {
-    private CustomerService service;
+public class RemarkListPresenter extends BasePresenter<RemarkListPresenter.RemarkListCallback> {
+    CustomerService service;
 
-    public BasicInfoPresenter(BasicInfoCallBack baseView) {
+    public RemarkListPresenter(RemarkListCallback baseView) {
         super(baseView);
         service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
     }
 
-    public void getCustomerBasicInfo(String mobile) {
-        service.getBasicsOfCustomer(UserInfoModel.getInstance().getToken(), mobile, new Callback<ResponseData<BasicInfoModel>>() {
+    public void getRemarkList(String cludId, String mobile, int index, int size) {
+        service.getRemarkOfCustomer(UserInfoModel.getInstance().getToken(), cludId, mobile, index, size, new Callback<ResponseData<RemarkModel>>() {
             @Override
-            public void success(ResponseData<BasicInfoModel> responseData, Response response) {
+            public void success(ResponseData<RemarkModel> responseData, Response response) {
                 int status = responseData.getStatus();
-                if (getView() != null) {
-                    getView().dialogDissmiss();
-                }
                 if (200 == status) {
                     if (getView() != null) {
-                        getView().getBasicInfo(responseData.getData());
+                        getView().getRemarkList(responseData.getData());
                     }
                 } else {
                     Util.toastMsg(responseData.getMsg());
@@ -45,17 +42,12 @@ public class BasicInfoPresenter extends BasePresenter<BasicInfoPresenter.BasicIn
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                if (getView() != null) {
-                    getView().dialogDissmiss();
-                }
             }
         });
-    }
-
-    public interface BasicInfoCallBack extends BaseView {
-        void getBasicInfo(BasicInfoModel model);
 
     }
 
-
+    public interface RemarkListCallback extends BaseView {
+        void getRemarkList(RemarkModel model);
+    }
 }

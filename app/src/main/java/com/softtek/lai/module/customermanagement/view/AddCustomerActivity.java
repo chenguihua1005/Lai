@@ -91,7 +91,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
         final String phoneNum = et_phone.getText().toString().trim();
 
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
-        service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), phoneNum,"", new Callback<ResponseData<SituationOfMobileModel>>() {
+        service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), phoneNum, "", new Callback<ResponseData<SituationOfMobileModel>>() {
             @Override
             public void success(ResponseData<SituationOfMobileModel> responseData, Response response) {
                 int status = responseData.getStatus();
@@ -110,10 +110,12 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
                         Util.toastMsg(responseData.getMsg());
                     } else if (IsInMyClub) {//如果已经被本俱乐部录为线索，跳转至个人详情页
                         Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
+                        intent.putExtra("mobile", phoneNum);
                         startActivity(intent);
                     } else if (IsRegistered && !IsLocked) {//如果已经注册账号但未被锁定，下一步时在新客户页面关联档案信息，可添加备注信息
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
                         intent.putExtra("mobile", phoneNum);
+                        intent.putExtra("needQuery", true);//需要查询基础数据
                         startActivity(intent);
                     } else if (!IsRegistered) {//如果没有注册跳转到新客户页面
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);

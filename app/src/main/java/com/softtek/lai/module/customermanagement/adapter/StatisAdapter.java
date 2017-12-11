@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.customermanagement.model.StatisticModel;
+import com.softtek.lai.module.customermanagement.model.TimeAxisItemModel;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 
 public class StatisAdapter extends BaseAdapter {
     private Context context;
-    private List<StatisticModel> modelList;
+    private List<TimeAxisItemModel> modelList;
 
-    public StatisAdapter(Context context, List<StatisticModel> modelList) {
+    public StatisAdapter(Context context, List<TimeAxisItemModel> modelList) {
         this.context = context;
         this.modelList = modelList;
     }
@@ -51,11 +51,11 @@ public class StatisAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        StatisticModel model = modelList.get(position);
-        String[] arr = model.getDate().split("年");
-        viewHolder.tv_year.setText(arr[0]+"年");
+        TimeAxisItemModel model = modelList.get(position);
+        String[] arr = model.getCreatedTime().split("年");
+        viewHolder.tv_year.setText(arr[0] + "年");
         viewHolder.tv_day.setText(arr[1]);
-        viewHolder.tv_track.setText(model.getTrack());
+        viewHolder.tv_track.setText(model.getDescription());
 
 
         return convertView;

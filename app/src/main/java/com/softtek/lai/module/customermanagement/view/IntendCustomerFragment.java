@@ -95,6 +95,8 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getContext(), CustomerDetailActivity.class);
+        CustomerModel model = modelList.get(position - 1);
+        intent.putExtra("mobile", model.getMobile());
         startActivity(intent);
     }
 
