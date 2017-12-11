@@ -76,7 +76,8 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_club);
         service = ZillaApi.NormalRestAdapter.create(ClubService.class);
         Intent intent = getIntent();
-        hasRuler = intent.getBooleanExtra("", true);
+        hasRuler = intent.getBooleanExtra("maki", false);
+        Log.d("maki",String.valueOf(hasRuler));
         initView();
     }
 
@@ -148,12 +149,18 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     mCustomerToday.setText(responseData.getData().getTodayCustomer() + "");
                     personnelModelList.addAll(responseData.getData().getWorkers());
                     recyclerViewAdapter.notifyDataSetChanged();
+                    if (field == 0){
+                        mSort.setText("新增意向客户");
+                    }else {
+                        mSort.setText("新增市场人员");
+                    }
                 }
                 if (mSwipRefreshView.isRefreshing()) {
                     mSwipRefreshView.setRefreshing(false);
                 }
                 nowClubId = clubsBean.getID();
                 Log.d("maki",nowClubId);
+                recyclerViewAdapter.setClubsBean(clubsBean);
             }
 
             @Override

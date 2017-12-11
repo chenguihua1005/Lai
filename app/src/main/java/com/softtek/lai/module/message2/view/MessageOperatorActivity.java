@@ -1,5 +1,7 @@
 package com.softtek.lai.module.message2.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -23,6 +26,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.customermanagement.service.ClubService;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.RequestCallback;
@@ -72,9 +76,12 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
 
     EasyAdapter<OperateMsgModel> adapter;
     private List<OperateMsgModel> operatList=new ArrayList<>();
+    private AlertDialog.Builder inviteDialogBuilder;
+    private AlertDialog inviteDialog;
+    private ClubService clubService;
     @Override
     protected void initViews() {
-
+        clubService = ZillaApi.NormalRestAdapter.create(ClubService.class);
         tv_title.setText("小助手");
         tv_delete.setOnClickListener(this);
         lin_select.setOnClickListener(this);
@@ -93,7 +100,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 finish();
             }
         });
-        adapter=new EasyAdapter<OperateMsgModel>(this,operatList,R.layout.item_message_xzs) {
+        adapter = new EasyAdapter<OperateMsgModel>(this, operatList, R.layout.item_message_xzs) {
             @Override
             public void convert(ViewHolder holder, final OperateMsgModel data, final int position) {
                 ImageView iv_select=holder.getView(R.id.iv_select);
@@ -153,18 +160,18 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                OperateMsgModel model=operatList.get(i-1);
+            public void onItemClick(AdapterView<?> adapterView, View view, final int index, long l) {
+                final OperateMsgModel model = operatList.get(index - 1);
                 if(doOperator){
                     //正在操作的话
                     if(model.isSelected()){
                         isSelsetAll=false;
                         cb_all.setChecked(false);
                         model.setSelected(false);
-                        deleteIndex.remove(Integer.valueOf(i-1));
+                        deleteIndex.remove(Integer.valueOf(index-1));
                     }else {
                         model.setSelected(true);
-                        deleteIndex.add(Integer.valueOf(i-1));
+                        deleteIndex.add(Integer.valueOf(index-1));
                         if(operatList.size()==deleteIndex.size()){
                             isSelsetAll=true;
                             cb_all.setChecked(true);
@@ -175,16 +182,70 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     adapter.notifyDataSetChanged();
                     return;
                 }
-                if(5==model.getMsgtype()){
+                if (5 == model.getMsgtype()) {
                     Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
-                    intent.putExtra("position",i-1);
+                    intent.putExtra("position",index-1);
                     startActivityForResult(intent, 10);
+                } else if (6 == model.getMsgtype()) {
+                    if (model.getMsgStatus() != 0 ){
+                        return;
+                    }
+                    inviteDialogBuilder = new AlertDialog.Builder(MessageOperatorActivity.this);
+                    inviteDialogBuilder
+                            .setMessage("你确定要加入俱乐部吗？")
+                            .setPositiveButton("同意", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, final int i) {
+                                    inviteDialog.dismiss();
+                                    clubService.makeSureJoin(UserInfoModel.getInstance().getToken(), model.getMsgid(), 1, Long.valueOf(model.getSenderid()), new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            if (responseData.getStatus() == 200) {
+                                               onRefresh(null);
+                                                Toast.makeText(MessageOperatorActivity.this, "加入成功", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(MessageOperatorActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton("忽略", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, final int i) {
+                                    inviteDialog.dismiss();
+                                    clubService.makeSureJoin(UserInfoModel.getInstance().getToken(), model.getMsgid(), -1, Long.valueOf(model.getSenderid()), new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            if (responseData.getStatus() == 200) {
+                                                onRefresh(null);
+                                                Toast.makeText(MessageOperatorActivity.this, "忽略成功", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(MessageOperatorActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            })
+                            .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Toast.makeText(MessageOperatorActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
+                                    inviteDialog.dismiss();
+                                }
+                            });
+
+                    if (inviteDialog == null) {
+                        inviteDialog = inviteDialogBuilder.create();
+                    }
+                    inviteDialog.show();
                 }else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
-                    intent.putExtra("position",i-1);
+                    intent.putExtra("position",index-1);
                     startActivityForResult(intent, 10);
+
                 }
             }
         });
@@ -364,5 +425,12 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                 super.failure(error);
                             }
                         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        inviteDialogBuilder = null;
+        inviteDialog = null;
     }
 }

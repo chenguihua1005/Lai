@@ -38,6 +38,7 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
     private ClubService service;
     private TextView mConfim;
     private LinearLayout mBack;
+    private TextView mTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +52,9 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
         mClubName = findViewById(R.id.edt_name);
         mConfim = findViewById(R.id.tv_right);
         mBack = findViewById(R.id.ll_left);
+        mTitle = findViewById(R.id.tv_title);
         mConfim.setText("确定");
+        mTitle.setText("创建俱乐部");
         mConfim.setOnClickListener(this);
         mBack.setOnClickListener(this);
         mClubName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
