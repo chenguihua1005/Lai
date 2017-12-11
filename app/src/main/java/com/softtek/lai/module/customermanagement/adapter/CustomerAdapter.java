@@ -74,7 +74,7 @@ public class CustomerAdapter extends BaseAdapter {
         }
 
         holder.name_tv.setText(model.getName());
-        holder.label_tv.setText(model.getTag());
+        holder.label_tv.setText(model.getTagName());
 
 
         SpannableStringBuilder builder = new SpannableStringBuilder();

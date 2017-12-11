@@ -28,9 +28,12 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
+import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
-import com.softtek.lai.module.customermanagement.presenter.RegistCustomerInfoPresenter;
+import com.softtek.lai.module.customermanagement.presenter.EditCustomerPresenter;
+import com.softtek.lai.module.customermanagement.presenter.SaveCustomerPresenter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
@@ -42,10 +45,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
+
+import static com.softtek.lai.R.id.et_phone;
+import static com.softtek.lai.R.string.phoneNum;
 
 
 /**
@@ -53,7 +60,7 @@ import zilla.libcore.util.Util;
  */
 
 @InjectLayout(R.layout.activity_creatfile_customer)
-public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerInfoPresenter> implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener, RegistCustomerInfoPresenter.SaveCustomerCallback {
+public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter> implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener, EditCustomerPresenter.UpdateCustomerCallback {
     private List<String> gradeList = new ArrayList<>();
     private List<String> gradeIDList = new ArrayList<>();
     private String select_grade = "";
@@ -84,9 +91,6 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
     @InjectView(R.id.remark_et)   //备注
             EditText remark_et;
 
-    @InjectView(R.id.ll_remark)//备注需要隐藏
-            LinearLayout ll_remark;
-
     //添加身体围度按钮
 //    @InjectView(R.id.btn_Add_bodydimension)
 //    Button btn_Add_bodydimension;
@@ -109,6 +113,8 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
 
     @InjectView(R.id.ll_weight)
     ViewGroup ll_weight;
+    @InjectView(R.id.ll_remark)
+    ViewGroup ll_remark;
 
     //toolbar
     //标题
@@ -128,14 +134,18 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+    @InjectView(R.id.btn_delete)
+    Button btn_delete;
+
     //存储用户表单数据
     private CustomerInfoModel file;
     private static final int GET_BODY_DIMENSION = 1;
 
     private boolean w = true;
 
-    private FindCustomerModel model = null;
+    //    private FindCustomerModel model = null;
     private String mobile = "";
+    private boolean needQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,18 +156,22 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
 
-        ll_remark.setVisibility(View.GONE);
-
-
         ll_left.setOnClickListener(this);
+        //        iv_left.setVisibility(View.GONE);
         tv_right.setText("下一步");
+        ll_remark.setVisibility(View.GONE);
         fl_right.setOnClickListener(this);
-        setPresenter(new RegistCustomerInfoPresenter(this));
+        btn_delete.setOnClickListener(this);
+
     }
 
     @Override
     protected void initViews() {
         mobile = getIntent().getStringExtra("mobile");
+        needQuery = getIntent().getBooleanExtra("needQuery", false);
+
+        setPresenter(new EditCustomerPresenter(this));
+
         //获取当前年月日
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();
@@ -180,9 +194,25 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
 
     @Override
     protected void initDatas() {
-        tv_title.setText("创建新客户");
+        tv_title.setText("编辑客户信息");
         file = new CustomerInfoModel();
         addGrade();
+        if (needQuery) {
+//            ll_nickname.setEnabled(false);
+//            ll_birth.setEnabled(false);
+//            ll_sex.setEnabled(false);
+//            ll_height.setEnabled(false);
+//            ll_weight.setEnabled(false);
+//
+//            et_nickname.setEnabled(false);
+//            tv_birth.setEnabled(false);
+//            tv_sex.setEnabled(false);
+//            tv_height.setEnabled(false);
+//            tv_weight.setEnabled(false);
+
+            dialogShow(getResources().getString(R.string.loading));
+            getPresenter().getCustomerBasicInfo(mobile);
+        }
     }
 
     @Override
@@ -193,6 +223,9 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
                 break;
             case R.id.fl_right:
                 validateLife.validate();
+                break;
+            case R.id.btn_delete:
+                deleteCustomer();
                 break;
         }
     }
@@ -281,9 +314,8 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
                 file.setMobile(mobile);
             }
 
-            Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
             dialogShow("正在提交数据...");
-            getPresenter().registerForCustomer(file);
+            getPresenter().updateCustomerInfo(file);
         }
     }
 
@@ -427,7 +459,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (np1.getValue() < 80) {
-                    Dialog dialog1 = new AlertDialog.Builder(RegistForCustomerInfoActivity.this)
+                    Dialog dialog1 = new AlertDialog.Builder(EditCustomerInfoActivity.this)
                             .setMessage("体重单位为斤,是否确认数值?")
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
@@ -511,9 +543,21 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void getBasicInfo(BasicInfoModel model) {
+        Util.toastMsg("查询数据成功！");
+        if (model != null) {
+            BasicModel basicModel = model.getBasics();
+            et_nickname.setText(basicModel.getName());
+            tv_sex.setText(basicModel.getGender().equals("0") ? "男" : "女");
+            tv_birth.setText(basicModel.getBirthDay());
+            tv_height.setText(basicModel.getHeight() + "");
+            tv_weight.setText(basicModel.getWeight() + "");
+        }
+    }
 
     @Override
-    public void registerForCustomerSucsess() {
+    public void UpdateCustomerSucsess() {
         //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -521,7 +565,24 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
     }
 
     @Override
-    public void disMissLoadingDialog() {
-        dialogDissmiss();
+    public void removeCustomerSuccess() {
+        finish();
     }
+
+    private void deleteCustomer() {
+        new AlertDialog.Builder(EditCustomerInfoActivity.this).setTitle("温馨提示").setMessage("您确定删除该客户？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogShow("正在提交数据...");
+                        getPresenter().removeCustomer(mobile);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).create().show();
+
+    }
+
 }

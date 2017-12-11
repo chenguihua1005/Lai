@@ -6,7 +6,9 @@
 package com.softtek.lai.module.customermanagement.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -179,6 +181,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         Intent intent = new Intent(this, RegistForCustomerInfoActivity.class);
         intent.putExtra("mobile", phoneNum);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -188,12 +191,31 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
     }
 
     @Override
-    public void getIdentifyCallback(boolean result) {
+    public void getIdentifyCallback(boolean result, int status) {
         if (!result) {
             if (countDown != null) {
                 countDown.cancel();
                 countDown.onFinish();
             }
+        }
+        if (status == 100) {//已注册
+            new AlertDialog.Builder(RegistForCustomerActivity.this).setTitle("温馨提示").setMessage("是否直接添加为意向客户？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String phoneNum = et_phone.getText().toString().trim();
+                            Intent intent = new Intent(RegistForCustomerActivity.this, NewCustomerActivity.class);
+                            intent.putExtra("mobile", phoneNum);
+                            intent.putExtra("needQuery", true);//需要查询基础数据
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            }).create().show();
+
         }
     }
 
@@ -272,7 +294,6 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-
             return true;
         }
         return super.onKeyDown(keyCode, event);

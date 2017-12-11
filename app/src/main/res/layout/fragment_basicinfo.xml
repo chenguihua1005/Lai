@@ -30,13 +30,13 @@
                     <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/img_default" />
+                        android:src="@drawable/img_default_customer" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.68"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -48,7 +48,9 @@
                                 android:id="@+id/tv_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
+                                android:layout_weight="1.5"
+                                android:ellipsize="end"
+                                android:singleLine="true"
                                 android:text="TOM"
                                 android:textColor="@color/black"
                                 android:textSize="15dp" />
@@ -71,7 +73,7 @@
                                 android:id="@+id/textView4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
+                                android:layout_weight="1.5"
                                 android:text="生日:" />
 
                             <TextView
@@ -91,7 +93,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
+                                android:layout_weight="1.5"
                                 android:text="手机号:" />
 
                             <TextView
@@ -111,7 +113,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
+                                android:layout_weight="1.5"
+                                android:singleLine="true"
                                 android:text="奶昔天使:" />
 
                             <TextView
@@ -182,6 +185,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:singleLine="true"
                                 android:text="CN号：" />
 
                             <TextView
@@ -189,6 +193,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:singleLine="true"
                                 android:text="CN123456" />
 
                         </LinearLayout>
@@ -199,6 +205,7 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/ll_health"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -211,6 +218,7 @@
                         android:text="最新健康记录（）" />
 
                     <LinearLayout
+                        android:id="@+id/ll_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -243,6 +251,24 @@
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/bg_confirm_btn"
+                android:gravity="center"
+                android:text="为客户注册账户"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:visibility="gone" />
+
+
         </LinearLayout>
 
 

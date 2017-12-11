@@ -105,12 +105,15 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 //                    如果已经被锁定且为本人下级直接跳转到个人详情页
                     if (IsLocked && IsDownline) {
                         Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
+                        intent.putExtra("mobile", phoneNum);
+                        intent.putExtra("isRegistered", IsRegistered);
                         startActivity(intent);
                     } else if (IsLocked && !IsDownline) {//如果已经被锁定且不是本人下级，提示添加失败
                         Util.toastMsg(responseData.getMsg());
                     } else if (IsInMyClub) {//如果已经被本俱乐部录为线索，跳转至个人详情页
                         Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
                         intent.putExtra("mobile", phoneNum);
+                        intent.putExtra("isRegistered", IsRegistered);
                         startActivity(intent);
                     } else if (IsRegistered && !IsLocked) {//如果已经注册账号但未被锁定，下一步时在新客户页面关联档案信息，可添加备注信息
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);

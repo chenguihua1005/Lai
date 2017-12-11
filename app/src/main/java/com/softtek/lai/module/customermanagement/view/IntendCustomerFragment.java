@@ -97,6 +97,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
         Intent intent = new Intent(getContext(), CustomerDetailActivity.class);
         CustomerModel model = modelList.get(position - 1);
         intent.putExtra("mobile", model.getMobile());
+        intent.putExtra("isRegistered", model.isTag());
         startActivity(intent);
     }
 

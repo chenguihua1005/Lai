@@ -859,7 +859,9 @@
         <activity
             android:name=".module.customermanagement.view.RegistForCustomerInfoActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".module.customermanagement.view.EditCustomerInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.customermanagement.view.ClubActivity"
             android:screenOrientation="portrait"
@@ -884,6 +886,7 @@
             android:name=".module.bodygame3.activity.view.NewRetestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
+
 
         <provider
             android:name="com.softtek.lai.module.home.adapter.MyFileProvider"

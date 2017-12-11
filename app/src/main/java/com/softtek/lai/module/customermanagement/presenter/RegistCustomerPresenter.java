@@ -29,14 +29,16 @@ public class RegistCustomerPresenter extends BasePresenter<RegistCustomerPresent
         service.getIdentify(phone, state, new Callback<ResponseData<IdentifyModel>>() {
             @Override
             public void success(ResponseData<IdentifyModel> stringResponseData, Response response) {
-                if (stringResponseData.getStatus() != 200) {
+                int status = stringResponseData.getStatus();
+                if (status != 200) {
                     if (getView() != null) {
-                        getView().getIdentifyCallback(false);
+                        getView().getIdentifyCallback(false, status);
                     }
-                    Util.toastMsg(stringResponseData.getMsg());
+
+//                    Util.toastMsg(stringResponseData.getMsg());
                 } else {
                     if (getView() != null) {
-                        getView().getIdentifyCallback(true);
+                        getView().getIdentifyCallback(true, 200);
                     }
                 }
                 Log.i("验证码获取结果>>>>" + stringResponseData.toString());
@@ -46,7 +48,7 @@ public class RegistCustomerPresenter extends BasePresenter<RegistCustomerPresent
             @Override
             public void failure(RetrofitError error) {
                 if (getView() != null) {
-                    getView().getIdentifyCallback(false);
+                    getView().getIdentifyCallback(false, 0);
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -54,6 +56,6 @@ public class RegistCustomerPresenter extends BasePresenter<RegistCustomerPresent
     }
 
     public interface RegisterForCustomerCallback extends BaseView {
-        void getIdentifyCallback(boolean result);
+        void getIdentifyCallback(boolean result, int statusCode);
     }
 }
