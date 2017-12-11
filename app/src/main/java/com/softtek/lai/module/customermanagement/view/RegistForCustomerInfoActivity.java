@@ -283,6 +283,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
             }
 
             Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
+            dialogShow("正在提交数据...");
             getPresenter().registerForCustomer(file);
         }
     }
@@ -518,5 +519,10 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
+    }
+
+    @Override
+    public void disMissLoadingDialog() {
+        dialogDissmiss();
     }
 }

@@ -28,6 +28,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
+import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
 import com.softtek.lai.module.customermanagement.presenter.SaveCustomerPresenter;
@@ -46,9 +48,6 @@ import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
-
-import static android.R.attr.bufferType;
-import static android.R.attr.data;
 
 
 /**
@@ -136,6 +135,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     private FindCustomerModel model = null;
     private String mobile = "";
+    private boolean needQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +157,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     @Override
     protected void initViews() {
         mobile = getIntent().getStringExtra("mobile");
+        needQuery = getIntent().getBooleanExtra("needQuery", false);
+
         setPresenter(new SaveCustomerPresenter(this));
 
         //获取当前年月日
@@ -184,8 +186,22 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         tv_title.setText("创建新客户");
         file = new CustomerInfoModel();
         addGrade();
-        dialogShow(getResources().getString(R.string.loading));
-        getPresenter().getDetailOfCustomer(mobile);
+        if (needQuery) {
+            ll_nickname.setEnabled(false);
+            ll_birth.setEnabled(false);
+            ll_sex.setEnabled(false);
+            ll_height.setEnabled(false);
+            ll_weight.setEnabled(false);
+
+            et_nickname.setEnabled(false);
+            tv_birth.setEnabled(false);
+            tv_sex.setEnabled(false);
+            tv_height.setEnabled(false);
+            tv_weight.setEnabled(false);
+
+            dialogShow(getResources().getString(R.string.loading));
+            getPresenter().getCustomerBasicInfo(mobile);
+        }
     }
 
     @Override
@@ -285,6 +301,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             }
 
             Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
+            dialogShow("正在提交数据...");
             getPresenter().saveCustomerInfo(file);
         }
     }
@@ -514,6 +531,19 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     }
 
     @Override
+    public void getBasicInfo(BasicInfoModel model) {
+        Util.toastMsg("查询数据成功！");
+        if (model != null) {
+            BasicModel basicModel = model.getBasics();
+            et_nickname.setText(basicModel.getName());
+            tv_sex.setText(basicModel.getGender().equals("0") ? "男" : "女");
+            tv_birth.setText(basicModel.getBirthDay());
+            tv_height.setText(basicModel.getHeight() + "");
+            tv_weight.setText(basicModel.getWeight() + "");
+        }
+    }
+
+    @Override
     public void SaveCustomerSucsess() {
         //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
@@ -521,23 +551,5 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         finish();
     }
 
-    @Override
-    public void getDetailOfCustomer(FindCustomerModel model) {
-        if (model != null) {
-            et_nickname.setText(model.getName());
-            tv_birth.setText(model.getBirthDay());
-            if (0 == model.getGender()) {
-                tv_sex.setText("男");
-            } else {
-                tv_sex.setText("女");
-            }
 
-            tv_weight.setText(model.getWeight());
-        }
-    }
-
-    @Override
-    public void disMissLoadingDialog() {
-        dialogDissmiss();
-    }
 }

@@ -43,14 +43,16 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
 
     List<Fragment> fragments = new ArrayList<>();
     FragmentAdapter adapter;
+    private String mobile = "";
 
     @Override
     protected void initViews() {
         tv_title.setText("客户详情");
+        mobile = getIntent().getStringExtra("mobile");
 
-        fragments.add(BasicInfoFragment.getInstance());
-        fragments.add(StatisticsFragment.getInstance());
-        fragments.add(RemarkFragment.getInstance());
+        fragments.add(BasicInfoFragment.getInstance(mobile));
+        fragments.add(StatisticsFragment.getInstance(mobile));
+        fragments.add(RemarkFragment.getInstance(mobile));
 
         adapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         container.setAdapter(adapter);
@@ -77,6 +79,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.addremark_tv:
                 Intent intent = new Intent(CustomerDetailActivity.this, AddRemarkActivity.class);
+                intent.putExtra("mobile",mobile);
                 startActivity(intent);
                 break;
         }
