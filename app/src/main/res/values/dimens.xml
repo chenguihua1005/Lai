@@ -57,7 +57,7 @@
     <dimen name="textSize9">5sp</dimen>
     <dimen name="textSize10">10sp</dimen>
     <dimen name="textSize12">9sp</dimen>
-    <dimen name="textSize13">12sp</dimen>
+    <dimen name="textSize13">10sp</dimen>
 
     <dimen name="head">70dp</dimen>
 </resources>

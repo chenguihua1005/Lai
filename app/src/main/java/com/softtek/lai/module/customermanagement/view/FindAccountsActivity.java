@@ -39,7 +39,7 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
     private TextView mConfim;
     private ClubService service;
     private RecyclerView mRecyclerView;
-    private int clubId;
+    private String clubId;
     private InviteRecyclerViewAdapter inviteRecyclerViewAdapter;
     private List<InviteModel.ItemsBean> inviteModelList = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_account);
         Intent intent = getIntent();
-        clubId = intent.getIntExtra("maki", -1);
+        clubId = intent.getStringExtra("maki");
         service = ZillaApi.NormalRestAdapter.create(ClubService.class);
         initView();
     }
@@ -81,7 +81,7 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
         }, new InviteRecyclerViewAdapter.InviteListener() {
             @Override
             public void onInviteClickListener(final View view, int position) {
-                ((TextView) view).setText("待审核");
+                ((TextView) view).setText("待处理");
                 view.setBackground(getResources().getDrawable(R.drawable.bg_invite_club_clicked));
                 service.invitetoBeWorker(UserInfoModel.getInstance().getToken(), clubId, inviteModelList.get(position).getAccountId(), new RequestCallback<ResponseData>() {
                     @Override
@@ -143,8 +143,10 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
             case R.id.tv_right:
                 doSearch();
+                break;
         }
     }
 }

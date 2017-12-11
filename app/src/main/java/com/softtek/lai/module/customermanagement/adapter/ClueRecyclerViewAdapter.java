@@ -38,7 +38,15 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
     private Context mContext;
     private AlertDialog.Builder deleteBuilder;
     private AlertDialog deleteDialog;
-    protected PersonnelModel.ClubsBean clubsBean;
+    private PersonnelModel.ClubsBean clubsBean;
+
+    private PersonnelModel.ClubsBean getClubsBean() {
+        return clubsBean;
+    }
+
+    public void setClubsBean(PersonnelModel.ClubsBean clubsBean) {
+        this.clubsBean = clubsBean;
+    }
 
     private boolean isHasRuler() {
         return hasRuler;
@@ -125,7 +133,7 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
             mCustomerToday.setText(item.getTodayCustomer() + "");
             mMarketSum.setText(item.getTotalMarketingStaff() + "");
             mMarketToady.setText(item.getTodayMarketingStaff() + "");
-            if (hasRuler){
+            if (!isHasRuler()){
                 mDelete.setVisibility(View.GONE);
             }else {
                 mDelete.setVisibility(View.VISIBLE);
@@ -139,7 +147,7 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    service.deleteWorker(UserInfoModel.getInstance().getToken(), clubsBean.getID(), item.getAccountId(), new RequestCallback<ResponseData>() {
+                                    service.deleteWorker(UserInfoModel.getInstance().getToken(), getClubsBean().getID(), item.getAccountId(), new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             if (responseData.getStatus() == 200) {

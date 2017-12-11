@@ -73,7 +73,14 @@ public interface ClubService {
 
     @POST("/v1/Club/InviteToBeWorker")
     void invitetoBeWorker(@Header("token")String token,
-                          @Query("clubId") int clubId,
+                          @Query("clubId") String clubId,
                           @Query("userId") long userId,
                           RequestCallback<ResponseData> callback);
+
+    @GET("/v1/MsgCenter/MakeSureJoin")
+    void makeSureJoin(@Header("token")String token,
+                      @Query("MsgId") String msdId,
+                      @Query("status")int status,
+                      @Query("IntroducerId")long IntroducerId,
+                      RequestCallback<ResponseData> callback);
 }

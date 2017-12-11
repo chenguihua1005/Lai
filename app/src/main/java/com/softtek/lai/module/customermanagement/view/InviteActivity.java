@@ -39,13 +39,18 @@ public class InviteActivity extends MakiBaseActivity implements View.OnClickList
     private InviteRecyclerViewAdapter inviteRecyclerViewAdapter;
     private List<InviteModel.ItemsBean> inviteModelList = new ArrayList<>();
     private ClubService service;
-    private int clubId;
+    private String clubId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
         service = ZillaApi.NormalRestAdapter.create(ClubService.class);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initView();
         initData();
     }
@@ -79,7 +84,8 @@ public class InviteActivity extends MakiBaseActivity implements View.OnClickList
     private void initData(){
         dialogShow("正在加载");
         Intent intent = getIntent();
-        clubId = intent.getIntExtra("maki",-1);
+        clubId = intent.getStringExtra("maki");
+        inviteModelList.clear();
         service.getListOfInvitedMessage(UserInfoModel.getInstance().getToken(), String.valueOf(clubId), 0, 999,
                 new RequestCallback<ResponseData<InviteModel>>() {
                     @Override
