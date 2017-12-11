@@ -205,9 +205,10 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_mesuretime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="最新健康记录（2017-01-01）" />
+                        android:text="最新健康记录（）" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"

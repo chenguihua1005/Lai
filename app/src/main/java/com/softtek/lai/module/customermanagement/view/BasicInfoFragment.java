@@ -2,14 +2,23 @@ package com.softtek.lai.module.customermanagement.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.customermanagement.adapter.HealthyReportCustomerAdapter;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.BasicModel;
+import com.softtek.lai.module.customermanagement.model.HealthyItemModel;
+import com.softtek.lai.module.customermanagement.model.LatestRecordModel;
 import com.softtek.lai.module.customermanagement.presenter.BasicInfoPresenter;
+import com.softtek.lai.widgets.DividerItemDecoration;
+
+import java.util.ArrayList;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -35,6 +44,15 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     TextView tv_cn;
     @InjectView(R.id.tv_angle)
     TextView tv_angle;
+
+    @InjectView(R.id.tv_mesuretime)
+    TextView tv_mesuretime;
+
+    @InjectView(R.id.list)
+    RecyclerView list;
+
+    ArrayList<HealthyItemModel> items = new ArrayList<>();
+    HealthyReportCustomerAdapter adapter;
 
 
     private static String mobile = "";
@@ -62,6 +80,15 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @Override
     protected void initDatas() {
         Log.i("BasicInfoFragment", "mobile = " + mobile);
+
+        list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        list.setHasFixedSize(true);
+        list.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        adapter = new HealthyReportCustomerAdapter(items, getContext(), false);
+//        adapter.setListener(this);
+        list.setAdapter(adapter);
+
+
         setPresenter(new BasicInfoPresenter(this));
         getPresenter().getCustomerBasicInfo(mobile);
 
@@ -78,6 +105,23 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
             tv_mobile.setText(basicModel.getMobile());
             tv_cn.setText(basicModel.getCertification());
             tv_angle.setText(basicModel.getAngel());
+
+
+            items.clear();
+
+            LatestRecordModel latestModel = model.getLatest();
+
+            if (latestModel != null) {
+                String measureTime = latestModel.getMeasureTime();
+                if (!TextUtils.isEmpty(measureTime)) {
+                    tv_mesuretime.setText("最新健康记录（" + measureTime + ")");
+                }
+
+                if (latestModel.getItemList() != null) {
+                    items.addAll(latestModel.getItemList());
+                }
+            }
+            adapter.notifyDataSetChanged();
         }
     }
 }

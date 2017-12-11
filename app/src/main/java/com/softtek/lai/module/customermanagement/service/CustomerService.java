@@ -221,4 +221,22 @@ public interface CustomerService {
     );
 
 
+    /**
+     * 添加备注
+     *
+     * @param token
+     * @param mobile
+     * @param remark
+     * @param callback
+     */
+    @POST("/v1/Club/AddRemark")
+    void addRemark(
+            @Header("token") String token,
+            @Query("cludId") String cludId,
+            @Query("mobile") String mobile,
+            @Query("remark") String remark,
+            Callback<ResponseData> callback
+    );
+
+
 }

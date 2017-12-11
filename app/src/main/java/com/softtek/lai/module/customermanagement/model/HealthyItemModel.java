@@ -2,6 +2,12 @@ package com.softtek.lai.module.customermanagement.model;
 
 /**
  * Created by jessica.zhang on 12/8/2017.
+ *     private int pid;
+ private String title;
+ private String value;
+ private String unit;
+ private String caption;
+ private String color;
  */
 
 public class HealthyItemModel {

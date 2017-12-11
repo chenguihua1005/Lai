@@ -79,6 +79,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.addremark_tv:
                 Intent intent = new Intent(CustomerDetailActivity.this, AddRemarkActivity.class);
+                intent.putExtra("mobile",mobile);
                 startActivity(intent);
                 break;
         }
