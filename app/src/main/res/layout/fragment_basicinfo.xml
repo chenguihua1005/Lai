@@ -28,6 +28,7 @@
                     android:orientation="horizontal">
 
                     <com.softtek.lai.widgets.CircleImageView
+                        android:id="@+id/civ_head"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/img_default_customer" />

@@ -839,6 +839,7 @@
 
         <activity
             android:name=".module.customermanagement.view.CustomerDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.customermanagement.view.AddCustomerActivity"

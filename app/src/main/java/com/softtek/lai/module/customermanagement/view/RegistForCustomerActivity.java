@@ -5,9 +5,12 @@
 
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.KeyEvent;
@@ -96,6 +99,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
 
     @Override
     protected void initDatas() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(DESTROY_SELF_REGISTPAGE));
         //初始化倒计时
         setPresenter(new RegistCustomerPresenter(this));
         countDown = new MyCountDown(60000, 1000);
@@ -165,6 +169,8 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         if (countDown != null) {
             countDown.cancel();
         }
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onDestroy();
     }
 
@@ -208,6 +214,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
                             Intent intent = new Intent(RegistForCustomerActivity.this, NewCustomerActivity.class);
                             intent.putExtra("mobile", phoneNum);
                             intent.putExtra("needQuery", true);//需要查询基础数据
+                            intent.putExtra("fromRegistPage", true);
                             startActivity(intent);
                         }
                     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -298,5 +305,16 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+    public static final String DESTROY_SELF_REGISTPAGE = "DESTROY_SELF_REGISTPAGE";
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equalsIgnoreCase(DESTROY_SELF_REGISTPAGE)) {
+                finish();
+            }
+        }
+    };
 
 }

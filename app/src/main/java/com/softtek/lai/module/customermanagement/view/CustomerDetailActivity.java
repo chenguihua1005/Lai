@@ -1,8 +1,12 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -67,6 +71,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         container.setAdapter(adapter);
         tab.setupWithViewPager(container);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(DESTROY_SELF));
 
     }
 
@@ -97,4 +102,21 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 break;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
+
+    public static final String DESTROY_SELF = "DESTROY_SELF";
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equalsIgnoreCase(DESTROY_SELF)) {
+                finish();
+            }
+        }
+    };
+
 }

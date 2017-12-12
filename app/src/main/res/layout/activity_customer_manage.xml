@@ -7,63 +7,75 @@
 
     <include layout="@layout/toolbar" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#e6e6e6">
-
-        <LinearLayout
-            android:id="@+id/ll_search"
-            android:layout_width="345dp"
-            android:layout_height="28dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/border"
-            android:gravity="center|left">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:src="@drawable/contact_search" />
-
-            <TextView
-                android:id="@+id/search_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:text="查找客户"
-                android:textColor="#57000000"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </RelativeLayout>
+    <include
+        layout="@layout/no_login_tip"
+        android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <GridView
-            android:id="@+id/menu_gv"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:numColumns="4"></GridView>
+            android:layout_height="50dp"
+            android:background="#e6e6e6">
+
+            <LinearLayout
+                android:id="@+id/ll_search"
+                android:layout_width="345dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/border"
+                android:gravity="center|left">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:src="@drawable/contact_search" />
+
+                <TextView
+                    android:id="@+id/search_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:text="查找客户"
+                    android:textColor="#57000000"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <GridView
+                android:id="@+id/menu_gv"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:numColumns="4"></GridView>
+        </LinearLayout>
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab"
+            style="@style/myTabLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tab" />
+
     </LinearLayout>
-
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab"
-        style="@style/myTabLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginTop="5dp"
-        android:background="#ffffff" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tab" />
 
 
 </LinearLayout>

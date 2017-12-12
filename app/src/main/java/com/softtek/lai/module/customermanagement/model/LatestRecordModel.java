@@ -13,7 +13,7 @@ public class LatestRecordModel {
     private int bodyType;//体型编号
     private String bodyTypeTitle;
     private String bodyTypeDesc;
-    private List<HealthyItemModel> itemList;
+    private List<HealthyItem> itemList;
 
     public long getAccountId() {
         return accountId;
@@ -63,11 +63,11 @@ public class LatestRecordModel {
         this.bodyTypeDesc = bodyTypeDesc;
     }
 
-    public List<HealthyItemModel> getItemList() {
+    public List<HealthyItem> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<HealthyItemModel> itemList) {
+    public void setItemList(List<HealthyItem> itemList) {
         this.itemList = itemList;
     }
 

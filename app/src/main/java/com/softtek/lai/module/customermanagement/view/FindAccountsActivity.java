@@ -24,6 +24,7 @@ import com.softtek.lai.utils.RequestCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -32,7 +33,7 @@ import zilla.libcore.api.ZillaApi;
  * Created by jia.lu on 12/1/2017.
  */
 
-public class FindAccountsActivity extends MakiBaseActivity implements View.OnClickListener {
+    public class FindAccountsActivity extends MakiBaseActivity implements View.OnClickListener {
     private EditText mSearch;
     private LinearLayout mBack;
     private TextView mTitle;
@@ -117,23 +118,25 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
             return;
         }
         dialogShow("加载中");
-        service.findAccounts(UserInfoModel.getInstance().getToken(), mSearch.getText().toString().trim(), 0, 999, new RequestCallback<ResponseData<InviteModel>>() {
+        service.findAccounts(UserInfoModel.getInstance().getToken(), mSearch.getText().toString().trim(), 0, 999, new Callback<ResponseData<InviteModel>>() {
             @Override
             public void success(ResponseData<InviteModel> responseData, Response response) {
+                dialogDismiss();
                 if (responseData.getStatus() == 200) {
                     inviteModelList.addAll(responseData.getData().getItems());
                     inviteRecyclerViewAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(FindAccountsActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
                 }
-                dialogDismiss();
+
             }
 
             @Override
             public void failure(RetrofitError error) {
                 dialogDismiss();
-                super.failure(error);
                 Toast.makeText(FindAccountsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                ZillaApi.dealNetError(error);
+//                super.failure(error);
             }
         });
     }

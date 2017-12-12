@@ -159,7 +159,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         ll_left.setOnClickListener(this);
         //        iv_left.setVisibility(View.GONE);
         tv_right.setText("下一步");
-        ll_remark.setVisibility(View.GONE);
+
         fl_right.setOnClickListener(this);
         btn_delete.setOnClickListener(this);
 
@@ -195,6 +195,8 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     @Override
     protected void initDatas() {
         tv_title.setText("编辑客户信息");
+        ll_remark.setVisibility(View.GONE);
+        btn_delete.setVisibility(View.VISIBLE);
         file = new CustomerInfoModel();
         addGrade();
         if (needQuery) {
@@ -545,7 +547,6 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
 
     @Override
     public void getBasicInfo(BasicInfoModel model) {
-        Util.toastMsg("查询数据成功！");
         if (model != null) {
             BasicModel basicModel = model.getBasics();
             et_nickname.setText(basicModel.getName());
@@ -566,6 +567,12 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
 
     @Override
     public void removeCustomerSuccess() {
+        Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        Intent intent2 = new Intent(CustomerDetailActivity.DESTROY_SELF);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent2);
+
         finish();
     }
 

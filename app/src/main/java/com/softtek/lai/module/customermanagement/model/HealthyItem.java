@@ -1,5 +1,8 @@
 package com.softtek.lai.module.customermanagement.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by jessica.zhang on 12/8/2017.
  *     private int pid;
@@ -10,7 +13,7 @@ package com.softtek.lai.module.customermanagement.model;
  private String color;
  */
 
-public class HealthyItemModel {
+public class HealthyItem implements Parcelable {
     private int pid;//指标编号
     private String pidName;//指标代码
     private String title;//指标名称
@@ -18,6 +21,44 @@ public class HealthyItemModel {
     private String unit;//指标单位
     private String caption;//指标档位
     private String color;//指标档位颜色
+
+    protected HealthyItem(Parcel in) {
+        pid = in.readInt();
+        pidName = in.readString();
+        title = in.readString();
+        value = in.readString();
+        unit = in.readString();
+        caption = in.readString();
+        color = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(pid);
+        dest.writeString(pidName);
+        dest.writeString(title);
+        dest.writeString(value);
+        dest.writeString(unit);
+        dest.writeString(caption);
+        dest.writeString(color);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<HealthyItem> CREATOR = new Creator<HealthyItem>() {
+        @Override
+        public HealthyItem createFromParcel(Parcel in) {
+            return new HealthyItem(in);
+        }
+
+        @Override
+        public HealthyItem[] newArray(int size) {
+            return new HealthyItem[size];
+        }
+    };
 
     public int getPid() {
         return pid;

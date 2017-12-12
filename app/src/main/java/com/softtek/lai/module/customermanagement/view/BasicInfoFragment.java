@@ -18,14 +18,17 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.HealthyReportCustomerAdapter;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.BasicModel;
-import com.softtek.lai.module.customermanagement.model.HealthyItemModel;
+import com.softtek.lai.module.customermanagement.model.HealthyItem;
 import com.softtek.lai.module.customermanagement.model.LatestRecordModel;
 import com.softtek.lai.module.customermanagement.presenter.BasicInfoPresenter;
+import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.DividerItemDecoration;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -34,7 +37,7 @@ import zilla.libcore.ui.InjectLayout;
 
 
 @InjectLayout(R.layout.fragment_basicinfo)
-public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> implements BasicInfoPresenter.BasicInfoCallBack, View.OnClickListener {
+public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> implements BasicInfoPresenter.BasicInfoCallBack, View.OnClickListener, HealthyReportCustomerAdapter.OnItemClickListener {
     @InjectView(R.id.tv_name)
     TextView tv_name;
     @InjectView(R.id.tv_other)
@@ -66,7 +69,10 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @InjectView(R.id.btn_register)
     Button btn_register;
 
-    ArrayList<HealthyItemModel> items = new ArrayList<>();
+    @InjectView(R.id.civ_head)
+    CircleImageView civ_head;
+
+    ArrayList<HealthyItem> items = new ArrayList<>();
     HealthyReportCustomerAdapter adapter;
 
 
@@ -115,7 +121,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         adapter = new HealthyReportCustomerAdapter(items, getContext(), false);
-//        adapter.setListener(this);
+        adapter.setListener(this);
         list.setAdapter(adapter);
 
         setPresenter(new BasicInfoPresenter(this));
@@ -127,6 +133,14 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     public void getBasicInfo(BasicInfoModel model) {
         if (model != null) {
             BasicModel basicModel = model.getBasics();
+
+            if (!TextUtils.isEmpty(basicModel.getPhoto())) {
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + basicModel.getPhoto()).fit().into(civ_head);
+            } else {
+                Picasso.with(getContext()).load(R.drawable.img_default).fit().into(civ_head);
+            }
+
+
             tv_name.setText(basicModel.getName());
             tv_other.setText(basicModel.getGender().equals("0") ? "男" : " 女" + "|" + basicModel.getHeight());
             tv_birth.setText(basicModel.getBirthDay());
@@ -165,5 +179,20 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        //跳转到曲线图
+//        HealthyItem item = items.get(position);
+//        Intent intent = new Intent(getContext(), HealthyChartActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("isVisitor", isVisitor);
+//        bundle.putString("accountId", accountId);
+//        bundle.putString("recordId", reportId);
+//        intent.putExtra("base", bundle);
+//        intent.putExtra("pid", item.getPid());
+//        intent.putParcelableArrayListExtra("items", items);
+//        startActivity(intent);
     }
 }
