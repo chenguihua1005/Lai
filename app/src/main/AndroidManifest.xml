@@ -863,6 +863,10 @@
         <activity
             android:name=".module.customermanagement.view.EditCustomerInfoActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.customermanagement.view.HealthListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.customermanagement.view.ClubActivity"
             android:screenOrientation="portrait"

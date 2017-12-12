@@ -99,9 +99,9 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
     protected void initViews() {
         Bundle bundle = getArguments();
         boolean isVisitor = bundle.getInt("isVisitor", HealthyReportActivity.VISITOR) == HealthyReportActivity.VISITOR;
-        type = bundle.getInt("pid");
+        type = bundle.getInt("pid");//类型
         accountId = bundle.getString("accountId");
-        recordId = bundle.getString("recordId");
+        recordId = bundle.getString("recordId");//测量记录id
         chart.setTitle1(bundle.getString("chartTitle", ""));
         radioType = 1;//默认选中在周上
         sdf = new SimpleDateFormat("MM/dd");

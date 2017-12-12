@@ -18,9 +18,11 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.HealthyReportCustomerAdapter;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.BasicModel;
-import com.softtek.lai.module.customermanagement.model.HealthyItem;
 import com.softtek.lai.module.customermanagement.model.LatestRecordModel;
 import com.softtek.lai.module.customermanagement.presenter.BasicInfoPresenter;
+import com.softtek.lai.module.healthyreport.HealthyChartActivity;
+import com.softtek.lai.module.healthyreport.HealthyReportActivity;
+import com.softtek.lai.module.healthyreport.model.HealthyItem;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.DividerItemDecoration;
 import com.squareup.picasso.Picasso;
@@ -75,6 +77,9 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     ArrayList<HealthyItem> items = new ArrayList<>();
     HealthyReportCustomerAdapter adapter;
 
+    private BasicModel basicModel;
+    private BasicInfoModel basicInfoModel;
+
 
     private static String mobile = "";
     private static boolean isRegistered;//是否已注册
@@ -108,6 +113,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         } else {
             btn_register.setVisibility(View.GONE);
             list.setVisibility(View.VISIBLE);
+            ll_more.setOnClickListener(this);
         }
 
 
@@ -132,7 +138,8 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @Override
     public void getBasicInfo(BasicInfoModel model) {
         if (model != null) {
-            BasicModel basicModel = model.getBasics();
+            basicInfoModel = model;
+            basicModel = model.getBasics();
 
             if (!TextUtils.isEmpty(basicModel.getPhoto())) {
                 Picasso.with(getContext()).load(AddressManager.get("photoHost") + basicModel.getPhoto()).fit().into(civ_head);
@@ -158,6 +165,8 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
                 String measureTime = latestModel.getMeasureTime();
                 if (!TextUtils.isEmpty(measureTime)) {
                     tv_mesuretime.setText("最新健康记录（" + measureTime + ")");
+                } else {
+                    tv_mesuretime.setText("最新健康记录（暂无)");
                 }
 
                 if (latestModel.getItemList() != null) {
@@ -178,21 +187,26 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
                 Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.ll_more:
+                Intent intent1 = new Intent(getContext(), HealthListActivity.class);
+                intent1.putExtra("accountId", basicModel.getAccountId());
+                startActivity(intent1);
+                break;
         }
     }
 
     @Override
     public void onItemClick(int position) {
         //跳转到曲线图
-//        HealthyItem item = items.get(position);
-//        Intent intent = new Intent(getContext(), HealthyChartActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("isVisitor", isVisitor);
-//        bundle.putString("accountId", accountId);
-//        bundle.putString("recordId", reportId);
-//        intent.putExtra("base", bundle);
-//        intent.putExtra("pid", item.getPid());
-//        intent.putParcelableArrayListExtra("items", items);
-//        startActivity(intent);
+        HealthyItem item = items.get(position);
+        Intent intent = new Intent(getContext(), HealthyChartActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("isVisitor", HealthyReportActivity.NON_VISITOR);
+        bundle.putString("accountId", basicModel.getAccountId() + "");
+        bundle.putString("recordId", basicInfoModel.getRecord().getAcInfoId());
+        intent.putExtra("base", bundle);
+        intent.putExtra("pid", item.getPid());
+        intent.putParcelableArrayListExtra("items", items);
+        startActivity(intent);
     }
 }

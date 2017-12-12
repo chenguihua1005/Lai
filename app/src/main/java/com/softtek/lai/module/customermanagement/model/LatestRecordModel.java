@@ -1,5 +1,7 @@
 package com.softtek.lai.module.customermanagement.model;
 
+import com.softtek.lai.module.healthyreport.model.HealthyItem;
+
 import java.util.List;
 
 /**

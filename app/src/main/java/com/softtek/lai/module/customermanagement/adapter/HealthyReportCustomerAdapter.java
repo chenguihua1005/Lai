@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.customermanagement.model.HealthyItem;
+import com.softtek.lai.module.healthyreport.model.HealthyItem;
 
 import java.util.List;
 
