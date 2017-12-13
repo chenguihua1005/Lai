@@ -131,6 +131,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         list.setAdapter(adapter);
 
         setPresenter(new BasicInfoPresenter(this));
+        dialogShow(getString(R.string.loading));
         getPresenter().getCustomerBasicInfo(mobile);
 
     }

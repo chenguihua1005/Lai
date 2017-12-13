@@ -7,6 +7,7 @@ import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
+import com.softtek.lai.module.customermanagement.model.SituationOfMobileModel;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -56,32 +57,8 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
         });
     }
 
-//    public void getDetailOfCustomer(String mobile) {
-//        service.getDetailOfCustomer(UserInfoModel.getInstance().getToken(), mobile, new RequestCallback<ResponseData<FindCustomerModel>>() {
-//            @Override
-//            public void success(ResponseData<FindCustomerModel> responseData, Response response) {
-//                int status = responseData.getStatus();
-//                if (200 == status) {
-//                    if (getView() != null) {
-//                        getView().getDetailOfCustomer(responseData.getData());
-//                    }
-//                } else {
-//                    Util.toastMsg(responseData.getMsg());
-//                }
-//                if (getView() != null) {
-//                    getView().disMissLoadingDialog();
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                super.failure(error);
-//                if (getView() != null) {
-//                    getView().disMissLoadingDialog();
-//                }
-//            }
-//        });
-//    }
+
+
 
     public void saveCustomerInfo(CustomerInfoModel model) {
         service.saveCustomer(UserInfoModel.getInstance().getToken(), model, new RequestCallback<ResponseData>() {
@@ -93,7 +70,6 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
                 }
                 switch (status) {
                     case 200:
-                        Util.toastMsg(responseData.getMsg());
                         if (getView() != null) {
                             getView().SaveCustomerSucsess();
                         }
@@ -121,8 +97,8 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
     public interface SaveCustomerCallback extends BaseView {
         void getBasicInfo(BasicInfoModel model);
 
-//        void disMissLoadingDialog();
-
         void SaveCustomerSucsess();
+
+
     }
 }

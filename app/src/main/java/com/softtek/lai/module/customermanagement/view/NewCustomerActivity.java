@@ -136,7 +136,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     private FindCustomerModel model = null;
     private String mobile = "";
     private boolean needQuery;
-    private boolean fromRegistPage;
+    private boolean fromRegistPage;//
+    private boolean fromAddCustomer;//从AddCustomerActivity页面跳转过来
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +161,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         mobile = getIntent().getStringExtra("mobile");
         needQuery = getIntent().getBooleanExtra("needQuery", false);
         fromRegistPage = getIntent().getBooleanExtra("fromRegistPage", false);
+        fromAddCustomer = getIntent().getBooleanExtra("fromAddCustomer", false);
 
         setPresenter(new SaveCustomerPresenter(this));
 
@@ -550,6 +552,11 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        if (fromAddCustomer) {
+            Intent intent1 = new Intent(AddCustomerActivity.KILL_SELF);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent1);
+        }
 
         if (fromRegistPage) {
             Intent intent1 = new Intent(RegistForCustomerActivity.DESTROY_SELF_REGISTPAGE);

@@ -9,23 +9,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygame3.love.adapter.LoverAdapter;
 import com.softtek.lai.module.customermanagement.adapter.FragmentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 import zilla.libcore.ui.InjectLayout;
-
-import static com.softtek.lai.R.string.phoneNum;
 
 /**
  * Created by jessica.zhang on 11/17/2017.
@@ -58,6 +55,8 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initViews() {
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         tv_title.setText("客户详情");
         tv_right.setText("编辑");
         mobile = getIntent().getStringExtra("mobile");

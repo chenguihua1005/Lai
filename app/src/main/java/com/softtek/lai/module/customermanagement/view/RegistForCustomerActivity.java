@@ -94,6 +94,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
+//        ll_left.setVisibility(View.INVISIBLE);
         ll_left.setOnClickListener(this);
     }
 
@@ -129,6 +130,8 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
                     return;
                 }
 
+//                getPresenter().getSituationOfTheMobile(phone);
+
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 getPresenter().getIdentify(phone, Constants.REGIST_IDENTIFY);
@@ -150,7 +153,6 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         super.onStart();
         if (countDown != null && countDown.isRunning()) {
             countDown.reStart();
-
         }
     }
 
@@ -205,6 +207,23 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
             }
         }
         if (status == 100) {//已注册
+            String phoneNum = et_phone.getText().toString();
+            getPresenter().getSituationOfTheMobile(phoneNum);
+        }
+    }
+
+    @Override
+    public void hasInClub(boolean IsRegistered, boolean hasInClub) {
+        if (hasInClub) {//已经是意向客户
+//            Util.toastMsg("该客户已注册，且已经是意向客户！");
+            String phoneNum = et_phone.getText().toString();
+            Intent intent = new Intent(this, CustomerDetailActivity.class);
+            intent.putExtra("mobile", phoneNum);
+            intent.putExtra("isRegistered", IsRegistered);
+            startActivity(intent);
+            finish();
+
+        } else {//不是意向客户
             new AlertDialog.Builder(RegistForCustomerActivity.this).setTitle("温馨提示").setMessage("是否直接添加为意向客户？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
@@ -222,7 +241,6 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
                 public void onClick(DialogInterface dialog, int which) {
                 }
             }).create().show();
-
         }
     }
 
@@ -239,28 +257,6 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
             et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.phoneValidate) + "</font>"));
             return false;
         }
-//        String password = et_password.getText().toString();
-//        if ("".equals(password)) {
-//            et_password.requestFocus();
-//            et_password.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.passwordValidateNull) + "</font>"));
-//            return false;
-//        }
-//        if (!RegexUtil.match(context.getString(R.string.psdReg), password)) {
-//            et_password.requestFocus();
-//            et_password.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.passwordValidate) + "</font>"));
-//            return false;
-//        }
-//        String rePassword = et_rePassword.getText().toString();
-//        if ("".equals(rePassword)) {
-//            et_rePassword.requestFocus();
-//            et_rePassword.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.confirmPasswordNull) + "</font>"));
-//            return false;
-//        }
-//        if (!rePassword.equals(password)) {
-//            et_rePassword.requestFocus();
-//            et_rePassword.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.confirmPassword) + "</font>"));
-//            return false;
-//        }
         return true;
     }
 

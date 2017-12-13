@@ -1,6 +1,10 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -69,7 +73,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(KILL_SELF));
     }
 
     @Override
@@ -81,8 +85,6 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
             case R.id.fl_right:
                 validateLife.validate();
                 break;
-
-
         }
     }
 
@@ -90,10 +92,12 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
     public void onValidationSucceeded() {
         final String phoneNum = et_phone.getText().toString().trim();
 
+        dialogShow(getString(R.string.loading));
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
         service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), phoneNum, "", new Callback<ResponseData<SituationOfMobileModel>>() {
             @Override
             public void success(ResponseData<SituationOfMobileModel> responseData, Response response) {
+                dialogDissmiss();
                 int status = responseData.getStatus();
                 if (200 == status) {
                     SituationOfMobileModel model = responseData.getData();
@@ -119,10 +123,12 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
                         intent.putExtra("mobile", phoneNum);
                         intent.putExtra("needQuery", true);//需要查询基础数据
+                        intent.putExtra("fromAddCustomer",true);
                         startActivity(intent);
                     } else if (!IsRegistered) {//如果没有注册跳转到新客户页面
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
                         intent.putExtra("mobile", phoneNum);
+                        intent.putExtra("fromAddCustomer",true);
                         startActivity(intent);
                     }
                 } else {
@@ -132,6 +138,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void failure(RetrofitError error) {
+                dialogDissmiss();
                 ZillaApi.dealNetError(error);
             }
         });
@@ -142,4 +149,21 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
+
+    public final static String KILL_SELF = "KILL_SELF";
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equalsIgnoreCase(KILL_SELF)) {
+                finish();
+            }
+        }
+    };
+
 }

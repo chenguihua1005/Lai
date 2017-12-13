@@ -80,6 +80,7 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
         adapter = new RemarkAdapter(remarkModels, getContext());
         plv_history.setAdapter(adapter);
 
+        dialogShow(getString(R.string.loading));
         getPresenter().getRemarkList("", mobile, 1, 100);
 
 

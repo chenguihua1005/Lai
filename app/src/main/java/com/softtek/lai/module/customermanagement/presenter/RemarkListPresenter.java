@@ -29,6 +29,9 @@ public class RemarkListPresenter extends BasePresenter<RemarkListPresenter.Remar
         service.getRemarkOfCustomer(UserInfoModel.getInstance().getToken(), cludId, mobile, index, size, new Callback<ResponseData<RemarkModel>>() {
             @Override
             public void success(ResponseData<RemarkModel> responseData, Response response) {
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
                 int status = responseData.getStatus();
                 if (200 == status) {
                     if (getView() != null) {
@@ -41,6 +44,9 @@ public class RemarkListPresenter extends BasePresenter<RemarkListPresenter.Remar
 
             @Override
             public void failure(RetrofitError error) {
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
                 ZillaApi.dealNetError(error);
             }
         });
