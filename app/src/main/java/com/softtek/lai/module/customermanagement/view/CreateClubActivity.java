@@ -1,6 +1,7 @@
 package com.softtek.lai.module.customermanagement.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
     private TextView mConfim;
     private LinearLayout mBack;
     private TextView mTitle;
+    private boolean isFirstClub;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
     }
 
     private void initView(){
+        isFirstClub = getIntent().getBooleanExtra("maki_isfirst",false);
         mClubName = findViewById(R.id.edt_name);
         mConfim = findViewById(R.id.tv_right);
         mBack = findViewById(R.id.ll_left);
@@ -79,6 +82,14 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
             public void success(ResponseData<ClubCreateResponse> responseData, Response response) {
                 if (responseData.getStatus() == 200){
                     Toast.makeText(CreateClubActivity.this,"创建" + responseData.getData().getName() + "成功", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(CreateClubActivity.this, ClubActivity.class);
+                        intent.putExtra("maki", true);
+                        intent.putExtra("makise", responseData.getData().getID());//俱乐部ID
+                    if (!isFirstClub) {
+                        setResult(RESULT_OK, intent);
+                    }else {
+                        startActivity(intent);
+                    }
                     finish();
                 }else {
                     Toast.makeText(CreateClubActivity.this,responseData.getMsg(), Toast.LENGTH_LONG).show();

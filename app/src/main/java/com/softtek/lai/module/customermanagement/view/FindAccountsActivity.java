@@ -1,10 +1,14 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -13,12 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.adapter.InviteRecyclerViewAdapter;
 import com.softtek.lai.module.customermanagement.model.InviteModel;
 import com.softtek.lai.module.customermanagement.service.ClubService;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
@@ -80,38 +86,40 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
             }
         }, new InviteRecyclerViewAdapter.InviteListener() {
             @Override
-            public void onInviteClickListener(final View view, int position) {
+            public void onInviteClickListener(View view, int position) {
                 ((TextView) view).setText("待处理");
                 view.setBackground(getResources().getDrawable(R.drawable.bg_invite_club_clicked));
                 service.invitetoBeWorker(UserInfoModel.getInstance().getToken(), clubId, inviteModelList.get(position).getAccountId(), new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         if (responseData.getStatus() == 200) {
+                            inviteRecyclerViewAdapter.setClickable(false);
                             Toast.makeText(FindAccountsActivity.this, "邀请成功", Toast.LENGTH_SHORT).show();
-                            view.setEnabled(false);
                         } else {
+                            inviteRecyclerViewAdapter.setClickable(true);
                             Toast.makeText(FindAccountsActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
-                            view.setEnabled(false);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        view.setEnabled(true);
+                        inviteRecyclerViewAdapter.setClickable(true);
                         Toast.makeText(FindAccountsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                         super.failure(error);
                     }
                 });
             }
         }, this);
+        inviteRecyclerViewAdapter.setClickable(true);
+        inviteRecyclerViewAdapter.setSearch(true);
         mRecyclerView.setAdapter(inviteRecyclerViewAdapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
 
     }
-
     private void doSearch() {
         inviteModelList.clear();
+        inviteRecyclerViewAdapter.setClickable(true);
         if (mSearch.getText().toString().equals("")) {
             Toast.makeText(this, "CN号或者电话号不能为空", Toast.LENGTH_SHORT).show();
             return;
@@ -133,7 +141,6 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
             public void failure(RetrofitError error) {
                 dialogDismiss();
                 super.failure(error);
-                Toast.makeText(FindAccountsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

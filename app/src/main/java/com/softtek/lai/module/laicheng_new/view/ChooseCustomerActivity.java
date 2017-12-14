@@ -8,17 +8,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.customermanagement.adapter.ChooseClubRecyclerViewAdapter;
-import com.softtek.lai.module.customermanagement.model.ClubNameModel;
-import com.softtek.lai.module.laicheng_new.adapter.ChooseCustomerRecyclerViewAdapter;
-import com.softtek.lai.module.laicheng_new.model.CustomerData;
+import com.softtek.lai.module.customermanagement.view.MakiBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +21,7 @@ import java.util.List;
  * Created by jia.lu on 11/28/2017.
  */
 
-public class ChooseCustomerAvtivity extends FragmentActivity implements View.OnClickListener{
+public class ChooseCustomerActivity extends MakiBaseActivity implements View.OnClickListener{
     private TabLayout mTab;
     private ViewPager mViewPager;
     private TabLayout.Tab mTabOne;
@@ -35,7 +29,7 @@ public class ChooseCustomerAvtivity extends FragmentActivity implements View.OnC
     private FrameLayout mBack;
     List<Fragment> fragments = new ArrayList<>();
     CustomerIntentionFragment intentionFragment;
-    PersonnelFragment personnelFragment;
+    StaffFragment staffFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +45,7 @@ public class ChooseCustomerAvtivity extends FragmentActivity implements View.OnC
         mBack = findViewById(R.id.fl_left);
         mBack.setOnClickListener(this);
         fragments.add(intentionFragment);
-        fragments.add(personnelFragment);
+        fragments.add(staffFragment);
         mViewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager(),fragments));
         mTab.setupWithViewPager(mViewPager);
         mTabOne = mTab.getTabAt(0);
@@ -62,7 +56,7 @@ public class ChooseCustomerAvtivity extends FragmentActivity implements View.OnC
 
     private void initData(){
         intentionFragment = new CustomerIntentionFragment();
-        personnelFragment = new PersonnelFragment();
+        staffFragment = new StaffFragment();
     }
 
     @Override

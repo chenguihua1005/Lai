@@ -15,6 +15,15 @@ public class VisitorModel implements Parcelable {
     private String PhoneNo;//
     private long visitorId;
     private String classId;
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public String getClassId() {
         return classId;

@@ -177,9 +177,9 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
                                     deleteDialog.dismiss();
                                 }
                             });
-                    if (deleteDialog == null){
+//                    if (deleteDialog == null){
                         deleteDialog = deleteBuilder.create();
-                    }
+//                    }
                     deleteDialog.show();
 
                 }

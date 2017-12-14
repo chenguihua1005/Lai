@@ -29,7 +29,7 @@ import zilla.libcore.api.ZillaApi;
  * Created by jia.lu on 11/29/2017.
  */
 
-public class PersonnelFragment extends Fragment {
+public class StaffFragment extends Fragment {
     private View mView;
     private RecyclerView mRecyclerView;
     private ChooseCustomerRecyclerViewAdapter recyclerViewAdapter;

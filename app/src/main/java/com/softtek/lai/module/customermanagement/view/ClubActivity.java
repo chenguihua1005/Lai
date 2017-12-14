@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,8 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
     private TextView mChangeClubName;
     private TextView mCloseClub;
     private TextView mTitle;
+    private ImageView mTitleImage;
+    private LinearLayout mTilteContent;
     private LinearLayout mBack;
     private TextView mAddClub;
     private TextView mSort;
@@ -77,7 +80,9 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         service = ZillaApi.NormalRestAdapter.create(ClubService.class);
         Intent intent = getIntent();
         hasRuler = intent.getBooleanExtra("maki", false);
+//        hasRuler = true;
         Log.d("maki",String.valueOf(hasRuler));
+        nowClubId = intent.getStringExtra("makise") == null ? "" : intent.getStringExtra("makise");
         initView();
     }
 
@@ -100,13 +105,16 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         mSwipRefreshView = findViewById(R.id.msrv_pull);
         mSort = findViewById(R.id.tv_new_personnel);
         mCustomerOperation = findViewById(R.id.ll_customer_operation);
+        mTitleImage = findViewById(R.id.iv_title);
+        mTilteContent = findViewById(R.id.ll_title);
         mSort.setOnClickListener(this);
         mBack.setOnClickListener(this);
         mInvitePersonnel.setOnClickListener(this);
         mChangeClubName.setOnClickListener(this);
         mCloseClub.setOnClickListener(this);
         mAddClub.setOnClickListener(this);
-        mTitle.setOnClickListener(this);
+//        mTitle.setOnClickListener(this);
+        mTilteContent.setOnClickListener(this);
         mSwipRefreshView.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
@@ -119,8 +127,10 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         });
         initRecyclerView();
         if (!hasRuler){
+            mAddClub.setVisibility(View.INVISIBLE);
             mCustomerOperation.setVisibility(View.INVISIBLE);
         }else {
+            mAddClub.setVisibility(View.VISIBLE);
             mCustomerOperation.setVisibility(View.VISIBLE);
         }
     }
@@ -137,14 +147,19 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     if (responseData.getData() == null) {
                         return;
                     }
+                    if (responseData.getData().getClubs().size() >= 2){
+                        mTitleImage.setVisibility(View.VISIBLE);
+                    }else {
+                        mTitleImage.setVisibility(View.GONE);
+                    }
                     clubs = responseData.getData().getClubs();
-                    clubsBean = clubs.get(0);
+                    clubsBean = clubs.get(0);//没有clubId的时候默认是第一个
                     for (int i = 0; i < clubs.size(); i++) {
                         if (clubs.get(i).getID().equals(clubId)) {
                             clubsBean = clubs.get(i);
                         }
                     }
-                    mTitle.setText(clubsBean.getName() + "俱乐部");
+                    mTitle.setText(clubsBean.getName());
                     mCustomerNum.setText(responseData.getData().getTotalCustomer() + "");
                     mCustomerToday.setText(responseData.getData().getTodayCustomer() + "");
                     personnelModelList.addAll(responseData.getData().getWorkers());
@@ -154,6 +169,8 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     }else {
                         mSort.setText("新增市场人员");
                     }
+                }else {
+                    Toast.makeText(ClubActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
                 }
                 if (mSwipRefreshView.isRefreshing()) {
                     mSwipRefreshView.setRefreshing(false);
@@ -242,6 +259,9 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
             chooseDialog = new AlertDialog.Builder(this).create();
             chooseDialog.setView(dialogView, 0, 0, 0, 0);
 //        }
+        if (isTitle && clubs.size() < 2){
+            return;
+        }
         chooseDialog.show();
     }
 
@@ -256,13 +276,16 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         mRename.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialogShow("加载中");
                 String name = mInput.getText().toString().trim();
+                mInput.setText("");
                 service.changeClubName(UserInfoModel.getInstance().getToken(), nowClubId, name, new RequestCallback<ResponseData>() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        dialogDismiss();
                         if (responseData.getStatus() == 200) {
-                            mTitle.setText(mInput.getText() + "俱乐部");
+                            setData(nowClubId,nowField,nowSort);
                         } else {
                             Toast.makeText(ClubActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
                         }
@@ -272,7 +295,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     @Override
                     public void failure(RetrofitError error) {
                         super.failure(error);
-                        Toast.makeText(ClubActivity.this, "修改失败" + error.toString(), Toast.LENGTH_SHORT).show();
+                        dialogDismiss();
                         renameDialog.dismiss();
                     }
                 });
@@ -283,6 +306,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
             @Override
             public void onClick(View view) {
                 renameDialog.dismiss();
+                mInput.setText("");
             }
         });
         if (renameDialog == null) {
@@ -304,6 +328,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                 createRenameDialog();
                 break;
             case R.id.tv_close_club:
+                dialogShow("加载中");
                 closeDialogBuilder = new AlertDialog.Builder(this);
                 closeDialogBuilder
                         .setMessage("确实要关闭俱乐部吗？")
@@ -313,6 +338,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                                 service.closeClub(UserInfoModel.getInstance().getToken(), nowClubId, new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
+                                        dialogDismiss();
                                         if (responseData.getStatus() == 200) {
                                             closeDialog.dismiss();
                                             finish();
@@ -328,6 +354,7 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogDismiss();
                                 closeDialog.dismiss();
                             }
                         });
@@ -339,18 +366,28 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.tv_title:
+            case R.id.ll_title:
                 createChangeDialog(true);
                 break;
             case R.id.tv_right:
-                startActivity(new Intent(this, CreateClubActivity.class));
+                startActivityForResult(new Intent(this, CreateClubActivity.class),233);
                 break;
             case R.id.tv_new_personnel:
                 createChangeDialog(false);
         }
     }
 
-//    /**
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            nowClubId = data.getStringExtra("makise");
+            hasRuler = data.getBooleanExtra("maki",false);
+
+        }
+    }
+
+    //    /**
 //     * 通用progressDialog
 //     *
 //     * @param value

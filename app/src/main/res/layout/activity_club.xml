@@ -30,6 +30,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
@@ -47,7 +48,14 @@
                 android:maxLines="1"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:drawableEnd="@drawable/club_down"/>
+                />
+            <ImageView
+                android:id="@+id/iv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/down_arrow_cheng"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout

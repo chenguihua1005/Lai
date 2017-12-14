@@ -76,6 +76,7 @@ public class InviteActivity extends MakiBaseActivity implements View.OnClickList
 
             }
         },this);
+        inviteRecyclerViewAdapter.setSearch(false);
         mRecyclerView.setAdapter(inviteRecyclerViewAdapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);

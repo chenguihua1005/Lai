@@ -28,6 +28,8 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.VisitGetPresenter;
+import com.softtek.lai.module.laicheng_new.view.ChooseCustomerActivity;
+import com.softtek.lai.module.laicheng_new.view.CustomerIntentionFragment;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -45,8 +47,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private VisitortestFragment.VisitorVoiceListener listener;
     private ShakeSwitch shakeOFF;
 
-    @InjectView(R.id.bt_again)
-    Button bt_again;
+//    @InjectView(R.id.bt_again)
+//    Button bt_again;
     private LinearLayout.LayoutParams parm;
     private StartVisitorLinkListener linkListener;
 
@@ -91,6 +93,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     LinearLayout mid_lay;
     @InjectView(R.id.iv_ble_icon)
     ImageView mBleIcon;
+    @InjectView(R.id.bt_choose_customer)
+    Button bt_choose_customer;
 
     VisitorModel model;
     VisitGetPresenter presenter;
@@ -202,6 +206,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     protected void initViews() {
         bt_create.setOnClickListener(this);
         bt_history.setOnClickListener(this);
+        bt_choose_customer.setOnClickListener(this);
         health_btn.setOnClickListener(this);
         share_btn.setOnClickListener(this);
         mBleState.setOnClickListener(this);
@@ -267,6 +272,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             case R.id.tv_info_state:
                 linkListener.onLinkVisitorListener();
                 break;
+            case R.id.bt_choose_customer:
+                startActivity(new Intent(getActivity(), ChooseCustomerActivity.class));
 
         }
     }
@@ -446,7 +453,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     visitorId = model.getVisitorId();
                     tv_name.setText(model.getName());
                     tv_phoneNo.setText(model.getPhoneNo());
-                    tv_age.setText((NowYear - choose_year) + "");
+                    if (model.getAge() == 0) {
+                        tv_age.setText((NowYear - choose_year) + "");
+                    }else {
+                        tv_age.setText(model.getAge() + "");
+                    }
                     if (0 == model.getGender()) {
                         tv_gender.setText("男");
                     } else {

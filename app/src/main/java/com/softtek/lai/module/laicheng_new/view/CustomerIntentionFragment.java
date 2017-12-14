@@ -1,8 +1,10 @@
 package com.softtek.lai.module.laicheng_new.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.net.BleService;
 import com.softtek.lai.module.laicheng_new.adapter.ChooseCustomerRecyclerViewAdapter;
 import com.softtek.lai.module.laicheng_new.model.CustomerData;
@@ -51,7 +55,17 @@ public class CustomerIntentionFragment extends Fragment {
         recyclerViewAdapter = new ChooseCustomerRecyclerViewAdapter(customerDataList, new ChooseCustomerRecyclerViewAdapter.ItemListener() {
             @Override
             public void onItemClick(CustomerData.ItemsBean item) {
-
+                VisitorModel model = new VisitorModel();
+                model.setBirthDate(item.getBirthDay());
+                model.setGender(item.getGender());
+                model.setName(item.getName());
+                model.setPhoneNo(item.getMobile());
+                model.setHeight(item.getHeight());
+                model.setAge(item.getAge());
+                model.setVisitorId(Long.parseLong(item.getMobile()));
+                LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
+                        sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", model));
+                getActivity().finish();
             }
         }, getActivity());
         mRecyclerView.setAdapter(recyclerViewAdapter);

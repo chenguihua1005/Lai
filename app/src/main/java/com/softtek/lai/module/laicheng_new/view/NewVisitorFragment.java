@@ -68,8 +68,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
 
     private Button health_btn;
     private Button share_btn;
-    private Button bt_create;//
+    private Button bt_create;
     private Button bt_history;
+    private Button bt_choose_customer;
     private ImageView mNote;
     private LinearLayout mNoteContent;
 
@@ -122,7 +123,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
-        bt_again = view.findViewById(R.id.bt_again);
+//        bt_again = view.findViewById(R.id.bt_again);
         tv_weight = view.findViewById(R.id.tv_weight);
         tv_weight_caption = view.findViewById(R.id.tv_weight_caption);
         tv_body_fat_rate = view.findViewById(R.id.tv_body_fat_rate);
@@ -134,6 +135,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         share_btn = view.findViewById(R.id.share_btn);
         bt_create = view.findViewById(R.id.bt_create);
         bt_history = view.findViewById(R.id.bt_history);
+        bt_choose_customer = view.findViewById(R.id.bt_choose_customer);
 
         ll_visitor = view.findViewById(R.id.ll_visitor);
         tv_name = view.findViewById(R.id.tv_name);
@@ -151,6 +153,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         health_btn.setOnClickListener(this);
         bt_create.setOnClickListener(this);
         share_btn.setOnClickListener(this);
+        bt_choose_customer.setOnClickListener(this);
         iv_voice.setOnClickListener(this);
         mNote.setOnClickListener(this);
 
@@ -217,7 +220,10 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.iv_note:
                 renameVisitorListener.onVRenameListener();
-
+                break;
+            case R.id.bt_choose_customer:
+                startActivity(new Intent(getActivity(),ChooseCustomerActivity.class));
+                break;
         }
     }
 
@@ -404,7 +410,11 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                     visitorId = model.getVisitorId();
                     tv_name.setText(model.getName());
                     tv_phoneNo.setText(model.getPhoneNo());
-                    tv_age.setText((NowYear - choose_year) + "");
+                    if (model.getAge() == 0) {
+                        tv_age.setText((NowYear - choose_year) + "");
+                    }else {
+                        tv_age.setText(model.getAge() + "");
+                    }
                     if (0 == model.getGender()) {
                         tv_gender.setText("男");
                     } else {
@@ -472,5 +482,4 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     public VisitorModel getVisitorModel() {
         return model;
     }
-
 }

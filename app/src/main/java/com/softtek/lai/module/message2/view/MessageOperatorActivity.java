@@ -236,9 +236,9 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                 }
                             });
 
-                    if (inviteDialog == null) {
+//                    if (inviteDialog == null) {
                         inviteDialog = inviteDialogBuilder.create();
-                    }
+//                    }
                     inviteDialog.show();
                 }else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);

@@ -28,8 +28,27 @@ public class InviteRecyclerViewAdapter extends RecyclerView.Adapter<InviteRecycl
     private ItemListener myListener;
     private InviteListener inviteListener;
     private Context mContext;
+    private boolean clickable;
 
-    public InviteRecyclerViewAdapter(List<InviteModel.ItemsBean> items, ItemListener listener,InviteListener inviteListener,Context context) {
+    public boolean isSearch() {
+        return isSearch;
+    }
+
+    public void setSearch(boolean search) {
+        isSearch = search;
+    }
+
+    private boolean isSearch;
+
+    public boolean isClickable() {
+        return clickable;
+    }
+
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
+    }
+
+    public InviteRecyclerViewAdapter(List<InviteModel.ItemsBean> items, ItemListener listener, InviteListener inviteListener, Context context) {
         myItems = items;
         myListener = listener;
         mContext = context;
@@ -97,7 +116,11 @@ public class InviteRecyclerViewAdapter extends RecyclerView.Adapter<InviteRecycl
             mUsername.setText(item.getUserName());
             mPhone.setText(item.getMobile() + "");
             if (item.getStatus() == 0){
-                mStatus.setText("邀 请");
+                if (isSearch()) {
+                    mStatus.setText("邀 请");
+                }else {
+                    mStatus.setText("待处理");
+                }
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_unclick));
             }else if (item.getStatus() == 1){
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
@@ -106,14 +129,16 @@ public class InviteRecyclerViewAdapter extends RecyclerView.Adapter<InviteRecycl
                 mStatus.setText("已拒绝");
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
             }else if (item.getStatus() == -1){
-                mStatus.setText("忽 略");
+                mStatus.setText("删 除");
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
             }
             mStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (inviteListener != null) {
-                        inviteListener.onInviteClickListener(view,getAdapterPosition());
+                        if (isClickable()) {
+                            inviteListener.onInviteClickListener(view, getAdapterPosition());
+                        }
                     }
                 }
             });

@@ -39,7 +39,7 @@
             android:text="新建访客" />
 
         <Button
-            android:id="@+id/bt_from"
+            android:id="@+id/bt_choose_customer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
