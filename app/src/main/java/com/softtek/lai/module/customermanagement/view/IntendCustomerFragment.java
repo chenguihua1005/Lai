@@ -88,6 +88,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
         customerAdapter = new CustomerAdapter(getContext(), modelList);
         plv_audit.setAdapter(customerAdapter);
+        dialogShow(getString(R.string.loading));
         getPresenter().getIntentCustomerList(pageindex, pageSize);
 
     }
@@ -97,6 +98,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
         Intent intent = new Intent(getContext(), CustomerDetailActivity.class);
         CustomerModel model = modelList.get(position - 1);
         intent.putExtra("mobile", model.getMobile());
+        intent.putExtra("isRegistered", model.isTag());
         startActivity(intent);
     }
 

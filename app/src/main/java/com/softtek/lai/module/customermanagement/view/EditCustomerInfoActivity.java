@@ -32,6 +32,7 @@ import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
+import com.softtek.lai.module.customermanagement.presenter.EditCustomerPresenter;
 import com.softtek.lai.module.customermanagement.presenter.SaveCustomerPresenter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -44,10 +45,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
+
+import static com.softtek.lai.R.id.et_phone;
+import static com.softtek.lai.R.string.phoneNum;
 
 
 /**
@@ -55,7 +60,7 @@ import zilla.libcore.util.Util;
  */
 
 @InjectLayout(R.layout.activity_creatfile_customer)
-public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener, SaveCustomerPresenter.SaveCustomerCallback {
+public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter> implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener, EditCustomerPresenter.UpdateCustomerCallback {
     private List<String> gradeList = new ArrayList<>();
     private List<String> gradeIDList = new ArrayList<>();
     private String select_grade = "";
@@ -108,6 +113,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     @InjectView(R.id.ll_weight)
     ViewGroup ll_weight;
+    @InjectView(R.id.ll_remark)
+    ViewGroup ll_remark;
 
     //toolbar
     //标题
@@ -127,17 +134,18 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+    @InjectView(R.id.btn_delete)
+    Button btn_delete;
+
     //存储用户表单数据
     private CustomerInfoModel file;
     private static final int GET_BODY_DIMENSION = 1;
 
     private boolean w = true;
 
-    private FindCustomerModel model = null;
+    //    private FindCustomerModel model = null;
     private String mobile = "";
     private boolean needQuery;
-    private boolean fromRegistPage;//
-    private boolean fromAddCustomer;//从AddCustomerActivity页面跳转过来
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +159,9 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         ll_left.setOnClickListener(this);
         //        iv_left.setVisibility(View.GONE);
         tv_right.setText("下一步");
-//        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
+
         fl_right.setOnClickListener(this);
+        btn_delete.setOnClickListener(this);
 
     }
 
@@ -160,10 +169,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     protected void initViews() {
         mobile = getIntent().getStringExtra("mobile");
         needQuery = getIntent().getBooleanExtra("needQuery", false);
-        fromRegistPage = getIntent().getBooleanExtra("fromRegistPage", false);
-        fromAddCustomer = getIntent().getBooleanExtra("fromAddCustomer", false);
 
-        setPresenter(new SaveCustomerPresenter(this));
+        setPresenter(new EditCustomerPresenter(this));
 
         //获取当前年月日
         currentMonth = DateUtil.getInstance().getCurrentMonth();
@@ -187,21 +194,23 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     @Override
     protected void initDatas() {
-        tv_title.setText("创建新客户");
+        tv_title.setText("编辑客户信息");
+        ll_remark.setVisibility(View.GONE);
+        btn_delete.setVisibility(View.VISIBLE);
         file = new CustomerInfoModel();
         addGrade();
         if (needQuery) {
-            ll_nickname.setEnabled(false);
-            ll_birth.setEnabled(false);
-            ll_sex.setEnabled(false);
-            ll_height.setEnabled(false);
-            ll_weight.setEnabled(false);
-
-            et_nickname.setEnabled(false);
-            tv_birth.setEnabled(false);
-            tv_sex.setEnabled(false);
-            tv_height.setEnabled(false);
-            tv_weight.setEnabled(false);
+//            ll_nickname.setEnabled(false);
+//            ll_birth.setEnabled(false);
+//            ll_sex.setEnabled(false);
+//            ll_height.setEnabled(false);
+//            ll_weight.setEnabled(false);
+//
+//            et_nickname.setEnabled(false);
+//            tv_birth.setEnabled(false);
+//            tv_sex.setEnabled(false);
+//            tv_height.setEnabled(false);
+//            tv_weight.setEnabled(false);
 
             dialogShow(getResources().getString(R.string.loading));
             getPresenter().getCustomerBasicInfo(mobile);
@@ -216,6 +225,9 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
                 break;
             case R.id.fl_right:
                 validateLife.validate();
+                break;
+            case R.id.btn_delete:
+                deleteCustomer();
                 break;
         }
     }
@@ -280,7 +292,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-        String remark = remark_et.getText().toString();
+//        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
@@ -299,14 +311,13 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-            file.setRemark(remark);
+//            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
                 file.setMobile(mobile);
             }
 
-            Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
             dialogShow("正在提交数据...");
-            getPresenter().saveCustomerInfo(file);
+            getPresenter().updateCustomerInfo(file);
         }
     }
 
@@ -450,7 +461,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (np1.getValue() < 80) {
-                    Dialog dialog1 = new AlertDialog.Builder(NewCustomerActivity.this)
+                    Dialog dialog1 = new AlertDialog.Builder(EditCustomerInfoActivity.this)
                             .setMessage("体重单位为斤,是否确认数值?")
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
@@ -536,7 +547,6 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     @Override
     public void getBasicInfo(BasicInfoModel model) {
-        Util.toastMsg("查询数据成功！");
         if (model != null) {
             BasicModel basicModel = model.getBasics();
             et_nickname.setText(basicModel.getName());
@@ -548,23 +558,38 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     }
 
     @Override
-    public void SaveCustomerSucsess() {
+    public void UpdateCustomerSucsess() {
         //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        finish();
+    }
 
-        if (fromAddCustomer) {
-            Intent intent1 = new Intent(AddCustomerActivity.KILL_SELF);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent1);
-        }
+    @Override
+    public void removeCustomerSuccess() {
+        Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
-        if (fromRegistPage) {
-            Intent intent1 = new Intent(RegistForCustomerActivity.DESTROY_SELF_REGISTPAGE);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent1);
-        }
+        Intent intent2 = new Intent(CustomerDetailActivity.DESTROY_SELF);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent2);
 
         finish();
     }
 
+    private void deleteCustomer() {
+        new AlertDialog.Builder(EditCustomerInfoActivity.this).setTitle("温馨提示").setMessage("您确定删除该客户？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogShow("正在提交数据...");
+                        getPresenter().removeCustomer(mobile);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).create().show();
+
+    }
 
 }

@@ -1,6 +1,10 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -69,7 +73,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(KILL_SELF));
     }
 
     @Override
@@ -81,8 +85,6 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
             case R.id.fl_right:
                 validateLife.validate();
                 break;
-
-
         }
     }
 
@@ -90,10 +92,12 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
     public void onValidationSucceeded() {
         final String phoneNum = et_phone.getText().toString().trim();
 
+        dialogShow(getString(R.string.loading));
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
         service.getSituationOfTheMobile(UserInfoModel.getInstance().getToken(), phoneNum, "", new Callback<ResponseData<SituationOfMobileModel>>() {
             @Override
             public void success(ResponseData<SituationOfMobileModel> responseData, Response response) {
+                dialogDissmiss();
                 int status = responseData.getStatus();
                 if (200 == status) {
                     SituationOfMobileModel model = responseData.getData();
@@ -105,21 +109,26 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 //                    如果已经被锁定且为本人下级直接跳转到个人详情页
                     if (IsLocked && IsDownline) {
                         Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
+                        intent.putExtra("mobile", phoneNum);
+                        intent.putExtra("isRegistered", IsRegistered);
                         startActivity(intent);
                     } else if (IsLocked && !IsDownline) {//如果已经被锁定且不是本人下级，提示添加失败
                         Util.toastMsg(responseData.getMsg());
                     } else if (IsInMyClub) {//如果已经被本俱乐部录为线索，跳转至个人详情页
                         Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
                         intent.putExtra("mobile", phoneNum);
+                        intent.putExtra("isRegistered", IsRegistered);
                         startActivity(intent);
                     } else if (IsRegistered && !IsLocked) {//如果已经注册账号但未被锁定，下一步时在新客户页面关联档案信息，可添加备注信息
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
                         intent.putExtra("mobile", phoneNum);
                         intent.putExtra("needQuery", true);//需要查询基础数据
+                        intent.putExtra("fromAddCustomer",true);
                         startActivity(intent);
                     } else if (!IsRegistered) {//如果没有注册跳转到新客户页面
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
                         intent.putExtra("mobile", phoneNum);
+                        intent.putExtra("fromAddCustomer",true);
                         startActivity(intent);
                     }
                 } else {
@@ -129,6 +138,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void failure(RetrofitError error) {
+                dialogDissmiss();
                 ZillaApi.dealNetError(error);
             }
         });
@@ -139,4 +149,21 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
+
+    public final static String KILL_SELF = "KILL_SELF";
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equalsIgnoreCase(KILL_SELF)) {
+                finish();
+            }
+        }
+    };
+
 }

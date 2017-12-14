@@ -318,6 +318,21 @@
             android:textSize="18sp"
             android:visibility="gone" />
 
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_confirm_btn"
+            android:gravity="center"
+            android:text="删除客户"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <View

@@ -7,6 +7,7 @@ import com.softtek.lai.module.customermanagement.model.InviteModel;
 import com.softtek.lai.module.customermanagement.model.PersonnelModel;
 import com.softtek.lai.utils.RequestCallback;
 
+import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -69,7 +70,7 @@ public interface ClubService {
                       @Query("input") String input,
                       @Query("index") int index,
                       @Query("size") int size,
-                      RequestCallback<ResponseData<InviteModel>> callback);
+                      Callback<ResponseData<InviteModel>> callback);
 
     @POST("/v1/Club/InviteToBeWorker")
     void invitetoBeWorker(@Header("token")String token,

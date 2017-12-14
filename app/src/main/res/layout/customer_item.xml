@@ -39,8 +39,8 @@
                     android:id="@+id/name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TOM"
-                    android:textSize="18sp" />
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/label_tv"
@@ -65,8 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_weight="1"
-                android:text="由张三于2017.10.10添加" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <ImageView

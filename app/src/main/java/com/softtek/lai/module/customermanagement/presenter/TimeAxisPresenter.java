@@ -30,6 +30,9 @@ public class TimeAxisPresenter extends BasePresenter<TimeAxisPresenter.TimeAxisC
         service.getTimeAxisOfCustomer(UserInfoModel.getInstance().getToken(), cludId, mobile, index, size, new Callback<ResponseData<TimeAxisModel>>() {
             @Override
             public void success(ResponseData<TimeAxisModel> responseData, Response response) {
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
                 int status = responseData.getStatus();
                 if (200 == status) {
                     if (getView() != null) {
@@ -42,6 +45,9 @@ public class TimeAxisPresenter extends BasePresenter<TimeAxisPresenter.TimeAxisC
 
             @Override
             public void failure(RetrofitError error) {
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
                 ZillaApi.dealNetError(error);
             }
         });

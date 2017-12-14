@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -19,8 +20,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.adapter.CustomerMenuAdapter;
 import com.softtek.lai.module.customermanagement.adapter.TypeFragmentAdapter;
 import com.softtek.lai.module.customermanagement.model.ClubAuthorityModel;
-import com.softtek.lai.module.customermanagement.model.CustomerListModel;
-import com.softtek.lai.module.customermanagement.presenter.IntendCustomerPresenter;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.ClubActivity;
@@ -29,6 +28,9 @@ import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.MarketerListFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.SearchCustomerActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +65,15 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     @InjectView(R.id.ll_search)
     LinearLayout ll_search;
 
+    @InjectView(R.id.lin_is_vr)
+    LinearLayout lin_is_vr;
+
+    @InjectView(R.id.ll_content)
+    LinearLayout ll_content;
+
+    @InjectView(R.id.but_login)
+    Button but_login;
+
     private CustomerMenuAdapter menuAdapter;
 
 
@@ -74,22 +85,40 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     List<Fragment> fragments = new ArrayList<>();
     TypeFragmentAdapter adapter;
 
+    boolean isLogin = false;
 
     @Override
     protected void initViews() {
         tv_title.setText("客户管理");
         ll_left.setVisibility(View.INVISIBLE);
-        iv_email.setBackgroundResource(R.drawable.club);
 
-        ll_search.setOnClickListener(this);
-        fl_right.setOnClickListener(this);
+        String token = UserInfoModel.getInstance().getToken();
+        String certification = UserInfoModel.getInstance().getUser().getCertification();
+        //判断token是否为空
+        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(certification)) {
+            //token为空，游客模式显示立即登陆页面
+            isLogin = false;
+            lin_is_vr.setVisibility(View.VISIBLE);
+            ll_content.setVisibility(View.GONE);
+            but_login.setOnClickListener(this);
+        } else {
+            //token不为空，非游客模式，隐藏立即登陆页面
+            isLogin = true;
+            lin_is_vr.setVisibility(View.GONE);
+            ll_content.setVisibility(View.VISIBLE);
 
-        fragments.add(IntendCustomerFragment.getInstance());
-        fragments.add(MarketerListFragment.getInstance());
+            iv_email.setBackgroundResource(R.drawable.club);
 
-        adapter = new TypeFragmentAdapter(getChildFragmentManager(), fragments);
-        container.setAdapter(adapter);
-        tab.setupWithViewPager(container);
+            ll_search.setOnClickListener(this);
+            fl_right.setOnClickListener(this);
+
+            fragments.add(IntendCustomerFragment.getInstance());
+            fragments.add(MarketerListFragment.getInstance());
+
+            adapter = new TypeFragmentAdapter(getChildFragmentManager(), fragments);
+            container.setAdapter(adapter);
+            tab.setupWithViewPager(container);
+        }
 
 
     }
@@ -131,6 +160,12 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 break;
             case R.id.fl_right:
                 judgeClubAuthority();
+                break;
+            case R.id.but_login:
+                Intent toLoginIntent = new Intent(getContext(), LoginActivity.class);
+                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(toLoginIntent);
                 break;
 
         }

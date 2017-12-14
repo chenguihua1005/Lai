@@ -1,5 +1,6 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -32,8 +33,7 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
-import static android.R.attr.editable;
-import static org.slf4j.MDC.clear;
+import static java.security.AccessController.getContext;
 
 /**
  * Created by jessica.zhang on 11/21/2017.   SearchContactActivity
@@ -146,7 +146,11 @@ public class SearchCustomerActivity extends BaseActivity<SearchCustomerPresenter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent intent = new Intent(this, CustomerDetailActivity.class);
+        CustomerModel model = modelList.get(position - 1);
+        intent.putExtra("mobile", model.getMobile());
+        intent.putExtra("isRegistered", model.isTag());
+        startActivity(intent);
     }
 
     @Override

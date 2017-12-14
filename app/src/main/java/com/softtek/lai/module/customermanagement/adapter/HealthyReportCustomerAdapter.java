@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.customermanagement.model.HealthyItemModel;
 import com.softtek.lai.module.healthyreport.model.HealthyItem;
 
 import java.util.List;
@@ -26,11 +25,11 @@ import java.util.List;
 public class HealthyReportCustomerAdapter extends RecyclerView.Adapter<HealthyReportCustomerAdapter.HealthyReportHolder> {
 
     private Context context;
-    private List<HealthyItemModel> items;
+    private List<HealthyItem> items;
     private OnItemClickListener listener;
     private boolean isVisitor;
 
-    public HealthyReportCustomerAdapter(List<HealthyItemModel> items, Context context, boolean isVisitor) {
+    public HealthyReportCustomerAdapter(List<HealthyItem> items, Context context, boolean isVisitor) {
         this.items = items;
         this.context = context;
         this.isVisitor = isVisitor;
@@ -43,7 +42,7 @@ public class HealthyReportCustomerAdapter extends RecyclerView.Adapter<HealthyRe
 
     @Override
     public void onBindViewHolder(HealthyReportHolder holder, final int position) {
-        HealthyItemModel item = items.get(position);
+        HealthyItem item = items.get(position);
         holder.tv_name.setText(item.getTitle());
         holder.tv_standard.setText(item.getCaption());
         if (!TextUtils.isEmpty(item.getColor())) {

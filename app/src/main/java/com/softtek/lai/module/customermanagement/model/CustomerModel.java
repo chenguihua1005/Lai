@@ -1,5 +1,7 @@
 package com.softtek.lai.module.customermanagement.model;
 
+import android.nfc.Tag;
+
 /**
  * Created by jessica.zhang on 11/16/2017.
  */
@@ -12,7 +14,8 @@ public class CustomerModel {
     private float Height;//身高
     private String BirthDay;//出生日期
     private int Age;//年龄，周岁
-    private String Tag;//标签
+    private boolean Tag;//标签 是否注册，true-已注册，false-未注册
+    private String TagName;//是否注册描述
     private String Photo;//头像
     private String Creator;//添加人姓名
     private String CreatedTime;//添加时间
@@ -73,12 +76,20 @@ public class CustomerModel {
         Name = name;
     }
 
-    public String getTag() {
+    public boolean isTag() {
         return Tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(boolean tag) {
         Tag = tag;
+    }
+
+    public String getTagName() {
+        return TagName;
+    }
+
+    public void setTagName(String tagName) {
+        TagName = tagName;
     }
 
     public String getPhoto() {

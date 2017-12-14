@@ -85,7 +85,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
             EditText remark_et;
 
     @InjectView(R.id.ll_remark)//备注需要隐藏
-    LinearLayout ll_remark;
+            LinearLayout ll_remark;
 
     //添加身体围度按钮
 //    @InjectView(R.id.btn_Add_bodydimension)
@@ -147,7 +147,6 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         btn_finish.setOnClickListener(this);
 
         ll_remark.setVisibility(View.GONE);
-
 
 
         ll_left.setOnClickListener(this);
@@ -518,7 +517,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
+        finish();
     }
 
     @Override

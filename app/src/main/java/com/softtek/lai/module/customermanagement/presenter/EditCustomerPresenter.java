@@ -6,8 +6,6 @@ import com.softtek.lai.common.mvp.BasePresenter;
 import com.softtek.lai.common.mvp.BaseView;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
-import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
-import com.softtek.lai.module.customermanagement.model.SituationOfMobileModel;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -21,10 +19,10 @@ import zilla.libcore.util.Util;
  * Created by jessica.zhang on 11/24/2017.
  */
 
-public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.SaveCustomerCallback> {
+public class EditCustomerPresenter extends BasePresenter<EditCustomerPresenter.UpdateCustomerCallback> {
     CustomerService service;
 
-    public SaveCustomerPresenter(SaveCustomerCallback baseView) {
+    public EditCustomerPresenter(UpdateCustomerCallback baseView) {
         super(baseView);
         service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
     }
@@ -58,10 +56,8 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
     }
 
 
-
-
-    public void saveCustomerInfo(CustomerInfoModel model) {
-        service.saveCustomer(UserInfoModel.getInstance().getToken(), model, new RequestCallback<ResponseData>() {
+    public void updateCustomerInfo(CustomerInfoModel model) {
+        service.updateCustomer(UserInfoModel.getInstance().getToken(), model, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();
@@ -70,8 +66,9 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
                 }
                 switch (status) {
                     case 200:
+                        Util.toastMsg(responseData.getMsg());
                         if (getView() != null) {
-                            getView().SaveCustomerSucsess();
+                            getView().UpdateCustomerSucsess();
                         }
                         break;
                     default:
@@ -89,16 +86,46 @@ public class SaveCustomerPresenter extends BasePresenter<SaveCustomerPresenter.S
                 super.failure(error);
             }
         });
+    }
 
+    public void removeCustomer(String mobile) {
+        service.removeCustomer(UserInfoModel.getInstance().getToken(), mobile, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status = responseData.getStatus();
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
+                switch (status) {
+                    case 200:
+                        Util.toastMsg(responseData.getMsg());
+                        if (getView() != null) {
+                            getView().removeCustomerSuccess();
+                        }
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
 
     }
 
 
-    public interface SaveCustomerCallback extends BaseView {
+    public interface UpdateCustomerCallback extends BaseView {
         void getBasicInfo(BasicInfoModel model);
 
-        void SaveCustomerSucsess();
+        void UpdateCustomerSucsess();
 
-
+        void removeCustomerSuccess();
     }
 }

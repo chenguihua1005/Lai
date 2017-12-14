@@ -52,6 +52,7 @@ public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> impl
         adapter = new StatisAdapter(getContext(), modelList);
         lv.setAdapter(adapter);
 
+        dialogShow(getString(R.string.loading));
         getPresenter().getTimeAxisOfCustomer("", mobile, 1, 100);
 
     }

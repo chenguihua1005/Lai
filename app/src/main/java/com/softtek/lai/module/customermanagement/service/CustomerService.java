@@ -238,5 +238,34 @@ public interface CustomerService {
             Callback<ResponseData> callback
     );
 
+    /**
+     * 移除客户
+     *
+     * @param token
+     * @param mobile
+     * @param callback
+     */
+    @POST("/v1/Club/RemoveCustomer")
+    void removeCustomer(
+            @Header("token") String token,
+            @Query("mobile") String mobile,
+            Callback<ResponseData> callback
+    );
+
+    /**
+     * 修改客户信息
+     *
+     * @param token
+     * @param model
+     * @param callback
+     */
+
+    @POST("/v1/Club/UpdateCustomer")
+    void updateCustomer(
+            @Header("token") String token,
+            @Body CustomerInfoModel model,
+            RequestCallback<ResponseData> callback
+    );
+
 
 }

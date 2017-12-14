@@ -92,6 +92,9 @@ public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getContext(), CustomerDetailActivity.class);
+        CustomerModel model = modelList.get(position - 1);
+        intent.putExtra("mobile", model.getMobile());
+        intent.putExtra("isRegistered", true);
         startActivity(intent);
     }
 

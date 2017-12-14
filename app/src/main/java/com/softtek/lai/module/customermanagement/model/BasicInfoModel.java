@@ -7,6 +7,7 @@ package com.softtek.lai.module.customermanagement.model;
 public class BasicInfoModel {
     private BasicModel Basics;//基本信息
     private LatestRecordModel Latest;//最新测量记录
+    private HealthRecordModel Record;
 
     public BasicModel getBasics() {
         return Basics;
@@ -22,5 +23,13 @@ public class BasicInfoModel {
 
     public void setLatest(LatestRecordModel latest) {
         Latest = latest;
+    }
+
+    public HealthRecordModel getRecord() {
+        return Record;
+    }
+
+    public void setRecord(HealthRecordModel record) {
+        Record = record;
     }
 }
