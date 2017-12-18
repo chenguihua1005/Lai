@@ -3,6 +3,8 @@ package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,13 +22,9 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.presenter.CertificationPresenter;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.SoftInputUtil;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import java.io.UnsupportedEncodingException;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -38,7 +36,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.activity_validate_certification)
 public class ValidateCertificationActivity extends BaseActivity<CertificationPresenter> implements View.OnClickListener,
-        Validator.ValidationListener,CertificationPresenter.CertificationView{
+        Validator.ValidationListener, CertificationPresenter.CertificationView {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -76,7 +74,7 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
         edit_account.setText("");
         setData();
 
-        Intent intent=new Intent(this, HomeActviity.class);
+        Intent intent = new Intent(this, HomeActviity.class);
         startActivity(intent);
         finish();
     }
@@ -125,9 +123,25 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
         String memberId = edit_account.getText().toString();
+
+        String password_base64 = new String(Base64.encode(password.getBytes(), Base64.NO_WRAP));//NO_WRAP
+
+        Log.i(TAG, "资格认证密码 base 64 加密结果 = " + password_base64);
         dialogShow("认证中...");
-        getPresenter().validateCertification(memberId, password, account);
+        getPresenter().validateCertification(memberId, password_base64, account);
     }
+
+//    public static String getBase64(String str) {
+//        String result = "";
+//        if (str != null) {
+//            try {
+//                result = new String(Base64.encode(str.getBytes("utf-8"), Base64.NO_WRAP), "utf-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return result;
+//    }
 
     /**
      * 点击屏幕隐藏软键盘
@@ -146,13 +160,14 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             startActivity(new Intent(this, HomeActviity.class));
             finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);

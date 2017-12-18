@@ -150,7 +150,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
 
 
         ll_left.setOnClickListener(this);
-        tv_right.setText("下一步");
+        tv_right.setText("完成");
         fl_right.setOnClickListener(this);
         setPresenter(new RegistCustomerInfoPresenter(this));
     }

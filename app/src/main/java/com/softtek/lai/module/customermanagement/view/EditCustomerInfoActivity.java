@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -31,13 +29,12 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
-import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
 import com.softtek.lai.module.customermanagement.presenter.EditCustomerPresenter;
-import com.softtek.lai.module.customermanagement.presenter.SaveCustomerPresenter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -45,14 +42,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
-import retrofit.Callback;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
-
-import static com.softtek.lai.R.id.et_phone;
-import static com.softtek.lai.R.string.phoneNum;
 
 
 /**
@@ -562,6 +555,11 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         //   需刷新前面列表
         Intent intent = new Intent(IntendCustomerFragment.UPDATE_INTENTCUSTOMER_LIST);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BasicInfoFragment.UPDATE_BASICINFO));
+
+        //发送事件
+        EventBus.getDefault().post(123);
         finish();
     }
 

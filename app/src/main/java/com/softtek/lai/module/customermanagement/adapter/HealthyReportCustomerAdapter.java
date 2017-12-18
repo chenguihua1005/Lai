@@ -65,6 +65,8 @@ public class HealthyReportCustomerAdapter extends RecyclerView.Adapter<HealthyRe
                 ss.setSpan(new SuperscriptSpan(), ss.length() - 1, ss.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
             holder.tv_num.setText(ss);
+        } else {
+            holder.tv_num.setText("");
         }
         holder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
