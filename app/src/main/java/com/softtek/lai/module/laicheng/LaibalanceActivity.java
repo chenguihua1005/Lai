@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -50,8 +51,8 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     TabLayout tab_balance;
     @InjectView(R.id.content)
     ViewPager content;
-    @InjectView(R.id.tv_title)
-    TextView mTitle;
+    @InjectView(R.id.ll_title)
+    LinearLayout mTitle;
 
     private int pageIndex;
 
@@ -94,6 +95,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 //                }).create().show();
 //    }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -102,6 +104,12 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 setBleStateListener(bleStateListener);
 //                mShakeListener.start();
                 Log.d("enter bleStateListener", "bleStateListener--------------");
+            }
+        }
+        if (requestCode == PERMISSION_REQUEST_CALL_PHONE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4006067818 "));
+                startActivity(intent);
             }
         }
 //        permission.onRequestPermissionsResult(this,requestCode,permissions,grantResults);
@@ -391,7 +399,13 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     @OnClick(R.id.fl_right)
     public void goToInstructions() {
-        startActivity(new Intent(LaibalanceActivity.this, InstructionsActivity.class));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_REQUEST_CALL_PHONE);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4006067818 "));
+            startActivity(intent);
+        }
+//        startActivity(new Intent(LaibalanceActivity.this, InstructionsActivity.class));
     }
 
     @Override

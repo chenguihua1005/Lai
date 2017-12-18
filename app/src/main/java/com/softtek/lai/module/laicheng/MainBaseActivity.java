@@ -91,6 +91,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     protected static int PERMISSION_REQUEST_COARSE_LOCATION = 233;
 
+    protected static int PERMISSION_REQUEST_CALL_PHONE = 2333;
+
     private boolean getClosedType() {
         return isClosed;
     }

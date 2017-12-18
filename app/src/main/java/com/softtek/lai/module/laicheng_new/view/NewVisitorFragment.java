@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.net.VisitorService;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -82,12 +84,14 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     private TextView tv_height;
     private LinearLayout mid_lay;
     private ImageView mBleIcon;
+    private ImageView mStyleType;
 
 
     private String recordId;
 
     private StartVisitorLinkListener linkListener;
     private RenameVisitorListener renameVisitorListener;
+    private ChangeStyleListener styleListener;
 
     private VisitorModel model;
     private String weight = "";//体重
@@ -112,6 +116,8 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         isNeedReconnect = needReconnect;
     }
 
+    private SharedPreferences mSharedPreferences;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -122,6 +128,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
+        mSharedPreferences = getActivity().getSharedPreferences(Contacts.SHARE_NAME,Activity.MODE_PRIVATE);
         bt_again = view.findViewById(R.id.bt_again);
         tv_weight = view.findViewById(R.id.tv_weight);
         tv_weight_caption = view.findViewById(R.id.tv_weight_caption);
@@ -145,6 +152,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         mBleIcon = view.findViewById(R.id.iv_ble_icon);
         mNote = view.findViewById(R.id.iv_note);
         mNoteContent = view.findViewById(R.id.ll_note);
+        mStyleType = view.findViewById(R.id.iv_style_type);
 
         mBleState.setOnClickListener(this);
         bt_history.setOnClickListener(this);
@@ -153,9 +161,15 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         share_btn.setOnClickListener(this);
         iv_voice.setOnClickListener(this);
         mNote.setOnClickListener(this);
+        mStyleType.setOnClickListener(this);
 
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         tv_weight.setTypeface(tf);
+        if(mSharedPreferences.getInt(Contacts.MAKI_STYLE,2) == 2){
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.relax));
+        }else {
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.training));
+        }
     }
 
     private void initData() {
@@ -217,7 +231,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.iv_note:
                 renameVisitorListener.onVRenameListener();
-
+                break;
+            case R.id.iv_style_type:
+                styleListener.onVisitorStyleTypeListener();
         }
     }
 
@@ -229,6 +245,10 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         void onVRenameListener();
     }
 
+    public interface ChangeStyleListener{
+        void onVisitorStyleTypeListener();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -237,6 +257,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         }
         if (context instanceof RenameVisitorListener){
             renameVisitorListener = (RenameVisitorListener)context;
+        }
+        if (context instanceof ChangeStyleListener){
+            styleListener = (ChangeStyleListener)context;
         }
     }
 
@@ -473,4 +496,12 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         return model;
     }
 
+
+    public void changeStyleImg(int type){
+        if (type == 2){
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.relax));
+        }else {
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.training));
+        }
+    }
 }

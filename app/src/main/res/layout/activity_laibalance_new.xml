@@ -21,35 +21,57 @@
             android:id="@+id/fl_left"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:gravity="center">
+
             <ImageView
                 android:id="@+id/iv_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/back"
-                />
+                android:src="@drawable/back" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
             android:gravity="center"
-            android:layout_marginEnd="70dp">
-            <TextView
-                android:id="@+id/tv_title"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="40dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="新莱秤"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="(四电极)"/>
+
+            </LinearLayout>
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="莱秤 Lite(四电极)"
-                android:drawablePadding="4dp"
-                android:drawableEnd="@drawable/down_arrow_cheng"
-                android:textSize="20sp" />
+                android:src="@drawable/down_arrow_cheng"
+                android:layout_marginStart="8dp"/>
+
+
         </LinearLayout>
 
 
@@ -57,19 +79,18 @@
             android:id="@+id/fl_right"
             android:layout_width="96dp"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:background="@drawable/text_selector"
-            android:transitionName="sharedView">
+            android:layout_gravity="end"
+            android:background="@drawable/text_selector">
 
             <TextView
                 android:id="@+id/use_description"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="使用说明"
+                android:text="云康宝\n4009982913"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:visibility="gone"/>
+                android:textSize="12sp"
+                android:drawableStart="@drawable/staff_tel"/>
 
         </FrameLayout>
 

@@ -5,14 +5,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +23,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -33,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.mapcore.util.co;
 import com.ggx.widgets.view.CustomProgress;
 import com.kitnew.ble.QNApiManager;
 import com.kitnew.ble.QNBleApi;
@@ -46,13 +43,12 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
-import com.softtek.lai.module.laicheng.SelftestFragment;
 import com.softtek.lai.module.laicheng.VisitorinfoActivity;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
-import com.softtek.lai.module.laicheng.util.BleManager;
 import com.softtek.lai.module.laicheng.util.DeviceListDialog;
 import com.softtek.lai.module.laicheng.util.SoundPlay;
 import com.softtek.lai.module.laicheng.util.StringMath;
@@ -64,26 +60,20 @@ import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
-import org.reactivestreams.Publisher;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-
-import java.util.Date;
 
 /**
  * Created by jia.lu on 2017/10/20.
@@ -92,8 +82,11 @@ import java.util.Date;
 public class NewLaiBalanceActivity extends FragmentActivity implements View.OnClickListener,
         NewSelfFragment.StartLinkListener,
         NewVisitorFragment.StartVisitorLinkListener,
-        NewSelfFragment.RenameListener, NewVisitorFragment.RenameVisitorListener {
+        NewSelfFragment.RenameListener, NewVisitorFragment.RenameVisitorListener,
+        NewSelfFragment.ChangeStyleListener,
+        NewVisitorFragment.ChangeStyleListener {
     private static int PERMISSION_REQUEST_COARSE_LOCATION = 233;
+    private static int PERMISSION_REQUEST_CALL_PHONE = 2333;
     private FrameLayout mLeftBack;
     private ViewPager mViewPager;
     private List<FragmentModel> fragmentModels = new ArrayList<>();
@@ -101,7 +94,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private NewVisitorFragment visitorFragment;
     private TabLayout mTab;
     private int pageIndex;
-    private TextView mTitle;
+    private LinearLayout mTitle;
+    private FrameLayout mTel;
     public static boolean isVoiceHelp = true;
     private QNBleApi qnBleApi;
     private QNUser qnUser;
@@ -117,12 +111,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private AlertDialog testFailDialog;
     private AlertDialog.Builder noVisitorBuilder;
     private AlertDialog chooseDialog;
+    private AlertDialog.Builder changeTpyeBuilder;
+    private AlertDialog changeTypeDialog;
 
     private int type = 1;//0自己，1访客
     private QNBleDevice connectedDevice;
     private BleMainData mainData;
     private SharedPreferences sharedPreferences;
     private BluetoothAdapter bluetoothAdapter;
+    private int algorithmType;
 
     private boolean isReceiveData = true;//重命名对话框弹出的时候是不接受数据的开关
 
@@ -136,6 +133,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         qnBleApi = QNApiManager.getApi(this);
         qnBleApi.setScanMode(QNBleApi.SCAN_MODE_ALL);
         qnBleApi.setWeightUnit(QNBleApi.WEIGHT_UNIT_KG);
+        qnBleApi.setAlgorithm(QNBleApi.ALGORITHM_V1);
         createLinkDialog();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -146,6 +144,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         initUi();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -160,6 +159,13 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             } else {
                 Toast.makeText(this, "请先获取蓝牙位置权限", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == PERMISSION_REQUEST_CALL_PHONE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "18068333198"));
+                startActivity(intent);
+            }
+        } else {
+            Toast.makeText(this, "请先获取拨打电话权限", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -279,10 +285,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     visitorFragment.setClickable(true);
                     selfFragment.setInvisible();
                 }
-                Log.d("maki","isStartTesting " + String.valueOf(isStartTesting));
-                if (!isStartTesting){
+                Log.d("maki", "isStartTesting " + String.valueOf(isStartTesting));
+                if (!isStartTesting) {
                     testFail();
-                    if (testingTimeout != null){
+                    if (testingTimeout != null) {
                         testingTimeout.dispose();
                     }
                 }
@@ -372,9 +378,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             }
                                             selfFragment.setStateTip("测量完成");
                                             visitorFragment.setStateTip("测量完成");
-                                        }else {
+                                        } else {
                                             testFail();
-                                            if (testingTimeout != null){
+                                            if (testingTimeout != null) {
                                                 testingTimeout.dispose();
                                             }
                                         }
@@ -522,7 +528,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
                     break;
                 case QNData.TYPE_HEART_RATE:
-                    postQnData.setHeart_rate((int)qnData.getAll().get(i).value);
+                    postQnData.setHeart_rate((int) qnData.getAll().get(i).value);
                     Log.d("nishikinomaki", String.valueOf(qnData.getAll().get(i).value));
             }
 
@@ -547,7 +553,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
             public void bluetoothDialogClick(final int positions) {
-                    deviceListDialog.dismiss();
+                deviceListDialog.dismiss();
                 if (deviceListDialog.getQNBluetoothDevice(positions) != null && deviceListDialog.getQNBluetoothDevice(positions).getDeviceName() != null &&
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
 //                    connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
@@ -653,14 +659,19 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
      */
     private void initUi() {
         sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
+        algorithmType = sharedPreferences.getInt(Contacts.MAKI_STYLE,QNBleApi.ALGORITHM_V1);
         selfFragment = NewSelfFragment.newInstance(null);
         visitorFragment = NewVisitorFragment.newInstance(null);
 
-        mLeftBack = (FrameLayout) findViewById(R.id.fl_left);
+        mLeftBack = findViewById(R.id.fl_left);
         mLeftBack.setOnClickListener(this);
-        mViewPager = (ViewPager) findViewById(R.id.vp_content);
-        mTab = (TabLayout) findViewById(R.id.tab_balance);
-        mTitle = (TextView) findViewById(R.id.tv_title);
+        mViewPager = findViewById(R.id.vp_content);
+        mTab = findViewById(R.id.tab_balance);
+        mTitle = findViewById(R.id.ll_title);
+        mTel = findViewById(R.id.fl_right);
+
+
+        mTel.setOnClickListener(this);
         mTitle.setOnClickListener(this);
 
         fragmentModels.add(new FragmentModel("给自己测量", selfFragment));
@@ -713,10 +724,22 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fl_left:
+//                showGuideView();
                 finish();
                 break;
-            case R.id.tv_title:
+            case R.id.ll_title:
                 createChangeDialog();
+                break;
+            case R.id.fl_right:
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            PERMISSION_REQUEST_CALL_PHONE);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4009982913"));
+                    startActivity(intent);
+                }
+
         }
     }
 
@@ -751,6 +774,44 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             chooseDialog.setView(dialogView, 0, 0, 0, 0);
         }
         chooseDialog.show();
+    }
+
+    private void createChooseTypeDialog() {
+        Log.d("maki", String.valueOf(algorithmType) + "  algorithm");
+        String message = "";
+        if (algorithmType == QNBleApi.ALGORITHM_V1) {
+            message = "您即将从”悠闲生活方式“切换到”健康锻炼生活方式”，哪一种生活方式符合您目前的生活状态呢？ 切换到”健康锻炼生活方式";
+        } else if (algorithmType == QNBleApi.ALGORITHM_V2) {
+            message = "您即将从”健康锻炼生活方式“切换到”悠闲生活方式”，哪一种生活方式符合您目前的生活状态呢？ 切换到”悠闲生活方式";
+        }
+        changeTpyeBuilder = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (algorithmType == QNBleApi.ALGORITHM_V2) {
+                            algorithmType = QNBleApi.ALGORITHM_V1;
+                        } else {
+                            algorithmType = QNBleApi.ALGORITHM_V2;
+                        }
+                        selfFragment.changeStyleImg(algorithmType);
+                        visitorFragment.changeStyleImg(algorithmType);
+                        qnBleApi.setAlgorithm(algorithmType);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt(Contacts.MAKI_STYLE,algorithmType);
+                        editor.apply();
+                        changeTypeDialog.dismiss();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        changeTypeDialog.dismiss();
+                    }
+                });
+        changeTypeDialog = changeTpyeBuilder.create();
+        if (!changeTypeDialog.isShowing()) {
+            changeTypeDialog.show();
+        }
     }
 
     /**
@@ -915,5 +976,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public void onStyleTypeListener() {
+        createChooseTypeDialog();
+    }
+
+    @Override
+    public void onVisitorStyleTypeListener() {
+        createChooseTypeDialog();
     }
 }

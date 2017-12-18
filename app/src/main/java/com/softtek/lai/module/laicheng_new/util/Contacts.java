@@ -20,4 +20,6 @@ import java.util.Map;
 public class Contacts {
     public final static String SHARE_NAME = "maki";
     public final static String CHOOSE_KEY = "choose_key";
+    public final static String MAKI_STYLE = "maki_style";
+    public final static String MAKI_IS_FIRST = "maki_is_first";
 }
