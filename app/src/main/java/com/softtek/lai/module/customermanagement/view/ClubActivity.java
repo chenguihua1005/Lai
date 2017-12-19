@@ -71,7 +71,6 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
     private String nowClubId = "";
     private int nowField = 0;//按照意向客户还是市场人员，默认0,0是意向客户
     private int nowSort = 1;//正序还是倒序，默认0,0是倒序
-    private CustomProgress progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -279,6 +278,11 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                 dialogShow("加载中");
                 String name = mInput.getText().toString().trim();
                 mInput.setText("");
+                if (name.equals("")){
+                    Toast.makeText(ClubActivity.this,"俱乐部名字不能为空",Toast.LENGTH_SHORT).show();
+                    dialogDismiss();
+                    return;
+                }
                 service.changeClubName(UserInfoModel.getInstance().getToken(), nowClubId, name, new RequestCallback<ResponseData>() {
                     @SuppressLint("SetTextI18n")
                     @Override

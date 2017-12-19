@@ -73,7 +73,7 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
     }
 
     private void createClub(){
-        if (mClubName.getText().toString().equals("")){
+        if (mClubName.getText().toString().trim().equals("")){
             Toast.makeText(CreateClubActivity.this,"请输入俱乐部名称",Toast.LENGTH_SHORT).show();
             return;
         }
