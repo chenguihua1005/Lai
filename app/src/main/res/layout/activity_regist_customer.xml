@@ -65,75 +65,90 @@
                         android:background="#75BA2B" />
                 </FrameLayout>
 
-<!--                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:visibility="gone">
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="left|center"
-                        android:layout_marginBottom="-6dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/password" />
-
-                    <EditText
-                        android:id="@+id/et_password"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border_none"
-                        android:hint="@string/passwordReg"
-                        android:inputType="textPassword"
-                        android:paddingLeft="40dp"
-                        android:paddingTop="6dp"
-                        android:singleLine="true"
-                        android:textColor="#333333"
-                        android:textColorHint="#c0c0c0"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="16sp" />
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="默认密码为：12345a"
+                        android:textColor="#c0c0c0" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:background="#75BA2B" />
-                </FrameLayout>
+                </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:visibility="gone">
+                <!--                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:visibility="gone">
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="left|center"
-                        android:layout_marginBottom="-5dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/password" />
+                                    <ImageView
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_gravity="left|center"
+                                        android:layout_marginBottom="-6dp"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/password" />
 
-                    <EditText
-                        android:id="@+id/et_repassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border_none"
-                        android:hint="@string/repassword"
-                        android:inputType="textPassword"
-                        android:paddingLeft="40dp"
-                        android:paddingTop="6dp"
-                        android:singleLine="true"
-                        android:textColor="#333333"
-                        android:textColorHint="#c0c0c0"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="16sp" />
+                                    <EditText
+                                        android:id="@+id/et_password"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/border_none"
+                                        android:hint="@string/passwordReg"
+                                        android:inputType="textPassword"
+                                        android:paddingLeft="40dp"
+                                        android:paddingTop="6dp"
+                                        android:singleLine="true"
+                                        android:textColor="#333333"
+                                        android:textColorHint="#c0c0c0"
+                                        android:textCursorDrawable="@drawable/color_cursor"
+                                        android:textSize="16sp" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:background="#75BA2B" />
-                </FrameLayout>-->
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_gravity="bottom"
+                                        android:background="#75BA2B" />
+                                </FrameLayout>
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_gravity="left|center"
+                                        android:layout_marginBottom="-5dp"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/password" />
+
+                                    <EditText
+                                        android:id="@+id/et_repassword"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/border_none"
+                                        android:hint="@string/repassword"
+                                        android:inputType="textPassword"
+                                        android:paddingLeft="40dp"
+                                        android:paddingTop="6dp"
+                                        android:singleLine="true"
+                                        android:textColor="#333333"
+                                        android:textColorHint="#c0c0c0"
+                                        android:textCursorDrawable="@drawable/color_cursor"
+                                        android:textSize="16sp" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_gravity="bottom"
+                                        android:background="#75BA2B" />
+                                </FrameLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

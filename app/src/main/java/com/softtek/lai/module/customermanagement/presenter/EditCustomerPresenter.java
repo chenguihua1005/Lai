@@ -66,7 +66,6 @@ public class EditCustomerPresenter extends BasePresenter<EditCustomerPresenter.U
                 }
                 switch (status) {
                     case 200:
-                        Util.toastMsg(responseData.getMsg());
                         if (getView() != null) {
                             getView().UpdateCustomerSucsess();
                         }

@@ -17,6 +17,11 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.customermanagement.adapter.FragmentAdapter;
+import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +67,12 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         mobile = getIntent().getStringExtra("mobile");
         isRegistered = getIntent().getBooleanExtra("isRegistered", false);
 
+        if (!isRegistered) {
+            fl_right.setVisibility(View.VISIBLE);
+        } else {
+            fl_right.setVisibility(View.INVISIBLE);
+        }
+
         fragments.add(BasicInfoFragment.getInstance(mobile, isRegistered));
         fragments.add(StatisticsFragment.getInstance(mobile));
         fragments.add(RemarkFragment.getInstance(mobile));
@@ -71,6 +82,8 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         tab.setupWithViewPager(container);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(DESTROY_SELF));
+        //注册订阅者
+        EventBus.getDefault().register(this);
 
     }
 
@@ -79,6 +92,12 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         addremark_tv.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+    }
+
+//    //定义处理接收的方法
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void userEventBus(BasicInfoModel model) {
+        tv_title.setText(model.getBasics().getName());
     }
 
 
@@ -106,6 +125,8 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        //注销注册
+        EventBus.getDefault().unregister(this);
     }
 
     public static final String DESTROY_SELF = "DESTROY_SELF";

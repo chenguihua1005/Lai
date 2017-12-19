@@ -1,7 +1,12 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.RelativeLayout;
 
 import com.handmark.pulltorefresh.library.ILoadingLayout;
@@ -62,7 +67,7 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
     }
 
     @Override
-    protected void initViews() {
+    public void initViews() {
 
         plv_history.setMode(PullToRefreshBase.Mode.DISABLED);
         plv_history.setOnRefreshListener(this);
@@ -80,6 +85,8 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
         adapter = new RemarkAdapter(remarkModels, getContext());
         plv_history.setAdapter(adapter);
 
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_REMARKLIST));
+
         dialogShow(getString(R.string.loading));
         getPresenter().getRemarkList("", mobile, 1, 100);
 
@@ -89,8 +96,8 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
     @Override
     protected void initDatas() {
 
-
     }
+
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase refreshView) {
@@ -110,4 +117,20 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
             adapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
+    public static final String UPDATE_REMARKLIST = "UPDATE_REMARKLIST";
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equalsIgnoreCase(UPDATE_REMARKLIST)) {
+                getPresenter().getRemarkList("", mobile, 1, 100);
+            }
+        }
+    };
 }

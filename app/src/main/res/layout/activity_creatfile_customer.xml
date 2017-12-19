@@ -285,15 +285,17 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:paddingTop="5dp">
 
                 <EditText
                     android:id="@+id/remark_et"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:background="@null"
-                    android:gravity="right"
+                    android:background="@drawable/bg_edit_comment"
+                    android:gravity="left"
                     android:hint="请输入备注"
                     android:padding="5dp"
                     android:textColor="#808080"
@@ -305,6 +307,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="30dp"
+            android:layout_marginTop="5dp"
             android:background="#78BC27" />
 
 

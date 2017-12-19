@@ -1,8 +1,12 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,6 +30,8 @@ import com.softtek.lai.module.healthyreport.model.HealthyItem;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.DividerItemDecoration;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -74,6 +80,9 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @InjectView(R.id.civ_head)
     CircleImageView civ_head;
 
+    @InjectView(R.id.ll_tip)
+    LinearLayout ll_tip;
+
     ArrayList<HealthyItem> items = new ArrayList<>();
     HealthyReportCustomerAdapter adapter;
 
@@ -106,11 +115,15 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
         if (!isRegistered) {
             ll_health.setEnabled(false);
-            ll_more.setVisibility(View.GONE);
-            tv_mesuretime.setText("该客户还没有注册账户，无法看到健康记录");
+            ll_health.setVisibility(View.GONE);
+            ll_tip.setVisibility(View.VISIBLE);
+//            ll_more.setVisibility(View.GONE);
+//            tv_mesuretime.setText("该客户还没有注册账户，无法看到健康记录");
             list.setVisibility(View.GONE);
             btn_register.setVisibility(View.VISIBLE);
         } else {
+            ll_health.setVisibility(View.VISIBLE);
+            ll_tip.setVisibility(View.GONE);
             btn_register.setVisibility(View.GONE);
             list.setVisibility(View.VISIBLE);
             ll_more.setOnClickListener(this);
@@ -120,7 +133,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     }
 
     @Override
-    protected void initDatas() {
+    public void initDatas() {
         Log.i("BasicInfoFragment", "mobile = " + mobile);
 
         list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -129,6 +142,8 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         adapter = new HealthyReportCustomerAdapter(items, getContext(), false);
         adapter.setListener(this);
         list.setAdapter(adapter);
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_BASICINFO));
 
         setPresenter(new BasicInfoPresenter(this));
         dialogShow(getString(R.string.loading));
@@ -139,6 +154,9 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @Override
     public void getBasicInfo(BasicInfoModel model) {
         if (model != null) {
+            //发送事件
+            EventBus.getDefault().post(model);
+
             basicInfoModel = model;
             basicModel = model.getBasics();
 
@@ -150,7 +168,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
 
             tv_name.setText(basicModel.getName());
-            tv_other.setText(basicModel.getGender().equals("0") ? "男" : " 女" + "|" + basicModel.getHeight());
+            tv_other.setText(basicModel.getGender() + "|" + basicModel.getHeight());
             tv_birth.setText(basicModel.getBirthDay());
             tv_zhicheng.setText(basicModel.getUserRole());
             tv_mobile.setText(basicModel.getMobile());
@@ -210,4 +228,22 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         intent.putParcelableArrayListExtra("items", items);
         startActivity(intent);
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
+    public static final String UPDATE_BASICINFO = "UPDATE_BASICINFO";
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equalsIgnoreCase(UPDATE_BASICINFO)) {
+                getPresenter().getCustomerBasicInfo(mobile);
+            }
+        }
+    };
+
 }

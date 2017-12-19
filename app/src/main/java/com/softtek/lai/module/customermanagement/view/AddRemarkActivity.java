@@ -1,5 +1,7 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +14,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.service.CustomerService;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -85,6 +89,8 @@ public class AddRemarkActivity extends BaseActivity implements View.OnClickListe
                     int status = responseData.getStatus();
                     Util.toastMsg(responseData.getMsg());
                     if (200 == status) {
+                        //发送事件
+                        LocalBroadcastManager.getInstance(AddRemarkActivity.this).sendBroadcast(new Intent(RemarkFragment.UPDATE_REMARKLIST));
                         finish();
                     }
                 }
