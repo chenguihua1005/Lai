@@ -213,15 +213,29 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
     }
 
     @Override
-    public void hasInClub(boolean IsRegistered, boolean hasInClub) {
+    public void hasInClub(final boolean IsRegistered, boolean hasInClub) {
         if (hasInClub) {//已经是意向客户
 //            Util.toastMsg("该客户已注册，且已经是意向客户！");
-            String phoneNum = et_phone.getText().toString();
-            Intent intent = new Intent(this, CustomerDetailActivity.class);
-            intent.putExtra("mobile", phoneNum);
-            intent.putExtra("isRegistered", IsRegistered);
-            startActivity(intent);
-            finish();
+
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("该客户已经是您的意向客户了哦")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String phoneNum = et_phone.getText().toString();
+                            Intent intent = new Intent(RegistForCustomerActivity.this, CustomerDetailActivity.class);
+                            intent.putExtra("mobile", phoneNum);
+                            intent.putExtra("isRegistered", IsRegistered);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
+                }
+            }).create().show();
 
         } else {//不是意向客户
             new AlertDialog.Builder(RegistForCustomerActivity.this).setTitle("温馨提示").setMessage("是否直接添加为意向客户？")

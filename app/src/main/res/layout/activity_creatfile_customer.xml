@@ -262,53 +262,66 @@
             android:background="#78BC27" />
 
         <LinearLayout
-            android:id="@+id/ll_remark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="15dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/weight_h" />
+            <LinearLayout
+                android:id="@+id/ll_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:text="备注"
-                android:textColor="#000"
-                android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/remark" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:text="备注"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="5dp"
                 android:paddingTop="5dp">
 
                 <EditText
                     android:id="@+id/remark_et"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:background="@drawable/bg_edit_comment"
                     android:gravity="left"
                     android:hint="请输入备注"
+                    android:minHeight="100dp"
+                    android:minLines="5"
                     android:padding="5dp"
                     android:textColor="#808080"
                     android:textSize="15sp" />
             </FrameLayout>
+
         </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="30dp"
             android:layout_marginTop="5dp"
-            android:background="#78BC27" />
+            android:background="#78BC27"
+            android:visibility="gone" />
 
 
         <Button
