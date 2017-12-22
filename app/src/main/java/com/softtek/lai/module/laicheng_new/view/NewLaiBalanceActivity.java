@@ -43,7 +43,6 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.laicheng.VisitorinfoActivity;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
@@ -297,6 +296,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void onUnsteadyWeight(QNBleDevice qnBleDevice, float v) {
+                if (connectTimeout != null){
+                    if (!connectTimeout.isDisposed()) {
+                        connectTimeout.dispose();
+                    }
+                }
                 if (!isReceiveData) {
                     return;
                 }
@@ -330,6 +334,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void onReceivedData(QNBleDevice qnBleDevice, QNData qnData) {
+                if (connectTimeout != null){
+                    if (!connectTimeout.isDisposed()) {
+                        connectTimeout.dispose();
+                    }
+                }
                 if (!isReceiveData) {
                     return;
                 }
@@ -614,25 +623,27 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        if (!isFindDevice) {
+//                        if (!isFindDevice) {
                             dialogDismiss();
                             doStopScan();
                             Toast.makeText(LaiApplication.getInstance().getApplicationContext(), "未发现设备，请检查莱秤是否开启", Toast.LENGTH_SHORT).show();
-                        }
+//                        }
                     }
                 });
 
         qnBleApi.startLeScan(null, null, new QNBleScanCallback() {
             @Override
             public void onScan(QNBleDevice qnBleDevice) {
-                isFindDevice = true;
+//                isFindDevice = true;
                 deviceListDialog.addBluetoothDevice(qnBleDevice);
                 if (!deviceListDialog.isShowing()) {
                     deviceListDialog.show();
                 }
                 dialogDismiss();
                 if (connectTimeout != null) {
-                    connectTimeout.dispose();
+                    if (!connectTimeout.isDisposed()) {
+                        connectTimeout.dispose();
+                    }
                 }
             }
 
@@ -650,7 +661,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (!qnBleApi.isScanning()) {
             return;
         }
-        isFindDevice = false;
+//        isFindDevice = false;
         qnBleApi.stopScan();
     }
 

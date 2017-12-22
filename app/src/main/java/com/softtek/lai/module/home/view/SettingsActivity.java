@@ -48,6 +48,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     @InjectView(R.id.ll_check)
     LinearLayout ll_check;
+    private String vName;
 
 
     @Override
@@ -56,6 +57,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         ll_left.setOnClickListener(this);
         lin_about.setOnClickListener(this);
         ll_check.setOnClickListener(this);
+        vName = DisplayUtil.getAppVersionName(this);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ll_check:
                 ZillaApi.NormalRestAdapter.create(HomeService.class)
-                        .checkNew(new RequestCallback<ResponseData<Version>>() {
+                        .checkNew(vName, new RequestCallback<ResponseData<Version>>() {
                             @Override
                             public void success(ResponseData<Version> versionResponseData, Response response) {
                                 if(versionResponseData.getStatus()==200){
@@ -105,8 +107,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         int v_code=DisplayUtil.getAppVersionCode(this);
         if(v_code<version.getAppVisionCode()){
             String str="莱聚+ v "+version.getAppVisionNum()+"版本\n新版本已发布快去应用市场更新吧！\n更新于："+version.getUpdateTime();
-            new AlertDialog.Builder(this)
-                    .setTitle("版本有更新")
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setNegativeButton("稍后更新", null);
+            builder.setTitle("版本有更新")
                     .setMessage(str)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override

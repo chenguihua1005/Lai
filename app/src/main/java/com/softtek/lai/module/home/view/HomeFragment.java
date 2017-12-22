@@ -139,6 +139,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
     private AlertDialog mDialog;
     private SharedPreferences mSharedPreferences;
+    private String vName;
 
     @Override
     protected void initViews() {
@@ -189,6 +190,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 
     @Override
     protected void initDatas() {
+        vName = DisplayUtil.getAppVersionName(getContext());
         tv_title.setText("莱聚+");
         homeInfoPresenter = new HomeInfoImpl(getContext());
         models.add(new ModelName("体管赛", 0));
@@ -220,10 +222,12 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         int v_code = DisplayUtil.getAppVersionCode(getContext());
         if (v_code < version.getAppVisionCode()) {
             String str = "莱聚+ v " + version.getAppVisionNum() + "版本\n最新的版本！请前去下载。\n更新于：" + version.getUpdateTime();
-            new AlertDialog.Builder(getContext())
-                    .setTitle("版本有更新")
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            if (!version.isIsImperious()){
+                builder.setNegativeButton("稍后更新", null);
+            }
+            builder.setTitle("版本有更新")
                     .setMessage(str)
-                    .setNegativeButton("稍后更新", null)
                     .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -233,7 +237,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
                                 UpdateService.startUpdate(getContext().getApplicationContext(), version.getAppFileUrl());
                             }
                         }
-                    }).create().show();
+                    }).setCancelable(false).create().show();
         }
     }
 
@@ -289,7 +293,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     protected void lazyLoad() {
         //检查新版本更新
         ZillaApi.NormalRestAdapter.create(HomeService.class)
-                .checkNew(new RequestCallback<ResponseData<Version>>() {
+                .checkNew(vName,new RequestCallback<ResponseData<Version>>() {
                     @Override
                     public void success(ResponseData<Version> versionResponseData, Response response) {
                         dialogDissmiss();

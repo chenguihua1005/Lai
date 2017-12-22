@@ -42,6 +42,7 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
     TextView tv_title;
     @InjectView(R.id.tv_version)
     TextView tv_version;
+    private String vName;
 
     @Override
     protected void initViews() {
@@ -53,6 +54,7 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
+        vName = DisplayUtil.getAppVersionName(this);
         tv_version.setText("V "+ DisplayUtil.getAppVersionName(this));
     }
 
@@ -65,7 +67,7 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_right:
                 dialogShow("检查版本");
                 ZillaApi.NormalRestAdapter.create(HomeService.class)
-                        .checkNew(new RequestCallback<ResponseData<Version>>() {
+                        .checkNew(vName, new RequestCallback<ResponseData<Version>>() {
                             @Override
                             public void success(ResponseData<Version> versionResponseData, Response response) {
                                 dialogDissmiss();
@@ -104,10 +106,10 @@ private String apkUrl;
         int v_code=DisplayUtil.getAppVersionCode(this);
         if(v_code<version.getAppVisionCode()){
             String str="莱聚+ v "+version.getAppVisionNum()+"版本\n最新的版本！请前去下载。\n更新于："+version.getUpdateTime();
-            new AlertDialog.Builder(this)
-                    .setTitle("版本有更新")
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setNegativeButton("稍后更新", null);
+            builder.setTitle("版本有更新")
                     .setMessage(str)
-                    .setNegativeButton("稍后更新",null)
                     .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

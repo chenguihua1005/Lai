@@ -3,6 +3,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -124,6 +125,7 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
     public void onValidationSucceeded() {
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
+        password = Base64.encodeToString(password.getBytes(),Base64.DEFAULT);
         String memberId = edit_account.getText().toString();
         dialogShow("认证中...");
         getPresenter().validateCertification(memberId, password, account);

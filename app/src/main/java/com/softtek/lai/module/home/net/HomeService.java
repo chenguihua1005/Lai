@@ -14,6 +14,7 @@ import com.squareup.okhttp.ResponseBody;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.http.Streaming;
@@ -33,8 +34,9 @@ public interface HomeService {
                            @Query("pageindex") int page,
                            Callback<ResponseData<List<HomeInfoModel>>> callback);
 
-    @GET("/AppVisionLog/GetNewAppVisionInfo")
-    void checkNew(RequestCallback<ResponseData<Version>> callback);
+    @GET("/V1/AppVisionLog/GetNewAppVisionInfo")
+    void checkNew(@Header("vision_name") String visionName,
+            RequestCallback<ResponseData<Version>> callback);
 
     //下载最新apk
     @GET("/UpFiles/apk/{apk}")
