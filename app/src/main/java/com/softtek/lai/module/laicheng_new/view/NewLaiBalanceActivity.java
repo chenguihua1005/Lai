@@ -165,7 +165,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             }
         } else if (requestCode == PERMISSION_REQUEST_CALL_PHONE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "18068333198"));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4009982913"));
                 startActivity(intent);
             }
         } else {
