@@ -67,6 +67,16 @@
             app:wx_alpha="true" />
 
         <com.softtek.lai.widgets.SimpleButton
+            android:id="@+id/btn_honorroll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:normalBitmap="@drawable/sport2_huodong"
+            app:pitchBitmap="@drawable/sport2_huodong_re"
+            app:text="荣誉榜"
+            app:wx_alpha="true" />
+
+        <com.softtek.lai.widgets.SimpleButton
             android:id="@+id/btn_activity"
             android:layout_width="0dp"
             android:layout_height="match_parent"
