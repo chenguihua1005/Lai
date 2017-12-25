@@ -51,6 +51,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE );
         super.onCreate(savedInstanceState);
         TAG = getClass().getCanonicalName();
         TypedValue typedValue = new TypedValue();

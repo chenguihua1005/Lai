@@ -125,7 +125,7 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
     public void onValidationSucceeded() {
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
-        password = Base64.encodeToString(password.getBytes(),Base64.DEFAULT);
+        password = Base64.encodeToString(password.getBytes(),Base64.NO_WRAP);
         String memberId = edit_account.getText().toString();
         dialogShow("认证中...");
         getPresenter().validateCertification(memberId, password, account);
