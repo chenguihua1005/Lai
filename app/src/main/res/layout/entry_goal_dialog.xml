@@ -33,6 +33,7 @@
                 android:background="#ccc" />
 
             <TextView
+                android:id="@+id/tv_loss_weight"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center"
@@ -47,6 +48,7 @@
                 android:background="#ccc" />
 
             <TextView
+                android:id="@+id/tv_add_weight"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center"
@@ -70,7 +72,7 @@
             android:background="#ccc" />
 
         <Button
-            android:id="@+id/share_cancel"
+            android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"

@@ -301,35 +301,24 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 assert win != null;
                 win.setAttributes(params);
                 entryGoalDialog.setContentView(R.layout.entry_goal_dialog);
-                entryGoalDialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
+                entryGoalDialog.findViewById(R.id.tv_loss_weight).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mEntryGoal.setText("增重");
                         dialogDismiss();
                     }
                 });
-                entryGoalDialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
+                entryGoalDialog.findViewById(R.id.tv_add_weight).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mEntryGoal.setText("减重");
+                        dialogDismiss();
+                    }
+                });
+                entryGoalDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        dialogDismiss();
-                    }
-                });
-                entryGoalDialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        dialogDismiss();
-                    }
-                });
-                entryGoalDialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogDismiss();
-                    }
-                });
-                entryGoalDialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
                         dialogDismiss();
                     }
                 });
