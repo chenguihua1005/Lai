@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygame3.more.view;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -41,6 +44,9 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.BottomSheetDialog;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -97,6 +103,16 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.tv_add_group)
     TextView tv_add_group;
 
+    @InjectView(R.id.rl_class_mail)
+    RelativeLayout mClassMailContent;
+    @InjectView(R.id.tv_class_mail)
+    TextView mClassMail;
+    @InjectView(R.id.rl_entry_goal)
+    RelativeLayout mEntryGoalContent;
+    @InjectView(R.id.tv_entry_goal)
+    TextView mEntryGoal;
+    private Dialog entryGoalDialog;//分享对话框
+
     int currentYear;
     int currentMonth;
     int currentDay;
@@ -115,7 +131,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         tv_right.setText("确定");
         tv_add_group.setOnClickListener(this);
         rl_date.setOnClickListener(this);
+        mClassMailContent.setOnClickListener(this);
         rl_class_name.setOnClickListener(this);
+        mEntryGoalContent.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         rl_area.setOnClickListener(this);
@@ -260,7 +278,68 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             case R.id.rl_area:
                 showBottomSheet();
                 break;
+            case R.id.rl_class_mail:
+                break;
+            case R.id.rl_entry_goal:
+                showEntryGoalDialog();
+                break;
 
+
+        }
+    }
+
+    private void showEntryGoalDialog(){
+            if (entryGoalDialog == null) {
+                entryGoalDialog = new Dialog(this, R.style.custom_dialog);
+                entryGoalDialog.setCanceledOnTouchOutside(false);
+                Window win = entryGoalDialog.getWindow();
+                WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+                params.width = WindowManager.LayoutParams.MATCH_PARENT;
+                params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                params.x = 120;
+                params.y = 100;
+                assert win != null;
+                win.setAttributes(params);
+                entryGoalDialog.setContentView(R.layout.entry_goal_dialog);
+                entryGoalDialog.findViewById(R.id.ll_weixin).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogDismiss();
+                    }
+                });
+                entryGoalDialog.findViewById(R.id.ll_circle).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialogDismiss();
+                    }
+                });
+                entryGoalDialog.findViewById(R.id.ll_sina).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialogDismiss();
+                    }
+                });
+                entryGoalDialog.findViewById(R.id.dialog_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogDismiss();
+                    }
+                });
+                entryGoalDialog.findViewById(R.id.share_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogDismiss();
+                    }
+                });
+            }
+        entryGoalDialog.show();
+    }
+
+    private void dialogDismiss() {
+        if (entryGoalDialog != null && entryGoalDialog.isShowing()) {
+            entryGoalDialog.dismiss();
         }
     }
 
