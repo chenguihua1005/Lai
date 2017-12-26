@@ -1,5 +1,8 @@
 package com.softtek.lai.module.bodygame3.head.presenter;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
@@ -25,6 +28,7 @@ public class HonorPresenter extends BasePresenter<HonorPresenter.HonorView> {
     }
 
     public void getHonorData(Long UID, String classId, String byWhichRatio, String sortTimeType, int whichTime, Boolean isFirst) {
+        Log.i("honor", "接口中....UID= " + UID + " ClassId = " + classId + " ByWhichRatio= " + byWhichRatio + " SortTimeType= " + sortTimeType + " whichTime = " + whichTime + " isFirst = " + isFirst);
         String token = UserInfoModel.getInstance().getToken();
         service.doGetHonorRoll(classId, token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
                 new Callback<ResponseData<HonorRankModel>>() {
@@ -38,6 +42,7 @@ public class HonorPresenter extends BasePresenter<HonorPresenter.HonorView> {
                         switch (status) {
                             case 200:
                                 HonorRankModel honorRankModel = honorRankModelResponseData.getData();
+                                Log.i("honor", "data = " + new Gson().toJson(honorRankModel));
                                 if (getView() != null) {
                                     getView().getHonorModel(honorRankModel);
                                 }
@@ -66,6 +71,7 @@ public class HonorPresenter extends BasePresenter<HonorPresenter.HonorView> {
 
     public interface HonorView extends BaseView {
         void getHonorModel(HonorRankModel honorRankModel);
+
         void hidenLoading();
     }
 }

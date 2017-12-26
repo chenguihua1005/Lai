@@ -73,6 +73,16 @@ public class ListDialogHonor extends TextView {
         return bundle;
     }
 
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        try {
+            super.onRestoreInstanceState(state);
+        } catch (Exception e) {
+        }
+        state = null;
+    }
+
     private void init(Context context, AttributeSet attrs) {
         setGravity(Gravity.CENTER);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ListDialog);

@@ -432,7 +432,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 if (tag.role == Constants.STUDENT) {//学员
                     Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
                     chuDate.putExtra("typeDate", tag.date);
-                    if (tag.isfirst==0){
+                    if (tag.isfirst == 0) {
                         tag.isfirst = IsFirst_save;
                     }
                     chuDate.putExtra("firststatus", tag.isfirst);//初始数据录入状态 1：未录入，2：未审核，3：已审核
@@ -456,7 +456,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                     return;
                 }
                 if (tag.role == Constants.STUDENT) {//学员
-                    if(HasInitMeasuredData==0){
+                    if (HasInitMeasuredData == 0) {
                         final AlertDialog builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                 .setTitle("温馨提示").setMessage("您尚未录入初始数据, 请先录入初始数据")
                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -482,7 +482,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     }
                                 }).setCancelable(false).create();
                         builder.show();
-                    }else {
+                    } else {
                         Intent fuce = new Intent(getContext(), FcStuActivity.class);
                         fuce.putExtra("classId", classid);
                         fuce.putExtra("resetstatus", tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
@@ -527,7 +527,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             } else if (requestCode == 2) {
                 if (classrole == Constants.STUDENT) {
-                    HasInitMeasuredData=1;
+                    HasInitMeasuredData = 1;
                     int IsInitW = data.getExtras().getInt("IsInitW");
                     if (IsInitW == 1) {
                         tv_chustatus.setText("待审核");
@@ -610,7 +610,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                             if (data.getData() != null) {
                                 material_calendar.removeDecorators();
                                 ActivitydataModel activitydataModel = data.getData();
-                                HasInitMeasuredData=activitydataModel.getHasInitMeasuredData();
+                                HasInitMeasuredData = activitydataModel.getHasInitMeasuredData();
                                 classrole = activitydataModel.getClassRole();
                                 if (Constants.HEADCOACH == classrole) {
                                     fl_right.setVisibility(View.VISIBLE);

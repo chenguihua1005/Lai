@@ -69,7 +69,9 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
             }
             break;
             case R.id.rl_honor: {
+//                Honor2Activity.startHonorActivity(getContext(), model.getClassId());
                 HonorActivity.startHonorActivity(getContext(), model.getClassId());
+
             }
             break;
 

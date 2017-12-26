@@ -29,7 +29,7 @@
         </LinearLayout>
 
         <com.ggx.widgets.nicespinner.ListDialog
-            android:id="@+id/spinner_title2"
+            android:id="@+id/spinner_title_honor"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"

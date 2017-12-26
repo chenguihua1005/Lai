@@ -74,7 +74,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
         fragments = new ArrayList<>();
         fragments.add(new BodyGameFragment());
-        fragments.add(new HonorFragment());
+        fragments.add(new MoreFragment());
 //        fragments.add(new ChatFragment());
 //        fragments.add(new ContactFragment());
         fragments.add(new ActivityFragment());
