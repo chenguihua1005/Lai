@@ -28,6 +28,7 @@ import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.MarketerListFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.SearchCustomerActivity;
+import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import org.apache.commons.lang3.StringUtils;
@@ -74,6 +75,9 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     @InjectView(R.id.but_login)
     Button but_login;
 
+    @InjectView(R.id.tv_tip)
+    TextView tv_tip;
+
     private CustomerMenuAdapter menuAdapter;
 
 
@@ -86,20 +90,29 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     TypeFragmentAdapter adapter;
 
     boolean isLogin = false;
+    String token = "";
+    String certification = "";
 
     @Override
     protected void initViews() {
         tv_title.setText("客户管理");
         ll_left.setVisibility(View.INVISIBLE);
 
-        String token = UserInfoModel.getInstance().getToken();
-        String certification = UserInfoModel.getInstance().getUser().getCertification();
+        token = UserInfoModel.getInstance().getToken();
+        certification = UserInfoModel.getInstance().getUser().getCertification();
         //判断token是否为空
-        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(certification)) {
+        if (StringUtils.isEmpty(token)) {
             //token为空，游客模式显示立即登陆页面
             isLogin = false;
             lin_is_vr.setVisibility(View.VISIBLE);
             ll_content.setVisibility(View.GONE);
+            but_login.setOnClickListener(this);
+        } else if (StringUtils.isEmpty(certification)) {
+            lin_is_vr.setVisibility(View.VISIBLE);
+            ll_content.setVisibility(View.GONE);
+
+            tv_tip.setText("身份认证后，才能使用更多功能哦");
+            but_login.setText("前往认证");
             but_login.setOnClickListener(this);
         } else {
             //token不为空，非游客模式，隐藏立即登陆页面
@@ -162,10 +175,14 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 judgeClubAuthority();
                 break;
             case R.id.but_login:
-                Intent toLoginIntent = new Intent(getContext(), LoginActivity.class);
-                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(toLoginIntent);
+                if (StringUtils.isEmpty(token)) {
+                    Intent toLoginIntent = new Intent(getContext(), LoginActivity.class);
+                    toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(toLoginIntent);
+                } else if (StringUtils.isEmpty(certification)) {
+                    startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+                }
                 break;
 
         }
