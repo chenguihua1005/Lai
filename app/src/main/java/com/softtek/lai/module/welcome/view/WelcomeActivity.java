@@ -104,8 +104,8 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                     buffer.append("计步类型=不支持");
                 }
 //                ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(buffer.toString(),user, password, new Callback<ResponseData<UserModel>>() {
-                LaiApplication.getRESTAdapter("http://115.29.187.163:8042/api/v1/HerbUser/GetByToken").create(LoginService.class).
-                        doLoginByToken(PropertiesManager.get("appid"),UserInfoModel.getInstance().getToken(), new Callback<ResponseData<UserModel>>() {
+                ZillaApi.NormalRestAdapter.create(LoginService.class).
+                        doLoginByToken(UserInfoModel.getInstance().getToken(), new Callback<ResponseData<UserModel>>() {
                     @Override
                     public void success(ResponseData<UserModel> userModelResponseData, Response response) {
                         int status=userModelResponseData.getStatus();
