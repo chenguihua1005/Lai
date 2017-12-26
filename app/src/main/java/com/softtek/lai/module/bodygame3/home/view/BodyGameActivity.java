@@ -74,7 +74,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
         fragments = new ArrayList<>();
         fragments.add(new BodyGameFragment());
-        fragments.add(new MoreFragment());
+        fragments.add(new HonorTabFragment());
 //        fragments.add(new ChatFragment());
 //        fragments.add(new ContactFragment());
         fragments.add(new ActivityFragment());
@@ -208,61 +208,14 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initDatas() {
         registerMessageReceiver();
-
-        //此处获取群组信息，并缓存在本地
-//        getContactGroups();
-
     }
 
 
-    //伙计班级群信息，并存入列表
-//    private void getContactGroups() {
-//        try {
-//            ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-//            service.GetClassListByAccountId(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId() + "", new Callback<ResponseData<List<ContactClassModel>>>() {
-//                @Override
-//                public void success(ResponseData<List<ContactClassModel>> listResponseData, Response response) {
-//                    int status = listResponseData.getStatus();
-//                    if (200 == status) {
-//                        classModels = listResponseData.getData();
-//                        if (classModels != null) {
-//
-//                            //存入数据库
-//                            com.github.snowdream.android.util.Log.i(TAG, "判断表明是否存在......");
-//                            if (ClassGroupUtil.getInstance().tableIsExist(GroupTable.TABLE_NAME)) {
-//                                com.github.snowdream.android.util.Log.i(TAG, "存在。。。。。");
-//                                ClassGroupUtil.getInstance().insert(classModels);
-//                            } else {
-//                                com.github.snowdream.android.util.Log.i(TAG, "不存在。。。。。");
-//                            }
-//                        }
-//
-//                    } else {
-//                        Util.toastMsg(listResponseData.getMsg());
-//                    }
-//                }
-//
-//                @Override
-//                public void failure(RetrofitError error) {
-//                    ZillaApi.dealNetError(error);
-//                    error.printStackTrace();
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
     @Override
     public void onResume() {
         super.onResume();
-//        if (EMClient.getInstance().isLoggedInBefore()) {
-//            int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
-//            Log.i("onResume 获取还信未读消息=" + unreadNum);
-//            updateMessage(unreadNum);
-//        }
-
-
     }
 
     @Override

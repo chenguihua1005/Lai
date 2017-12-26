@@ -1,18 +1,19 @@
-package com.softtek.lai.module.bodygame3.head.view;
+package com.softtek.lai.module.bodygame3.home.view;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ggx.widgets.nicespinner.ListDialog;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.bodygame3.head.adapter.HonorFragmentAdapter;
 import com.softtek.lai.module.bodygame3.head.model.HonorFragmentModel;
 import com.softtek.lai.module.bodygame3.home.HonorFragment;
+import com.softtek.lai.widgets.MySwipRefreshView;
 import com.softtek.lai.widgets.NoSlidingViewPage;
 
 import java.util.ArrayList;
@@ -22,15 +23,22 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
- * Created by jessica.zhang on 12/25/2017.
+ * Created by jessica.zhang on 12/26/2017.
  */
 
-@InjectLayout(R.layout.activity_honor)
-public class HonorActivity extends BaseActivity implements View.OnClickListener {
+@InjectLayout(R.layout.fragment_honor_roll_tab)
+public class HonorTabFragment extends LazyBaseFragment {
+    @InjectView(R.id.pull)
+    MySwipRefreshView pull;
+
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.iv_right)
+    ImageView iv_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
+    @InjectView(R.id.spinner_title_honor)
+    ListDialog tv_title;
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
@@ -41,33 +49,20 @@ public class HonorActivity extends BaseActivity implements View.OnClickListener 
     NoSlidingViewPage tab_content;
     List<HonorFragmentModel> fragmentList = new ArrayList<>();
 
+    private String classId = "";
 
+    public HonorTabFragment() {
+
+    }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ll_left:
-                finish();
-                break;
-            case R.id.tv_right:
-                startActivity(new Intent(this, HonorRuleActivity.class));
-                break;
-        }
+    protected void lazyLoad() {
+
     }
 
     @Override
     protected void initViews() {
-        Intent intent = getIntent();
-        String classId = intent.getStringExtra("classId");
-        boolean isPast = intent.getBooleanExtra("isPast", false);
-        if (isPast) {
-            tv_title.setText(R.string.past_ranking);
-        } else {
-            tv_title.setText(R.string.honorRank);
-        }
-
         tv_right.setText(R.string.rule);
-
         int selector = 0;
 
         String[] tabtitle = {"体重周榜", "体重月榜", "体重总榜", "体脂周榜", "体脂月榜", "体脂总榜"};
@@ -94,31 +89,16 @@ public class HonorActivity extends BaseActivity implements View.OnClickListener 
             fragmentList.add(new HonorFragmentModel(tabtitle[i], HonorFragment.newInstance(bundle)));
         }
 
-        tab_content.setAdapter(new HonorFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        tab_content.setAdapter(new HonorFragmentAdapter(getChildFragmentManager(), fragmentList));
         tab.setupWithViewPager(tab_content);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         tab_content.setOffscreenPageLimit(4);
         tab_content.setCurrentItem(selector, false);
 
-
-        ll_left.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
 
-    }
-
-    public static void startHonorActivity(Context context, String classId) {
-        Intent intent = new Intent(context, HonorActivity.class);
-        intent.putExtra("classId", classId);
-        context.startActivity(intent);
-    }
-
-    public static void startHonorActivity2(Context context, String classId, boolean isPast) {
-        Intent intent = new Intent(context, HonorActivity.class);
-        intent.putExtra("classId", classId);
-        intent.putExtra("isPast", isPast);
-        context.startActivity(intent);
     }
 }
