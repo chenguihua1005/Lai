@@ -29,7 +29,6 @@ import java.util.List;
 import zilla.libcore.file.AddressManager;
 
 /**
- *
  * Created by jessica.zhang on 6/16/2017.
  */
 public class HonorAdapter extends BaseExpandableListAdapter {
@@ -43,15 +42,15 @@ public class HonorAdapter extends BaseExpandableListAdapter {
 
     private final int TYPE_1 = 1;//小组
     private final int TYPE_2 = 2;//班级
-    private boolean isMore=false;
+    private boolean isMore = false;
 
-    public HonorAdapter(Context context, List<String> titiesList,List<List<ListGroupModel>> son_List, String ByWhichRatio) {
+    public HonorAdapter(Context context, List<String> titiesList, List<List<ListGroupModel>> son_List, String ByWhichRatio) {
         this.context = context;
         this.parents = titiesList;
         this.son_List = son_List;
         this.ByWhichRatio = ByWhichRatio;
-        if(son_List.size()>0&&son_List.get(0).size()>3){
-            submit3=son_List.get(0).subList(0,3);
+        if (son_List.size() > 0 && son_List.get(0).size() > 3) {
+            submit3 = son_List.get(0).subList(0, 3);
         }
     }
 
@@ -67,7 +66,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
         if (groupPosition >= parents.size()) {
             return 0;
         }
-        if(submit3.size()!=0){
+        if (submit3.size() != 0) {
             return submit3.size();
         }
         return son_List != null ? son_List.get(groupPosition).size() : 0;
@@ -122,10 +121,10 @@ public class HonorAdapter extends BaseExpandableListAdapter {
     public View getGroupView(final int parentPos, boolean b, View view, ViewGroup viewGroup) {
         final ViewHolderFather viewHolderFather;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_item, viewGroup,false);
+            view = LayoutInflater.from(context).inflate(R.layout.expandable_parent_item, viewGroup, false);
             viewHolderFather = new ViewHolderFather();
             viewHolderFather.tvFather = (TextView) view.findViewById(R.id.group_name);
-            viewHolderFather.tv_more= (TextView) view.findViewById(R.id.tv_more);
+            viewHolderFather.tv_more = (TextView) view.findViewById(R.id.tv_more);
             view.setTag(viewHolderFather);
         } else {
             viewHolderFather = (ViewHolderFather) view.getTag();
@@ -133,22 +132,22 @@ public class HonorAdapter extends BaseExpandableListAdapter {
 
         if (parentPos < parents.size()) {
             viewHolderFather.tvFather.setText(parents.get(parentPos));
-            if(parentPos==0&&son_List.get(0).size()>3&&!isMore){
+            if (parentPos == 0 && son_List.get(0).size() > 3 && !isMore) {
                 viewHolderFather.tv_more.setVisibility(View.VISIBLE);
                 viewHolderFather.tv_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        isMore=true;
+                        isMore = true;
                         viewHolderFather.tv_more.setVisibility(View.GONE);
-                        List<ListGroupModel> other= new ArrayList<>();
-                        for (ListGroupModel model:son_List.get(0)){
+                        List<ListGroupModel> other = new ArrayList<>();
+                        for (ListGroupModel model : son_List.get(0)) {
                             other.add(model);
                         }
-                        submit3.addAll(other.subList(3,other.size()));
+                        submit3.addAll(other.subList(3, other.size()));
                         notifyDataSetChanged();
                     }
                 });
-            }else {
+            } else {
                 viewHolderFather.tv_more.setVisibility(View.GONE);
             }
         }
@@ -162,7 +161,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
         if (type == TYPE_1) {
             ViewHolderSon1 viewHolderSon1;
             if (view == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.item_honor_group, viewGroup,false);
+                view = LayoutInflater.from(context).inflate(R.layout.item_honor_group, viewGroup, false);
                 viewHolderSon1 = new ViewHolderSon1();
 
                 viewHolderSon1.tv_coach_type = (TextView) view.findViewById(R.id.tv_coach_type);
@@ -194,7 +193,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                 viewHolderSon1.tv_coach_type.setText(groupModel.getCoachType());
                 viewHolderSon1.tv_rank_number.setText(groupModel.getRanking());
                 //减重、脂
-                viewHolderSon1.loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "减重" + groupModel.getLoss() + "斤" : "减脂" + groupModel.getLoss() + "%");
+                viewHolderSon1.loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "总体重变化" + groupModel.getLoss() + "斤" : "总体脂率变化比" + groupModel.getLoss() + "%");
 
                 setImage(viewHolderSon1.civ_trainer_header, groupModel.getCoachIco());
                 viewHolderSon1.tv_trainer_name.setText(groupModel.getCoachName());
@@ -212,9 +211,11 @@ public class HonorAdapter extends BaseExpandableListAdapter {
         } else if (type == TYPE_2) {
             ViewHolderSon2 viewHolderSon2;
             ListGroupModel data = son_List.get(parentPos).get(childPos);
+            String Target = data.getTarget();
+
 
             if (view == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.classrank_item, viewGroup,false);
+                view = LayoutInflater.from(context).inflate(R.layout.classrank_item, viewGroup, false);
                 viewHolderSon2 = new ViewHolderSon2();
 
                 viewHolderSon2.civ = (CircleImageView) view.findViewById(R.id.head_img);
@@ -278,19 +279,19 @@ public class HonorAdapter extends BaseExpandableListAdapter {
 
                 switch (data.getRanking()) {
                     case "1":
-                        Drawable drawable = ContextCompat.getDrawable(context,R.drawable.firstranking);
+                        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.firstranking);
                         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
                         viewHolderSon2.paiming.setText("");
                         viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable, null);//画在右边
                         break;
                     case "2":
-                        Drawable drawable2 = ContextCompat.getDrawable(context,R.drawable.secondranking);
+                        Drawable drawable2 = ContextCompat.getDrawable(context, R.drawable.secondranking);
                         drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight()); //设置边界
                         viewHolderSon2.paiming.setText("");
                         viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable2, null);//画在右边
                         break;
                     case "3":
-                        Drawable drawable3 = ContextCompat.getDrawable(context,R.drawable.thirdranking);
+                        Drawable drawable3 = ContextCompat.getDrawable(context, R.drawable.thirdranking);
                         drawable3.setBounds(0, 0, drawable3.getMinimumWidth(), drawable3.getMinimumHeight()); //设置边界
                         viewHolderSon2.paiming.setText("");
                         viewHolderSon2.paiming.setCompoundDrawables(null, null, drawable3, null);//画在右边
@@ -316,12 +317,12 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                     builder.append("初始:");
 
                     SpannableString str1 = new SpannableString(data.getInitWeight());
-                    str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context,R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                     builder.append(str1);
-                    builder.append("斤·减重:");
+                    builder.append("斤·" + Target + ":");
 
                     SpannableString str2 = new SpannableString(data.getLoss());
-                    str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context,R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                     builder.append(str2);
 
                     builder.append("斤");
@@ -332,12 +333,12 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                     builder.append("初始:");
 
                     SpannableString str1 = new SpannableString(data.getInitWeight());
-                    str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context,R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.yellow)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                     builder.append(str1);
-                    builder.append("%·减脂:");
+                    builder.append("%·" + Target + ":");
 
                     SpannableString str2 = new SpannableString(data.getLoss());
-                    str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context,R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.yellow)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                     builder.append(str2);
 
                     builder.append("%");
@@ -346,10 +347,10 @@ public class HonorAdapter extends BaseExpandableListAdapter {
 
 
                 if ("ByWeightRatio".equals(ByWhichRatio)) {
-                    viewHolderSon2.tv_bi.setText("减重比");
+                    viewHolderSon2.tv_bi.setText("变化比");
                     viewHolderSon2.jianzhong_tv.setText(data.getLossPer());
                 } else {
-                    viewHolderSon2.tv_bi.setText("减脂比");
+                    viewHolderSon2.tv_bi.setText("变化比");
                     viewHolderSon2.jianzhong_tv.setText(data.getLossPer());
                 }
             }
@@ -399,8 +400,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {
         TextView tip_tv;
 
     }
-
-
 
 
     private void setImage(CircleImageView civ, String endUrl) {

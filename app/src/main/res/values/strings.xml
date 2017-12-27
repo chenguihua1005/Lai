@@ -201,8 +201,8 @@
     <string name="rank_per_test">人均减重比</string>
     <string name="honorRank">荣誉榜</string>
     <string name="rule">规则说明</string>
-    <string name="weight_per">人均减重比</string>
-    <string name="fat_per">人均减脂比</string>
+    <string name="weight_per">人均体重变化比</string>
+    <string name="fat_per">人均体脂率变化比</string>
     <string name="physical_manage1">第一体管周</string>
     <string name="physical_manage2">第二体管周</string>
     <string name="physical_manage3">第三体管周</string>

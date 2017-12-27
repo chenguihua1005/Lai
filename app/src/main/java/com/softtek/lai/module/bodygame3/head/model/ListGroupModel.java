@@ -4,20 +4,19 @@ import java.io.Serializable;
 
 /**
  * Created by 87356 on 2016/12/3.
- *
- "UserId": 81907,
- "UserName": "毛笔",
- "UserIconUrl": "201612162143081615068646.png",
- "Ranking": 1,
- "LossPer": "10.6",
- "Loss": "16.4",
- "CGName": "同桌",
- "InitWeight": "154.4",
- "ClassRole": 4,
- "ClassRoleName": "学员"
-
+ * <p>
+ * "UserId": 81907,
+ * "UserName": "毛笔",
+ * "UserIconUrl": "201612162143081615068646.png",
+ * "Ranking": 1,
+ * "LossPer": "10.6",
+ * "Loss": "16.4",
+ * "CGName": "同桌",
+ * "InitWeight": "154.4",
+ * "ClassRole": 4,
+ * "ClassRoleName": "学员"
  */
-public class ListGroupModel implements Serializable{
+public class ListGroupModel implements Serializable {
     private String GroupId;//小组id
     private String GroupName;//小组名
     private String CoachId;//教练id
@@ -41,6 +40,16 @@ public class ListGroupModel implements Serializable{
     private int Gender;
 
     private int Type;//分类  1： 小组   2 ： 班级
+
+    private String Target;// 针对体重Tab页面，增重 or 减重
+
+    public String getTarget() {
+        return Target;
+    }
+
+    public void setTarget(String target) {
+        Target = target;
+    }
 
     public int getType() {
         return Type;

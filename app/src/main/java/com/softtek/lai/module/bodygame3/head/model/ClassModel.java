@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by shelly.xu on 11/21/2016.
  */
 
-public class ClassModel{
+public class ClassModel implements Parcelable{
     private String ClassId;
     private String ClassName;
     private String ClassCode;
@@ -25,6 +25,26 @@ public class ClassModel{
     public ClassModel() {
 
     }
+
+    protected ClassModel(Parcel in) {
+        ClassId = in.readString();
+        ClassName = in.readString();
+        ClassCode = in.readString();
+        ClassRole = in.readInt();
+        ClassWeek = in.readString();
+    }
+
+    public static final Creator<ClassModel> CREATOR = new Creator<ClassModel>() {
+        @Override
+        public ClassModel createFromParcel(Parcel in) {
+            return new ClassModel(in);
+        }
+
+        @Override
+        public ClassModel[] newArray(int size) {
+            return new ClassModel[size];
+        }
+    };
 
     public String getClassId() {
         return ClassId;
@@ -78,4 +98,17 @@ public class ClassModel{
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(ClassId);
+        dest.writeString(ClassName);
+        dest.writeString(ClassCode);
+        dest.writeInt(ClassRole);
+        dest.writeString(ClassWeek);
+    }
 }

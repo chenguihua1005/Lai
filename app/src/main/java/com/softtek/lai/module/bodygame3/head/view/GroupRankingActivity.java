@@ -117,10 +117,12 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                     tv_per_number.setText(data.getLossPer());
                 }
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
-                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_per) : getString(R.string.lose_fat_per));
+                tv_by_which.setText("变化比");
+//                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_per) : getString(R.string.lose_fat_per));
 
                 TextView loss_tv = holder.getView(R.id.loss_tv);
-                loss_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "斤" : getString(R.string.lose_fat_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "%");
+                loss_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? data.getTarget() + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "斤" : data.getTarget() + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "%");
+//                loss_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "斤" : getString(R.string.lose_fat_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "%");
 
             }
         };
@@ -202,7 +204,7 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         tv_ranking_date.setText(getString(R.string.ranking_date) + model.getStartDate() + "～" + model.getEndDate());
 
         if (group_total_tv != null) {
-            group_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "( 总减重" + model.getTotalLoss() + "斤" + "  人均减重" + model.getAvgLoss() + "斤 )" : "( 总减脂" + model.getTotalLoss() + "%" + "  人均减脂" + model.getAvgLoss() + "%" + " )");
+            group_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "( 总体重变化" + model.getTotalLoss() + "斤" + "  人均" + model.getAvgLoss() + "斤 )" : "( 总体脂变化" + model.getTotalLoss() + "%" + "  人均" + model.getAvgLoss() + "%" + " )");
         }
     }
 

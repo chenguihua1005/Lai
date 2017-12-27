@@ -9,11 +9,21 @@ public class HonorRankModel {
     private String TotalLoss;//本班总减重/脂
     private String AvgLoss;//本班人均减重/脂
 
+    private List<ClassModel> list_class;//班级列表
+
     private List<ListTopModel> list_top3;
     private List<ListdateModel> list_date;
 
     private List<ListGroupModel> list_group;//ListGroupModel
     private List<ListGroupModel> list_all;//班级排名
+
+    public List<ClassModel> getList_class() {
+        return list_class;
+    }
+
+    public void setList_class(List<ClassModel> list_class) {
+        this.list_class = list_class;
+    }
 
     public List<ListGroupModel> getList_all() {
         return list_all;
@@ -21,18 +31,6 @@ public class HonorRankModel {
 
     public void setList_all(List<ListGroupModel> list_all) {
         this.list_all = list_all;
-    }
-
-    @Override
-    public String toString() {
-        return "HonorRankModel{" +
-                "TotalLoss='" + TotalLoss + '\'' +
-                ", AvgLoss='" + AvgLoss + '\'' +
-                ", list_top3=" + list_top3 +
-                ", list_group=" + list_group +
-                ", list_date=" + list_date +
-                ", list_all=" + list_all +
-                '}';
     }
 
     public String getTotalLoss() {

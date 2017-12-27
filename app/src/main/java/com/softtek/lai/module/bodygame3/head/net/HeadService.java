@@ -39,7 +39,7 @@ public interface HeadService {
             @Header("token") String token,
             @Query("accountid") long accountid,
             @Query("pagesize") int pagesize,
-            @Query("classid")String classId,
+            @Query("classid") String classId,
             Callback<ResponseData<ClassinfoModel>> callback
     );
 
@@ -133,8 +133,21 @@ public interface HeadService {
             Callback<ResponseData<HonorRankModel>> callback
     );
 
-    //请求路径:Api/V1/ ClassHonor/ GetHonorGroupList(荣誉榜——小组排名接口)
-    @GET("/V1/ClassHonor/GetHonorGroupList")
+    //请求路径:/api/v1/club/GetHonorRoll荣誉榜)
+    @GET("/v1/club/GetHonorRoll")
+    void getHonorRoll(
+            @Header("classid") String CId,
+            @Header("token") String token,
+            @Query("UID") Long UID,
+            @Query("ClassId") String ClassId,
+            @Query("ByWhichRatio") String ByWhichRatio,//ByFatRatio按减脂比，ByWeightRatio按减重比
+            @Query("SortTimeType") String SortTimeType,//ByWeek周排序，ByMonth月排序，ByTotal总排名
+            @Query("WhichTime") int WhichTime,
+            Callback<ResponseData<HonorRankModel>> callback
+    );
+
+    //请求路径:Api/V1/ ClassHonor/ GetHonorGroupList(荣誉榜——小组排名接口)  /api/v1/club/GetHonorGroupList
+    @GET("/V1/club/GetHonorGroupList")
     void doGetHonorGroup(
             @Header("classid") String CId,
             @Header("token") String token,
@@ -164,7 +177,6 @@ public interface HeadService {
             @Header("token") String token
 
     );
-
 
 
     //请求路径:Api/V1/HerbalifeClass/AddMineLovePC

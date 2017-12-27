@@ -1,8 +1,12 @@
 package com.softtek.lai.module.bodygame3.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -21,12 +25,14 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.adapter.HonorAdapter;
+import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.HonorRankModel;
 import com.softtek.lai.module.bodygame3.head.model.ListGroupModel;
 import com.softtek.lai.module.bodygame3.head.model.ListdateModel;
 import com.softtek.lai.module.bodygame3.head.presenter.HonorPresenter;
 import com.softtek.lai.module.bodygame3.head.view.GroupRankingActivity;
 import com.softtek.lai.module.bodygame3.head.view.PersonDetailActivity2;
+import com.softtek.lai.module.bodygame3.home.view.HonorTabFragment;
 import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.ArrayList;
@@ -76,6 +82,8 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
     List<ListdateModel> spinnerData = new ArrayList<>();
     private int selectedSpinner = 0;
 
+    private String from = "";
+
 
     public HonorFragment() {
     }
@@ -99,8 +107,9 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
             ClassId = bundle.getString("classId");
             ByWhichRatio = bundle.getString("ByWhichRatio");
             SortTimeType = bundle.getString("SortTimeType");
+            from = bundle.getString("from");
 
-            Log.i("honor", "ClassId = " + ClassId + " ByWhichRatio= " + ByWhichRatio + " SortTimeType= " + SortTimeType);
+            Log.i("honor", "from = " + from + "  ClassId = " + ClassId + " ByWhichRatio= " + ByWhichRatio + " SortTimeType= " + SortTimeType);
         }
 
         arrow.setTintColor(R.color.black);
@@ -150,6 +159,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+//                is_first = true;
                 getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
             }
 
@@ -170,8 +180,10 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                         intent.putExtra("ClassId", ClassId);
                         intent.putExtra("ByWhichRatio", ByWhichRatio);
                         intent.putExtra("SortTimeType", SortTimeType);
-                        ListdateModel listdateModel = spinnerData.get(selectedSpinner);
-                        intent.putExtra("listDataModel", listdateModel);
+                        if (!"ByTotal".equals(SortTimeType)) {
+                            ListdateModel listdateModel = spinnerData.get(selectedSpinner);
+                            intent.putExtra("listDataModel", listdateModel);
+                        }
                         intent.putExtra("ListGroupModel", groupModel);
                         startActivity(intent);
                     } else if (2 == groupModel.getType()) {
@@ -192,6 +204,9 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                 return groupPosition == 0 ? true : false;
             }
         });
+
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_HONOR_VIEW));
 
 
     }
@@ -292,20 +307,37 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
             adapter.notifyDataSetChanged();
             return;
         }
+
+//        获取班级列表
+        ArrayList<ClassModel> list_class = new ArrayList<>();//班级列表
+        if (model.getList_class() != null) {
+            list_class.addAll(model.getList_class());
+
+            if (!TextUtils.isEmpty(from) && from.equals("tab") && TextUtils.isEmpty(ClassId)) {
+                Intent intent = new Intent(HonorTabFragment.UPDATE_CLASSLIST);
+//                intent.putExtra("classList",list_class);
+                intent.putParcelableArrayListExtra("classList", list_class);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+            }
+        }
+
         //放在外面(获取周的list)，因为第一次给true的时候只传回来list_date,其他list为空
         if (model.getList_date() != null) {
             //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
             if (model.getList_date().size() != 0) {
-                WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
+                if (WhichTime == 1) {
+                    WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
 
-                spinnerData.clear(); //.踢馆周期
-                spinnerData.addAll(model.getList_date());
+                    spinnerData.clear(); //.踢馆周期
+                    spinnerData.addAll(model.getList_date());
 
-                arrow.setSelected(0);
-                arrow.notifChange();
+                    arrow.setSelected(0);
+                    arrow.notifChange();
 
-                int px = DisplayUtil.dip2px(getContext(), 50 * 6);
-                arrow.setHeight(px);
+
+                    int px = DisplayUtil.dip2px(getContext(), 50 * 6);
+                    arrow.setHeight(px);
+                }
 
                 //首次后设置为false
                 is_first = false;
@@ -332,7 +364,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                 listHonorrank.setEmptyView(ll_no_data);
                 return;
             }
-        }else {
+        } else {
             ll_menu.setVisibility(View.GONE);
         }
 
@@ -396,4 +428,27 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
     public void hidenLoading() {
         listHonorrank.onRefreshComplete();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
+    public static final String UPDATE_HONOR_VIEW = "UPDATE_HONOR_VIEW";
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equalsIgnoreCase(UPDATE_HONOR_VIEW)) {
+                ClassId = intent.getStringExtra("classId");
+                try {
+                    listHonorrank.setRefreshing();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
 }

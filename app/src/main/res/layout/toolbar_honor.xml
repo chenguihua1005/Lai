@@ -48,12 +48,14 @@
             android:layout_gravity="right"
             android:layout_marginRight="10dp">
 
-            <ImageView
-                android:id="@+id/iv_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
-                android:src="@drawable/add_iv" />
+            <TextView
+                android:id="@+id/tv_right"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|right"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                />
         </FrameLayout>
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

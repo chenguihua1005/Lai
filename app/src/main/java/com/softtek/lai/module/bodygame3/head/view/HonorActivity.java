@@ -73,11 +73,9 @@ public class HonorActivity extends BaseActivity implements View.OnClickListener 
         String[] tabtitle = {"体重周榜", "体重月榜", "体重总榜", "体脂周榜", "体脂月榜", "体脂总榜"};
         String[] ByWhichRatio = {"ByWeightRatio", "ByFatRatio"};
         String[] SortTimeType = {"ByWeek", "ByMonth", "ByTotal"};
-//    getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
 
         for (int i = 0; i < 6; i++) {
             Bundle bundle = new Bundle();
-//            bundle.putString("title", tabtitle[i]);
             bundle.putString("classId", classId);
             if (i >= 0 && i < 3) {
                 bundle.putString("ByWhichRatio", ByWhichRatio[0]);
