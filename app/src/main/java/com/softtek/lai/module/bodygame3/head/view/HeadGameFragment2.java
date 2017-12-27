@@ -99,7 +99,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
     RelativeLayout re_photowall;
     LinearLayout honor_lin;
-    NiceSpinner spinner_title;
     TextView searchContent;
     TextView week_group;
     TextView week_stu;
@@ -120,7 +119,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     ViewPager viewPager;
     MyRelative rl_container;
     RelativeLayout week_rel;
-    ImageView iv_types;
     TextView no_photowalll;
     ImageView iv_video2_bg;
     ImageView iv_video1_bg;
@@ -180,7 +178,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         View headView = View.inflate(getContext(), R.layout.bodygame3_head, null);
         re_photowall = (RelativeLayout) headView.findViewById(R.id.re_photowall);
         honor_lin = (LinearLayout) headView.findViewById(R.id.honor_lin);
-        spinner_title = (NiceSpinner) headView.findViewById(R.id.spinner_title);
         searchContent = (TextView) headView.findViewById(R.id.searchContent);
         group_name = (TextView) headView.findViewById(R.id.group_name);
         jianzhongbi_tv = (TextView) headView.findViewById(R.id.jianzhongbi_tv);
@@ -201,7 +198,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         viewPager = (ViewPager) headView.findViewById(R.id.viewpager);
         rl_container = (MyRelative) headView.findViewById(R.id.rl_container);
         week_rel = (RelativeLayout) headView.findViewById(R.id.week_rel);
-        iv_types = (ImageView) headView.findViewById(R.id.iv_types);
         no_photowalll = (TextView) headView.findViewById(R.id.no_photowalll);
         iv_video2_bg = (ImageView) headView.findViewById(R.id.iv_video2_bg);
         iv_video1_bg = (ImageView) headView.findViewById(R.id.iv_video1_bg);
@@ -230,33 +226,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         }
         viewPager.setOffscreenPageLimit(4);
         viewPager.setPageMargin(10);
-
-        spinner_title.attachDataSource(dataset); //类型（体重比，体脂，减重比）
-        typecode = 0;
-
-        spinner_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                partnersModels.clear();
-                String typename = dataset.get(i);
-                if ("累计减重斤数".equals(typename)) {
-                    typecode = 0;
-                    iv_types.setImageResource(R.drawable.weightphoto);
-
-                } else if ("累计减重比".equals(typename)) {
-                    typecode = 1;
-                    iv_types.setImageResource(R.drawable.jianzhong_iv);
-
-
-                } else if ("累计体脂比".equals(typename)) {
-                    typecode = 2;
-                    iv_types.setImageResource(R.drawable.jianzhiphoto);
-
-                }
-                page = 1;
-                updatepartner(typecode, 10, page);//按类型分页加载小伙伴
-            }
-        });
         adapter = new EasyTypeAdapter<PartnersModel>(partnersModels) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -730,7 +699,6 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                     ptrlv.onRefreshComplete();
                     page = 1;
                     classModels.clear();
-                    spinner_title.attachDataSource(dataset);
                     typecode = 0;
                     com.github.snowdream.android.util.Log.i("第一次加载的输出信息=" + classinfoModelResponseData.getData().toString());
                     if (classinfoModelResponseData.getData() != null) {

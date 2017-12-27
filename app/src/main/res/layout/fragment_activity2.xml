@@ -35,7 +35,7 @@
                 </com.softtek.lai.widgets.materialcalendarview.MaterialCalendarView>
 
                 <LinearLayout
-                    android:id="@+id/ll_chuDate"
+                    android:id="@+id/ll_change_date"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
@@ -48,27 +48,18 @@
 
 
                     <ImageView
-                        android:id="@+id/imageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/input_activity" />
+                        android:src="@drawable/more_fuce_time" />
 
                     <TextView
-                        android:id="@+id/tv_initData_Name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="初始数据审核"
+                        android:text="修改复测日"
                         android:textColor="@color/word"
                         android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_chustatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/word"
-                        android:textSize="12sp" />
 
                     <ImageView
                         android:id="@+id/imageView4"
@@ -78,110 +69,12 @@
                         android:src="@drawable/bodygame3_arrow" />
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginBottom="10dp"
                     android:background="#e1e1e1"></View>
-
-                <LinearLayout
-                    android:id="@+id/ll_for_stu"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/input_activity" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:text="为学员复测"
-                        android:textColor="@color/word"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/uncheckNum_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/word"
-                        android:textSize="12sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/bodygame3_arrow" />
-
-                </LinearLayout>
-
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0.5dp"-->
-                    <!--android:layout_marginBottom="10dp"-->
-                    <!--android:background="#e1e1e1"></View>-->
-
-                <LinearLayout
-                    android:id="@+id/ll_fuce"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/reset_back"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="10dp"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/reseticon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/reset_iv" />
-
-                    <TextView
-                        android:id="@+id/reset_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:text="复测审核"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
-
-                    <TextView
-                        android:id="@+id/reset_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/back_arrow" />
-                </LinearLayout>
-
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0.5dp"-->
-                    <!--android:layout_marginBottom="10dp"-->
-                    <!--android:background="#e1e1e1"></View>-->
-
 
             </LinearLayout>
 

@@ -42,6 +42,8 @@ public class UpdateFuceTimeActivity extends BaseActivity{
     private static final int IS_NO_END=1;
     private static final int IS_EQ=2;
 
+    public static final int REQUEST_CODE = 233;
+
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -59,10 +61,10 @@ public class UpdateFuceTimeActivity extends BaseActivity{
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_OK);
                 finish();
             }
         });
-
     }
 
     @Override
@@ -230,5 +232,11 @@ public class UpdateFuceTimeActivity extends BaseActivity{
         });
         dialog.show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
     }
 }

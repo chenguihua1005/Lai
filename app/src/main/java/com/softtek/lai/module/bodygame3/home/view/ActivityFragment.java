@@ -1,14 +1,12 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +22,6 @@ import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialog;
 import com.google.gson.Gson;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -38,18 +35,13 @@ import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
 import com.softtek.lai.module.bodygame3.activity.net.ActivityService;
 import com.softtek.lai.module.bodygame3.activity.view.ActivitydetailActivity;
 import com.softtek.lai.module.bodygame3.activity.view.CreateActActivity;
-import com.softtek.lai.module.bodygame3.activity.view.FcAuditListActivity;
-import com.softtek.lai.module.bodygame3.activity.view.FcStuActivity;
-import com.softtek.lai.module.bodygame3.activity.view.InitAuditListActivity;
 import com.softtek.lai.module.bodygame3.activity.view.InputView;
-import com.softtek.lai.module.bodygame3.activity.view.WriteFCActivity;
 import com.softtek.lai.module.bodygame3.head.model.ClassModel;
 import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
-import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.bodygame3.more.view.UpdateFuceTimeActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -106,23 +98,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @InjectView(R.id.material_calendar)
     MaterialCalendarView material_calendar;
-    @InjectView(R.id.ll_chuDate)
-    LinearLayout ll_chuDate;//初始数据录入、审核
-    @InjectView(R.id.tv_initData_Name)
-    TextView tv_initData_Name;//初始按钮名称
-    @InjectView(R.id.tv_chustatus)
-    TextView tv_chustatus;//初始数据状态
-    @InjectView(R.id.reset_name)
-    TextView reset_name;//复测录入/复测审核
-    @InjectView(R.id.reset_time)
-    TextView reset_time;//未复测、已复测
-    @InjectView(R.id.ll_fuce)
-    LinearLayout ll_fuce;
+
+
     @InjectView(R.id.ll_task)
     LinearLayout ll_task;
 
-    @InjectView(R.id.uncheckNum_tv)
-    TextView uncheckNum_tv;
+    @InjectView(R.id.ll_change_date)
+    LinearLayout mChangedDate;
 
     private SaveclassModel saveclassModel;
 
@@ -167,11 +149,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         } else {
             fl_right.setVisibility(View.GONE);
         }
-        ll_fuce.setOnClickListener(this);
-        ll_chuDate.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-
+        mChangedDate.setOnClickListener(this);
 
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
@@ -271,7 +251,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         dateStr = sdf.format(date.getDate());
         saveclassModel.setDates(dateStr);
-        ll_fuce.setVisibility(View.GONE);
 
         ll_task.removeAllViews();
         if (!TextUtils.isEmpty(classid)) {
@@ -295,103 +274,34 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 tag.date = datestr;
                                 tag.role = model.getClassRole();
                                 if (model.getClassRole() == Constants.STUDENT) {//如果这个人是学员
-                                    if (model.getWeekth() > 0) {
-                                        reset_name.setText("复测录入(第" + model.getWeekth() + "周)");
-                                    } else {
-                                        reset_name.setText("复测录入");
-                                    }
-
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
-                                            ll_fuce.setVisibility(View.VISIBLE);
-
-                                            if (model.getIsRetest() == 1) {
-                                                ll_fuce.setEnabled(false);
-                                                reset_time.setText("未复测");
-                                                tag.resetstatus = model.getIsRetest();
-
-                                            } else if (model.getIsRetest() == 2) {
-                                                ll_fuce.setEnabled(false);
-                                                reset_time.setText("未审核");
-                                                tag.resetstatus = model.getIsRetest();
-                                            } else if (model.getIsRetest() == 3) {
-                                                ll_fuce.setEnabled(true);
-                                                reset_time.setText("已审核");
-                                                tag.resetstatus = model.getIsRetest();
-                                            }
                                             tag.status = FUCE_FINISH;
                                             break;
                                         case 2://进行中的复测日
-                                            ll_fuce.setVisibility(View.VISIBLE);
-                                            ll_fuce.setEnabled(true);
-                                            if (model.getIsRetest() == 1) {
-                                                ll_fuce.setEnabled(true);
-                                                reset_time.setText("未复测");
-                                                tag.resetstatus = model.getIsRetest();
-                                            } else if (model.getIsRetest() == 2) {
-                                                ll_fuce.setEnabled(true);
-                                                reset_time.setText("待审核");
-                                                tag.resetstatus = model.getIsRetest();
-                                            } else if (model.getIsRetest() == 3) {
-                                                ll_fuce.setEnabled(true);
-                                                reset_time.setText("已审核");
-                                                tag.resetstatus = model.getIsRetest();
-                                            }
                                             tag.status = FUCEING;
                                             break;
                                         case 3://未开始的复测日
-                                            ll_fuce.setVisibility(View.VISIBLE);
-                                            ll_fuce.setEnabled(false);
-                                            reset_time.setText("未开始");
                                             tag.status = FUCE_NOT_START;
                                             break;
                                         default:
-                                            ll_fuce.setVisibility(View.GONE);
                                             break;
                                     }
-                                    ll_fuce.setTag(tag);
-                                    ll_chuDate.setTag(tag);
                                 } else {//非学员
-                                    if (model.getWeekth() > 0) {
-                                        reset_name.setText("复测审核(第" + model.getWeekth() + "周)");
-                                    } else {
-                                        reset_name.setText("复测审核");
-                                    }
                                     switch (resetstatus) {
                                         case 1://已过去的复测日
-                                            ll_fuce.setVisibility(View.VISIBLE);
-                                            ll_fuce.setEnabled(true);
-                                            reset_time.setText("待审核" + model.getNum());
-
-                                            uncheckNum_tv.setText("未测量X人");
-
                                             tag.status = FUCE_FINISH;
                                             break;
                                         case 2://进行中的复测日
-                                            ll_fuce.setVisibility(View.VISIBLE);
-                                            ll_fuce.setEnabled(true);
-
-                                            uncheckNum_tv.setText("未测量X人");
-
-                                            reset_time.setText("待审核" + model.getNum() + "人");
                                             tag.status = FUCEING;
                                             break;
                                         case 3://未开始的复测日
-                                            ll_fuce.setVisibility(View.VISIBLE);
-                                            ll_fuce.setEnabled(false);
-                                            reset_time.setText("未开始");
-
-                                            uncheckNum_tv.setText("未开始");
-
                                             tag.status = FUCE_NOT_START;
                                             break;
                                         default:
-                                            ll_fuce.setVisibility(View.GONE);
                                             break;
                                     }
                                 }
-                                ll_fuce.setTag(tag);
-                                ll_chuDate.setTag(tag);
 
                                 ll_task.removeAllViews();
                                 if (model.getList_Activity() != null && !model.getList_Activity().isEmpty()) {
@@ -424,81 +334,13 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 intent.putExtra("classid", classid);
                 startActivityForResult(intent, 0);
                 break;
-            case R.id.ll_chuDate: { //学员：初始数据录入   其他角色：初始数据审核
-                BtnTag tag = (BtnTag) view.getTag();
-                if (tag == null) {
-                    return;
-                }
-                if (tag.role == Constants.STUDENT) {//学员
-                    Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
-                    chuDate.putExtra("typeDate", tag.date);
-                    if (tag.isfirst == 0) {
-                        tag.isfirst = IsFirst_save;
-                    }
-                    chuDate.putExtra("firststatus", tag.isfirst);//初始数据录入状态 1：未录入，2：未审核，3：已审核
-                    chuDate.putExtra("classId", classid);
-                    startActivityForResult(chuDate, 2);
-                } else {
-                    Intent chuDate = new Intent(getContext(), InitAuditListActivity.class);
-                    chuDate.putExtra("typeDate", tag.date);
-                    chuDate.putExtra("classId", classid);
-                    startActivityForResult(chuDate, 2);
-                }
-            }
-            break;
             case R.id.ll_left:
                 getActivity().finish();
                 break;
-            case R.id.ll_fuce://学员：复测录入    其他：复测审核
-            {
-                final BtnTag tag = (BtnTag) view.getTag();
-                if (tag == null) {
-                    return;
-                }
-                if (tag.role == Constants.STUDENT) {//学员
-                    if (HasInitMeasuredData == 0) {
-                        final AlertDialog builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
-                                .setTitle("温馨提示").setMessage("您尚未录入初始数据, 请先录入初始数据")
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        if (tag.role == Constants.STUDENT) {//学员
-                                            Intent chuDate = new Intent(getContext(), WriteFCActivity.class);
-                                            chuDate.putExtra("typeDate", tag.date);
-                                            if (tag.isfirst == 0) {
-                                                tag.isfirst = IsFirst_save;
-                                            }
-                                            chuDate.putExtra("firststatus", tag.isfirst);//初始数据录入状态 1：未录入，2：未审核，3：已审核
-                                            chuDate.putExtra("classId", classid);
-                                            startActivityForResult(chuDate, 2);
-                                        }
-                                    }
-                                }).setCancelable(false).create();
-                        builder.show();
-                    } else {
-                        Intent fuce = new Intent(getContext(), FcStuActivity.class);
-                        fuce.putExtra("classId", classid);
-                        fuce.putExtra("resetstatus", tag.resetstatus);//复测状态：1：未复测 2：未审核 3：已复测
-                        fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
-                        fuce.putExtra("typeDate", tag.date);
-                        startActivityForResult(fuce, 3);
-                    }
-                } else {
-                    Intent fuce = new Intent(getContext(), FcAuditListActivity.class);
-                    fuce.putExtra("classId", classid);
-                    fuce.putExtra("resetdatestatus", tag.status);//复测日状态  1:已过去 2：进行中 3：未开始
-                    fuce.putExtra("typeDate", tag.date);
-                    startActivityForResult(fuce, 3);
-                }
-            }
-            break;
+            case R.id.ll_change_date:
+                Intent dateIntent = new Intent(getActivity(), UpdateFuceTimeActivity.class);
+                dateIntent.putExtra("classId", classid);
+                startActivityForResult(dateIntent, UpdateFuceTimeActivity.REQUEST_CODE);
         }
     }
 
@@ -528,34 +370,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             } else if (requestCode == 2) {
                 if (classrole == Constants.STUDENT) {
                     HasInitMeasuredData = 1;
-                    int IsInitW = data.getExtras().getInt("IsInitW");
-                    if (IsInitW == 1) {
-                        tv_chustatus.setText("待审核");
-                        if (ll_chuDate.getTag() != null) {
-                            BtnTag tag = (BtnTag) ll_chuDate.getTag();
-                            tag.isfirst = 2;
-                            ll_chuDate.setTag(tag);
-                        }
-                    }
-                } else {
-                    int numbers = data.getExtras().getInt("Auditnum");
-                    tv_chustatus.setText("待审核" + numbers + "人");
-                }
-
-            } else if (requestCode == 3) {
-                if (classrole == Constants.STUDENT) {
-                    int IsFcSt = data.getExtras().getInt("IsFcSt");
-                    if (IsFcSt == 1) {
-                        reset_time.setText("待审核");
-                        if (ll_fuce.getTag() != null) {
-                            BtnTag tag = (BtnTag) ll_fuce.getTag();
-                            tag.resetstatus = 2;
-                            ll_fuce.setTag(tag);
-                        }
-                    }
-                } else {
-                    int numbers = data.getExtras().getInt("Auditnum");
-                    reset_time.setText("待审核" + numbers + "人");
                 }
             } else if (requestCode == 110) {
                 int operation = data.getExtras().getInt("operation");
@@ -588,6 +402,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         gettodaydata(saveclassModel.getDates());
                     }
                 }
+            } else if (requestCode == UpdateFuceTimeActivity.REQUEST_CODE) {
+                lazyLoad();
             }
 
         }
@@ -599,13 +415,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     public void onRefresh() {
-
         ZillaApi.NormalRestAdapter.create(ActivityService.class).getactivity(classid, UserInfoModel.getInstance().getToken(),
                 UserInfoModel.getInstance().getUserId(), classid, saveclassModel.getDates(), new RequestCallback<ResponseData<ActivitydataModel>>() {
                     @Override
                     public void success(ResponseData<ActivitydataModel> data, Response response) {
                         try {
-
                             pull.setRefreshing(false);
                             if (data.getData() != null) {
                                 material_calendar.removeDecorators();
@@ -620,7 +434,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 //加载班级
                                 classModels.clear();
                                 if (activitydataModel.getList_Class() != null && !activitydataModel.getList_Class().isEmpty()) {
-                                    ll_chuDate.setVisibility(View.VISIBLE);
                                     classModels.addAll(activitydataModel.getList_Class());
                                     if (TextUtils.isEmpty(classid)) {
                                         classid = classModels.get(0).getClassId();
@@ -640,8 +453,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                     }
                                 } else {
                                     //如果班级是空
-                                    ll_chuDate.setVisibility(View.GONE);
-                                    ll_fuce.setVisibility(View.GONE);
                                     tv_title.setText("暂无班级");
                                     return;
                                 }
@@ -657,101 +468,48 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 }
                                 //判断是否显示初始数据录入根据此用户在该班级的角色
                                 if (activitydataModel.getClassRole() == Constants.STUDENT) {//是学员
-                                    tv_initData_Name.setText("初始数据录入");
                                     BtnTag tag = new BtnTag();
                                     tag.role = activitydataModel.getClassRole();
-                                    if (activitydataModel.getIsFirst() == 1) {
-                                        tv_chustatus.setText("未录入");
-                                    } else if (activitydataModel.getIsFirst() == 2) {
-                                        tv_chustatus.setText("待审核");
-                                    } else if (activitydataModel.getIsFirst() == 3) {
-                                        tv_chustatus.setText("已审核");
-                                    }
-                                    tag.isfirst = activitydataModel.getIsFirst();//初始数据录入状态： 1：未录入 2：未审核 3：已审核
-
                                     IsFirst_save = activitydataModel.getIsFirst();//获取
                                     tag.date = now;
-                                    ll_chuDate.setTag(tag);
                                 } else {//非学员
-                                    tv_initData_Name.setText("初始数据审核");
-                                    tv_chustatus.setText("待审核" + activitydataModel.getIsFirst() + "人");
                                     BtnTag tag = new BtnTag();
                                     tag.date = now;
                                     tag.role = activitydataModel.getClassRole();
-                                    ll_chuDate.setTag(tag);
                                 }
                                 //获取当前日期是否需要复测，活动
                                 for (ActCalendarModel model : calendarModels) {
                                     if (DateUtil.getInstance(DateUtil.yyyy_MM_dd).isEq(model.getMonthDate(), saveclassModel.getDates())) {
                                         //如果是复测类型
                                         if (model.getDateType() == 3 || model.getDateType() == Constants.CREATECLASS) {
-                                            ll_fuce.setVisibility(View.VISIBLE);
                                             if (activitydataModel.getClassRole() == Constants.STUDENT) {//是学员
-                                                if (activitydataModel.getWeekth() > 0) {
-                                                    reset_name.setText("复测录入(第" + activitydataModel.getWeekth() + "周)");
-                                                } else {
-                                                    reset_name.setText("复测录入");
-                                                }
                                                 //学员复测的状态：未复测，未审核，已审核
                                                 BtnTag tag = new BtnTag();
                                                 tag.role = activitydataModel.getClassRole();
                                                 if (activitydataModel.getRetestStatus() == 2) {//进行中
                                                     tag.status = FUCEING;//复测日状态
                                                     tag.date = now;
-                                                    if (activitydataModel.getIsRetest() == 1) {
-                                                        reset_time.setText("未复测");
-                                                        tag.resetstatus = activitydataModel.getIsRetest();
-                                                    } else if (activitydataModel.getIsRetest() == 2) {
-                                                        reset_time.setText("待审核");
-                                                        tag.resetstatus = activitydataModel.getIsRetest();
-                                                    } else if (activitydataModel.getIsRetest() == 3) {
-                                                        reset_time.setText("已审核");
-                                                        tag.resetstatus = activitydataModel.getIsRetest();
-                                                    }
                                                 } else if (activitydataModel.getRetestStatus() == 1) {//已过去的复测日
 
                                                     tag.status = FUCE_FINISH;//复测日状态
                                                     tag.date = saveclassModel.getDates();
-                                                    if (activitydataModel.getIsRetest() == 1) {
-                                                        ll_fuce.setEnabled(false);
-                                                        reset_time.setText("未复测");
-                                                        tag.resetstatus = activitydataModel.getIsRetest();
-                                                    } else if (activitydataModel.getIsRetest() == 2) {
-                                                        ll_fuce.setEnabled(false);
-                                                        reset_time.setText("待审核");
-                                                        tag.resetstatus = activitydataModel.getIsRetest();
-                                                    } else if (activitydataModel.getIsRetest() == 3) {
-                                                        ll_fuce.setEnabled(true);
-                                                        reset_time.setText("已审核");
-                                                        tag.resetstatus = activitydataModel.getIsRetest();
-                                                    }
                                                 } else {//未开始的复测日
-                                                    ll_fuce.setEnabled(false);
                                                     tag.status = FUCE_NOT_START;
-                                                    reset_time.setText("未开始");
 
                                                 }
-                                                ll_fuce.setTag(tag);
                                             } else {//非学员
                                                 BtnTag tag = new BtnTag();
                                                 tag.role = activitydataModel.getClassRole();
                                                 if (activitydataModel.getRetestStatus() == 3) {
-                                                    ll_fuce.setEnabled(false);
                                                     tag.status = FUCE_NOT_START;
-                                                    reset_time.setText("未开始");
                                                 } else {
-                                                    ll_fuce.setEnabled(true);
                                                     if (activitydataModel.getWeekth() > 0) {
-                                                        reset_name.setText("复测审核(第" + activitydataModel.getWeekth() + "周)");
                                                     } else {
-                                                        reset_name.setText("复测审核");
                                                     }
-                                                    reset_time.setText("待审核" + activitydataModel.getNum() + "人");
                                                     tag.status = activitydataModel.getRetestStatus();
                                                     tag.date = saveclassModel.getDates();
 
                                                 }
-                                                ll_fuce.setTag(tag);
 
                                             }
                                             ll_task.removeAllViews();
@@ -772,14 +530,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             }
                                         }
                                         if (model.getDateType() == 4) {
-                                            ll_fuce.setVisibility(View.GONE);
                                             ll_task.removeAllViews();
                                         }
                                         //如果是活动类型
                                         if (model.getDateType() == 1 && !activitydataModel.getList_Activity().isEmpty()) {
                                             ll_task.setVisibility(View.VISIBLE);
                                             ll_task.removeAllViews();
-                                            ll_fuce.setVisibility(View.GONE);
                                             todayactModels.clear();
                                             //有活动
                                             todayactModels.addAll(activitydataModel.getList_Activity());
@@ -971,19 +727,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         public int role;
         public int status;//复测日状态
         public String date;
-        public int isfirst;//初始录入状态
-        public int resetstatus;//复测状态
-
-        @Override
-        public String toString() {
-            return "BtnTag{" +
-                    "role=" + role +
-                    ", status=" + status +
-                    ", date='" + date + '\'' +
-                    ", isfirst=" + isfirst +
-                    ", resetstatus=" + resetstatus +
-                    '}';
-        }
     }
 
 

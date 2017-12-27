@@ -21,9 +21,6 @@ import java.util.List;
 
 import zilla.libcore.file.AddressManager;
 
-import static com.softtek.lai.R.id.fale;
-import static com.softtek.lai.R.id.imageView;
-import static com.softtek.lai.R.id.view;
 
 /**
  * Created by shelly.xu on 11/21/2016.

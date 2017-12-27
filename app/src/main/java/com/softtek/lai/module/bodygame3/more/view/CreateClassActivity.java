@@ -44,9 +44,6 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ListViewUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.BottomSheetDialog;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -113,6 +110,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     TextView mEntryGoal;
     private Dialog entryGoalDialog;//分享对话框
 
+
+
     int currentYear;
     int currentMonth;
     int currentDay;
@@ -137,6 +136,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         rl_area.setOnClickListener(this);
+
     }
 
     @Override
@@ -279,6 +279,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 showBottomSheet();
                 break;
             case R.id.rl_class_mail:
+                Intent addClassMail = new Intent(this, EditorTextActivity.class);
+                addClassMail.putExtra("flag", EditorTextActivity.ADD_CLASS_MAIL);
+                startActivityForResult(addClassMail, 103);
                 break;
             case R.id.rl_entry_goal:
                 showEntryGoalDialog();
@@ -291,7 +294,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     private void showEntryGoalDialog(){
             if (entryGoalDialog == null) {
                 entryGoalDialog = new Dialog(this, R.style.custom_dialog);
-                entryGoalDialog.setCanceledOnTouchOutside(false);
+                entryGoalDialog.setCanceledOnTouchOutside(true);
                 Window win = entryGoalDialog.getWindow();
                 WindowManager.LayoutParams params = new WindowManager.LayoutParams();
                 params.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -301,24 +304,35 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 assert win != null;
                 win.setAttributes(params);
                 entryGoalDialog.setContentView(R.layout.entry_goal_dialog);
-                entryGoalDialog.findViewById(R.id.tv_loss_weight).setOnClickListener(new View.OnClickListener() {
+                final TextView lossWeight = entryGoalDialog.findViewById(R.id.tv_loss_weight);
+                final TextView addWeight = entryGoalDialog.findViewById(R.id.tv_add_weight);
+                lossWeight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mEntryGoal.setText("增重");
+                        lossWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                        addWeight.setTextColor(getResources().getColor(R.color.word));
+                        mEntryGoal.setText("减重");
                         dialogDismiss();
                     }
                 });
-                entryGoalDialog.findViewById(R.id.tv_add_weight).setOnClickListener(new View.OnClickListener() {
+                addWeight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mEntryGoal.setText("减重");
+                        addWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                        lossWeight.setTextColor(getResources().getColor(R.color.word));
+                        mEntryGoal.setText("增重");
                         dialogDismiss();
                     }
                 });
                 entryGoalDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        dialogDismiss();
+                    }
+                });
+                entryGoalDialog.findViewById(R.id.space).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                         dialogDismiss();
                     }
                 });
@@ -354,6 +368,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                     groups.set(position, value);
                     adapter.notifyDataSetChanged();
                 }
+            } else if (requestCode == 103) {
+                String value = data.getStringExtra("value");
+                mClassMail.setText(value);
             }
         }
     }

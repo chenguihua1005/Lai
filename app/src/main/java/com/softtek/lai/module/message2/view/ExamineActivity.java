@@ -1,6 +1,7 @@
 package com.softtek.lai.module.message2.view;
 
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
@@ -84,6 +87,10 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
     Button btn_yes;
     @InjectView(R.id.btn_no)
     Button btn_no;
+    @InjectView(R.id.rl_choose_type)
+    RelativeLayout mChooseTypeContent;
+    @InjectView(R.id.tv_choose_type)
+    TextView mChooseType;
 
     Message2Service service;
     String msgId;
@@ -99,6 +106,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
         rl_role.setOnClickListener(this);
         btn_no.setOnClickListener(this);
         btn_yes.setOnClickListener(this);
+        mChooseTypeContent.setOnClickListener(this);
     }
 
     @Override
@@ -175,6 +183,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             }
             tv_group_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
             tv_role_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
+            mChooseType.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
         } else {
             btn_no.setVisibility(View.GONE);
             btn_yes.setVisibility(View.GONE);
@@ -183,6 +192,7 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             tv_role_name.setText(apply.getClassRoleName());
             tv_group_name.setCompoundDrawables(null, null, null, null);
             tv_role_name.setCompoundDrawables(null, null, null, null);
+            mChooseType.setCompoundDrawables(null, null, null, null);
         }
 
     }
@@ -388,7 +398,66 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                     }
                                 });
                 break;
+            case R.id.rl_choose_type:
+                showEntryGoalDialog();
+                break;
+        }
+    }
 
+    private Dialog entryGoalDialog;
+
+    private void showEntryGoalDialog() {
+        if (entryGoalDialog == null) {
+            entryGoalDialog = new Dialog(this, R.style.custom_dialog);
+            entryGoalDialog.setCanceledOnTouchOutside(true);
+            Window win = entryGoalDialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            assert win != null;
+            win.setAttributes(params);
+            entryGoalDialog.setContentView(R.layout.entry_goal_dialog);
+            final TextView lossWeight = entryGoalDialog.findViewById(R.id.tv_loss_weight);
+            final TextView addWeight = entryGoalDialog.findViewById(R.id.tv_add_weight);
+            lossWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lossWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    addWeight.setTextColor(getResources().getColor(R.color.word));
+                    mChooseType.setText("减重");
+                    dialogDismiss();
+                }
+            });
+            addWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    lossWeight.setTextColor(getResources().getColor(R.color.word));
+                    mChooseType.setText("增重");
+                    dialogDismiss();
+                }
+            });
+            entryGoalDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogDismiss();
+                }
+            });
+            entryGoalDialog.findViewById(R.id.space).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDismiss();
+                }
+            });
+        }
+        entryGoalDialog.show();
+    }
+
+    private void dialogDismiss() {
+        if (entryGoalDialog != null && entryGoalDialog.isShowing()) {
+            entryGoalDialog.dismiss();
         }
     }
 }

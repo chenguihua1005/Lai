@@ -30,6 +30,7 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
     public static final int UPDATE_CLASS_NAME=1;
     public static final int UPDATE_GROUP_NAME=2;
     public static final int ADD_GROUP_NAME=3;
+    public static final int ADD_CLASS_MAIL=4;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -76,6 +77,10 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
                 tv_title.setText("添加新小组");
                 et_value.setHint("小组名称");
                 groups=intent.getStringArrayListExtra("groups");
+                break;
+            case ADD_CLASS_MAIL:
+                tv_right.setText("添加班级邮箱");
+                et_value.setHint("班级邮箱");
                 break;
         }
         tv_right.setText("确定");
@@ -152,6 +157,8 @@ public class EditorTextActivity extends BaseActivity implements Validator.Valida
             case UPDATE_GROUP_NAME:
                 message="请输入小组名称";
                 break;
+            case ADD_CLASS_MAIL:
+                message = "请输入班级邮箱";
         }
         if (failedView instanceof EditText) {
             failedView.requestFocus();
