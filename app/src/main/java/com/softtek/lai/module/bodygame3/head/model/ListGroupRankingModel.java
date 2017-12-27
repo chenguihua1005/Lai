@@ -17,6 +17,15 @@ public class ListGroupRankingModel {
     private String Gender;
 
     private String Loss;//减重/脂
+    private String Target;//减重/脂  增重 增脂
+
+    public String getTarget() {
+        return Target;
+    }
+
+    public void setTarget(String target) {
+        Target = target;
+    }
 
     public String getLoss() {
         return Loss;

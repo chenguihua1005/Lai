@@ -150,6 +150,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+//                is_first = true;
                 getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
             }
 
@@ -170,8 +171,10 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                         intent.putExtra("ClassId", ClassId);
                         intent.putExtra("ByWhichRatio", ByWhichRatio);
                         intent.putExtra("SortTimeType", SortTimeType);
-                        ListdateModel listdateModel = spinnerData.get(selectedSpinner);
-                        intent.putExtra("listDataModel", listdateModel);
+                        if (!"ByTotal".equals(SortTimeType)) {
+                            ListdateModel listdateModel = spinnerData.get(selectedSpinner);
+                            intent.putExtra("listDataModel", listdateModel);
+                        }
                         intent.putExtra("ListGroupModel", groupModel);
                         startActivity(intent);
                     } else if (2 == groupModel.getType()) {
@@ -296,16 +299,19 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         if (model.getList_date() != null) {
             //周数list的size不等于0，有周数，再次请求，默认请求第一周的，减重的
             if (model.getList_date().size() != 0) {
-                WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
+                if (WhichTime == 1) {
+                    WhichTime = Integer.parseInt(model.getList_date().get(0).getDateValue());
 
-                spinnerData.clear(); //.踢馆周期
-                spinnerData.addAll(model.getList_date());
+                    spinnerData.clear(); //.踢馆周期
+                    spinnerData.addAll(model.getList_date());
 
-                arrow.setSelected(0);
-                arrow.notifChange();
+                    arrow.setSelected(0);
+                    arrow.notifChange();
 
-                int px = DisplayUtil.dip2px(getContext(), 50 * 6);
-                arrow.setHeight(px);
+
+                    int px = DisplayUtil.dip2px(getContext(), 50 * 6);
+                    arrow.setHeight(px);
+                }
 
                 //首次后设置为false
                 is_first = false;
@@ -332,7 +338,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                 listHonorrank.setEmptyView(ll_no_data);
                 return;
             }
-        }else {
+        } else {
             ll_menu.setVisibility(View.GONE);
         }
 

@@ -146,8 +146,8 @@ public interface HeadService {
             Callback<ResponseData<HonorRankModel>> callback
     );
 
-    //请求路径:Api/V1/ ClassHonor/ GetHonorGroupList(荣誉榜——小组排名接口)
-    @GET("/V1/ClassHonor/GetHonorGroupList")
+    //请求路径:Api/V1/ ClassHonor/ GetHonorGroupList(荣誉榜——小组排名接口)  /api/v1/club/GetHonorGroupList
+    @GET("/V1/club/GetHonorGroupList")
     void doGetHonorGroup(
             @Header("classid") String CId,
             @Header("token") String token,

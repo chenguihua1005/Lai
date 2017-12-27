@@ -30,7 +30,7 @@ public class HonorPresenter extends BasePresenter<HonorPresenter.HonorView> {
     public void getHonorData(Long UID, String classId, String byWhichRatio, String sortTimeType, int whichTime, Boolean isFirst) {
         Log.i("honor", "接口中....UID= " + UID + " ClassId = " + classId + " ByWhichRatio= " + byWhichRatio + " SortTimeType= " + sortTimeType + " whichTime = " + whichTime + " isFirst = " + isFirst);
         String token = UserInfoModel.getInstance().getToken();
-        service.doGetHonorRoll(classId, token, UID, classId, byWhichRatio, sortTimeType, whichTime, isFirst,
+        service.getHonorRoll(classId, token, UID, classId, byWhichRatio, sortTimeType, whichTime,
                 new Callback<ResponseData<HonorRankModel>>() {
                     @Override
                     public void success(ResponseData<HonorRankModel> honorRankModelResponseData, Response response) {
@@ -42,7 +42,7 @@ public class HonorPresenter extends BasePresenter<HonorPresenter.HonorView> {
                         switch (status) {
                             case 200:
                                 HonorRankModel honorRankModel = honorRankModelResponseData.getData();
-                                Log.i("honor", "data = " + new Gson().toJson(honorRankModel));
+//                                Log.i("honor", "data = " + new Gson().toJson(honorRankModel));
                                 if (getView() != null) {
                                     getView().getHonorModel(honorRankModel);
                                 }

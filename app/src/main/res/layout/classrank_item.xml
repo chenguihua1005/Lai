@@ -127,6 +127,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/jianzhong_tv2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
