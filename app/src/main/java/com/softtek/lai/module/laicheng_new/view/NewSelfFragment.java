@@ -1,9 +1,10 @@
 package com.softtek.lai.module.laicheng_new.view;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,10 +23,14 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.healthyreport.HistoryDataActivity;
-import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.net.BleService;
+import com.softtek.lai.module.laicheng_new.util.Contacts;
+import com.softtek.lai.module.laicheng_new.util.SimpleComponent;
+import com.softtek.lai.utils.Component;
+import com.softtek.lai.utils.Guide;
+import com.softtek.lai.utils.GuideBuilder;
 import com.softtek.lai.utils.RequestCallback;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -62,9 +67,11 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private ImageView mBleIcon;
     private ImageView mNote;
     private LinearLayout mNoteContent;
+    private ImageView mStyleType;
 
     private StartLinkListener linkListener;
     private RenameListener renameListener;
+    private ChangeStyleListener mStyleListener;
     private String recordId;
 
     private String weight = "";
@@ -73,6 +80,8 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private String value = "";
 
     private Dialog dialog;//分享对话框
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Nullable
     @Override
@@ -90,6 +99,9 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         }
         if (context instanceof RenameListener){
             renameListener = (RenameListener)context;
+        }
+        if (context instanceof ChangeStyleListener){
+            mStyleListener = (ChangeStyleListener)context;
         }
     }
 
@@ -126,6 +138,9 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
             case R.id.iv_note:
                 renameListener.onRenameListener();
                 break;
+            case R.id.iv_style_type:
+                mStyleListener.onStyleTypeListener();
+                break;
         }
     }
 
@@ -137,7 +152,12 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         void onRenameListener();
     }
 
+    public interface ChangeStyleListener{
+        void onStyleTypeListener();
+    }
+
     private void initView() {
+        mSharedPreferences = getActivity().getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         mBleState = (TextView) mView.findViewById(R.id.tv_info_state);
         mBleState.setOnClickListener(this);
         mVoiceSwitch = (ImageView) mView.findViewById(R.id.iv_voice);
@@ -163,6 +183,8 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         mNote = (ImageView)mView.findViewById(R.id.iv_note);
         mNote.setOnClickListener(this);
         mNoteContent = mView.findViewById(R.id.ll_note);
+        mStyleType = mView.findViewById(R.id.iv_style_type);
+        mStyleType.setOnClickListener(this);
 
 
         ZillaApi.NormalRestAdapter.create(BleService.class).
@@ -181,6 +203,21 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
 
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
+        editor = mSharedPreferences.edit();
+        if (mSharedPreferences.getBoolean(Contacts.MAKI_IS_FIRST,true)){
+            mStyleType.post(new Runnable() {
+                @Override
+                public void run() {
+                    showGuideView();
+                }
+            });
+        }
+        editor.putBoolean(Contacts.MAKI_IS_FIRST,false).apply();
+        if(mSharedPreferences.getInt(Contacts.MAKI_STYLE,2) == 2){
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.relax));
+        }else {
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.training));
+        }
     }
 
     public void refreshUi(LastInfoData data) {
@@ -381,6 +418,28 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private void dialogDismiss() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+    }
+
+    Guide guide;
+    private void showGuideView() {
+        GuideBuilder guideBuilder = new GuideBuilder();
+        guideBuilder.setTargetView(mStyleType)
+                .setAlpha(200)
+                .setHighTargetGraphStyle(Component.CIRCLE)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        guideBuilder.addComponent(new SimpleComponent());
+        guide = guideBuilder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show(getActivity());
+    }
+
+    public void changeStyleImg(int type){
+        if (type == 2){
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.relax));
+        }else {
+            mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.training));
         }
     }
 }

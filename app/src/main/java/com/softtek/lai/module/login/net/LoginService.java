@@ -36,6 +36,9 @@ public interface LoginService {
             @Field("psd") String password,
             Callback<ResponseData<UserModel>> callback);
 
+    @GET("/v1/HerbUser/GetByToken")
+    void doLoginByToken(@Header("token") String token,Callback<ResponseData<UserModel>> callback);
+
     @FormUrlEncoded
     @POST("/HerbUser/GetVerificationNum")
     void getIdentify(
@@ -78,7 +81,8 @@ public interface LoginService {
     @FormUrlEncoded
     @POST("/HerbUser/ValidateCertification")
     void alidateCertification(
-            @Header("token") String token, @Field("memberId") String memberId,
+            @Header("token") String token,
+            @Field("memberId") String memberId,
             @Field("password") String password,
             @Field("accountId") String accountId,
             Callback<ResponseData<RoleInfo>> callback);

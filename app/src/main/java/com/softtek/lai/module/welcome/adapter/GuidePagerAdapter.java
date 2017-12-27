@@ -119,91 +119,91 @@ public class GuidePagerAdapter extends PagerAdapter {
     * */
     private void creat() {
         //获取用户的帐号和密码
-        String user= SharedPreferenceService.getInstance().get(Constants.USER,"");
-        final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
-        String token=UserInfoModel.getInstance().getToken();
-        if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
+//        String user= SharedPreferenceService.getInstance().get(Constants.USER,"");
+//        final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
+//        String token=UserInfoModel.getInstance().getToken();
+//        if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
             activity.finish();
             Intent intent = new Intent(activity, LoginActivity.class);
             activity.startActivity(intent);
-        }else{
-            PackageManager pm= LaiApplication.getInstance().getPackageManager();
-            StringBuffer buffer=new StringBuffer();
-            if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
-                buffer.append("计步类型=SENSOR_STEP_COUNTER");
-            }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
-                buffer.append("计步类型=SENSOR_ACCELEROMETER");
-            }else{
-                buffer.append("计步类型=不支持");
-            }
-            //登录
-            ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(buffer.toString(),user, password, new Callback<ResponseData<UserModel>>() {
-                @Override
-                public void success(ResponseData<UserModel> userModelResponseData, Response response) {
-                    int status=userModelResponseData.getStatus();
-                    switch (status) {
-                        case 200:
-                            //JPushInterface.init(WelcomeActivity.this);
-                            //JpushSet set = new JpushSet(WelcomeActivity.this);
-                            UserModel model=userModelResponseData.getData();
-                            Log.i("token=="+model.getToken());
-                            //set.setAlias(model.getMobile());
-                            //set.setStyleBasic();
-                            UserInfoModel.getInstance().saveUserCache(model);
-                            //如果用户加入了跑团
-                            if("1".equals(model.getIsJoin())){
-
-                                stepDeal(activity,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
-                            }
-                            final String token=userModelResponseData.getData().getToken();
-                            if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
-                                //如果没有创建档案且性别不是2才算没创建档案
-                                UserInfoModel.getInstance().setToken("");
-                                Intent intent=new Intent(activity, CreatFlleActivity.class);
-                                intent.putExtra("token",token);
-                                activity.finish();
-                                activity.startActivity(intent);
-                            }else if(MD5.md5WithEncoder("000000").equals(password)){
-                                UserInfoModel.getInstance().setToken("");
-                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity)
-                                        .setTitle(activity.getString(R.string.login_out_title))
-                                        .setMessage("您正在使用默认密码, 为了您的账户安全, 需要设置一个新密码.")
-                                        .setPositiveButton("立即修改", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                                Intent intent=new Intent(activity, ModifyPasswordActivity.class);
-                                                intent.putExtra("type","1");
-                                                intent.putExtra("token",token);
-                                                activity.finish();
-                                                activity.startActivity(intent);
-                                            }
-                                        });
-                                Dialog dialog=dialogBuilder.create();
-                                dialog.setCancelable(false);
-                                dialog.show();
-                            }else {
-                                activity.finish();
-                                Intent start=new Intent(activity, HomeActviity.class);
-                                activity.startActivity(start);
-                            }
-                            break;
-                        default:
-                            activity.finish();
-                            Intent intent = new Intent(activity, LoginActivity.class);
-                            activity.startActivity(intent);
-                            break;
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    activity.finish();
-                    Intent intent = new Intent(activity, LoginActivity.class);
-                    activity.startActivity(intent);
-                }
-            });
-        }
+//        }else{
+//            PackageManager pm= LaiApplication.getInstance().getPackageManager();
+//            StringBuffer buffer=new StringBuffer();
+//            if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+//                buffer.append("计步类型=SENSOR_STEP_COUNTER");
+//            }else if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)){
+//                buffer.append("计步类型=SENSOR_ACCELEROMETER");
+//            }else{
+//                buffer.append("计步类型=不支持");
+//            }
+//            //登录
+//            ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(buffer.toString(),user, password, new Callback<ResponseData<UserModel>>() {
+//                @Override
+//                public void success(ResponseData<UserModel> userModelResponseData, Response response) {
+//                    int status=userModelResponseData.getStatus();
+//                    switch (status) {
+//                        case 200:
+//                            //JPushInterface.init(WelcomeActivity.this);
+//                            //JpushSet set = new JpushSet(WelcomeActivity.this);
+//                            UserModel model=userModelResponseData.getData();
+//                            Log.i("token=="+model.getToken());
+//                            //set.setAlias(model.getMobile());
+//                            //set.setStyleBasic();
+//                            UserInfoModel.getInstance().saveUserCache(model);
+//                            //如果用户加入了跑团
+//                            if("1".equals(model.getIsJoin())){
+//
+//                                stepDeal(activity,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+//                            }
+//                            final String token=userModelResponseData.getData().getToken();
+//                            if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
+//                                //如果没有创建档案且性别不是2才算没创建档案
+//                                UserInfoModel.getInstance().setToken("");
+//                                Intent intent=new Intent(activity, CreatFlleActivity.class);
+//                                intent.putExtra("token",token);
+//                                activity.finish();
+//                                activity.startActivity(intent);
+//                            }else if(MD5.md5WithEncoder("000000").equals(password)){
+//                                UserInfoModel.getInstance().setToken("");
+//                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity)
+//                                        .setTitle(activity.getString(R.string.login_out_title))
+//                                        .setMessage("您正在使用默认密码, 为了您的账户安全, 需要设置一个新密码.")
+//                                        .setPositiveButton("立即修改", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//
+//                                                Intent intent=new Intent(activity, ModifyPasswordActivity.class);
+//                                                intent.putExtra("type","1");
+//                                                intent.putExtra("token",token);
+//                                                activity.finish();
+//                                                activity.startActivity(intent);
+//                                            }
+//                                        });
+//                                Dialog dialog=dialogBuilder.create();
+//                                dialog.setCancelable(false);
+//                                dialog.show();
+//                            }else {
+//                                activity.finish();
+//                                Intent start=new Intent(activity, HomeActviity.class);
+//                                activity.startActivity(start);
+//                            }
+//                            break;
+//                        default:
+//                            activity.finish();
+//                            Intent intent = new Intent(activity, LoginActivity.class);
+//                            activity.startActivity(intent);
+//                            break;
+//                    }
+//                }
+//
+//                @Override
+//                public void failure(RetrofitError error) {
+//                    activity.finish();
+//                    Intent intent = new Intent(activity, LoginActivity.class);
+//                    activity.startActivity(intent);
+//                }
+//            });
+//        }
     }
 
     @Override

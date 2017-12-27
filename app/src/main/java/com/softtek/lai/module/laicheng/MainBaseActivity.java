@@ -91,6 +91,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     protected static int PERMISSION_REQUEST_COARSE_LOCATION = 233;
 
+    protected static int PERMISSION_REQUEST_CALL_PHONE = 2333;
+
     private boolean getClosedType() {
         return isClosed;
     }
@@ -575,7 +577,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 break;
             case CONNECTED_STATE_SUCCESS:
                 //已连接, 请上秤
-                setStateTip("已连接，请上秤");
+                setStateTip("已连接");
                 setClickable(false);
                 setBleIcon(true);
                 state_current = CONNECTED_STATE_SUCCESS;

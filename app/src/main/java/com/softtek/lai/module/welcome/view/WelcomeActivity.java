@@ -40,6 +40,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.PropertiesManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
@@ -85,7 +86,8 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             String user=SharedPreferenceService.getInstance().get(Constants.USER,"");
             final String password=SharedPreferenceService.getInstance().get(Constants.PDW,"");
             String token=UserInfoModel.getInstance().getToken();
-            if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
+//            if(StringUtils.isEmpty(token)||StringUtils.isEmpty(user)||StringUtils.isEmpty(password)){
+            if(StringUtils.isEmpty(token)){
                 UserInfoModel.getInstance().clear();
                 Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -101,7 +103,9 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                 }else{
                     buffer.append("计步类型=不支持");
                 }
-                ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(buffer.toString(),user, password, new Callback<ResponseData<UserModel>>() {
+//                ZillaApi.NormalRestAdapter.create(LoginService.class).doLogin(buffer.toString(),user, password, new Callback<ResponseData<UserModel>>() {
+                ZillaApi.NormalRestAdapter.create(LoginService.class).
+                        doLoginByToken(UserInfoModel.getInstance().getToken(), new Callback<ResponseData<UserModel>>() {
                     @Override
                     public void success(ResponseData<UserModel> userModelResponseData, Response response) {
                         int status=userModelResponseData.getStatus();
@@ -151,6 +155,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                     dialog.show();
                                 }*/else {
                                     finish();
+                                    UserInfoModel.getInstance().setToken(token);
                                     Intent start=new Intent(WelcomeActivity.this, HomeActviity.class);
                                     startActivity(start);
                                     overridePendingTransition(R.anim.activity_enter,0);

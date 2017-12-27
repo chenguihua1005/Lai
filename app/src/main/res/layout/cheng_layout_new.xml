@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="72dp"
             android:orientation="horizontal"
             android:visibility="visible">
 
@@ -145,6 +145,20 @@
             android:layout_marginEnd="80dp"
             android:layout_marginTop="24dp"
             android:src="@drawable/voice_icon_on_new" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/change_style_bg"
+            android:layout_gravity="center"/>
+        <ImageView
+            android:id="@+id/iv_style_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/relax"
+            android:layout_gravity="center"/>
+
+
 
     </FrameLayout>
 

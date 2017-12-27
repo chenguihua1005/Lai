@@ -1,5 +1,6 @@
 package com.softtek.lai.module.home.presenter;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.common.mvp.BasePresenter;
@@ -12,6 +13,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.PropertiesManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
@@ -21,10 +23,12 @@ import zilla.libcore.util.Util;
 
 public class CertificationPresenter extends BasePresenter<CertificationPresenter.CertificationView>{
     private LoginService service;
+    private final String baseUrl = "http://qa.5ilai.cn/api/HerbUser/ValidateCertification";
 
     public CertificationPresenter(CertificationView baseView) {
         super(baseView);
         service = ZillaApi.NormalRestAdapter.create(LoginService.class);
+//        service = LaiApplication.getRESTAdapter(baseUrl).create(LoginService.class);
     }
 
     public void validateCertification(String memberId, String password, String accountId){
@@ -32,7 +36,7 @@ public class CertificationPresenter extends BasePresenter<CertificationPresenter
             getView().dialogShow("认证中");
         }
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.alidateCertification(token, memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
+        service.alidateCertification(token,memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
             @Override
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
                 int status = userResponseData.getStatus();

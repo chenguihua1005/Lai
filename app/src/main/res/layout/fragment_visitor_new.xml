@@ -100,7 +100,7 @@
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/visitor_test_photo"
+                            android:drawableStart="@drawable/visitor_test_photo_new"
                             android:text="张三" />
 
                         <TextView
@@ -109,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentTop="true"
-                            android:drawableStart="@drawable/visitor_test_tel"
+                            android:drawableStart="@drawable/visitor_test_tel_new"
                             android:gravity="right"
                             android:text="13365895632" />
 
@@ -204,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/health_report_sharp"
-                    android:drawableLeft="@drawable/health_report"
+                    android:drawableLeft="@drawable/health_report_sharp_new"
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:padding="12dp"

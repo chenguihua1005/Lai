@@ -150,8 +150,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
-                        SharedPreferenceService.getInstance().put(Constants.USER, userName);
-                        SharedPreferenceService.getInstance().put(Constants.PDW, password);
+//                        SharedPreferenceService.getInstance().put(Constants.USER, userName);
+//                        SharedPreferenceService.getInstance().put(Constants.PDW, password);
                         //开启登录服务
 //                        context.getApplicationContext().startService(new Intent(context, HXLoginService.class));
                         //如果用户加入了跑团
@@ -185,6 +185,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             dialog.setCancelable(false);
                             dialog.show();
                         }*/ else if(TextUtils.isEmpty(model.getCertification())&&SharedPreferenceService.getInstance().get("tipCertif",true)){
+                            UserInfoModel.getInstance().setToken(token);
                             SharedPreferenceService.getInstance().put("tipCertif",false);
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
                                     .setTitle(context.getString(R.string.login_out_title))
@@ -208,6 +209,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             dialog.setCancelable(false);
                             dialog.show();
                         }else {
+                            UserInfoModel.getInstance().setToken(token);
                             ((AppCompatActivity) context).finish();
                             Intent start = new Intent(context, HomeActviity.class);
                             context.startActivity(start);
