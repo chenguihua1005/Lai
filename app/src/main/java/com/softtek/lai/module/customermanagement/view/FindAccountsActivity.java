@@ -86,31 +86,32 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
             }
         }, new InviteRecyclerViewAdapter.InviteListener() {
             @Override
-            public void onInviteClickListener(View view, int position) {
+            public void onInviteClickListener(final View view, int position) {
                 ((TextView) view).setText("待处理");
                 view.setBackground(getResources().getDrawable(R.drawable.bg_invite_club_clicked));
                 service.invitetoBeWorker(UserInfoModel.getInstance().getToken(), clubId, inviteModelList.get(position).getAccountId(), new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         if (responseData.getStatus() == 200) {
-                            inviteRecyclerViewAdapter.setClickable(false);
+                            view.setEnabled(false);
+//                            inviteRecyclerViewAdapter.setClickable(false);
                             Toast.makeText(FindAccountsActivity.this, "邀请成功", Toast.LENGTH_SHORT).show();
                         } else {
-                            inviteRecyclerViewAdapter.setClickable(true);
+//                            inviteRecyclerViewAdapter.setClickable(true);
                             Toast.makeText(FindAccountsActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        inviteRecyclerViewAdapter.setClickable(true);
+//                        inviteRecyclerViewAdapter.setClickable(true);
                         Toast.makeText(FindAccountsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                         super.failure(error);
                     }
                 });
             }
         }, this);
-        inviteRecyclerViewAdapter.setClickable(true);
+//        inviteRecyclerViewAdapter.setClickable(true);
         inviteRecyclerViewAdapter.setSearch(true);
         mRecyclerView.setAdapter(inviteRecyclerViewAdapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);

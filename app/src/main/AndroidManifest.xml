@@ -891,6 +891,10 @@
             android:name=".module.bodygame3.activity.view.NewRetestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
+        <activity android:name=".module.customermanagement.view.GymClubActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.customermanagement.view.CreateUnionClassActivity"
+            android:screenOrientation="portrait"/>
 
 
         <provider

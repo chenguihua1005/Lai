@@ -24,6 +24,7 @@ import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.module.customermanagement.view.AddCustomerActivity;
 import com.softtek.lai.module.customermanagement.view.ClubActivity;
 import com.softtek.lai.module.customermanagement.view.CreateClubActivity;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.module.customermanagement.view.IntendCustomerFragment;
 import com.softtek.lai.module.customermanagement.view.MarketerListFragment;
 import com.softtek.lai.module.customermanagement.view.RegistForCustomerActivity;
@@ -148,6 +149,9 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                     startActivity(intent);
                 } else if (position == 1) {
                     Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
+                    startActivity(intent);
+                }else if (position == 3){
+                    Intent intent = new Intent(getContext(), GymClubActivity.class);
                     startActivity(intent);
                 }
             }
