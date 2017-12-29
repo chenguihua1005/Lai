@@ -53,6 +53,9 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+    @InjectView(R.id.tv_cancle)
+    TextView mInviteMatch;
+
     List<Fragment> fragments = new ArrayList<>();
     FragmentAdapter adapter;
     private String mobile = "";
@@ -84,6 +87,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(DESTROY_SELF));
         //注册订阅者
         EventBus.getDefault().register(this);
+        mInviteMatch.setOnClickListener(this);
 
     }
 
@@ -117,6 +121,10 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 Intent intent = new Intent(CustomerDetailActivity.this, AddRemarkActivity.class);
                 intent.putExtra("mobile", mobile);
                 startActivity(intent);
+                break;
+            case R.id.tv_cancle:
+                Intent matchIntent = new Intent(this,InviteMatchActivity.class);
+                startActivity(matchIntent);
                 break;
         }
     }

@@ -58,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/img_sp_honor_more"
+                android:drawablePadding="4dp"
                 android:text="往期回顾"
                 android:layout_marginEnd="12dp"/>
         </LinearLayout>
