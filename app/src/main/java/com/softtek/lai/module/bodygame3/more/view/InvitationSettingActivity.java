@@ -253,20 +253,21 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                                         public void success(final ResponseData responseData, final Response response) {
                                             if (responseData.getStatus() == 200) {
                                                 Util.toastMsg("成功发送邀请！");
-                                                InvitatedContact contact = new InvitatedContact();
-                                                contact.setClassRole(invitation.getClassRole());
-                                                contact.setInviterCertification("");
-                                                contact.setInviterId((int) invitation.getInviterId());
-                                                contact.setInviterMobile(classInvitater.getInviterMobile());
-                                                contact.setInviterPhoto(classInvitater.getInviterPhoto());
-                                                contact.setInviterStatus(0);
-                                                contact.setMessageId("0");
-                                                contact.setInviterUserName(classInvitater.getInviterName());
-                                                contact.setJoinGroupId(invitation.getClassGroupId());
-                                                contact.setJoinGroupName(tv_group_name.getText().toString());
+//                                                InvitatedContact contact = new InvitatedContact();
+//                                                contact.setClassRole(invitation.getClassRole());
+//                                                contact.setInviterCertification("");
+//                                                contact.setInviterId((int) invitation.getInviterId());
+//                                                contact.setInviterMobile(classInvitater.getInviterMobile());
+//                                                contact.setInviterPhoto(classInvitater.getInviterPhoto());
+//                                                contact.setInviterStatus(0);
+//                                                contact.setMessageId("0");
+//                                                contact.setInviterUserName(classInvitater.getInviterName());
+//                                                contact.setJoinGroupId(invitation.getClassGroupId());
+//                                                contact.setJoinGroupName(tv_group_name.getText().toString());
+//                                                contact.setTarget(invitation.getTarget());
                                                 Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
-                                                intent.putExtra("invitater", contact);
-                                                intent.putExtra("classId", invitation.getClassId());
+//                                                intent.putExtra("invitater", contact);
+//                                                intent.putExtra("classId", invitation.getClassId());
                                                 dialogDissmiss();
                                                 startActivity(intent);
 
@@ -315,6 +316,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                     lossWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
                     addWeight.setTextColor(getResources().getColor(R.color.word));
                     mChooseType.setText("减重");
+                    invitation.setTarget(0);
                     dialogDismiss();
                 }
             });
@@ -324,6 +326,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                     addWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
                     lossWeight.setTextColor(getResources().getColor(R.color.word));
                     mChooseType.setText("增重");
+                    invitation.setTarget(1);
                     dialogDismiss();
                 }
             });

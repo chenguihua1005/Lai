@@ -7,21 +7,37 @@ package com.softtek.lai.module.bodygame3.more.model;
 
 public class LaiClass {
 
-    private String ClassId;
     private String ClassCode;
     private String ClassName;
     private String StartDate;
-    private String ClassGroup;
+    private String GroupName;
     private int cityId;
-    private long ClassMasterId;
-    private String HxGroupId;//环信组Id
+    private int Target;//0-减重，1-增重
+    private String ClubId;
+    private String ClassId;
 
-    public String getHxGroupId() {
-        return HxGroupId;
+    public String getClassId() {
+        return ClassId;
     }
 
-    public void setHxGroupId(String hxGroupId) {
-        HxGroupId = hxGroupId;
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
+
+    public String getClubId() {
+        return ClubId;
+    }
+
+    public void setClubId(String clubId) {
+        ClubId = clubId;
+    }
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
     }
 
     public String getClassName() {
@@ -40,12 +56,12 @@ public class LaiClass {
         StartDate = startDate;
     }
 
-    public String getClassGroup() {
-        return ClassGroup;
+    public String getGroupName() {
+        return GroupName;
     }
 
-    public void setClassGroup(String classGroup) {
-        ClassGroup = classGroup;
+    public void setGroupName(String groupName) {
+        GroupName = groupName;
     }
 
     public int getCityId() {
@@ -56,27 +72,11 @@ public class LaiClass {
         this.cityId = cityId;
     }
 
-    public String getClassId() {
-        return ClassId;
-    }
-
-    public void setClassId(String classId) {
-        ClassId = classId;
-    }
-
     public String getClassCode() {
         return ClassCode;
     }
 
     public void setClassCode(String classCode) {
         ClassCode = classCode;
-    }
-
-    public long getClassMasterId() {
-        return ClassMasterId;
-    }
-
-    public void setClassMasterId(long classMasterId) {
-        ClassMasterId = classMasterId;
     }
 }

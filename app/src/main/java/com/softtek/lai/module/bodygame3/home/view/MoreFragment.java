@@ -116,13 +116,13 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         if (user != null) {
             tv_name.setText(user.getNickname());
             if(Constants.SP==Integer.parseInt(user.getUserrole())){
-                tv_right.setText("开班");
-                fl_right.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(getContext(), CreateClassActivity.class));
-                    }
-                });
+//                tv_right.setText("开班");
+//                fl_right.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        startActivity(new Intent(getContext(), CreateClassActivity.class));
+//                    }
+//                });
             }
         }
         head_image.setOnClickListener(new View.OnClickListener() {

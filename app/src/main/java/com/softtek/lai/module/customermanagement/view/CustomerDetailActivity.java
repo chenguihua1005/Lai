@@ -146,5 +146,4 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
             }
         }
     };
-
 }

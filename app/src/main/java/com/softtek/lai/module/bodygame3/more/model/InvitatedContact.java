@@ -22,6 +22,15 @@ public class InvitatedContact implements Parcelable{
     private String JoinGroupId;
     private int ClassRole;
     private int InviterStatus;
+    private int Target;
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
+    }
 
     public InvitatedContact() {
     }

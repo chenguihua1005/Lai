@@ -15,12 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.adapter.UnionClassRecyclerViewAdapter;
 import com.softtek.lai.module.customermanagement.model.UnionClassModel;
 import com.softtek.lai.module.customermanagement.service.ClubService;
+import com.softtek.lai.module.customermanagement.service.GymClubService;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 
 /**
  * Created by jia.lu on 12/28/2017.
@@ -33,35 +41,39 @@ public class CreateUnionClassActivity extends MakiBaseActivity implements View.O
     private RecyclerView mRecyclerView;
     private String clubId;
     private UnionClassRecyclerViewAdapter adapter;
-    private List<UnionClassModel> unionClassModelList = new ArrayList<>();
+    private List<UnionClassModel.ItemsBean> unionClassModelList = new ArrayList<>();
+    GymClubService service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        service = ZillaApi.create(GymClubService.class);
         setContentView(R.layout.activity_create_union_class);
-//        initData();
         initView();
+        initData("");
     }
 
-    private void initData(){
-        UnionClassModel unionClassModel = new UnionClassModel();
-        unionClassModel.setClubName("maki1");
-        unionClassModel.setCreateTime("1111-11-11");
-        unionClassModel.setType(1);
-        unionClassModelList.add(unionClassModel);
+    private void initData(String className){
+        service.getListOfClassJointly(UserInfoModel.getInstance().getToken(), className, 1, 999, new RequestCallback<ResponseData<UnionClassModel>>() {
+            @Override
+            public void success(ResponseData<UnionClassModel> unionData, Response response) {
+                if (unionData.getStatus() == 200){
+                    if (unionData.getData().getItems().size() < 1){
+                        Toast.makeText(CreateUnionClassActivity.this,"搜索不到相应班级,请重新输入后再试",Toast.LENGTH_SHORT).show();
+                    }else {
+                        unionClassModelList.addAll(unionData.getData().getItems());
+                        adapter.notifyDataSetChanged();
+                    }
+                }else {
+                    Toast.makeText(CreateUnionClassActivity.this,unionData.getMsg(),Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        UnionClassModel unionClassModel1 = new UnionClassModel();
-        unionClassModel1.setClubName("maki2");
-        unionClassModel1.setCreateTime("2222-22-22");
-        unionClassModel1.setType(2);
-        unionClassModelList.add(unionClassModel1);
-        for (int i = 0;i < 5;i++){
-            UnionClassModel unionClassModel2 = new UnionClassModel();
-            unionClassModel2.setClubName("maki0000");
-            unionClassModel2.setCreateTime("2333-11-11");
-            unionClassModel2.setType(0);
-            unionClassModelList.add(unionClassModel2);
-        }
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+            }
+        });
         adapter.notifyDataSetChanged();
     }
 
@@ -76,9 +88,14 @@ public class CreateUnionClassActivity extends MakiBaseActivity implements View.O
         adapter = new UnionClassRecyclerViewAdapter(unionClassModelList, this, new UnionClassRecyclerViewAdapter.InviteListener() {
             @Override
             public void onInviteClickListener(View view, int position) {
+                service.inviteClassJointly(UserInfoModel.getInstance().getToken(), unionClassModelList.get(position).getClassId(), new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        Toast.makeText(CreateUnionClassActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
+                    }
+                });
                 ((TextView) view).setText("待处理");
                 view.setBackground(getResources().getDrawable(R.drawable.bg_invite_club_clicked));
-                Toast.makeText(CreateUnionClassActivity.this, "申请成功", Toast.LENGTH_SHORT).show();
                 view.setEnabled(false);
             }
         });
@@ -99,11 +116,12 @@ public class CreateUnionClassActivity extends MakiBaseActivity implements View.O
 
     private void doSearch(){
         unionClassModelList.clear();
-        if (mSearch.getText().toString().equals("")) {
+        adapter.setClickable(true);
+        if (mSearch.getText().toString().trim().equals("")) {
             Toast.makeText(this, "班级字段不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        initData();
+        initData(mSearch.getText().toString().trim());
     }
 
     @Override

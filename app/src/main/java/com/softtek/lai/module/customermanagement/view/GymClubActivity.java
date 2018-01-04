@@ -8,15 +8,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.customermanagement.adapter.GymRecyclerViewAdapter;
 import com.softtek.lai.module.customermanagement.model.GymModel;
+import com.softtek.lai.module.customermanagement.service.GymClubService;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 
 /**
  * Created by jia.lu on 12/27/2017.
@@ -28,6 +37,8 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
     private RecyclerView mRcvEnd;
     private TextView mOpenClass;
     private TextView mOpenUnionClass;
+    private TextView mTitle;
+    private LinearLayout mBack;
 
     GymRecyclerViewAdapter gymStartAdapter;
     GymRecyclerViewAdapter gymEndAdapter;
@@ -35,13 +46,15 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
     List<GymModel> gymStarts = new ArrayList<>();
     List<GymModel> gymNotStarts = new ArrayList<>();
     List<GymModel> gymEnds = new ArrayList<>();
+    GymClubService service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        service = ZillaApi.create(GymClubService.class);
         setContentView(R.layout.activity_gym_club);
-        initData();
         initView();
+        initData();
     }
 
     private void initView() {
@@ -50,8 +63,12 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
         mRcvEnd = findViewById(R.id.rcv_end);
         mOpenClass = findViewById(R.id.tv_open_class);
         mOpenUnionClass = findViewById(R.id.tv_open_union_class);
+        mTitle = findViewById(R.id.tv_title);
+        mBack = findViewById(R.id.ll_left);
+        mTitle.setText("体管班");
         mOpenClass.setOnClickListener(this);
         mOpenUnionClass.setOnClickListener(this);
+        mBack.setOnClickListener(this);
 
 
         gymNotStartAdapter = new GymRecyclerViewAdapter(gymNotStarts, new GymRecyclerViewAdapter.ItemListener() {
@@ -87,43 +104,27 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
     }
 
     private void initData() {
-        GymModel gymModel0 = new GymModel();
-        gymModel0.setClubName("1111");
-        gymModel0.setTime("1111-11-11");
-        gymModel0.setType("已开始");
-        gymStarts.add(gymModel0);
-
-        GymModel gymModel1 = new GymModel();
-        gymModel1.setClubName("2222");
-        gymModel1.setTime("2222-22-22");
-        gymModel1.setType("已开始");
-        gymStarts.add(gymModel1);
-
-        GymModel gymModel2 = new GymModel();
-        gymModel2.setClubName("3333");
-        gymModel2.setTime("3333-33-33");
-        gymModel2.setType("未开始");
-        gymNotStarts.add(gymModel2);
-
-        for (int i = 0;i <10;i++) {
-            GymModel gymModel3 = new GymModel();
-            gymModel3.setClubName("4444");
-            gymModel3.setTime("4444-44-44");
-            gymModel3.setType("未开始");
-            gymNotStarts.add(gymModel3);
-        }
-
-        GymModel gymModel4 = new GymModel();
-        gymModel4.setClubName("5555");
-        gymModel4.setTime("5555-55-55");
-        gymModel4.setType("已结束");
-        gymEnds.add(gymModel4);
-
-        GymModel gymModel5 = new GymModel();
-        gymModel5.setClubName("6666");
-        gymModel5.setTime("6666-66-66");
-        gymModel5.setType("已结束");
-        gymEnds.add(gymModel5);
+        service.getClubClasses(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<GymModel>>>() {
+            @Override
+            public void success(ResponseData<List<GymModel>> listResponseData, Response response) {
+                if (listResponseData.getStatus() == 200) {
+                    for (int i = 0; i < listResponseData.getData().size();i++ ){
+                        if (listResponseData.getData().get(i).getStatus().equals("未开始")){
+                            gymNotStarts.add(listResponseData.getData().get(i));
+                        } else if (listResponseData.getData().get(i).getStatus().equals("进行中")) {
+                            gymStarts.add(listResponseData.getData().get(i));
+                        }else if (listResponseData.getData().get(i).getStatus().equals("已结束")){
+                            gymEnds.add(listResponseData.getData().get(i));
+                        }
+                    }
+                    gymNotStartAdapter.notifyDataSetChanged();
+                    gymStartAdapter.notifyDataSetChanged();
+                    gymEndAdapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(GymClubActivity.this,listResponseData.getMsg(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -136,6 +137,9 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
             case R.id.tv_open_union_class:
                 Intent unionIntent = new Intent(this,CreateUnionClassActivity.class);
                 startActivity(unionIntent);
+                break;
+            case R.id.ll_left:
+                finish();
                 break;
         }
     }

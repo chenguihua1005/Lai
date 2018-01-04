@@ -81,13 +81,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
             }
         });
         pageIndex=1;
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (lv != null)
-                    lv.setRefreshing();
-            }
-        },400);
+
     }
     Map<String,List<InvitatedContact>> datas=new HashMap<>();
     private List<String> groups=new ArrayList<>();
@@ -163,26 +157,37 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
                         });
     }
 
-
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        InvitatedContact contact=intent.getParcelableExtra("invitater");
-        classId=intent.getStringExtra("classId");
-        String groupName=contact.getJoinGroupName();
-        if(datas.containsKey(groupName)){
-            datas.get(groupName).add(contact);
-        }else {
-            List<InvitatedContact> data=new ArrayList<>();
-            data.add(contact);
-            groups.add(groupName);
-            datas.put(groupName,data);
-        }
-        adapter.notifyDataSetChanged();
-        for (int i = 0; i < groups.size(); i++) {
-            lv.getRefreshableView().expandGroup(i);
-        }
+    public void onResume() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (lv != null)
+                    lv.setRefreshing();
+            }
+        },400);
+        super.onResume();
     }
+
+    //    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        InvitatedContact contact=intent.getParcelableExtra("invitater");
+//        classId=intent.getStringExtra("classId");
+//        String groupName=contact.getJoinGroupName();
+//        if(datas.containsKey(groupName)){
+//            datas.get(groupName).add(contact);
+//        }else {
+//            List<InvitatedContact> data=new ArrayList<>();
+//            data.add(contact);
+//            groups.add(groupName);
+//            datas.put(groupName,data);
+//        }
+//        adapter.notifyDataSetChanged();
+//        for (int i = 0; i < groups.size(); i++) {
+//            lv.getRefreshableView().expandGroup(i);
+//        }
+//    }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {

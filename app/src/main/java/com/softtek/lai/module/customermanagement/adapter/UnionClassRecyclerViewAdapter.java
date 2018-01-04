@@ -21,7 +21,7 @@ import zilla.libcore.file.AddressManager;
 
 public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionClassRecyclerViewAdapter.ViewHolder> {
 
-    private List<UnionClassModel> myItems;
+    private List<UnionClassModel.ItemsBean> myItems;
     private ItemListener myListener;
     private InviteListener inviteListener;
     private Context mContext;
@@ -35,7 +35,7 @@ public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionCla
         this.clickable = clickable;
     }
 
-    public UnionClassRecyclerViewAdapter(List<UnionClassModel> items, Context context, InviteListener inviteListener) {
+    public UnionClassRecyclerViewAdapter(List<UnionClassModel.ItemsBean> items, Context context, InviteListener inviteListener) {
         myItems = items;
         mContext = context;
         this.inviteListener = inviteListener;
@@ -62,7 +62,7 @@ public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionCla
     }
 
     public interface ItemListener {
-        void onItemClick(UnionClassModel item);
+        void onItemClick(UnionClassModel.ItemsBean item);
     }
 
     public interface InviteListener {
@@ -75,7 +75,7 @@ public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionCla
         private TextView mCreateTime;
         private TextView mStatus;
         private String path = AddressManager.get("photoHost");
-        public UnionClassModel item;
+        public UnionClassModel.ItemsBean item;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -87,25 +87,28 @@ public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionCla
             // TODO instantiate/assign view members
         }
 
-        public void setData(UnionClassModel item) {
+        public void setData(UnionClassModel.ItemsBean item) {
             this.item = item;
             if (item == null) {
                 return;
+            }
+            if (isClickable()){
+                mStatus.setEnabled(true);
             }
             if (!TextUtils.isEmpty(item.getPhoto())) {
                 Picasso.with(mContext).load(path + item.getPhoto()).fit().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(mPhotoView);
             }
-            mClassname.setText(item.getClubName());
-            mCreateTime.setText(item.getCreateTime());
-            if (item.getType() == 0) {
-                mStatus.setText("邀 请");
+            mClassname.setText(item.getClassName());
+            mCreateTime.setText("创建于：" + item.getCreateDate());
+            if (item.getStatus() == -1) {
+                mStatus.setText("可申请");
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_unclick));
-            } else if (item.getType() == 1) {
+            } else if (item.getStatus() == 1) {
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
                 mStatus.setText("已同意");
-            } else if (item.getType() == 2) {
-                mStatus.setText("已拒绝");
+            } else if (item.getStatus() == 0) {
+                mStatus.setText("待处理");
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
             }
             mStatus.setOnClickListener(new View.OnClickListener() {

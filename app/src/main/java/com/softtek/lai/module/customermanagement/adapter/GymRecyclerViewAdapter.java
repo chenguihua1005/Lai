@@ -2,6 +2,7 @@
 package com.softtek.lai.module.customermanagement.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame3.history.view.ClassInfoActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
+import com.softtek.lai.module.bodygame3.more.view.PastReviewActivity;
 import com.softtek.lai.module.customermanagement.model.GymModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -62,12 +67,14 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
         private TextView mMoreInfo;
         private String path = AddressManager.get("photoHost");
         public GymModel item;
+        private HistoryClassModel model;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mClubName = itemView.findViewById(R.id.tv_club_name);
             mCreateTime = itemView.findViewById(R.id.tv_create_time);
             mMoreInfo = itemView.findViewById(R.id.tv_more_info);
+            mPhotoView = itemView.findViewById(R.id.civ_photo);
             itemView.setOnClickListener(this);
         }
 
@@ -76,16 +83,40 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
             if (item == null){
                 return;
             }
-            if (!TextUtils.isEmpty(item.getPhoto())) {
-                Picasso.with(mContext).load(path + item.getPhoto()).fit().error(R.drawable.img_default)
+            if (!TextUtils.isEmpty(item.getCreatorPhoto())) {
+                Picasso.with(mContext).load(path + item.getCreatorPhoto()).fit().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(mPhotoView);
             }
             mClubName.setText(item.getClubName());
-            mCreateTime.setText(item.getTime());
-            if (item.getType().equals("已结束")) {
+            mCreateTime.setText("创建于：" + item.getCreateDate());
+            if (item.getStatus().equals("已结束")) {
+                model = new HistoryClassModel();
+                model.setClassId(item.getClassId());
+                model.setClassStart(item.getStartDate());
+                model.setClassEnd(item.getEndDate());
+                model.setMasterPhoto(item.getCreatorPhoto());
+                model.setClassName(item.getClassName());
+                model.setMasterName(item.getCreatorName());
                 mMoreInfo.setText("往期回顾");
+                mMoreInfo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.putExtra("classData",model);
+                        intent.setClass(mContext, ClassInfoActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
             }else {
                 mMoreInfo.setText("更多");
+                mMoreInfo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, BodyGameActivity.class);
+                        intent.putExtra("type",3);
+                        mContext.startActivity(intent);
+                    }
+                });
             }
         }
 

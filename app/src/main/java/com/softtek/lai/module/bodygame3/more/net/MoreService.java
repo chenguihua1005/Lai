@@ -14,6 +14,8 @@ import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 import com.softtek.lai.module.bodygame3.more.model.LossWeightAndFat;
 import com.softtek.lai.module.bodygame3.more.model.SendInvitation;
 import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
+import com.softtek.lai.module.customermanagement.model.ClubAndCityModel;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
@@ -35,11 +37,11 @@ public interface MoreService {
 
 
     //获取小区列表
-    @GET("/V1/MoreFunction/GetRegionalAndCitys")
+    @GET("/V1/Club/GetRegionalCityAndClubs")
     void getRegionalAndCitys(@Header("token")String token,
-                             Callback<ResponseData<List<SmallRegion>>> callback);
+                             RequestCallback<ResponseData<ClubAndCityModel>> callback);
     //创建班级
-    @POST("/V1/MoreFunction/EstablishClass")
+    @POST("/V1/Club/EstablishClass")
     void creatClass(@Header("token")String token,
                     @Body LaiClass clazz,
                     Callback<ResponseData<LaiClass>> callback);
@@ -77,7 +79,7 @@ public interface MoreService {
                                Callback<ResponseData<ClassInvitater>> callback);
 
     //发送邀请
-    @POST("/V1/MoreFunction/SendInviter")
+    @POST("/V1/Club/SendInviter")
     void sendInviter(@Header("token")String token,
                      @Body SendInvitation invitation,
                      Callback<ResponseData> callback);

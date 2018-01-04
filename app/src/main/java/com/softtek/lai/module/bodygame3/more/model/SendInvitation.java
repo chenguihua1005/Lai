@@ -12,6 +12,15 @@ public class SendInvitation {
     private String ClassId;
     private String ClassGroupId;
     private int ClassRole;
+    private int Target;//0减重1增重
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
+    }
 
     public long getSenderId() {
         return SenderId;

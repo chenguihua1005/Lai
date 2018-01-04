@@ -113,6 +113,9 @@ public class InviteRecyclerViewAdapter extends RecyclerView.Adapter<InviteRecycl
                 Picasso.with(mContext).load(path + item.getPhoto()).fit().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(mHeadPhoto);
             }
+            if (isClickable()){
+                mStatus.setEnabled(true);
+            }
             mUsername.setText(item.getUserName());
             mPhone.setText(item.getMobile() + "");
             if (item.getStatus() == 0){

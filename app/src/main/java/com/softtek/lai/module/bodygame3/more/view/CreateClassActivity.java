@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -33,11 +35,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
-import com.softtek.lai.module.bodygame3.more.model.City;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
-import com.softtek.lai.module.bodygame3.more.model.SmallRegion;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
+import com.softtek.lai.module.customermanagement.model.ClubAndCityModel;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
@@ -108,6 +109,10 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     RelativeLayout mEntryGoalContent;
     @InjectView(R.id.tv_entry_goal)
     TextView mEntryGoal;
+    @InjectView(R.id.tv_club_name)
+    TextView mClubName;
+    @InjectView(R.id.rl_club_name)
+    RelativeLayout mClubNameContent;
     private Dialog entryGoalDialog;//分享对话框
 
 
@@ -119,7 +124,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     private List<String> groups;
     private EasyAdapter<String> adapter;
 
-    private List<SmallRegion> left = new ArrayList<>();
+    private List<ClubAndCityModel.RegionalCitiesBean> left = new ArrayList<>();
+    private List<ClubAndCityModel.ClubsBean> clubs = new ArrayList<>();
 
     private MoreService service;
     LaiClass clazz;
@@ -136,13 +142,14 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         rl_area.setOnClickListener(this);
+        mClubNameContent.setOnClickListener(this);
 
     }
 
     @Override
     protected void initDatas() {
         clazz = new LaiClass();
-        clazz.setClassMasterId(UserInfoModel.getInstance().getUserId());
+//        clazz.setClassMasterId(UserInfoModel.getInstance().getUserId());
         service = ZillaApi.NormalRestAdapter.create(MoreService.class);
         groups = new ArrayList<>();
         groups.add("默认小组");
@@ -243,10 +250,22 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         String currentDate = currentYear + "年" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "月" + (afterDay < 10 ? "0" + afterDay : afterDay) + "日";
         tv_class_time.setText(currentDate);
         clazz.setStartDate(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(currentDate, DateUtil.yyyy_MM_dd));
-        service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<SmallRegion>>>() {
+//        service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<SmallRegion>>>() {
+//            @Override
+//            public void success(ResponseData<List<SmallRegion>> data, Response response) {
+//                left = data.getData();
+//            }
+//        });
+        service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<ClubAndCityModel>>() {
             @Override
-            public void success(ResponseData<List<SmallRegion>> data, Response response) {
-                left = data.getData();
+            public void success(ResponseData<ClubAndCityModel> data, Response response) {
+                left = data.getData().getRegionalCities();
+                clubs = data.getData().getClubs();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
             }
         });
     }
@@ -286,7 +305,8 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             case R.id.rl_entry_goal:
                 showEntryGoalDialog();
                 break;
-
+            case R.id.rl_club_name:
+                showClubNameDialog();
 
         }
     }
@@ -312,6 +332,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         lossWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
                         addWeight.setTextColor(getResources().getColor(R.color.word));
                         mEntryGoal.setText("减重");
+                        clazz.setTarget(0);
                         dialogDismiss();
                     }
                 });
@@ -321,6 +342,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         addWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
                         lossWeight.setTextColor(getResources().getColor(R.color.word));
                         mEntryGoal.setText("增重");
+                        clazz.setTarget(1);
                         dialogDismiss();
                     }
                 });
@@ -417,22 +439,21 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             }
         });
         dialog.show();
-
     }
 
-    BottomSheetDialog dialog;
+    BottomSheetDialog areaDialog;
 
     private void showBottomSheet() {
         View view = LayoutInflater.from(this).inflate(R.layout.city_village, null);
-        DoubleListView<SmallRegion, City> dlv = (DoubleListView<SmallRegion, City>) view.findViewById(R.id.dlv);
-        dlv.leftAdapter(new SimpleTextAdapter<SmallRegion>(this, left) {
+        DoubleListView<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean> dlv = view.findViewById(R.id.dlv);
+        dlv.leftAdapter(new SimpleTextAdapter<ClubAndCityModel.RegionalCitiesBean>(this, left) {
             @Override
-            public String getText(SmallRegion data) {
+            public String getText(ClubAndCityModel.RegionalCitiesBean data) {
                 return data.getRegionalName();
             }
-        }).rightAdapter(new SimpleTextAdapter<City>(this, null) {
+        }).rightAdapter(new SimpleTextAdapter<ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>(this, null) {
             @Override
-            public String getText(City data) {
+            public String getText(ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean data) {
                 return data.getCityName();
             }
 
@@ -440,20 +461,20 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             protected void initView(CheckTextView textView) {
                 textView.setBackgroundResource(android.R.color.white);
             }
-        }).onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<SmallRegion, City>() {
+        }).onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>() {
             @Override
-            public List<City> provideRightList(SmallRegion leftAdapter, int position) {
+            public List<ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean> provideRightList(ClubAndCityModel.RegionalCitiesBean leftAdapter, int position) {
                 return leftAdapter.getRegionalCityList();
             }
-        }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<SmallRegion, City>() {
+        }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>() {
             @Override
-            public void onRightItemClick(SmallRegion item, City childItem) {
+            public void onRightItemClick(ClubAndCityModel.RegionalCitiesBean item, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean childItem) {
                 if (clazz != null) {
                     clazz.setCityId(childItem.getCityId());
                 }
                 tv_xiaoqu.setText(item.getRegionalName());
                 tv_city.setText(childItem.getCityName());
-                dialog.dismiss();
+                areaDialog.dismiss();
             }
         });
         //初始化选中.
@@ -461,15 +482,40 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             dlv.setLeftList(left, 0);
             dlv.setRightList(left.get(0).getRegionalCityList(), -1);
         }
-        dialog = new BottomSheetDialog(this);
-        dialog.setContentView(view);
-        dialog.show();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        areaDialog = new BottomSheetDialog(this);
+        areaDialog.setContentView(view);
+        areaDialog.show();
+        areaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                dialog = null;
+                areaDialog = null;
             }
         });
+    }
+
+    BottomSheetDialog sheetDialog;
+    List<String> clubName;
+    private void showClubNameDialog() {
+        sheetDialog = new BottomSheetDialog(this);
+        View dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_bottom_sheet, null);
+        ListView listView = dialogView.findViewById(R.id.lv_content);
+        clubName = new ArrayList<>();
+        for (int i = 0;i < clubs.size();i++){
+            clubName.add(clubs.get(i).getClubName());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, clubName);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mClubName.setText(((TextView)view).getText().toString());
+                clazz.setClubId(clubs.get(i).getClubId());
+                sheetDialog.dismiss();
+            }
+        });
+        sheetDialog.setContentView(dialogView);
+        sheetDialog.show();
     }
 
     @Override
@@ -481,8 +527,12 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 builder.append(",");
             }
         }
+        if (mClubName.getText().toString().trim().equals("")){
+            Toast.makeText(this,"请选择俱乐部",Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (clazz != null) {
-            clazz.setClassGroup(builder.toString());
+            clazz.setGroupName(builder.toString());
             dialogShow("正在创建班级...");
 
 //            new Thread(new Runnable() {
@@ -528,12 +578,6 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                     } else {
                         Util.toastMsg(data.getMsg());
                     }
-
-//                                runOnUiThread(new Runnable() {
-//                                    public void run() {
-//                                        dialogDissmiss();
-//                                    }
-//                                });
                 }
 
                 @Override

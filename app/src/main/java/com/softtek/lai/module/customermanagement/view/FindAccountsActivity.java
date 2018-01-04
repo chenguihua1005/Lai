@@ -121,6 +121,7 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
     private void doSearch() {
         inviteModelList.clear();
         inviteRecyclerViewAdapter.setClickable(true);
+        inviteRecyclerViewAdapter.setClickable(true);
         if (mSearch.getText().toString().equals("")) {
             Toast.makeText(this, "CN号或者电话号不能为空", Toast.LENGTH_SHORT).show();
             return;
