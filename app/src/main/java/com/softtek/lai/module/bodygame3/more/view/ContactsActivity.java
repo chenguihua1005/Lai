@@ -66,8 +66,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         boolean flag=getIntent().getBooleanExtra("createClass",false);
         if(flag){
             ll_left.setVisibility(View.VISIBLE);
-//            tv_right.setText("跳过");
-//            fl_right.setOnClickListener(this);
+            tv_right.setText("跳过");
+            fl_right.setOnClickListener(this);
 //            ll_left.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {

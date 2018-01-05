@@ -112,6 +112,7 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(mContext, BodyGameActivity.class);
+                        intent.putExtra()
                         intent.putExtra("type",3);
                         mContext.startActivity(intent);
                     }

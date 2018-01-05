@@ -69,6 +69,8 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
         mBack.setVisibility(View.VISIBLE);
         mTitle.setText("创建小组");
         mPass.setText("跳过");
+        mCreate.setOnClickListener(this);
+        mSubmit.setOnClickListener(this);
     }
 
     private void initData() {
@@ -90,6 +92,7 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
                 } else {
                     groupNames.add(mInput.getText().toString());
                     adapter.notifyDataSetChanged();
+                    mInput.setText("");
                     groupDialog.dismiss();
                 }
             }
