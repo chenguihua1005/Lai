@@ -152,27 +152,38 @@
             android:id="@+id/ll_love_student"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="爱心学员" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/img_sp_honor_more"
-                android:drawablePadding="4dp"
-                android:gravity="end"
-                android:hint="请输入爱心学员账号" />
+                android:gravity="end">
+
+                <EditText
+                    android:id="@+id/edt_love_student"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/img_sp_honor_more"
+                    android:drawablePadding="4dp"
+                    android:background="@color/transparent"
+                    android:cursorVisible="false"
+                    android:gravity="end"
+                    android:hint="请输入爱心学员账号"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="12dp"
-            android:layout_marginTop="12dp"
             android:background="#EDEEF2" />
 
         <TextView
@@ -195,24 +206,25 @@
                 android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:background="@drawable/bg_edt_code"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
+                android:hint="请输入4位验证码"
+                android:paddingBottom="12dp"
                 android:gravity="center"
-                android:hint="验证码"/>
+                android:paddingTop="12dp"
+                android:cursorVisible="false" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <TextView
+            <Button
                 android:id="@+id/tv_send_code"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:background="@drawable/bg_edt_code"
+                android:background="#85B330"
                 android:gravity="center"
-                android:text="发送短信验证码" />
+                android:text="短信验证" />
 
         </LinearLayout>
 
@@ -220,7 +232,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="提交验证"
-            android:background="@drawable/bg_edt_code"/>
+            android:background="#F7B93D" />
 
 
     </LinearLayout>

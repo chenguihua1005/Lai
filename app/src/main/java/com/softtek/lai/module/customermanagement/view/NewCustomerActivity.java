@@ -9,7 +9,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -333,7 +332,12 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         c.add(Calendar.DAY_OF_YEAR, 1);
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
-        DateTime defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        DateTime defaultTime;
+        if (currentMonth == 1) {
+            defaultTime = new DateTime(1990, 1, currentDay, 0, 0);
+        } else {
+            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        }
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
         dialog.getDatePicker().setMinDate(minTime.getMillis());

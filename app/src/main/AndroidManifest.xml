@@ -897,6 +897,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".module.customermanagement.view.InviteMatchActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame3.more.view.CreateGroupActivity"
+            android:screenOrientation="portrait"/>
 
 
         <provider

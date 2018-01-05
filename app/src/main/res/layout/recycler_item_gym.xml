@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_club_name"
+                android:id="@+id/tv_class_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="健康快乐减肥1" />
@@ -58,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/img_sp_honor_more"
+                android:padding="8dp"
                 android:drawablePadding="4dp"
                 android:text="往期回顾"
                 android:layout_marginEnd="12dp"/>

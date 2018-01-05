@@ -95,5 +95,6 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile files('libs/qn-ble-api-4.3.jar')
+    compile 'com.android.support:design:24.0.2'
 }
 
