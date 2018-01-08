@@ -129,7 +129,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE );
+//        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE );
         super.onCreate(savedInstanceState);
         LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
         setContentView(R.layout.activity_laibalance_new);
