@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,6 +138,8 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     //    private FindCustomerModel model = null;
     private String mobile = "";
     private boolean needQuery;
+    private boolean isRegistered;//是否已注册
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +163,24 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     protected void initViews() {
         mobile = getIntent().getStringExtra("mobile");
         needQuery = getIntent().getBooleanExtra("needQuery", false);
+        isRegistered = getIntent().getBooleanExtra("isRegistered", false);
+
+        if (isRegistered) {
+            fl_right.setVisibility(View.VISIBLE);
+            ll_nickname.setEnabled(false);
+            ll_birth.setEnabled(false);
+            ll_sex.setEnabled(false);
+            ll_height.setEnabled(false);
+            ll_weight.setEnabled(false);
+
+            et_nickname.setEnabled(false);
+            tv_birth.setEnabled(false);
+            tv_sex.setEnabled(false);
+            tv_height.setEnabled(false);
+            tv_weight.setEnabled(false);
+        } else {
+            fl_right.setVisibility(View.VISIBLE);
+        }
 
         setPresenter(new EditCustomerPresenter(this));
 
@@ -187,7 +206,11 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
 
     @Override
     protected void initDatas() {
-        tv_title.setText("编辑客户信息");
+        if (!isRegistered) {
+            tv_title.setText("编辑客户信息");
+        } else {
+            tv_title.setText("档案详情");
+        }
         ll_remark.setVisibility(View.GONE);
         btn_delete.setVisibility(View.VISIBLE);
         file = new CustomerInfoModel();
@@ -285,12 +308,11 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-//        String remark = remark_et.getText().toString();
+        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
         } else {
-
             if (w == true) {
                 file = new CustomerInfoModel();
             }
@@ -304,7 +326,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-//            file.setRemark(remark);
+            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
                 file.setMobile(mobile);
             }
@@ -337,7 +359,12 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         c.add(Calendar.DAY_OF_YEAR, 1);
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
-        DateTime defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        DateTime defaultTime;
+        if (currentMonth == 1) {
+            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
+        } else {
+            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        }
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
         dialog.getDatePicker().setMinDate(minTime.getMillis());
@@ -529,14 +556,14 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
                 .show();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     @Override
     public void getBasicInfo(BasicInfoModel model) {
@@ -557,6 +584,12 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BasicInfoFragment.UPDATE_BASICINFO));
+
+        //  刷新备注
+        String remark = remark_et.getText().toString();
+        if (!TextUtils.isEmpty(remark)) {
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(RemarkFragment.UPDATE_REMARKLIST));
+        }
 
         //发送事件
         EventBus.getDefault().post(123);

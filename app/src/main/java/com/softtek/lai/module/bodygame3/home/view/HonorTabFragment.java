@@ -28,9 +28,14 @@ import com.softtek.lai.module.bodygame3.head.model.HonorFragmentModel;
 import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.head.view.HonorRuleActivity;
 import com.softtek.lai.module.bodygame3.home.HonorFragment;
+import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.widgets.NoSlidingViewPage;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -66,6 +71,10 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
     private ArrayList<ClassModel> classModels = new ArrayList<>();
     private int classrole;
     private SaveclassModel saveclassModel;
+
+    private ClassModel classModel;
+
+    boolean isFirst = true;
 
     public HonorTabFragment() {
 
@@ -125,6 +134,8 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
 
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+
+        EventBus.getDefault().register(this);
 
 
         //班级列表
@@ -214,55 +225,118 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction().equalsIgnoreCase(UPDATE_CLASSLIST)) {
                 classModels.clear();
-
                 classModels = intent.getParcelableArrayListExtra("classList");
-                Log.i("honor", "收到广播 班级shumu = " + classModels.size());
+                if (classModels != null && classModels.size() > 0) {
+                    if (isFirst) {
+                        Log.i("honor", "收到广播 班级shumu = " + classModels.size());
 
-                tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-                    @Override
-                    public void convert(ViewHolder holder, ClassModel data, int position) {
-                        ImageView iv_icon = holder.getView(R.id.iv_icon);
-                        boolean selected = tv_title.getSelectedIndex() == position;
-                        int icon;
-                        switch (data.getClassRole()) {
-                            case 1:
-                                icon = R.drawable.class_zongjiaolian;
-                                break;
-                            case 2:
-                                icon = R.drawable.class_jiaolian;
-                                break;
-                            case 3:
-                                icon = R.drawable.class_zhujiao;
-                                break;
-                            default:
-                                icon = R.drawable.class_xueyuan;
-                                break;
-                        }
-                        iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                        TextView tv_number = holder.getView(R.id.tv_number);
-                        tv_number.setText("班级编号:" + data.getClassCode());
-                        TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                        tv_class_name.setText(data.getClassName());
-                        RadioButton iv_sel = holder.getView(R.id.iv_select);
-                        iv_sel.setChecked(selected);
+                        tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                            @Override
+                            public void convert(ViewHolder holder, ClassModel data, int position) {
+                                ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                boolean selected = tv_title.getSelectedIndex() == position;
+                                int icon;
+                                switch (data.getClassRole()) {
+                                    case 1:
+                                        icon = R.drawable.class_zongjiaolian;
+                                        break;
+                                    case 2:
+                                        icon = R.drawable.class_jiaolian;
+                                        break;
+                                    case 3:
+                                        icon = R.drawable.class_zhujiao;
+                                        break;
+                                    default:
+                                        icon = R.drawable.class_xueyuan;
+                                        break;
+                                }
+                                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                TextView tv_number = holder.getView(R.id.tv_number);
+                                tv_number.setText("班级编号:" + data.getClassCode());
+                                TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                tv_class_name.setText(data.getClassName());
+                                RadioButton iv_sel = holder.getView(R.id.iv_select);
+                                iv_sel.setChecked(selected);
+                            }
+
+                            @Override
+                            public String getText(int position) {
+                                if (classModels != null && !classModels.isEmpty()) {
+                                    classId = classModels.get(position).getClassId();
+                                    return classModels.get(position).getClassName();
+                                } else {
+                                    return "暂无班级";
+                                }
+                            }
+                        });
+
+                        tv_title.notifChange();
+                        tv_title.setSelected(0);
+
+//                        tv_title.getAdapter().notifyDataSetChanged();
+//                        tv_title.setSelected(0);
+                        isFirst = false;
                     }
-
-                    @Override
-                    public String getText(int position) {
-                        if (classModels != null && !classModels.isEmpty()) {
-                            classId = classModels.get(position).getClassId();
-                            return classModels.get(position).getClassName();
-                        } else {
-                            return "暂无班级";
-                        }
-                    }
-                });
-
-                tv_title.notifChange();
-                tv_title.setSelected(0);
-
-
+                } else {
+                    //如果班级是空
+                    tv_title.setText("暂无班级");
+                }
             }
         }
     };
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //更新班级
+    @Subscribe
+    public void updateClass(UpdateClass clazz) {
+        if (clazz.getStatus() == 0) {
+            //更新班级姓名
+            for (ClassModel model : classModels) {
+                if (model.getClassCode().equals(clazz.getModel().getClassCode())) {
+                    model.setClassName(clazz.getModel().getClassName());
+                    model.setClassRole(clazz.getModel().getClassRole());
+                    model.setClassCode(clazz.getModel().getClassCode());
+                    model.setClassId(clazz.getModel().getClassId());
+                    break;
+                }
+            }
+            tv_title.getAdapter().notifyDataSetChanged();
+            tv_title.setSelected(tv_title.getSelectedIndex());
+        } else if (clazz.getStatus() == 1) {
+            //添加新班级
+            ClassModel model = new ClassModel();
+            model.setClassId(clazz.getModel().getClassId());
+            model.setClassCode(clazz.getModel().getClassCode());
+            model.setClassName(clazz.getModel().getClassName());
+            model.setClassRole(clazz.getModel().getClassRole());
+            this.classModels.add(model);
+            tv_title.notifChange();
+        } else if (clazz.getStatus() == 2) {
+            //删除班级
+            Iterator<ClassModel> iter = classModels.iterator();
+            while (iter.hasNext()) {
+                ClassModel model = iter.next();
+                if (model.getClassId().equals(clazz.getModel().getClassId())) {
+                    iter.remove();
+                    break;
+                }
+            }
+            tv_title.notifChange();
+            if (classModels.isEmpty()) {
+                classId = "";
+                this.classModel = null;
+            } else {
+                tv_title.setSelected(0);
+                this.classModel = classModels.get(0);
+                classId = this.classModel.getClassId();
+            }
+            lazyLoad();
+        }
+    }
+
 }

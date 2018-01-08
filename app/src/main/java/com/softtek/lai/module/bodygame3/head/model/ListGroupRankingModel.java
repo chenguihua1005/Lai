@@ -19,6 +19,16 @@ public class ListGroupRankingModel {
     private String Loss;//减重/脂
     private String Target;//减重/脂  增重 增脂
 
+    private int ClassRole;// 班级角色
+
+    public int getClassRole() {
+        return ClassRole;
+    }
+
+    public void setClassRole(int classRole) {
+        ClassRole = classRole;
+    }
+
     public String getTarget() {
         return Target;
     }

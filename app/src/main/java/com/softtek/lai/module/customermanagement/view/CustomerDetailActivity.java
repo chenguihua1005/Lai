@@ -65,15 +65,15 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     protected void initViews() {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        tv_title.setText("客户详情");
-        tv_right.setText("编辑");
+//        tv_title.setText("客户详情");
+
         mobile = getIntent().getStringExtra("mobile");
         isRegistered = getIntent().getBooleanExtra("isRegistered", false);
 
         if (!isRegistered) {
-            fl_right.setVisibility(View.VISIBLE);
+            tv_right.setText("编辑");
         } else {
-            fl_right.setVisibility(View.INVISIBLE);
+            tv_right.setText("详情");
         }
 
         fragments.add(BasicInfoFragment.getInstance(mobile, isRegistered));
@@ -98,7 +98,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         ll_left.setOnClickListener(this);
     }
 
-//    //定义处理接收的方法
+    //    //定义处理接收的方法
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void userEventBus(BasicInfoModel model) {
         tv_title.setText(model.getBasics().getName());
@@ -115,6 +115,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 Intent intent1 = new Intent(CustomerDetailActivity.this, EditCustomerInfoActivity.class);
                 intent1.putExtra("mobile", mobile);
                 intent1.putExtra("needQuery", true);//需要查询基础数据
+                intent1.putExtra("isRegistered", isRegistered);
                 startActivity(intent1);
                 break;
             case R.id.addremark_tv:
@@ -123,7 +124,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 startActivity(intent);
                 break;
             case R.id.tv_cancle:
-                Intent matchIntent = new Intent(this,InviteMatchActivity.class);
+                Intent matchIntent = new Intent(this, InviteMatchActivity.class);
                 startActivity(matchIntent);
                 break;
         }

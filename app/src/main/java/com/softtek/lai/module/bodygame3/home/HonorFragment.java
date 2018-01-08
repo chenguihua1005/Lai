@@ -137,6 +137,8 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedSpinner = i;
+
                 WhichTime = Integer.parseInt((spinnerData.get(i)).getDateValue());
                 String dateName = (spinnerData.get(i)).getDateName();
                 arrow.setText(dateName);
@@ -213,61 +215,6 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
 
     @Override
     protected void initDatas() {
-        //班级列表
-//        tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-//            @Override
-//            public void convert(ViewHolder holder, ClassModel data, int position) {
-//                ImageView iv_icon = holder.getView(R.id.iv_icon);
-//                boolean selected = tv_title.getSelectedIndex() == position;
-//                int icon;
-//                switch (data.getClassRole()) {
-//                    case 1:
-//                        icon = R.drawable.class_zongjiaolian;
-//                        break;
-//                    case 2:
-//                        icon = R.drawable.class_jiaolian;
-//                        break;
-//                    case 3:
-//                        icon = R.drawable.class_zhujiao;
-//                        break;
-//                    default:
-//                        icon = R.drawable.class_xueyuan;
-//                        break;
-//                }
-//                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-//                TextView tv_number = holder.getView(R.id.tv_number);
-//                tv_number.setText("班级编号:" + data.getClassCode());
-//                TextView tv_class_name = holder.getView(R.id.tv_class_name);
-//                tv_class_name.setText(data.getClassName());
-//                RadioButton iv_sel = holder.getView(R.id.iv_select);
-//                iv_sel.setChecked(selected);
-//            }
-//
-//            @Override
-//            public String getText(int position) {
-//                if (classModels != null && !classModels.isEmpty()) {
-//                    classid = classModels.get(position).getClassId();
-//                    return classModels.get(position).getClassName();
-//                } else {
-//                    return "暂无班级";
-//                }
-//            }
-//        });
-//
-//        tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                classid = classModels.get(i).getClassId();
-//                classrole = classModels.get(i).getClassRole();
-//
-//                saveclassModel.setClassId(classModels.get(i).getClassId());
-//                saveclassModel.setClassName(classModels.get(i).getClassName());
-//                saveclassModel.setClassRole(classModels.get(i).getClassRole());
-//                saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
-//                saveclassModel.setClassCode(classModels.get(i).getClassCode());
-//                lazyLoad();
-//            }
-//        });
 
         setPresenter(new HonorPresenter(this));
 
@@ -305,6 +252,9 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         if (model == null) {
             ll_menu.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
+            Intent intent = new Intent(HonorTabFragment.UPDATE_CLASSLIST);
+            intent.putParcelableArrayListExtra("classList", null);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             return;
         }
 
@@ -314,8 +264,9 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
             list_class.addAll(model.getList_class());
 
             if (!TextUtils.isEmpty(from) && from.equals("tab") && TextUtils.isEmpty(ClassId)) {
+
+                ClassId = list_class.get(0).getClassId();
                 Intent intent = new Intent(HonorTabFragment.UPDATE_CLASSLIST);
-//                intent.putExtra("classList",list_class);
                 intent.putParcelableArrayListExtra("classList", list_class);
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
@@ -393,7 +344,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         }
 
         if (groupModelList != null && groupModelList.size() > 0) {
-            String str_group = "ByWeightRatio".equals(ByWhichRatio) ? "小组排名（本班共减重" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均减重" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤）" : "小组排名（本班共减脂" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均减脂" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%）";
+            String str_group = "ByWeightRatio".equals(ByWhichRatio) ? "小组排名（本班体重变化共" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "斤" + " 人均" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "斤）" : "小组排名（本班体脂变化共" + (TextUtils.isEmpty(model.getTotalLoss()) ? "--" : model.getTotalLoss()) + "%" + "  人均" + (TextUtils.isEmpty(model.getAvgLoss()) ? "--" : model.getAvgLoss()) + "%）";
             parentsTitle.add(str_group);
             list_Son.add(groupModelList);
         } else {

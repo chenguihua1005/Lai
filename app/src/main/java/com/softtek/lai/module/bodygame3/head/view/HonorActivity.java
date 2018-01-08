@@ -67,6 +67,7 @@ public class HonorActivity extends BaseActivity implements View.OnClickListener 
         }
 
         tv_right.setText(R.string.rule);
+        tv_right.setOnClickListener(this);
 
         int selector = 0;
 

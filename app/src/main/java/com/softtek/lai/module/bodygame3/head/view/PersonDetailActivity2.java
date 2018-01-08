@@ -285,9 +285,10 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     }
                 }
 
-                if (!"4".equals(memberInfoModel.getClassRole())) {
-                    fl_right.setVisibility(View.INVISIBLE);
-                } else {
+//                if (!"4".equals(memberInfoModel.getClassRole())) {
+//                    fl_right.setVisibility(View.INVISIBLE);
+//                } else
+                    {
                     tv_love.setVisibility(View.VISIBLE);
                     tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                     if (AccountId == userid) {

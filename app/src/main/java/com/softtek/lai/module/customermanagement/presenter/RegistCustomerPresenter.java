@@ -13,6 +13,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -44,6 +45,7 @@ public class RegistCustomerPresenter extends BasePresenter<RegistCustomerPresent
                         getView().getIdentifyCallback(true, 200);
                     }
                 }
+                SharedPreferenceService.getInstance().put("identify_customer",stringResponseData.getData().getIdentify());
                 Log.i("验证码获取结果>>>>" + stringResponseData.toString());
 
             }

@@ -41,13 +41,13 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
         super.onViewCreated(view, savedInstanceState);
         rl_invitation = (RelativeLayout) view.findViewById(R.id.rl_invitation);
         rl_class_manager = (RelativeLayout) view.findViewById(R.id.rl_class_manager);
-        rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
+//        rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
         rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);
         rl_support_team = (RelativeLayout) view.findViewById(R.id.rl_support_team);
 
         rl_invitation.setOnClickListener(this);
         rl_class_manager.setOnClickListener(this);
-        rl_honor.setOnClickListener(this);
+//        rl_honor.setOnClickListener(this);
         rl_love_student.setOnClickListener(this);
         rl_support_team.setOnClickListener(this);
     }
@@ -68,13 +68,6 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
                 startActivity(intent);
             }
             break;
-            case R.id.rl_honor: {
-//                Honor2Activity.startHonorActivity(getContext(), model.getClassId());
-                HonorActivity.startHonorActivity(getContext(), model.getClassId());
-
-            }
-            break;
-
             case R.id.rl_love_student: {
                 Intent intent = new Intent(getContext(), LoveStudentActivity.class);
                 intent.putExtra("classId", model.getClassId());

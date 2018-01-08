@@ -333,7 +333,13 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         c.add(Calendar.DAY_OF_YEAR, 1);
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
-        DateTime defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+//        DateTime defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        DateTime defaultTime;
+        if (currentMonth == 1) {
+            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
+        } else {
+            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        }
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
         dialog.getDatePicker().setMinDate(minTime.getMillis());

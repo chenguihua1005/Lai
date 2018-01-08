@@ -257,12 +257,11 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-//        String remark = remark_et.getText().toString();
+        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
         } else {
-
             if (w == true) {
                 file = new CustomerInfoModel();
             }
@@ -276,12 +275,11 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-//            file.setRemark(remark);
+            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
                 file.setMobile(mobile);
             }
 
-            Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
             dialogShow("正在提交数据...");
             getPresenter().registerForCustomer(file);
         }
@@ -310,7 +308,13 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         c.add(Calendar.DAY_OF_YEAR, 1);
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
-        DateTime defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+//        DateTime defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        DateTime defaultTime;
+        if (currentMonth == 1) {
+            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
+        } else {
+            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        }
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
         dialog.getDatePicker().setMinDate(minTime.getMillis());

@@ -123,8 +123,6 @@ public class AssistantFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
-        rl_honor.setOnClickListener(this);
 
         RelativeLayout rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);
         rl_love_student.setOnClickListener(this);
@@ -139,10 +137,6 @@ public class AssistantFragment extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.rl_honor: {
-                HonorActivity.startHonorActivity(getContext(), model.getClassId());
-            }
-            break;
             case R.id.rl_love_student: {
                 Intent intent = new Intent(getContext(), LoveStudentActivity.class);
                 intent.putExtra("classId", model.getClassId());
