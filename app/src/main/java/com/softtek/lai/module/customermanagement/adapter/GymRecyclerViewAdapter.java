@@ -14,7 +14,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.history.view.ClassInfoActivity;
 import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
-import com.softtek.lai.module.bodygame3.more.view.PastReviewActivity;
 import com.softtek.lai.module.customermanagement.model.GymModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -61,7 +60,7 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mClubName;
+        private TextView mClassName;
         private TextView mCreateTime;
         private CircleImageView mPhotoView;
         private TextView mMoreInfo;
@@ -71,14 +70,14 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mClubName = itemView.findViewById(R.id.tv_club_name);
+            mClassName = itemView.findViewById(R.id.tv_class_name);
             mCreateTime = itemView.findViewById(R.id.tv_create_time);
             mMoreInfo = itemView.findViewById(R.id.tv_more_info);
             mPhotoView = itemView.findViewById(R.id.civ_photo);
             itemView.setOnClickListener(this);
         }
 
-        public void setData(GymModel item) {
+        public void setData(final GymModel item) {
             this.item = item;
             if (item == null){
                 return;
@@ -87,7 +86,7 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
                 Picasso.with(mContext).load(path + item.getCreatorPhoto()).fit().error(R.drawable.img_default)
                         .placeholder(R.drawable.img_default).into(mPhotoView);
             }
-            mClubName.setText(item.getClubName());
+            mClassName.setText(item.getClassName());
             mCreateTime.setText("创建于：" + item.getCreateDate());
             if (item.getStatus().equals("已结束")) {
                 model = new HistoryClassModel();
@@ -113,6 +112,7 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(mContext, BodyGameActivity.class);
+                        intent.putExtra("classId",item.getClassId());
                         intent.putExtra("type",3);
                         mContext.startActivity(intent);
                     }
@@ -127,7 +127,5 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
             }
         }
     }
-
-
 }
                                 

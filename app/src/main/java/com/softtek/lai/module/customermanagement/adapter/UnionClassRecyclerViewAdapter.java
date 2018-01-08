@@ -80,7 +80,7 @@ public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionCla
         public ViewHolder(View itemView) {
             super(itemView);
             mPhotoView = itemView.findViewById(R.id.civ_photo);
-            mClassname = itemView.findViewById(R.id.tv_club_name);
+            mClassname = itemView.findViewById(R.id.tv_class_name);
             mCreateTime = itemView.findViewById(R.id.tv_create_time);
             mStatus = itemView.findViewById(R.id.tv_invite_state);
             itemView.setOnClickListener(this);

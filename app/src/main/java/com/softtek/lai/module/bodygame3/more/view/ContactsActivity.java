@@ -63,19 +63,20 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
-
         boolean flag=getIntent().getBooleanExtra("createClass",false);
         if(flag){
+            ll_left.setVisibility(View.VISIBLE);
             tv_right.setText("跳过");
             fl_right.setOnClickListener(this);
-            ll_left.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(ContactsActivity.this, BodyGameActivity.class);
-                    intent.putExtra("type",4);
-                    startActivity(intent);
-                }
-            });
+//            ll_left.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent=new Intent(ContactsActivity.this, BodyGameActivity.class);
+//                    intent.putExtra("type",4);
+//                    finish();
+//                    startActivity(intent);
+//                }
+//            });
         }else {
             ll_left.setOnClickListener(this);
         }
@@ -211,6 +212,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             case R.id.fl_right:{
                 Intent intent=new Intent(this, BodyGameActivity.class);
                 intent.putExtra("type",4);
+                finish();
                 startActivity(intent);
             }
                 break;

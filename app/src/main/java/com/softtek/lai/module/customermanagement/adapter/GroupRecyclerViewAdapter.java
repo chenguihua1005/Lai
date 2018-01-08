@@ -10,20 +10,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.customermanagement.model.ClubNameModel;
 
 import java.util.List;
 
 
-public class ChooseClubRecyclerViewAdapter extends RecyclerView.Adapter<ChooseClubRecyclerViewAdapter.ViewHolder> {
+public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder> {
 
-    private List<ClubNameModel> myItems;
+    private List<String> myItems;
     private ItemListener myListener;
     private Context mContext;
 
-    public ChooseClubRecyclerViewAdapter(List<ClubNameModel> items, ItemListener listener,Context context) {
+    public GroupRecyclerViewAdapter(List<String> items,Context context) {
         myItems = items;
-        myListener = listener;
         mContext = context;
     }
 
@@ -34,7 +32,7 @@ public class ChooseClubRecyclerViewAdapter extends RecyclerView.Adapter<ChooseCl
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_item_club_choose, parent, false)); // TODO
+                .inflate(R.layout.recycler_item_group, parent, false)); // TODO
     }
 
     @Override
@@ -48,40 +46,38 @@ public class ChooseClubRecyclerViewAdapter extends RecyclerView.Adapter<ChooseCl
     }
 
     public interface ItemListener {
-        void onItemClick(ClubNameModel item,int position);
+        void onItemClick(String item);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mClubName;
-        private ImageView mIsSelect;
+        private TextView mGroupName;
+        private ImageView mDelete;
 
-        // TODO - Your view members
-        public ClubNameModel item;
+        public String item;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mClubName = itemView.findViewById(R.id.tv_class_name);
-            mIsSelect = itemView.findViewById(R.id.iv_is_select);
+            mGroupName = itemView.findViewById(R.id.tv_group_name);
+            mDelete = itemView.findViewById(R.id.iv_delete);
             itemView.setOnClickListener(this);
         }
 
-        public void setData(ClubNameModel item) {
+        public void setData(final String item) {
             this.item = item;
-            if (item == null){
-                return;
-            }
-            mClubName.setText(item.getClubName());
-            if (item.isSelected()){
-                mIsSelect.setImageDrawable(mContext.getResources().getDrawable(R.drawable.radio_green));
-            }else {
-                mIsSelect.setImageDrawable(mContext.getResources().getDrawable(R.drawable.radio_green_default));
-            }
+            mGroupName.setText(item);
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   myItems.remove(getAdapterPosition());
+                   notifyDataSetChanged();
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
             if (myListener != null) {
-                myListener.onItemClick(item,getAdapterPosition());
+                myListener.onItemClick(item);
             }
         }
     }
