@@ -60,9 +60,12 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     private int current = 0;
     private boolean isClick = false;
 
+    private String classId;
+
 
     @Override
     protected void initViews() {
+        classId = getIntent().getStringExtra("classId");
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_honorroll.setOnClickListener(this);

@@ -77,7 +77,7 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
             itemView.setOnClickListener(this);
         }
 
-        public void setData(GymModel item) {
+        public void setData(final GymModel item) {
             this.item = item;
             if (item == null){
                 return;
@@ -112,7 +112,7 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(mContext, BodyGameActivity.class);
-                        intent.putExtra()
+                        intent.putExtra("classId",item.getClassId());
                         intent.putExtra("type",3);
                         mContext.startActivity(intent);
                     }
@@ -127,7 +127,5 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
             }
         }
     }
-
-
 }
                                 
