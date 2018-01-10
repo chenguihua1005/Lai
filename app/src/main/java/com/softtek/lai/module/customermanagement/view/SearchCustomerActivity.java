@@ -32,6 +32,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import static java.security.AccessController.getContext;
 
@@ -178,6 +179,9 @@ public class SearchCustomerActivity extends BaseActivity<SearchCustomerPresenter
         modelList_saved.clear();
         modelList_saved.addAll(modelList);
         customerAdapter.notifyDataSetChanged();
+        if (modelList == null || modelList.size() <= 0) {
+            Util.toastMsg("暂无数据");
+        }
     }
 
     @Override
@@ -222,5 +226,6 @@ public class SearchCustomerActivity extends BaseActivity<SearchCustomerPresenter
             }
         }
         customerAdapter.notifyDataSetChanged();
+
     }
 }

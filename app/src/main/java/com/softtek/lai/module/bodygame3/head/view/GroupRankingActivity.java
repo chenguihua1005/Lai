@@ -116,6 +116,14 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                         break;
                 }
 
+                CircleImageView exi_iv = holder.getView(R.id.exi_iv);
+                int status = data.getStatus();
+                if (-1 == status) {
+                    exi_iv.setVisibility(View.VISIBLE);
+                } else {
+                    exi_iv.setVisibility(View.INVISIBLE);
+                }
+
                 ImageView iv_gender = holder.getView(R.id.iv_gender);
                 setImage2(iv_gender, data.getGender());
                 TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);

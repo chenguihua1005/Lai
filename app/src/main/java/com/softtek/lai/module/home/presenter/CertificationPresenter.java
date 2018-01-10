@@ -1,5 +1,7 @@
 package com.softtek.lai.module.home.presenter;
 
+import android.support.v4.content.LocalBroadcastManager;
+
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;

@@ -178,6 +178,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
             tv_invitation.setEnabled(false);
             tv_invitation.setText("小伙伴已经加入该班级");
             tv_invitation.setVisibility(View.VISIBLE);
+
+            mChooseTypeContent.setEnabled(false);//参赛目标禁用
         } else if (invitater.getIsCurrentClassMember() == 0) {//不再当前班级
             tv_invitation.setEnabled(true);
             tv_invitation.setOnClickListener(this);
