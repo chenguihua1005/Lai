@@ -164,7 +164,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                 view = LayoutInflater.from(context).inflate(R.layout.item_honor_group, viewGroup, false);
                 viewHolderSon1 = new ViewHolderSon1();
 
-                viewHolderSon1.tv_coach_type = (TextView) view.findViewById(R.id.tv_coach_type);
+//              viewHolderSon1.tv_coach_type = (TextView) view.findViewById(R.id.tv_coach_type);
                 viewHolderSon1.tv_rank_number = (TextView) view.findViewById(R.id.tv_rank_number);
                 viewHolderSon1.tv_group_name = (TextView) view.findViewById(R.id.tv_group_name);
                 viewHolderSon1.loss_total_tv = (TextView) view.findViewById(R.id.loss_total_tv);
@@ -172,6 +172,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                 viewHolderSon1.tv_trainer_name = (TextView) view.findViewById(R.id.tv_trainer_name);
                 viewHolderSon1.tv_per_number = (TextView) view.findViewById(R.id.tv_per_number);
                 viewHolderSon1.tv_by_which = (TextView) view.findViewById(R.id.tv_by_which);
+                viewHolderSon1.tv_identity = view.findViewById(R.id.tv_identity);
 
                 viewHolderSon1.ll_hasData = (LinearLayout) view.findViewById(R.id.ll_hasdata);
                 viewHolderSon1.tip_tv = (TextView) view.findViewById(R.id.tip_info);
@@ -190,7 +191,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                 viewHolderSon1.ll_hasData.setVisibility(View.VISIBLE);
                 viewHolderSon1.tip_tv.setVisibility(View.GONE);
 
-                viewHolderSon1.tv_coach_type.setText(groupModel.getCoachType());
+//              viewHolderSon1.tv_coach_type.setText(groupModel.getCoachType());
                 viewHolderSon1.tv_rank_number.setText(groupModel.getRanking());
                 //减重、脂
                 viewHolderSon1.loss_total_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? "总体重变化" + groupModel.getLoss() + "斤" : "总体脂率变化比" + groupModel.getLoss() + "%");
@@ -206,6 +207,28 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                 }
                 viewHolderSon1.tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? context.getString(R.string.weight_per) : context.getString(R.string.fat_per));
 
+                int classRole = groupModel.getClassRole();// 班级角色
+                switch (classRole) {
+                    case 1:
+                        viewHolderSon1.tv_identity.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        viewHolderSon1.tv_identity.setText("总");
+                        break;
+                    case 2:
+                        viewHolderSon1.tv_identity.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        viewHolderSon1.tv_identity.setText("教");
+                        break;
+                    case 3:
+                        viewHolderSon1.tv_identity.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        viewHolderSon1.tv_identity.setText("助");
+                        break;
+                    case 4:
+                        viewHolderSon1.tv_identity.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        viewHolderSon1.tv_identity.setText("学");
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
         } else if (type == TYPE_2) {
@@ -220,6 +243,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
 
                 viewHolderSon2.civ = (CircleImageView) view.findViewById(R.id.head_img);
                 viewHolderSon2.role_img = (TextView) view.findViewById(R.id.role_img);
+                viewHolderSon2.exi_iv = view.findViewById(R.id.exi_iv);
 
                 viewHolderSon2.paiming = (TextView) view.findViewById(R.id.paiming);
                 viewHolderSon2.name_tv = (TextView) view.findViewById(R.id.name_tv);
@@ -247,7 +271,6 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                 viewHolderSon2.tip_tv.setVisibility(View.VISIBLE);
                 viewHolderSon2.tip_tv.setText("暂无班级排名");
             } else {
-
                 viewHolderSon2.ll_hasData.setVisibility(View.VISIBLE);
                 viewHolderSon2.tip_tv.setVisibility(View.GONE);
 
@@ -268,14 +291,19 @@ public class HonorAdapter extends BaseExpandableListAdapter {
                         viewHolderSon2.role_img.setText("助");
                         break;
                     case 4:
-                        viewHolderSon2.role_img.setBackground(null);
-                        viewHolderSon2.role_img.setText("");
+                        viewHolderSon2.role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        viewHolderSon2.role_img.setText("学");
                         break;
                     default:
                         break;
-
                 }
 
+                int status = data.getStatus();
+                if (-1 == status) {
+                    viewHolderSon2.exi_iv.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolderSon2.exi_iv.setVisibility(View.INVISIBLE);
+                }
 
                 switch (data.getRanking()) {
                     case "1":
@@ -371,7 +399,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
     }
 
     private static class ViewHolderSon1 {
-        TextView tv_coach_type;
+        //        TextView tv_coach_type;
         TextView tv_rank_number;
         TextView tv_group_name;
         TextView loss_total_tv;
@@ -380,6 +408,8 @@ public class HonorAdapter extends BaseExpandableListAdapter {
         TextView tv_per_number;
         TextView tv_by_which;
 
+        TextView tv_identity;//身份标志
+
         LinearLayout ll_hasData;
         TextView tip_tv;
     }
@@ -387,6 +417,8 @@ public class HonorAdapter extends BaseExpandableListAdapter {
     private static class ViewHolderSon2 {
         CircleImageView civ;
         TextView role_img;
+        CircleImageView exi_iv;
+
         TextView paiming;
         TextView name_tv;
         ImageView fale;

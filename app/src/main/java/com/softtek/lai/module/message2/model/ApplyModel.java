@@ -15,4 +15,5 @@ public class ApplyModel {
     public String groupId;
     public int classRole;
     public int status;
+    public int Target;//学员目标 1增重0减重
 }

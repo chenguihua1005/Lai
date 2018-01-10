@@ -201,8 +201,8 @@
     <string name="rank_per_test">人均减重比</string>
     <string name="honorRank">荣誉榜</string>
     <string name="rule">规则说明</string>
-    <string name="weight_per">人均体重变化比</string>
-    <string name="fat_per">人均体脂率变化比</string>
+    <string name="weight_per">人均变化比</string>
+    <string name="fat_per">人均变化比</string>
     <string name="physical_manage1">第一体管周</string>
     <string name="physical_manage2">第二体管周</string>
     <string name="physical_manage3">第三体管周</string>
@@ -228,8 +228,8 @@
     <string name="group_ranking">组内排名</string>
     <string name="past_ranking">往期榜单</string>
     <string name="waiting">虚位以待</string>
-    <string name="init_weight">初始体重%1$s斤</string>
-    <string name="init_fat">初始体脂%1$s%%</string>
+    <string name="init_weight">初始:%1$s斤</string>
+    <string name="init_fat">初始:%1$s%%</string>
     <string name="ranking_date">榜单日期: </string>
     <string name="title_ranking_group">组内排名(%1$s)</string>
     <string name="week_ranking">本周第%1$s名</string>

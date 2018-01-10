@@ -121,8 +121,8 @@ public class CoachFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         RelativeLayout rl_invitation = (RelativeLayout) view.findViewById(R.id.rl_invitation);
         rl_invitation.setOnClickListener(this);
-        RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
-        rl_honor.setOnClickListener(this);
+//        RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
+//        rl_honor.setOnClickListener(this);
 
         RelativeLayout rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);
         rl_love_student.setOnClickListener(this);
@@ -145,10 +145,6 @@ public class CoachFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getContext(), InvitationListActivity.class);
                 intent.putExtra("classId", model.getClassId());
                 startActivity(intent);
-            }
-            break;
-            case R.id.rl_honor: {
-                HonorActivity.startHonorActivity(getContext(), model.getClassId());
             }
             break;
             case R.id.rl_love_student: {

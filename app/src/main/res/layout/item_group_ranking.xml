@@ -22,32 +22,43 @@
             android:textSize="18sp" />
 
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.softtek.lai.widgets.CircleImageView
-                android:id="@+id/civ_trainer_header"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:background="@drawable/img_default" />
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp">
 
-            <TextView
-                android:id="@+id/tv_init_weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="aaa"
-                android:textSize="10sp" />
+                <com.softtek.lai.widgets.CircleImageView
+                    android:id="@+id/civ_trainer_header"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
+                    android:background="@drawable/img_default" />
+
+                <TextView
+                    android:id="@+id/role_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/bg_circle_hornor"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -74,37 +85,37 @@
                     android:textColor="#424242"
                     android:textSize="14sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="("
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
+                <!--                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="("
+                                    android:textColor="#999999"
+                                    android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tv_group_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxEms="4"
-                    android:singleLine="true"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
+                                <TextView
+                                    android:id="@+id/tv_group_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxEms="4"
+                                    android:singleLine="true"
+                                    android:textColor="#999999"
+                                    android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=")"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=")"
+                                    android:textColor="#999999"
+                                    android:textSize="12sp" />-->
             </LinearLayout>
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:paddingLeft="10dp"
                 android:id="@+id/loss_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
                 android:textColor="#424242"
                 android:textSize="11sp" />
 
@@ -128,6 +139,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:maxLines="1"
                     android:id="@+id/tv_per_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -137,7 +149,6 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_per_number"
@@ -145,7 +156,8 @@
                     android:layout_marginRight="10dp"
                     android:text="@string/rank_per_number2_test"
                     android:textColor="#333333"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView

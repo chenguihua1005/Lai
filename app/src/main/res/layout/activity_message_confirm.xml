@@ -8,13 +8,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
     <include layout="@layout/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -220,11 +221,40 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_choose_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="参赛目标"
+                        android:textColor="#666666"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_choose_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="15dp"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/bodygame3_arrow"
+                        android:hint="请选择"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/rl_aixin"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:visibility="gone"
-                    android:background="@drawable/ll_selector_grey">
+                    android:background="@drawable/ll_selector_grey"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -243,23 +273,31 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/bodygame3_arrow"
+                        android:gravity="right"
                         android:hint="爱心学员手机号（非必填）"
                         android:textColor="#333333"
                         android:textColorHint="#999999"
-                        android:textSize="16sp"
-                        android:gravity="right"
-                        android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/bodygame3_arrow"/>
+                        android:textSize="16sp" />
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#e1e1e1" />
+
+
             </android.support.v7.widget.LinearLayoutCompat>
 
             <TextView
                 android:id="@+id/tip_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
+                android:padding="15dp"
                 android:textColor="#FDC36F"
-                android:padding="15dp"/>
+                android:textSize="13sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -272,17 +310,17 @@
                     style="@style/customCheckBoxTheme2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:checked="true" />
+                    android:checked="true"
+                    android:enabled="false" />
 
                 <TextView
                     android:id="@+id/tv_zqs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="5dp"
                     android:gravity="center"
                     android:text="@string/ZQS"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="25dp"
                     android:textColor="#999999"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -296,23 +334,23 @@
 
                 android:background="@drawable/bg_confirm_btn"
                 android:text="同意"
-                android:visibility="gone"
                 android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_no_btn"
                 android:text="忽略"
-                android:visibility="gone"
                 android:textColor="#FFA200"
-                android:textSize="@dimen/textSize5" />
+                android:textSize="@dimen/textSize5"
+                android:visibility="gone" />
 
         </LinearLayout>
 

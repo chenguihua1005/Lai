@@ -113,9 +113,9 @@
         <!--android:name="JPUSH_APPKEY"-->
         <!--android:value="1a3bbb691bfbfca0d0676e9f" />-->
 
-        <meta-data
+<!--        <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="herbalife#laiju" />
+            android:value="herbalife#laiju" />-->
 
         <!-- 测试 -->
         <meta-data

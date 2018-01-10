@@ -33,36 +33,38 @@ import retrofit.http.Query;
 public interface Message2Service {
     @GET("/V1/MsgCenter/IsHasUnReadMsg")
     void getMessageRead(@Header("token") String token,
-                        @Query("accountid")long accountId,
+                        @Query("accountid") long accountId,
                         Callback<ResponseData<UnReadMsg>> callback);
 
     @GET("/V1/MsgCenter/UnReadMsgCnt")
     void getUnreadMsg(@Header("token") String token,
-                    @Query("accountid") String accountid,
-                    Callback<ResponseData<UnreadMsgModel>> callback);
+                      @Query("accountid") String accountid,
+                      Callback<ResponseData<UnreadMsgModel>> callback);
 
     //小助手类消息列表
     @GET("/V1/MsgCenter/GetOperateMsgList")
-    void getOperateMsgList(@Header("token")String token,
-                           @Query("accountid")long accountId,
+    void getOperateMsgList(@Header("token") String token,
+                           @Query("accountid") long accountId,
                            Callback<ResponseData<List<OperateMsgModel>>> callback);
+
     //服务窗消息列表
     @GET("/V1/MsgCenter/GetMeasureMsgList")
-    void getMeasureMsgList(@Header("token")String token,
-                           @Query("accountid")long accountId,
+    void getMeasureMsgList(@Header("token") String token,
+                           @Query("accountid") long accountId,
                            Callback<ResponseData<List<NoticeModel>>> callback);
+
     //复测消息列表
     @GET("/V1/MsgCenter/GetNoticeMsgList")
-    void getNoticeMsgList(@Header("token")String token,
-                          @Query("accountid")long accountId,
+    void getNoticeMsgList(@Header("token") String token,
+                          @Query("accountid") long accountId,
                           Callback<ResponseData<List<NoticeModel>>> callback);
 
     //活动通知
     @GET("/V1/MsgCenter/GetActiveMsgList")
     void getActiveNoticeMsg(
-            @Header("token")String token,
-            @Query("accountid")long accountid,
-            Callback<ResponseData<List<ActionNoticeModel>>>callback
+            @Header("token") String token,
+            @Query("accountid") long accountid,
+            Callback<ResponseData<List<ActionNoticeModel>>> callback
     );
 
 
@@ -73,40 +75,45 @@ public interface Message2Service {
 //                    @Field("Msgid") String msgid,
 //                    Callback<ResponseData> callback);
 
-    //参赛邀请详情
-    @GET("/V1/MsgCenter/ShowJionClassInfo")
-    void getInvitationDetail(@Header("token")String token,
-                             @Query("MsgId")String msgId,
+    //参赛邀请详情  /v1/Club/ShowJionClassInfo
+    @GET("/V1/Club/ShowJionClassInfo")
+    void getInvitationDetail(@Header("token") String token,
+                             @Query("MsgId") String msgId,
                              Callback<ResponseData<InvitationConfirmShow>> callback);
+
     //验证爱心学员的手机号码
     @GET("/v1/MsgCenter/GetAccountIdByMobile")
-    void validatePhone(@Header("token")String token,
-                       @Query("Mobile")String phone,
-                       @Query("classId")String classId,
+    void validatePhone(@Header("token") String token,
+                       @Query("Mobile") String phone,
+                       @Query("classId") String classId,
                        Callback<ResponseData<AiXinStudent>> callback);
 
     //确认/拒绝加入班级
-    @GET("/V1/MsgCenter/MakeSureJoin")
-    void makeSureJoin(@Header("token")String token,
-                      @Query("MsgId")String msgId,
-                      @Query("status")int status,
-                      @Query("IntroducerId")long introducerId,
+    @POST("/V1/Club/MakeSureJoin")
+    void makeSureJoin(@Header("token") String token,
+                      @Query("MsgId") String msgId,
+                      @Query("status") int status,
+                      @Query("IntroducerId") long introducerId,
+                      @Query("target") int target,//参赛目标
                       Callback<ResponseData> callback);
-    //获取申请参数确认信息
-    @GET("/V1/MsgCenter/ShowApplyJionClass")
-    void getShenQingJoinInfo(@Header("token")String token,
-                             @Query("MsgId")String msgId,
+
+    //获取申请参数确认信息  v1/club/ShowApplyJionClass
+    @GET("/v1/club/ShowApplyJionClass")
+    void getShenQingJoinInfo(@Header("token") String token,
+                             @Query("MsgId") String msgId,
                              Callback<ResponseData<ApplyConfirm>> callback);
+
     //批准/拒绝申请加入班级
     @POST("/v1/HerbalifeClass/ApproveClassApply")
-    void examine(@Header("token")String token,
+    void examine(@Header("token") String token,
                  @Body ApplyModel model,
                  Callback<ResponseData> callback);
+
     //删除单个或多个消息
     @FormUrlEncoded
     @POST("/V1/MsgCenter/DeleteOneOrMoreMsg")
-    void deleteMssage(@Header("token")String token,
-                      @Field("Msgids")String ids,
-                      @Field("Msgtype")int msgType,
+    void deleteMssage(@Header("token") String token,
+                      @Field("Msgids") String ids,
+                      @Field("Msgtype") int msgType,
                       Callback<ResponseData> callback);
 }

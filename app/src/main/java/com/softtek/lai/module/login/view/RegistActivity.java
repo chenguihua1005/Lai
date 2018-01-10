@@ -186,27 +186,7 @@ public class RegistActivity extends BaseActivity<RegistPresenter> implements Vie
 
         getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
 
-        // 欢心环信注册
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                // call method in SDK
-//                try {
-//                    EMClient.getInstance().createAccount(MD5.md5WithEncoder(phoneNum).toLowerCase(), "HBL_SOFTTEK#321");
-//                    Looper.prepare();
-//                    getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
-//                    Looper.loop();
-//                } catch (HyphenateException e) {
-//                    e.printStackTrace();
-//                    if (EMError.USER_ALREADY_EXIST == e.getErrorCode()) {//用户已经存在
-//                        Looper.prepare();
-//                        getPresenter().doRegist(phoneNum, MD5.md5WithEncoder(password), MD5.md5WithEncoder(phoneNum).toLowerCase(), et_identify.getText().toString());
-//                        Looper.loop();
-//                    }
-//                }
-//
-//            }
-//        }).start();
+
 
     }
 

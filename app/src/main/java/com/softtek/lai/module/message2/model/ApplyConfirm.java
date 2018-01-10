@@ -31,6 +31,15 @@ public class ApplyConfirm {
     private String ClassName;
     private String ClassCode;
     private String ApplyPhoto;
+    private int Target;//学员目标 1增重0减重
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
+    }
 
     public String getClassGroupId() {
         return ClassGroupId;

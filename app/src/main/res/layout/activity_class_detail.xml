@@ -6,147 +6,200 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.bodygame3.head.view.ClassDetailActivity">
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:orientation="horizontal"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="总教练"
                 android:layout_centerVertical="true"
-                android:textSize="14sp"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:text="总教练"
+                android:textSize="14sp" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
                 android:gravity="center">
-            <com.softtek.lai.widgets.CircleImageView
-                android:id="@+id/cir_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/img_default"/>
-            <TextView
-                android:id="@+id/tv_coach_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/cir_img"/>
+
+                <com.softtek.lai.widgets.CircleImageView
+                    android:id="@+id/cir_img"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/img_default" />
+
+                <TextView
+                    android:id="@+id/tv_coach_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cir_img"
+                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="#ffffff"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:background="#ffffff">
+            android:paddingRight="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="班级名称"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_classname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="#ffffff"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:background="#ffffff">
+            android:paddingRight="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="班级编号"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_classid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="#ffffff"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:background="#ffffff">
+            android:paddingRight="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="开班时间"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_StaClassDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="#ffffff"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:background="#ffffff">
+            android:paddingRight="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="学员人数"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_classPerNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee" />
+
+        <RelativeLayout
+            android:id="@+id/rl_choose_type"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#ffffff"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="参赛目标"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_choose_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="请选择" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            >
+            android:paddingRight="15dp">
+
             <CheckBox
                 android:id="@+id/cb_term"
                 style="@style/customCheckBoxTheme2"
@@ -155,36 +208,39 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:checked="true" />
+
             <TextView
                 android:id="@+id/tv_zhiqing"
-                android:layout_toRightOf="@+id/cb_term"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/zhiqingshu"
                 android:layout_marginBottom="10dp"
-                android:textSize="14sp"/>
+                android:layout_toRightOf="@+id/cb_term"
+                android:text="@string/zhiqingshu"
+                android:textSize="14sp" />
         </RelativeLayout>
+
         <Button
             android:id="@+id/btn_joinclass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/bg_joinclass_btn"
             android:text="申请加入班级"
-            android:textSize="14sp"
             android:textColor="#ffffff"
-            android:background="@drawable/bg_joinclass_btn"/>
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:text="您已发送过加入班级申请了， 请耐心等待总教练审核吧"
             android:textSize="12sp"
-            android:visibility="gone"
-            android:text="您已发送过加入班级申请了， 请耐心等待总教练审核吧"/>
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

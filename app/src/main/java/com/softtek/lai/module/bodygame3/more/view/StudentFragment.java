@@ -133,8 +133,6 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
         rl_media.setOnClickListener(this);
         RelativeLayout rl_exit = (RelativeLayout) view.findViewById(R.id.rl_exit);
         rl_exit.setOnClickListener(this);
-        RelativeLayout rl_honor = (RelativeLayout) view.findViewById(R.id.rl_honor);
-        rl_honor.setOnClickListener(this);
 
         RelativeLayout rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);//爱心学员
         rl_love_student.setOnClickListener(this);
@@ -155,10 +153,6 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
             break;
             case R.id.rl_media: {
                 startActivity(new Intent(getContext(), StudentHonorGridActivity.class));
-            }
-            break;
-            case R.id.rl_honor: {
-                HonorActivity.startHonorActivity(getContext(), model.getClassId());
             }
             break;
             case R.id.rl_love_student: {

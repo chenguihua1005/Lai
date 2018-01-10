@@ -6,6 +6,7 @@
 package com.softtek.lai.module.message2.view;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
@@ -13,6 +14,8 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -43,6 +46,8 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
+
+import static com.softtek.lai.R.id.rl_choose_type;
 
 /**
  * 邀请消息确认
@@ -88,6 +93,11 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.tip_tv)
     TextView tip_tv;
 
+    @InjectView(rl_choose_type)
+    RelativeLayout mChooseTypeContent;
+    @InjectView(R.id.tv_choose_type)
+    TextView mChooseType;
+
     InvitationConfirmShow show;
     Message2Service service;
     String msgId;
@@ -102,6 +112,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
         btn_yes.setOnClickListener(this);
         rl_aixin.setOnClickListener(this);
         tv_zqs.setOnClickListener(this);
+        mChooseTypeContent.setOnClickListener(this);
+
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -170,6 +182,13 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
             }
             tv_group_name.setText(show.getCGName());
 
+            int target = show.getTarget();
+            if (1 == target) {//增重
+                mChooseType.setText("增重");
+            } else {
+                mChooseType.setText("减重");
+            }
+
             if (show.getMsgStatus() == 0) {
                 btn_yes.setVisibility(View.VISIBLE);
                 btn_no.setVisibility(View.VISIBLE);
@@ -203,11 +222,12 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 dialogShow();
+                int target = show.getTarget();
                 //莱后台请求
                 service.makeSureJoin(UserInfoModel.getInstance().getToken(),
                         msgId,
                         1,
-                        introducerId,
+                        introducerId, target,
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(final ResponseData responseData, Response response) {
@@ -248,7 +268,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 service.makeSureJoin(UserInfoModel.getInstance().getToken(),
                         msgId,
                         -1,
-                        introducerId,
+                        introducerId, show.getTarget(),
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
@@ -277,7 +297,72 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
 
             }
             break;
+            case rl_choose_type: {
+                //如果此条消息一经操作过就不能在操作了
+                showEntryGoalDialog();
+            }
+            break;
 
+
+        }
+    }
+
+    private Dialog entryGoalDialog;
+
+    private void showEntryGoalDialog() {
+        if (entryGoalDialog == null) {
+            entryGoalDialog = new Dialog(this, R.style.custom_dialog);
+            entryGoalDialog.setCanceledOnTouchOutside(true);
+            Window win = entryGoalDialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            assert win != null;
+            win.setAttributes(params);
+            entryGoalDialog.setContentView(R.layout.entry_goal_dialog);
+            final TextView lossWeight = entryGoalDialog.findViewById(R.id.tv_loss_weight);
+            final TextView addWeight = entryGoalDialog.findViewById(R.id.tv_add_weight);
+            lossWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lossWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    addWeight.setTextColor(getResources().getColor(R.color.word));
+                    mChooseType.setText("减重");
+                    show.setTarget(0);
+                    dialogDismiss();
+                }
+            });
+            addWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    lossWeight.setTextColor(getResources().getColor(R.color.word));
+                    mChooseType.setText("增重");
+                    show.setTarget(1);
+                    dialogDismiss();
+                }
+            });
+            entryGoalDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogDismiss();
+                }
+            });
+            entryGoalDialog.findViewById(R.id.space).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDismiss();
+                }
+            });
+        }
+        entryGoalDialog.show();
+    }
+
+    private void dialogDismiss() {
+        if (entryGoalDialog != null && entryGoalDialog.isShowing()) {
+            entryGoalDialog.dismiss();
         }
     }
 

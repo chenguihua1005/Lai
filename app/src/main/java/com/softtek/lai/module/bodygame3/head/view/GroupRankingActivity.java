@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
@@ -32,8 +31,6 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-
-import static com.softtek.lai.R.id.tv_init_weight;
 
 
 @InjectLayout(R.layout.activity_group_ranking)
@@ -96,20 +93,45 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 tv_rank_number.setText(data.getNum());
                 CircleImageView civ_trainer_header = holder.getView(R.id.civ_trainer_header);
                 setImage(civ_trainer_header, data.getPhoto());
+
+                TextView role_img = holder.getView(R.id.role_img);
+                switch (data.getClassRole()) {
+                    case 1:
+                        role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        role_img.setText("总");
+                        break;
+                    case 2:
+                        role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        role_img.setText("教");
+                        break;
+                    case 3:
+                        role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        role_img.setText("助");
+                        break;
+                    case 4:
+                        role_img.setBackgroundResource(R.drawable.bg_circle_hornor);
+                        role_img.setText("学");
+                        break;
+                    default:
+                        break;
+                }
+
                 ImageView iv_gender = holder.getView(R.id.iv_gender);
                 setImage2(iv_gender, data.getGender());
                 TextView tv_trainer_name = holder.getView(R.id.tv_trainer_name);
                 tv_trainer_name.setText(data.getUserName());
-                TextView tv_group_name = holder.getView(R.id.tv_group_name);
-                tv_group_name.setText(listGroupModel.getGroupName());
-                TextView tv_init = holder.getView(tv_init_weight);
+//                TextView tv_group_name = holder.getView(R.id.tv_group_name);
+//                tv_group_name.setText(listGroupModel.getGroupName());
+//                TextView tv_init = holder.getView(tv_init_weight);
+
+                String init_data = "";
                 String init = TextUtils.isEmpty(data.getInitWeight()) ? "--" : data.getInitWeight();
                 if ("ByFatRatio".equals(ByWhichRatio)) {
-                    tv_init.setText(getString(R.string.init_fat, init));
+                    init_data = getString(R.string.init_fat, init);
                 } else {
-                    tv_init.setText(getString(R.string.init_weight, init));
+                    init_data = getString(R.string.init_weight, init);
                 }
-//                }
+
                 TextView tv_per_number = holder.getView(R.id.tv_per_number);
                 if (TextUtils.isEmpty(data.getLossPer())) {
                     tv_per_number.setText("--");
@@ -118,11 +140,9 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
                 }
                 TextView tv_by_which = holder.getView(R.id.tv_by_which);
                 tv_by_which.setText("变化比");
-//                tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_per) : getString(R.string.lose_fat_per));
 
                 TextView loss_tv = holder.getView(R.id.loss_tv);
-                loss_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? data.getTarget() + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "斤" : data.getTarget() + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "%");
-//                loss_tv.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.lose_weight_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "斤" : getString(R.string.lose_fat_ratio) + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "%");
+                loss_tv.setText(init_data + " " + ("ByWeightRatio".equals(ByWhichRatio) ? data.getTarget() + ":" + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "斤" : data.getTarget() + ":" + (TextUtils.isEmpty(data.getLoss()) ? "--" : data.getLoss()) + "%"));
 
             }
         };
@@ -169,25 +189,27 @@ public class GroupRankingActivity extends BaseActivity implements GroupRankingMa
         if (listGroupModel != null) {
             //返回的是“xx组”，这里只要“xx”。但是返回的应该是小组名，我要加组字
 //                String substring = data.getGroupName().substring(0, data.getGroupName().toCharArray().length - 1);
-            tv_group_name.setText(listGroupModel.getGroupName());
-            if ("ByWeek".equals(SortTimeType)) {
-                tv_title.setText(getString(R.string.title_ranking_group, whichName));
-                tv_rank_number.setText(getString(R.string.week_ranking, listGroupModel.getRanking()));
-            } else if ("ByMonth".equals(SortTimeType)) {
-                tv_title.setText(getString(R.string.title_ranking_group, whichName));
-                tv_rank_number.setText(getString(R.string.month_ranking, listGroupModel.getRanking()));
-            } else if ("ByTotal".equals(SortTimeType)) {
-                tv_title.setText(R.string.title_group_total);
-            }
-            setImage(civ_trainer_header, listGroupModel.getCoachIco());
+//            tv_group_name.setText(listGroupModel.getGroupName());
+
+            tv_title.setText(listGroupModel.getGroupName());
+//            if ("ByWeek".equals(SortTimeType)) {
+//                tv_title.setText(getString(R.string.title_ranking_group, whichName));
+//                tv_rank_number.setText(getString(R.string.week_ranking, listGroupModel.getRanking()));
+//            } else if ("ByMonth".equals(SortTimeType)) {
+//                tv_title.setText(getString(R.string.title_ranking_group, whichName));
+//                tv_rank_number.setText(getString(R.string.month_ranking, listGroupModel.getRanking()));
+//            } else if ("ByTotal".equals(SortTimeType)) {
+//                tv_title.setText(R.string.title_group_total);
+//            }
+//            setImage(civ_trainer_header, listGroupModel.getCoachIco());
 //            Log.e("curry", "success: " + listGroupModel.toString());
-            tv_trainer_name.setText(listGroupModel.getCoachName());
-            if (TextUtils.isEmpty(listGroupModel.getLossPer())) {
-                tv_per_number.setText("--");
-            } else {
-                tv_per_number.setText(listGroupModel.getLossPer());
-            }
-            tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
+//            tv_trainer_name.setText(listGroupModel.getCoachName());
+//            if (TextUtils.isEmpty(listGroupModel.getLossPer())) {
+//                tv_per_number.setText("--");
+//            } else {
+//                tv_per_number.setText(listGroupModel.getLossPer());
+//            }
+//            tv_by_which.setText("ByWeightRatio".equals(ByWhichRatio) ? getString(R.string.weight_per) : getString(R.string.fat_per));
         }
 
     }

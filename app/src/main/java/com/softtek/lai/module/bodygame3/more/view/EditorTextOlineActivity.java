@@ -183,52 +183,7 @@ public class EditorTextOlineActivity extends BaseActivity implements Validator.V
                                             }
                                         }
                                     });
-
-
-                    //环信群组名称修改
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-////                            String changedGroupName = value;
-//                            try {
-//                                EMClient.getInstance().groupManager().changeGroupName(classHXId, value);//需异步处理
-//
-//                                ZillaApi.NormalRestAdapter.create(MoreService.class)
-//                                        .updateClassName(classId,UserInfoModel.getInstance().getToken(),
-//                                                classId,
-//                                                value,
-//                                                new RequestCallback<ResponseData>() {
-//                                                    @Override
-//                                                    public void success(final ResponseData responseData, Response response) {
-//                                                        if (responseData.getStatus() == 200) {
-//                                                            Intent back = getIntent();
-//                                                            back.putExtra("value", value);
-//                                                            setResult(RESULT_OK, back);
-//                                                            finish();
-//                                                        } else {
-//                                                            runOnUiThread(new Runnable() {
-//                                                                @Override
-//                                                                public void run() {
-//                                                                    Util.toastMsg(responseData.getMsg());
-//                                                                }
-//                                                            });
-//
-//                                                        }
-//                                                    }
-//                                                });
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                                runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        Util.toastMsg("修改班级名称失败！");
-//                                    }
-//                                });
-//                            }
-//
-//                        }
-//                    }).start();
+                    
                 }
                 break;
                 case UPDATE_GROUP_NAME: {

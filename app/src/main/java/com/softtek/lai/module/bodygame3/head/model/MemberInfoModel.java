@@ -25,6 +25,25 @@ public class MemberInfoModel {
     private String ClassName;//班级名称
     private int LoginUserClassRole;//访问此页面的用户角色
 
+    private int Target;//参赛目标，null-默认（没班级）
+    private boolean CanEdit;//是否可以修改，false-否，true-是，null-默认（没班级）
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
+    }
+
+    public boolean isCanEdit() {
+        return CanEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        CanEdit = canEdit;
+    }
+
     public int getLoginUserClassRole() {
         return LoginUserClassRole;
     }
@@ -92,31 +111,6 @@ public class MemberInfoModel {
         Accountid = accountid;
     }
 
-    @Override
-    public String toString() {
-        return "MemberInfoModel{" +
-                "UserName='" + UserName + '\'' +
-                ", UserPhoto='" + UserPhoto + '\'' +
-                ", UserThPhoto='" + UserThPhoto + '\'' +
-                ", ClassRole='" + ClassRole + '\'' +
-                ", HXAccountId='" + HXAccountId + '\'' +
-                ", MilkAngle='" + MilkAngle + '\'' +
-                ", MilkAngleId='" + MilkAngleId + '\'' +
-                ", Introducer='" + Introducer + '\'' +
-                ", IntroducerId='" + IntroducerId + '\'' +
-                ", IsFocus='" + IsFocus + '\'' +
-                ", IsFriend='" + IsFriend + '\'' +
-                ", TotalLossWeight='" + TotalLossWeight + '\'' +
-                ", NewsTopFour=" + NewsTopFour +
-                ", InitWeight='" + InitWeight + '\'' +
-                ", InitImg='" + InitImg + '\'' +
-                ", InitThImg='" + InitThImg + '\'' +
-                ", CurrentWeight='" + CurrentWeight + '\'' +
-                ", CurttentImg='" + CurttentImg + '\'' +
-                ", CurttentThImg='" + CurttentThImg + '\'' +
-                ", PersonalityName='" + PersonalityName + '\'' +
-                '}';
-    }
 
     public String getPersonalityName() {
         return PersonalityName;
@@ -276,5 +270,40 @@ public class MemberInfoModel {
 
     public void setCurttentThImg(String curttentThImg) {
         CurttentThImg = curttentThImg;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberInfoModel{" +
+                "Accountid=" + Accountid +
+                ", UserName='" + UserName + '\'' +
+                ", UserPhoto='" + UserPhoto + '\'' +
+                ", UserThPhoto='" + UserThPhoto + '\'' +
+                ", ClassRole='" + ClassRole + '\'' +
+                ", HXAccountId='" + HXAccountId + '\'' +
+                ", MilkAngle='" + MilkAngle + '\'' +
+                ", MilkAngleId='" + MilkAngleId + '\'' +
+                ", Introducer='" + Introducer + '\'' +
+                ", IntroducerId='" + IntroducerId + '\'' +
+                ", IsFocus='" + IsFocus + '\'' +
+                ", IsFriend='" + IsFriend + '\'' +
+                ", AFriendId='" + AFriendId + '\'' +
+                ", ClassId='" + ClassId + '\'' +
+                ", IsCurrClass=" + IsCurrClass +
+                ", ClassName='" + ClassName + '\'' +
+                ", LoginUserClassRole=" + LoginUserClassRole +
+                ", Target=" + Target +
+                ", CanEdit=" + CanEdit +
+                ", TotalLossWeight='" + TotalLossWeight + '\'' +
+                ", NewsTopFour=" + NewsTopFour +
+                ", InitWeight='" + InitWeight + '\'' +
+                ", InitImg='" + InitImg + '\'' +
+                ", InitThImg='" + InitThImg + '\'' +
+                ", CurrentWeight='" + CurrentWeight + '\'' +
+                ", CurttentImg='" + CurttentImg + '\'' +
+                ", CurttentThImg='" + CurttentThImg + '\'' +
+                ", PersonalityName='" + PersonalityName + '\'' +
+                ", IsSendFriend=" + IsSendFriend +
+                '}';
     }
 }

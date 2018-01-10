@@ -1,13 +1,17 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -23,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_class_detail)
 public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> implements View.OnClickListener, ClassDetailPresenter.ClassDetailView {
@@ -53,13 +58,22 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.rl_choose_type)
+    RelativeLayout rl_choose_type;
+    @InjectView(R.id.tv_choose_type)
+    TextView mChooseType;
+
     ClasslistModel classlistModel;
     ClassDetailModel classDetailModel;
+
+    private int Target = -1;//学员目标 1增重0减重
 
     @Override
     protected void initViews() {
         tv_zhiqing.setOnClickListener(this);
         btn_joinclass.setOnClickListener(this);
+        rl_choose_type.setOnClickListener(this);
+
         ll_left.setOnClickListener(this);
         tv_title.setText("班级推荐");
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -67,10 +81,10 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     btn_joinclass.setEnabled(true);
-                    btn_joinclass.setBackground(ContextCompat.getDrawable(ClassDetailActivity.this,R.drawable.bg_joinclass_btn));
+                    btn_joinclass.setBackground(ContextCompat.getDrawable(ClassDetailActivity.this, R.drawable.bg_joinclass_btn));
                 } else {
                     btn_joinclass.setEnabled(false);
-                    btn_joinclass.setBackground(ContextCompat.getDrawable(ClassDetailActivity.this,R.drawable.bg_joinclass_grey_btn));
+                    btn_joinclass.setBackground(ContextCompat.getDrawable(ClassDetailActivity.this, R.drawable.bg_joinclass_grey_btn));
 
                 }
             }
@@ -95,13 +109,79 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.btn_joinclass:
-                if(classlistModel!=null){
-                    getPresenter().doJoinClass(classlistModel.getClassId());
+                if (Target == -1) {
+                    Util.toastMsg("请选择参赛目标");
+                    return;
+                }
+                if (classlistModel != null) {
+                    getPresenter().doJoinClass(classlistModel.getClassId(), Target);
                 }
                 break;
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.rl_choose_type:
+                showEntryGoalDialog();
+                break;
+        }
+    }
+
+    private Dialog entryGoalDialog;
+
+    private void showEntryGoalDialog() {
+        if (entryGoalDialog == null) {
+            entryGoalDialog = new Dialog(this, R.style.custom_dialog);
+            entryGoalDialog.setCanceledOnTouchOutside(true);
+            Window win = entryGoalDialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            assert win != null;
+            win.setAttributes(params);
+            entryGoalDialog.setContentView(R.layout.entry_goal_dialog);
+            final TextView lossWeight = entryGoalDialog.findViewById(R.id.tv_loss_weight);
+            final TextView addWeight = entryGoalDialog.findViewById(R.id.tv_add_weight);
+            lossWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lossWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    addWeight.setTextColor(getResources().getColor(R.color.word));
+                    mChooseType.setText("减重");
+                    Target = 0;
+                    dialogDismiss();
+                }
+            });
+            addWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    lossWeight.setTextColor(getResources().getColor(R.color.word));
+                    mChooseType.setText("增重");
+                    Target = 1;
+                    dialogDismiss();
+                }
+            });
+            entryGoalDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogDismiss();
+                }
+            });
+            entryGoalDialog.findViewById(R.id.space).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDismiss();
+                }
+            });
+        }
+        entryGoalDialog.show();
+    }
+
+    private void dialogDismiss() {
+        if (entryGoalDialog != null && entryGoalDialog.isShowing()) {
+            entryGoalDialog.dismiss();
         }
     }
 
@@ -120,6 +200,14 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
             tv_coach_name.setText(classDetailModel.getClassMasterName());//总教练名称
             tv_classname.setText(classDetailModel.getClassName());//班级名称
             tv_classid.setText(classDetailModel.getClassCode());//班级编号
+
+            int Target = classDetailModel.getTarget();
+            if (0 == Target) {
+                mChooseType.setText("减重");
+            } else {
+                mChooseType.setText("增重");
+            }
+
             if (!TextUtils.isEmpty(classDetailModel.getClassStart())) {
                 String[] date = classDetailModel.getClassStart().split("-");
                 String[] date1 = date[2].split(" ");
@@ -135,6 +223,7 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
                     btn_joinclass.setVisibility(View.GONE);
                     cb_term.setEnabled(false);
                     tv_tip.setVisibility(View.VISIBLE);
+                    rl_choose_type.setEnabled(false);//参赛目标不能选择
                     break;
                 case 2:
                     //是，隐藏申请按钮,勾选框不可点击选择，显示提示信息文本:您已在班级中,无法再次加入
@@ -142,6 +231,7 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
                     cb_term.setEnabled(false);
                     tv_tip.setVisibility(View.VISIBLE);
                     tv_tip.setText("您已在班级中,无法再次加入");
+                    rl_choose_type.setEnabled(false);//参赛目标不能选择
                     break;
             }
         }

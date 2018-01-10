@@ -42,6 +42,15 @@ public class ListGroupModel implements Serializable {
     private int Type;//分类  1： 小组   2 ： 班级
 
     private String Target;// 针对体重Tab页面，增重 or 减重
+    private int Status;//是否退赛的标志  状态 1正常 -1退赛
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
+    }
 
     public String getTarget() {
         return Target;

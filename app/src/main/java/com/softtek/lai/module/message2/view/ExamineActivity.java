@@ -181,6 +181,14 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                 tv_role_name.setText(apply.getClassRoleName());
                 model.classRole = apply.getClassRoleValue();
             }
+            int target = apply.getTarget();
+            model.Target = apply.getTarget();
+            if (1 == target) {//增重
+                mChooseType.setText("增重");
+            } else {
+                mChooseType.setText("减重");
+            }
+
             tv_group_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
             tv_role_name.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
             mChooseType.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.bodygame3_arrow), null);
@@ -192,6 +200,13 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
             tv_role_name.setText(apply.getClassRoleName());
             tv_group_name.setCompoundDrawables(null, null, null, null);
             tv_role_name.setCompoundDrawables(null, null, null, null);
+
+            int Target = apply.getTarget();
+            if (0 == Target) {
+                mChooseType.setText("减重");
+            } else {
+                mChooseType.setText("增重");
+            }
             mChooseType.setCompoundDrawables(null, null, null, null);
         }
 
@@ -398,9 +413,14 @@ public class ExamineActivity extends BaseActivity implements View.OnClickListene
                                     }
                                 });
                 break;
-            case R.id.rl_choose_type:
+            case R.id.rl_choose_type: {
+                //如果此条消息一经操作过就不能在操作了
+                if (confirm == null || confirm.getMsgStatus() != 0) {
+                    return;
+                }
                 showEntryGoalDialog();
-                break;
+            }
+            break;
         }
     }
 

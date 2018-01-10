@@ -36,6 +36,7 @@ import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -183,13 +184,21 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
             Util.toastMsg("请先勾选用户协议");
             return;
         }
-        btn_regist.setEnabled(false);
+//        btn_regist.setEnabled(false);
         final String phoneNum = et_phone.getText().toString();
 
-        Intent intent = new Intent(this, RegistForCustomerInfoActivity.class);
-        intent.putExtra("mobile", phoneNum);
-        startActivity(intent);
-        finish();
+        String identify = SharedPreferenceService.getInstance().get("identify_customer", "");
+
+        if (identify.equals(et_identify.getText().toString().trim())) {
+            SharedPreferenceService.getInstance().put("identify_customer", "");
+
+            Intent intent = new Intent(this, RegistForCustomerInfoActivity.class);
+            intent.putExtra("mobile", phoneNum);
+            startActivity(intent);
+            finish();
+        } else {
+            Util.toastMsg("请输入正确的验证码！");
+        }
     }
 
     @Override
@@ -210,6 +219,14 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
             String phoneNum = et_phone.getText().toString();
             getPresenter().getSituationOfTheMobile(phoneNum);
         }
+// else if (status == 200) {
+//            String phoneNum = et_phone.getText().toString().trim();
+//            Intent intent = new Intent(RegistForCustomerActivity.this, NewCustomerActivity.class);
+//            intent.putExtra("mobile", phoneNum);
+//            intent.putExtra("needQuery", false);//需要查询基础数据
+//            intent.putExtra("fromRegistPage", true);
+//            startActivity(intent);
+//        }
     }
 
     @Override

@@ -97,15 +97,33 @@ public interface HeadService {
             Callback<ResponseData<NewsModel>> callback
     );
 
-    //个人详情
-    @GET("/V1/HerbalifeClass/GetClassMemberInfo")
+    //个人详情  v1/Club/GetClassMemberInfo
+    @GET("/V1/Club/GetClassMemberInfo")
     void doGetClassMemberInfo(
 //            @Header("classid") String CId,
             @Header("token") String token,
-            @Query("loginuserid") long loginuserid,//登录id
+            @Query("userId") long loginuserid,//登录id
             @Query("accountid") long accountid,//学员id
             @Query("classid") String classid,//班级id
             Callback<ResponseData<MemberInfoModel>> callback
+    );
+
+    /**
+     * 修改参赛目标
+     *
+     * @param token
+     * @param classId
+     * @param accountId
+     * @param target
+     * @param callback
+     */
+    @POST("/v1/Club/UpdateClassTarget")
+    void updateClassTarget(
+            @Header("token") String token,
+            @Query("accountId") long accountId,
+            @Query("classId") String classId,//班级id
+            @Query("target") int target,
+            Callback<ResponseData> callback
     );
 
     //选择班级加载数据请求路径:请求路径:Api/V1/ HerbalifeClass / GetClassInfo130ed197-17ea-4125-8643-09f9c8ec377
@@ -160,12 +178,13 @@ public interface HeadService {
     );
 
     //请求路径:Api/V1/ MsgCenter/ ApplyJoinClass
-    //申请加入班级
-    @GET("/V1/MsgCenter/ApplyJoinClass")
+    //申请加入班级   /api/v1/club/ApplyJoinClass
+    @GET("/v1/club/ApplyJoinClass")
     void doPostClass(
             @Header("token") String token,
             @Query("Applyer") Long Applyer,//申请人id
             @Query("ClassId") String ClassId,//班级id
+            @Query("Target") int Target,//学员目标 1增重0减重
             Callback<ResponseData> callback
     );
 

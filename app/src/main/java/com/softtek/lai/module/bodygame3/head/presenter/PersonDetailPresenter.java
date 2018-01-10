@@ -56,7 +56,7 @@ public class PersonDetailPresenter extends BasePresenter<PersonDetailPresenter.P
     }
 
     public void doGetClassMemberInfo(long AccountId, String classid) {
-        headService.doGetClassMemberInfo( UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
+        headService.doGetClassMemberInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), AccountId, classid, new RequestCallback<ResponseData<MemberInfoModel>>() {
             @Override
             public void success(ResponseData<MemberInfoModel> memberInfoModel, Response response) {
                 int status = memberInfoModel.getStatus();
@@ -144,11 +144,49 @@ public class PersonDetailPresenter extends BasePresenter<PersonDetailPresenter.P
 
     }
 
+    public void updateClassTarget(long AccountId, String classid, int target) {
+        headService.updateClassTarget(UserInfoModel.getInstance().getToken(), AccountId, classid, target, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
+                Util.toastMsg(responseData.getMsg());
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        if (getView() != null) {
+                            getView().updataTargetText(1);
+                        }
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        if (getView() != null) {
+                            getView().updataTargetText(0);
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+                if (getView() != null) {
+                    getView().dialogDissmiss();
+                }
+            }
+        });
+
+
+    }
+
     public interface PersonDetail extends BaseView {
         void getMemberInfo(MemberInfoModel memberInfoModel);
 
         void doFocusAccount(int flag);//flag 1：成功  0：失败
 
         void doCancleFocusAccount(int flag);////flag 1：成功  0：失败
+
+        void updataTargetText(int flag);
     }
 }

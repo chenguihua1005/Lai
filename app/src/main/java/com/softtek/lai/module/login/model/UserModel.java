@@ -5,13 +5,15 @@
 
 package com.softtek.lai.module.login.model;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 /**
  * Created by jerry.guan on 3/3/2016.
  */
 public class UserModel implements Serializable {
-    public static final long serialVersionUID =-4337235045541814883L;
+    public static final long serialVersionUID = -4337235045541814883L;
     private String token;
 
     private String userid;
@@ -45,7 +47,7 @@ public class UserModel implements Serializable {
     }
 
     public String getHight() {
-        return hight==null?"":hight;
+        return hight == null ? "" : hight;
     }
 
     public void setHight(String height) {
@@ -53,7 +55,7 @@ public class UserModel implements Serializable {
     }
 
     public String getBirthday() {
-        return birthday==null?"":birthday;
+        return birthday == null ? "" : birthday;
     }
 
     public void setBirthday(String birthday) {
@@ -61,7 +63,7 @@ public class UserModel implements Serializable {
     }
 
     public String getRoleName() {
-        return RoleName==null?"":RoleName;
+        return RoleName == null ? "" : RoleName;
     }
 
     public void setRoleName(String roleName) {
@@ -69,7 +71,7 @@ public class UserModel implements Serializable {
     }
 
     public String getHXAccountId() {
-        return HXAccountId==null?"":HXAccountId;
+        return HXAccountId == null ? "" : HXAccountId;
     }
 
     public void setHXAccountId(String HXAccountId) {
@@ -77,7 +79,7 @@ public class UserModel implements Serializable {
     }
 
     public String getHasEmchat() {
-        return HasEmchat==null?"0":HasEmchat;
+        return HasEmchat == null ? "0" : HasEmchat;
     }
 
     public void setHasEmchat(String hasEmchat) {
@@ -92,7 +94,7 @@ public class UserModel implements Serializable {
     private boolean hasGender;
 
     public String getMobile() {
-        return Mobile==null?"":Mobile;
+        return Mobile == null ? "" : Mobile;
     }
 
     public void setMobile(String mobile) {
@@ -100,7 +102,7 @@ public class UserModel implements Serializable {
     }
 
     public String getPhoto() {
-        return Photo==null?"":Photo;
+        return Photo == null ? "" : Photo;
     }
 
     public void setPhoto(String photo) {
@@ -108,7 +110,7 @@ public class UserModel implements Serializable {
     }
 
     public String getCertification() {
-        return Certification==null?"":Certification;
+        return Certification == null ? "" : Certification;
     }
 
     public void setCertification(String certification) {
@@ -116,7 +118,7 @@ public class UserModel implements Serializable {
     }
 
     public String getCertTime() {
-        return CertTime==null?"":CertTime;
+        return CertTime == null ? "" : CertTime;
     }
 
     public void setCertTime(String certTime) {
@@ -124,7 +126,7 @@ public class UserModel implements Serializable {
     }
 
     public String getToken() {
-        return token==null?"":token;
+        return token == null ? "" : token;
     }
 
     public void setToken(String token) {
@@ -132,7 +134,7 @@ public class UserModel implements Serializable {
     }
 
     public String getUserid() {
-        return userid==null?"":userid;
+        return userid == null ? "" : userid;
     }
 
     public void setUserid(String userid) {
@@ -140,7 +142,7 @@ public class UserModel implements Serializable {
     }
 
     public String getUserrole() {
-        return userrole==null?"":userrole;
+        return userrole == null ? "" : userrole;
     }
 
     public void setUserrole(String userrole) {
@@ -148,15 +150,20 @@ public class UserModel implements Serializable {
     }
 
     public String getNickname() {
-        return nickname==null?"":nickname;
+        return nickname == null ? "" : nickname;
     }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
     //默认行为不可改0=男 1=女 如果性别是2则表示未填写 未填写默认显示女
     public String getGender() {
-        return Integer.parseInt(gender)==2?"1":gender;
+        if (!TextUtils.isEmpty(gender)) {
+            return Integer.parseInt(gender) == 2 ? "1" : gender;
+        } else {
+            return "1";
+        }
     }
 
     public void setGender(String gender) {
@@ -164,11 +171,11 @@ public class UserModel implements Serializable {
     }
 
     public boolean isHasGender() {
-        return Integer.parseInt(gender)==2?false:true;
+        return Integer.parseInt(gender) == 2 ? false : true;
     }
 
     public String getWeight() {
-        return weight==null?"":weight;
+        return weight == null ? "" : weight;
     }
 
     public void setWeight(String weight) {
@@ -177,7 +184,7 @@ public class UserModel implements Serializable {
 
 
     public String getIsJoin() {
-        return IsJoin==null?"0":IsJoin;
+        return IsJoin == null ? "0" : IsJoin;
     }
 
     public void setIsJoin(String isJoin) {
@@ -185,7 +192,7 @@ public class UserModel implements Serializable {
     }
 
     public String getTodayStepCnt() {
-        return TodayStepCnt==null?"0":TodayStepCnt;
+        return TodayStepCnt == null ? "0" : TodayStepCnt;
     }
 
     public void setTodayStepCnt(String todayStepCnt) {
@@ -193,7 +200,7 @@ public class UserModel implements Serializable {
     }
 
     public String getIsCreatInfo() {
-        return IsCreatInfo==null?"":IsCreatInfo;
+        return IsCreatInfo == null ? "" : IsCreatInfo;
     }
 
     public void setIsCreatInfo(String isCreatInfo) {
