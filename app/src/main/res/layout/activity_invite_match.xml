@@ -22,7 +22,7 @@
             android:text="您邀请客户" />
 
         <TextView
-            android:id="@+id/tv_username"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
@@ -47,7 +47,9 @@
         <LinearLayout
             android:id="@+id/ll_choose_class"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,6 +57,7 @@
                 android:text="班级" />
 
             <TextView
+                android:id="@+id/tv_class_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/img_sp_honor_more"
@@ -81,6 +84,7 @@
                 android:text="小组" />
 
             <TextView
+                android:id="@+id/tv_group_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/img_sp_honor_more"
@@ -97,7 +101,7 @@
             android:background="#EDEEF2" />
 
         <LinearLayout
-            android:id="@+id/ll_choose_character"
+            android:id="@+id/ll_choose_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -107,6 +111,7 @@
                 android:text="角色" />
 
             <TextView
+                android:id="@+id/tv_role_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/img_sp_honor_more"
@@ -133,6 +138,7 @@
                 android:text="目标" />
 
             <TextView
+                android:id="@+id/tv_target_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/img_sp_honor_more"
@@ -173,8 +179,8 @@
                     android:drawableEnd="@drawable/img_sp_honor_more"
                     android:drawablePadding="4dp"
                     android:background="@color/transparent"
-                    android:cursorVisible="false"
                     android:gravity="end"
+                    android:textSize="14sp"
                     android:hint="请输入爱心学员账号"/>
             </LinearLayout>
 
@@ -196,43 +202,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="12dp"
             android:layout_marginBottom="20dp">
 
             <EditText
                 android:id="@+id/edt_code"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"
+                android:layout_weight="9"
                 android:background="@drawable/bg_edt_code"
-                android:hint="请输入4位验证码"
+                android:hint="请输入6位验证码"
                 android:paddingBottom="12dp"
-                android:gravity="center"
+                android:paddingStart="12dp"
+                android:gravity="center_vertical"
                 android:paddingTop="12dp"
-                android:cursorVisible="false" />
+                android:textSize="14sp" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="0.5" />
 
             <Button
-                android:id="@+id/tv_send_code"
+                android:id="@+id/btn_send_code"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:background="#85B330"
+                android:layout_weight="4"
+                android:background="@drawable/bg_create_group_add"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="短信验证" />
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="提交验证"
-            android:background="#F7B93D" />
+            android:background="@drawable/bg_edt_match_submit" />
 
 
     </LinearLayout>

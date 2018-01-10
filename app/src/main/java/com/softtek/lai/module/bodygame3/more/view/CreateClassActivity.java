@@ -97,7 +97,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     TextView mClubName;
     @InjectView(R.id.rl_club_name)
     RelativeLayout mClubNameContent;
-    private Dialog entryGoalDialog;//分享对话框
+    private Dialog entryGoalDialog;
 
 
 
@@ -128,7 +128,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initDatas() {
         clazz = new LaiClass();
-        service = ZillaApi.NormalRestAdapter.create(MoreService.class);
+
         currentYear = DateUtil.getInstance().getCurrentYear();
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();
@@ -164,6 +164,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.fl_right:
                 validateLife.validate();
+                finish();
                 break;
             case R.id.ll_left:
                 finish();
@@ -369,6 +370,10 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             }
         });
         sheetDialog.setContentView(dialogView);
+        if (clubName.size() < 1){
+            Toast.makeText(this,"当前没有俱乐部",Toast.LENGTH_SHORT).show();
+            return;
+        }
         sheetDialog.show();
     }
 

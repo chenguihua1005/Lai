@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.history.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -35,6 +36,7 @@ import com.softtek.lai.module.bodygame3.history.model.DynamicBean;
 import com.softtek.lai.module.bodygame3.history.model.HistoryDetailsBean;
 import com.softtek.lai.module.bodygame3.history.net.HistoryService;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
+import com.softtek.lai.module.customermanagement.view.RestartClassActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -103,6 +105,8 @@ public class ClassInfoActivity extends BaseActivity {
     TextView mRecyclerNoData;
     @InjectView(R.id.honors)
     LinearLayout mGotoHonors;
+    @InjectView(R.id.tv_right)
+    TextView mReStartClass;
 
     private ArrayList<Fragment> classmates;
     private MyFragmentPagerAdapter mViewpagerAdapter;
@@ -552,6 +556,15 @@ public class ClassInfoActivity extends BaseActivity {
         mInfoTitle.setText(historyClassModel.getClassName());
         getClassDynamicInfo();
         getHistoryInfo();
+        mReStartClass.setText("重新开班");
+        mReStartClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ClassInfoActivity.this, RestartClassActivity.class);
+                intent.putExtra("classId", historyClassModel.getClassId());
+                startActivity(intent);
+            }
+        });
     }
 
 }

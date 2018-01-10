@@ -21,7 +21,6 @@ import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
-import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.module.bodygame3.more.view.MoreNoClassFragment;
 import com.softtek.lai.module.bodygame3.more.view.PastReviewActivity;

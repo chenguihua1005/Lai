@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -66,6 +67,10 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         classId = getIntent().getStringExtra("classId");
+        Bundle bundle = new Bundle();
+        bundle.putString("classId",classId);
+        MoreFragment moreFragment = new MoreFragment();
+        moreFragment.setArguments(bundle);
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_honorroll.setOnClickListener(this);
@@ -80,7 +85,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 //        fragments.add(new ChatFragment());
 //        fragments.add(new ContactFragment());
         fragments.add(new ActivityFragment());
-        fragments.add(new MoreFragment());
+        fragments.add(moreFragment);
         content.setOffscreenPageLimit(4);
         adapter = new MainPageAdapter(getSupportFragmentManager(), fragments);
         content.setAdapter(adapter);

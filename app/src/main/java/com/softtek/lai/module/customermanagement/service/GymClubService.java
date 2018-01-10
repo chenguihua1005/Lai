@@ -30,4 +30,10 @@ public interface GymClubService {
     @POST("/v1/Club/InviteClassJointly")
     void inviteClassJointly(@Header("token") String token,
                             @Query("classId") String classId,RequestCallback<ResponseData> callback);
+
+    @POST("/v1/Club/ReplyClassJointly")
+    void replyClassJointly(@Header("token") String token,
+                           @Query("messageId") String messageId,
+                           @Query("status") int status,
+                           RequestCallback<ResponseData> callback);//status:1同意 2拒绝
 }

@@ -66,7 +66,7 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
         adapter = new GroupRecyclerViewAdapter(groupNames, this);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
-        mBack.setVisibility(View.VISIBLE);
+        mBack.setVisibility(View.INVISIBLE);
         mTitle.setText("创建小组");
         mPass.setText("跳过");
         mCreate.setOnClickListener(this);
@@ -114,6 +114,11 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_right:
+                Intent intent = new Intent(CreateGroupActivity.this, ContactsActivity.class);
+                intent.putExtra("classId", classId);
+                intent.putExtra("createClass", true);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.btn_create:
                 showGroupDialog();
@@ -139,6 +144,7 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
                                             intent.putExtra("classId", classId);
                                             intent.putExtra("createClass", true);
                                             startActivity(intent);
+                                            finish();
                                         } else {
                                             Util.toastMsg(responseData.getMsg());
                                         }

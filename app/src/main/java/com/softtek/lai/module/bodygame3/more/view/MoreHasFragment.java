@@ -41,7 +41,6 @@ public class MoreHasFragment extends Fragment {
 
     private List<ClassModel> classModels;
     private ClassModel model;
-
     private DeleteClass deleteClass;
     private int selected;
 
@@ -105,6 +104,7 @@ public class MoreHasFragment extends Fragment {
             }
             tv_number.setText(model.getClassCode());
             choosePanel(role);
+
 
         }
         arrow.setTintColor(R.color.black);

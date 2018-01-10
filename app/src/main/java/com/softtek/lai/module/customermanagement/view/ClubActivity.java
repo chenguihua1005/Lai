@@ -168,13 +168,13 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     }else {
                         mSort.setText("新增市场人员");
                     }
+                nowClubId = clubsBean.getID();
                 }else {
                     Toast.makeText(ClubActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
                 }
                 if (mSwipRefreshView.isRefreshing()) {
                     mSwipRefreshView.setRefreshing(false);
                 }
-                nowClubId = clubsBean.getID();
                 Log.d("maki",nowClubId);
                 recyclerViewAdapter.setClubsBean(clubsBean);
             }

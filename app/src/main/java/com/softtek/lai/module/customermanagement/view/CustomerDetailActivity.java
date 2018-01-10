@@ -124,6 +124,8 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.tv_cancle:
                 Intent matchIntent = new Intent(this,InviteMatchActivity.class);
+                matchIntent.putExtra("customName",tv_title.getText().toString().trim());
+                matchIntent.putExtra("mobile",mobile);
                 startActivity(matchIntent);
                 break;
         }
