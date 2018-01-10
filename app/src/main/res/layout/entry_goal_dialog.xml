@@ -2,21 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialog_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent" >
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
 
     <View
         android:id="@+id/space"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/rl_content"/>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_content" />
 
     <RelativeLayout
         android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white" >
+        android:background="@android:color/white">
 
         <LinearLayout
             android:id="@+id/ll_share_view"
@@ -31,13 +31,13 @@
                 android:layout_height="56dp"
                 android:gravity="center"
                 android:text="选择参赛目标"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
                 android:background="#ccc" />
 
             <TextView
@@ -47,13 +47,13 @@
                 android:gravity="center"
                 android:text="减重"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
                 android:background="#ccc" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:gravity="center"
                 android:text="增重"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -78,12 +78,12 @@
             android:id="@+id/tv_cancel"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:gravity="center_horizontal"
-            android:text="取消"
-            android:textSize="16sp"
-            android:padding="8dp"
             android:layout_below="@+id/login_line"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:text="取消"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </RelativeLayout>

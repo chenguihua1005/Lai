@@ -85,6 +85,9 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     @InjectView(R.id.remark_et)   //备注
             EditText remark_et;
 
+    @InjectView(R.id.linear_remark)//备注需要隐藏
+            LinearLayout linear_remark;
+
     //添加身体围度按钮
 //    @InjectView(R.id.btn_Add_bodydimension)
 //    Button btn_Add_bodydimension;
@@ -152,6 +155,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         tv_right.setText("下一步");
 //        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
         fl_right.setOnClickListener(this);
+
+        linear_remark.setVisibility(View.GONE);
 
     }
 
@@ -279,7 +284,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-        String remark = remark_et.getText().toString();
+//        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
@@ -298,12 +303,11 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-            file.setRemark(remark);
+//            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
                 file.setMobile(mobile);
             }
 
-            Log.i(TAG, "保存数据 = " + new Gson().toJson(file));
             dialogShow("正在提交数据...");
             getPresenter().saveCustomerInfo(file);
         }

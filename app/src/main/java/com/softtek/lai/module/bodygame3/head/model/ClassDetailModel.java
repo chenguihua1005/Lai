@@ -13,6 +13,7 @@ public class ClassDetailModel {
     private String ClassStart;//开班时间
     private String ClassMemberNum;//学员人数
     private String IsSendMsg;//是否发送，1是已发送
+    private int Target;//学员目标 1增重0减重
 
     @Override
     public String toString() {
@@ -26,7 +27,16 @@ public class ClassDetailModel {
                 ", ClassStart='" + ClassStart + '\'' +
                 ", ClassMemberNum='" + ClassMemberNum + '\'' +
                 ", IsSendMsg='" + IsSendMsg + '\'' +
+                ", Target=" + Target +
                 '}';
+    }
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
     }
 
     public String getClassId() {

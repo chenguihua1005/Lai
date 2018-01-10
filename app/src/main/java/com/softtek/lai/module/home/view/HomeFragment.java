@@ -84,6 +84,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 
 /**
@@ -223,7 +224,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         if (v_code < version.getAppVisionCode()) {
             String str = "莱聚+ v " + version.getAppVisionNum() + "版本\n最新的版本！请前去下载。\n更新于：" + version.getUpdateTime();
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            if (!version.isIsImperious()){
+            if (!version.isIsImperious()) {
                 builder.setNegativeButton("稍后更新", null);
             }
             builder.setTitle("版本有更新")
@@ -293,7 +294,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     protected void lazyLoad() {
         //检查新版本更新
         ZillaApi.NormalRestAdapter.create(HomeService.class)
-                .checkNew(vName,new RequestCallback<ResponseData<Version>>() {
+                .checkNew(vName, new RequestCallback<ResponseData<Version>>() {
                     @Override
                     public void success(ResponseData<Version> versionResponseData, Response response) {
                         dialogDissmiss();
@@ -504,31 +505,35 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         } else {
             //如果本身没有该按钮权限则根据不同身份提示用户，进行下一步操作
             AlertDialog.Builder information_dialog;
-            switch (Integer.parseInt(userInfoModel.getUser().getUserrole())) {
-                case Constants.VR:
-                    //游客若没有此功能，可能是未登录，提示请先登录
-                    information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent login = new Intent(getContext(), LoginActivity.class);
-                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(login);
-                        }
-                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).create().show();
-                    break;
-                case Constants.NC:
-                case Constants.INC:
-                case Constants.PC:
-                case Constants.SR:
-                case Constants.SP:
-                    break;
+            if (!TextUtils.isEmpty(userInfoModel.getUser().getUserrole())) {
+                switch (Integer.parseInt(userInfoModel.getUser().getUserrole())) {
+                    case Constants.VR:
+                        //游客若没有此功能，可能是未登录，提示请先登录
+                        information_dialog = new AlertDialog.Builder(getContext());
+                        information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent login = new Intent(getContext(), LoginActivity.class);
+                                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(login);
+                            }
+                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).create().show();
+                        break;
+                    case Constants.NC:
+                    case Constants.INC:
+                    case Constants.PC:
+                    case Constants.SR:
+                    case Constants.SP:
+                        break;
+                }
             }
+
+
         }
 
     }

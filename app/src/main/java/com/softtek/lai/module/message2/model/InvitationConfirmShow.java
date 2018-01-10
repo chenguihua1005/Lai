@@ -29,6 +29,16 @@ public class InvitationConfirmShow {
     private String IntroducerMobile;
     private int ClassStatus;
 
+    private int Target;////学员目标 1增重0减重
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
+    }
+
     public int getClassStatus() {
         return ClassStatus;
     }

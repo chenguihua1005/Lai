@@ -94,6 +94,8 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
     private String inviterHXId;
 
+    private int Target = -1;//0减重1增重
+
     @InjectView(R.id.tip_tv)
     TextView tip_tv;
 
@@ -121,6 +123,7 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 
         invitation.setClassId(classId);
         invitation.setInviterId(invitaterId);
+        invitation.setTarget(-1);
         dialogShow();
         ZillaApi.NormalRestAdapter.create(MoreService.class)
                 .getClassInfoForInvite(classId, UserInfoModel.getInstance().getToken(),
@@ -242,9 +245,11 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
                 } else if (invitation.getClassRole() == 0) {
                     Util.toastMsg("请为用户分配角色");
                     return;
+                } else if (invitation.getTarget() == -1) {
+                    Util.toastMsg("请选择参赛目标");
+                    return;
                 } else {
                     dialogShow(getResources().getString(R.string.Is_sending_a_request));
-
                     ZillaApi.NormalRestAdapter.create(MoreService.class)
                             .sendInviter(UserInfoModel.getInstance().getToken(),
                                     invitation,

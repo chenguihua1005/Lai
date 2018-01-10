@@ -262,6 +262,7 @@
             android:background="#78BC27" />
 
         <LinearLayout
+            android:id="@+id/linear_remark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

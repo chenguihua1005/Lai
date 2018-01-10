@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -7,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,7 +38,6 @@ import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.presenter.PersonDetailPresenter;
 import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
-import com.softtek.lai.module.bodygame3.more.view.FuceAlbumActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -61,6 +63,9 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+import static com.softtek.lai.R.id.view;
+import static com.softtek.lai.R.layout.item;
+
 /**
  * Created by jessica.zhang on 3/30/2017.
  */
@@ -78,8 +83,8 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
     ImageView iv_email;
 
 
-    @InjectView(R.id.ll_weigh)
-    LinearLayout ll_weigh;
+    //    @InjectView(R.id.ll_weigh)
+//    LinearLayout ll_weigh;
     @InjectView(R.id.hlist_dy)
     HorizontalListView hlist_dy;
     @InjectView(R.id.re_hlist_dy)
@@ -95,22 +100,22 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
     TextView tv_angle;//爱心天使姓名
     @InjectView(R.id.tv_love)
     TextView tv_love;//爱心学员
-    @InjectView(R.id.tv_Lossweight)
-    TextView tv_Lossweight;//减重
-    @InjectView(R.id.tv_initWeit)
-    TextView tv_initWeit;//初始体重
+    //    @InjectView(R.id.tv_Lossweight)
+//    TextView tv_Lossweight;//减重
+//    @InjectView(R.id.tv_initWeit)
+//    TextView tv_initWeit;//初始体重
     @InjectView(R.id.tv_chart)
     RelativeLayout tv_chart;
 
     @InjectView(R.id.className_tv)  //班级名称
             TextView className_tv;
 
-    @InjectView(R.id.tv_currenweight)
-    TextView tv_currenweight;
-    @InjectView(R.id.im_InitImage)
-    ImageView im_InitImage;//初始体重图片
-    @InjectView(R.id.im_currenimWeight)
-    ImageView im_currenimWeight;//现在体重图片
+    //    @InjectView(R.id.tv_currenweight)
+//    TextView tv_currenweight;
+//    @InjectView(R.id.im_InitImage)
+//    ImageView im_InitImage;//初始体重图片
+//    @InjectView(R.id.im_currenimWeight)
+//    ImageView im_currenimWeight;//现在体重图片
     //跳转点击
     @InjectView(R.id.tv_dynamic)
     TextView tv_dynamic;//动态
@@ -129,6 +134,11 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
     @InjectView(R.id.im_guanzhu)
     CheckBox im_guanzhu;
 
+    @InjectView(R.id.relative_target)
+    RelativeLayout relative_target;//修改参赛目标
+    @InjectView(R.id.tv_choose_type)//参赛目标
+            TextView tv_choose_type;
+
 
     private List<NewsTopFourModel> newsTopFourModels = new ArrayList<>();
     EasyAdapter<NewsTopFourModel> easyAdapter;
@@ -139,7 +149,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
     private String HXAccountId;//环信id
     private String UserName;
     private String AFriendId;//好友关系id
-    private String ClassId;
+    private String ClassId = "";
     ArrayList<String> images = new ArrayList<>();
     private int issendFriend = 0;
 
@@ -163,7 +173,8 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
         ll_chart.setOnClickListener(this);
         tv_chart.setOnClickListener(this);
         im_guanzhu.setOnClickListener(this);
-        ll_weigh.setOnClickListener(this);
+//        ll_weigh.setOnClickListener(this);
+        relative_target.setOnClickListener(this);
 
 
         ll_news.setOnClickListener(new View.OnClickListener() {
@@ -288,7 +299,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 //                if (!"4".equals(memberInfoModel.getClassRole())) {
 //                    fl_right.setVisibility(View.INVISIBLE);
 //                } else
-                    {
+                {
                     tv_love.setVisibility(View.VISIBLE);
                     tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
                     if (AccountId == userid) {
@@ -298,23 +309,23 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 
                         }
                     }
-                    ll_weigh.setVisibility(View.VISIBLE);
-                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
-                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
-                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
-                    } else {
-                        tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
-                    }
-                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
-                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
+//                    ll_weigh.setVisibility(View.VISIBLE);
+//                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
+//                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
+//                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
+//                    } else {
+//                        tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
+//                    }
+//                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
+//                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
 
-                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
-                    {
-                        Picasso.with(PersonDetailActivity2.this).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
-                    }
-                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-                        Picasso.with(PersonDetailActivity2.this).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
-                    }
+//                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
+//                    {
+//                        Picasso.with(PersonDetailActivity2.this).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
+//                    }
+//                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
+//                        Picasso.with(PersonDetailActivity2.this).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
+//                    }
                 }
 
                 className_tv.setText(memberInfoModel.getClassName());
@@ -409,6 +420,20 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     }
                 }
 
+                //参赛目标
+
+                boolean CanEdit = memberInfoModel.isCanEdit();
+                if (CanEdit) {
+                    relative_target.setEnabled(true);
+                } else {
+                    relative_target.setEnabled(false);
+                }
+                int target = memberInfoModel.getTarget();
+                if (1 == target) {//增重
+                    tv_choose_type.setText("增重");
+                } else {
+                    tv_choose_type.setText("减重");
+                }
 
                 doGetPhotoView();//展示图片
             }
@@ -480,29 +505,17 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     Util.toastMsg("不能给自己发消息！");
                 }
                 break;
-//            case R.id.btn_addguy://添加好友
-//                if ("0".equals(IsFriend)) {//0:不是好友
-//                    if (issendFriend > 0) {//未发送过好友申请
-//                        Util.toastMsg("您已发送过好友申请，请等待确认");
-//                        return;
-//                    } else {
-//                        //参数为要添加的好友的username和添加理由
-//                        sentFriendApply();
-//                    }
-//                }
-//
-//                break;
             case R.id.ll_left:
                 finish();
                 break;
             case R.id.fl_right:
                 titlePopup.show(view);
                 break;
-            case R.id.ll_weigh:
-                Intent intent = new Intent(PersonDetailActivity2.this, FuceAlbumActivity.class);
-                intent.putExtra("account", String.valueOf(memberInfoModel.getAccountid()));
-                startActivity(intent);
-                break;
+//            case ll_weigh:
+//                Intent intent = new Intent(PersonDetailActivity2.this, FuceAlbumActivity.class);
+//                intent.putExtra("account", String.valueOf(memberInfoModel.getAccountid()));
+//                startActivity(intent);
+//                break;
             case R.id.im_guanzhu: {
                 if (im_guanzhu.isChecked()) {
                     getPresenter().doFocusAccount(AccountId);
@@ -512,8 +525,76 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 }
             }
             break;
+
+            case R.id.relative_target:
+                showEntryGoalDialog();
+                break;
         }
 
+    }
+
+    private Dialog entryGoalDialog;
+    private int target = 0;
+
+    private void showEntryGoalDialog() {
+        if (entryGoalDialog == null) {
+            entryGoalDialog = new Dialog(this, R.style.custom_dialog);
+            entryGoalDialog.setCanceledOnTouchOutside(true);
+            Window win = entryGoalDialog.getWindow();
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.x = 120;
+            params.y = 100;
+            assert win != null;
+            win.setAttributes(params);
+            entryGoalDialog.setContentView(R.layout.entry_goal_dialog);
+            final TextView lossWeight = entryGoalDialog.findViewById(R.id.tv_loss_weight);
+            final TextView addWeight = entryGoalDialog.findViewById(R.id.tv_add_weight);
+            lossWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lossWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    addWeight.setTextColor(getResources().getColor(R.color.word));
+//                    tv_choose_type.setText("减重");
+                    target = 0;
+                    dialogDismiss();
+                    dialogShow("请稍候...");
+                    getPresenter().updateClassTarget(AccountId, ClassId, 0);
+                }
+            });
+            addWeight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addWeight.setTextColor(getResources().getColor(R.color.mytoolbar_green));
+                    lossWeight.setTextColor(getResources().getColor(R.color.word));
+                    target = 1;
+                    dialogDismiss();
+                    dialogShow("请稍候...");
+                    getPresenter().updateClassTarget(AccountId, ClassId, 1);
+//                    tv_choose_type.setText("增重");
+                }
+            });
+            entryGoalDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogDismiss();
+                }
+            });
+            entryGoalDialog.findViewById(R.id.space).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDismiss();
+                }
+            });
+        }
+        entryGoalDialog.show();
+    }
+
+    private void dialogDismiss() {
+        if (entryGoalDialog != null && entryGoalDialog.isShowing()) {
+            entryGoalDialog.dismiss();
+        }
     }
 
     @Override
@@ -550,6 +631,22 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
             memberInfoModel.setIsFocus("false");
         } else {
             im_guanzhu.setChecked(false);
+        }
+    }
+
+    /**
+     * 更新参赛目标
+     *
+     * @param flag
+     */
+    @Override
+    public void updataTargetText(int flag) {
+        if (1 == flag) {
+            if (target == 0) {
+                tv_choose_type.setText("减重");
+            } else {
+                tv_choose_type.setText("增重");
+            }
         }
     }
 

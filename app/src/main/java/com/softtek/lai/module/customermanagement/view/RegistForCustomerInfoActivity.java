@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -84,8 +82,8 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
     @InjectView(R.id.remark_et)   //备注
             EditText remark_et;
 
-    @InjectView(R.id.ll_remark)//备注需要隐藏
-            LinearLayout ll_remark;
+    @InjectView(R.id.linear_remark)//备注需要隐藏
+            LinearLayout linear_remark;
 
     //添加身体围度按钮
 //    @InjectView(R.id.btn_Add_bodydimension)
@@ -146,8 +144,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
 
-        ll_remark.setVisibility(View.GONE);
-
+        linear_remark.setVisibility(View.GONE);
 
         ll_left.setOnClickListener(this);
         tv_right.setText("完成");

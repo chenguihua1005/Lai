@@ -61,11 +61,11 @@ public class ClassDetailPresenter extends BasePresenter<ClassDetailPresenter.Cla
                 });
     }
 
-    public void doJoinClass(String classId) {
+    public void doJoinClass(String classId, int target) {
         if (getView() != null) {
             getView().dialogShow("加入班级中");
         }
-        headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, new RequestCallback<ResponseData>() {
+        headService.doPostClass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), classId, target, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status = responseData.getStatus();

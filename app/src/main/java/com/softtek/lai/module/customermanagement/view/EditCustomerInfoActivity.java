@@ -129,6 +129,9 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     @InjectView(R.id.btn_delete)
     Button btn_delete;
 
+    @InjectView(R.id.linear_remark)//备注需要隐藏
+            LinearLayout linear_remark;
+
     //存储用户表单数据
     private CustomerInfoModel file;
     private static final int GET_BODY_DIMENSION = 1;
@@ -156,6 +159,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
 
         fl_right.setOnClickListener(this);
         btn_delete.setOnClickListener(this);
+        linear_remark.setVisibility(View.GONE);
 
     }
 
@@ -166,7 +170,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         isRegistered = getIntent().getBooleanExtra("isRegistered", false);
 
         if (isRegistered) {
-            fl_right.setVisibility(View.VISIBLE);
+            fl_right.setVisibility(View.INVISIBLE);
             ll_nickname.setEnabled(false);
             ll_birth.setEnabled(false);
             ll_sex.setEnabled(false);
@@ -308,7 +312,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-        String remark = remark_et.getText().toString();
+//        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
@@ -326,7 +330,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-            file.setRemark(remark);
+//            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
                 file.setMobile(mobile);
             }

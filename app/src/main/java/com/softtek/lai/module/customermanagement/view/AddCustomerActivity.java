@@ -105,6 +105,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
                     boolean IsDownline = model.isDownline();//是否是下线，true-是，false-否
                     boolean IsRegistered = model.isRegistered();//是否注册，true-是，false-否
                     boolean IsInMyClub = model.isInMyClub();//是否是本俱乐部客户，true-是，false-否
+                    boolean IsMyCustomer = model.isMyCustomer();//是否为自己添加的客户，true-是，false-否
 
 //                    如果已经被锁定且为本人下级直接跳转到个人详情页
                     if (IsLocked && IsDownline) {
@@ -114,7 +115,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
                         startActivity(intent);
                     } else if (IsLocked && !IsDownline) {//如果已经被锁定且不是本人下级，提示添加失败
                         Util.toastMsg(responseData.getMsg());
-                    } else if (IsInMyClub) {//如果已经被本俱乐部录为线索，跳转至个人详情页
+                    } else if (IsMyCustomer) {//如果已经被本俱乐部录为线索，跳转至个人详情页
                         Intent intent = new Intent(AddCustomerActivity.this, CustomerDetailActivity.class);
                         intent.putExtra("mobile", phoneNum);
                         intent.putExtra("isRegistered", IsRegistered);
@@ -123,12 +124,12 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
                         intent.putExtra("mobile", phoneNum);
                         intent.putExtra("needQuery", true);//需要查询基础数据
-                        intent.putExtra("fromAddCustomer",true);
+                        intent.putExtra("fromAddCustomer", true);
                         startActivity(intent);
                     } else if (!IsRegistered) {//如果没有注册跳转到新客户页面
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);
                         intent.putExtra("mobile", phoneNum);
-                        intent.putExtra("fromAddCustomer",true);
+                        intent.putExtra("fromAddCustomer", true);
                         startActivity(intent);
                     }
                 } else {
