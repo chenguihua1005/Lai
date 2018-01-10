@@ -1,13 +1,11 @@
 package com.softtek.lai.module.customermanagement.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +22,7 @@ import com.softtek.lai.utils.RequestCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
@@ -54,7 +53,12 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
         service = ZillaApi.create(GymClubService.class);
         setContentView(R.layout.activity_gym_club);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
         initData();
+        super.onResume();
     }
 
     private void initView() {
@@ -104,9 +108,14 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
     }
 
     private void initData() {
+        dialogShow("加载中...");
+        gymStarts.clear();
+        gymNotStarts.clear();
+        gymEnds.clear();
         service.getClubClasses(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<GymModel>>>() {
             @Override
             public void success(ResponseData<List<GymModel>> listResponseData, Response response) {
+                dialogDismiss();
                 if (listResponseData.getStatus() == 200) {
                     for (int i = 0; i < listResponseData.getData().size();i++ ){
                         if (listResponseData.getData().get(i).getStatus().equals("未开始")){
@@ -123,6 +132,12 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
                 }else {
                     Toast.makeText(GymClubActivity.this,listResponseData.getMsg(),Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+                dialogDismiss();
             }
         });
     }

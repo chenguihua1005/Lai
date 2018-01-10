@@ -60,7 +60,7 @@ public class ChooseClubRecyclerViewAdapter extends RecyclerView.Adapter<ChooseCl
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mClubName = itemView.findViewById(R.id.tv_class_name);
+            mClubName = itemView.findViewById(R.id.tv_club_name);
             mIsSelect = itemView.findViewById(R.id.iv_is_select);
             itemView.setOnClickListener(this);
         }

@@ -27,6 +27,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.service.ClubService;
+import com.softtek.lai.module.customermanagement.service.GymClubService;
 import com.softtek.lai.module.message2.model.OperateMsgModel;
 import com.softtek.lai.module.message2.net.Message2Service;
 import com.softtek.lai.utils.RequestCallback;
@@ -48,7 +49,7 @@ import zilla.libcore.util.Util;
  * 操作类消息
  */
 @InjectLayout(R.layout.activity_message_operator)
-public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener,PullToRefreshBase.OnRefreshListener<ListView>{
+public class MessageOperatorActivity extends BaseActivity implements View.OnClickListener, PullToRefreshBase.OnRefreshListener<ListView> {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -71,24 +72,27 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     CheckBox cb_all;
 
     public boolean isSelsetAll = false;
-    private List<Integer> deleteIndex=new ArrayList<>();
-    private boolean doOperator=false;
+    private List<Integer> deleteIndex = new ArrayList<>();
+    private boolean doOperator = false;
 
     EasyAdapter<OperateMsgModel> adapter;
-    private List<OperateMsgModel> operatList=new ArrayList<>();
+    private List<OperateMsgModel> operatList = new ArrayList<>();
     private AlertDialog.Builder inviteDialogBuilder;
     private AlertDialog inviteDialog;
     private ClubService clubService;
+    private GymClubService gymClubService;
+
     @Override
     protected void initViews() {
         clubService = ZillaApi.NormalRestAdapter.create(ClubService.class);
+        gymClubService = ZillaApi.NormalRestAdapter.create(GymClubService.class);
         tv_title.setText("小助手");
         tv_delete.setOnClickListener(this);
         lin_select.setOnClickListener(this);
         tv_right.setText("编辑");
         fl_right.setOnClickListener(this);
         lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        ILoadingLayout startLabelse = lv.getLoadingLayoutProxy(true,false);
+        ILoadingLayout startLabelse = lv.getLoadingLayoutProxy(true, false);
         startLabelse.setPullLabel("下拉刷新");// 刚下拉时，显示的提示
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
@@ -103,10 +107,10 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
         adapter = new EasyAdapter<OperateMsgModel>(this, operatList, R.layout.item_message_xzs) {
             @Override
             public void convert(ViewHolder holder, final OperateMsgModel data, final int position) {
-                ImageView iv_select=holder.getView(R.id.iv_select);
-                if(doOperator){
+                ImageView iv_select = holder.getView(R.id.iv_select);
+                if (doOperator) {
                     iv_select.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     iv_select.setImageResource(R.drawable.history_data_circle);
                     iv_select.setVisibility(View.GONE);
                 }
@@ -116,24 +120,24 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     iv_select.setImageResource(R.drawable.history_data_circle);
                 }
 
-                TextView tv_time=holder.getView(R.id.tv_time);
+                TextView tv_time = holder.getView(R.id.tv_time);
                 tv_time.setText(data.getSendTime());
-                TextView tv_content=holder.getView(R.id.tv_content);
+                TextView tv_content = holder.getView(R.id.tv_content);
                 tv_content.setText(data.getMsgContent());
                 tv_content.append(" >>");
-                TextView tv_status=holder.getView(R.id.tv_status);
+                TextView tv_status = holder.getView(R.id.tv_status);
                 //显示此条消息的状态
-                if(0==data.getMsgStatus()){
+                if (0 == data.getMsgStatus()) {
                     //未操作
                     tv_status.setText("未处理");
-                }else if(data.getMsgStatus()==1){
+                } else if (data.getMsgStatus() == 1) {
                     //接受
                     tv_status.setText("已同意");
-                }else if(data.getMsgStatus()==2){
+                } else if (data.getMsgStatus() == 2) {
                     //拒绝
                     tv_status.setText("已忽略");
                 }
-                TextView tv_title=holder.getView(R.id.tv_title);
+                TextView tv_title = holder.getView(R.id.tv_title);
                 tv_title.setText(data.getMsgTitle());
                 /*if(data.getMsgtype()==2){
                     tv_title.setText("邀请成为教练");
@@ -144,12 +148,12 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 } else if (data.getMsgtype()==5){
                     tv_title.setText("申请加入班级");
                 }*/
-                ImageView iv_head=holder.getView(R.id.iv_head);
-                if(TextUtils.isEmpty(data.getSenderPhoto())){
+                ImageView iv_head = holder.getView(R.id.iv_head);
+                if (TextUtils.isEmpty(data.getSenderPhoto())) {
                     Picasso.with(MessageOperatorActivity.this).load(R.drawable.img_default).into(iv_head);
-                }else {
+                } else {
                     Picasso.with(MessageOperatorActivity.this)
-                            .load(AddressManager.get("photoHost")+data.getSenderPhoto())
+                            .load(AddressManager.get("photoHost") + data.getSenderPhoto())
                             .fit()
                             .error(R.drawable.img_default)
                             .placeholder(R.drawable.img_default).into(iv_head);
@@ -162,20 +166,20 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int index, long l) {
                 final OperateMsgModel model = operatList.get(index - 1);
-                if(doOperator){
+                if (doOperator) {
                     //正在操作的话
-                    if(model.isSelected()){
-                        isSelsetAll=false;
+                    if (model.isSelected()) {
+                        isSelsetAll = false;
                         cb_all.setChecked(false);
                         model.setSelected(false);
-                        deleteIndex.remove(Integer.valueOf(index-1));
-                    }else {
+                        deleteIndex.remove(Integer.valueOf(index - 1));
+                    } else {
                         model.setSelected(true);
-                        deleteIndex.add(Integer.valueOf(index-1));
-                        if(operatList.size()==deleteIndex.size()){
-                            isSelsetAll=true;
+                        deleteIndex.add(Integer.valueOf(index - 1));
+                        if (operatList.size() == deleteIndex.size()) {
+                            isSelsetAll = true;
                             cb_all.setChecked(true);
-                        }else {
+                        } else {
                             cb_all.setChecked(false);
                         }
                     }
@@ -185,10 +189,10 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 if (5 == model.getMsgtype()) {
                     Intent intent = new Intent(MessageOperatorActivity.this, ExamineActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
-                    intent.putExtra("position",index-1);
+                    intent.putExtra("position", index - 1);
                     startActivityForResult(intent, 10);
                 } else if (6 == model.getMsgtype()) {
-                    if (model.getMsgStatus() != 0 ){
+                    if (model.getMsgStatus() != 0) {
                         return;
                     }
                     inviteDialogBuilder = new AlertDialog.Builder(MessageOperatorActivity.this);
@@ -202,7 +206,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             if (responseData.getStatus() == 200) {
-                                               onRefresh(null);
+                                                onRefresh(null);
                                                 Toast.makeText(MessageOperatorActivity.this, "加入成功", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 Toast.makeText(MessageOperatorActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
@@ -237,15 +241,58 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                             });
 
 //                    if (inviteDialog == null) {
-                        inviteDialog = inviteDialogBuilder.create();
+                    inviteDialog = inviteDialogBuilder.create();
 //                    }
                     inviteDialog.show();
-                }else {
+                } else if (7 == model.getMsgStatus()) {
+                    inviteDialogBuilder = new AlertDialog.Builder(MessageOperatorActivity.this);
+                    inviteDialogBuilder
+                            .setMessage("确定要联合开班吗？")
+                            .setPositiveButton("同意", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, final int i) {
+                                    gymClubService.replyClassJointly(UserInfoModel.getInstance().getToken(), model.getMsgid(), 1, new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            Toast.makeText(MessageOperatorActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
+                                            onRefresh(null);
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            super.failure(error);
+                                        }
+                                    });
+                                    inviteDialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("忽略", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, final int i) {
+                                    gymClubService.replyClassJointly(UserInfoModel.getInstance().getToken(), model.getMsgid(), 2, new RequestCallback<ResponseData>() {
+                                        @Override
+                                        public void success(ResponseData responseData, Response response) {
+                                            Toast.makeText(MessageOperatorActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
+                                            onRefresh(null);
+                                        }
+                                    });
+                                    inviteDialog.dismiss();
+                                }
+                            })
+                            .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    inviteDialog.dismiss();
+                                }
+                            });
+
+                    inviteDialog = inviteDialogBuilder.create();
+                    inviteDialog.show();
+                } else {
                     Intent intent = new Intent(MessageOperatorActivity.this, MessageConfirmActivity.class);
                     intent.putExtra("msgId", model.getMsgid());
-                    intent.putExtra("position",index-1);
+                    intent.putExtra("position", index - 1);
                     startActivityForResult(intent, 10);
-
                 }
             }
         });
@@ -256,30 +303,30 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(lv!=null){
+                if (lv != null) {
                     lv.setRefreshing();
                 }
             }
-        },400);
+        }, 400);
 
     }
 
-    private void onResult(List<OperateMsgModel> data){
-            tv_right.setText("编辑");
-            fl_right.setOnClickListener(this);
-            operatList.clear();
-            operatList.addAll(data);
-            adapter.notifyDataSetChanged();
+    private void onResult(List<OperateMsgModel> data) {
+        tv_right.setText("编辑");
+        fl_right.setOnClickListener(this);
+        operatList.clear();
+        operatList.addAll(data);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10 && resultCode == RESULT_OK) {
-            int position=data.getIntExtra("position",-1);
-            if(position!=-1){
-                int msgStatus=data.getIntExtra("msgStatus",0);
-                OperateMsgModel model=operatList.get(position);
+            int position = data.getIntExtra("position", -1);
+            if (position != -1) {
+                int msgStatus = data.getIntExtra("msgStatus", 0);
+                OperateMsgModel model = operatList.get(position);
                 model.setMsgStatus(msgStatus);
                 adapter.notifyDataSetChanged();
             }
@@ -298,15 +345,15 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fl_right:
-                if(!doOperator){
+                if (!doOperator) {
                     lv.setMode(PullToRefreshBase.Mode.DISABLED);
-                    doOperator=true;
+                    doOperator = true;
                     tv_right.setText("完成");
                     cb_all.setChecked(false);
                     footer.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     lv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-                    doOperator=false;
+                    doOperator = false;
                     tv_right.setText("编辑");
                     footer.setVisibility(View.GONE);
                 }
@@ -314,10 +361,10 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.tv_delete:
                 dialogShow("正在删除");
-                StringBuilder builder=new StringBuilder();
-                for(int i=0,j=deleteIndex.size();i<j;i++){
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0, j = deleteIndex.size(); i < j; i++) {
                     builder.append(operatList.get(deleteIndex.get(i)).getMsgid());
-                    if(i<j-1){
+                    if (i < j - 1) {
                         builder.append(",");
                     }
                 }
@@ -329,13 +376,13 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         dialogDissmiss();
-                                        if(responseData.getStatus()!=200){
+                                        if (responseData.getStatus() != 200) {
                                             return;
                                         }
-                                        Iterator<OperateMsgModel> iterator=operatList.iterator();
-                                        while (iterator.hasNext()){
-                                            OperateMsgModel model=iterator.next();
-                                            if(model.isSelected()){
+                                        Iterator<OperateMsgModel> iterator = operatList.iterator();
+                                        while (iterator.hasNext()) {
+                                            OperateMsgModel model = iterator.next();
+                                            if (model.isSelected()) {
                                                 iterator.remove();
                                             }
 
@@ -343,7 +390,6 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                         deleteIndex.clear();
                                         cb_all.setChecked(false);
                                         adapter.notifyDataSetChanged();
-
 
 
                                     }
@@ -361,14 +407,14 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     isSelsetAll = false;
                     cb_all.setChecked(false);
                     deleteIndex.clear();
-                    for (OperateMsgModel model:operatList){
+                    for (OperateMsgModel model : operatList) {
                         model.setSelected(false);
                     }
                 } else {
                     isSelsetAll = true;
                     cb_all.setChecked(true);
                     deleteIndex.clear();
-                    for (int i=0;i<operatList.size();i++){
+                    for (int i = 0; i < operatList.size(); i++) {
                         operatList.get(i).setSelected(true);
                         deleteIndex.add(Integer.valueOf(i));
                     }
@@ -380,13 +426,13 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(doOperator&&keyCode==KeyEvent.KEYCODE_BACK){
-            doOperator=false;
+        if (doOperator && keyCode == KeyEvent.KEYCODE_BACK) {
+            doOperator = false;
             tv_right.setText("编辑");
             footer.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             return true;
-        }else if(keyCode==KeyEvent.KEYCODE_BACK){
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             setResult(RESULT_OK);
             finish();
             return true;
@@ -405,9 +451,9 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                             public void success(ResponseData<List<OperateMsgModel>> data, Response response) {
                                 try {
                                     lv.onRefreshComplete();
-                                    if(data.getStatus()==200){
+                                    if (data.getStatus() == 200) {
                                         onResult(data.getData());
-                                    }else {
+                                    } else {
                                         Util.toastMsg(data.getMsg());
                                     }
                                 } catch (Exception e) {

@@ -5,9 +5,11 @@ import com.softtek.lai.module.customermanagement.model.ClubCreateResponse;
 import com.softtek.lai.module.customermanagement.model.CustomerListModel;
 import com.softtek.lai.module.customermanagement.model.InviteModel;
 import com.softtek.lai.module.customermanagement.model.PersonnelModel;
+import com.softtek.lai.module.customermanagement.view.RestartClassActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -29,9 +31,12 @@ public interface ClubService {
             RequestCallback<ResponseData<CustomerListModel>> callback
     );
 
+    @FormUrlEncoded
     @POST("/v1/Club/CreateClub")
     void createClub(@Header("token") String token,
-                    @Query("name") String name,
+                    @Field("Name") String name,
+                    @Field("RegionId") int regionId,
+                    @Field("CityId") int cityId,
                     RequestCallback<ResponseData<ClubCreateResponse>> callback);
 
     @POST("/v1/Club/CloseClub")
@@ -84,4 +89,9 @@ public interface ClubService {
                       @Query("status")int status,
                       @Query("IntroducerId")long IntroducerId,
                       RequestCallback<ResponseData> callback);
+
+    @POST("/v1/Club/ReEstablishClass")
+    void reEstablishClass(@Header("token") String token,
+                          @Body RestartClassActivity.PostData postData,
+                          RequestCallback<ResponseData<RestartClassActivity.RestartResponse>> callback);
 }

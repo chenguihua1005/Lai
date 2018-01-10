@@ -65,7 +65,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         tv_title.setText("邀请小伙伴");
         boolean flag=getIntent().getBooleanExtra("createClass",false);
         if(flag){
-            ll_left.setVisibility(View.VISIBLE);
+            ll_left.setVisibility(View.INVISIBLE);
             tv_right.setText("跳过");
             fl_right.setOnClickListener(this);
 //            ll_left.setOnClickListener(new View.OnClickListener() {
