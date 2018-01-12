@@ -62,13 +62,15 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     private boolean isClick = false;
 
     private String classId;
+    private int type;
 
 
     @Override
     protected void initViews() {
         classId = getIntent().getStringExtra("classId");
+
         Bundle bundle = new Bundle();
-        bundle.putString("classId",classId);
+        bundle.putString("classId", classId);
         MoreFragment moreFragment = new MoreFragment();
         moreFragment.setArguments(bundle);
         MobclickAgent.openActivityDurationTrack(false);
@@ -218,8 +220,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -323,9 +323,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-
 
 
 }

@@ -20,7 +20,6 @@ import com.hyphenate.EMError;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.head.view.HonorActivity;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -127,12 +126,18 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RelativeLayout rl_level = (RelativeLayout) view.findViewById(R.id.rl_level);
+        RelativeLayout rl_level = (RelativeLayout) view.findViewById(R.id.rl_level);//减重等级
         rl_level.setOnClickListener(this);
-        RelativeLayout rl_media = (RelativeLayout) view.findViewById(R.id.rl_media);
+        RelativeLayout rl_media = (RelativeLayout) view.findViewById(R.id.rl_media);//我的勋章 暂时不显示
         rl_media.setOnClickListener(this);
-        RelativeLayout rl_exit = (RelativeLayout) view.findViewById(R.id.rl_exit);
+        RelativeLayout rl_exit = (RelativeLayout) view.findViewById(R.id.rl_exit);//退赛
         rl_exit.setOnClickListener(this);
+//        int role = model.getClassRole();
+//        if (role == 2 | role == 3 || role == 4) {
+//            rl_exit.setVisibility(View.VISIBLE);
+//        } else {
+//            rl_exit.setVisibility(View.GONE);
+//        }
 
         RelativeLayout rl_love_student = (RelativeLayout) view.findViewById(R.id.rl_love_student);//爱心学员
         rl_love_student.setOnClickListener(this);
@@ -184,25 +189,6 @@ public class StudentFragment extends Fragment implements View.OnClickListener {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogShow("退出班级");
-//                                new Thread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        try {
-//                                            EMClient.getInstance().groupManager().leaveGroup(model.getHXGroupId());
-//                                            Message msg = new Message();
-//                                            msg.what = 0x0001;
-//                                            handler.sendMessage(msg);
-//                                        } catch (HyphenateException e) {
-//                                            Message msg = new Message();
-//                                            msg.what = 0x0002;
-//                                            msg.arg1 = e.getErrorCode();
-//                                            handler.sendMessage(msg);
-//                                            e.printStackTrace();
-//                                        } catch (Exception e) {
-//                                            e.printStackTrace();
-//                                        }
-//                                    }
-//                                }).start();
 
                                 ZillaApi.NormalRestAdapter.create(MoreService.class)
                                         .existClass(model.getClassId(), UserInfoModel.getInstance().getToken(),

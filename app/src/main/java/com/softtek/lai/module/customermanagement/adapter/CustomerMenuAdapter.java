@@ -18,7 +18,7 @@ public class CustomerMenuAdapter extends BaseAdapter {
     private Context mContext;
 
     private int[] menu_icons = {R.drawable.add_customer, R.drawable.register_account, R.drawable.create_act, R.drawable.tiguanban};
-    private String[] menu_names = {"添加客户", "注册账户", "创建活动", "体馆班"};
+    private String[] menu_names = {"添加客户", "注册账户", "创建活动", "体管班"};
 
     public CustomerMenuAdapter(Context mContext) {
         this.mContext = mContext;

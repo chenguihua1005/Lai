@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/bg_confirm_btn"
+                    android:background="@drawable/bg_tip"
                     android:gravity="center"
                     android:paddingBottom="2dp"
                     android:paddingLeft="5dp"

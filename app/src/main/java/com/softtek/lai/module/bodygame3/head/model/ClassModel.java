@@ -13,13 +13,27 @@ public class ClassModel implements Parcelable{
     private String ClassCode;
     private int ClassRole;//role == 1 ? "总教练" : role == 2 ? "教练" : role == 3 ? "助教" : role == 4 ? "学员"
     private String ClassWeek;
+    private boolean IsWorker;//是否工作人员。true-是，false-否
 
-    public ClassModel(String classId, String className, String classCode, int classRole, String classWeek) {
+    public boolean isWorker() {
+        return IsWorker;
+    }
+
+    public void setWorker(boolean worker) {
+        IsWorker = worker;
+    }
+
+    public static Creator<ClassModel> getCREATOR() {
+        return CREATOR;
+    }
+
+    public ClassModel(String classId, String className, String classCode, int classRole, String classWeek, boolean isWorker) {
         ClassId = classId;
         ClassName = className;
         ClassCode = classCode;
         ClassRole = classRole;
         ClassWeek = classWeek;
+        IsWorker = isWorker;
     }
 
     public ClassModel() {

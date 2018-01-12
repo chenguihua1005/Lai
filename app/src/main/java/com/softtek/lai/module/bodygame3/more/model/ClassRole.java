@@ -11,6 +11,14 @@ public class ClassRole {
     private int RoleId;
     public boolean isSelected;
 
+    public ClassRole() {
+    }
+
+    public ClassRole(String roleName, int roleId) {
+        RoleName = roleName;
+        RoleId = roleId;
+    }
+
     public String getRoleName() {
         return RoleName;
     }

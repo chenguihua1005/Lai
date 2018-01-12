@@ -474,7 +474,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 adapter.notifyDataSetChanged();
 
                                 //本周推荐
-                                if (classinfoModel.getListRec() != null&&!classinfoModel.getListRec().isEmpty()) {
+                                if (classinfoModel.getListRec() != null && !classinfoModel.getListRec().isEmpty()) {
                                     lin_tuijian.setVisibility(View.VISIBLE);
                                     no_tuijian.setVisibility(View.GONE);
                                     iv_imagevideo2.setVisibility(View.VISIBLE);
@@ -589,8 +589,8 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
             case R.id.re_photowall:
                 Intent photowall = new Intent(getContext(), PhotoWallActivity.class);
                 photowall.putExtra("classId", classId_first);
-                if(saveclassModel!=null){
-                    photowall.putExtra("classRole",saveclassModel.getClassRole());
+                if (saveclassModel != null) {
+                    photowall.putExtra("classRole", saveclassModel.getClassRole());
                 }
                 startActivityForResult(photowall, 1);
                 break;
@@ -712,24 +712,29 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 public void convert(ViewHolder holder, ClassModel data, int position) {
                                     ImageView iv_icon = holder.getView(R.id.iv_icon);
                                     boolean selected = tv_title.getSelectedIndex() == position;
-                                    int icon;
+                                    int icon = R.drawable.class_xueyuan;
+
+                                    boolean isWorker = data.isWorker();//是否是俱乐部工作人员，true-是，false-否
+                                    if (isWorker) {
+                                        icon = R.drawable.worker;
+                                    }
                                     switch (data.getClassRole()) {
                                         case 1:
-                                            icon =  R.drawable.class_zongjiaolian;
+                                            icon = R.drawable.class_zongjiaolian;
                                             break;
                                         case 2:
-                                            icon =  R.drawable.class_jiaolian ;
+                                            icon = R.drawable.class_jiaolian;
                                             break;
                                         case 3:
                                             icon = R.drawable.class_zhujiao;
                                             break;
-                                        default:
+                                        case 4:
                                             icon = R.drawable.class_xueyuan;
                                             break;
                                     }
                                     iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
                                     TextView tv_number = holder.getView(R.id.tv_number);
-                                    tv_number.setText("班级编号:"+data.getClassCode());
+                                    tv_number.setText("班级编号:" + data.getClassCode());
                                     TextView tv_class_name = holder.getView(R.id.tv_class_name);
                                     tv_class_name.setText(data.getClassName());
                                     RadioButton iv_sel = holder.getView(R.id.iv_select);
@@ -815,7 +820,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                         }
 
                         //本周推荐
-                        if (classinfoModel.getListRec() != null&&!classinfoModel.getListRec().isEmpty()) {
+                        if (classinfoModel.getListRec() != null && !classinfoModel.getListRec().isEmpty()) {
                             lin_tuijian.setVisibility(View.VISIBLE);
                             no_tuijian.setVisibility(View.GONE);
                             iv_imagevideo2.setVisibility(View.VISIBLE);

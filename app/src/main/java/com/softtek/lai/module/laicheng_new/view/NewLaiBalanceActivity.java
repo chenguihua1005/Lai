@@ -131,7 +131,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE );
+//        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE );
         super.onCreate(savedInstanceState);
         LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
         setContentView(R.layout.activity_laibalance_new);
@@ -195,8 +195,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 gender = 0;
             }
             birthdayString = UserInfoModel.getInstance().getUser().getBirthday();
-
-            height = Integer.valueOf(UserInfoModel.getInstance().getUser().getHight());
+            double heightTemp = Double.valueOf(UserInfoModel.getInstance().getUser().getHight());
+            height = (int) heightTemp;
             userID = String.valueOf(UserInfoModel.getInstance().getUserId());
         } else {
             if (visitorFragment.getVisitorModel() == null) {
@@ -565,7 +565,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void createLinkDialog() {
         deviceListDialog = new DeviceListDialog(this, R.style.ActivityDialogStyle);
-        deviceListDialog.create();
+//        deviceListDialog.create();
         deviceListDialog.setBluetoothDialogListener(new DeviceListDialog.BluetoothDialogListener() {
             @Override
             public void bluetoothDialogClick(final int positions) {
@@ -642,9 +642,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onScan(QNBleDevice qnBleDevice) {
 //                isFindDevice = true;
-                deviceListDialog.addBluetoothDevice(qnBleDevice);
                 if (!deviceListDialog.isShowing()) {
                     deviceListDialog.show();
+                    deviceListDialog.addBluetoothDevice(qnBleDevice);
                 }
                 dialogDismiss();
                 if (connectTimeout != null) {
