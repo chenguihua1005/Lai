@@ -15,12 +15,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.customermanagement.model.CustomerModel;
 import com.softtek.lai.module.laicheng_new.model.CustomerData;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class ChooseCustomerRecyclerViewAdapter extends RecyclerView.Adapter<Choo
     private ItemListener myListener;
     private Context mContext;
 
-    public ChooseCustomerRecyclerViewAdapter(List<CustomerData.ItemsBean> items, ItemListener listener,Context context) {
+    public ChooseCustomerRecyclerViewAdapter(List<CustomerData.ItemsBean> items, ItemListener listener, Context context) {
         myItems = items;
         myListener = listener;
         mContext = context;
@@ -104,13 +101,13 @@ public class ChooseCustomerRecyclerViewAdapter extends RecyclerView.Adapter<Choo
             mCreateTime.setText(builder);
 
             mUsername.setText(item.getName() + "(" + item.getMobile() + ")");
-                mState.setText(item.getTag());
-                if (item.getTag().equals("已注册")) {
-                    mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_registered));
-                }else {
-                    mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_unregistered));
-                }
+            mState.setText(item.getTagName());
+            if (item.getTagName().equals("已注册")) {
+                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_registered));
+            } else {
+                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_unregistered));
             }
+        }
 
         @Override
         public void onClick(View v) {

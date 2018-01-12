@@ -6,7 +6,7 @@ import java.util.List;
 public class CustomerData {
 
     /**
-     * Items : [{"Mobile":"18912356130","Name":"杨峰","Gender":0,"Height":170,"BirthDay":"1990-1-1","Age":27,"Tag":"未注册","Photo":"","Creator":"王肇康","CreatedTime":"2017年11月29日"},{"Mobile":"17706173856","Name":"大白菜","Gender":1,"Height":155,"BirthDay":"1990-11-24","Age":27,"Tag":"未注册","Photo":"","Creator":"王肇康","CreatedTime":"2017年11月24日"}]
+     * Items : [{"Mobile":"18912356130","Name":"杨峰","Gender":0,"Height":170,"BirthDay":"1990-1-1","Age":27,"Tag":false,"TagName":"未注册","Photo":"","Creator":"王肇康","CreatedTime":"2017年11月29日"},{"Mobile":"17706173856","Name":"大白菜","Gender":1,"Height":155,"BirthDay":"1990-11-24","Age":27,"Tag":false,"TagName":"未注册","Photo":"","Creator":"王肇康","CreatedTime":"2017年11月24日"}]
      * PageCount : 1
      */
 
@@ -37,7 +37,8 @@ public class CustomerData {
          * Height : 170
          * BirthDay : 1990-1-1
          * Age : 27
-         * Tag : 未注册
+         * Tag : false
+         * TagName : 未注册
          * Photo :
          * Creator : 王肇康
          * CreatedTime : 2017年11月29日
@@ -49,7 +50,8 @@ public class CustomerData {
         private int Height;
         private String BirthDay;
         private int Age;
-        private String Tag;
+        private boolean Tag;
+        private String TagName;
         private String Photo;
         private String Creator;
         private String CreatedTime;
@@ -102,12 +104,20 @@ public class CustomerData {
             this.Age = Age;
         }
 
-        public String getTag() {
+        public boolean isTag() {
             return Tag;
         }
 
-        public void setTag(String Tag) {
+        public void setTag(boolean Tag) {
             this.Tag = Tag;
+        }
+
+        public String getTagName() {
+            return TagName;
+        }
+
+        public void setTagName(String TagName) {
+            this.TagName = TagName;
         }
 
         public String getPhoto() {

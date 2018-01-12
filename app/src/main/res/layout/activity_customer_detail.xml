@@ -55,7 +55,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_delete"
+            android:id="@+id/tv_test_for_him"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

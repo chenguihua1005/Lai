@@ -45,6 +45,7 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.laicheng.LaibalanceActivity;
 import com.softtek.lai.module.laicheng.VisitorinfoActivity;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
@@ -124,6 +125,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private int algorithmType;
 
     private boolean isReceiveData = true;//重命名对话框弹出的时候是不接受数据的开关
+    private BasicModel model;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -674,6 +676,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
      * 初始化UI
      */
     private void initUi() {
+        model = getIntent().getParcelableExtra("model");
         sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         algorithmType = sharedPreferences.getInt(Contacts.MAKI_STYLE,QNBleApi.ALGORITHM_V1);
         selfFragment = NewSelfFragment.newInstance(null);

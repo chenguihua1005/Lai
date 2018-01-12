@@ -19,6 +19,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.customermanagement.adapter.FragmentAdapter;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
+import com.softtek.lai.module.laicheng_new.view.NewLaiBalanceActivity;
+import com.softtek.lai.module.laicheng_new.view.NewVisitorFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,6 +58,9 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
 
     @InjectView(R.id.tv_cancle)
     TextView mInviteMatch;
+
+    @InjectView(R.id.tv_test_for_him)
+    TextView mGoText;
 
     List<Fragment> fragments = new ArrayList<>();
     FragmentAdapter adapter;
@@ -100,6 +105,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         addremark_tv.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        mGoText.setOnClickListener(this);
     }
 
     //    定义处理接收的方法
@@ -140,6 +146,14 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                     Toast.makeText(this,"您还未注册，请注册后再点击参赛邀请",Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.tv_test_for_him:
+                if (isRegistered){
+                    Intent testIntent = new Intent(this, NewLaiBalanceActivity.class);
+                    testIntent.putExtra("model",model.getBasics());
+                    startActivity(testIntent);
+                }else {
+                    Toast.makeText(this,"您还未注册，请注册后再点击为他测量",Toast.LENGTH_SHORT).show();
+                }
         }
     }
 

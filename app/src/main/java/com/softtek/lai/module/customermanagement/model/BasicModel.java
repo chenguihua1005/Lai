@@ -1,10 +1,13 @@
 package com.softtek.lai.module.customermanagement.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by jessica.zhang on 12/8/2017.
  */
 
-public class BasicModel {
+public class BasicModel implements Parcelable {
     private long AccountId;
     private String Name;
     private String BirthDay;
@@ -16,6 +19,32 @@ public class BasicModel {
     private String Angel;//爱心天使
     private float Height;
     private float Weight;
+
+    protected BasicModel(Parcel in) {
+        AccountId = in.readLong();
+        Name = in.readString();
+        BirthDay = in.readString();
+        Photo = in.readString();
+        Mobile = in.readString();
+        Certification = in.readString();
+        UserRole = in.readString();
+        Gender = in.readString();
+        Angel = in.readString();
+        Height = in.readFloat();
+        Weight = in.readFloat();
+    }
+
+    public static final Creator<BasicModel> CREATOR = new Creator<BasicModel>() {
+        @Override
+        public BasicModel createFromParcel(Parcel in) {
+            return new BasicModel(in);
+        }
+
+        @Override
+        public BasicModel[] newArray(int size) {
+            return new BasicModel[size];
+        }
+    };
 
     public long getAccountId() {
         return AccountId;
@@ -120,5 +149,25 @@ public class BasicModel {
                 ", Height=" + Height +
                 ", Weight=" + Weight +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(AccountId);
+        parcel.writeString(Name);
+        parcel.writeString(BirthDay);
+        parcel.writeString(Photo);
+        parcel.writeString(Mobile);
+        parcel.writeString(Certification);
+        parcel.writeString(UserRole);
+        parcel.writeString(Gender);
+        parcel.writeString(Angel);
+        parcel.writeFloat(Height);
+        parcel.writeFloat(Weight);
     }
 }
