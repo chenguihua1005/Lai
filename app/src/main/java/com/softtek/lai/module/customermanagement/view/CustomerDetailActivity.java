@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -60,6 +61,8 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     FragmentAdapter adapter;
     private String mobile = "";
     private boolean isRegistered;//是否已注册
+    private Fragment basicInfoFragment;
+    private BasicInfoModel model;
 
     @Override
     protected void initViews() {
@@ -76,7 +79,8 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
             tv_right.setText("详情");
         }
 
-        fragments.add(BasicInfoFragment.getInstance(mobile, isRegistered));
+        basicInfoFragment = BasicInfoFragment.getInstance(mobile,isRegistered);
+        fragments.add(basicInfoFragment);
         fragments.add(StatisticsFragment.getInstance(mobile));
         fragments.add(RemarkFragment.getInstance(mobile));
 
@@ -101,6 +105,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     //    //定义处理接收的方法
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void userEventBus(BasicInfoModel model) {
+        this.model = model;
         tv_title.setText(model.getBasics().getName());
     }
 
@@ -124,10 +129,16 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 startActivity(intent);
                 break;
             case R.id.tv_cancle:
-                Intent matchIntent = new Intent(this, InviteMatchActivity.class);
-                matchIntent.putExtra("customName",tv_title.getText().toString().trim());
-                matchIntent.putExtra("mobile",mobile);
-                startActivity(matchIntent);
+                if (isRegistered) {
+                    Intent matchIntent = new Intent(this, InviteMatchActivity.class);
+                    matchIntent.putExtra("customName", tv_title.getText().toString().trim());
+                    matchIntent.putExtra("mobile", mobile);
+                    matchIntent.putExtra("gender", ((BasicInfoFragment) basicInfoFragment).getGender());
+                    matchIntent.putExtra("accountId",model.getBasics().getAccountId());
+                    startActivity(matchIntent);
+                }else {
+                    Toast.makeText(this,"您还未注册，请注册后再点击参赛邀请",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

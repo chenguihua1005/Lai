@@ -2,6 +2,7 @@ package com.softtek.lai.module.customermanagement.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -78,6 +79,8 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
     private Button mSubmit;
     private Disposable timer;
     private int timeIndex;
+    private String gender;
+    private long accountId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +92,8 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
     }
 
     private void initData(){
+        gender = getIntent().getStringExtra("gender");
+        accountId = getIntent().getLongExtra("accountId",0);
         service.getListOfClassesWithDetail(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<InviteMatchModel>>>() {
             @Override
             public void success(ResponseData<List<InviteMatchModel>> inviteMatchModelResponseData, Response response) {
@@ -244,7 +249,7 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
                     mGetCode.setEnabled(false);
                     mGetCode.setTextColor(getResources().getColor(R.color.black));
                     mGetCode.setBackground(getResources().getDrawable(R.drawable.bg_create_group_add2));
-                    mGetCode.setText(timeIndex + "s后重新发送");
+                    mGetCode.setText("重新发送(" + timeIndex + ")");
                     timer = Flowable.interval(1, TimeUnit.SECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Consumer<Long>() {
@@ -259,13 +264,12 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
                                         mGetCode.setTextColor(getResources().getColor(R.color.white));
                                         mGetCode.setBackground(getResources().getDrawable(R.drawable.bg_create_group_add));
                                     } else {
-                                        mGetCode.setText(timeIndex + "s后重新发送");
                                         timeIndex--;
+                                        mGetCode.setText("重新发送(" + timeIndex + ")");
                                     }
                                 }
                             });
                 } else {
-                    mGetCode.setText(timeIndex + "s后重新发送");
                     Toast.makeText(InviteMatchActivity.this, data.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -292,9 +296,14 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
             @Override
             public void success(ResponseData responseData, Response response) {
                 Toast.makeText(InviteMatchActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
-                if (responseData.getStatus() == 200) {
+//                if (responseData.getStatus() == 200) {
+                    Intent intent = new Intent(InviteMatchActivity.this,RewriteTestActivity.class);
+                    intent.putExtra("gender",gender);
+                    intent.putExtra("accountId",accountId);
+                    intent.putExtra("classId",infoDataList.get(classIndex).getClassId());
+                    startActivity(intent);
                     finish();
-                }
+//                }
             }
 
             @Override

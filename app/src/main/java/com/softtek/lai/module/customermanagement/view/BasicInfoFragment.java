@@ -93,6 +93,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     private static String mobile = "";
     private static boolean isRegistered;//是否已注册
 
+
     public static Fragment getInstance(String mobileNum, boolean isRegister) {
         Fragment fragment = new BasicInfoFragment();
         mobile = mobileNum;
@@ -245,5 +246,9 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
             }
         }
     };
+
+    public String getGender(){
+        return basicModel.getGender();
+    }
 
 }

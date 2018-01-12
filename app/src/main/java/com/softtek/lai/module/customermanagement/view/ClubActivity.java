@@ -1,7 +1,6 @@
 package com.softtek.lai.module.customermanagement.view;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ggx.widgets.view.CustomProgress;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -57,6 +55,11 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
     private TextView mAddClub;
     private TextView mSort;
     private LinearLayout mCustomerOperation;
+    private TextView mSelfCustomerSum;
+    private TextView mSelfCustomerToday;
+    private TextView mSelfMarketSum;
+    private TextView mSelfMarketToday;
+
     private MySwipRefreshView mSwipRefreshView;
     private ClueRecyclerViewAdapter recyclerViewAdapter;
     private AlertDialog renameDialog;
@@ -106,6 +109,10 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
         mCustomerOperation = findViewById(R.id.ll_customer_operation);
         mTitleImage = findViewById(R.id.iv_title);
         mTilteContent = findViewById(R.id.ll_title);
+        mSelfCustomerSum = findViewById(R.id.tv_self_customer_sum);
+        mSelfCustomerToday = findViewById(R.id.tv_self_customer_today);
+        mSelfMarketSum = findViewById(R.id.tv_self_market_sum);
+        mSelfMarketToday = findViewById(R.id.tv_self_market_today);
         mSort.setOnClickListener(this);
         mBack.setOnClickListener(this);
         mInvitePersonnel.setOnClickListener(this);
@@ -168,7 +175,11 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                     }else {
                         mSort.setText("新增市场人员");
                     }
-                nowClubId = clubsBean.getID();
+                    nowClubId = clubsBean.getID();
+                    mSelfCustomerSum.setText("" + responseData.getData().getSelf().getTotalCustomer());
+                    mSelfCustomerToday.setText("" + responseData.getData().getSelf().getTodayCustomer());
+                    mSelfMarketSum.setText("" + responseData.getData().getSelf().getTotalMarketingStaff());
+                    mSelfMarketToday.setText("" + responseData.getData().getSelf().getTodayMarketingStaff());
                 }else {
                     Toast.makeText(ClubActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
                 }

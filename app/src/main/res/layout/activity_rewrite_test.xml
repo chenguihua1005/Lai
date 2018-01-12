@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <Button
+        android:id="@+id/btn_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="从客户的健康记录中选择"
+        android:background="@drawable/bg_rewrite_choose"
+        android:layout_margin="24dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="体重" />
+
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/img_sp_honor_more"
+            android:drawablePadding="4dp"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#EDEEF2" />
+
+    <LinearLayout
+        android:id="@+id/ll_body_fat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="体脂率" />
+
+        <TextView
+            android:id="@+id/tv_body_fat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/img_sp_honor_more"
+            android:drawablePadding="4dp"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#EDEEF2" />
+
+    <LinearLayout
+        android:id="@+id/ll_internal_fat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="内脂" />
+
+        <TextView
+            android:id="@+id/tv_internal_fat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/img_sp_honor_more"
+            android:drawablePadding="4dp"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#EDEEF2" />
+</LinearLayout>

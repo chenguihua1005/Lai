@@ -8,15 +8,18 @@ import java.util.List;
 
 public class PersonnelModel {
 
+
     /**
-     * Clubs : [{"ID":1,"Name":"芭提雅"},{"ID":4,"Name":"忆秦园"},{"ID":3,"Name":"宝芝林"},{"ID":2,"Name":"天下会"}]
+     * Clubs : [{"ID":"cc54f8d9-c854-4df6-9633-0024dd4fb3ef","Name":"芭提雅"},{"ID":"e109e224-21df-48c7-8745-0036b4f914be","Name":"忆秦园"},{"ID":"a7fc72d1-54d6-45dc-ac38-003023ebb662","Name":"宝芝林"},{"ID":"7e50c2d8-9ac5-45a7-9c2f-0062d23c9f67","Name":"天下会"}]
      * TotalCustomer : 5
      * TodayCustomer : 4
-     * Workers : [{"AccountId":1018,"Name":"张泽东","Mobile":"13439105043","Photo":null,"TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0},{"AccountId":1020,"Name":"石荣","Mobile":"15101665311","Photo":"201608251109450257524163.png","TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0},{"AccountId":1024,"Name":"毕云超","Mobile":"18608715476","Photo":null,"TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0},{"AccountId":1025,"Name":"郭宝池","Mobile":"13683297719","Photo":"2017_04_08/201704081141345194829936.jpg","TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0},{"AccountId":1027,"Name":"张小明","Mobile":"13551625419","Photo":null,"TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0}]
+     * Workers : [{"AccountId":1018,"Name":"张泽东","Mobile":"13439105043","Photo":null,"TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0},{"AccountId":1020,"Name":"石荣","Mobile":"15101665311","Photo":"201608251109450257524163.png","TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0}]
+     * Self : {"TotalCustomer":0,"TodayCustomer":0,"TotalMarketingStaff":0,"TodayMarketingStaff":0}
      */
 
     private int TotalCustomer;
     private int TodayCustomer;
+    private SelfBean Self;
     private List<ClubsBean> Clubs;
     private List<WorkersBean> Workers;
 
@@ -36,6 +39,14 @@ public class PersonnelModel {
         this.TodayCustomer = TodayCustomer;
     }
 
+    public SelfBean getSelf() {
+        return Self;
+    }
+
+    public void setSelf(SelfBean Self) {
+        this.Self = Self;
+    }
+
     public List<ClubsBean> getClubs() {
         return Clubs;
     }
@@ -52,9 +63,55 @@ public class PersonnelModel {
         this.Workers = Workers;
     }
 
+    public static class SelfBean {
+        /**
+         * TotalCustomer : 0
+         * TodayCustomer : 0
+         * TotalMarketingStaff : 0
+         * TodayMarketingStaff : 0
+         */
+
+        private int TotalCustomer;
+        private int TodayCustomer;
+        private int TotalMarketingStaff;
+        private int TodayMarketingStaff;
+
+        public int getTotalCustomer() {
+            return TotalCustomer;
+        }
+
+        public void setTotalCustomer(int TotalCustomer) {
+            this.TotalCustomer = TotalCustomer;
+        }
+
+        public int getTodayCustomer() {
+            return TodayCustomer;
+        }
+
+        public void setTodayCustomer(int TodayCustomer) {
+            this.TodayCustomer = TodayCustomer;
+        }
+
+        public int getTotalMarketingStaff() {
+            return TotalMarketingStaff;
+        }
+
+        public void setTotalMarketingStaff(int TotalMarketingStaff) {
+            this.TotalMarketingStaff = TotalMarketingStaff;
+        }
+
+        public int getTodayMarketingStaff() {
+            return TodayMarketingStaff;
+        }
+
+        public void setTodayMarketingStaff(int TodayMarketingStaff) {
+            this.TodayMarketingStaff = TodayMarketingStaff;
+        }
+    }
+
     public static class ClubsBean {
         /**
-         * ID : 1
+         * ID : cc54f8d9-c854-4df6-9633-0024dd4fb3ef
          * Name : 芭提雅
          */
 

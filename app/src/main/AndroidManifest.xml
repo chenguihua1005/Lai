@@ -901,6 +901,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".module.customermanagement.view.RestartClassActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".module.customermanagement.view.RewriteTestActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.customermanagement.view.SelectHistoryActivity"
+            android:screenOrientation="portrait"/>
 
 
         <provider

@@ -128,7 +128,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initDatas() {
         clazz = new LaiClass();
-
+        service = ZillaApi.NormalRestAdapter.create(MoreService.class);
         currentYear = DateUtil.getInstance().getCurrentYear();
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();

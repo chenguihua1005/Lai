@@ -326,11 +326,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
                 break;
             case R.id.im_banner:
             case R.id.cir_userphoto:
-                if (R.id.cir_userphoto == view.getId()) {
-                    isUserPhot = true;
-                } else {
-                    isUserPhot = false;
-                }
+                isUserPhot = R.id.cir_userphoto == view.getId();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override

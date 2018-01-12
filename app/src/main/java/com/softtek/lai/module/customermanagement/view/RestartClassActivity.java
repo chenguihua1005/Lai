@@ -229,14 +229,13 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
     private void doRestartClass() {
         postData.setClassId(classId);
         postData.setClassName(mClassText.getText().toString());
+        dialogShow("加载中...");
         clubService.reEstablishClass(UserInfoModel.getInstance().getToken(), postData, new RequestCallback<ResponseData<RestartResponse>>() {
             @Override
             public void success(ResponseData<RestartResponse> data, Response response) {
+                dialogDismiss();
                 if (data.getStatus() == 200) {
-                    Intent intent = new Intent(RestartClassActivity.this, CreateGroupActivity.class);
-                    intent.putExtra("classId", data.getData().getClassId());
-                    intent.putExtra("createClass", true);
-                    startActivity(intent);
+                    showConfirmDialog(data.getData());
                 } else {
                     Toast.makeText(RestartClassActivity.this, data.getMsg(), Toast.LENGTH_SHORT).show();
                 }
@@ -244,9 +243,34 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
 
             @Override
             public void failure(RetrofitError error) {
+                dialogDismiss();
                 super.failure(error);
             }
         });
+    }
+
+    private AlertDialog confirmDialog;
+
+    private void showConfirmDialog(final RestartResponse response) {
+        confirmDialog = new AlertDialog.Builder(this)
+                .setMessage("系统会取所有班级成员中今天最新的一条健康记录作为新班级的初始记录，是否确认开班")
+                .setPositiveButton("同意", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(RestartClassActivity.this, CreateGroupActivity.class);
+                        intent.putExtra("classId", response.getClassId());
+                        intent.putExtra("createClass", true);
+                        confirmDialog.dismiss();
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        confirmDialog.dismiss();
+                    }
+                }).create();
+        confirmDialog.show();
     }
 
     @Override

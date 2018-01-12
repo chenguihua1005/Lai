@@ -93,7 +93,7 @@
             <LinearLayout
                 android:id="@+id/ll_customer"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -165,6 +165,104 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e6e6e6"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="我的统计" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="总意向客户:"
+                            android:textColor="@color/club_personnel" />
+
+                        <TextView
+                            android:id="@+id/tv_self_customer_sum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:textColor="@color/count_personnel" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="今日新增:"
+                            android:textColor="@color/club_personnel" />
+
+                        <TextView
+                            android:id="@+id/tv_self_customer_today"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:textColor="@color/count_personnel" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="总市场人员:"
+                            android:textColor="@color/club_personnel" />
+
+                        <TextView
+                            android:id="@+id/tv_self_market_sum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:textColor="@color/count_personnel" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="今日新增:"
+                            android:textColor="@color/club_personnel" />
+
+                        <TextView
+                            android:id="@+id/tv_self_market_today"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:textColor="@color/count_personnel" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout

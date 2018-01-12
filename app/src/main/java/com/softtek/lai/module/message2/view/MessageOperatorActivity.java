@@ -244,7 +244,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                     inviteDialog = inviteDialogBuilder.create();
 //                    }
                     inviteDialog.show();
-                } else if (7 == model.getMsgStatus()) {
+                } else if (7 == model.getMsgtype()) {
                     inviteDialogBuilder = new AlertDialog.Builder(MessageOperatorActivity.this);
                     inviteDialogBuilder
                             .setMessage("确定要联合开班吗？")
