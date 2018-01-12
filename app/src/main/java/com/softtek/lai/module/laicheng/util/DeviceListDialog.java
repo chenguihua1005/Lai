@@ -41,6 +41,7 @@ public class DeviceListDialog extends Dialog {
     public DeviceListDialog(Context context, int theme) {
         super(context, theme);
         mContext = context;
+        mSharedPreferences = mContext.getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
     }
 
     public DeviceListDialog(Context context) {
@@ -52,7 +53,6 @@ public class DeviceListDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_list);
-        mSharedPreferences = mContext.getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         cTitle = (TextView) findViewById(R.id.title_paired_devices_main_title);
 
         ImageButton closeBtn = (ImageButton) findViewById(R.id.device_list_close);

@@ -352,6 +352,14 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
+        android:text="提醒：性别,生日,身高、体重 一旦保存就无法修改" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"

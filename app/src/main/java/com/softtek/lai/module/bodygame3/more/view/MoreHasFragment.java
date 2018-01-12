@@ -335,7 +335,6 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_change_role:
                 //初始化班级角色
                 classRoleList.clear();
-                classRoleList.add(new ClassRole("总教练", 1));
                 classRoleList.add(new ClassRole("教练", 2));
                 classRoleList.add(new ClassRole("助教", 3));
                 classRoleList.add(new ClassRole("学员", 4));

@@ -74,7 +74,16 @@ public class CustomerAdapter extends BaseAdapter {
         }
 
         holder.name_tv.setText(model.getName());
+
+        boolean tag = model.isTag();
         holder.label_tv.setText(model.getTagName());
+        if (tag) {//已注册
+            holder.label_tv.setTextColor(context.getResources().getColor(R.color.history_chart_text_color));
+            holder.label_tv.setBackground(null);
+        } else {//未注册
+            holder.label_tv.setTextColor(context.getResources().getColor(R.color.white));
+            holder.label_tv.setBackground(context.getResources().getDrawable(R.drawable.bg_tip));
+        }
 
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
