@@ -71,6 +71,7 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
         mPass.setText("跳过");
         mCreate.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
+        mPass.setOnClickListener(this);
     }
 
     private void initData() {
@@ -124,6 +125,10 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
                 showGroupDialog();
                 break;
             case R.id.btn_submit:
+                if (groupNames.size() < 1){
+                    Toast.makeText(this,"请创建一个小组再保存哦",Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < groupNames.size(); i++) {
                     sb.append(groupNames.get(i));

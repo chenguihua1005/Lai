@@ -132,7 +132,8 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
         mGetCode = findViewById(R.id.btn_send_code);
         mSubmit = findViewById(R.id.btn_submit);
         mTitle.setText("参赛邀请");
-        mName.setText(getIntent().getStringExtra("customName"));
+        String nameAndPhone =getIntent().getStringExtra("customName") + "(" +  getIntent().getStringExtra("mobile") + ")";
+        mName.setText(nameAndPhone);
         mBack.setOnClickListener(this);
         mLoveStudent.setOnClickListener(this);
         mChooseClass.setOnClickListener(this);

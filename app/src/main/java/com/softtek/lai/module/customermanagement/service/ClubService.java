@@ -83,11 +83,12 @@ public interface ClubService {
                           @Query("userId") long userId,
                           RequestCallback<ResponseData> callback);
 
-    @GET("/v1/MsgCenter/MakeSureJoin")
+    @POST("/v1/Club/MakeSureJoin")
     void makeSureJoin(@Header("token")String token,
                       @Query("MsgId") String msdId,
                       @Query("status")int status,
                       @Query("IntroducerId")long IntroducerId,
+                      @Query("target") int target,
                       RequestCallback<ResponseData> callback);
 
     @POST("/v1/Club/ReEstablishClass")

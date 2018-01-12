@@ -103,9 +103,11 @@ public class ChooseCustomerRecyclerViewAdapter extends RecyclerView.Adapter<Choo
             mUsername.setText(item.getName() + "(" + item.getMobile() + ")");
             mState.setText(item.getTagName());
             if (item.getTagName().equals("已注册")) {
-                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_registered));
+                mState.setBackground(mContext.getResources().getDrawable(R.drawable.transparent));
+                mState.setTextColor(mContext.getResources().getColor(R.color.history_chart_text_color));
             } else {
-                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_unregistered));
+                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_registered));
+                mState.setTextColor(mContext.getResources().getColor(R.color.white));
             }
         }
 

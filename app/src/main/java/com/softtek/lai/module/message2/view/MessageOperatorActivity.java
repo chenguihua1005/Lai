@@ -202,7 +202,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, final int i) {
                                     inviteDialog.dismiss();
-                                    clubService.makeSureJoin(UserInfoModel.getInstance().getToken(), model.getMsgid(), 1, Long.valueOf(model.getSenderid()), new RequestCallback<ResponseData>() {
+                                    clubService.makeSureJoin(UserInfoModel.getInstance().getToken(), model.getMsgid(), 1, Long.valueOf(model.getSenderid()), 0,new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             if (responseData.getStatus() == 200) {
@@ -219,7 +219,7 @@ public class MessageOperatorActivity extends BaseActivity implements View.OnClic
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, final int i) {
                                     inviteDialog.dismiss();
-                                    clubService.makeSureJoin(UserInfoModel.getInstance().getToken(), model.getMsgid(), -1, Long.valueOf(model.getSenderid()), new RequestCallback<ResponseData>() {
+                                    clubService.makeSureJoin(UserInfoModel.getInstance().getToken(), model.getMsgid(), -1, Long.valueOf(model.getSenderid()),0, new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             if (responseData.getStatus() == 200) {
