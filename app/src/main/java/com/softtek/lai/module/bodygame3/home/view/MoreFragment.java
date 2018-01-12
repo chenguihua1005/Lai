@@ -46,7 +46,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_more)
-public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.DeleteClass,SwipeRefreshLayout.OnRefreshListener{
+public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.DeleteClass, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.refresh)
     SwipeRefreshLayout refresh;
 
@@ -78,24 +78,25 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     }
 
-    private int classCount=0;
+    private int classCount = 0;
     private ClassModel model;
-    private List<ClassModel> classModels=new ArrayList<>();
+    private List<ClassModel> classModels = new ArrayList<>();
     private String classId;
+
     @Override
     protected void lazyLoad() {
         refresh.setRefreshing(true);
         onRefresh();
-        isSelector=false;
+        isSelector = false;
     }
 
     @Override
     protected void onVisible() {
-        if(!classModels.isEmpty()&&isSelector){
-            for (ClassModel classModel:classModels){
-                if(classModel.getClassId().equals(classId)){
-                    model=classModel;
-                    isPrepared=false;
+        if (!classModels.isEmpty() && isSelector) {
+            for (ClassModel classModel : classModels) {
+                if (classModel.getClassId().equals(classId)) {
+                    model = classModel;
+                    isPrepared = false;
                     break;
                 }
             }
@@ -114,7 +115,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         UserModel user = UserInfoModel.getInstance().getUser();
         if (user != null) {
             tv_name.setText(user.getNickname());
-            if(Constants.SP==Integer.parseInt(user.getUserrole())){
+            if (Constants.SP == Integer.parseInt(user.getUserrole())) {
 //                tv_right.setText("开班");
 //                fl_right.setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -127,10 +128,10 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         head_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getContext(), PersonDetailActivity2.class);
-                intent.putExtra("AccountId",UserInfoModel.getInstance().getUserId());
-                if(model!=null){
-                    intent.putExtra("ClassId",model.getClassId());
+                Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
+                intent.putExtra("AccountId", UserInfoModel.getInstance().getUserId());
+                if (model != null) {
+                    intent.putExtra("ClassId", model.getClassId());
                 }
                 startActivity(intent);
             }
@@ -157,9 +158,9 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_join_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(classCount>0&&((String.valueOf(Constants.PC).equals(UserInfoModel.getInstance().getUser().getUserrole()))||
-                        String.valueOf(Constants.NC).equals(UserInfoModel.getInstance().getUser().getUserrole()))){
-                    new AlertDialog.Builder(getContext()).setMessage("学员只能加入一个班级哦").setPositiveButton("确定",null).show();
+                if (classCount > 0 && ((String.valueOf(Constants.PC).equals(UserInfoModel.getInstance().getUser().getUserrole())) ||
+                        String.valueOf(Constants.NC).equals(UserInfoModel.getInstance().getUser().getUserrole()))) {
+                    new AlertDialog.Builder(getContext()).setMessage("学员只能加入一个班级哦").setPositiveButton("确定", null).show();
                     return;
                 }
                 startActivity(new Intent(getContext(), SearchClassActivity.class));
@@ -180,9 +181,9 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         UserModel user = UserInfoModel.getInstance().getUser();
         if (user != null) {
             tv_name.setText(user.getNickname());
-            if (!TextUtils.isEmpty(user.getPhoto())){
-                int px=DisplayUtil.dip2px(getContext(),60);
-                Picasso.with(getContext()).load( AddressManager.get("photoHost")+user.getPhoto()).resize(px,px).centerCrop()
+            if (!TextUtils.isEmpty(user.getPhoto())) {
+                int px = DisplayUtil.dip2px(getContext(), 60);
+                Picasso.with(getContext()).load(AddressManager.get("photoHost") + user.getPhoto()).resize(px, px).centerCrop()
                         .placeholder(R.drawable.img_default)
                         .error(R.drawable.img_default)
                         .into(head_image);
@@ -198,98 +199,98 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @Override
     public void deletClass(int classCount) {
-        if(classCount==0){
+        if (classCount == 0) {
             //没有班级的样式
-            getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commitAllowingStateLoss();
+            getChildFragmentManager().beginTransaction().replace(R.id.fl_container, new MoreNoClassFragment()).commitAllowingStateLoss();
         }
     }
 
     @Override
     public void doSelected(ClassModel model) {
-        this.model=model;
+        this.model = model;
     }
 
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-         if(classCount==0&&clazz.getStatus()==1){
-             classCount+=1;
+        if (classCount == 0 && clazz.getStatus() == 1) {
+            classCount += 1;
             //添加新班级
-             MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
-             Bundle bundle=new Bundle();
-             ArrayList<ClassModel> list=new ArrayList<>();
-             list.add(clazz.getModel());
-             bundle.putParcelableArrayList("class", list);
-             fragment.setArguments(bundle);
-             getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commitAllowingStateLoss();
-        }else if(clazz.getStatus()==2){
-            classCount=classCount-1<0?0:classCount-1;
-         }
+            MoreHasFragment fragment = MoreHasFragment.getInstance(MoreFragment.this);
+            Bundle bundle = new Bundle();
+            ArrayList<ClassModel> list = new ArrayList<>();
+            list.add(clazz.getModel());
+            bundle.putParcelableArrayList("class", list);
+            fragment.setArguments(bundle);
+            getChildFragmentManager().beginTransaction().replace(R.id.fl_container, fragment).commitAllowingStateLoss();
+        } else if (clazz.getStatus() == 2) {
+            classCount = classCount - 1 < 0 ? 0 : classCount - 1;
+        }
     }
 
-    private  boolean isSelector;
+    private boolean isSelector;
+
     @Subscribe
     public void classSelect(SaveClassModel saveClassModel) {
-        isSelector=true;
-        classId=saveClassModel.classId;
+        isSelector = true;
+        classId = saveClassModel.classId;
     }
 
     @Override
     public void onRefresh() {
         ZillaApi.NormalRestAdapter.create(MoreService.class)
-                .getMoreInfo(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId()
-                        , new RequestCallback<ResponseData<List<ClassModel>>>() {
-                            @Override
-                            public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
-                                try {
-                                    refresh.setRefreshing(false);
-                                    classModels.clear();
-                                    if (listResponseData.getData() != null
-                                            && !listResponseData.getData().isEmpty()) {
-                                        classModels.addAll(listResponseData.getData());
-                                        MoreHasFragment fragment=MoreHasFragment.getInstance(MoreFragment.this);
-                                        classCount=listResponseData.getData().size();
-                                        Bundle bundle=new Bundle();
-                                        bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
-                                        if(model!=null){
-                                            //如果有班级说明的在当前页面下拉刷新
-                                            for (ClassModel classModel:listResponseData.getData()){
-                                                if(classModel.getClassId().equals(model.getClassId())){
-                                                    model=classModel;
-                                                    bundle.putParcelable("classModel",model);
-                                                    break;
-                                                }
-                                            }
-                                        }else {
-                                            //第一次没有班级的情况默认选取首页选择的班级
-                                            for (ClassModel classModel:listResponseData.getData()){
-                                                if(classModel.getClassId().equals(classId)){
-                                                    model=classModel;
-                                                    bundle.putParcelable("classModel",model);
-                                                    break;
-                                                }
-                                            }
+                .getMoreInfo(UserInfoModel.getInstance().getToken(), classId, new RequestCallback<ResponseData<List<ClassModel>>>() {
+                    @Override
+                    public void success(ResponseData<List<ClassModel>> listResponseData, Response response) {
+                        try {
+                            refresh.setRefreshing(false);
+                            classModels.clear();
+                            if (listResponseData.getData() != null
+                                    && !listResponseData.getData().isEmpty()) {
+                                classModels.addAll(listResponseData.getData());
+                                MoreHasFragment fragment = MoreHasFragment.getInstance(MoreFragment.this);
+                                classCount = listResponseData.getData().size();
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelableArrayList("class", (ArrayList<ClassModel>) listResponseData.getData());
+                                if (model != null) {
+                                    //如果有班级说明的在当前页面下拉刷新
+                                    for (ClassModel classModel : listResponseData.getData()) {
+                                        if (classModel.getClassId().equals(model.getClassId())) {
+                                            model = classModel;
+                                            bundle.putParcelable("classModel", model);
+                                            break;
                                         }
-                                        fragment.setArguments(bundle);
-                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,fragment).commitAllowingStateLoss();
-                                    }else {
-                                        //没有班级的样式
-                                        classCount=0;
-                                        getChildFragmentManager().beginTransaction().replace(R.id.fl_container,new MoreNoClassFragment()).commitAllowingStateLoss();
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                } else {
+                                    //第一次没有班级的情况默认选取首页选择的班级
+                                    for (ClassModel classModel : listResponseData.getData()) {
+                                        if (classModel.getClassId().equals(classId)) {
+                                            model = classModel;
+                                            bundle.putParcelable("classModel", model);
+                                            break;
+                                        }
+                                    }
                                 }
+                                fragment.setArguments(bundle);
+                                getChildFragmentManager().beginTransaction().replace(R.id.fl_container, fragment).commitAllowingStateLoss();
+                            } else {
+                                //没有班级的样式
+                                classCount = 0;
+                                getChildFragmentManager().beginTransaction().replace(R.id.fl_container, new MoreNoClassFragment()).commitAllowingStateLoss();
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                try {
-                                    refresh.setRefreshing(false);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                super.failure(error);
-                            }
-                        });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        try {
+                            refresh.setRefreshing(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        super.failure(error);
+                    }
+                });
     }
 }

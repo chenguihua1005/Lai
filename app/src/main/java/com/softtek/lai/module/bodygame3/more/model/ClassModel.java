@@ -10,18 +10,52 @@ import java.util.List;
  * 班级模型
  */
 
-public class ClassModel implements Parcelable{
+public class ClassModel implements Parcelable {
 
     private String ClassId;
     private String ClassCode;
     private String ClassName;
     private int ClassRole;//班级角色1:总教练,2:教练,3:助教,4:学员
-    private String ClassMasterName;
+    private String ClassMasterName;//总教练名
     private String HXGroupId;
     private int ClassStatus;//0未开始 1进行中
-    private List<String> ClassMeasureDateList;
-    private String CGId;
-    private String CGName;
+    private List<String> ClassMeasureDateList;//--复测日期
+    private String CGId;//所在组别Id
+    private String CGName;//所在组别名称
+
+
+    private String StartDate;//开班日期
+    private String EndDate;//结班日期
+    private boolean IsWorker;//是否是俱乐部工作人员，true-是，false-否
+
+
+    public String getStartDate() {
+        return StartDate;
+    }
+
+    public void setStartDate(String startDate) {
+        StartDate = startDate;
+    }
+
+    public String getEndDate() {
+        return EndDate;
+    }
+
+    public void setEndDate(String endDate) {
+        EndDate = endDate;
+    }
+
+    public boolean isWorker() {
+        return IsWorker;
+    }
+
+    public void setWorker(boolean worker) {
+        IsWorker = worker;
+    }
+
+    public static Creator<ClassModel> getCREATOR() {
+        return CREATOR;
+    }
 
     public String getCGId() {
         return CGId;
@@ -49,10 +83,10 @@ public class ClassModel implements Parcelable{
         ClassRole = in.readInt();
         ClassMasterName = in.readString();
         ClassMeasureDateList = in.createStringArrayList();
-        HXGroupId=in.readString();
-        ClassStatus=in.readInt();
-        CGId=in.readString();
-        CGName=in.readString();
+        HXGroupId = in.readString();
+        ClassStatus = in.readInt();
+        CGId = in.readString();
+        CGName = in.readString();
     }
 
     public static final Creator<ClassModel> CREATOR = new Creator<ClassModel>() {
