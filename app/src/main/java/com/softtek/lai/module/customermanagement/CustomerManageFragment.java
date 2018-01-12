@@ -1,8 +1,12 @@
 package com.softtek.lai.module.customermanagement;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
@@ -123,8 +127,6 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
             iv_email.setBackgroundResource(R.drawable.club);
 
-            ll_search.setOnClickListener(this);
-            fl_right.setOnClickListener(this);
 
             fragments.add(IntendCustomerFragment.getInstance());
             fragments.add(MarketerListFragment.getInstance());
@@ -134,6 +136,10 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
             tab.setupWithViewPager(container);
         }
 
+        ll_search.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(ALREADY_CERTIFICATION));
 
     }
 
@@ -150,7 +156,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 } else if (position == 1) {
                     Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
                     startActivity(intent);
-                }else if (position == 3){
+                } else if (position == 3) {
                     Intent intent = new Intent(getContext(), GymClubActivity.class);
                     startActivity(intent);
                 }
@@ -225,5 +231,36 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         });
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
+    public static final String ALREADY_CERTIFICATION = "ALREADY_CERTIFICATION";
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equals(ALREADY_CERTIFICATION)) {
+                isLogin = true;
+                lin_is_vr.setVisibility(View.GONE);
+                ll_content.setVisibility(View.VISIBLE);
+
+                iv_email.setBackgroundResource(R.drawable.club);
+
+//                ll_search.setOnClickListener(this);
+//                fl_right.setOnClickListener(this);
+
+                fragments.add(IntendCustomerFragment.getInstance());
+                fragments.add(MarketerListFragment.getInstance());
+
+                adapter = new TypeFragmentAdapter(getChildFragmentManager(), fragments);
+                container.setAdapter(adapter);
+                tab.setupWithViewPager(container);
+
+            }
+        }
+    };
 
 }

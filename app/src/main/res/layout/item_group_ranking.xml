@@ -50,6 +50,13 @@
                     android:textSize="10sp"
                     android:textStyle="bold" />
 
+                <com.softtek.lai.widgets.CircleImageView
+                    android:id="@+id/exi_iv"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
+                    android:src="@drawable/exit_match"
+                    android:visibility="gone" />
+
             </RelativeLayout>
 
         </LinearLayout>
@@ -139,11 +146,11 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:maxLines="1"
                     android:id="@+id/tv_per_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
+                    android:maxLines="1"
                     android:paddingRight="3dp"
                     android:textColor="#ffa200"
                     android:textSize="18sp" />

@@ -102,7 +102,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         ll_left.setOnClickListener(this);
     }
 
-    //    //定义处理接收的方法
+    //    定义处理接收的方法
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void userEventBus(BasicInfoModel model) {
         this.model = model;

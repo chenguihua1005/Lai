@@ -21,6 +21,16 @@ public class ListGroupRankingModel {
 
     private int ClassRole;// 班级角色
 
+    private int Status;//是否退赛的标志  状态 1正常 -1退赛
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
+    }
+
     public int getClassRole() {
         return ClassRole;
     }

@@ -200,6 +200,10 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 } else {
                     tv_aixin_phone.setText("无");
                 }
+
+                mChooseTypeContent.setEnabled(false);
+                rl_aixin.setEnabled(false);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

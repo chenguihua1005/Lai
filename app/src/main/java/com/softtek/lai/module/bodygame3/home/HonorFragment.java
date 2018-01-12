@@ -48,12 +48,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_honor_roll)
 public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements HonorPresenter.HonorView {
 
-//    private List<ClassModel> classModels = new ArrayList<>();
-//    private String classid = "";
-//    private int classrole;
-//    private SaveclassModel saveclassModel;
-
-
     private String ByWhichRatio = "ByWeightRatio";
     private String ClassId = "";
     private String SortTimeType = "ByWeek";
@@ -62,7 +56,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
     private boolean is_first = true;
 
     @InjectView(R.id.list_honorrank)
-    PullToRefreshExpandableListView listHonorrank;//列表  PullToRefreshExpandableListView
+    PullToRefreshExpandableListView listHonorrank;//列表
 
     @InjectView(R.id.ll_no_data)
     LinearLayout ll_no_data;

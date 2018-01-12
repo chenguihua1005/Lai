@@ -156,7 +156,6 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 //        fl_right.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_next_btn));
         fl_right.setOnClickListener(this);
 
-        linear_remark.setVisibility(View.GONE);
 
     }
 
@@ -166,6 +165,13 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         needQuery = getIntent().getBooleanExtra("needQuery", false);
         fromRegistPage = getIntent().getBooleanExtra("fromRegistPage", false);
         fromAddCustomer = getIntent().getBooleanExtra("fromAddCustomer", false);
+
+        linear_remark.setVisibility(View.VISIBLE);
+//        if (fromRegistPage) {
+//            linear_remark.setVisibility(View.GONE);
+//        } else if (fromAddCustomer) {
+        linear_remark.setVisibility(View.VISIBLE);
+//        }
 
         setPresenter(new SaveCustomerPresenter(this));
 
@@ -284,7 +290,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-//        String remark = remark_et.getText().toString();
+        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
             Util.toastMsg("姓名不能超过6个汉字");
@@ -303,7 +309,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-//            file.setRemark(remark);
+            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
                 file.setMobile(mobile);
             }

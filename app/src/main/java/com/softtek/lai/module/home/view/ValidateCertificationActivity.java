@@ -2,6 +2,7 @@ package com.softtek.lai.module.home.view;
 
 
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.KeyEvent;
@@ -39,7 +40,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.activity_validate_certification)
 public class ValidateCertificationActivity extends BaseActivity<CertificationPresenter> implements View.OnClickListener,
-        Validator.ValidationListener,CertificationPresenter.CertificationView{
+        Validator.ValidationListener, CertificationPresenter.CertificationView {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -77,7 +78,10 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
         edit_account.setText("");
         setData();
 
-        Intent intent=new Intent(this, HomeActviity.class);
+        //更新客户管理页面   已认证
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("ALREADY_CERTIFICATION"));
+
+        Intent intent = new Intent(this, HomeActviity.class);
         startActivity(intent);
         finish();
     }
@@ -125,7 +129,7 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
     public void onValidationSucceeded() {
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
-        password = Base64.encodeToString(password.getBytes(),Base64.NO_WRAP);
+        password = Base64.encodeToString(password.getBytes(), Base64.NO_WRAP);
         String memberId = edit_account.getText().toString();
         dialogShow("认证中...");
         getPresenter().validateCertification(memberId, password, account);
@@ -148,13 +152,14 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             startActivity(new Intent(this, HomeActviity.class));
             finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
