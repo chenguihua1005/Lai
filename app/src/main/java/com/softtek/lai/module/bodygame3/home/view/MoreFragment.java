@@ -82,7 +82,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     private int classCount = 0;
     private ClassModel model;
     private List<ClassModel> classModels = new ArrayList<>();
-    private String classId;
+    private String classId = "";
 
     @Override
     protected void lazyLoad() {
@@ -244,7 +244,9 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @Override
     public void onRefresh() {
-
+        if (TextUtils.isEmpty(classId)) {
+            classId = "";
+        }
         ZillaApi.NormalRestAdapter.create(MoreService.class)
                 .getMoreInfo(UserInfoModel.getInstance().getToken(), classId, new RequestCallback<ResponseData<List<ClassModel>>>() {
                     @Override
