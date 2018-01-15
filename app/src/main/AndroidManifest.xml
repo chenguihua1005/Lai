@@ -892,7 +892,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
         <activity android:name=".module.customermanagement.view.GymClubActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity android:name=".module.customermanagement.view.CreateUnionClassActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".module.customermanagement.view.InviteMatchActivity"

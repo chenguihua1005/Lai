@@ -33,7 +33,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_contacts)
-public class ContactsActivity extends BaseActivity implements View.OnClickListener,PullToRefreshBase.OnRefreshListener2<ExpandableListView>{
+public class ContactsActivity extends BaseActivity implements View.OnClickListener, PullToRefreshBase.OnRefreshListener2<ExpandableListView> {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -57,14 +57,15 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     PullToRefreshExpandableListView elv;
     private ContactExpandableAdapter adapter;
 
-    private int pageIndex=1;
-    public static Map<String,List<Contact>> datas=new HashMap<>();
-    private List<String> groups=new ArrayList<>();
+    private int pageIndex = 1;
+    public static Map<String, List<Contact>> datas = new HashMap<>();
+    private List<String> groups = new ArrayList<>();
+
     @Override
     protected void initViews() {
         tv_title.setText("邀请小伙伴");
-        boolean flag=getIntent().getBooleanExtra("createClass",false);
-        if(flag){
+        boolean flag = getIntent().getBooleanExtra("createClass", false);
+        if (flag) {
             ll_left.setVisibility(View.INVISIBLE);
             tv_right.setText("跳过");
             fl_right.setOnClickListener(this);
@@ -77,7 +78,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 //                    startActivity(intent);
 //                }
 //            });
-        }else {
+        } else {
             ll_left.setOnClickListener(this);
         }
         elv.setOnRefreshListener(this);
@@ -87,7 +88,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         //ll_search= (LinearLayout) head.findViewById(R.id.ll_search);
         ll_search.setOnClickListener(this);
         //elv.getRefreshableView().addHeaderView(head);
-        adapter=new ContactExpandableAdapter(this,datas,groups);
+        adapter = new ContactExpandableAdapter(this, datas, groups);
         elv.getRefreshableView().setAdapter(adapter);
         elv.getRefreshableView().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
@@ -100,11 +101,11 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         elv.getRefreshableView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                Contact contact=datas.get(groups.get(i)).get(i1);
-                Intent intent=new Intent(ContactsActivity.this,InvitationSettingActivity.class);
-                intent.putExtra("classId",getIntent().getStringExtra("classId"));
-                intent.putExtra("inviterId",contact.getAccountId());
-                intent.putExtra("inviterHXId",contact.getHXAccountId());
+                Contact contact = datas.get(groups.get(i)).get(i1);
+                Intent intent = new Intent(ContactsActivity.this, InvitationSettingActivity.class);
+                intent.putExtra("classId", getIntent().getStringExtra("classId"));
+                intent.putExtra("inviterId", contact.getAccountId());
+                intent.putExtra("inviterHXId", contact.getHXAccountId());
                 startActivity(intent);
                 return false;
             }
@@ -121,16 +122,16 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             }
 
             @Override
-            public void chooseView(String text,int index) {
+            public void chooseView(String text, int index) {
                 tv_perview.setText(text.trim());
-                if(index==-10){
+                if (index == -10) {
                     elv.post(new Runnable() {
                         @Override
                         public void run() {
                             elv.getRefreshableView().smoothScrollByOffset(0);
                         }
                     });
-                }else {
+                } else {
                     elv.getRefreshableView().setSelectedGroup(index);
                 }
             }
@@ -167,26 +168,26 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    private void onResult(List<Contact> models){
-        if(models==null||models.isEmpty()){
+    private void onResult(List<Contact> models) {
+        if (models == null || models.isEmpty()) {
             return;
         }
-        for (Contact contact:models){
+        for (Contact contact : models) {
             String groupName;
-            if(TextUtils.isEmpty(contact.getUserEn())){
-                groupName="#";
-            }else {
-                groupName=contact.getUserEn().substring(0,1).toUpperCase();
+            if (TextUtils.isEmpty(contact.getUserEn())) {
+                groupName = "#";
+            } else {
+                groupName = contact.getUserEn().substring(0, 1).toUpperCase();
 
             }
-            if(!groups.contains(groupName)){
+            if (!groups.contains(groupName)) {
                 groups.add(groupName);
-                List<Contact> invitatedContacts=new ArrayList<>();
-                datas.put(groupName,invitatedContacts);
+                List<Contact> invitatedContacts = new ArrayList<>();
+                datas.put(groupName, invitatedContacts);
             }
             datas.get(groupName).add(contact);
         }
-        if(groups.contains("#")){
+        if (groups.contains("#")) {
             groups.remove(groups.indexOf("#"));
             groups.add("#");
         }
@@ -199,23 +200,25 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.ll_search:{
-                Intent intent=new Intent(this, SearchContactActivity.class);
-                intent.putExtra("classId",getIntent().getStringExtra("classId"));
+            case R.id.ll_search: {
+                Intent intent = new Intent(this, SearchContactActivity.class);
+                intent.putExtra("classId", getIntent().getStringExtra("classId"));
+                intent.putExtra("createClass", getIntent().getBooleanExtra("createClass", false));
                 startActivity(intent);
             }
-                break;
-            case R.id.fl_right:{
-                Intent intent=new Intent(this, BodyGameActivity.class);
-                intent.putExtra("type",4);
+            break;
+            case R.id.fl_right: {
+                Intent intent = new Intent(this, BodyGameActivity.class);
+                intent.putExtra("classId", getIntent().getStringExtra("classId"));
+                intent.putExtra("type", 4);
                 finish();
                 startActivity(intent);
             }
-                break;
+            break;
         }
     }
 
@@ -235,7 +238,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                             @Override
                             public void success(ResponseData<List<Contact>> data, Response response) {
                                 elv.onRefreshComplete();
-                                if(data.getStatus()==200){
+                                if (data.getStatus() == 200) {
                                     onResult(data.getData());
                                 }
                             }

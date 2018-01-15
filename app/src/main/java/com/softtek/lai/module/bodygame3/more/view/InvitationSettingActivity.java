@@ -203,6 +203,10 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
+                Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
+                intent.putExtra("classId", invitation.getClassId());
+                dialogDissmiss();
+                startActivity(intent);
                 finish();
                 break;
             case R.id.rl_group:
@@ -274,9 +278,10 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
 //                                                contact.setTarget(invitation.getTarget());
                                                 Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
 //                                                intent.putExtra("invitater", contact);
-//                                                intent.putExtra("classId", invitation.getClassId());
+                                                intent.putExtra("classId", invitation.getClassId());
                                                 dialogDissmiss();
                                                 startActivity(intent);
+                                                finish();
 
                                             } else {
                                                 dialogDissmiss();
@@ -438,4 +443,12 @@ public class InvitationSettingActivity extends BaseActivity implements View.OnCl
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(InvitationSettingActivity.this, InvitationListActivity.class);
+        intent.putExtra("classId", invitation.getClassId());
+        dialogDissmiss();
+        startActivity(intent);
+        finish();
+    }
 }

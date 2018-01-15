@@ -157,7 +157,7 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
                 mCalendarText.setText(date);
 //                if (clazz != null) {
                 String date1 = DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd);
-                postData.setStartDate(date1);
+//                postData.setStartDate(date1);
 //                }
 
             }
@@ -229,13 +229,19 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
     private void doRestartClass() {
         postData.setClassId(classId);
         postData.setClassName(mClassText.getText().toString());
+        postData.setStartDate(mCalendarText.getText().toString());
         dialogShow("加载中...");
         clubService.reEstablishClass(UserInfoModel.getInstance().getToken(), postData, new RequestCallback<ResponseData<RestartResponse>>() {
             @Override
             public void success(ResponseData<RestartResponse> data, Response response) {
                 dialogDismiss();
                 if (data.getStatus() == 200) {
-                    showConfirmDialog(data.getData());
+                    Intent intent = new Intent(RestartClassActivity.this, CreateGroupActivity.class);
+                    intent.putExtra("classId", data.getData().getClassId());
+                    intent.putExtra("createClass", true);
+                    confirmDialog.dismiss();
+                    startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(RestartClassActivity.this, data.getMsg(), Toast.LENGTH_SHORT).show();
                 }
@@ -251,17 +257,13 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
 
     private AlertDialog confirmDialog;
 
-    private void showConfirmDialog(final RestartResponse response) {
+    private void showConfirmDialog() {
         confirmDialog = new AlertDialog.Builder(this)
                 .setMessage("系统会取所有班级成员中今天最新的一条健康记录作为新班级的初始记录，是否确认开班")
                 .setPositiveButton("同意", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(RestartClassActivity.this, CreateGroupActivity.class);
-                        intent.putExtra("classId", response.getClassId());
-                        intent.putExtra("createClass", true);
-                        confirmDialog.dismiss();
-                        startActivity(intent);
+                        doRestartClass();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -286,7 +288,8 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
                 showDateDialog();
                 break;
             case R.id.tv_right:
-                doRestartClass();
+//                doRestartClass();
+                showConfirmDialog();
                 break;
             case R.id.ll_left:
                 finish();

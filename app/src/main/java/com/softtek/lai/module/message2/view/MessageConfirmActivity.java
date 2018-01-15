@@ -271,7 +271,7 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                 dialogShow();
                 service.makeSureJoin(UserInfoModel.getInstance().getToken(),
                         msgId,
-                        -1,
+                        2,
                         introducerId, show.getTarget(),
                         new RequestCallback<ResponseData>() {
                             @Override

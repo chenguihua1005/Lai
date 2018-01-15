@@ -166,6 +166,7 @@ public class SearchContactActivity extends BaseActivity implements View.OnClickL
                 intent.putExtra("inviterId", contact.getAccountId());
                 intent.putExtra("inviterHXId", contact.getHXAccountId());
                 startActivity(intent);
+                finish();
             }
         });
     }

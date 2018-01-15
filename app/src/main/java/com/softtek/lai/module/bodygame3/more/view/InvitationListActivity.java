@@ -107,7 +107,9 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
             case R.id.ll_left:{
                 Intent intent=new Intent(this, BodyGameActivity.class);
                 intent.putExtra("type",4);
+                intent.putExtra("classId",classId);
                 startActivity(intent);
+                finish();
             }
                 break;
             case R.id.fl_right:{

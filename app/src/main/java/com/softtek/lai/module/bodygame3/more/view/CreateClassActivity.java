@@ -164,7 +164,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.fl_right:
                 validateLife.validate();
-                finish();
+//                finish();
                 break;
             case R.id.ll_left:
                 finish();

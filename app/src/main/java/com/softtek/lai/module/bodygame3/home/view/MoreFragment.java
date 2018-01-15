@@ -25,6 +25,7 @@ import com.softtek.lai.module.bodygame3.more.view.MoreHasFragment;
 import com.softtek.lai.module.bodygame3.more.view.MoreNoClassFragment;
 import com.softtek.lai.module.bodygame3.more.view.PastReviewActivity;
 import com.softtek.lai.module.bodygame3.more.view.SearchClassActivity;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -155,6 +156,9 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (getArguments().getString("classId") != null) {
+                    startActivity(new Intent(getActivity(), GymClubActivity.class));
+                }
                 getActivity().finish();
             }
         });
@@ -240,6 +244,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @Override
     public void onRefresh() {
+
         ZillaApi.NormalRestAdapter.create(MoreService.class)
                 .getMoreInfo(UserInfoModel.getInstance().getToken(), classId, new RequestCallback<ResponseData<List<ClassModel>>>() {
                     @Override

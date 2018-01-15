@@ -87,7 +87,7 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
                         .placeholder(R.drawable.img_default).into(mPhotoView);
             }
             mClassName.setText(item.getClassName());
-            mCreateTime.setText("创建于：" + item.getCreateDate());
+            mCreateTime.setText(item.getCreatorName() + " 创建于:" + item.getCreateDate());
             if (item.getStatus().equals("已结束")) {
                 model = new HistoryClassModel();
                 model.setClassId(item.getClassId());

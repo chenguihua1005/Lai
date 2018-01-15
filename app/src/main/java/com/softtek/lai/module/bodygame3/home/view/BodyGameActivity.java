@@ -20,6 +20,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
@@ -318,11 +319,14 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            startActivity(new Intent(this, HomeActviity.class));
+            if (classId != null) {
+                startActivity(new Intent(this, GymClubActivity.class));
+            }else {
+                startActivity(new Intent(this, HomeActviity.class));
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 }

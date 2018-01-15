@@ -119,7 +119,6 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
                 intent.putExtra("classId", classId);
                 intent.putExtra("createClass", true);
                 startActivity(intent);
-                finish();
                 break;
             case R.id.btn_create:
                 showGroupDialog();
@@ -149,7 +148,6 @@ public class CreateGroupActivity extends MakiBaseActivity implements View.OnClic
                                             intent.putExtra("classId", classId);
                                             intent.putExtra("createClass", true);
                                             startActivity(intent);
-                                            finish();
                                         } else {
                                             Util.toastMsg(responseData.getMsg());
                                         }
