@@ -37,6 +37,7 @@ import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
 
 import org.joda.time.DateTime;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -129,6 +130,9 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+    @InjectView(R.id.tv_tip)
+    TextView tv_tip;
+
     //存储用户表单数据
     private CustomerInfoModel file;
     private static final int GET_BODY_DIMENSION = 1;
@@ -167,11 +171,11 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         fromAddCustomer = getIntent().getBooleanExtra("fromAddCustomer", false);
 
         linear_remark.setVisibility(View.VISIBLE);
-//        if (fromRegistPage) {
-//            linear_remark.setVisibility(View.GONE);
-//        } else if (fromAddCustomer) {
-        linear_remark.setVisibility(View.VISIBLE);
-//        }
+        if (fromRegistPage) {
+            tv_tip.setVisibility(View.VISIBLE);
+        } else {
+            tv_tip.setVisibility(View.GONE);
+        }
 
         setPresenter(new SaveCustomerPresenter(this));
 

@@ -249,7 +249,7 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
         bundle.putParcelable("class", model);
 
         if (isWorker) {
-            tv_role_name.setText("工作人员");
+//            tv_role_name.setText("工作人员");
             HeadCoachFragment headCoachFragment = new HeadCoachFragment();
             headCoachFragment.setArguments(bundle);
             getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commitAllowingStateLoss();
@@ -448,17 +448,23 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
     int checkedGroup;
     int checkedRole;
 
-    private void updateClassRole(final ClassRole classRole) {
+    private void updateClassRole(final ClassRole classRole_model) {
         dialogShow("请稍候...");
         MoreService service = ZillaApi.NormalRestAdapter.create(MoreService.class);
-        service.updateClassRole(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), model.getClassId(), classRole.getRoleId(), new Callback<ResponseData>() {
+        service.updateClassRole(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), model.getClassId(), classRole_model.getRoleId(), new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 dialogDissmiss();
                 int status = responseData.getStatus();
                 Util.toastMsg(responseData.getMsg());
                 if (200 == status) {
-                    tv_role_name.setText(classRole.getRoleName());
+                    tv_role_name.setText(classRole_model.getRoleName());
+                    classRole = classRole_model.getRoleId();
+                    //添加小组名字
+                    tv_role_name.append("(");
+                    tv_role_name.append(TextUtils.isEmpty(model.getCGName()) ? "未知" : model.getCGName());
+                    tv_role_name.append(")");
+
                 }
             }
 

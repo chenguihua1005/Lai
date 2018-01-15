@@ -132,6 +132,9 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     @InjectView(R.id.linear_remark)//备注需要隐藏
             LinearLayout linear_remark;
 
+    @InjectView(R.id.tv_tip)
+    TextView tv_tip;
+
     //存储用户表单数据
     private CustomerInfoModel file;
     private static final int GET_BODY_DIMENSION = 1;
@@ -168,6 +171,8 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         mobile = getIntent().getStringExtra("mobile");
         needQuery = getIntent().getBooleanExtra("needQuery", false);
         isRegistered = getIntent().getBooleanExtra("isRegistered", false);
+        tv_tip.setVisibility(View.GONE);
+
 
         if (isRegistered) {
             fl_right.setVisibility(View.INVISIBLE);
