@@ -127,6 +127,7 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
         if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(this, BodyGameActivity.class);
             intent.putExtra("type",4);
+            intent.putExtra("classId",classId);
             startActivity(intent);
             return true;
         }
