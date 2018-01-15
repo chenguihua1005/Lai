@@ -171,6 +171,9 @@ public class UserModel implements Serializable {
     }
 
     public boolean isHasGender() {
+        if (TextUtils.isEmpty(gender)) {
+            return false;
+        }
         return Integer.parseInt(gender) == 2 ? false : true;
     }
 

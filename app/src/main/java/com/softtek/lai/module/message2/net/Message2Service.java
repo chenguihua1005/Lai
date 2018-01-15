@@ -104,7 +104,8 @@ public interface Message2Service {
                              Callback<ResponseData<ApplyConfirm>> callback);
 
     //批准/拒绝申请加入班级
-    @POST("/v1/HerbalifeClass/ApproveClassApply")
+//    @POST("/v1/HerbalifeClass/ApproveClassApply")
+    @POST("/v1/club/ApproveClassApply")
     void examine(@Header("token") String token,
                  @Body ApplyModel model,
                  Callback<ResponseData> callback);

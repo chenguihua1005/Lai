@@ -172,9 +172,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         startLabelse.setRefreshingLabel("正在刷新数据");// 刷新时
         startLabelse.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         ILoadingLayout endLabelsr = ptrlv.getLoadingLayoutProxy(false, true);
-        endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
-        endLabelsr.setRefreshingLabel("正在刷新数据");
-        endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
+//        endLabelsr.setPullLabel("上拉加载更多");// 刚下拉时，显示的提示
+//        endLabelsr.setRefreshingLabel("正在刷新数据");
+//        endLabelsr.setReleaseLabel("松开立即刷新");// 下来达到一定距离时，显示的提示
         View headView = View.inflate(getContext(), R.layout.bodygame3_head, null);
         re_photowall = (RelativeLayout) headView.findViewById(R.id.re_photowall);
         honor_lin = (LinearLayout) headView.findViewById(R.id.honor_lin);
@@ -297,25 +297,25 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
         ptrlv.setAdapter(adapter);
         //点击小伙伴进入小伙伴个人详情页
-        ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int index = position - 2;
-                if (index < 0) {
-                    return;
-                }
-                PartnersModel partnersModel = partnersModels.get(position - 2);
-                if (partnersModel.isNotData) {
-                    return;
-                }
-                String stu_id = partnersModel.getAccountId();
-                long stu_ids = Long.parseLong(stu_id);
-                Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
-                intent.putExtra("AccountId", stu_ids);
-                intent.putExtra("ClassId", classId_first);
-                startActivity(intent);
-            }
-        });
+//        ptrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                int index = position - 2;
+//                if (index < 0) {
+//                    return;
+//                }
+//                PartnersModel partnersModel = partnersModels.get(position - 2);
+//                if (partnersModel.isNotData) {
+//                    return;
+//                }
+//                String stu_id = partnersModel.getAccountId();
+//                long stu_ids = Long.parseLong(stu_id);
+//                Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
+//                intent.putExtra("AccountId", stu_ids);
+//                intent.putExtra("ClassId", classId_first);
+//                startActivity(intent);
+//            }
+//        });
 
         //根据不同的班级加载数据
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -463,15 +463,15 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 }
 
                                 //班级赛况
-                                partnersModels.clear();
-                                if (classinfoModel.getPartnersList() != null && !classinfoModel.getPartnersList().isEmpty()) {
-                                    partnersModels.addAll(classinfoModel.getPartnersList());
-                                } else {
-                                    PartnersModel model = new PartnersModel();
-                                    model.isNotData = true;
-                                    partnersModels.add(model);
-                                }
-                                adapter.notifyDataSetChanged();
+//                                partnersModels.clear();
+//                                if (classinfoModel.getPartnersList() != null && !classinfoModel.getPartnersList().isEmpty()) {
+//                                    partnersModels.addAll(classinfoModel.getPartnersList());
+//                                } else {
+//                                    PartnersModel model = new PartnersModel();
+//                                    model.isNotData = true;
+//                                    partnersModels.add(model);
+//                                }
+//                                adapter.notifyDataSetChanged();
 
                                 //本周推荐
                                 if (classinfoModel.getListRec() != null && !classinfoModel.getListRec().isEmpty()) {
@@ -889,15 +889,15 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                             }
                         }
                         //班级赛况
-                        partnersModels.clear();
-                        if (classinfoModel.getPartnersList() != null && !classinfoModel.getPartnersList().isEmpty()) {
-                            partnersModels.addAll(classinfoModel.getPartnersList());
-                        } else {
-                            PartnersModel model = new PartnersModel();
-                            model.isNotData = true;
-                            partnersModels.add(model);
-                        }
-                        adapter.notifyDataSetChanged();
+//                        partnersModels.clear();
+//                        if (classinfoModel.getPartnersList() != null && !classinfoModel.getPartnersList().isEmpty()) {
+//                            partnersModels.addAll(classinfoModel.getPartnersList());
+//                        } else {
+//                            PartnersModel model = new PartnersModel();
+//                            model.isNotData = true;
+//                            partnersModels.add(model);
+//                        }
+//                        adapter.notifyDataSetChanged();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -996,7 +996,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         page++;
-        updatepartner(typecode, 10, page);//按类型分页加载小伙伴
+//        updatepartner(typecode, 10, page);//按类型分页加载小伙伴
     }
 
 

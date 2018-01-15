@@ -72,8 +72,8 @@ public interface MoreService {
                          @Query("PageIndex") int pageIndex,
                          Callback<ResponseData<List<Contact>>> callback);
 
-    //邀请设置
-    @GET("/V1/MoreFunction/GetClassInfoForInvite")
+    //邀请设置 api/v1/Club/GetClassInfoForInviter
+    @GET("/v1/Club/GetClassInfoForInviter")
     void getClassInfoForInvite(@Header("classid") String cId,
                                @Header("token") String token,
                                @Query("ClassId") String classId,
@@ -203,14 +203,15 @@ public interface MoreService {
 
     /**
      * 变更班级角色
-     *
+     *api/v1/Club/UpdateClassRole
      * @param token
      * @param accountId
      * @param classId
      * @param classRole
      * @param callback
      */
-    @GET("/v1/club/AlterClassMemberRole")
+//    @FormUrlEncoded
+    @POST("/v1/Club/UpdateClassRole")
     void updateClassRole(
             @Header("token") String token,
             @Query("accountId") long accountId,
