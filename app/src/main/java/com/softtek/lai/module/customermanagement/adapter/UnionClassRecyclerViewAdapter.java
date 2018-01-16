@@ -107,9 +107,11 @@ public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionCla
             } else if (item.getStatus() == 1) {
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
                 mStatus.setText("已同意");
+                mStatus.setEnabled(false);
             } else if (item.getStatus() == 0) {
                 mStatus.setText("待处理");
                 mStatus.setBackground(mContext.getResources().getDrawable(R.drawable.bg_invite_club_clicked));
+                mStatus.setEnabled(false);
             }
             mStatus.setOnClickListener(new View.OnClickListener() {
                 @Override

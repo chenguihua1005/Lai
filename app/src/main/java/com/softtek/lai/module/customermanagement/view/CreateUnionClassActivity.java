@@ -53,12 +53,12 @@ public class CreateUnionClassActivity extends MakiBaseActivity implements View.O
         initData("");
     }
 
-    private void initData(String className){
+    private void initData(final String className){
         service.getListOfClassJointly(UserInfoModel.getInstance().getToken(), className, 1, 999, new RequestCallback<ResponseData<UnionClassModel>>() {
             @Override
             public void success(ResponseData<UnionClassModel> unionData, Response response) {
                 if (unionData.getStatus() == 200){
-                    if (unionData.getData().getItems().size() < 1){
+                    if (unionData.getData().getItems().size() < 1 && !className.equals("")){
                         Toast.makeText(CreateUnionClassActivity.this,"搜索不到相应班级,请重新输入后再试",Toast.LENGTH_SHORT).show();
                     }else {
                         unionClassModelList.addAll(unionData.getData().getItems());

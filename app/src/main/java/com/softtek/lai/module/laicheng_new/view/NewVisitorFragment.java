@@ -453,8 +453,8 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                     tv_bmi.setText("- -");
                     tv_internal_fat_rate.setText("- -");
                 }
-                linkListener.onLinkVisitorListener();
                 setNeedReconnect(true);
+                linkListener.onLinkVisitorListener();
             }
         }
     }
