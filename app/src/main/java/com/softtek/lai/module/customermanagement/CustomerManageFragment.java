@@ -162,8 +162,10 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                     Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
                     startActivity(intent);
                 } else if (position == 3) {
-                    Intent intent = new Intent(getContext(), GymClubActivity.class);
-                    startActivity(intent);
+                    if (HasClub) {
+                        Intent intent = new Intent(getContext(), GymClubActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });

@@ -217,15 +217,16 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
             int IsSend = Integer.parseInt(classDetailModel.getIsSendMsg());
             switch (IsSend) {
                 case 0:
+                    mChooseType.setText("请选择参赛目标");
                     break;
-                case 1:
+                case 1://您已发送过加入班级申请了， 请耐心等待总教练审核吧
                     //是，隐藏申请按钮,勾选框不可点击选择，显示提示信息文本
                     btn_joinclass.setVisibility(View.GONE);
                     cb_term.setEnabled(false);
                     tv_tip.setVisibility(View.VISIBLE);
                     rl_choose_type.setEnabled(false);//参赛目标不能选择
                     break;
-                case 2:
+                case 2://您已在班级中,无法再次加入
                     //是，隐藏申请按钮,勾选框不可点击选择，显示提示信息文本:您已在班级中,无法再次加入
                     btn_joinclass.setVisibility(View.GONE);
                     cb_term.setEnabled(false);
