@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -98,6 +99,9 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     String token = "";
     String certification = "";
 
+    boolean HasClub;
+    boolean HasAuthorityOfCreate;
+
     @Override
     protected void initViews() {
         tv_title.setText("客户管理");
@@ -139,13 +143,14 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
         ll_search.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
+
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(ALREADY_CERTIFICATION));
 
     }
 
     @Override
     protected void initDatas() {
-        menuAdapter = new CustomerMenuAdapter(getContext());
+        menuAdapter = new CustomerMenuAdapter(getContext(), HasClub);
         menu_gv.setAdapter(menuAdapter);
         menu_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -157,11 +162,15 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                     Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
                     startActivity(intent);
                 } else if (position == 3) {
-                    Intent intent = new Intent(getContext(), GymClubActivity.class);
-                    startActivity(intent);
+                    if (HasClub) {
+                        Intent intent = new Intent(getContext(), GymClubActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });
+
+        judgeClubAuthority();//获取用户权限
 
 
     }
@@ -182,7 +191,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 startActivity(intent);
                 break;
             case R.id.fl_right:
-                judgeClubAuthority();
+                dealWithClub();
                 break;
             case R.id.but_login:
                 if (StringUtils.isEmpty(token)) {
@@ -199,6 +208,18 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
     }
 
+    private void dealWithClub() {
+        if (HasClub) {
+            Intent intent = new Intent(getContext(), ClubActivity.class);
+            intent.putExtra("maki", HasAuthorityOfCreate);//是否有权限修改俱乐部
+            startActivity(intent);
+        } else if (HasAuthorityOfCreate) {
+            Intent intent = new Intent(getContext(), CreateClubActivity.class);
+            intent.putExtra("maki_isfirst", true);//是不是没有俱乐部第一次创建
+            startActivity(intent);
+        }
+    }
+
 
     private void judgeClubAuthority() {
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
@@ -208,17 +229,10 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 int status = responseData.getStatus();
                 if (200 == status) {
                     ClubAuthorityModel model = responseData.getData();
-                    boolean HasClub = model.isHasClub();//是否有俱乐部
-                    boolean HasAuthorityOfCreate = model.isHasAuthorityOfCreate();
-                    if (HasClub) {
-                        Intent intent = new Intent(getContext(), ClubActivity.class);
-                        intent.putExtra("maki", HasAuthorityOfCreate);//是否有权限修改俱乐部
-                        startActivity(intent);
-                    } else if (HasAuthorityOfCreate) {
-                        Intent intent = new Intent(getContext(), CreateClubActivity.class);
-                        intent.putExtra("maki_isfirst", true);//是不是没有俱乐部第一次创建
-                        startActivity(intent);
-                    }
+                    HasClub = model.isHasClub();//是否有俱乐部
+                    HasAuthorityOfCreate = model.isHasAuthorityOfCreate();
+
+                    menuAdapter.updateData(HasClub);
                 } else {
                     Util.toastMsg(responseData.getMsg());
                 }
