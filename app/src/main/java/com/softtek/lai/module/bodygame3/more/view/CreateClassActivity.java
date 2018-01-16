@@ -5,16 +5,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +30,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
+import com.softtek.lai.module.bodygame3.more.adapter.ListRecyclerViewAdapter;
 import com.softtek.lai.module.bodygame3.more.model.ClassModel;
 import com.softtek.lai.module.bodygame3.more.model.LaiClass;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -38,7 +39,6 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.BottomSheetDialog;
-
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -98,7 +98,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.rl_club_name)
     RelativeLayout mClubNameContent;
     private Dialog entryGoalDialog;
-
+    private ListRecyclerViewAdapter adapter;
+    private AlertDialog clubDialog;
+    private List<String> clubName = new ArrayList<>();
 
 
     int currentYear;
@@ -148,6 +150,17 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 super.failure(error);
             }
         });
+
+        adapter = new ListRecyclerViewAdapter(clubName, new ListRecyclerViewAdapter.ItemListener() {
+            @Override
+            public void onItemClick(String item, View view, int i) {
+                mClubName.setText(clubName.get(i));
+                adapter.setIndex(i);
+                adapter.notifyDataSetChanged();
+                clazz.setClubId(clubs.get(i).getClubId());
+                clubDialog.dismiss();
+            }
+        }, this);
     }
 
     @Override
@@ -348,33 +361,27 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-    MakiBottomDialog sheetDialog;
-    List<String> clubName;
+
     private void showClubNameDialog() {
-        sheetDialog = new MakiBottomDialog(this);
-        View dialogView = LayoutInflater.from(this)
-                .inflate(R.layout.dialog_bottom_sheet, null);
-        ListView listView = dialogView.findViewById(R.id.lv_content);
-        clubName = new ArrayList<>();
-        for (int i = 0;i < clubs.size();i++){
+        clubName.clear();
+        for (int i = 0; i < clubs.size(); i++) {
             clubName.add(clubs.get(i).getClubName());
         }
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, clubName);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mClubName.setText(((TextView)view).getText().toString());
-                clazz.setClubId(clubs.get(i).getClubId());
-                sheetDialog.dismiss();
-            }
-        });
-        sheetDialog.setContentView(dialogView);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_list, null);
+        RecyclerView recyclerView = dialogView.findViewById(R.id.rcv_content);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        clubDialog = new AlertDialog.Builder(this).create();
+        clubDialog.setView(dialogView, 0, 0, 0, 0);
         if (clubName.size() < 1){
             Toast.makeText(this,"当前没有俱乐部",Toast.LENGTH_SHORT).show();
             return;
         }
-        sheetDialog.show();
+        if (!clubDialog.isShowing()) {
+            clubDialog.show();
+        }
     }
 
     @Override
