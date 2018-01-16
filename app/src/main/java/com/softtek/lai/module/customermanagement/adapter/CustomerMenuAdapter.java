@@ -19,9 +19,16 @@ public class CustomerMenuAdapter extends BaseAdapter {
 
     private int[] menu_icons = {R.drawable.add_customer, R.drawable.register_account, R.drawable.create_act, R.drawable.tiguanban};
     private String[] menu_names = {"添加客户", "注册账户", "创建活动", "体管班"};
+    private boolean hasClub;
 
-    public CustomerMenuAdapter(Context mContext) {
+    public CustomerMenuAdapter(Context mContext, boolean HasClub) {
         this.mContext = mContext;
+        this.hasClub = HasClub;
+    }
+
+    public void updateData(boolean HasClub) {
+        this.hasClub = HasClub;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -51,19 +58,17 @@ public class CustomerMenuAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.menu_icon.setImageResource(menu_icons[i]);
+        if (i == 3) {
+            if (!hasClub) {
+                holder.menu_icon.setImageResource(R.drawable.tiguanban_gray);
+            } else {
+                holder.menu_icon.setImageResource(R.drawable.tiguanban);
+            }
+        } else {
+            holder.menu_icon.setImageResource(menu_icons[i]);
+        }
         holder.menu_name.setText(menu_names[i]);
-//        if (1 == i) {
-//            if (count > 0) {
-//                holder.unread_msg_number.setVisibility(View.VISIBLE);
-//                holder.unread_msg_number.setText(String.valueOf(count));
-//            } else {
-//                holder.unread_msg_number.setVisibility(View.GONE);
-//            }
-//        }
-//        if (3 == i) {
-//            holder.shuxian.setVisibility(View.GONE);
-//        }
+
         return view;
     }
 
