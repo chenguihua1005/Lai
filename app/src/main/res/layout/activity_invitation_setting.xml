@@ -163,12 +163,13 @@
                     android:id="@+id/tv_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
                     android:hint="请选择"
                     android:textColor="#333333"
+                    android:gravity="end"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -202,6 +203,7 @@
                     android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
                     android:hint="请选择"
+                    android:gravity="end"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -236,6 +238,7 @@
                     android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
                     android:hint="请选择"
+                    android:gravity="end"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
