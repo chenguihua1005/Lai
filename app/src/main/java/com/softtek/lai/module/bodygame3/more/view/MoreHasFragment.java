@@ -229,6 +229,10 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
                 }
 
                 boolean isWorker = model.isWorker();
+                //没有角色的是工作人员的就显示工作人员
+                if (role != 1 && role != 2 && role != 3 && role != 4 && isWorker) {
+                    tv_role_name.setText("工作人员");
+                }
                 choosePanel(isWorker);
             }
         });

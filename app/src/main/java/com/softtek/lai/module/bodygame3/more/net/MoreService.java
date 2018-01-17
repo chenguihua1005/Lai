@@ -139,13 +139,13 @@ public interface MoreService {
                             @Query("classId") String classId,
                             Callback<ResponseData<List<FuceDate>>> callback);
 
-    //修改复测日期
-    @GET("/V1/MoreFunction/UpdateMeasureDate")
+    //修改复测日期   api/v1/Club/UpdateMeasureDate
+    @POST("/v1/Club/UpdateMeasureDate")
     void updateMeasureDate(@Header("classid") String cId,
                            @Header("token") String token,
-                           @Query("ClassId") String classId,
-                           @Query("WeekNum") int weekNum,
-                           @Query("MeasureDate") String date,
+                           @Query("classId") String classId,
+                           @Query("week") int weekNum,
+                           @Query("date") String date,
                            Callback<ResponseData> callback);
 
     //获取班级人员管理
@@ -203,7 +203,8 @@ public interface MoreService {
 
     /**
      * 变更班级角色
-     *api/v1/Club/UpdateClassRole
+     * api/v1/Club/UpdateClassRole
+     *
      * @param token
      * @param accountId
      * @param classId

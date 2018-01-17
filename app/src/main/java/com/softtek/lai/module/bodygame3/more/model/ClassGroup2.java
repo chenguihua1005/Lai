@@ -12,8 +12,18 @@ public class ClassGroup2 {
 
     private String ClassGroupName;
     private String ClassGoupId;
-    private int GrouperCount;
+    private int GrouperCount;//班级小组人数
     private List<ClassManagerListBean> ClassManagerList;
+
+    private boolean CanBeDeleted;//是否可以删除，true-可以，false-不可以
+
+    public boolean isCanBeDeleted() {
+        return CanBeDeleted;
+    }
+
+    public void setCanBeDeleted(boolean canBeDeleted) {
+        CanBeDeleted = canBeDeleted;
+    }
 
     public String getClassGroupName() {
         return ClassGroupName;
