@@ -104,11 +104,17 @@ public class UpdateFuceTimeActivity extends BaseActivity{
                     holder=ViewHolder.get(UpdateFuceTimeActivity.this,
                             R.layout.item_fuce_time,
                             convertView,parent);
-                    TextView tv_lable=holder.getView(R.id.tv_lable);
-                    ImageView iv_icon=holder.getView(R.id.iv_icon);
+                    TextView tv_lable=holder.getView(R.id.tv_lable);//进行中文字
+                    ImageView iv_icon=holder.getView(R.id.iv_icon);//可编辑图标
                     if(type==IS_EQ){
                         tv_lable.setVisibility(View.VISIBLE);
                         iv_icon.setVisibility(View.GONE);
+                        holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                showDateDialog(position);
+                            }
+                        });
                     }else {
                         tv_lable.setVisibility(View.GONE);
                         iv_icon.setVisibility(View.VISIBLE);
