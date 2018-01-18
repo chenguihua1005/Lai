@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -56,7 +60,7 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
     private List<String> classNames = new ArrayList<>();
     private List<String> classGroups = new ArrayList<>();
     private List<String> classRoles = new ArrayList<>();
-    private MakiBottomDialog bottomDialog;
+    private BottomSheetDialog bottomDialog;
     private LinearLayout mChooseClass;
     private TextView mClassName;
     private LinearLayout mChooseGroup;
@@ -136,6 +140,7 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
         mGetCode = findViewById(R.id.btn_send_code);
         mSubmit = findViewById(R.id.btn_submit);
         mTitle.setText("参赛邀请");
+        mLoveStudent.setText(UserInfoModel.getInstance().getUser().getMobile());
         String nameAndPhone =getIntent().getStringExtra("customName") + "(" +  getIntent().getStringExtra("mobile") + ")";
         mName.setText(nameAndPhone);
         mBack.setOnClickListener(this);
@@ -291,6 +296,10 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
             Toast.makeText(InviteMatchActivity.this, "请先输入验证码", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (mClassName.getText().toString().equals("") | mGroupName.getText().toString().equals("") |mRoleName.getText().toString().equals("")){
+            Toast.makeText(InviteMatchActivity.this, "请先填写完整之后再点击提交验证", Toast.LENGTH_SHORT).show();
+            return;
+        }
         postData.setMobile(getIntent().getStringExtra("mobile"));
         postData.setClassId(infoDataList.get(classIndex).getClassId());
         postData.setGroupId(infoDataList.get(classIndex).getClassGroups().get(groupIndex).getCGId());
@@ -301,14 +310,14 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
             @Override
             public void success(ResponseData responseData, Response response) {
                 Toast.makeText(InviteMatchActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
-//                if (responseData.getStatus() == 200) {
+                if (responseData.getStatus() == 200) {
                     Intent intent = new Intent(InviteMatchActivity.this,RewriteTestActivity.class);
                     intent.putExtra("gender",gender);
                     intent.putExtra("accountId",accountId);
                     intent.putExtra("classId",infoDataList.get(classIndex).getClassId());
                     startActivity(intent);
                     finish();
-//                }
+                }
             }
 
             @Override
@@ -343,8 +352,7 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
                 bottomDialog.dismiss();
             }
         });
-
-        bottomDialog = new MakiBottomDialog(this);
+        bottomDialog = new BottomSheetDialog(this);
         bottomDialog.setContentView(view);
         bottomDialog.show();
     }

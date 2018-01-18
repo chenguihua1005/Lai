@@ -181,6 +181,9 @@
                     android:background="@color/transparent"
                     android:gravity="end"
                     android:textSize="14sp"
+                    android:digits="1234567890"
+                    android:maxLength="11"
+                    android:inputType="phone|number"
                     android:hint="请输入爱心学员账号"/>
             </LinearLayout>
 
@@ -214,6 +217,9 @@
                 android:paddingBottom="12dp"
                 android:paddingStart="12dp"
                 android:gravity="center_vertical"
+                android:inputType="phone|number"
+                android:digits="1234567890"
+                android:maxLength="6"
                 android:paddingTop="12dp"
                 android:textSize="14sp" />
 

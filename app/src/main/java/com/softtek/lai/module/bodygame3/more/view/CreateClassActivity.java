@@ -391,7 +391,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         if (clazz != null) {
-            clazz.setGroupName("未分组");
+//            clazz.setGroupName("未分组");
             dialogShow("正在创建班级...");
 
             service.creatClass(UserInfoModel.getInstance().getToken(), clazz, new RequestCallback<ResponseData<LaiClass>>() {

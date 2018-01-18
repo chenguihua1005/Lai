@@ -47,6 +47,7 @@ import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.photowall.PhotoWallActivity;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.module.laiClassroom.ClassroomActivity;
 import com.softtek.lai.module.laiClassroom.VideoDetailActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
@@ -144,13 +145,17 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
     public static final String SAVE_CLASS_DIR = "save_class_dir";
     public static final String SAVE_CLASS = "save_class";
+    private String classId;
 
     public void setDeleteClass(DeleteClass deleteClass) {
         this.deleteClass = deleteClass;
     }
 
-    public static HeadGameFragment2 getInstance(DeleteClass deleteClass) {
+    public static HeadGameFragment2 getInstance(DeleteClass deleteClass,String info) {
+        Bundle bundle = new Bundle();
+        bundle.putString("classId",info);
         HeadGameFragment2 fragment = new HeadGameFragment2();
+        fragment.setArguments(bundle);
         fragment.setDeleteClass(deleteClass);
         return fragment;
     }
@@ -162,6 +167,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
 
     @Override
     protected void initViews() {
+        classId = getArguments().getString("classId");
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
@@ -584,7 +590,11 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 startActivity(intent2);
                 break;
             case R.id.ll_left:
-                getActivity().finish();
+                if (!classId.equals("")){
+                    startActivity(new Intent(getActivity(), GymClubActivity.class));
+                }else {
+                    getActivity().finish();
+                }
                 break;
             case R.id.re_photowall:
                 Intent photowall = new Intent(getContext(), PhotoWallActivity.class);

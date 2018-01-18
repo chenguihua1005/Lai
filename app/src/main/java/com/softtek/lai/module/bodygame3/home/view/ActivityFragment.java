@@ -42,6 +42,7 @@ import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.home.event.UpdateFuce;
 import com.softtek.lai.module.bodygame3.more.view.UpdateFuceTimeActivity;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.MySwipRefreshView;
@@ -119,6 +120,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private int classrole;
     private ClassModel classModel;
     private int HasInitMeasuredData;//是否有初录入数据 0：没有 1：有
+    private String classId;
 
     public ActivityFragment() {
 
@@ -141,6 +143,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
     @Override
     protected void initViews() {
+        if (getArguments() != null) {
+            classId = getArguments().getString("classId");
+        }
         saveclassModel = new SaveclassModel();
         saveclassModel.setDates(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
         //显示创建活动按钮只要是Sp顾问
@@ -339,7 +344,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 startActivityForResult(intent, 0);
                 break;
             case R.id.ll_left:
-                getActivity().finish();
+                if (classId != null) {
+                    startActivity(new Intent(getActivity(), GymClubActivity.class));
+                } else {
+                    getActivity().finish();
+                }
                 break;
             case R.id.ll_change_date:
                 Intent dateIntent = new Intent(getActivity(), UpdateFuceTimeActivity.class);

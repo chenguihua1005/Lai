@@ -5,6 +5,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_content"
+        android:divider="#e1e1e1"
+        android:dividerHeight="0.5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

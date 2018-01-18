@@ -101,6 +101,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
     boolean HasClub;
     boolean HasAuthorityOfCreate;
+    private boolean isGoToClub = false;
 
     @Override
     protected void initViews() {
@@ -191,7 +192,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                 startActivity(intent);
                 break;
             case R.id.fl_right:
-                dealWithClub();
+                isGoToClub = true;
+                judgeClubAuthority();
                 break;
             case R.id.but_login:
                 if (StringUtils.isEmpty(token)) {
@@ -233,6 +235,10 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                     HasAuthorityOfCreate = model.isHasAuthorityOfCreate();
 
                     menuAdapter.updateData(HasClub);
+                    if (isGoToClub){
+                        isGoToClub = false;
+                        dealWithClub();
+                    }
                 } else {
                     Util.toastMsg(responseData.getMsg());
                 }
