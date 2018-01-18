@@ -104,11 +104,12 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
         model = getArguments().getParcelable("classModel");
 
 
-        //初始当前角色
-        classRole = model.getClassRole();
-
         rl_change_role.setOnClickListener(this);
 
+        //初始当前角色
+        if (model != null) {
+            classRole = model.getClassRole();
+        }
         //非 总教练可以修改身份
         if (classRole == 2 || classRole == 3 || classRole == 4) {
             rl_change_role.setEnabled(true);
@@ -228,6 +229,10 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
                 }
 
                 boolean isWorker = model.isWorker();
+                //没有角色的是工作人员的就显示工作人员
+                if (role != 1 && role != 2 && role != 3 && role != 4 && isWorker) {
+                    tv_role_name.setText("工作人员");
+                }
                 choosePanel(isWorker);
             }
         });

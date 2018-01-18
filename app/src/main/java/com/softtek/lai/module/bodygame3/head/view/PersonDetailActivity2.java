@@ -31,7 +31,6 @@ import com.softtek.lai.chat.ui.ChatActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.conversation.service.ContactService;
 import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
@@ -62,9 +61,6 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
-
-import static com.softtek.lai.R.id.view;
-import static com.softtek.lai.R.layout.item;
 
 /**
  * Created by jessica.zhang on 3/30/2017.
@@ -357,33 +353,33 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     } else {
                         tv_personlityName.setText("暂无个性签名");
                     }
-                    if ((memberInfoModel.getIntroducerId()).equals(userid + ""))//如果是登陆id是该学员的爱心学员，显示查看曲线图
-                    {
-                        ll_chart.setVisibility(View.VISIBLE);
-                    }
+//                    if ((memberInfoModel.getIntroducerId()).equals(userid + ""))//如果是登陆id是该学员的爱心学员，显示查看曲线图
+//                    {
+//                        ll_chart.setVisibility(View.VISIBLE);
+//                    }
 
                     issendFriend = memberInfoModel.getIsSendFriend();
                     IsFriend = memberInfoModel.getIsFriend();
 
                     //如果是好友的话，并且对方是学员时候，可查看当前班级 曲线图放开
-                    if ("4".equals(memberInfoModel.getClassRole())) {
-                        ClassId = memberInfoModel.getClassId();
-                        if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
-                            ll_chart.setVisibility(View.VISIBLE);
-                        }
+//                    if ("4".equals(memberInfoModel.getClassRole())) {
+//                        ClassId = memberInfoModel.getClassId();
+//                        if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
+//                            ll_chart.setVisibility(View.VISIBLE);
+//                        }
+//
+//                        if (Constants.FROM_CONTACT == comeFromClass) {
+//                            if (memberInfoModel.getIsCurrClass() == 1) {
+//                                ll_chart.setVisibility(View.VISIBLE);
+//                                ClassId = memberInfoModel.getClassId();
+//                            } else {
+//                                ll_chart.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    }
 
-                        if (Constants.FROM_CONTACT == comeFromClass) {
-                            if (memberInfoModel.getIsCurrClass() == 1) {
-                                ll_chart.setVisibility(View.VISIBLE);
-                                ClassId = memberInfoModel.getClassId();
-                            } else {
-                                ll_chart.setVisibility(View.GONE);
-                            }
-                        }
-                    }
 
-
-                    if ("1".equals(IsFriend))//如果是好友，显示发起聊天
+/*                    if ("1".equals(IsFriend))//如果是好友，显示发起聊天
                     {
 //                        btn_chat.setVisibility(View.VISIBLE);
 //                        titlePopup.addAction(new ActionItem(PersonDetailActivity2.this, "删除好友", R.drawable.deletefriend));
@@ -410,7 +406,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                         //如果不是好友的话，曲线图隐藏
 //                        ll_chart.setVisibility(View.GONE);
 
-                    }
+                    }*/
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
                     {
                         im_guanzhu.setChecked(false);
@@ -425,8 +421,10 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 boolean CanEdit = memberInfoModel.isCanEdit();
                 if (CanEdit) {
                     relative_target.setEnabled(true);
+                    ll_chart.setVisibility(View.VISIBLE);
                 } else {
                     relative_target.setEnabled(false);
+                    ll_chart.setVisibility(View.GONE);
                 }
                 int target = memberInfoModel.getTarget();
                 if (1 == target) {//增重
