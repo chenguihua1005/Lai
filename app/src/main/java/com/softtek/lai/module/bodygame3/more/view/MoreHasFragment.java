@@ -153,7 +153,7 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
 
 
             boolean IsWorker = model.isWorker();//是否是俱乐部工作人员，true-是，false-否
-            choosePanel(IsWorker);
+            choosePanel(IsWorker, role);
 
         }
         arrow.setTintColor(R.color.black);
@@ -230,10 +230,10 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
 
                 boolean isWorker = model.isWorker();
                 //没有角色的是工作人员的就显示工作人员
-                if (role != 1 && role != 2 && role != 3 && role != 4 && isWorker) {
-                    tv_role_name.setText("工作人员");
-                }
-                choosePanel(isWorker);
+//                if (role != 1 && role != 2 && role != 3 && role != 4 && isWorker) {
+//                    tv_role_name.setText("工作人员");
+//                }
+                choosePanel(isWorker, role);
             }
         });
         if (model != null) {
@@ -249,12 +249,15 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
         EventBus.getDefault().unregister(this);
     }
 
-    private void choosePanel(boolean isWorker) {
+    private void choosePanel(boolean isWorker, int role) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("class", model);
 
         if (isWorker) {
-//            tv_role_name.setText("工作人员");
+            if (role != 1 && role != 2 && role != 3 && role != 4 && isWorker) {
+                tv_role_name.setText("工作人员");
+            }
+
             HeadCoachFragment headCoachFragment = new HeadCoachFragment();
             headCoachFragment.setArguments(bundle);
             getChildFragmentManager().beginTransaction().replace(R.id.container, headCoachFragment).commitAllowingStateLoss();
@@ -290,7 +293,6 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
 
     @Subscribe
     public void updateClass(UpdateClass clazz) {
-
         if (clazz.getStatus() == 0) {
             //更新班级姓名
             ClassModel model = clazz.getModel();
@@ -329,7 +331,7 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
                 }
                 tv_number.setText(model.getClassCode());
                 arrow.setTintColor(R.color.black);
-                choosePanel(this.model.isWorker());
+                choosePanel(this.model.isWorker(), role);
             }
         }
     }
