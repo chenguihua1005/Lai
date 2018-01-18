@@ -27,6 +27,7 @@ import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -87,9 +88,13 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     HeadService service;
 
     private AddClass addClass;
+    private String classId;
 
-    public static HeadGameFragment getInstance(AddClass addClass) {
+    public static HeadGameFragment getInstance(AddClass addClass,String info) {
         HeadGameFragment fragment = new HeadGameFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("classId",info);
+        fragment.setArguments(bundle);
         fragment.setAddClass(addClass);
         return fragment;
     }
@@ -106,6 +111,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
 
     @Override
     protected void initViews() {
+        classId = getArguments().getString("classId");
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
@@ -321,7 +327,11 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 startActivity(intent2);
                 break;
             case R.id.ll_left:
-                getActivity().finish();
+                if (!classId.equals("")){
+                    startActivity(new Intent(getActivity(), GymClubActivity.class));
+                }else {
+                    getActivity().finish();
+                }
                 break;
         }
     }

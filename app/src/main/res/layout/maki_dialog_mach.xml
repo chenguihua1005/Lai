@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="31dp"
-        android:gravity="center|left"
-        android:textColor="#333333"
-        android:textSize="13sp"
-        android:paddingLeft="15dp"
-        android:text="转移至"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#e1e1e1"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcv_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#e1e1e1"
-        android:dividerHeight="0.5dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"/>
-
     <LinearLayout
-        android:id="@+id/head_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_ok"
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/bg_next_btn"
-            android:gravity="center"
-            android:text="确定"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:layout_height="31dp"
+            android:gravity="center|left"
+            android:textColor="#333333"
+            android:textSize="13sp"
+            android:paddingLeft="15dp"
+            android:text="转移至"/>
 
-        <Button
-            android:id="@+id/btn_cancel"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/bg_btn_cancle"
-            android:gravity="center"
-            android:text="取消"
-            android:textColor="#666666"
-            android:textSize="18sp" />
+            android:layout_height="0.5dp"
+            android:background="#e1e1e1"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#e1e1e1"
+            android:dividerHeight="0.5dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"/>
+
+        <LinearLayout
+            android:id="@+id/head_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/bg_next_btn"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_btn_cancle"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="#666666"
+                android:textSize="18sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

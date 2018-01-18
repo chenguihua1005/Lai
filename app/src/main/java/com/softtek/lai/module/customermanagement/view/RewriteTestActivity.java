@@ -79,6 +79,7 @@ public class RewriteTestActivity extends MakiBaseActivity implements View.OnClic
         mInternalFatContent.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
         mSelect.setOnClickListener(this);
+        mBack.setOnClickListener(this);
     }
 
     private void doSubmit(){
@@ -160,6 +161,7 @@ public class RewriteTestActivity extends MakiBaseActivity implements View.OnClic
                 break;
             case R.id.ll_left:
                 finish();
+                break;un
             case R.id.tv_right:
                 doSubmit();
                 break;

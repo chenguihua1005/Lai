@@ -73,7 +73,15 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         Bundle bundle = new Bundle();
         bundle.putString("classId", classId);
         MoreFragment moreFragment = new MoreFragment();
+        BodyGameFragment gameFragment = new BodyGameFragment();
+        HonorTabFragment honorTabFragment = new HonorTabFragment();
+        ActivityFragment activityFragment = new ActivityFragment();
         moreFragment.setArguments(bundle);
+        if (classId != null){
+            gameFragment.setArguments(bundle);
+            honorTabFragment.setArguments(bundle);
+            activityFragment.setArguments(bundle);
+        }
         MobclickAgent.openActivityDurationTrack(false);
         btn_bodygame.setOnClickListener(this);
         btn_honorroll.setOnClickListener(this);
@@ -83,11 +91,11 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         btn_more.setOnClickListener(this);
 
         fragments = new ArrayList<>();
-        fragments.add(new BodyGameFragment());
-        fragments.add(new HonorTabFragment());
+        fragments.add(gameFragment);
+        fragments.add(honorTabFragment);
 //        fragments.add(new ChatFragment());
 //        fragments.add(new ContactFragment());
-        fragments.add(new ActivityFragment());
+        fragments.add(activityFragment);
         fragments.add(moreFragment);
         content.setOffscreenPageLimit(4);
         adapter = new MainPageAdapter(getSupportFragmentManager(), fragments);

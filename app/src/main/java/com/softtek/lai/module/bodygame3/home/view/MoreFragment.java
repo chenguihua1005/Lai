@@ -108,7 +108,9 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     @Override
     protected void initViews() {
         tv_title.setText("更多");
-        classId = getArguments().getString("classId");
+        if (getArguments() != null) {
+            classId = getArguments().getString("classId");
+        }
 
 
         refresh.setOnRefreshListener(this);

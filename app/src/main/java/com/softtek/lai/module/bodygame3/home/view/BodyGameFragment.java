@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import com.softtek.lai.module.bodygame3.head.model.ClassdataModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment2;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import butterknife.InjectView;
@@ -30,6 +32,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
     TextView again_tv;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    private String classId = "";
 
     public BodyGameFragment() {
         // Required empty public constructor
@@ -42,10 +45,17 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void initViews() {
+        if (getArguments() != null) {
+            classId = getArguments().getString("classId");
+        }
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                if (classId != null){
+                    startActivity(new Intent(getActivity(), GymClubActivity.class));
+                }else {
+                    getActivity().finish();
+                }
             }
         });
         again_tv.setOnClickListener(new View.OnClickListener() {
@@ -61,9 +71,9 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
                                 ClassdataModel classdataModel = data.getData();
                                 int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
                                 if (HasClass > 0) {
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(BodyGameFragment.this,classId)).commitAllowingStateLoss();
                                 } else {
-                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                                    getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this,classId)).commitAllowingStateLoss();
                                 }
                             }
                         } catch (Exception e) {
@@ -99,10 +109,10 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
                         ClassdataModel classdataModel = data.getData();
                         int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
                         if (HasClass > 0) {
-                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(BodyGameFragment.this,classId)).commitAllowingStateLoss();
 
                         } else {
-                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this)).commitAllowingStateLoss();
+                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this,classId)).commitAllowingStateLoss();
                         }
                     }
                 } catch (Exception e) {
@@ -130,12 +140,12 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     public void deletClass() {
-        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this)).commitAllowingStateLoss();
+        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(this,classId)).commitAllowingStateLoss();
     }
 
     @Override
     public void addclass() {
-        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(this)).commitAllowingStateLoss();
+        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment2.getInstance(this,classId)).commitAllowingStateLoss();
     }
 
 

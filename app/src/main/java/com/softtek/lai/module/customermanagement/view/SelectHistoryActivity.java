@@ -71,8 +71,8 @@ public class SelectHistoryActivity extends MakiBaseActivity implements View.OnCl
     }
 
     private void initData(){
-//        accountId = getIntent().getLongExtra("accountId",0);
-        accountId = UserInfoModel.getInstance().getUserId();
+        accountId = getIntent().getLongExtra("accountId",0);
+//        accountId = UserInfoModel.getInstance().getUserId();
         historyList.clear();
         service.getHistoryDataList(UserInfoModel.getInstance().getToken(), 1, accountId, 1, new RequestCallback<ResponseData<HistoryDataModel>>() {
             @Override

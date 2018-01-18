@@ -29,6 +29,7 @@ import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.head.view.HonorRuleActivity;
 import com.softtek.lai.module.bodygame3.home.HonorFragment;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
+import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.widgets.NoSlidingViewPage;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,6 +68,7 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
     List<HonorFragmentModel> fragmentList = new ArrayList<>();
 
     private String classId = "";
+    private String tagClassId = "";
 
     private ArrayList<ClassModel> classModels = new ArrayList<>();
     private int classrole;
@@ -88,7 +90,9 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
 
     @Override
     protected void initViews() {
-
+        if (getArguments() != null) {
+            tagClassId = getArguments().getString("classId");
+        }
 
     }
 
@@ -205,7 +209,11 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
-                getActivity().finish();
+                if (!tagClassId.equals("")) {
+                    startActivity(new Intent(getActivity(), GymClubActivity.class));
+                } else {
+                    getActivity().finish();
+                }
                 break;
             case R.id.tv_right:
                 startActivity(new Intent(getContext(), HonorRuleActivity.class));
