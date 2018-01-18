@@ -232,62 +232,65 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction().equalsIgnoreCase(UPDATE_CLASSLIST)) {
-                classModels.clear();
-                classModels = intent.getParcelableArrayListExtra("classList");
-                if (classModels != null && classModels.size() > 0) {
-                    if (isFirst) {
-                        Log.i("honor", "收到广播 班级shumu = " + classModels.size());
+                if (classModels != null) {
+                    classModels.clear();
 
-                        tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-                            @Override
-                            public void convert(ViewHolder holder, ClassModel data, int position) {
-                                ImageView iv_icon = holder.getView(R.id.iv_icon);
-                                boolean selected = tv_title.getSelectedIndex() == position;
-                                int icon;
-                                switch (data.getClassRole()) {
-                                    case 1:
-                                        icon = R.drawable.class_zongjiaolian;
-                                        break;
-                                    case 2:
-                                        icon = R.drawable.class_jiaolian;
-                                        break;
-                                    case 3:
-                                        icon = R.drawable.class_zhujiao;
-                                        break;
-                                    default:
-                                        icon = R.drawable.class_xueyuan;
-                                        break;
+                    classModels = intent.getParcelableArrayListExtra("classList");
+                    if (classModels != null && classModels.size() > 0) {
+                        if (isFirst) {
+                            Log.i("honor", "收到广播 班级shumu = " + classModels.size());
+
+                            tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                                @Override
+                                public void convert(ViewHolder holder, ClassModel data, int position) {
+                                    ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                    boolean selected = tv_title.getSelectedIndex() == position;
+                                    int icon;
+                                    switch (data.getClassRole()) {
+                                        case 1:
+                                            icon = R.drawable.class_zongjiaolian;
+                                            break;
+                                        case 2:
+                                            icon = R.drawable.class_jiaolian;
+                                            break;
+                                        case 3:
+                                            icon = R.drawable.class_zhujiao;
+                                            break;
+                                        default:
+                                            icon = R.drawable.class_xueyuan;
+                                            break;
+                                    }
+                                    iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                    TextView tv_number = holder.getView(R.id.tv_number);
+                                    tv_number.setText("班级编号:" + data.getClassCode());
+                                    TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                    tv_class_name.setText(data.getClassName());
+                                    RadioButton iv_sel = holder.getView(R.id.iv_select);
+                                    iv_sel.setChecked(selected);
                                 }
-                                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                                TextView tv_number = holder.getView(R.id.tv_number);
-                                tv_number.setText("班级编号:" + data.getClassCode());
-                                TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                                tv_class_name.setText(data.getClassName());
-                                RadioButton iv_sel = holder.getView(R.id.iv_select);
-                                iv_sel.setChecked(selected);
-                            }
 
-                            @Override
-                            public String getText(int position) {
-                                if (classModels != null && !classModels.isEmpty()) {
-                                    classId = classModels.get(position).getClassId();
-                                    return classModels.get(position).getClassName();
-                                } else {
-                                    return "暂无班级";
+                                @Override
+                                public String getText(int position) {
+                                    if (classModels != null && !classModels.isEmpty()) {
+                                        classId = classModels.get(position).getClassId();
+                                        return classModels.get(position).getClassName();
+                                    } else {
+                                        return "暂无班级";
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                        tv_title.notifChange();
-                        tv_title.setSelected(0);
+                            tv_title.notifChange();
+                            tv_title.setSelected(0);
 
 //                        tv_title.getAdapter().notifyDataSetChanged();
 //                        tv_title.setSelected(0);
-                        isFirst = false;
+                            isFirst = false;
+                        }
+                    } else {
+                        //如果班级是空
+                        tv_title.setText("暂无班级");
                     }
-                } else {
-                    //如果班级是空
-                    tv_title.setText("暂无班级");
                 }
             }
         }
