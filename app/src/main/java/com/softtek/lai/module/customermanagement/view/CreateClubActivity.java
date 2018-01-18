@@ -61,7 +61,7 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
     private TextView mCity;
 
     private boolean isFirstClub;
-    private String clubName;
+    private String clubName = "";
     private AlertDialog clubDialog;
     private BottomSheetDialog areaDialog;
     private List<ClubAndCityModel.RegionalCitiesBean> left = new ArrayList<>();
