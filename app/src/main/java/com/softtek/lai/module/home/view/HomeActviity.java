@@ -118,8 +118,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 comment.CommentUserId = UserInfoModel.getInstance().getUserId();
                 comment.CommentUserName = UserInfoModel.getInstance().getUser().getNickname();
                 comment.isReply = 0;
-                DynamicFragment dynamicFragment = (DynamicFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(0);
-                FocusFragment focusFragment = (FocusFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
+                DynamicFragment dynamicFragment = (DynamicFragment) ((DynamicMergeFragment) fragments.get(2)).getFragmentList().get(0);
+                FocusFragment focusFragment = (FocusFragment) ((DynamicMergeFragment) fragments.get(2)).getFragmentList().get(1);
                 if (DynamicFragment.DYNAMIC.equals(tag)) {
                     dynamicFragment.doSend(position, comment);
                 } else if (FocusFragment.FOCUSFRAGMENT.equals(tag)) {
@@ -286,8 +286,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 int[] position2 = new int[2];
                 rl_send.getLocationOnScreen(position2);
-                DynamicFragment dynamicFragment = (DynamicFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(0);
-                FocusFragment focusFragment = (FocusFragment) ((DynamicMergeFragment) fragments.get(1)).getFragmentList().get(1);
+                DynamicFragment dynamicFragment = (DynamicFragment) ((DynamicMergeFragment) fragments.get(2)).getFragmentList().get(0);
+                FocusFragment focusFragment = (FocusFragment) ((DynamicMergeFragment) fragments.get(2)).getFragmentList().get(1);
                 if (DynamicFragment.DYNAMIC.equals(tag)) {
                     dynamicFragment.doScroll(position, itemHeight, position2[1]);
 //                    ((DynamicFragment) fragments.get(1)).doScroll(position, itemHeight, position2[1]);
