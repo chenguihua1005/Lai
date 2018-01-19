@@ -1,18 +1,14 @@
 package com.softtek.lai.module.customermanagement.view;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -27,7 +23,6 @@ import android.widget.Toast;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.more.view.MakiBottomDialog;
 import com.softtek.lai.module.customermanagement.adapter.BottomRecyclerViewAdapter;
 import com.softtek.lai.module.customermanagement.model.InviteMatchModel;
 import com.softtek.lai.module.customermanagement.service.InviteService;
@@ -192,7 +187,11 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
                 finish();
                 break;
             case R.id.ll_choose_class:
-                showMakiDialog("班级名称", mClassName, nameAdapter);
+                if (classNames.size() < 1) {
+                    Toast.makeText(this,"暂无可邀请的班级",Toast.LENGTH_SHORT).show();
+                } else {
+                    showMakiDialog("班级名称", mClassName, nameAdapter);
+                }
                 break;
             case R.id.ll_choose_group:
                 classGroups.clear();

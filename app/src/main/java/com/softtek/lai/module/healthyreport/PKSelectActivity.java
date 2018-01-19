@@ -181,7 +181,7 @@ public class PKSelectActivity extends BaseActivity<HistoryDataManager> implement
     }
 
     @Override
-    public void historyDataCallback(HistoryDataModel model) {
+    public void historyDataCallback(HistoryDataModel model,int type) {
         if (model != null) {
             totalPage = model.getTotalPages();
             List<HistoryDataModel.RecordsBean> datas = model.getRecords();
