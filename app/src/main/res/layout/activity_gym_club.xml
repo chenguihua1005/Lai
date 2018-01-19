@@ -6,79 +6,88 @@
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
 
-    <ScrollView
+    <com.softtek.lai.widgets.MySwipRefreshView
+        android:id="@+id/fv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:layout_marginBottom="56dp">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="未开始"
-                android:textColor="#9FBB66"
-                android:layout_marginTop="20dp" />
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E5E5E5"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="未开始"
+                    android:textColor="#9FBB66"
+                    android:layout_marginTop="20dp" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_not_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E5E5E5"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="进行中"
-                android:textColor="#9FBB66"
-                android:layout_marginTop="20dp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_not_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E5E5E5"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="进行中"
+                    android:textColor="#9FBB66"
+                    android:layout_marginTop="20dp" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E5E5E5"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="已结束"
-                android:textColor="#9FBB66"
-                android:layout_marginTop="20dp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E5E5E5"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="已结束"
+                    android:textColor="#9FBB66"
+                    android:layout_marginTop="20dp" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E5E5E5"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"/>
 
-        </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-    </ScrollView>
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </com.softtek.lai.widgets.MySwipRefreshView>
+
 
     <View
         android:layout_width="match_parent"

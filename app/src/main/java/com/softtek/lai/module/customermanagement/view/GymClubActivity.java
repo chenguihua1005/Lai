@@ -3,6 +3,7 @@ package com.softtek.lai.module.customermanagement.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.softtek.lai.module.customermanagement.adapter.GymRecyclerViewAdapter;
 import com.softtek.lai.module.customermanagement.model.GymModel;
 import com.softtek.lai.module.customermanagement.service.GymClubService;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.widgets.MySwipRefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
     private TextView mOpenUnionClass;
     private TextView mTitle;
     private LinearLayout mBack;
+    private MySwipRefreshView mRefreshView;
 
     GymRecyclerViewAdapter gymStartAdapter;
     GymRecyclerViewAdapter gymEndAdapter;
@@ -69,6 +72,7 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
         mOpenUnionClass = findViewById(R.id.tv_open_union_class);
         mTitle = findViewById(R.id.tv_title);
         mBack = findViewById(R.id.ll_left);
+        mRefreshView = findViewById(R.id.fv_content);
         mTitle.setText("体管班");
         mOpenClass.setOnClickListener(this);
         mOpenUnionClass.setOnClickListener(this);
@@ -105,6 +109,17 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
         RecyclerView.LayoutManager managerEnd = new LinearLayoutManager(this);
         mRcvEnd.setAdapter(gymEndAdapter);
         mRcvEnd.setLayoutManager(managerEnd);
+
+        mRefreshView.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        mRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
     }
 
     private void initData() {
@@ -132,12 +147,18 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
                 }else {
                     Toast.makeText(GymClubActivity.this,listResponseData.getMsg(),Toast.LENGTH_SHORT).show();
                 }
+                if (mRefreshView.isRefreshing()){
+                    mRefreshView.setRefreshing(false);
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
                 dialogDismiss();
+                if (mRefreshView.isRefreshing()){
+                    mRefreshView.setRefreshing(false);
+                }
             }
         });
     }
