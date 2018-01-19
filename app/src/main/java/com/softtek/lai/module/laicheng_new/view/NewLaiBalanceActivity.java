@@ -125,13 +125,19 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private int algorithmType;
 
     private boolean isReceiveData = true;//重命名对话框弹出的时候是不接受数据的开关
-    private BasicModel model;
+    private BasicModel basicModel;
+    private boolean isJump = false;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE );
+        Intent intent = getIntent();
+        if (intent != null){
+            basicModel = intent.getParcelableExtra("model");
+            isJump = intent.getBooleanExtra("isJump",false);
+        }
         super.onCreate(savedInstanceState);
         LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
         setContentView(R.layout.activity_laibalance_new);
@@ -676,11 +682,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
      * 初始化UI
      */
     private void initUi() {
-        model = getIntent().getParcelableExtra("model");
         sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         algorithmType = sharedPreferences.getInt(Contacts.MAKI_STYLE,QNBleApi.ALGORITHM_V1);
         selfFragment = NewSelfFragment.newInstance(null);
-        visitorFragment = NewVisitorFragment.newInstance(null);
+        visitorFragment = NewVisitorFragment.newInstance(isJump,basicModel);
 
         mLeftBack = findViewById(R.id.fl_left);
         mLeftBack.setOnClickListener(this);

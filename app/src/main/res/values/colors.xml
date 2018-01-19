@@ -49,6 +49,8 @@
     <color name="club_personnel">#b7b7b7</color>
     <color name="count_personnel">#70af2c</color>
     <color name="new_cheng_bg">#F1F7E9</color>
+    <color name="fuce">#88BA47</color>
+    <color name="chuce">#FFB413</color>
 
     <color name="history_chart_text_color">#adadad</color>
 </resources>

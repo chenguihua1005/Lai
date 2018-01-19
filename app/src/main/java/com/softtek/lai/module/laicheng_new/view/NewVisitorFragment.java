@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.VisithistoryActivity;
@@ -58,6 +59,7 @@ import zilla.libcore.file.AddressManager;
 
 public class NewVisitorFragment extends Fragment implements View.OnClickListener {
     private static final String ARGUMENTS = "mainFragment";
+    private static final String ARGUMENTS_B = "mainFragment_b";
     private View view;
     private Button bt_again;
     private TextView tv_weight;//体重
@@ -106,6 +108,8 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     int NowYear = Integer.parseInt(format.format(new Date()));
     private int choose_year;
     private Dialog dialog;//分享对话框
+    private BasicModel basicModel;
+    private boolean isJump = false;
 
     private boolean isNeedReconnect = false;
 
@@ -128,7 +132,21 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
+    public static NewVisitorFragment newInstance(@Nullable boolean isJump, BasicModel data) {
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(ARGUMENTS, data);
+        arguments.putBoolean(ARGUMENTS_B,isJump);
+        NewVisitorFragment fragment = new NewVisitorFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
     private void initView() {
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            isJump = bundle.getBoolean(ARGUMENTS_B);
+            basicModel = bundle.getParcelable(ARGUMENTS);
+        }
         mSharedPreferences = getActivity().getSharedPreferences(Contacts.SHARE_NAME,Activity.MODE_PRIVATE);
         tv_weight = view.findViewById(R.id.tv_weight);
         tv_weight_caption = view.findViewById(R.id.tv_weight_caption);
@@ -269,13 +287,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    public static NewVisitorFragment newInstance(@Nullable BleMainData data) {
-        Bundle arguments = new Bundle();
-        arguments.putSerializable(ARGUMENTS, data);
-        NewVisitorFragment fragment = new NewVisitorFragment();
-        fragment.setArguments(arguments);
-        return fragment;
-    }
+
 
     public void refreshVoiceIcon() {
         if (NewLaiBalanceActivity.isVoiceHelp) {

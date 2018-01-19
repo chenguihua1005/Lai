@@ -61,6 +61,24 @@ public class HistoryDataModel {
         private String bodyFatRate;
         private String viscusFatIndex;
         private int sourceType;
+        private String classId;
+        private String className;
+
+        public String getClassId() {
+            return classId;
+        }
+
+        public void setClassId(String classId) {
+            this.classId = classId;
+        }
+
+        public String getClassName() {
+            return className;
+        }
+
+        public void setClassName(String className) {
+            this.className = className;
+        }
 
         public String getRecordId() {
             return recordId;

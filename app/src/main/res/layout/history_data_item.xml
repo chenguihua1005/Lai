@@ -88,10 +88,12 @@
             android:gravity="center|right"
             android:orientation="horizontal">
 
-            <ImageView
+            <TextView
                 android:id="@+id/iv_icon"
                 android:layout_width="25dp"
-                android:layout_height="25dp" />
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="10dp"/>
 
             <ImageView
                 android:layout_width="wrap_content"

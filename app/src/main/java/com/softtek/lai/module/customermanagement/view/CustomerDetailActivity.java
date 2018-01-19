@@ -150,6 +150,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 if (isRegistered){
                     Intent testIntent = new Intent(this, NewLaiBalanceActivity.class);
                     testIntent.putExtra("model",model.getBasics());
+                    testIntent.putExtra("isJump",true);
                     startActivity(testIntent);
                 }else {
                     Toast.makeText(this,"您还未注册，请注册后再点击为他测量",Toast.LENGTH_SHORT).show();

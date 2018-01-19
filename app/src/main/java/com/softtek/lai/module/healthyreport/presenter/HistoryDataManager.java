@@ -31,7 +31,7 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
 
 
     //获取历史数据
-    public void getHistoryDataList(int type,int pageIndex,long accountId, final boolean isPull) {
+    public void getHistoryDataList(final int type, int pageIndex, long accountId, final boolean isPull) {
         if (!isPull&&getView()!=null){
             getView().dialogShow("加载中");
         }
@@ -50,12 +50,12 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
                         }
                         if (historyDataModelResponseData.getStatus() == 200) {
                             if (getView() != null) {
-                                getView().historyDataCallback(historyDataModelResponseData.getData());
+                                getView().historyDataCallback(historyDataModelResponseData.getData(),type);
                             }
                         }else {
                             Util.toastMsg(historyDataModelResponseData.getMsg());
                             if (getView() != null) {
-                                getView().historyDataCallback(null);
+                                getView().historyDataCallback(null,-1);
                             }
                         }
                     }
@@ -111,7 +111,7 @@ public class HistoryDataManager extends BasePresenter<HistoryDataManager.History
 
 
     public interface HistoryDataManagerCallback extends BaseView {
-        void historyDataCallback(HistoryDataModel model);
+        void historyDataCallback(HistoryDataModel model,int type);
 
         void deleteResult();
 

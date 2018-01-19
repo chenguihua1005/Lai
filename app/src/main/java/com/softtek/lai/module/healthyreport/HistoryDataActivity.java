@@ -211,7 +211,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
     }
 
     @Override
-    public void historyDataCallback(HistoryDataModel model) {
+    public void historyDataCallback(HistoryDataModel model,int type) {
         if (model != null) {
             totalPage = model.getTotalPages();
             List<HistoryDataModel.RecordsBean> datas = model.getRecords();
@@ -225,6 +225,7 @@ public class HistoryDataActivity extends BaseActivity<HistoryDataManager> implem
             } else {
                 pageIndex = --pageIndex < 1 ? 1 : pageIndex;
             }
+            adapter.setType(type);
             adapter.notifyDataSetChanged();
         } else {
             dataItemModels.clear();

@@ -31,6 +31,15 @@ public class HistoryDataAdapter extends BaseAdapter {
     private List<HistoryDataItemModel> dataModels;
     private CheckBox cb_all;
     private Context context;
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public HistoryDataAdapter(Context context, List<HistoryDataItemModel> dataModels, CheckBox cb_all) {
         this.context = context;
@@ -97,15 +106,28 @@ public class HistoryDataAdapter extends BaseAdapter {
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_hand));//laicheng
         } else if (1 == data.getSourceType() || 4 == data.getSourceType()) {
             //复测
-            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.history_data_fuce));
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_fuce_icon));
+            holder.icon.setTextColor(context.getResources().getColor(R.color.fuce));
+            holder.icon.setText("复测");
         } else if (5 == data.getSourceType()) {
+            holder.icon.setText("");
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_icon));
         } else if (6 == data.getSourceType()) {
+            holder.icon.setText("");
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_lite_icon));
-        } else {
+        } else if (7 == data.getSourceType()){
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_chuce_icon));
+            holder.icon.setTextColor(context.getResources().getColor(R.color.chuce));
+            holder.icon.setText("初测");
+        }else {
+            holder.icon.setText("");
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.shoudongluru));
         }
-        holder.week.setText(data.getWeek());
+        if (type == 2) {
+            holder.week.setText(data.getClassName().equals("")?"暂无班级":data.getClassName());
+        }else {
+            holder.week.setText(data.getWeek());
+        }
         holder.time.setText(data.getMeasuredTime());
         SpannableString spannableString = new SpannableString(StringUtil.getFloatValue(data.getWeight()) + "斤");
         spannableString.setSpan(new AbsoluteSizeSpan(30), spannableString.length() - 1, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -120,7 +142,7 @@ public class HistoryDataAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         public CheckBox cb_selecter;
-        public ImageView icon;
+        public TextView icon;
         public TextView week;
         public TextView time;
         public TextView loss_weight;
@@ -129,7 +151,7 @@ public class HistoryDataAdapter extends BaseAdapter {
 
         public ViewHolder(View view) {
             cb_selecter = (CheckBox) view.findViewById(R.id.cb_selecter);
-            icon = (ImageView) view.findViewById(R.id.iv_icon);
+            icon = (TextView) view.findViewById(R.id.iv_icon);
             week = (TextView) view.findViewById(R.id.week);
             time = (TextView) view.findViewById(R.id.time);
             loss_weight = (TextView) view.findViewById(R.id.loss_weight);
