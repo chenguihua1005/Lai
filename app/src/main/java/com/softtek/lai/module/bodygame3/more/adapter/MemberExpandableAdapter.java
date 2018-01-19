@@ -168,7 +168,7 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
         final HorizontalScrollView hsv = (HorizontalScrollView) view.findViewById(R.id.hsv);
         TextView tv_trans_group = (TextView) view.findViewById(R.id.tv_trans_group);
         TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
-        if (member.getClassRole() == 2) {//教练不可以被转组移除
+        if (member.getClassRole() == 1) {//总教练不可以被转组移除   （old :教练不可以被转组移除  ）
             tv_trans_group.setVisibility(View.GONE);
             tv_delete.setVisibility(View.GONE);
         } else {

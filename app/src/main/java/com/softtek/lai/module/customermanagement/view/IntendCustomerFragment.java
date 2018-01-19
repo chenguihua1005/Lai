@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -56,13 +57,18 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
     @Override
     protected void lazyLoad() {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                plv_audit.setRefreshing();
-            }
-
-        }, 300);
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                plv_audit.setRefreshing();
+//            }
+//
+//        }, 300);
+        Log.i("IntendCustomerFragment", "lazyLoad() is running...");
+        dialogShow("加载中...");
+        pageindex = 1;
+        modelList.clear();
+        getPresenter().getIntentCustomerList(pageindex, pageSize);
     }
 
     @Override
@@ -88,9 +94,6 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
         customerAdapter = new CustomerAdapter(getContext(), modelList);
         plv_audit.setAdapter(customerAdapter);
-        dialogShow(getString(R.string.loading));
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
-
     }
 
     @Override
@@ -104,6 +107,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        Log.i("IntendCustomerFragment", "onPullDownToRefresh() is running...");
         pageindex = 1;
         modelList.clear();
         getPresenter().getIntentCustomerList(pageindex, pageSize);
@@ -111,6 +115,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        Log.i("IntendCustomerFragment", "onPullUpToRefresh() is running...");
         pageindex++;
         getPresenter().getIntentCustomerList(pageindex, pageSize);
     }
