@@ -2,8 +2,6 @@ package com.softtek.lai.module.customermanagement.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,13 +50,17 @@ public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter
 
     @Override
     protected void lazyLoad() {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                plv_audit.setRefreshing();
-            }
-
-        }, 300);
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                plv_audit.setRefreshing();
+//            }
+//
+//        }, 300);
+        dialogShow("加载中...");
+        pageindex = 1;
+        modelList.clear();
+        getPresenter().getMarketingStaffList(pageindex, pageSize);
     }
 
     @Override
@@ -85,7 +87,7 @@ public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter
 
         customerAdapter = new CustomerAdapter(getContext(), modelList);
         plv_audit.setAdapter(customerAdapter);
-        getPresenter().getMarketingStaffList(pageindex, pageSize);
+//        getPresenter().getMarketingStaffList(pageindex, pageSize);
 
     }
 
