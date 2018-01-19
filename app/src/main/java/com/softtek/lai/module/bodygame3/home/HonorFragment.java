@@ -185,6 +185,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                     } else if (2 == groupModel.getType()) {
                         Intent intent = new Intent(getContext(), PersonDetailActivity2.class);
                         intent.putExtra("AccountId", Long.parseLong(groupModel.getUserId()));
+                        intent.putExtra("ClassId", ClassId);
                         startActivity(intent);
                     }
 

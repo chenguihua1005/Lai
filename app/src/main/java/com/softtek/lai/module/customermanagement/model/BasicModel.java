@@ -19,6 +19,16 @@ public class BasicModel implements Parcelable {
     private String Angel;//爱心天使
     private float Height;
     private float Weight;
+    private int Age;
+
+
+    public int getAge() {
+        return Age;
+    }
+
+    public void setAge(int age) {
+        Age = age;
+    }
 
     protected BasicModel(Parcel in) {
         AccountId = in.readLong();
@@ -32,6 +42,7 @@ public class BasicModel implements Parcelable {
         Angel = in.readString();
         Height = in.readFloat();
         Weight = in.readFloat();
+        Age = in.readInt();
     }
 
     public static final Creator<BasicModel> CREATOR = new Creator<BasicModel>() {
@@ -148,6 +159,7 @@ public class BasicModel implements Parcelable {
                 ", Angel='" + Angel + '\'' +
                 ", Height=" + Height +
                 ", Weight=" + Weight +
+                ", Age=" + Age +
                 '}';
     }
 
@@ -169,5 +181,6 @@ public class BasicModel implements Parcelable {
         parcel.writeString(Angel);
         parcel.writeFloat(Height);
         parcel.writeFloat(Weight);
+        parcel.writeInt(Age);
     }
 }

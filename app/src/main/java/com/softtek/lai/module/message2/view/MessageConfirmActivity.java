@@ -146,6 +146,8 @@ public class MessageConfirmActivity extends BaseActivity implements View.OnClick
                         dialogDissmiss();
                         if (data.getStatus() == 200) {
                             onResult(data.getData());
+                        } else {
+                            Util.toastMsg(data.getMsg());
                         }
                     }
 

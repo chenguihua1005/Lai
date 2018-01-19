@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.customermanagement.adapter.HealthListAdapter;
+import com.softtek.lai.module.healthyreport.HealthEntryActivity;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.healthyreport.model.HistoryDataItemModel;
 import com.softtek.lai.module.healthyreport.model.HistoryDataModel;
@@ -44,6 +47,11 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
     @InjectView(R.id.tv_tip)
     TextView tv_tip;
 
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_rightl;
+
 
     private List<HistoryDataItemModel> dataItemModels = new ArrayList<>();
     private HealthListAdapter adapter;
@@ -58,6 +66,8 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
     @Override
     protected void initViews() {
         tv_title.setText("健康记录");
+
+        iv_email.setImageResource(R.drawable.h_editor_add);
         ll_footer.setVisibility(View.GONE);
 
         ptrlv.setOnItemClickListener(this);
@@ -67,6 +77,7 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
 
         ll_left.setOnClickListener(this);
         ll_footer.setOnClickListener(this);
+        fl_rightl.setOnClickListener(this);
 
     }
 
@@ -87,6 +98,12 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
         switch (view.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.fl_right:
+                Intent intent = new Intent(this, HealthEntryActivity.class);
+                intent.putExtra("from", "CustomerDeitail");
+                intent.putExtra("accountId",accountId);
+                startActivity(intent);
                 break;
         }
 

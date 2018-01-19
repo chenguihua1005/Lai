@@ -43,6 +43,7 @@ public class HealthyEntryPresenter extends BasePresenter<HealthyEntryPresenter.H
                 }
                 switch (status) {
                     case 200:
+                        Util.toastMsg(healthModelResponseData.getMsg());
                         if(getView()!=null){
                             getView().commitSuccess();
                         }

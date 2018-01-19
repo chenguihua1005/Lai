@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.softtek.lai.module.bodygame3.graph.GraphActivity;
 import com.softtek.lai.module.bodygame3.head.model.MemberInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.NewsTopFourModel;
 import com.softtek.lai.module.bodygame3.head.presenter.PersonDetailPresenter;
+import com.softtek.lai.module.bodygame3.home.HonorFragment;
 import com.softtek.lai.module.bodygame3.home.view.ContactFragment;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.home.view.ModifyPersonActivity;
@@ -448,8 +450,10 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 
     private void doGetPhotoView() {
         newsTopFourModels.clear();
-        newsTopFourModels.addAll(memberInfoModel.getNewsTopFour());
-        if (newsTopFourModels.size() != 0) {
+        if (memberInfoModel.getNewsTopFour() != null) {
+            newsTopFourModels.addAll(memberInfoModel.getNewsTopFour());
+        }
+        if (newsTopFourModels != null && newsTopFourModels.size() != 0) {
             re_hlist_dy.setVisibility(View.VISIBLE);
             tv_no_dy.setVisibility(View.GONE);
             images.clear();
@@ -639,12 +643,15 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
      */
     @Override
     public void updataTargetText(int flag) {
-        if (1 == flag) {
+        if (1 == flag) {//修改成功了
             if (target == 0) {
                 tv_choose_type.setText("减重");
             } else {
                 tv_choose_type.setText("增重");
             }
+            Intent intent = new Intent(HonorFragment.UPDATE_HONOR_VIEW);
+            intent.putExtra("classId", ClassId);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
     }
 

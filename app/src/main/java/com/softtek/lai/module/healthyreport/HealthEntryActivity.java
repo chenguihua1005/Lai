@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -156,6 +157,9 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
     final String gender = UserInfoModel.getInstance().getUser().getGender();
 
+    private String from = "";
+    private long accountId;
+
     @Override
     protected void initViews() {
         rl_left.setOnClickListener(this);
@@ -183,6 +187,9 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
 
         btn_sure.setOnClickListener(this);
+
+        from = getIntent().getStringExtra("from");
+        accountId = getIntent().getLongExtra("accountId", UserInfoModel.getInstance().getUserId());//UserInfoModel.getInstance().getUser().getUserid()
     }
 
     @Override
@@ -473,7 +480,13 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
 
-        DateTime defaultTime = new DateTime(currentYear, currentMonth - 1, currentDay, 0, 0);
+        DateTime defaultTime;
+        if (currentMonth == 1) {
+            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
+        } else {
+            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+        }
+//        DateTime defaultTime = new DateTime(currentYear, currentMonth - 1, currentDay, 0, 0);
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
         dialog.getDatePicker().setMinDate(minTime.getMillis());
@@ -576,7 +589,9 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         healthModele.setBasalMetabolism(tv_base_metabolize.getText().toString());
         healthModele.setPhysicalAge(tv_body_age.getText().toString());
 
-        healthModele.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+//        healthModele.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+        healthModele.setAccountId(accountId);
+
 
         healthModele.setMeasuredTime(MeasuredTime);
         getPresenter().entryhealthrecord(healthModele);
@@ -617,9 +632,10 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
     @Override
     public void commitSuccess() {
-        setResult(RESULT_OK, getIntent());
-        finish();
-
+        if (TextUtils.isEmpty(from)) {
+            setResult(RESULT_OK, getIntent());
+            finish();
+        }
     }
 
     public interface DoSelectedListener {
