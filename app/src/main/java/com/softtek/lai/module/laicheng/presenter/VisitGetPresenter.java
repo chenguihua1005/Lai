@@ -48,6 +48,5 @@ public class VisitGetPresenter extends BasePresenter<VisitGetPresenter.VisitGetV
 
     public interface VisitGetView extends BaseView {
         void getDatasuccess(LastInfoData model);
-
     }
 }

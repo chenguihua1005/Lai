@@ -24,7 +24,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -702,6 +701,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         fragmentModels.add(new FragmentModel("给客户测", visitorFragment));
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(new BalanceAdapter(getSupportFragmentManager(), fragmentModels));
+        if (isJump) {
+            mViewPager.setCurrentItem(1);
+        }
         pageIndex = mViewPager.getCurrentItem();
         mTab.setupWithViewPager(mViewPager);
         final TabLayout.Tab tab = mTab.getTabAt(0);
@@ -783,8 +785,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 editor.putString(Contacts.CHOOSE_KEY, "old");
                 editor.apply();
                 chooseDialog.dismiss();
+                Intent intent = new Intent(NewLaiBalanceActivity.this, LaibalanceActivity.class);
+                intent.putExtra("isJump",isJump);
+                intent.putExtra("model",basicModel);
+                startActivity(intent);
                 finish();
-                startActivity(new Intent(NewLaiBalanceActivity.this, LaibalanceActivity.class));
             }
         });
         mNew.setOnClickListener(new View.OnClickListener() {

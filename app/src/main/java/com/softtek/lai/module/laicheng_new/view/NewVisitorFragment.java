@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,10 +30,8 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
-import com.softtek.lai.module.laicheng.MainBaseActivity;
 import com.softtek.lai.module.laicheng.VisithistoryActivity;
 import com.softtek.lai.module.laicheng.VisitorinfoActivity;
-import com.softtek.lai.module.laicheng.VisitortestFragment;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
@@ -197,22 +194,58 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         visitorBroadCast = new NewVisitorFragment.VisitorBroadCast();
         manager.registerReceiver(visitorBroadCast, new IntentFilter("visitorinfo"));
 
-        ZillaApi.NormalRestAdapter.create(VisitorService.class)
-                .getData(UserInfoModel.getInstance().getToken(), 0, new Callback<ResponseData<LastInfoData>>() {
-                    @Override
-                    public void success(ResponseData<LastInfoData> data, Response response) {
-                        if (200 == data.getStatus()) {
-                            if (data.getData() != null) {
-                                getLastData(data.getData());
+        if (!isJump) {
+            ZillaApi.NormalRestAdapter.create(VisitorService.class)
+                    .getData(UserInfoModel.getInstance().getToken(), 0, new Callback<ResponseData<LastInfoData>>() {
+                        @Override
+                        public void success(ResponseData<LastInfoData> data, Response response) {
+                            if (200 == data.getStatus()) {
+                                if (data.getData() != null) {
+                                    getLastData(data.getData());
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        ZillaApi.dealNetError(error);
-                    }
-                });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            ZillaApi.dealNetError(error);
+                        }
+                    });
+        } else {
+            model = new VisitorModel();
+            model.setName(basicModel.getName());
+            model.setBirthDate(basicModel.getBirthDay());
+            model.setGender(basicModel.getGender().equals("女") ? 1 : 0);//0男1女
+            model.setHeight(basicModel.getHeight());
+            model.setPhoneNo(basicModel.getMobile());
+            model.setVisitorId(basicModel.getAccountId());
+            model.setAge(basicModel.getAge());
+
+            if (model != null && !TextUtils.isEmpty(model.getName())) {
+                ll_visitor.setVisibility(View.VISIBLE);
+                visitorId = model.getVisitorId();
+                tv_name.setText(model.getName());
+                tv_phoneNo.setText(model.getPhoneNo());
+                if (model.getAge() == 0) {
+                    tv_age.setText((NowYear - choose_year) + "");
+                }else {
+                    tv_age.setText(model.getAge() + "");
+                }
+
+                if (0 == model.getGender()) {
+                    tv_gender.setText("男");
+                } else {
+                    tv_gender.setText("女");
+                }
+                tv_height.setText(String.valueOf(model.getHeight()));
+
+                tv_weight.setText(String.valueOf(0.0));
+                tv_body_fat_rate.setText("- -");
+                mid_lay.setVisibility(View.INVISIBLE);
+                tv_bmi.setText("- -");
+                tv_internal_fat_rate.setText("- -");
+            }
+        }
     }
 
     @Override
@@ -526,5 +559,11 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         }else {
             mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.training));
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        manager.unregisterReceiver(visitorBroadCast);
     }
 }

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.laicheng.adapter.BalanceAdapter;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.FragmentModel;
@@ -67,33 +69,13 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     private AlertDialog chooseDialog;
     private SharedPreferences sharedPreferences;
 
+    private BasicModel basicModel;
+    private boolean isJump = false;
+
     @OnClick(R.id.fl_left)
     public void doBack() {
         finish();
     }
-//    @SuppressLint("LongLogTag")
-//    @PermissionOK(id = 1)
-//    private void initPermissionSuccess() {
-//        setBleStateListener(bleStateListener);
-//        mShakeListener.start();
-//        Log.d("enter bleStateListener --------", "bleStateListener");
-//    }
-//
-//    @PermissionFail(id = 1)
-//    private void initPermissionFail() {
-//        mShakeListener.stop();
-//        new AlertDialog.Builder(this)
-//                .setMessage("拒绝授权将无法正常运行软件！")
-//                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Uri packageURI = Uri.parse("package:" + "com.softtek.lai");
-//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                        startActivity(intent);
-//                        dialog.dismiss();
-//                    }
-//                }).create().show();
-//    }
 
     @SuppressLint("MissingPermission")
     @Override
@@ -123,15 +105,27 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
             }
         }
         sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
+        Intent intent = getIntent();
+        if (intent != null){
+            basicModel = intent.getParcelableExtra("model");
+            isJump = intent.getBooleanExtra("isJump",false);
+        }
         setClosed(true);
         selftestFragment = SelftestFragment.newInstance(null);
         visitortestFragment = new VisitortestFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isJump",isJump);
+        bundle.putParcelable("model",basicModel);
+        visitortestFragment.setArguments(bundle);
         pageIndex = content.getCurrentItem();
 //        permission.apply(1, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION);
         fragmentModels.add(new FragmentModel("给自己测", selftestFragment));
         fragmentModels.add(new FragmentModel("给客户测", visitortestFragment));
         content.setOffscreenPageLimit(1);
         content.setAdapter(new BalanceAdapter(getSupportFragmentManager(), fragmentModels));
+        if (isJump){
+            content.setCurrentItem(1);
+        }
         tab_balance.setupWithViewPager(content);
         final TabLayout.Tab self = tab_balance.getTabAt(0);
         if (self != null) {
@@ -209,8 +203,11 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 editor.putString(Contacts.CHOOSE_KEY,"new");
                 editor.apply();
                 chooseDialog.dismiss();
+                Intent intent = new Intent(LaibalanceActivity.this,NewLaiBalanceActivity.class);
+                intent.putExtra("isJump",isJump);
+                intent.putExtra("model",basicModel);
+                startActivity(intent);
                 finish();
-                startActivity(new Intent(LaibalanceActivity.this,NewLaiBalanceActivity.class));
             }
         });
         if (chooseDialog == null) {

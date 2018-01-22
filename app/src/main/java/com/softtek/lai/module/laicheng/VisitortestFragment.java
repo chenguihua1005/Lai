@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.customermanagement.model.BasicModel;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.model.BleMainData;
 import com.softtek.lai.module.laicheng.model.LastInfoData;
@@ -107,6 +109,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private String bodyFatRate = "";//体脂率
     private String bodyAge = "";//身体年龄
 
+    private BasicModel basicModel;
+    private boolean isJump = false;
+
     private AlertDialog.Builder builder;
 
     private AlertDialog.Builder noVisitorBuilder;
@@ -119,8 +124,44 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     @Override
     protected void lazyLoad() {
+        if (!isJump) {
+            presenter.GetData(UserInfoModel.getInstance().getToken(), 0);
+        }else {
+            if (basicModel!= null) {
+                model = new VisitorModel();
+                model.setName(basicModel.getName());
+                model.setBirthDate(basicModel.getBirthDay());
+                model.setGender(basicModel.getGender().equals("女") ? 1 : 0);//0男1女
+                model.setHeight(basicModel.getHeight());
+                model.setPhoneNo(basicModel.getMobile());
+                model.setVisitorId(basicModel.getAccountId());
+                model.setAge(basicModel.getAge());
+                if (model != null && !TextUtils.isEmpty(model.getName())) {
+                    ll_visitor.setVisibility(View.VISIBLE);
+                    visitorId = model.getVisitorId();
+                    tv_name.setText(model.getName());
+                    tv_phoneNo.setText(model.getPhoneNo());
+                    if (model.getAge() == 0) {
+                        tv_age.setText((NowYear - choose_year) + "");
+                    }else {
+                        tv_age.setText(model.getAge() + "");
+                    }
 
-        presenter.GetData(UserInfoModel.getInstance().getToken(), 0);
+                    if (0 == model.getGender()) {
+                        tv_gender.setText("男");
+                    } else {
+                        tv_gender.setText("女");
+                    }
+                    tv_height.setText(String.valueOf(model.getHeight()));
+
+                    tv_weight.setText(String.valueOf(0.0));
+                    tv_body_fat_rate.setText("- -");
+                    mid_lay.setVisibility(View.INVISIBLE);
+                    tv_bmi.setText("- -");
+                    tv_internal_fat_rate.setText("- -");
+                }
+            }
+        }
     }
 
     public interface StartVisitorLinkListener {
@@ -204,6 +245,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            isJump = bundle.getBoolean("isJump");
+            basicModel = bundle.getParcelable("model");
+        }
         bt_create.setOnClickListener(this);
         bt_history.setOnClickListener(this);
         bt_choose_customer.setOnClickListener(this);
