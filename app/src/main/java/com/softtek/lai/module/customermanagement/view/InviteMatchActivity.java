@@ -99,7 +99,6 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
                 if (inviteMatchModelResponseData.getStatus() == 200) {
                     infoDataList = inviteMatchModelResponseData.getData();
                     if (infoDataList == null || infoDataList.size() < 1){
-                        Toast.makeText(InviteMatchActivity.this, "获取的数据为空(前台写的）", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     for (int i = 0; i < infoDataList.size(); i++) {
