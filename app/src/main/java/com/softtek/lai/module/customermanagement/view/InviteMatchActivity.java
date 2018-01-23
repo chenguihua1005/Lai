@@ -399,7 +399,7 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
             entryGoalDialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialogDismiss();
+                    entryGoalDialog.dismiss();
                 }
             });
             entryGoalDialog.findViewById(R.id.space).setOnClickListener(new View.OnClickListener() {

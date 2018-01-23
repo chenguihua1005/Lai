@@ -242,10 +242,9 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="15dp"
-                        android:drawablePadding="5dp"
-                        android:drawableRight="@drawable/bodygame3_arrow"
                         android:hint="请选择"
                         android:textColor="#333333"
+                        android:gravity="end"
                         android:textSize="15sp" />
                 </RelativeLayout>
 
@@ -254,7 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/ll_selector_grey"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
