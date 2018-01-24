@@ -209,6 +209,21 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 //dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                 dialog3.show();
                                 break;
+                            case 4005:
+                                AlertDialog dialog4 = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
+                                        .setTitle("温馨提示").setMessage(customData)
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                LaiApplication.getInstance().startActivity(intent);
+                                            }
+                                        }).setCancelable(false).create();
+                                //dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+                                dialog4.show();
+                                break;
                             default:
                                 break;
                         }

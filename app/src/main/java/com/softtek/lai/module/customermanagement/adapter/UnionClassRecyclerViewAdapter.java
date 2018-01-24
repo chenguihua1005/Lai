@@ -133,4 +133,3 @@ public class UnionClassRecyclerViewAdapter extends RecyclerView.Adapter<UnionCla
 
 
 }
-                                

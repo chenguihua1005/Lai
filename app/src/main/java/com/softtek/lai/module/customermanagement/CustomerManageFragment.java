@@ -171,14 +171,13 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
             }
         });
 
-        judgeClubAuthority();//获取用户权限
 
 
     }
 
     @Override
     protected void lazyLoad() {
-
+        judgeClubAuthority();//获取用户权限
     }
 
     @Override

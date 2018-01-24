@@ -607,6 +607,9 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     @Override
     public void getData(LastestRecordModel data) {
         lastestRecordModel = data;
+        if (data == null){
+            return;
+        }
         tv_weight.setText(StringUtil.getValue(lastestRecordModel.getWeight()));
         et_pysical.setText(StringUtil.getValue(lastestRecordModel.getPysical()));
         et_fat.setText(StringUtil.getValue(lastestRecordModel.getFat()));
