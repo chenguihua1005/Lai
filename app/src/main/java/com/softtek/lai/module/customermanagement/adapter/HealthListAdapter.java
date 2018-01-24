@@ -93,7 +93,7 @@ public class HealthListAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         public CheckBox cb_selecter;
-        public ImageView icon;
+        public TextView icon;
         public TextView week;
         public TextView time;
         public TextView loss_weight;
@@ -102,7 +102,7 @@ public class HealthListAdapter extends BaseAdapter {
 
         public ViewHolder(View view) {
             cb_selecter = (CheckBox) view.findViewById(R.id.cb_selecter);
-            icon = (ImageView) view.findViewById(R.id.iv_icon);
+            icon = (TextView) view.findViewById(R.id.iv_icon);
             week = (TextView) view.findViewById(R.id.week);
             time = (TextView) view.findViewById(R.id.time);
             loss_weight = (TextView) view.findViewById(R.id.loss_weight);

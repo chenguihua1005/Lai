@@ -102,6 +102,8 @@ public class UpdateFuceTimeActivity extends BaseActivity {
                 DateUtil dateUtil = DateUtil.getInstance(DateUtil.yyyy_MM_dd);
                 String fuce = dateUtil.convertDateStr(date.getMeasureDate(), "yyyy年MM月dd日");
                 String week = dateUtil.getWeek(dateUtil.convert2Date(date.getMeasureDate()));
+
+                boolean CanEdit = date.isCanEdit();
                 ViewHolder holder;
                 if (type == IS_END) {
                     holder = ViewHolder.get(UpdateFuceTimeActivity.this,
@@ -118,24 +120,26 @@ public class UpdateFuceTimeActivity extends BaseActivity {
                         tv_lable.setVisibility(View.VISIBLE);
                         iv_icon.setVisibility(View.GONE);
 //                        if (!TextUtils.isEmpty(certification)) {
+                        if (CanEdit) {
                             holder.getConvertView().setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     showDateDialog(position);
                                 }
                             });
-//                        }
+                        }
                     } else {
                         tv_lable.setVisibility(View.GONE);
                         iv_icon.setVisibility(View.VISIBLE);
 //                        if (!TextUtils.isEmpty(certification)) {
+                        if (CanEdit) {
                             holder.getConvertView().setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     showDateDialog(position);
                                 }
                             });
-//                        }
+                        }
                     }
 
                 }

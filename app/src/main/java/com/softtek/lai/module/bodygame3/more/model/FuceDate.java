@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygame3.more.model;
 
 /**
  * 复测日模型
+ *
  * @author jerry.Guan
  *         created by 2016/11/25
  */
@@ -12,6 +13,15 @@ public class FuceDate {
     private String MeasureDate;
     private String CreateTime;
     private String UpdateTime;
+    private boolean CanEdit;
+
+    public boolean isCanEdit() {
+        return CanEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        CanEdit = canEdit;
+    }
 
     public int getWeekNum() {
         return WeekNum;

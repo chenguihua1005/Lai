@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -341,10 +339,13 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     } else {
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
-                    if ("4".equals(memberInfoModel.getClassRole())) {
-                        Log.i(TAG, "本人且 身份是学员......");
-                        ll_chart.setVisibility(View.VISIBLE);
-                    }
+
+
+                    //刚去掉
+//                    if ("4".equals(memberInfoModel.getClassRole())) {
+//                        Log.i(TAG, "本人且 身份是学员......");
+//                        ll_chart.setVisibility(View.VISIBLE);
+//                    }
                 } else {
                     tv_personlityName.setVisibility(View.VISIBLE);
                     im_guanzhu.setVisibility(View.VISIBLE);
@@ -426,7 +427,12 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     ll_chart.setVisibility(View.VISIBLE);
                 } else {
                     relative_target.setEnabled(false);
-                    ll_chart.setVisibility(View.GONE);
+
+                    if (AccountId == userid) {
+                        ll_chart.setVisibility(View.VISIBLE);
+                    } else {
+                        ll_chart.setVisibility(View.GONE);
+                    }
                 }
                 int target = memberInfoModel.getTarget();
                 if (1 == target) {//增重
@@ -683,76 +689,76 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 
 
     //加好友请求
-    private void sentFriendApply() {
-        String stri = getResources().getString(R.string.Is_sending_a_request);
-        dialogShow(stri);
-        Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String s = getResources().getString(R.string.Add_a_friend);
-                    EMClient.getInstance().contactManager().addContact(HXAccountId, s);
-
-                    ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
-                    service.sentFriendApply(UserInfoModel.getInstance().getToken(), TextUtils.isEmpty(ClassId) ? " " : ClassId, UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
-                        @Override
-                        public void success(final ResponseData responseData, Response response) {
-                            int status = responseData.getStatus();
-
-                            if (200 == status) {
-                                issendFriend = 1;
-                                btn_chat.setVisibility(View.VISIBLE);
-                                btn_chat.setText("发起临时会话");
-                                btn_addguy.setVisibility(View.VISIBLE);//添加好友
-                                btn_addguy.setText("待确认");
-                                btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity2.this, R.color.white));
-                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity2.this, R.drawable.bg_assistant_refuse));
-                                iv_email.setVisibility(View.INVISIBLE);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        dialogDissmiss();
-                                        Util.toastMsg(getResources().getString(R.string.send_successful));
-                                    }
-                                });
-
-                            } else {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        dialogDissmiss();
-                                        Toast.makeText(getApplicationContext(), responseData.getMsg(), Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        }
-
-                        @Override
-                        public void failure(final RetrofitError error) {
-                            ZillaApi.dealNetError(error);
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    dialogDissmiss();
-                                }
-                            });
-                        }
-                    });
-
-                } catch (final HyphenateException e) {//环信加好友成功与否并不影响这边逻辑
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            dialogDissmiss();
-                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-
-            }
-        }).start();
-
-
-    }
+//    private void sentFriendApply() {
+//        String stri = getResources().getString(R.string.Is_sending_a_request);
+//        dialogShow(stri);
+//        Log.i(TAG, "好友 getUserId = " + UserInfoModel.getInstance().getUserId() + " getAccountId=  " + AccountId + " ClassId = " + ClassId);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    String s = getResources().getString(R.string.Add_a_friend);
+//                    EMClient.getInstance().contactManager().addContact(HXAccountId, s);
+//
+//                    ContactService service = ZillaApi.NormalRestAdapter.create(ContactService.class);
+//                    service.sentFriendApply(UserInfoModel.getInstance().getToken(), TextUtils.isEmpty(ClassId) ? " " : ClassId, UserInfoModel.getInstance().getUserId(), AccountId, TextUtils.isEmpty(ClassId) ? " " : ClassId, new Callback<ResponseData>() {
+//                        @Override
+//                        public void success(final ResponseData responseData, Response response) {
+//                            int status = responseData.getStatus();
+//
+//                            if (200 == status) {
+//                                issendFriend = 1;
+//                                btn_chat.setVisibility(View.VISIBLE);
+//                                btn_chat.setText("发起临时会话");
+//                                btn_addguy.setVisibility(View.VISIBLE);//添加好友
+//                                btn_addguy.setText("待确认");
+//                                btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity2.this, R.color.white));
+//                                btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity2.this, R.drawable.bg_assistant_refuse));
+//                                iv_email.setVisibility(View.INVISIBLE);
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        dialogDissmiss();
+//                                        Util.toastMsg(getResources().getString(R.string.send_successful));
+//                                    }
+//                                });
+//
+//                            } else {
+//                                runOnUiThread(new Runnable() {
+//                                    public void run() {
+//                                        dialogDissmiss();
+//                                        Toast.makeText(getApplicationContext(), responseData.getMsg(), Toast.LENGTH_LONG).show();
+//                                    }
+//                                });
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void failure(final RetrofitError error) {
+//                            ZillaApi.dealNetError(error);
+//                            runOnUiThread(new Runnable() {
+//                                public void run() {
+//                                    dialogDissmiss();
+//                                }
+//                            });
+//                        }
+//                    });
+//
+//                } catch (final HyphenateException e) {//环信加好友成功与否并不影响这边逻辑
+//                    e.printStackTrace();
+//                    runOnUiThread(new Runnable() {
+//                        public void run() {
+//                            dialogDissmiss();
+//                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//                }
+//
+//            }
+//        }).start();
+//
+//
+//    }
 
     private void removeFriend() {
         Log.i(TAG, "本人 getUserId = " + UserInfoModel.getInstance().getUserId() + " 好友 getAccountId=  " + AccountId + " AFriendId =" + AFriendId);

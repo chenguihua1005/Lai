@@ -13,6 +13,8 @@ public class RongyuModel {
     private String PysPre;//优秀学员减脂比
     private String ClassWeek;//
 
+    private int Target;
+
     public RongyuModel(String groupName, String groupLossPre, String stuPhoto, String stuName, String lossPre, String pysPre, String classWeek) {
         GroupName = groupName;
         GroupLossPre = groupLossPre;
@@ -21,6 +23,14 @@ public class RongyuModel {
         LossPre = lossPre;
         PysPre = pysPre;
         ClassWeek = classWeek;
+    }
+
+    public int getTarget() {
+        return Target;
+    }
+
+    public void setTarget(int target) {
+        Target = target;
     }
 
     public String getClassWeek() {

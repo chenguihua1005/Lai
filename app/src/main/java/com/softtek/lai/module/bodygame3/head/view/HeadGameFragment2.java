@@ -25,7 +25,6 @@ import com.ggx.widgets.adapter.EasyTypeAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialog;
-import com.ggx.widgets.nicespinner.NiceSpinner;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -151,9 +150,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         this.deleteClass = deleteClass;
     }
 
-    public static HeadGameFragment2 getInstance(DeleteClass deleteClass,String info) {
+    public static HeadGameFragment2 getInstance(DeleteClass deleteClass, String info) {
         Bundle bundle = new Bundle();
-        bundle.putString("classId",info);
+        bundle.putString("classId", info);
         HeadGameFragment2 fragment = new HeadGameFragment2();
         fragment.setArguments(bundle);
         fragment.setDeleteClass(deleteClass);
@@ -435,11 +434,20 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 //荣誉榜
                                 if (classinfoModel.getHonor() != null) {
                                     RongyuModel rongyuModel = classinfoModel.getHonor();
+
+
+                                    String replaceStr = "";
+                                    int Target = rongyuModel.getTarget();
+                                    if (Target == 1) {
+                                        replaceStr = "增";
+                                    } else if (Target == 0) {
+                                        replaceStr = "减";
+                                    }
                                     group_name.setText(rongyuModel.getGroupName());
                                     if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
-                                        jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + "%");
+                                        jianzhongbi_tv.setText("总体重" + rongyuModel.getGroupLossPre());
                                     } else {
-                                        jianzhongbi_tv.setText("总减重比 %");
+                                        jianzhongbi_tv.setText("总体重 %");
                                     }
 
                                     if (!TextUtils.isEmpty(rongyuModel.getClassWeek())) {
@@ -457,14 +465,14 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                                 .placeholder(R.drawable.img_default).into(studenticon);
                                     }
                                     if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
-                                        student_jianzhong.setText("减重比" + rongyuModel.getLossPre() + "%");
+                                        student_jianzhong.setText(replaceStr + "重比" + rongyuModel.getLossPre());
                                     } else {
-                                        student_jianzhong.setText("减重比 %");
+                                        student_jianzhong.setText(replaceStr + "重比 %");
                                     }
                                     if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
-                                        student_jianzhi.setText("减脂比" + rongyuModel.getPysPre() + "%");
+                                        student_jianzhi.setText(replaceStr + "脂比" + rongyuModel.getPysPre());
                                     } else {
-                                        student_jianzhi.setText("减脂比 %");
+                                        student_jianzhi.setText(replaceStr + "脂比 %");
                                     }
                                 }
 
@@ -590,9 +598,9 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                 startActivity(intent2);
                 break;
             case R.id.ll_left:
-                if (!classId.equals("")){
+                if (!classId.equals("")) {
                     startActivity(new Intent(getActivity(), GymClubActivity.class));
-                }else {
+                } else {
                     getActivity().finish();
                 }
                 break;
@@ -795,11 +803,20 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                         //荣誉榜
                         if (classinfoModel.getHonor() != null) {
                             RongyuModel rongyuModel = classinfoModel.getHonor();
+
+                            String replaceStr = "";
+                            int target = rongyuModel.getTarget();
+                            if (target == 1) {
+                                replaceStr = "增";
+                            } else if (target == 0) {
+                                replaceStr = "减";
+                            }
+
                             group_name.setText(rongyuModel.getGroupName());
                             if (!TextUtils.isEmpty(rongyuModel.getGroupLossPre())) {
-                                jianzhongbi_tv.setText("总减重比" + rongyuModel.getGroupLossPre() + " %");
+                                jianzhongbi_tv.setText("总体重" + rongyuModel.getGroupLossPre());
                             } else {
-                                jianzhongbi_tv.setText("总减重比 %");
+                                jianzhongbi_tv.setText("总体重 %");
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getClassWeek())) {
                                 week_group.setText("第" + rongyuModel.getClassWeek() + "周小组第一");
@@ -818,14 +835,14 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
                                 Picasso.with(getContext()).load(R.drawable.img_default).into(studenticon);
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getLossPre())) {
-                                student_jianzhong.setText("减重比" + rongyuModel.getLossPre() + " %");
+                                student_jianzhong.setText(replaceStr + "重比" + rongyuModel.getLossPre());
                             } else {
-                                student_jianzhong.setText("减重比 %");
+                                student_jianzhong.setText(replaceStr + "重比 %");
                             }
                             if (!TextUtils.isEmpty(rongyuModel.getPysPre())) {
-                                student_jianzhi.setText("减脂比" + rongyuModel.getPysPre() + " %");
+                                student_jianzhi.setText(replaceStr + "脂比" + rongyuModel.getPysPre());
                             } else {
-                                student_jianzhi.setText("减脂比 %");
+                                student_jianzhi.setText(replaceStr + "脂比 %");
                             }
                         }
 

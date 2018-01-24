@@ -54,7 +54,6 @@ public class BasicInfoPresenter extends BasePresenter<BasicInfoPresenter.BasicIn
 
     public interface BasicInfoCallBack extends BaseView {
         void getBasicInfo(BasicInfoModel model);
-
     }
 
 

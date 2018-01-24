@@ -60,7 +60,6 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
     private int type = 1;//默认莱称选中
     private long accountId;
 
-    private int number = 0;
 
 
     @Override
@@ -101,12 +100,22 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
                 break;
             case R.id.fl_right:
                 Intent intent = new Intent(this, HealthEntryActivity.class);
-                intent.putExtra("from", "CustomerDeitail");
                 intent.putExtra("accountId",accountId);
-                startActivity(intent);
+                startActivityForResult(intent, 0x0001);
                 break;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0x0001 && type == 1) {
+                pageIndex = 1;
+                getPresenter().getHistoryDataList(type, pageIndex, accountId, true);
+            }
+        }
     }
 
     @Override

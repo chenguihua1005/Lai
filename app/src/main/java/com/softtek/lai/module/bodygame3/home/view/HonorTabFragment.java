@@ -245,7 +245,12 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
                                 public void convert(ViewHolder holder, ClassModel data, int position) {
                                     ImageView iv_icon = holder.getView(R.id.iv_icon);
                                     boolean selected = tv_title.getSelectedIndex() == position;
-                                    int icon;
+
+                                    boolean isWorker = data.isWorker();//是否是俱乐部工作人员，true-是，false-否
+                                    int icon = R.drawable.class_xueyuan;
+                                    if (isWorker) {
+                                        icon = R.drawable.worker;
+                                    }
                                     switch (data.getClassRole()) {
                                         case 1:
                                             icon = R.drawable.class_zongjiaolian;
@@ -256,7 +261,7 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
                                         case 3:
                                             icon = R.drawable.class_zhujiao;
                                             break;
-                                        default:
+                                        case 4:
                                             icon = R.drawable.class_xueyuan;
                                             break;
                                     }
