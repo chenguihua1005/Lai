@@ -23,6 +23,8 @@ import com.softtek.lai.utils.StringUtil;
 
 import java.util.List;
 
+import static android.R.attr.type;
+
 
 public class HistoryDataPKAdapter extends BaseAdapter {
 
@@ -114,18 +116,31 @@ public class HistoryDataPKAdapter extends BaseAdapter {
         HistoryDataModel.RecordsBean data = model.getDataModel();
         if (0 == data.getSourceType()) {
             //莱秤数据
-            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_hand));
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_hand));//laicheng
         } else if (1 == data.getSourceType() || 4 == data.getSourceType()) {
             //复测
-            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.history_data_fuce));
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_fuce_icon));
+            holder.icon.setTextColor(context.getResources().getColor(R.color.fuce));
+            holder.icon.setText("复测");
         } else if (5 == data.getSourceType()) {
+            holder.icon.setText("");
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_icon));
         } else if (6 == data.getSourceType()) {
+            holder.icon.setText("");
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_lite_icon));
-        } else {
+        } else if (7 == data.getSourceType()){
+            holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_chuce_icon));
+            holder.icon.setTextColor(context.getResources().getColor(R.color.chuce));
+            holder.icon.setText("初测");
+        }else {
+            holder.icon.setText("");
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.shoudongluru));
         }
-        holder.week.setText(data.getWeek());
+        if (type == 2) {
+            holder.week.setText(data.getClassName().equals("")?"暂无班级":data.getClassName());
+        }else {
+            holder.week.setText(data.getWeek());
+        }
         holder.time.setText(data.getMeasuredTime());
         SpannableString spannableString = new SpannableString(StringUtil.getFloatValue(data.getWeight()) + "斤");
         spannableString.setSpan(new AbsoluteSizeSpan(30), spannableString.length() - 1, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
