@@ -424,21 +424,21 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                 boolean CanEdit = memberInfoModel.isCanEdit();
                 if (CanEdit) {
                     relative_target.setEnabled(true);
-                    ll_chart.setVisibility(View.VISIBLE);
                 } else {
                     relative_target.setEnabled(false);
-
-                    if (AccountId == userid) {
-                        ll_chart.setVisibility(View.VISIBLE);
-                    } else {
-                        ll_chart.setVisibility(View.GONE);
-                    }
                 }
                 int target = memberInfoModel.getTarget();
                 if (1 == target) {//增重
                     tv_choose_type.setText("增重");
                 } else {
                     tv_choose_type.setText("减重");
+                }
+
+                String ClassRole = memberInfoModel.getClassRole();
+                if (!"0".equals(ClassRole)) {
+                    ll_chart.setVisibility(View.VISIBLE);
+                } else {
+                    ll_chart.setVisibility(View.GONE);
                 }
 
                 doGetPhotoView();//展示图片
