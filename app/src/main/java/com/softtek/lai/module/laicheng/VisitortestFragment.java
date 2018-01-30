@@ -53,6 +53,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 //    Button bt_again;
     private LinearLayout.LayoutParams parm;
     private StartVisitorLinkListener linkListener;
+    private SetTypeListener setTypeListener;
 
     @InjectView(R.id.tv_weight)
     TextView tv_weight;//体重
@@ -115,6 +116,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private AlertDialog.Builder builder;
 
     private AlertDialog.Builder noVisitorBuilder;
+    private int type = 5;
 
     public VisitortestFragment() {
         // Required empty public constructor
@@ -159,6 +161,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     mid_lay.setVisibility(View.INVISIBLE);
                     tv_bmi.setText("- -");
                     tv_internal_fat_rate.setText("- -");
+                    setTypeListener.onSetType(5);
                 }
             }
         }
@@ -231,6 +234,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     }
 
+    public interface  SetTypeListener{
+        void onSetType(int type);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -240,6 +247,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         }
         if (context instanceof StartVisitorLinkListener) {
             linkListener = (StartVisitorLinkListener) context;
+        }
+        if (context instanceof SetTypeListener){
+            setTypeListener = (SetTypeListener)context;
         }
     }
 
@@ -493,6 +503,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("visitorinfo")) {
                 model = (VisitorModel) intent.getParcelableExtra("visitorModel");
+                type = intent.getIntExtra("type",5);
                 choose_year = intent.getExtras().getInt("choose");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
                     ll_visitor.setVisibility(View.VISIBLE);
@@ -518,6 +529,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     tv_bmi.setText("- -");
                     tv_internal_fat_rate.setText("- -");
                     shakeOFF.setOnShakeON();
+                    setTypeListener.onSetType(type);
                 }
             }
         }
@@ -529,5 +541,9 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         }else {
             mBleState.setEnabled(false);
         }
+    }
+
+    public int getType(){
+        return type;
     }
 }

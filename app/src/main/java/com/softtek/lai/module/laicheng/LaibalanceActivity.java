@@ -47,7 +47,8 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_laibalance)
 public class LaibalanceActivity extends MainBaseActivity implements SelftestFragment.VoiceListener,
         VisitortestFragment.ShakeSwitch, VisitortestFragment.VisitorVoiceListener, SelftestFragment.StartLinkListener ,
-        VisitortestFragment.StartVisitorLinkListener{
+        VisitortestFragment.StartVisitorLinkListener,
+        VisitortestFragment.SetTypeListener {
 
     @InjectView(R.id.tab_balance)
     TabLayout tab_balance;
@@ -156,7 +157,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
 
                 } else {
-                    setType(0);
+                    setType(visitortestFragment.getType());
                     if (!isDestroyed()) {
                         visitortestFragment.refreshVoiceIcon();
 //                        visitortestFragment.setStateTip("摇一摇，连接莱秤");
@@ -413,5 +414,10 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
     @Override
     public void onLinkVisitorListener() {
         linkStart();
+    }
+
+    @Override
+    public void onSetType(int type) {
+        this.setType(type);
     }
 }

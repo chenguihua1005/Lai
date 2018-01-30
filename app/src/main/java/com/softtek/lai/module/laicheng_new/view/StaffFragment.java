@@ -60,7 +60,7 @@ public class StaffFragment extends Fragment {
                 model.setPhoneNo(item.getMobile());
                 model.setHeight(item.getHeight());
                 model.setAge(item.getAge());
-                model.setVisitorId(Long.parseLong(item.getMobile()));
+                model.setVisitorId(Long.parseLong(item.getAccountId()));
                 LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
                         sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", model));
                 getActivity().finish();
@@ -78,7 +78,12 @@ public class StaffFragment extends Fragment {
             public void success(ResponseData<CustomerData> responseData, Response response) {
                 if (responseData.getStatus() == 200){
                     if (responseData.getData().getItems() != null){
-                        customerDataList.addAll(responseData.getData().getItems());
+                        for (int i = 0; i < responseData.getData().getItems().size();i++){
+                            if (responseData.getData().getItems().get(i).getTagName().equals("已注册")){
+                                customerDataList.add(responseData.getData().getItems().get(i));
+                            }
+                        }
+//                        customerDataList.addAll(responseData.getData().getItems());
                         recyclerViewAdapter.notifyDataSetChanged();
                     }
                 }

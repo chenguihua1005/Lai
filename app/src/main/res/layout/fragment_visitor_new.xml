@@ -196,7 +196,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:visibility="invisible"
                 android:gravity="center">
 
                 <Button
@@ -204,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/health_report_sharp"
-                    android:drawableLeft="@drawable/health_report_sharp_new"
+                    android:drawableLeft="@drawable/health_report"
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:padding="12dp"

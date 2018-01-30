@@ -82,6 +82,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private Dialog dialog;//分享对话框
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor editor;
+    private boolean isJump = false;
 
     @Nullable
     @Override
@@ -157,6 +158,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
+        isJump = getArguments().getBoolean(ARGUMENTS);
         mSharedPreferences = getActivity().getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         mBleState = (TextView) mView.findViewById(R.id.tv_info_state);
         mBleState.setOnClickListener(this);
@@ -204,7 +206,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "font/wendy.ttf");
         mWeight.setTypeface(tf);
         editor = mSharedPreferences.edit();
-        if (mSharedPreferences.getBoolean(Contacts.MAKI_IS_FIRST,true)){
+        if (mSharedPreferences.getBoolean(Contacts.MAKI_IS_FIRST,true) && !isJump){
             mStyleType.post(new Runnable() {
                 @Override
                 public void run() {
@@ -212,7 +214,6 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
                 }
             });
         }
-        editor.putBoolean(Contacts.MAKI_IS_FIRST,false).apply();
         if(mSharedPreferences.getInt(Contacts.MAKI_STYLE,2) == 2){
             mStyleType.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.relax));
         }else {
@@ -259,9 +260,9 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public static NewSelfFragment newInstance(@Nullable BleMainData data) {
+    public static NewSelfFragment newInstance(@Nullable boolean isJump) {
         Bundle arguments = new Bundle();
-        arguments.putSerializable(ARGUMENTS, data);
+        arguments.putBoolean(ARGUMENTS, isJump);
         NewSelfFragment fragment = new NewSelfFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -433,6 +434,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         guide = guideBuilder.createGuide();
         guide.setShouldCheckLocInWindow(true);
         guide.show(getActivity());
+        editor.putBoolean(Contacts.MAKI_IS_FIRST,false).apply();
     }
 
     public void changeStyleImg(int type){

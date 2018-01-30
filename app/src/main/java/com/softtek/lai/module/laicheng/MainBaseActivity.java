@@ -103,7 +103,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
 
     protected void linkStart() {
         isDeviceChoosed = false;
-        if (getGuestInfo() == null && getType() != 1) {
+        if (getGuestInfo() == null && getType() == 0) {
             showNoVisitorDialog();
             return;
         }
@@ -296,7 +296,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
             @Override
             public void BleRead(byte[] datas) {
                 Log.d("getType---------", "type=" + getType());
-                if (getGuestInfo() == null && getType() != 1) {
+                if (getGuestInfo() == null && getType() == 0) {
                     showNoVisitorDialog();
                     return;
                 }

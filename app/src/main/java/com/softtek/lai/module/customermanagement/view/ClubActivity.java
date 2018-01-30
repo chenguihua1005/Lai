@@ -343,13 +343,13 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                 createRenameDialog();
                 break;
             case R.id.tv_close_club:
-                dialogShow("加载中");
                 closeDialogBuilder = new AlertDialog.Builder(this);
                 closeDialogBuilder
                         .setMessage("确实要关闭俱乐部吗？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogShow("加载中");
                                 service.closeClub(UserInfoModel.getInstance().getToken(), nowClubId, new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
@@ -362,6 +362,12 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                                             closeDialog.dismiss();
                                         }
                                     }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        dialogDismiss();
+                                        super.failure(error);
+                                    }
                                 });
 
                             }
@@ -369,7 +375,6 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogDismiss();
                                 closeDialog.dismiss();
                             }
                         });
@@ -401,28 +406,4 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
 
         }
     }
-
-    //    /**
-//     * 通用progressDialog
-//     *
-//     * @param value
-//     */
-//    public void dialogShow(String value) {
-//        if (progressDialog == null || !progressDialog.isShowing()) {
-//            if (!ClubActivity.this.isFinishing()) {
-//                progressDialog = CustomProgress.build(this, value);
-//                progressDialog.show();
-//            }
-//        }
-//    }
-//
-//    /**
-//     * 通用progressDialog
-//     */
-//    public void dialogDismiss() {
-//        if (progressDialog != null && progressDialog.isShowing()) {
-//            progressDialog.dismiss();
-//            progressDialog = null;
-//        }
-//    }
 }

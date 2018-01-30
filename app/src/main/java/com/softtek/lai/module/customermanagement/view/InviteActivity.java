@@ -104,7 +104,6 @@ public class InviteActivity extends MakiBaseActivity implements View.OnClickList
                     public void failure(RetrofitError error) {
                         dialogDismiss();
                         super.failure(error);
-                        Toast.makeText(InviteActivity.this,error.toString(),Toast.LENGTH_SHORT).show();
                     }
                 });
     }

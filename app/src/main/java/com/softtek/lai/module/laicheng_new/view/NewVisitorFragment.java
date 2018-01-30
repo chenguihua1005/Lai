@@ -92,6 +92,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     private StartVisitorLinkListener linkListener;
     private RenameVisitorListener renameVisitorListener;
     private ChangeStyleListener styleListener;
+    private SetTypeListener setTypeListener;
 
     private VisitorModel model;
     private String weight = "";//体重
@@ -109,6 +110,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     private boolean isJump = false;
 
     private boolean isNeedReconnect = false;
+    private int type = 5;
 
     public boolean isNeedReconnect() {
         return isNeedReconnect;
@@ -244,6 +246,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 mid_lay.setVisibility(View.INVISIBLE);
                 tv_bmi.setText("- -");
                 tv_internal_fat_rate.setText("- -");
+                setTypeListener.setType(5);
             }
         }
     }
@@ -306,6 +309,10 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         void onVisitorStyleTypeListener();
     }
 
+    public interface SetTypeListener{
+        void setType(int type);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -317,6 +324,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         }
         if (context instanceof ChangeStyleListener){
             styleListener = (ChangeStyleListener)context;
+        }
+        if (context instanceof SetTypeListener){
+            setTypeListener = (SetTypeListener)context;
         }
     }
 
@@ -471,7 +481,8 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("visitorinfo")) {
-                model = (VisitorModel) intent.getParcelableExtra("visitorModel");
+                model = intent.getParcelableExtra("visitorModel");
+                type = intent.getIntExtra("type",5);
                 choose_year = intent.getExtras().getInt("choose");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
                     ll_visitor.setVisibility(View.VISIBLE);
@@ -500,6 +511,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 }
                 setNeedReconnect(true);
                 linkListener.onLinkVisitorListener();
+                setTypeListener.setType(type);
             }
         }
     }
@@ -565,5 +577,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     public void onDestroy() {
         super.onDestroy();
         manager.unregisterReceiver(visitorBroadCast);
+    }
+
+    public int getType(){
+        return type;
     }
 }

@@ -86,7 +86,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         NewVisitorFragment.StartVisitorLinkListener,
         NewSelfFragment.RenameListener, NewVisitorFragment.RenameVisitorListener,
         NewSelfFragment.ChangeStyleListener,
-        NewVisitorFragment.ChangeStyleListener {
+        NewVisitorFragment.ChangeStyleListener,
+        NewVisitorFragment.SetTypeListener {
     private static int PERMISSION_REQUEST_COARSE_LOCATION = 233;
     private static int PERMISSION_REQUEST_CALL_PHONE = 2333;
     private FrameLayout mLeftBack;
@@ -116,7 +117,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private AlertDialog.Builder changeTpyeBuilder;
     private AlertDialog changeTypeDialog;
 
-    private int type = 1;//0自己，1访客
+    private int type = 0;//0访客，1自己,4其他
     private QNBleDevice connectedDevice;
     private BleMainData mainData;
     private SharedPreferences sharedPreferences;
@@ -364,9 +365,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 }
                 PostQnData data = createPostData(qnData);
                 long accountId = 0;
-                if (type == 0) {
+                if (type != 1) {
                     accountId = visitorFragment.getVisitorModel().getVisitorId();
-                } else if (type == 1) {
+                } else {
                     accountId = UserInfoModel.getInstance().getUserId();
                 }
                 if (testingTimeout != null) {
@@ -683,7 +684,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private void initUi() {
         sharedPreferences = getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
         algorithmType = sharedPreferences.getInt(Contacts.MAKI_STYLE,QNBleApi.ALGORITHM_V1);
-        selfFragment = NewSelfFragment.newInstance(null);
+        selfFragment = NewSelfFragment.newInstance(isJump);
         visitorFragment = NewVisitorFragment.newInstance(isJump,basicModel);
 
         mLeftBack = findViewById(R.id.fl_left);
@@ -730,8 +731,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     selfFragment.refreshVoiceIcon();
                     type = 1;
                 } else {
+                    type = visitorFragment.getType();
                     visitorFragment.refreshVoiceIcon();
-                    type = 0;
                 }
                 if (connectedDevice != null) {
                     qnBleApi.disconnectDevice(connectedDevice.getMac());
@@ -743,6 +744,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             }
         });
+        if (mViewPager.getCurrentItem() == 0) {
+            type = 0;
+        } else {
+            type = visitorFragment.getType();
+        }
         mainData = new BleMainData();
     }
 
@@ -1015,5 +1021,10 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     @Override
     public void onVisitorStyleTypeListener() {
         createChooseTypeDialog();
+    }
+
+    @Override
+    public void setType(int type) {
+        this.type = type;
     }
 }
