@@ -238,6 +238,7 @@
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/bodygame3_arrow"
                     android:hint="请选择"
+                    android:gravity="end"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -272,6 +273,7 @@
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/bodygame3_arrow"
                     android:hint="请选择"
+                    android:gravity="end"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>

@@ -78,10 +78,11 @@
             android:gravity="center|end"
             android:orientation="horizontal">
 
-            <ImageView
+            <TextView
                 android:id="@+id/iv_icon"
                 android:layout_width="25dp"
-                android:layout_height="25dp" />
+                android:layout_height="25dp"
+                android:textSize="10dp"/>
         </LinearLayout>
     </LinearLayout>
 

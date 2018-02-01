@@ -10,7 +10,6 @@ import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -57,7 +56,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView mIcon;
+        private TextView mIcon;
         private TextView mWeek;
         private TextView mTime;
         private TextView mWeight;
@@ -89,11 +88,17 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
                 mIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.laicheng_hand));//laicheng
             } else if (1 == item.getSourceType() || 4 == item.getSourceType()) {
                 //复测
-                mIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.history_data_fuce));
+                mIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_fuce_icon));
+                mIcon.setTextColor(mContext.getResources().getColor(R.color.fuce));
+                mIcon.setText("复测");
             } else if (5 == item.getSourceType()) {
                 mIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.laicheng_icon));
             } else if (6 == item.getSourceType()) {
                 mIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.laicheng_lite_icon));
+            } else if (7 == item.getSourceType()) {
+                mIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_chuce_icon));
+                mIcon.setTextColor(mContext.getResources().getColor(R.color.chuce));
+                mIcon.setText("初测");
             } else {
                 mIcon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shoudongluru));
             }

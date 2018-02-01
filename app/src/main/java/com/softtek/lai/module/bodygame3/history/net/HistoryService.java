@@ -28,7 +28,7 @@ public interface HistoryService {
                          RequestCallback<ResponseData<DynamicBean>> callback);
 
     //班级详情
-    @GET("/V1/HistoryClass/GetHistoryClassDetails")
+    @GET("/v1/club/GetHistoryClassDetails")
     void getHistoryInfo(@Header("token") String token,
                         @Query("AccountId") long accountId,
                         @Query("ClassId") String classId,

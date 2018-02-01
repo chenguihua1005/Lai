@@ -308,7 +308,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygame3.history.view.ClassInfoActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.laijumine.view.MySettingActivity"
             android:screenOrientation="portrait" />

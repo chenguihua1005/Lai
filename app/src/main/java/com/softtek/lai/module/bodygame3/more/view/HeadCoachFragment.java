@@ -94,6 +94,7 @@ public class HeadCoachFragment extends Fragment implements View.OnClickListener 
                 Intent intent = new Intent(getContext(), LossWeightAndFatActivity.class);
                 startActivity(intent);
             }
+            break;
             case R.id.rl_invitation: {
                 Intent intent = new Intent(getContext(), InvitationListActivity.class);
                 intent.putExtra("classId", model.getClassId());

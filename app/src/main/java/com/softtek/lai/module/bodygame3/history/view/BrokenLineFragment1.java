@@ -56,7 +56,7 @@ public class BrokenLineFragment1 extends Fragment {
         historyDetailsBean = (HistoryDetailsBean) arg.getSerializable(ARGUMENTS);
         mBrokeChat = (Chart) view.findViewById(R.id.broken_chat);
         mNoData = (TextView)view.findViewById(R.id.tv_no_data);
-        mBrokeChat.setTitle1("总减重斤数");
+        mBrokeChat.setTitle1("总体重变化斤数均值");
         mBrokeChat.setTitle2("未复测");
         int radius = DisplayUtil.dip2px(getContext(), 5);
         GradientDrawable orange = new GradientDrawable();
@@ -64,11 +64,11 @@ public class BrokenLineFragment1 extends Fragment {
         orange.setCornerRadius(radius);
         mBrokeChat.setBackground(orange);
         float maxValue = 0;
-        if (historyDetailsBean.getList_Weight() != null) {
+        if (historyDetailsBean.getList_Weight() != null && 0 < historyDetailsBean.getList_Weight().size()) {
             mNoData.setVisibility(View.GONE);
             for (int i = 0; i < historyDetailsBean.getList_Weight().size(); i++) {
                 xAsix.add(historyDetailsBean.getList_Weight().get(i).getGroupName());
-                float value =Float.valueOf(historyDetailsBean.getList_Weight().get(i).getLossPer());
+                float value =Float.valueOf(historyDetailsBean.getList_Weight().get(i).getLossPer().split("%")[0]);
                 maxValue = value > maxValue ? value : maxValue;
                 Entry entry = new Entry(i,value);
                 data.add(entry);

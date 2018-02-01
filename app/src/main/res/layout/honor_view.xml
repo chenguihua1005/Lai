@@ -55,7 +55,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:layout_marginLeft="8dp"
             android:background="@drawable/most_loss_fat">
 
             <LinearLayout
@@ -78,7 +77,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="减重比最多的学员"
+                        android:text="体重比变化No.1"
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="14sp"/>
@@ -156,7 +155,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="减脂比最多的学员"
+                        android:text="体脂比变化No.1"
                         android:gravity="center"
                         android:textSize="14sp"
                         android:textColor="@color/white"/>

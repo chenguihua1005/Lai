@@ -156,6 +156,7 @@ public class ClassInfoActivity extends BaseActivity {
                 new RecyclerViewInfoAdapter.ItemListener() {
                     @Override
                     public void onItemClick(DynamicBean.PhotoWallslistBean item, int pos) {
+
                     }
                 },
                 new RecyclerViewInfoAdapter.CommentListener() {
@@ -490,7 +491,7 @@ public class ClassInfoActivity extends BaseActivity {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(mUserSetImg_1);
             mLossFat.setText(list.get(0).getUserName());
-            mLossFatValue.setText("减重比" + list.get(0).getLoss() + "%");
+            mLossFatValue.setText("减重比" + list.get(0).getLoss());
         }
         if (list.size() > 1) {
             Picasso.with(ClassInfoActivity.this).load(AddressManager.get("photoHost") + list.get(1).getPhoto())
@@ -499,7 +500,7 @@ public class ClassInfoActivity extends BaseActivity {
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(mUserSetImg_2);
             mLossWeight.setText(list.get(1).getUserName());
-            mLossWeightValue.setText("减脂比" + list.get(1).getLoss() + "%");
+            mLossWeightValue.setText("减脂比" + list.get(1).getLoss());
         }
     }
 
@@ -519,6 +520,14 @@ public class ClassInfoActivity extends BaseActivity {
                             }
                             mPull.setRefreshing(false);
                             if (responseData.getStatus() == 200) {
+                                if (responseData.getData().getPhotoWallslist() == null){
+                                    mRecyclerNoData.setVisibility(View.VISIBLE);
+                                    return;
+                                }
+                                if (responseData.getData().getPhotoWallslist().size() < 1){
+                                    mRecyclerNoData.setVisibility(View.VISIBLE);
+                                    return;
+                                }
                                 wallsList.addAll(responseData.getData().getPhotoWallslist());
                                 mInfoAdapter.notifyDataSetChanged();
 
