@@ -169,7 +169,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
 
             tv_name.setText(basicModel.getName());
-            tv_other.setText(basicModel.getGender() + "|" + basicModel.getHeight() +"cm");
+            tv_other.setText(basicModel.getGender() + "|" + basicModel.getHeight() + "cm");
             tv_birth.setText(basicModel.getBirthDay());
             tv_zhicheng.setText(basicModel.getUserRole());
             tv_mobile.setText(basicModel.getMobile());
@@ -206,6 +206,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
             case R.id.btn_register:
                 Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
                 startActivity(intent);
+                getActivity().finish();
                 break;
             case R.id.ll_more:
                 Intent intent1 = new Intent(getContext(), HealthListActivity.class);
@@ -247,7 +248,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         }
     };
 
-    public String getGender(){
+    public String getGender() {
         return basicModel.getGender();
     }
 
