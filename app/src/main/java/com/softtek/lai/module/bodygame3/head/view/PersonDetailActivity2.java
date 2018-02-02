@@ -361,8 +361,8 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 //                        ll_chart.setVisibility(View.VISIBLE);
 //                    }
 
-                    issendFriend = memberInfoModel.getIsSendFriend();
-                    IsFriend = memberInfoModel.getIsFriend();
+//                    issendFriend = memberInfoModel.getIsSendFriend();
+//                    IsFriend = memberInfoModel.getIsFriend();
 
                     //如果是好友的话，并且对方是学员时候，可查看当前班级 曲线图放开
 //                    if ("4".equals(memberInfoModel.getClassRole())) {
@@ -419,6 +419,15 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     }
                 }
 
+
+                String ClassRole = memberInfoModel.getClassRole();
+                if (!"0".equals(ClassRole)) {
+                    ll_chart.setVisibility(View.VISIBLE);
+                    relative_target.setVisibility(View.VISIBLE);
+                } else {
+                    ll_chart.setVisibility(View.GONE);
+                    relative_target.setVisibility(View.GONE);
+                }
                 //参赛目标
 
                 boolean CanEdit = memberInfoModel.isCanEdit();
@@ -434,12 +443,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     tv_choose_type.setText("减重");
                 }
 
-                String ClassRole = memberInfoModel.getClassRole();
-                if (!"0".equals(ClassRole)) {
-                    ll_chart.setVisibility(View.VISIBLE);
-                } else {
-                    ll_chart.setVisibility(View.GONE);
-                }
 
                 doGetPhotoView();//展示图片
             }
