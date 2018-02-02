@@ -259,13 +259,15 @@ public class SupportTeamActivity extends BaseActivity {
             //角色图片
             ImageView iv_identity = (ImageView) view.findViewById(R.id.iv_identity);
             String classRole = waiter.getClassRole();
-            switch (classRole) {
-                case "教练":
-                    iv_identity.setImageResource(R.drawable.coach);
-                    break;
-                case "助教":
-                    iv_identity.setImageResource(R.drawable.assistant);
-                    break;
+            if (classRole != null) {
+                switch (classRole) {
+                    case "教练":
+                        iv_identity.setImageResource(R.drawable.coach);
+                        break;
+                    case "助教":
+                        iv_identity.setImageResource(R.drawable.assistant);
+                        break;
+                }
             }
             //设置成员item的宽高
             ViewGroup.LayoutParams params = new ViewPager.LayoutParams();
