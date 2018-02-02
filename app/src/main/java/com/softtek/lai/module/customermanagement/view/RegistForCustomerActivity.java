@@ -219,14 +219,6 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
             String phoneNum = et_phone.getText().toString();
             getPresenter().getSituationOfTheMobile(phoneNum);
         }
-// else if (status == 200) {
-//            String phoneNum = et_phone.getText().toString().trim();
-//            Intent intent = new Intent(RegistForCustomerActivity.this, NewCustomerActivity.class);
-//            intent.putExtra("mobile", phoneNum);
-//            intent.putExtra("needQuery", false);//需要查询基础数据
-//            intent.putExtra("fromRegistPage", true);
-//            startActivity(intent);
-//        }
     }
 
     @Override

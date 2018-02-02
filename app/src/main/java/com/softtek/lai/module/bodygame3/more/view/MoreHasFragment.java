@@ -472,6 +472,16 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
                     tv_role_name.append(TextUtils.isEmpty(model.getCGName()) ? "未知" : model.getCGName());
                     tv_role_name.append(")");
 
+//同时要刷新班级列表
+                    for (ClassModel model_temp : classModels) {
+                        if (model_temp.getClassId().equals(model.getClassId())) {
+                            model_temp.setClassRole(classRole);
+                            break;
+                        }
+                    }
+
+                    arrow.getAdapter().notifyDataSetChanged();
+
                 }
             }
 
