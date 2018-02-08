@@ -396,6 +396,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         }
         if (mEntryGoal.getText().toString().trim().equals("")){
             Toast.makeText(this,"请选择参赛目标",Toast.LENGTH_SHORT).show();
+            return;
         }
         if (clazz != null) {
 //            clazz.setGroupName("未分组");
