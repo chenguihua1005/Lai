@@ -51,6 +51,7 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
+import static android.R.attr.value;
 import static com.softtek.lai.R.id.tv_role;
 
 public class MoreHasFragment extends Fragment implements View.OnClickListener {
@@ -476,11 +477,17 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
                     for (ClassModel model_temp : classModels) {
                         if (model_temp.getClassId().equals(model.getClassId())) {
                             model_temp.setClassRole(classRole);
+
+                            model.setClassRole(classRole);
                             break;
                         }
                     }
 
                     arrow.getAdapter().notifyDataSetChanged();
+
+                    //  刷新其他页面列表
+                    EventBus.getDefault().post(new UpdateClass(0, model));
+
 
                 }
             }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import com.softtek.lai.module.bodygame3.head.model.HonorFragmentModel;
 import com.softtek.lai.module.bodygame3.head.model.SaveclassModel;
 import com.softtek.lai.module.bodygame3.head.view.HonorRuleActivity;
 import com.softtek.lai.module.bodygame3.home.HonorFragment;
+import com.softtek.lai.module.bodygame3.home.event.SaveClassModel;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
 import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.widgets.NoSlidingViewPage;
@@ -40,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -77,6 +80,9 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
     private ClassModel classModel;
 
     boolean isFirst = true;
+
+    private boolean needRefreshTitle = true;//正常切换体馆周和月的时候，不用刷新Tab页的班级列表.默认是刷新的
+
 
     public HonorTabFragment() {
 
@@ -142,53 +148,12 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
         EventBus.getDefault().register(this);
 
 
-        //班级列表
-//        tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-//            @Override
-//            public void convert(ViewHolder holder, ClassModel data, int position) {
-////                ImageView iv_icon = holder.getView(R.id.iv_icon);
-////                boolean selected = tv_title.getSelectedIndex() == position;
-////                int icon;
-////                switch (data.getClassRole()) {
-////                    case 1:
-////                        icon = R.drawable.class_zongjiaolian;
-////                        break;
-////                    case 2:
-////                        icon = R.drawable.class_jiaolian;
-////                        break;
-////                    case 3:
-////                        icon = R.drawable.class_zhujiao;
-////                        break;
-////                    default:
-////                        icon = R.drawable.class_xueyuan;
-////                        break;
-////                }
-////                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-////                TextView tv_number = holder.getView(R.id.tv_number);
-////                tv_number.setText("班级编号:" + data.getClassCode());
-//                TextView tv_class_name = holder.getView(R.id.tv_class_name);
-//                tv_class_name.setText(data.getClassName());
-////                RadioButton iv_sel = holder.getView(R.id.iv_select);
-////                iv_sel.setChecked(selected);
-//            }
-//
-//            @Override
-//            public String getText(int position) {
-//                if (classModels != null && !classModels.isEmpty()) {
-//                    classId = classModels.get(position).getClassId();
-//                    return classModels.get(position).getClassName();
-//                } else {
-//                    return "暂无班级";
-//                }
-//            }
-//        });
-//        tv_title.getAdapter().notifyDataSetChanged();
-
-
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 classId = classModels.get(i).getClassId();
+                SharedPreferenceService.getInstance(getContext()).put("ClassId", classId);
+
                 classrole = classModels.get(i).getClassRole();
 
                 saveclassModel.setClassId(classModels.get(i).getClassId());
@@ -198,9 +163,11 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
                 saveclassModel.setClassCode(classModels.get(i).getClassCode());
 //                lazyLoad();
 
-                Intent intent = new Intent(HonorFragment.UPDATE_HONOR_VIEW);
-                intent.putExtra("classId", classId);
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                if (needRefreshTitle) {
+                    Intent intent = new Intent(HonorFragment.UPDATE_HONOR_VIEW);
+                    intent.putExtra("classId", classId);
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                }
             }
         });
     }
@@ -209,6 +176,8 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_left:
+                SharedPreferenceService.getInstance(getContext()).put("ClassId", "");
+
                 if (!tagClassId.equals("")) {
                     startActivity(new Intent(getActivity(), GymClubActivity.class));
                 } else {
@@ -234,64 +203,127 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
             if (intent != null && intent.getAction().equalsIgnoreCase(UPDATE_CLASSLIST)) {
                 if (classModels != null) {
                     classModels.clear();
-
                     classModels = intent.getParcelableArrayListExtra("classList");
+                    needRefreshTitle = intent.getBooleanExtra("needRefreshTitle", needRefreshTitle);
+
+                    Log.i("honor", "收到广播 班级shumu = " + classModels.size());
                     if (classModels != null && classModels.size() > 0) {
-                        if (isFirst) {
-                            Log.i("honor", "收到广播 班级shumu = " + classModels.size());
-
-                            tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
-                                @Override
-                                public void convert(ViewHolder holder, ClassModel data, int position) {
-                                    ImageView iv_icon = holder.getView(R.id.iv_icon);
-                                    boolean selected = tv_title.getSelectedIndex() == position;
-
-                                    boolean isWorker = data.isWorker();//是否是俱乐部工作人员，true-是，false-否
-                                    int icon = R.drawable.class_xueyuan;
-                                    if (isWorker) {
-                                        icon = R.drawable.worker;
-                                    }
-                                    switch (data.getClassRole()) {
-                                        case 1:
-                                            icon = R.drawable.class_zongjiaolian;
-                                            break;
-                                        case 2:
-                                            icon = R.drawable.class_jiaolian;
-                                            break;
-                                        case 3:
-                                            icon = R.drawable.class_zhujiao;
-                                            break;
-                                        case 4:
-                                            icon = R.drawable.class_xueyuan;
-                                            break;
-                                    }
-                                    iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
-                                    TextView tv_number = holder.getView(R.id.tv_number);
-                                    tv_number.setText("班级编号:" + data.getClassCode());
-                                    TextView tv_class_name = holder.getView(R.id.tv_class_name);
-                                    tv_class_name.setText(data.getClassName());
-                                    RadioButton iv_sel = holder.getView(R.id.iv_select);
-                                    iv_sel.setChecked(selected);
+                        //班级列表
+                        tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+                            @Override
+                            public void convert(ViewHolder holder, ClassModel data, int position) {
+                                ImageView iv_icon = holder.getView(R.id.iv_icon);
+                                boolean selected = tv_title.getSelectedIndex() == position;
+                                int icon = R.drawable.class_xueyuan;
+                                boolean isWorker = data.isWorker();//是否是俱乐部工作人员，true-是，false-否
+                                if (isWorker) {
+                                    icon = R.drawable.worker;
                                 }
-
-                                @Override
-                                public String getText(int position) {
-                                    if (classModels != null && !classModels.isEmpty()) {
-                                        classId = classModels.get(position).getClassId();
-                                        return classModels.get(position).getClassName();
-                                    } else {
-                                        return "暂无班级";
-                                    }
+                                switch (data.getClassRole()) {
+                                    case 1:
+                                        icon = R.drawable.class_zongjiaolian;
+                                        break;
+                                    case 2:
+                                        icon = R.drawable.class_jiaolian;
+                                        break;
+                                    case 3:
+                                        icon = R.drawable.class_zhujiao;
+                                        break;
+                                    case 4:
+                                        icon = R.drawable.class_xueyuan;
+                                        break;
                                 }
-                            });
+                                iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+                                TextView tv_number = holder.getView(R.id.tv_number);
+                                tv_number.setText("班级编号:" + data.getClassCode());
+                                TextView tv_class_name = holder.getView(R.id.tv_class_name);
+                                tv_class_name.setText(data.getClassName());
+                                RadioButton iv_sel = holder.getView(R.id.iv_select);
+                                iv_sel.setChecked(selected);
+                            }
 
-                            tv_title.notifChange();
+                            @Override
+                            public String getText(int position) {
+                                if (classModels != null && classModels.size() > 0) {
+//                                    classId = classModels.get(position).getClassId();
+                                    return classModels.get(position).getClassName();
+                                } else {
+                                    return "null班级";
+                                }
+                            }
+                        });
+
+                        if (TextUtils.isEmpty(classId)) {
+                            classId = classModels.get(0).getClassId();
+                            classrole = classModels.get(0).getClassRole();
                             tv_title.setSelected(0);
+                            tv_title.notifChange();
+
+                        } else {
+                            for (int i = 0, j = classModels.size(); i < j; i++) {
+                                ClassModel model = classModels.get(i);
+                                if (model.getClassId().equals(classId)) {
+                                    tv_title.setSelected(i);
+                                    tv_title.notifChange();
+                                    break;
+                                }
+                            }
+                        }
+
+
+//                            tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
+//                                @Override
+//                                public void convert(ViewHolder holder, ClassModel data, int position) {
+//                                    ImageView iv_icon = holder.getView(R.id.iv_icon);
+//                                    boolean selected = tv_title.getSelectedIndex() == position;
+//
+//                                    boolean isWorker = data.isWorker();//是否是俱乐部工作人员，true-是，false-否
+//                                    int icon = R.drawable.class_xueyuan;
+//                                    if (isWorker) {
+//                                        icon = R.drawable.worker;
+//                                    }
+//                                    switch (data.getClassRole()) {
+//                                        case 1:
+//                                            icon = R.drawable.class_zongjiaolian;
+//                                            break;
+//                                        case 2:
+//                                            icon = R.drawable.class_jiaolian;
+//                                            break;
+//                                        case 3:
+//                                            icon = R.drawable.class_zhujiao;
+//                                            break;
+//                                        case 4:
+//                                            icon = R.drawable.class_xueyuan;
+//                                            break;
+//                                    }
+//                                    iv_icon.setImageDrawable(ContextCompat.getDrawable(getContext(), icon));
+//                                    TextView tv_number = holder.getView(R.id.tv_number);
+//                                    tv_number.setText("班级编号:" + data.getClassCode());
+//                                    TextView tv_class_name = holder.getView(R.id.tv_class_name);
+//                                    tv_class_name.setText(data.getClassName());
+//                                    RadioButton iv_sel = holder.getView(R.id.iv_select);
+//                                    iv_sel.setChecked(selected);
+//                                }
+//
+//                                @Override
+//                                public String getText(int position) {
+//                                    if (classModels != null && !classModels.isEmpty()) {
+//                                        classId = classModels.get(position).getClassId();
+//                                        return classModels.get(position).getClassName();
+//                                    } else {
+//                                        return "暂无班级";
+//                                    }
+//                                }
+//                            });
+
+//                            tv_title.notifChange();
+//                            tv_title.setSelected(0);
+
+//                        tv_title.getAdapter().notifyDataSetChanged();
+//                        tv_title.setSelected(tv_title.getSelectedIndex());
 
 //                        tv_title.getAdapter().notifyDataSetChanged();
 //                        tv_title.setSelected(0);
-                            isFirst = false;
-                        }
                     } else {
                         //如果班级是空
                         tv_title.setText("暂无班级");
@@ -353,6 +385,20 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
             }
             lazyLoad();
         }
+    }
+
+
+    private boolean isSelector;
+
+    @Subscribe
+    public void classSelect(SaveClassModel saveClassModel) {
+        isSelector = true;
+        classId = saveClassModel.classId;
+
+        Intent intent = new Intent(HonorFragment.UPDATE_HONOR_VIEW);
+        intent.putExtra("classId", classId);
+        SharedPreferenceService.getInstance(getContext()).put("ClassId", classId);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
 }
