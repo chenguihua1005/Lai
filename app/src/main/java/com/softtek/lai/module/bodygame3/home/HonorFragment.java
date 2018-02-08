@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.ggx.widgets.adapter.ViewHolder;
 import com.ggx.widgets.nicespinner.ArrowSpinnerAdapter;
 import com.ggx.widgets.nicespinner.ListDialogHonor;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.softtek.lai.R;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -49,7 +51,7 @@ import zilla.libcore.ui.InjectLayout;
 public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements HonorPresenter.HonorView {
 
     private String ByWhichRatio = "ByWeightRatio";
-    private String ClassId = "";
+    static private String ClassId = "";
     private String SortTimeType = "ByWeek";
     private Long UID = 333L;
     private int WhichTime = 1;
@@ -78,6 +80,8 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
 
     private String from = "";
 
+    private boolean needRefreshTitle = true;//正常切换体馆周和月的时候，不用刷新Tab页的班级列表.默认是刷新的
+
 
     public HonorFragment() {
     }
@@ -90,9 +94,11 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
 
     @Override
     protected void lazyLoad() {
+        Log.i("HonorFragment", "lazyLoad()......");
         UID = UserInfoModel.getInstance().getUserId();
         loadData(is_first);
     }
+
 
     @Override
     protected void initViews() {
@@ -131,6 +137,8 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         arrow.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                needRefreshTitle = false;//切换体馆周和月的时候不需要刷新
+
                 selectedSpinner = i;
 
                 WhichTime = Integer.parseInt((spinnerData.get(i)).getDateValue());
@@ -155,7 +163,8 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         listHonorrank.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
-//                is_first = true;
+                Log.i("HonorFragment", "刷新......onPullDownToRefresh() is running......");
+                ClassId = SharedPreferenceService.getInstance(getContext()).get("ClassId", "");
                 getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
             }
 
@@ -222,17 +231,22 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    Log.i("HonorFragment", "is_first...  刷新界面...   new Handler().postDelayed(new Runnable() ");
+                    ClassId = SharedPreferenceService.getInstance(getContext()).get("ClassId", "");
                     getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
                 }
             }, 500);
 
         } else {
+            Log.i("HonorFragment", "不是第一次...  刷新界面...   new Handler().postDelayed(new Runnable() ");
             try {
                 listHonorrank.setRefreshing();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+
 
     }
 
@@ -258,11 +272,13 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
         if (model.getList_class() != null) {
             list_class.addAll(model.getList_class());
 
-            if (!TextUtils.isEmpty(from) && from.equals("tab") && TextUtils.isEmpty(ClassId)) {
-
+//            if (!TextUtils.isEmpty(from) && from.equals("tab") && TextUtils.isEmpty(ClassId)) {
+            if (!TextUtils.isEmpty(from) && from.equals("tab") && list_class.size() > 0) {
+                Log.e("lalalalla", "发送的班级信息 = " + new Gson().toJson(list_class));
                 ClassId = list_class.get(0).getClassId();
                 Intent intent = new Intent(HonorTabFragment.UPDATE_CLASSLIST);
                 intent.putParcelableArrayListExtra("classList", list_class);
+                intent.putExtra("needRefreshTitle", needRefreshTitle);
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
         }
