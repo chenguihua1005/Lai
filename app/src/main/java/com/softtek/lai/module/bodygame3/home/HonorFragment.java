@@ -164,7 +164,9 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
                 Log.i("HonorFragment", "刷新......onPullDownToRefresh() is running......");
-                ClassId = SharedPreferenceService.getInstance(getContext()).get("ClassId", "");
+                if (!TextUtils.isEmpty(from) && from.equals("tab")) {
+                    ClassId = SharedPreferenceService.getInstance(getContext()).get("ClassId", "");
+                }
                 getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
             }
 
@@ -232,7 +234,9 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                 @Override
                 public void run() {
                     Log.i("HonorFragment", "is_first...  刷新界面...   new Handler().postDelayed(new Runnable() ");
-                    ClassId = SharedPreferenceService.getInstance(getContext()).get("ClassId", "");
+                    if (!TextUtils.isEmpty(from) && from.equals("tab")) {
+                        ClassId = SharedPreferenceService.getInstance(getContext()).get("ClassId", "");
+                    }
                     getPresenter().getHonorData(UID, ClassId, ByWhichRatio, SortTimeType, WhichTime, is_first);
                 }
             }, 500);
@@ -245,7 +249,6 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
                 e.printStackTrace();
             }
         }
-
 
 
     }
