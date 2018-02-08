@@ -63,7 +63,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     public void onCreate() {
         super.onCreate();
         laiApplication = this;
-        QNApiManager.getApi(getApplicationContext()).initSDK("123456789", new QNResultCallback() {
+        QNApiManager.getApi(getApplicationContext()).initSDK(new QNResultCallback() {
             @Override
             public void onCompete(int i) {
                 android.util.Log.d("maki","执行结果校验" + i);

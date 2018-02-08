@@ -169,11 +169,12 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
         TextView tv_trans_group = (TextView) view.findViewById(R.id.tv_trans_group);
         TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
         if (member.getClassRole() == 1) {//总教练不可以被转组移除   （old :教练不可以被转组移除  ）
-            tv_trans_group.setVisibility(View.GONE);
+            tv_trans_group.setVisibility(View.VISIBLE);
             tv_delete.setVisibility(View.GONE);
         } else {
             tv_trans_group.setVisibility(View.VISIBLE);
             tv_delete.setVisibility(View.VISIBLE);
+        }
             tv_trans_group.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -199,7 +200,6 @@ public class MemberExpandableAdapter extends BaseExpandableListAdapter {
                     removeMember(member);
                 }
             });
-        }
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.rl_container);
         ViewGroup.LayoutParams params = container.getLayoutParams();
         params.width = DisplayUtil.getMobileWidth(context);

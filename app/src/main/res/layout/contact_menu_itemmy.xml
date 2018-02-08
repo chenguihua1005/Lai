@@ -1,68 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:background="#fff"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/menu_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/img_container"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                android:id="@+id/unread_msg_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ease_unread_count_bg"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/menu_icon"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:scaleType="fitXY" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/menu_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_container"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:textSize="14sp" />
-
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/shuxian"
-        android:layout_width="0.5dp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="6dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="6dp"
-        android:background="@color/word16"
-        android:visibility="gone"></View>
-
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"/>
 </LinearLayout>

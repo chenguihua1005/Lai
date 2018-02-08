@@ -116,6 +116,7 @@ public class HistoryDataPKAdapter extends BaseAdapter {
         HistoryDataModel.RecordsBean data = model.getDataModel();
         if (0 == data.getSourceType()) {
             //莱秤数据
+            holder.icon.setText("");
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_hand));//laicheng
         } else if (1 == data.getSourceType() || 4 == data.getSourceType()) {
             //复测

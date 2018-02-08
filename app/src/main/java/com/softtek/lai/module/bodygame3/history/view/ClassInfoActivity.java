@@ -128,6 +128,9 @@ public class ClassInfoActivity extends BaseActivity {
         mAppbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (mPull == null){
+                    return;
+                }
                 if (verticalOffset >= 0) {
                     mPull.setEnabled(true);
                 } else {
@@ -372,6 +375,20 @@ public class ClassInfoActivity extends BaseActivity {
                                 }
                                 if (responseData.getStatus() == 200) {
                                     initViewpager(responseData.getData());
+                                    if (responseData.getData().isCanReCreate()){
+                                        mReStartClass.setText("重新开班");
+                                        mReStartClass.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent intent = new Intent(ClassInfoActivity.this, RestartClassActivity.class);
+                                                intent.putExtra("classId", historyClassModel.getClassId());
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }else {
+                                        mReStartClass.setText("");
+                                        mReStartClass.setVisibility(View.GONE);
+                                    }
                                     if (responseData.getData().getList_Top1() != null && !responseData.getData().getList_Top1().isEmpty()) {
                                         initHonor(responseData.getData().getList_Top1());
                                     } else {
@@ -565,15 +582,7 @@ public class ClassInfoActivity extends BaseActivity {
         mInfoTitle.setText(historyClassModel.getClassName());
         getClassDynamicInfo();
         getHistoryInfo();
-        mReStartClass.setText("重新开班");
-        mReStartClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ClassInfoActivity.this, RestartClassActivity.class);
-                intent.putExtra("classId", historyClassModel.getClassId());
-                startActivity(intent);
-            }
-        });
+
     }
 
 }

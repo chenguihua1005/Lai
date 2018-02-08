@@ -8,6 +8,7 @@ import com.softtek.lai.module.laijumine.model.MyInfoModel;
 import com.softtek.lai.module.laijumine.net.MineSevice;
 import com.softtek.lai.utils.RequestCallback;
 
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
@@ -36,6 +37,11 @@ public class MineFragmentPresenter extends BasePresenter<MineFragmentPresenter.M
                         }
                         break;
                 }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
             }
         });
     }

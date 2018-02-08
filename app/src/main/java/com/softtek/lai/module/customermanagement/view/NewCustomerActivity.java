@@ -561,8 +561,8 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
             et_nickname.setText(basicModel.getName());
             tv_sex.setText(basicModel.getGender().equals("0") ? "男" : "女");
             tv_birth.setText(basicModel.getBirthDay());
-            tv_height.setText(basicModel.getHeight() + "");
-            tv_weight.setText(basicModel.getWeight() + "");
+            tv_height.setText(basicModel.getHeight() + "cm");
+            tv_weight.setText(basicModel.getWeight() + "斤");
         }
     }
 

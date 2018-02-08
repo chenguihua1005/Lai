@@ -78,11 +78,13 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.rl_area)
     RelativeLayout rl_area;
-    @Required(order = 2, message = "请选择小区及城市")
-    @InjectView(R.id.tv_xiaoqu)
-    TextView tv_xiaoqu;
-    @InjectView(R.id.tv_city)
-    TextView tv_city;
+    @InjectView(R.id.tv_area)
+    TextView mArea;
+//    @Required(order = 2, message = "请选择小区及城市")
+//    @InjectView(R.id.tv_xiaoqu)
+//    TextView tv_xiaoqu;
+//    @InjectView(R.id.tv_city)
+//    TextView tv_city;
 
     @InjectView(R.id.rl_date)
     RelativeLayout rl_date;
@@ -135,9 +137,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();
         int afterDay = currentDay;
-        String currentDate = currentYear + "年" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "月" + (afterDay < 10 ? "0" + afterDay : afterDay) + "日";
+        String currentDate = currentYear + "-" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "-" + (afterDay < 10 ? "0" + afterDay : afterDay);
         tv_class_time.setText(currentDate);
-        clazz.setStartDate(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(currentDate, DateUtil.yyyy_MM_dd));
+        clazz.setStartDate(DateUtil.getInstance("yyyy-MM-dd").convertDateStr(currentDate, DateUtil.yyyy_MM_dd));
         service.getRegionalAndCitys(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<ClubAndCityModel>>() {
             @Override
             public void success(ResponseData<ClubAndCityModel> data, Response response) {
@@ -158,6 +160,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 adapter.setIndex(i);
                 adapter.notifyDataSetChanged();
                 clazz.setClubId(clubs.get(i).getClubId());
+                String areaName = clubs.get(i).getRegionName() + " " + clubs.get(i).getCityName();
+                clazz.setCityId(clubs.get(i).getCityId());
+                mArea.setText(areaName);
                 clubDialog.dismiss();
             }
         }, this);
@@ -183,7 +188,7 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.rl_area:
-                showBottomSheet();
+//                showBottomSheet();
                 break;
             case R.id.rl_entry_goal:
                 showEntryGoalDialog();
@@ -296,11 +301,11 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 }
-                String date = year + "年" + (month < 10 ? ("0" + month) : month) + "月" + (day < 10 ? ("0" + day) : day) + "日";
+                String date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                 //输出当前日期
                 tv_class_time.setText(date);
                 if (clazz != null) {
-                    String date1 = DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date, DateUtil.yyyy_MM_dd);
+                    String date1 = DateUtil.getInstance("yyyy-MM-dd").convertDateStr(date, DateUtil.yyyy_MM_dd);
                     clazz.setStartDate(date1);
                 }
 
@@ -309,58 +314,57 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         dialog.show();
     }
 
-    BottomSheetDialog areaDialog;
+//    BottomSheetDialog areaDialog;
 
-    private void showBottomSheet() {
-        View view = LayoutInflater.from(this).inflate(R.layout.city_village, null);
-        DoubleListView<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean> dlv = view.findViewById(R.id.dlv);
-        dlv.leftAdapter(new SimpleTextAdapter<ClubAndCityModel.RegionalCitiesBean>(this, left) {
-            @Override
-            public String getText(ClubAndCityModel.RegionalCitiesBean data) {
-                return data.getRegionalName();
-            }
-        }).rightAdapter(new SimpleTextAdapter<ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>(this, null) {
-            @Override
-            public String getText(ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean data) {
-                return data.getCityName();
-            }
-
-            @Override
-            protected void initView(CheckTextView textView) {
-                textView.setBackgroundResource(android.R.color.white);
-            }
-        }).onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>() {
-            @Override
-            public List<ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean> provideRightList(ClubAndCityModel.RegionalCitiesBean leftAdapter, int position) {
-                return leftAdapter.getRegionalCityList();
-            }
-        }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>() {
-            @Override
-            public void onRightItemClick(ClubAndCityModel.RegionalCitiesBean item, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean childItem) {
-                if (clazz != null) {
-                    clazz.setCityId(childItem.getCityId());
-                }
-                tv_xiaoqu.setText(item.getRegionalName());
-                tv_city.setText(childItem.getCityName());
-                areaDialog.dismiss();
-            }
-        });
-        //初始化选中.
-        if (left != null && !left.isEmpty()) {
-            dlv.setLeftList(left, 0);
-            dlv.setRightList(left.get(0).getRegionalCityList(), -1);
-        }
-        areaDialog = new BottomSheetDialog(this);
-        areaDialog.setContentView(view);
-        areaDialog.show();
-        areaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                areaDialog = null;
-            }
-        });
-    }
-
+//    private void showBottomSheet() {
+//        View view = LayoutInflater.from(this).inflate(R.layout.city_village, null);
+//        DoubleListView<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean> dlv = view.findViewById(R.id.dlv);
+//        dlv.leftAdapter(new SimpleTextAdapter<ClubAndCityModel.RegionalCitiesBean>(this, left) {
+//            @Override
+//            public String getText(ClubAndCityModel.RegionalCitiesBean data) {
+//                return data.getRegionalName();
+//            }
+//        }).rightAdapter(new SimpleTextAdapter<ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>(this, null) {
+//            @Override
+//            public String getText(ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean data) {
+//                return data.getCityName();
+//            }
+//
+//            @Override
+//            protected void initView(CheckTextView textView) {
+//                textView.setBackgroundResource(android.R.color.white);
+//            }
+//        }).onLeftItemClickListener(new DoubleListView.OnLeftItemClickListener<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>() {
+//            @Override
+//            public List<ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean> provideRightList(ClubAndCityModel.RegionalCitiesBean leftAdapter, int position) {
+//                return leftAdapter.getRegionalCityList();
+//            }
+//        }).onRightItemClickListener(new DoubleListView.OnRightItemClickListener<ClubAndCityModel.RegionalCitiesBean, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean>() {
+//            @Override
+//            public void onRightItemClick(ClubAndCityModel.RegionalCitiesBean item, ClubAndCityModel.RegionalCitiesBean.RegionalCityListBean childItem) {
+//                if (clazz != null) {
+//                    clazz.setCityId(childItem.getCityId());
+//                }
+//                tv_xiaoqu.setText(item.getRegionalName());
+//                tv_city.setText(childItem.getCityName());
+//                areaDialog.dismiss();
+//            }
+//        });
+//        初始化选中.
+//        if (left != null && !left.isEmpty()) {
+//            dlv.setLeftList(left, 0);
+//            dlv.setRightList(left.get(0).getRegionalCityList(), -1);
+//        }
+//        areaDialog = new BottomSheetDialog(this);
+//        areaDialog.setContentView(view);
+//        areaDialog.show();
+//        areaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialogInterface) {
+//                areaDialog = null;
+//            }
+//        });
+//    }
 
     private void showClubNameDialog() {
         clubName.clear();
@@ -389,6 +393,9 @@ public class CreateClassActivity extends BaseActivity implements View.OnClickLis
         if (mClubName.getText().toString().trim().equals("")){
             Toast.makeText(this,"请选择俱乐部",Toast.LENGTH_SHORT).show();
             return;
+        }
+        if (mEntryGoal.getText().toString().trim().equals("")){
+            Toast.makeText(this,"请选择参赛目标",Toast.LENGTH_SHORT).show();
         }
         if (clazz != null) {
 //            clazz.setGroupName("未分组");

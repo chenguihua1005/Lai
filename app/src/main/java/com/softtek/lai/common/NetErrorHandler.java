@@ -95,7 +95,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                         switch (customCode) {
                             case 401:
                                 LocalBroadcastManager.getInstance(LaiApplication.getInstance()).sendBroadcast(new Intent(StepService.STEP_CLOSE_SELF));
-                                if (builder == null || !builder.isShowing()) {
+//                                if (builder == null || !builder.isShowing()) {
                                     builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                             .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                                             .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
@@ -111,8 +111,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                             }).setCancelable(false).create();
                                     //builder.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
                                     builder.show();
-
-                                }
+//                                }
                                 break;
                             case 403:
                                 if (builder == null || !builder.isShowing()) {

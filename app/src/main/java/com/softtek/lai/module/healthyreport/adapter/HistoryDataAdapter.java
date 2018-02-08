@@ -102,6 +102,7 @@ public class HistoryDataAdapter extends BaseAdapter {
         holder.cb_selecter.setChecked(model.isChecked());
         HistoryDataModel.RecordsBean data = model.getDataModel();
         if (0 == data.getSourceType()) {
+            holder.icon.setText("");
             //莱秤数据
             holder.icon.setBackground(ContextCompat.getDrawable(context, R.drawable.laicheng_hand));//laicheng
         } else if (1 == data.getSourceType() || 4 == data.getSourceType()) {

@@ -70,7 +70,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="活动邀请"
-            android:textColor="@color/white"
+            android:background="#e6e6e6"
+            android:textColor="#999999"
             android:textSize="14sp" />
     </LinearLayout>
 

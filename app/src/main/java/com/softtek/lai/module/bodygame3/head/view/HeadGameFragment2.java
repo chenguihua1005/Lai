@@ -3,11 +3,14 @@ package com.softtek.lai.module.bodygame3.head.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,18 +74,21 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.lifecircle.LifeCircle;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.ui.LayoutInjectUtil;
 import zilla.libcore.util.Util;
 
 import static android.app.Activity.RESULT_OK;
 
 @InjectLayout(R.layout.fragment_head_game_fragment2)
-public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
+public class HeadGameFragment2 extends Fragment implements View.OnClickListener, PullToRefreshBase.OnRefreshListener2<ListView> {
     //toolbar标题
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -159,17 +165,29 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         return fragment;
     }
 
+    @Nullable
     @Override
-    protected void lazyLoad() {
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
+        LifeCircle.onCreate(this);
+        ButterKnife.inject(this, contentView);
+        initViews();
+        initDatas();
+        return contentView;
     }
 
-    @Override
+    public void refresh(){
+        if (ptrlv != null) {
+            ptrlv.setRefreshing();
+        }
+    }
+
+//    @Override
     protected void initViews() {
         classId = getArguments().getString("classId");
         fl_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ILoadingLayout startLabelse = ptrlv.getLoadingLayoutProxy(true, false);
@@ -222,7 +240,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
     private static final int EMPTY = 0;
     private static final int DATA = 1;
 
-    @Override
+//    @Override
     protected void initDatas() {
         SaveClassModel temp = (SaveClassModel) ACache.get(getContext(), SAVE_CLASS_DIR).getAsObject(SAVE_CLASS);
         if (temp != null) {
@@ -1019,6 +1037,7 @@ public class HeadGameFragment2 extends LazyBaseFragment implements View.OnClickL
         getAllfirst(classId_first);
         getHasEmail();
     }
+
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {

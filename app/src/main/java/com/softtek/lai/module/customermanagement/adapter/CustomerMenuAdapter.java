@@ -77,12 +77,10 @@ public class CustomerMenuAdapter extends BaseAdapter {
             menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
             menu_name = (TextView) view.findViewById(R.id.menu_name);
             shuxian = view.findViewById(R.id.shuxian);
-            unread_msg_number = (TextView) view.findViewById(R.id.unread_msg_number);
         }
 
         private ImageView menu_icon;
         private TextView menu_name;
         private View shuxian;
-        private TextView unread_msg_number;
     }
 }

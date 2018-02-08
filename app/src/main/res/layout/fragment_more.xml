@@ -3,139 +3,157 @@
     android:layout_height="match_parent"
     android:background="#fafafa"
     android:orientation="vertical">
-    <include layout="@layout/toolbar"/>
+
+    <include layout="@layout/toolbar" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.softtek.lai.widgets.MyScrollView2
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
 
-        <LinearLayout
+        <com.softtek.lai.widgets.MyScrollView2
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <com.softtek.lai.widgets.CircleImageView
-                    android:id="@+id/head_image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/img_default" />
-
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#e1e1e1"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/ll_saikuang"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="@drawable/ll_selector_grey">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="大赛赛况"
-                        android:drawableTop="@drawable/more_saikuang"
-                        android:drawablePadding="5dp"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="#e1e1e1"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
-                <LinearLayout
-                    android:id="@+id/ll_join_class"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="@drawable/ll_selector_grey">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="加入新班级"
-                        android:drawableTop="@drawable/more_kaiban"
-                        android:drawablePadding="5dp"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="#e1e1e1"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
-                <LinearLayout
-                    android:id="@+id/ll_history"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="@drawable/ll_selector_grey">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="往期回顾"
-                        android:drawableTop="@drawable/more_review"
-                        android:drawablePadding="5dp"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="#e1e1e1"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="@drawable/ll_selector_grey">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="任务与积分"
-                        android:drawableTop="@drawable/more_task_integral"
-                        android:drawablePadding="5dp"/>
-                </LinearLayout>
-
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#e1e1e1"/>
-
-            <FrameLayout
-                android:id="@+id/fl_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"/>
-        </LinearLayout>
-    </com.softtek.lai.widgets.MyScrollView2>
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.softtek.lai.widgets.CircleImageView
+                        android:id="@+id/head_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/img_default" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#e1e1e1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ll_saikuang"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ll_selector_grey"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
+                            android:drawableTop="@drawable/more_saikuang"
+                            android:text="大赛赛况" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#e1e1e1" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_join_class"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ll_selector_grey"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
+                            android:drawableTop="@drawable/more_kaiban"
+                            android:text="加入新班级" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#e1e1e1" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_history"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ll_selector_grey"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
+                            android:drawableTop="@drawable/more_review"
+                            android:text="往期回顾" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#e1e1e1" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_task"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ll_selector_grey"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
+                            android:drawableTop="@drawable/more_task_integral"
+                            android:text="任务与积分" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#e1e1e1" />
+
+                <FrameLayout
+                    android:id="@+id/fl_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp" />
+            </LinearLayout>
+        </com.softtek.lai.widgets.MyScrollView2>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

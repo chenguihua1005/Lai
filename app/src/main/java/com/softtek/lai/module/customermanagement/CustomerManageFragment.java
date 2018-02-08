@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -167,6 +168,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
                         Intent intent = new Intent(getContext(), GymClubActivity.class);
                         startActivity(intent);
                     }
+                }else if (position == 2){
+                    Toast.makeText(getContext(),"正在开发中...",Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -73,6 +73,8 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
     LinearLayout ll_history;
     @InjectView(R.id.ll_join_class)
     LinearLayout ll_join_class;
+    @InjectView(R.id.ll_task)
+    LinearLayout mTaskContent;
 
 
     public MoreFragment() {
@@ -89,6 +91,14 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         refresh.setRefreshing(true);
         onRefresh();
         isSelector = false;
+    }
+
+    public void itemFresh(){
+        if (refresh != null){
+            refresh.setRefreshing(true);
+            onRefresh();
+            isSelector = false;
+        }
     }
 
     @Override
@@ -173,6 +183,12 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 //                    return;MakeSureJoin
 //                }
                 startActivity(new Intent(getContext(), SearchClassActivity.class));
+            }
+        });
+        mTaskContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Util.toastMsg("功能开发中，敬请期待");
             }
         });
     }

@@ -64,6 +64,37 @@
                 android:background="#e1e1e1" />
 
             <RelativeLayout
+                android:id="@+id/rl_area"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/ll_selector_grey"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="地区选择"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="end"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e1e1e1" />
+
+            <RelativeLayout
                 android:id="@+id/rl_class_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -96,50 +127,6 @@
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@id/iv_arrow"
                     android:textColor="#333333"
-                    android:textSize="15sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#e1e1e1" />
-
-            <RelativeLayout
-                android:id="@+id/rl_entry_goal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/ll_selector_grey"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:text="参赛目标"
-                    android:textColor="#666666"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:id="@+id/iv_entry_goal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/bodygame3_arrow" />
-
-                <TextView
-                    android:id="@+id/tv_entry_goal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/iv_entry_goal"
-                    android:textColor="#333333"
-                    android:hint="请选择参赛目标"
-                    android:gravity="end"
                     android:textSize="15sp" />
 
             </RelativeLayout>
@@ -188,11 +175,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="32dp"
                 android:background="#e1e1e1" />
 
             <RelativeLayout
-                android:id="@+id/rl_area"
+                android:id="@+id/rl_entry_goal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/ll_selector_grey"
@@ -202,72 +189,34 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
-                    android:text="地区选择"
+                    android:text="参赛目标"
+                    android:textColor="#666666"
                     android:textSize="15sp" />
 
                 <ImageView
-                    android:id="@+id/iv_arrow3"
+                    android:id="@+id/iv_entry_goal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
                     android:src="@drawable/bodygame3_arrow" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_entry_goal"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@id/iv_arrow3"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/iv_entry_goal"
+                    android:textColor="#333333"
+                    android:hint="请选择参赛目标"
+                    android:gravity="end"
+                    android:textSize="15sp" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_xiaoqu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#333333"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="小区"
-                            android:textColor="#999999"
-                            android:textSize="9sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#333333"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="城市"
-                            android:textColor="#999999"
-                            android:textSize="9sp" />
-                    </LinearLayout>
-                </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"

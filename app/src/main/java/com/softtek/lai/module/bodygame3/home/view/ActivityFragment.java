@@ -129,8 +129,15 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     protected void lazyLoad() {
         isSelector = false;
-        pull.setRefreshing(true);
-        onRefresh();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (pull != null) {
+            pull.setRefreshing(true);
+            onRefresh();
+        }
     }
 
     @Override

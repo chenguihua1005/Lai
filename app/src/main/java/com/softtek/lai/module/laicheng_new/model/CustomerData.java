@@ -47,7 +47,7 @@ public class CustomerData {
         private String Mobile;
         private String Name;
         private int Gender;
-        private int Height;
+        private float Height;
         private String BirthDay;
         private int Age;
         private boolean Tag;
@@ -89,11 +89,11 @@ public class CustomerData {
             this.Gender = Gender;
         }
 
-        public int getHeight() {
+        public float getHeight() {
             return Height;
         }
 
-        public void setHeight(int Height) {
+        public void setHeight(float Height) {
             this.Height = Height;
         }
 

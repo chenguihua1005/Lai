@@ -64,6 +64,10 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     private String classId;
     private int type;
+    MoreFragment moreFragment ;
+    BodyGameFragment gameFragment;
+    HonorTabFragment honorTabFragment ;
+    ActivityFragment activityFragment ;
 
 
     @Override
@@ -72,10 +76,10 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
         Bundle bundle = new Bundle();
         bundle.putString("classId", classId);
-        MoreFragment moreFragment = new MoreFragment();
-        BodyGameFragment gameFragment = new BodyGameFragment();
-        HonorTabFragment honorTabFragment = new HonorTabFragment();
-        ActivityFragment activityFragment = new ActivityFragment();
+        moreFragment = new MoreFragment();
+        gameFragment = new BodyGameFragment();
+        honorTabFragment = new HonorTabFragment();
+        activityFragment = new ActivityFragment();
         moreFragment.setArguments(bundle);
         if (classId != null){
             gameFragment.setArguments(bundle);
@@ -231,6 +235,11 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onResume() {
+        if (content != null){
+            if (content.getCurrentItem() == 3){
+                moreFragment.itemFresh();
+            }
+        }
         super.onResume();
     }
 

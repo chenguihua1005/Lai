@@ -14,6 +14,15 @@ public class HistoryDetailsBean implements Serializable{
     private List<ListWeightPerBean> list_WeightPer;
     private List<ListFatPerBean> list_FatPer;
     private List<ListTop1Bean> list_Top1;
+    private boolean CanReCreate;
+
+    public boolean isCanReCreate() {
+        return CanReCreate;
+    }
+
+    public void setCanReCreate(boolean canReCreate) {
+        CanReCreate = canReCreate;
+    }
 
     public List<ListWeightBean> getList_Weight() {
         return list_Weight;

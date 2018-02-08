@@ -1,5 +1,6 @@
 package com.softtek.lai.module.customermanagement.view;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -48,12 +49,14 @@ import zilla.libcore.ui.InjectLayout;
 public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> implements BasicInfoPresenter.BasicInfoCallBack, View.OnClickListener, HealthyReportCustomerAdapter.OnItemClickListener {
     @InjectView(R.id.tv_name)
     TextView tv_name;
-    @InjectView(R.id.tv_other)
-    TextView tv_other;
-    @InjectView(R.id.tv_birth)
-    TextView tv_birth;
-    @InjectView(R.id.tv_zhicheng)
-    TextView tv_zhicheng;
+    @InjectView(R.id.tv_gender)
+    TextView tv_gender;
+    @InjectView(R.id.tv_hight)
+    TextView tv_hight;
+    @InjectView(R.id.tv_birthday)
+    TextView tv_birthday;
+    @InjectView(R.id.tv_roler)
+    TextView tv_roler;
     @InjectView(R.id.tv_mobile)
     TextView tv_mobile;
     @InjectView(R.id.tv_cn)
@@ -152,6 +155,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void getBasicInfo(BasicInfoModel model) {
         if (model != null) {
@@ -169,12 +173,13 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
 
             tv_name.setText(basicModel.getName());
-            tv_other.setText(basicModel.getGender() + "|" + basicModel.getHeight() + "cm");
-            tv_birth.setText(basicModel.getBirthDay());
-            tv_zhicheng.setText(basicModel.getUserRole());
-            tv_mobile.setText(basicModel.getMobile());
-            tv_cn.setText(basicModel.getCertification());
-            tv_angle.setText(basicModel.getAngel());
+            tv_gender.setText("性别：  " + basicModel.getGender());
+            tv_birthday.setText("生日  ： " + basicModel.getBirthDay());
+            tv_mobile.setText("手机号：" + basicModel.getMobile());
+            tv_hight.setText("身高： " + basicModel.getHeight() + "cm");
+            tv_roler.setText("职级 ： " + basicModel.getUserRole());
+            tv_cn.setText("CN号：" + basicModel.getCertification());
+            tv_angle.setText("奶昔天使： " + basicModel.getAngel());
 
 
             items.clear();

@@ -71,7 +71,6 @@
             <!--访客信息-->
             <LinearLayout
                 android:id="@+id/ll_visitor"
-                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
@@ -99,18 +98,22 @@
                         <TextView
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="24dp"
                             android:drawableStart="@drawable/visitor_test_photo_new"
+                            android:textSize="18sp"
+                            android:drawablePadding="4dp"
+                            android:textStyle="bold"
                             android:text="张三" />
 
                         <TextView
                             android:id="@+id/tv_phoneNo"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="24dp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentTop="true"
                             android:drawableStart="@drawable/visitor_test_tel_new"
-                            android:gravity="right"
+                            android:gravity="end|center_vertical"
+                            android:drawablePadding="4dp"
                             android:text="13365895632" />
 
                     </RelativeLayout>

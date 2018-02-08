@@ -72,7 +72,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initViews() {
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 //        tv_title.setText("客户详情");
 
         mobile = getIntent().getStringExtra("mobile");

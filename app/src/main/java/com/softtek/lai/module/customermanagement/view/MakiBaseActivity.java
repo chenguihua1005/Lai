@@ -3,7 +3,9 @@ package com.softtek.lai.module.customermanagement.view;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
@@ -71,5 +73,60 @@ public abstract class MakiBaseActivity extends FragmentActivity{
             progressDialog.dismiss();
             progressDialog = null;
         }
+    }
+
+    /**
+     * 获得所有电话号码
+     *
+     * @return
+     */
+    private String getContact() {
+        StringBuilder phoneNumbers = new StringBuilder();
+
+        //获得所有的联系人
+        Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if (cur == null){
+            return "";
+        }
+        //循环遍历
+        if (cur.moveToFirst()) {
+            int idColumn = cur.getColumnIndex(ContactsContract.Contacts._ID);
+            int displayNameColumn = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            do {
+                //获得联系人的ID号
+                String contactId = cur.getString(idColumn);
+
+                //获得联系人姓名
+                String disPlayName = cur.getString(displayNameColumn);
+
+                //查看该联系人有多少个电话号码。如果没有这返回值为0
+                int phoneCount = cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+                if (phoneCount > 0) {
+                    //获得联系人的电话号码
+                    Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                                    + " = " + contactId, null, null);
+
+                    if (phones != null) {
+                        if (phones.moveToFirst()) {
+                            do {
+                                //遍历所有的电话号码
+                                String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                //System.out.println(phoneNumber);
+                                if (phoneNumbers.length() > 0) {
+                                    phoneNumbers.append(",");
+                                }
+                                phoneNumbers.append(phoneNumber);
+                            } while (phones.moveToNext());
+                        }
+                        phones.close();
+                    }
+                }
+            } while (cur.moveToNext());
+        }
+        cur.close();
+        return phoneNumbers.toString();
     }
 }
