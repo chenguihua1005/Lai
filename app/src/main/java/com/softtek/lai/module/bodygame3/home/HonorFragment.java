@@ -80,6 +80,7 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
 
 
     public HonorFragment() {
+
     }
 
     public static HonorFragment newInstance(Bundle bundle) {

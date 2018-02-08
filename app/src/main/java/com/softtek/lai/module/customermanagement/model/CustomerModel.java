@@ -19,6 +19,15 @@ public class CustomerModel {
     private String Photo;//头像
     private String Creator;//添加人姓名
     private String CreatedTime;//添加时间
+    private String Description;//描述
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
 
     public int getGender() {
         return Gender;

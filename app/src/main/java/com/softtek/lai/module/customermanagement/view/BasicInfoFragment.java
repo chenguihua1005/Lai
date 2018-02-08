@@ -173,8 +173,8 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
 
             tv_name.setText(basicModel.getName());
-            tv_gender.setText("性别：  " + basicModel.getGender());
-            tv_birthday.setText("生日  ： " + basicModel.getBirthDay());
+            tv_gender.setText("性别：" + basicModel.getGender());
+            tv_birthday.setText("生日： " + basicModel.getBirthDay());
             tv_mobile.setText("手机号：" + basicModel.getMobile());
             tv_hight.setText("身高： " + basicModel.getHeight() + "cm");
             tv_roler.setText("职级 ： " + basicModel.getUserRole());
