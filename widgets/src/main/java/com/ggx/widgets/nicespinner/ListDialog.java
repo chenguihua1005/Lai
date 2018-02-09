@@ -191,9 +191,10 @@ public class ListDialog extends TextView {
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (!dialog.isShowing()) {
-                if (adapter.getCount() > 1) {
-                    showDropDown();
-
+                if (adapter != null) {
+                    if (adapter.getCount() > 1) {
+                        showDropDown();
+                    }
                 }
             } else {
                 dialog.dismiss();

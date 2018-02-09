@@ -104,6 +104,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/visitor_test_photo"
+                            android:textStyle="bold"
+                            android:drawablePadding="4dp"
+                            android:textSize="18sp"
                             android:text="张三" />
 
                         <TextView
@@ -113,7 +116,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentTop="true"
                             android:drawableStart="@drawable/visitor_test_tel"
-                            android:gravity="right"
+                            android:drawablePadding="4dp"
+                            android:gravity="end"
                             android:text="13365895632" />
 
                     </RelativeLayout>

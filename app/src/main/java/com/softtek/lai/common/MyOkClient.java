@@ -29,8 +29,8 @@ public class MyOkClient extends UrlConnectionClient {
 
     private static OkHttpClient generateDefaultOkHttp() {
         OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(15 * 1000, TimeUnit.MILLISECONDS);
-        client.setReadTimeout(20 * 1000, TimeUnit.MILLISECONDS);
+        client.setConnectTimeout(15, TimeUnit.SECONDS);
+        client.setReadTimeout(15, TimeUnit.SECONDS);
         TrustManager tm=new X509TrustManager() {
             @Override
             public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {

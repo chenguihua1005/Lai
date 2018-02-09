@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.healthyreport.model.HealthyItem;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.DividerItemDecoration;
+import com.softtek.lai.widgets.MySwipRefreshView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -86,6 +88,9 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @InjectView(R.id.ll_tip)
     LinearLayout ll_tip;
 
+    @InjectView(R.id.srl_refresh)
+    MySwipRefreshView mRefresh;
+
     ArrayList<HealthyItem> items = new ArrayList<>();
     HealthyReportCustomerAdapter adapter;
 
@@ -139,25 +144,46 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @Override
     public void initDatas() {
         Log.i("BasicInfoFragment", "mobile = " + mobile);
-
-        list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        list.setLayoutManager(manager);
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         adapter = new HealthyReportCustomerAdapter(items, getContext(), false);
         adapter.setListener(this);
         list.setAdapter(adapter);
+        list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                mRefresh.setEnabled(manager
+                        .findFirstCompletelyVisibleItemPosition() == 0);
+            }
+        });
 
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_BASICINFO));
 
         setPresenter(new BasicInfoPresenter(this));
         dialogShow(getString(R.string.loading));
         getPresenter().getCustomerBasicInfo(mobile);
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPresenter().getCustomerBasicInfo(mobile);
+            }
+        });
 
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void getBasicInfo(BasicInfoModel model) {
+        if (mRefresh.isRefreshing()) {
+            mRefresh.setRefreshing(false);
+        }
         if (model != null) {
             //发送事件
             EventBus.getDefault().post(model);
@@ -257,4 +283,11 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         return basicModel.getGender();
     }
 
+    @Override
+    public void dialogDissmiss() {
+        super.dialogDissmiss();
+        if (mRefresh.isRefreshing()){
+            mRefresh.setRefreshing(false);
+        }
+    }
 }

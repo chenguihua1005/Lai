@@ -206,7 +206,6 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
                     classModels = intent.getParcelableArrayListExtra("classList");
                     needRefreshTitle = intent.getBooleanExtra("needRefreshTitle", needRefreshTitle);
 
-                    Log.i("honor", "收到广播 班级shumu = " + classModels.size());
                     if (classModels != null && classModels.size() > 0) {
                         //班级列表
                         tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {

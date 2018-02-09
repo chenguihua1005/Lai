@@ -142,6 +142,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     ll_visitor.setVisibility(View.VISIBLE);
                     visitorId = model.getVisitorId();
                     tv_name.setText(model.getName());
+                    if (model.getPhoneNo().equals("")){
+                        tv_phoneNo.setVisibility(View.INVISIBLE);
+                    }else {
+                        tv_phoneNo.setVisibility(View.VISIBLE);
+                    }
                     tv_phoneNo.setText(model.getPhoneNo());
                     if (model.getAge() == 0) {
                         tv_age.setText((NowYear - choose_year) + "");
@@ -509,6 +514,11 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     ll_visitor.setVisibility(View.VISIBLE);
                     visitorId = model.getVisitorId();
                     tv_name.setText(model.getName());
+                    if (model.getPhoneNo().equals("")){
+                        tv_phoneNo.setVisibility(View.INVISIBLE);
+                    }else {
+                        tv_phoneNo.setVisibility(View.VISIBLE);
+                    }
                     tv_phoneNo.setText(model.getPhoneNo());
                     if (model.getAge() == 0) {
                         tv_age.setText((NowYear - choose_year) + "");

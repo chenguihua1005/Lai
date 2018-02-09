@@ -2,6 +2,7 @@ package com.softtek.lai.module.customermanagement.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 
 import com.softtek.lai.R;
@@ -26,6 +27,8 @@ import zilla.libcore.ui.InjectLayout;
 public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> implements TimeAxisPresenter.TimeAxisCallBack {
     @InjectView(R.id.lv)
     ListView lv;
+    @InjectView(R.id.srl_refresh)
+    SwipeRefreshLayout mRefresh;
 
     private List<TimeAxisItemModel> modelList = new ArrayList<TimeAxisItemModel>();
     private StatisAdapter adapter;
@@ -54,6 +57,12 @@ public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> impl
 
         dialogShow(getString(R.string.loading));
         getPresenter().getTimeAxisOfCustomer("", mobile, 1, 100);
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPresenter().getTimeAxisOfCustomer("",mobile,1,100);
+            }
+        });
 
     }
 
@@ -64,10 +73,17 @@ public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> impl
 
     @Override
     public void getTimeAxisOfCustomer(TimeAxisModel model) {
+        mRefresh.setRefreshing(false);
         if (model != null) {
             modelList.clear();
             modelList.addAll(model.getItems());
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void dialogDissmiss() {
+        super.dialogDissmiss();
+        mRefresh.setRefreshing(false);
     }
 }

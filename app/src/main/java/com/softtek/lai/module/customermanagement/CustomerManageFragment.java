@@ -180,6 +180,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
     @Override
     protected void lazyLoad() {
+        setPrepared(false);
         judgeClubAuthority();//获取用户权限
     }
 
@@ -225,7 +226,7 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     }
 
 
-    private void judgeClubAuthority() {
+    public void judgeClubAuthority() {
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
         service.getClubAuthority(UserInfoModel.getInstance().getToken(), new Callback<ResponseData<ClubAuthorityModel>>() {
             @Override
