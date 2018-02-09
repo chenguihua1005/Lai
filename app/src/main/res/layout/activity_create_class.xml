@@ -176,7 +176,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:background="#e1e1e1" />
+                android:background="#F8F8F8" />
 
             <RelativeLayout
                 android:id="@+id/rl_entry_goal"
