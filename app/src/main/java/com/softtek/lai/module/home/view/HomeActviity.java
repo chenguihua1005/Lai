@@ -75,6 +75,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     Button btn_send;
 
     String tag;
+    private CustomerManageFragment customerManageFragment;
 
 
     @Override
@@ -134,8 +135,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initDatas() {
+        customerManageFragment = new CustomerManageFragment();
         fragments.add(new HomeFragment());
-        fragments.add(new CustomerManageFragment());//关注
+        fragments.add(customerManageFragment);//关注
         fragments.add(new DynamicMergeFragment(this));
 //        fragments.add(DynamicFragment.getInstance(this));
 //        fragments.add(FocusFragment.getInstance(this));//关注
@@ -331,4 +333,11 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (customerManageFragment != null){
+            customerManageFragment.judgeClubAuthority();
+        }
+    }
 }

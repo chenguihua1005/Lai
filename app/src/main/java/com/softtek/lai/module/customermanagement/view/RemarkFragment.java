@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.RelativeLayout;
 
 import com.handmark.pulltorefresh.library.ILoadingLayout;
@@ -36,6 +37,8 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
     PullToRefreshListView plv_history;
     @InjectView(R.id.ll_nomessage)
     RelativeLayout im_nomessage;
+    @InjectView(R.id.srl_refresh)
+    SwipeRefreshLayout mRefresh;
 
     private static String mobile = "";
 
@@ -89,6 +92,12 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
 
         dialogShow(getString(R.string.loading));
         getPresenter().getRemarkList("", mobile, 1, 100);
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPresenter().getRemarkList("", mobile, 1, 100);
+            }
+        });
 
 
     }
@@ -111,10 +120,21 @@ public class RemarkFragment extends LazyBaseFragment<RemarkListPresenter> implem
 
     @Override
     public void getRemarkList(RemarkModel model) {
+        if (mRefresh.isRefreshing()){
+            mRefresh.setRefreshing(false);
+        }
         remarkModels.clear();
         if (model != null) {
             remarkModels.addAll(model.getItems());
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void dialogDissmiss() {
+        super.dialogDissmiss();
+        if (mRefresh.isRefreshing()){
+            mRefresh.setRefreshing(false);
         }
     }
 
