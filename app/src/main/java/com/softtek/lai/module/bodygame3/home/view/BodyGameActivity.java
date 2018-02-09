@@ -32,7 +32,10 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
+
+import static java.security.AccessController.getContext;
 
 @InjectLayout(R.layout.activity_bodygame3)
 public class BodyGameActivity extends BaseActivity implements View.OnClickListener {
@@ -246,6 +249,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SharedPreferenceService.getInstance(this).put("ClassId", classId);
         unregisterReceiver(mMessageReceiver);
     }
 
