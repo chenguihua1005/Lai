@@ -124,13 +124,13 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SP) {//总教练
             sp_tv.setVisibility(View.VISIBLE);
             pc_tv.setVisibility(View.GONE);
-            button.setVisibility(View.VISIBLE);
-            button.setOnClickListener(this);
+//            button.setVisibility(View.VISIBLE);
+//            button.setOnClickListener(this);
 
         } else {
             sp_tv.setVisibility(View.GONE);
-            pc_tv.setVisibility(View.VISIBLE);
-            button.setVisibility(View.GONE);
+//            pc_tv.setVisibility(View.VISIBLE);
+//            button.setVisibility(View.GONE);
         }
         pull.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
@@ -319,8 +319,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                 }
                 break;
             case R.id.button:
-                Intent intent = new Intent(getContext(), CreateClassActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), CreateClassActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.fl_right:
                 Intent intent2 = new Intent(getContext(), Message2Activity.class);
