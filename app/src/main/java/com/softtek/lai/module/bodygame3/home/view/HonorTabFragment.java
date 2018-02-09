@@ -206,6 +206,8 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
                     classModels = intent.getParcelableArrayListExtra("classList");
                     needRefreshTitle = intent.getBooleanExtra("needRefreshTitle", needRefreshTitle);
 
+                    Log.i("HonorFragment", "获取数据，s收到广播刷新班级列表...");
+
                     if (classModels != null && classModels.size() > 0) {
                         //班级列表
                         tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
@@ -361,10 +363,17 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
             model.setClassCode(clazz.getModel().getClassCode());
             model.setClassName(clazz.getModel().getClassName());
             model.setClassRole(clazz.getModel().getClassRole());
-            this.classModels.add(model);
+
+            if (classModels != null && classModels.size() > 0) {
+                this.classModels.add(model);
+            } else {
+                classModels = new ArrayList<>();
+                this.classModels.add(model);
+            }
             tv_title.notifChange();
             if (classModels.size() == 1) {
                 classId = classModels.get(0).getClassId();
+//                tv_title.setText(model.getClassName());
             }
             Intent intent = new Intent(HonorFragment.UPDATE_HONOR_VIEW);
             intent.putExtra("classId", classId);
