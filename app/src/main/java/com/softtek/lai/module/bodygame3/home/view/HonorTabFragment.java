@@ -206,7 +206,6 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
                     classModels = intent.getParcelableArrayListExtra("classList");
                     needRefreshTitle = intent.getBooleanExtra("needRefreshTitle", needRefreshTitle);
 
-                    Log.i("honor", "收到广播 班级shumu = " + classModels.size());
                     if (classModels != null && classModels.size() > 0) {
                         //班级列表
                         tv_title.attachCustomSource(new ArrowSpinnerAdapter<ClassModel>(getContext(), classModels, R.layout.selector_class_item) {
@@ -364,6 +363,13 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
             model.setClassRole(clazz.getModel().getClassRole());
             this.classModels.add(model);
             tv_title.notifChange();
+            if (classModels.size() == 1) {
+                classId = classModels.get(0).getClassId();
+            }
+            Intent intent = new Intent(HonorFragment.UPDATE_HONOR_VIEW);
+            intent.putExtra("classId", classId);
+            SharedPreferenceService.getInstance(getContext()).put("ClassId", classId);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
         } else if (clazz.getStatus() == 2) {
             //删除班级
             Iterator<ClassModel> iter = classModels.iterator();
@@ -378,6 +384,11 @@ public class HonorTabFragment extends LazyBaseFragment implements View.OnClickLi
             if (classModels.isEmpty()) {
                 classId = "";
                 this.classModel = null;
+                Intent intent = new Intent(HonorFragment.UPDATE_HONOR_VIEW);
+                intent.putExtra("classId", classId);
+                SharedPreferenceService.getInstance(getContext()).put("ClassId", classId);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
             } else {
                 tv_title.setSelected(0);
                 this.classModel = classModels.get(0);
