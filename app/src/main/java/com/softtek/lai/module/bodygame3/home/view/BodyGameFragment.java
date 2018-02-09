@@ -44,6 +44,45 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void lazyLoad() {
+        setPrepared(false);
+        dialogShow("数据载入...");
+        ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
+            @Override
+            public void success(ResponseData<ClassdataModel> data, Response response) {
+                Log.i("2343444444",data.toString());
+                try {
+                    again_tv.setVisibility(View.GONE);
+                    dialogDissmiss();
+                    if (200 == data.getStatus()) {
+                        ClassdataModel classdataModel = data.getData();
+                        int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
+                        if (HasClass > 0) {
+                            headGameFragment2 = HeadGameFragment2.getInstance(BodyGameFragment.this,classId);
+                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,headGameFragment2).commitAllowingStateLoss();
+
+                        } else {
+                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this,classId)).commitAllowingStateLoss();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.i("2343444444",error.toString());
+                error.printStackTrace();
+                try {
+                    dialogDissmiss();
+                    again_tv.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    super.failure(error);
+                }
+            }
+        });
     }
 
     @Override
@@ -102,44 +141,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void initDatas() {
-        dialogShow("数据载入...");
-        ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
-            @Override
-            public void success(ResponseData<ClassdataModel> data, Response response) {
-                Log.i("2343444444",data.toString());
-                try {
-                    again_tv.setVisibility(View.GONE);
-                    dialogDissmiss();
-                    if (200 == data.getStatus()) {
-                        ClassdataModel classdataModel = data.getData();
-                        int HasClass = classdataModel.getHasClass();//0：没有班级，大于0有班级
-                        if (HasClass > 0) {
-                            headGameFragment2 = HeadGameFragment2.getInstance(BodyGameFragment.this,classId);
-                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg,headGameFragment2).commitAllowingStateLoss();
 
-                        } else {
-                            getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this,classId)).commitAllowingStateLoss();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.i("2343444444",error.toString());
-                error.printStackTrace();
-                try {
-                    dialogDissmiss();
-                    again_tv.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }finally {
-                    super.failure(error);
-                }
-            }
-        });
 
     }
 
