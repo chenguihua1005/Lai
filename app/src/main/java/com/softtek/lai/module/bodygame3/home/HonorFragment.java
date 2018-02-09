@@ -278,7 +278,6 @@ public class HonorFragment extends LazyBaseFragment<HonorPresenter> implements H
 
 //            if (!TextUtils.isEmpty(from) && from.equals("tab") && TextUtils.isEmpty(ClassId)) {
             if (!TextUtils.isEmpty(from) && from.equals("tab") && list_class.size() > 0) {
-                Log.e("lalalalla", "发送的班级信息 = " + new Gson().toJson(list_class));
                 ClassId = list_class.get(0).getClassId();
                 Intent intent = new Intent(HonorTabFragment.UPDATE_CLASSLIST);
                 intent.putParcelableArrayListExtra("classList", list_class);
