@@ -23,6 +23,7 @@ import java.util.List;
 import zilla.libcore.file.AddressManager;
 
 import static android.R.attr.data;
+import static android.R.attr.id;
 import static android.R.attr.mode;
 
 /**
@@ -96,7 +97,9 @@ public class CustomerAdapter extends BaseAdapter {
         str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(str2);
 
-        builder.append(model.getDescription());
+        if (!TextUtils.isEmpty(model.getDescription())) {
+            builder.append(model.getDescription());
+        }
         holder.desc_tv.setText(builder);
 
 
