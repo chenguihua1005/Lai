@@ -8,6 +8,7 @@
     <!--荣誉榜-->
     <!--减重等级-->
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_level"
         android:layout_width="match_parent"
         android:layout_height="50dp"

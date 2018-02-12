@@ -7,17 +7,19 @@
     android:background="#F1F1EF"
     android:orientation="vertical"
     tools:context="com.softtek.lai.module.laijumine.view.MineFragment">
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff">
+
         <RelativeLayout
             android:id="@+id/lin_not_vr"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ScrollView
                 android:id="@+id/scro"
                 android:layout_width="match_parent"
@@ -52,9 +54,9 @@
                                 android:id="@+id/im_banner"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
+                                android:layout_alignParentStart="true"
                                 android:layout_alignParentTop="true"
-                                android:layout_alignParentStart="true" />
+                                android:scaleType="centerCrop" />
 
                         </RelativeLayout>
 
@@ -82,10 +84,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:padding="5dp"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/edit_grey_icon"
                         android:gravity="center"
+                        android:padding="5dp"
                         android:text="编辑个性签名"
                         android:textColor="#333333"
                         android:textSize="12sp" />
@@ -176,215 +178,222 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#e6e6e6" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="230dp"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:orientation="horizontal">
+
                             <RelativeLayout
                                 android:id="@+id/re_health"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1">
+
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true">
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="50dp">
+
                                     <TextView
                                         android:id="@+id/tv_health"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="健康记录"
-                                        android:textSize="14sp"
-                                        android:textColor="#333333"
                                         android:drawableLeft="@drawable/health_record_icon"
-                                        android:drawablePadding="5dp"/>
+                                        android:drawablePadding="5dp"
+                                        android:text="健康记录"
+                                        android:textColor="#333333"
+                                        android:textSize="14sp" />
+
                                     <TextView
                                         android:id="@+id/tv_updatetime"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/tv_health"
-                                        android:textSize="10sp"
+                                        android:layout_marginTop="10dp"
                                         android:textColor="#cccccc"
-                                        android:layout_marginTop="10dp"/>
-                                </RelativeLayout>
-                            </RelativeLayout>
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="wrap_content"
-                                android:background="#cccccc"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"/>
-                            <RelativeLayout
-                                android:id="@+id/re_losslevel"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-                                <RelativeLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true">
-                                    <TextView
-                                        android:id="@+id/tv_losslevel"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="减重等级"
-                                        android:textSize="14sp"
-                                        android:textColor="#333333"
-                                        android:drawableLeft="@drawable/loss_level_icon"
-                                        android:drawablePadding="5dp"/>
-                                    <TextView
-                                        android:id="@+id/tv_level"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="10sp"
-                                        android:textColor="#cccccc"
-                                        android:layout_below="@id/tv_losslevel"
-                                        android:layout_marginTop="10dp"/>
+                                        android:textSize="10sp" />
                                 </RelativeLayout>
                             </RelativeLayout>
 
-                        </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#e6e6e6"/>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#cccccc" />
+
                             <RelativeLayout
                                 android:id="@+id/re_sportlevel"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1">
+
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true">
+
                                     <TextView
                                         android:id="@+id/tv_sportlevel"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="运动等级"
-                                        android:textSize="14sp"
-                                        android:textColor="#333333"
                                         android:drawableLeft="@drawable/sport_level_icon"
-                                        android:drawablePadding="5dp"/>
+                                        android:drawablePadding="5dp"
+                                        android:text="运动等级"
+                                        android:textColor="#333333"
+                                        android:textSize="14sp" />
+
                                     <TextView
                                         android:id="@+id/tv_sportlevelnum"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textSize="10sp"
-                                        android:textColor="#cccccc"
                                         android:layout_below="@+id/tv_sportlevel"
-                                        android:layout_marginTop="10dp"/>
+                                        android:layout_marginTop="10dp"
+                                        android:textColor="#cccccc"
+                                        android:textSize="10sp" />
                                 </RelativeLayout>
                             </RelativeLayout>
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="wrap_content"
-                                android:background="#cccccc"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#e6e6e6" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
                             <RelativeLayout
                                 android:id="@+id/re_mynews"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1">
+
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true">
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="50dp">
 
                                     <TextView
                                         android:id="@+id/tv_mynews"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="消息中心"
-                                        android:textSize="14sp"
-                                        android:textColor="#333333"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_alignParentTop="true"
                                         android:drawableLeft="@drawable/my_news_icon"
                                         android:drawablePadding="5dp"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentStart="true" />
+                                        android:text="消息中心"
+                                        android:textColor="#333333"
+                                        android:textSize="14sp" />
+
                                     <TextView
                                         android:id="@+id/tv_news"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textSize="10sp"
-                                        android:textColor="#cccccc"
                                         android:layout_below="@+id/tv_mynews"
-                                        android:layout_marginTop="10dp"/>
+                                        android:layout_marginTop="10dp"
+                                        android:textColor="#cccccc"
+                                        android:textSize="10sp" />
                                 </RelativeLayout>
                             </RelativeLayout>
 
-                        </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#e6e6e6"/>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal"
-                            >
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#cccccc" />
+
                             <RelativeLayout
                                 android:id="@+id/re_renzheng"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1">
+
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true">
+
                                     <TextView
                                         android:id="@+id/tv_renzheng"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="身份认证"
-                                        android:textSize="14sp"
-                                        android:textColor="#333333"
                                         android:drawableLeft="@drawable/renzh_icon"
-                                        android:drawablePadding="5dp"/>
+                                        android:drawablePadding="5dp"
+                                        android:text="身份认证"
+                                        android:textColor="#333333"
+                                        android:textSize="14sp" />
+
                                     <TextView
                                         android:id="@+id/tv_renzh"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textSize="10sp"
-                                        android:textColor="#cccccc"
                                         android:layout_below="@+id/tv_renzheng"
-                                        android:layout_marginTop="10dp"/>
+                                        android:layout_marginTop="10dp"
+                                        android:textColor="#cccccc"
+                                        android:textSize="10sp" />
                                 </RelativeLayout>
                             </RelativeLayout>
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="wrap_content"
-                                android:background="#cccccc"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#e6e6e6" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
                             <RelativeLayout
                                 android:id="@+id/rl_setting"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1">
+
                                 <TextView
                                     android:id="@+id/tv_task"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="设置"
-                                    android:textSize="14sp"
-                                    android:textColor="#333333"
-                                    android:layout_centerInParent="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="50dp"
                                     android:drawableLeft="@drawable/mynews_setting"
-                                    android:drawablePadding="5dp"/>
+                                    android:drawablePadding="5dp"
+                                    android:text="设置"
+                                    android:textColor="#333333"
+                                    android:textSize="14sp" />
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#cccccc" />
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+
                             </RelativeLayout>
 
                         </LinearLayout>
@@ -392,18 +401,19 @@
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
+
             <RelativeLayout
                 android:id="@+id/rl_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="@string/mine"
                     android:textColor="#ffffff"
-                    android:textSize="20sp"
-                    android:layout_centerInParent="true"
-                    />
+                    android:textSize="20sp" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -414,8 +424,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
+
         <include layout="@layout/toolbar" />
 
         <ImageView

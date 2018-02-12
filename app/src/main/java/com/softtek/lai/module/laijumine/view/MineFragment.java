@@ -30,7 +30,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.view.EditSignaActivity;
-import com.softtek.lai.module.bodygame3.more.view.LossWeightAndFatActivity;
 import com.softtek.lai.module.community.view.PersionalActivity;
 import com.softtek.lai.module.healthyreport.HistoryDataActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
@@ -90,8 +89,8 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     TextView tv_fansnum;
     @InjectView(R.id.tv_updatetime)
     TextView tv_updatetime;
-    @InjectView(R.id.tv_level)
-    TextView tv_level;
+//    @InjectView(R.id.tv_level)
+//    TextView tv_level;
     @InjectView(R.id.tv_sportlevelnum)
     TextView tv_sportlevelnum;
     @InjectView(R.id.tv_news)
@@ -122,8 +121,8 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     RelativeLayout re_fans;
     @InjectView(R.id.re_health)
     RelativeLayout re_health;
-    @InjectView(R.id.re_losslevel)
-    RelativeLayout re_losslevel;
+//    @InjectView(R.id.re_losslevel)
+//    RelativeLayout re_losslevel;
     @InjectView(R.id.re_sportlevel)
     RelativeLayout re_sportlevel;
     @InjectView(R.id.re_mynews)
@@ -156,7 +155,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
         re_guanzhu.setOnClickListener(this);
         re_fans.setOnClickListener(this);
         re_health.setOnClickListener(this);
-        re_losslevel.setOnClickListener(this);
+//        re_losslevel.setOnClickListener(this);
         re_sportlevel.setOnClickListener(this);
         re_mynews.setOnClickListener(this);
         re_renzheng.setOnClickListener(this);
@@ -310,9 +309,9 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
                 startActivity(new Intent(getContext(), HistoryDataActivity.class).putExtra("accountId",UserInfoModel.getInstance().getUserId()));
                 break;
             //跳转减重等级
-            case R.id.re_losslevel:
-                startActivity(new Intent(getContext(), LossWeightAndFatActivity.class));
-                break;
+//            case R.id.re_losslevel:
+//                startActivity(new Intent(getContext(), LossWeightAndFatActivity.class));
+//                break;
             //跳转运动等级
             case R.id.re_sportlevel:
                 break;
@@ -504,11 +503,11 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
             String[] date = myinfomodel.getRecordTime().split("-");
             tv_updatetime.setText("更新于" + date[0] + "年" + date[1] + "月" + date[2] + "日");
         }
-        if ("0".equals(myinfomodel.getLossLevel())) {
-            tv_level.setText("暂无减重等级");
-        } else {
-            tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
-        }
+//        if ("0".equals(myinfomodel.getLossLevel())) {
+//            tv_level.setText("暂无减重等级");
+//        } else {
+//            tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
+//        }
         tv_sportlevelnum.setText("开发中，敬请期待");
         if ("0".equals(myinfomodel.getUnReadMsgNum())) {
             tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
