@@ -124,7 +124,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="申请联合俱乐部班级"
+            android:text="联合开班"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="16dp"/>

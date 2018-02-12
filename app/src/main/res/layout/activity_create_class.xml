@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
-                    android:text="参赛目标"
+                    android:text="我的参赛目标"
                     android:textColor="#666666"
                     android:textSize="15sp" />
 
