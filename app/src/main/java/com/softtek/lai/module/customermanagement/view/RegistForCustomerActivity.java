@@ -317,13 +317,13 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 
     public static final String DESTROY_SELF_REGISTPAGE = "DESTROY_SELF_REGISTPAGE";
