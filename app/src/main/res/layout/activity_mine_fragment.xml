@@ -176,230 +176,184 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#e6e6e6" />
+                        android:layout_height="12dp"
+                        android:background="#F8F8F8" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="230dp"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <RelativeLayout
+                            <LinearLayout
                                 android:id="@+id/re_health"
                                 android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingBottom="12dp"
+                                android:paddingTop="12dp">
 
-                                <RelativeLayout
+                                <TextView
+                                    android:id="@+id/tv_health"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginLeft="50dp">
+                                    android:drawableLeft="@drawable/health_record_icon"
+                                    android:drawablePadding="4dp"
+                                    android:text="健康记录"
+                                    android:textColor="#333333"
+                                    android:textSize="14sp" />
 
-                                    <TextView
-                                        android:id="@+id/tv_health"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:drawableLeft="@drawable/health_record_icon"
-                                        android:drawablePadding="5dp"
-                                        android:text="健康记录"
-                                        android:textColor="#333333"
-                                        android:textSize="14sp" />
+                                <TextView
+                                    android:id="@+id/tv_updatetime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="更新时间"
+                                    android:textSize="10sp" />
 
-                                    <TextView
-                                        android:id="@+id/tv_updatetime"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/tv_health"
-                                        android:layout_marginTop="10dp"
-                                        android:textColor="#cccccc"
-                                        android:textSize="10sp" />
-                                </RelativeLayout>
-                            </RelativeLayout>
+
+                            </LinearLayout>
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                android:background="#cccccc" />
-
-                            <RelativeLayout
-                                android:id="@+id/re_sportlevel"
-                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_marginBottom="6dp"
+                                android:layout_marginTop="6dp"
+                                android:background="#F8F8F8" />
 
-                                <RelativeLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true">
-
-                                    <TextView
-                                        android:id="@+id/tv_sportlevel"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:drawableLeft="@drawable/sport_level_icon"
-                                        android:drawablePadding="5dp"
-                                        android:text="运动等级"
-                                        android:textColor="#333333"
-                                        android:textSize="14sp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_sportlevelnum"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/tv_sportlevel"
-                                        android:layout_marginTop="10dp"
-                                        android:textColor="#cccccc"
-                                        android:textSize="10sp" />
-                                </RelativeLayout>
-                            </RelativeLayout>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#e6e6e6" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <RelativeLayout
+                            <LinearLayout
                                 android:id="@+id/re_mynews"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                                <RelativeLayout
+                                <TextView
+                                    android:id="@+id/tv_mynews"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginLeft="50dp">
+                                    android:drawableLeft="@drawable/my_news_icon"
+                                    android:drawablePadding="4dp"
+                                    android:text="消息中心"
+                                    android:textColor="#333333"
+                                    android:textSize="14sp" />
 
-                                    <TextView
-                                        android:id="@+id/tv_mynews"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentStart="true"
-                                        android:layout_alignParentTop="true"
-                                        android:drawableLeft="@drawable/my_news_icon"
-                                        android:drawablePadding="5dp"
-                                        android:text="消息中心"
-                                        android:textColor="#333333"
-                                        android:textSize="14sp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_news"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/tv_mynews"
-                                        android:layout_marginTop="10dp"
-                                        android:textColor="#cccccc"
-                                        android:textSize="10sp" />
-                                </RelativeLayout>
-                            </RelativeLayout>
-
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                android:background="#cccccc" />
-
-                            <RelativeLayout
-                                android:id="@+id/re_renzheng"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <RelativeLayout
+                                <TextView
+                                    android:id="@+id/tv_news"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true">
+                                    android:layout_marginTop="2dp"
+                                    android:text="您有0条消息----"
+                                    android:textColor="#cccccc"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
 
-                                    <TextView
-                                        android:id="@+id/tv_renzheng"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:drawableLeft="@drawable/renzh_icon"
-                                        android:drawablePadding="5dp"
-                                        android:text="身份认证"
-                                        android:textColor="#333333"
-                                        android:textSize="14sp" />
-
-                                    <TextView
-                                        android:id="@+id/tv_renzh"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@+id/tv_renzheng"
-                                        android:layout_marginTop="10dp"
-                                        android:textColor="#cccccc"
-                                        android:textSize="10sp" />
-                                </RelativeLayout>
-                            </RelativeLayout>
 
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#e6e6e6" />
+                            android:background="#F8F8F8" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <RelativeLayout
-                                android:id="@+id/rl_setting"
+                            <LinearLayout
+                                android:id="@+id/re_renzheng"
                                 android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingBottom="12dp"
+                                android:paddingTop="12dp">
 
                                 <TextView
-                                    android:id="@+id/tv_task"
+                                    android:id="@+id/tv_renzheng"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginLeft="50dp"
-                                    android:drawableLeft="@drawable/mynews_setting"
-                                    android:drawablePadding="5dp"
-                                    android:text="设置"
+                                    android:drawableLeft="@drawable/renzh_icon"
+                                    android:drawablePadding="4dp"
+                                    android:text="身份认证"
                                     android:textColor="#333333"
                                     android:textSize="14sp" />
-                            </RelativeLayout>
+
+                                <TextView
+                                    android:id="@+id/tv_renzh"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="123"
+                                    android:textColor="#cccccc"
+                                    android:textSize="10sp" />
+
+                            </LinearLayout>
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                android:background="#cccccc" />
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="6dp"
+                                android:layout_marginTop="6dp"
+                                android:background="#F8F8F8" />
 
-                            <RelativeLayout
+                            <LinearLayout
+                                android:id="@+id/rl_setting"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
 
-                            </RelativeLayout>
+                                    <TextView
+                                        android:id="@+id/tv_task"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:drawableLeft="@drawable/mynews_setting"
+                                        android:drawablePadding="4dp"
+                                        android:text="设置"
+                                        android:textColor="#333333"
+                                        android:textSize="14sp" />
 
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="设置"
+                                        android:textSize="14sp"
+                                        android:visibility="invisible" />
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="123"
+                                    android:textColor="#cccccc"
+                                    android:textSize="10sp"
+                                    android:visibility="invisible" />
+
+                            </LinearLayout>
                         </LinearLayout>
 
                     </LinearLayout>
+
                 </LinearLayout>
+
             </ScrollView>
 
             <RelativeLayout
@@ -408,6 +362,7 @@
                 android:layout_height="50dp">
 
                 <TextView
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"

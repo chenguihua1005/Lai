@@ -91,8 +91,8 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     TextView tv_updatetime;
 //    @InjectView(R.id.tv_level)
 //    TextView tv_level;
-    @InjectView(R.id.tv_sportlevelnum)
-    TextView tv_sportlevelnum;
+//    @InjectView(R.id.tv_sportlevelnum)
+//    TextView tv_sportlevelnum;
     @InjectView(R.id.tv_news)
     TextView tv_news;
     @InjectView(R.id.tv_renzh)
@@ -105,12 +105,12 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     SwipeRefreshLayout srl_refresh;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.ll_left)
-    LinearLayout ll_left;
+//    @InjectView(R.id.ll_left)
+//    LinearLayout ll_left;
 
     //跳转
     @InjectView(R.id.rl_setting)
-    RelativeLayout rl_setting;
+    LinearLayout rl_setting;
     @InjectView(R.id.tv_editor_signature)
     TextView tv_editor_signature;
     @InjectView(R.id.re_mydy)
@@ -120,15 +120,15 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
     @InjectView(R.id.re_fans)
     RelativeLayout re_fans;
     @InjectView(R.id.re_health)
-    RelativeLayout re_health;
+    LinearLayout re_health;
 //    @InjectView(R.id.re_losslevel)
 //    RelativeLayout re_losslevel;
-    @InjectView(R.id.re_sportlevel)
-    RelativeLayout re_sportlevel;
+//    @InjectView(R.id.re_sportlevel)
+//    RelativeLayout re_sportlevel;
     @InjectView(R.id.re_mynews)
-    RelativeLayout re_mynews;
+    LinearLayout re_mynews;
     @InjectView(R.id.re_renzheng)
-    RelativeLayout re_renzheng;
+    LinearLayout re_renzheng;
     @InjectView(R.id.but_login)
     Button but_login;
     @InjectView(R.id.scro)
@@ -156,7 +156,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
         re_fans.setOnClickListener(this);
         re_health.setOnClickListener(this);
 //        re_losslevel.setOnClickListener(this);
-        re_sportlevel.setOnClickListener(this);
+//        re_sportlevel.setOnClickListener(this);
         re_mynews.setOnClickListener(this);
         re_renzheng.setOnClickListener(this);
         im_banner.setOnClickListener(this);
@@ -223,7 +223,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
             srl_refresh.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);
             tv_title.setText("我的");
-            ll_left.setVisibility(View.INVISIBLE);
+//            ll_left.setVisibility(View.INVISIBLE);
             return;
         } else {
             lin_not_vr.setVisibility(View.VISIBLE);
@@ -313,8 +313,8 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
 //                startActivity(new Intent(getContext(), LossWeightAndFatActivity.class));
 //                break;
             //跳转运动等级
-            case R.id.re_sportlevel:
-                break;
+//            case R.id.re_sportlevel:
+//                break;
             //跳转消息中心
             case R.id.re_mynews:
                 getActivity().startActivity(new Intent(getActivity(), Message2Activity.class));
@@ -508,7 +508,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
 //        } else {
 //            tv_level.setText("您当前等级为" + myinfomodel.getLossLevel() + "级");
 //        }
-        tv_sportlevelnum.setText("开发中，敬请期待");
+//        tv_sportlevelnum.setText("开发中，敬请期待");
         if ("0".equals(myinfomodel.getUnReadMsgNum())) {
             tv_news.setText("您有" + myinfomodel.getUnReadMsgNum() + "条未读消息");
         } else {
