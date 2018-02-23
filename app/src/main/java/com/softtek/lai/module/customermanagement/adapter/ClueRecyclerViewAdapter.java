@@ -34,7 +34,7 @@ import zilla.libcore.file.AddressManager;
 public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerViewAdapter.ViewHolder> {
 
     private List<PersonnelModel.WorkersBean> myItems;
-//    private ItemListener myListener;
+    //    private ItemListener myListener;
     private Context mContext;
     private AlertDialog.Builder deleteBuilder;
     private AlertDialog deleteDialog;
@@ -58,7 +58,7 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
 
     private boolean hasRuler;
 
-    public ClueRecyclerViewAdapter(List<PersonnelModel.WorkersBean> items,Context context,PersonnelModel.ClubsBean clubsBean) {
+    public ClueRecyclerViewAdapter(List<PersonnelModel.WorkersBean> items, Context context, PersonnelModel.ClubsBean clubsBean) {
         myItems = items;
 //        myListener = listener;
         mContext = context;
@@ -121,7 +121,7 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
         @SuppressLint("SetTextI18n")
         public void setData(final PersonnelModel.WorkersBean item) {
             this.item = item;
-            if (item == null){
+            if (item == null) {
                 return;
             }
             if (!TextUtils.isEmpty(item.getPhoto())) {
@@ -129,13 +129,13 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
                         .placeholder(R.drawable.img_default).into(mHeadView);
             }
             mPersonnelName.setText(item.getName() + "(" + item.getMobile() + ")");
-            mCustomerSum.setText(item.getTotalCustomer() +"");
+            mCustomerSum.setText(item.getTotalCustomer() + "");
             mCustomerToday.setText(item.getTodayCustomer() + "");
             mMarketSum.setText(item.getTotalMarketingStaff() + "");
             mMarketToady.setText(item.getTodayMarketingStaff() + "");
-            if (!isHasRuler()){
+            if (!isHasRuler()) {
                 mDelete.setVisibility(View.GONE);
-            }else {
+            } else {
                 mDelete.setVisibility(View.VISIBLE);
             }
             mDelete.setOnClickListener(new View.OnClickListener() {
@@ -151,9 +151,11 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
                                             if (responseData.getStatus() == 200) {
-                                                Toast.makeText(mContext,"删除成功",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
+                                                myItems.remove(getAdapterPosition());
+                                                notifyDataSetChanged();
                                             } else {
-                                                Toast.makeText(mContext,"删除失败",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, responseData.getMsg(), Toast.LENGTH_SHORT).show();
                                             }
                                             deleteDialog.dismiss();
                                         }
@@ -162,13 +164,12 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
                                         public void failure(RetrofitError error) {
                                             super.failure(error);
                                             deleteDialog.dismiss();
-                                            Toast.makeText(mContext,"删除失败" + error.toString(),Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "删除失败" + error.toString(), Toast.LENGTH_SHORT).show();
 
                                         }
                                     });
                                     deleteDialog.dismiss();
-                                    myItems.remove(getAdapterPosition());
-                                    notifyDataSetChanged();
+
                                 }
                             })
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -178,7 +179,7 @@ public class ClueRecyclerViewAdapter extends RecyclerView.Adapter<ClueRecyclerVi
                                 }
                             });
 //                    if (deleteDialog == null){
-                        deleteDialog = deleteBuilder.create();
+                    deleteDialog = deleteBuilder.create();
 //                    }
                     deleteDialog.show();
 

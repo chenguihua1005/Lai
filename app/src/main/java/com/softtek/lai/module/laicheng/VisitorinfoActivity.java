@@ -77,6 +77,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     @InjectView(R.id.rg_up)
     RadioGroup rg_up;
 
+    @Required(order = 4, message = "请输入手机号")
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
     @InjectView(R.id.btn_commit)
@@ -158,7 +159,7 @@ public class VisitorinfoActivity extends BaseActivity<VisitorPresenter> implemen
     public void commit(Visitsmodel visitsmodel, VisitorModel Model) {
         Model.setVisitorId(visitsmodel.getVisitorId());
         LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
-                sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", Model).putExtra("choose", choose_year).putExtra("type",0));
+                sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", Model).putExtra("choose", choose_year).putExtra("type", 0));
 //        Intent intent = new Intent();
 //        intent.putExtra("choose", choose_year);
 //        intent.putExtra("visitorModel", Model);
