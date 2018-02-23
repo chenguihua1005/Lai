@@ -343,5 +343,7 @@
     <string name="readeAndAgress_customer">已告知用户并同意遵守</string>
     <string name="loading">加载中...</string>
 
+    <string name="union_class">系统会向对方班级的总教练发送联合开班申请，待审批通过后，您就可以邀请小伙伴参加联合后的体管赛了。</string>
+    <string name="add_customer">请输入手机号，系统将判断此手机号是否有对应职级，有职级的小伙伴不能被添加进意向客户列表。</string>
 
 </resources>

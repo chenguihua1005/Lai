@@ -19,8 +19,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:normalBitmap="@drawable/bg_home"
-            app:pitchBitmap="@drawable/bg_rehome"
+            app:normalBitmap="@drawable/rehome"
+            app:pitchBitmap="@drawable/home"
             app:text="首页"
             app:wx_alpha="true" />
 
