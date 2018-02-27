@@ -312,6 +312,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 ClassGroup2 group2 = new ClassGroup2();
                 group2.setClassGoupId(group.getCGId());
                 group2.setClassGroupName(group.getCGName());
+                group2.setCanBeDeleted(true);//设置可以被删除
                 groups.add(group2);
                 adapter.notifyDataSetChanged();
                 int count = adapter.getCount();
