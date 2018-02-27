@@ -250,6 +250,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
                 saveclassModel.setClassCode(classModels.get(i).getClassCode());
                 lazyLoad();
+                pull.setRefreshing(true);
+                onRefresh();
             }
         });
         EventBus.getDefault().register(this);
@@ -424,6 +426,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 }
             } else if (requestCode == UpdateFuceTimeActivity.REQUEST_CODE) {
                 lazyLoad();
+                pull.setRefreshing(true);
+                onRefresh();
             }
 
         }
@@ -725,6 +729,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
 
             }
             lazyLoad();
+            pull.setRefreshing(true);
+            onRefresh();
         }
     }
 
@@ -732,6 +738,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     public void updatefuce(UpdateFuce updateFuce) {
         if (updateFuce.getClassId().equals(classid)) {
             lazyLoad();
+            pull.setRefreshing(true);
+            onRefresh();
         }
     }
 

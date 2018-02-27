@@ -33,18 +33,21 @@
         android:orientation="vertical">
 
         <TextView
+            android:textSize="12sp"
+            android:id="@+id/time_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:gravity="left" />
+
+        <TextView
             android:id="@+id/remark_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/black" />
 
-        <TextView
-            android:textSize="12sp"
-            android:id="@+id/time_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left" />
+
     </LinearLayout>
 
 </LinearLayout>
