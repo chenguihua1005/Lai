@@ -111,7 +111,8 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
                 dialogDismiss();
             }
         });
@@ -227,7 +228,8 @@ public class CreateClubActivity extends MakiBaseActivity implements View.OnClick
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
     }

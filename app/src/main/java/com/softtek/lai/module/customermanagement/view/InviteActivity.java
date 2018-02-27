@@ -103,7 +103,7 @@ public class InviteActivity extends MakiBaseActivity implements View.OnClickList
                     @Override
                     public void failure(RetrofitError error) {
                         dialogDismiss();
-                        super.failure(error);
+                        dealNetError(error);
                     }
                 });
     }

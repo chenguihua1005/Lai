@@ -112,7 +112,8 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
     }
@@ -284,7 +285,8 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+                //super.failure(error);
+                dealNetError(error);
             }
         });
     }
@@ -320,7 +322,8 @@ public class InviteMatchActivity extends MakiBaseActivity implements View.OnClic
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
     }

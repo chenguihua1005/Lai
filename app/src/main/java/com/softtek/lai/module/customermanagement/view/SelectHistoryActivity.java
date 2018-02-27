@@ -87,7 +87,8 @@ public class SelectHistoryActivity extends MakiBaseActivity implements View.OnCl
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
     }

@@ -117,7 +117,8 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
     }
@@ -250,7 +251,8 @@ public class RestartClassActivity extends MakiBaseActivity implements View.OnCli
             @Override
             public void failure(RetrofitError error) {
                 dialogDismiss();
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
     }

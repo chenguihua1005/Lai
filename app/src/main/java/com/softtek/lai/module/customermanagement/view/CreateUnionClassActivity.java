@@ -71,7 +71,8 @@ public class CreateUnionClassActivity extends MakiBaseActivity implements View.O
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
         adapter.notifyDataSetChanged();

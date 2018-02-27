@@ -106,11 +106,16 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    if (builder != null){
+                                                        builder.dismiss();
+                                                    }
                                                     LaiApplication.getInstance().startActivity(intent);
                                                 }
                                             }).setCancelable(false).create();
                                     //builder.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+                                if (LaiApplication.getInstance().getContext() != null) {
                                     builder.show();
+                                }
 //                                }
                                 break;
                             case 403:
@@ -123,6 +128,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    if (builder != null){
+                                                        builder.dismiss();
+                                                    }
                                                     LaiApplication.getInstance().startActivity(intent);
                                                 }
                                             }).setCancelable(false).create();
@@ -141,6 +149,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 UserInfoModel.getInstance().saveUserCache(model);
                                                 Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                if (builder != null){
+                                                    builder.dismiss();
+                                                }
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
@@ -159,6 +170,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 UserInfoModel.getInstance().saveUserCache(model);
                                                 Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                if (builder != null){
+                                                    builder.dismiss();
+                                                }
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
@@ -176,6 +190,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     public void success(ResponseData responseData, Response response) {
                                                         Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        if (builder != null){
+                                                            builder.dismiss();
+                                                        }
                                                         LaiApplication.getInstance().startActivity(intent);
                                                     }
 
@@ -183,6 +200,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     public void failure(RetrofitError error) {
                                                         Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        if (builder != null){
+                                                            builder.dismiss();
+                                                        }
                                                         LaiApplication.getInstance().startActivity(intent);
 
                                                     }
@@ -202,6 +222,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                if (builder != null){
+                                                    builder.dismiss();
+                                                }
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();
@@ -217,6 +240,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                if (builder != null){
+                                                    builder.dismiss();
+                                                }
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create();

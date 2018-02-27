@@ -159,7 +159,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             stepDeal(context, model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt()) ? 0 : Long.parseLong(model.getTodayStepCnt()));
                         }
                         final String token = userResponseData.getData().getToken();
-                        if ("0".equals(model.getIsCreatInfo()) && !model.isHasGender()) {
+                        if ("0".equals(model.getIsCreatInfo())) {
                             //如果没有创建档案且性别不是2才算没创建档案
                             UserInfoModel.getInstance().setToken("");
                             Intent intent = new Intent(context, CreatFlleActivity.class);

@@ -107,7 +107,8 @@ public class RewriteTestActivity extends MakiBaseActivity implements View.OnClic
                     @Override
                     public void failure(RetrofitError error) {
                         dialogDismiss();
-                        super.failure(error);
+//                        super.failure(error);
+                        dealNetError(error);
                     }
                 });
     }

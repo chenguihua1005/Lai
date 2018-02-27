@@ -154,7 +154,8 @@ public class GymClubActivity extends MakiBaseActivity implements View.OnClickLis
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
                 dialogDismiss();
                 if (mRefreshView.isRefreshing()){
                     mRefreshView.setRefreshing(false);

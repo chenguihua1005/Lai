@@ -192,7 +192,8 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
                 dialogDismiss();
                 if (mSwipRefreshView.isRefreshing()) {
                     mSwipRefreshView.setRefreshing(false);
@@ -309,7 +310,8 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
 
                     @Override
                     public void failure(RetrofitError error) {
-                        super.failure(error);
+                        //super.failure(error);
+                        dealNetError(error);
                         dialogDismiss();
                         renameDialog.dismiss();
                     }
@@ -366,7 +368,8 @@ public class ClubActivity extends MakiBaseActivity implements View.OnClickListen
                                     @Override
                                     public void failure(RetrofitError error) {
                                         dialogDismiss();
-                                        super.failure(error);
+//                                        super.failure(error);
+                                        dealNetError(error);
                                     }
                                 });
 

@@ -106,7 +106,8 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
                     public void failure(RetrofitError error) {
 //                        inviteRecyclerViewAdapter.setClickable(true);
                         Toast.makeText(FindAccountsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                        super.failure(error);
+//                        super.failure(error);
+                        dealNetError(error);
                     }
                 });
             }
@@ -142,7 +143,8 @@ public class FindAccountsActivity extends MakiBaseActivity implements View.OnCli
             @Override
             public void failure(RetrofitError error) {
                 dialogDismiss();
-                super.failure(error);
+//                super.failure(error);
+                dealNetError(error);
             }
         });
     }
