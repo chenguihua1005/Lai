@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -203,7 +204,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         currentMonth = DateUtil.getInstance().getCurrentMonth();
         currentDay = DateUtil.getInstance().getCurrentDay();
 
-        tv_measure_date.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+//        tv_measure_date.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+        tv_measure_date.setText("请选择日期");
 
 
     }
@@ -560,6 +562,10 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         String uparmgirth = tv_uparmgirth.getText().toString();
         String upleggirth = tv_upleggirth.getText().toString();
         String doleggirth = tv_doleggirth.getText().toString();
+        if (tv_measure_date.getText().equals("请选择日期")){
+            Toast.makeText(this,"请选择日期",Toast.LENGTH_SHORT).show();
+            return;
+        }
         String MeasuredTime = tv_measure_date.getText().toString();
 
         String str = DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getCurrentDate();

@@ -650,8 +650,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 //                isFindDevice = true;
                 if (!deviceListDialog.isShowing()) {
                     deviceListDialog.show();
-                    deviceListDialog.addBluetoothDevice(qnBleDevice);
                 }
+                deviceListDialog.addBluetoothDevice(qnBleDevice);
                 dialogDismiss();
                 if (connectTimeout != null) {
                     if (!connectTimeout.isDisposed()) {
