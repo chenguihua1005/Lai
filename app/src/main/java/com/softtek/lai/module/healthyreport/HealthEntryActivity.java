@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -152,6 +153,10 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
     @InjectView(R.id.btn_sure)
     Button btn_sure;
+    @InjectView(R.id.iv_expand)
+    ImageView mExpand;
+    @InjectView(R.id.ll_girth)
+    LinearLayout mGirth;
 
     private HealthModel healthModele;
     private LastestRecordModel lastestRecordModel;
@@ -188,6 +193,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
 
         btn_sure.setOnClickListener(this);
+
+        mExpand.setOnClickListener(this);
 
         from = getIntent().getStringExtra("from");
         accountId = getIntent().getLongExtra("accountId", UserInfoModel.getInstance().getUserId());//UserInfoModel.getInstance().getUser().getUserid()
@@ -469,6 +476,14 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
             case R.id.btn_sure:
                 validateLife.validate();
                 break;
+            case R.id.iv_expand:
+                if (mGirth.getVisibility() == View.VISIBLE){
+                    mGirth.setVisibility(View.GONE);
+                    mExpand.setImageDrawable(getResources().getDrawable(R.drawable.expand_down));
+                }else {
+                    mGirth.setVisibility(View.VISIBLE);
+                    mExpand.setImageDrawable(getResources().getDrawable(R.drawable.expand_up));
+                }
         }
     }
 

@@ -206,7 +206,7 @@ public class TextViewExpandableAnimation extends LinearLayout
 
     /**
      * 改变折叠状态（仅仅改变折叠与展开状态，不会隐藏折叠/展开图片布局）
-     * change shrink/expand state(only change state,but not hide shrink/expand icon)
+     * change shrink/expand_down state(only change state,but not hide shrink/expand_down icon)
      *
      * @param endIndex
      */
@@ -223,7 +223,7 @@ public class TextViewExpandableAnimation extends LinearLayout
 
     /**
      * 设置折叠状态（如果折叠行数设定大于文本行数，那么折叠/展开图片布局将会隐藏,文本将一直处于展开状态）
-     * change shrink/expand state(if number of expand lines bigger than original text lines,hide shrink/expand icon,and TextView will always be at expand state)
+     * change shrink/expand_down state(if number of expand_down lines bigger than original text lines,hide shrink/expand_down icon,and TextView will always be at expand_down state)
      *
      * @param endIndex
      */

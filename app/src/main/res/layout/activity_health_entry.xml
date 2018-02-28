@@ -444,222 +444,259 @@
                 android:layout_height="1dp"
                 android:background="#78BC27" />
 
+
             <RelativeLayout
-                android:id="@+id/rl_circum"
+                android:id="@+id/rl_girth"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
-                    android:text="胸围"
+                    android:gravity="center"
+                    android:text="身体围度"
                     android:textColor="#000000"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_circum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ffbb00"
-                    android:textSize="16sp" />
 
-                <TextView
+                <ImageView
+                    android:id="@+id/iv_expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:text="cm"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/expand_down" />
             </RelativeLayout>
 
-            <View
+            <LinearLayout
+                android:id="@+id/ll_girth"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#78BC27" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <RelativeLayout
-                android:id="@+id/rl_waistline"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+                <RelativeLayout
+                    android:id="@+id/rl_circum"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:text="腰围"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:text="胸围"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_waistline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ffbb00"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_circum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:text="cm"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#78BC27" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
 
-            <RelativeLayout
-                android:id="@+id/rl_hiplie"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+                <RelativeLayout
+                    android:id="@+id/rl_waistline"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:text="臀围"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:text="腰围"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_hiplie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ffbb00"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_waistline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:text="cm"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#78BC27" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
 
-            <RelativeLayout
-                android:id="@+id/rl_uparmgirth"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+                <RelativeLayout
+                    android:id="@+id/rl_hiplie"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:text="上臂围"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:text="臀围"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_uparmgirth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ffbb00"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_hiplie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:text="cm"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#78BC27" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
 
-            <RelativeLayout
-                android:id="@+id/rl_upleggirth"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+                <RelativeLayout
+                    android:id="@+id/rl_uparmgirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:text="大腿围"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:text="上臂围"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_upleggirth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ffbb00"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_uparmgirth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:text="cm"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#78BC27" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
 
-            <RelativeLayout
-                android:id="@+id/rl_doleggirth"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+                <RelativeLayout
+                    android:id="@+id/rl_upleggirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:text="小腿围"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:text="大腿围"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_doleggirth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ffbb00"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_upleggirth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:text="cm"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:text="cm"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_doleggirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:text="小腿围"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_doleggirth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:text="cm"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

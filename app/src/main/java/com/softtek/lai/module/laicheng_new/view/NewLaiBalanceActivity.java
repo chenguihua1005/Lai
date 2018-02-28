@@ -576,6 +576,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void bluetoothDialogClick(final int positions) {
                 deviceListDialog.dismiss();
+                isFindDevice = false;
                 if (deviceListDialog.getQNBluetoothDevice(positions) != null && deviceListDialog.getQNBluetoothDevice(positions).getDeviceName() != null &&
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
 //                    connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
@@ -592,6 +593,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void bluetoothClose() {
+                isFindDevice = false;
                 deviceListDialog.dismiss();
             }
         });
@@ -647,11 +649,13 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         qnBleApi.startLeScan(null, null, new QNBleScanCallback() {
             @Override
             public void onScan(QNBleDevice qnBleDevice) {
-//                isFindDevice = true;
+                isFindDevice = true;
                 if (!deviceListDialog.isShowing()) {
                     deviceListDialog.show();
                 }
-                deviceListDialog.addBluetoothDevice(qnBleDevice);
+                if (isFindDevice) {
+                    deviceListDialog.addBluetoothDevice(qnBleDevice);
+                }
                 dialogDismiss();
                 if (connectTimeout != null) {
                     if (!connectTimeout.isDisposed()) {
