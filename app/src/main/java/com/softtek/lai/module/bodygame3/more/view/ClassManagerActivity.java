@@ -121,7 +121,7 @@ public class ClassManagerActivity extends BaseActivity implements View.OnClickLi
                 });
                 TextView tv_delete = holder.getView(R.id.tv_delete);
 //                if(groups.size()!=1&&data.getGrouperCount()==0){
-                if (groups.size() != 1 && data.isCanBeDeleted()) {
+                if (data.isCanBeDeleted()) {
                     tv_delete.setVisibility(View.VISIBLE);
                     tv_delete.setOnClickListener(new View.OnClickListener() {
                         @Override

@@ -20,6 +20,16 @@ public class MyInfoModel {
     private String SportLevel;//运动等级
     private String UnReadMsgNum;//未读消息数
 
+    public boolean isCanRefreshCertification() {
+        return CanRefreshCertification;
+    }
+
+    public void setCanRefreshCertification(boolean canRefreshCertification) {
+        CanRefreshCertification = canRefreshCertification;
+    }
+
+    private boolean CanRefreshCertification;//是否可以刷新资格认证
+
     @Override
     public String toString() {
         return "MyInfoModel{" +

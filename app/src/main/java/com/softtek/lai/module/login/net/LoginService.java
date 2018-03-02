@@ -9,6 +9,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.module.login.model.PhotoModel;
+import com.softtek.lai.module.login.model.RefreshCertificationModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 
@@ -124,4 +125,8 @@ public interface LoginService {
             @Query("HXAccountId") String hxAccountId,
             @Query("State") String state,
             Callback<ResponseData> callback);
+
+    @GET("/v1/Account/RefreshCertification")
+    void refreshCertification(@Header("token") String token,
+                              Callback<ResponseData<RefreshCertificationModel>> callback);
 }

@@ -576,7 +576,6 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             @Override
             public void bluetoothDialogClick(final int positions) {
                 deviceListDialog.dismiss();
-                isFindDevice = false;
                 if (deviceListDialog.getQNBluetoothDevice(positions) != null && deviceListDialog.getQNBluetoothDevice(positions).getDeviceName() != null &&
                         deviceListDialog.getQNBluetoothDevice(positions).getMac() != null) {
 //                    connectedDevice = deviceListDialog.getQNBluetoothDevice(positions);
@@ -593,7 +592,6 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void bluetoothClose() {
-                isFindDevice = false;
                 deviceListDialog.dismiss();
             }
         });

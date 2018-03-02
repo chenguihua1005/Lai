@@ -52,6 +52,8 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
     @InjectView(R.id.fl_right)
     FrameLayout fl_rightl;
 
+    private String mobile = "";
+
 
     private List<HistoryDataItemModel> dataItemModels = new ArrayList<>();
     private HealthListAdapter adapter;
@@ -77,6 +79,7 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
         ll_left.setOnClickListener(this);
         ll_footer.setOnClickListener(this);
         fl_rightl.setOnClickListener(this);
+        mobile = getIntent().getStringExtra("mobile");
 
     }
 
@@ -101,6 +104,9 @@ public class HealthListActivity extends BaseActivity<HistoryDataManager> impleme
             case R.id.fl_right:
                 Intent intent = new Intent(this, HealthEntryActivity.class);
                 intent.putExtra("accountId",accountId);
+                if (!mobile.equals("")){
+                    intent.putExtra("mobile",mobile);
+                }
                 startActivityForResult(intent, 0x0001);
                 break;
         }

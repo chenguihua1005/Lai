@@ -137,11 +137,14 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
 
     private int GET_Sian = 1;//个人签名
 
-    String photo;
-    boolean isUserPhot = true;
+    private String photo;
+    private boolean isUserPhot = true;
+
+    private boolean canRefresh = false;
 
     @Override
     protected void lazyLoad() {
+
     }
 
     @Override
@@ -321,7 +324,9 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
                 break;
             //跳转身份认证
             case R.id.re_renzheng:
-                startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+                Intent validateIntent = new Intent(getContext(), ValidateCertificationActivity.class);
+                validateIntent.putExtra("CanRefreshCertification",canRefresh);
+                startActivity(validateIntent);
                 break;
             case R.id.im_banner:
             case R.id.cir_userphoto:
@@ -486,6 +491,7 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
         if (myinfomodel == null) {
             return;
         }
+        canRefresh = model.isCanRefreshCertification();
         if (!TextUtils.isEmpty(myinfomodel.getSignature())) {
             tv_editor_signature.setText(myinfomodel.getSignature());
         } else {

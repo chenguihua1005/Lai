@@ -12,16 +12,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.presenter.CertificationPresenter;
+import com.softtek.lai.module.login.model.RefreshCertificationModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -31,6 +35,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -69,7 +77,11 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
     @InjectView(R.id.text_value)
     TextView text_value;
 
+    @InjectView(R.id.tv_right)
+    TextView mRefresh;
+
     private UserModel model;
+    private boolean canRefresh = false;
 
 
     @Override
@@ -91,6 +103,7 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
         tv_title.setText("身份认证");
         ll_left.setOnClickListener(this);
         but_validate.setOnClickListener(this);
+        mRefresh.setOnClickListener(this);
     }
 
     @Override
@@ -99,6 +112,14 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
         setData();
         edit_password.setText("");
         edit_account.setText("");
+        mRefresh.setText("刷新");
+        mRefresh.setTextColor(getResources().getColor(R.color.white));
+        canRefresh = getIntent().getBooleanExtra("CanRefreshCertification",false);
+        if (canRefresh){
+            mRefresh.setVisibility(View.VISIBLE);
+        }else {
+            mRefresh.setVisibility(View.GONE);
+        }
     }
 
     private void setData() {
@@ -121,6 +142,29 @@ public class ValidateCertificationActivity extends BaseActivity<CertificationPre
                 startActivity(new Intent(this, HomeActviity.class));
                 finish();
                 break;
+            case R.id.tv_right:
+                dialogShow("刷新中");
+                ZillaApi.NormalRestAdapter.create(LoginService.class).refreshCertification(UserInfoModel.getInstance().getToken(), new Callback<ResponseData<RefreshCertificationModel>>() {
+                    @Override
+                    public void success(ResponseData<RefreshCertificationModel> responseData, Response response) {
+                        dialogDissmiss();
+                        if (responseData.getStatus() == 200) {
+                            if (responseData.getData() != null) {
+                                text_value.setText(responseData.getData().getRole());
+                                text_time.setText("(上次认证时间：" + responseData.getData().getCertTime().split(" ")[0] + ")");
+                                Toast.makeText(ValidateCertificationActivity.this,"已获取最新认证结果",Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            Toast.makeText(ValidateCertificationActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
+                        dialogDissmiss();
+                        ZillaApi.dealNetError(retrofitError);
+                    }
+                });
         }
     }
 

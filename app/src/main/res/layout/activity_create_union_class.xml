@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:paddingStart="48dp"
-        android:hint="请输入班级名称"
+        android:hint="请输入班级名称或班级编号"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"

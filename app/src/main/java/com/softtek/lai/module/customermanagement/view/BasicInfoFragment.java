@@ -241,6 +241,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
                 break;
             case R.id.ll_more:
                 Intent intent1 = new Intent(getContext(), HealthListActivity.class);
+                intent1.putExtra("mobile",mobile);
                 intent1.putExtra("accountId", basicModel.getAccountId());
                 startActivity(intent1);
                 break;

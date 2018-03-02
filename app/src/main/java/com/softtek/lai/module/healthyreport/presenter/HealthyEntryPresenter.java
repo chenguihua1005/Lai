@@ -65,11 +65,11 @@ public class HealthyEntryPresenter extends BasePresenter<HealthyEntryPresenter.H
     }
 
     //获取最新健康记录
-    public void doGetLastestRecord(long accountid) {
+    public void doGetLastestRecord(String phone) {
         if (getView()!=null){
             getView().dialogShow("获取数据中...");
         }
-        healthyRecordService.getUserMeasuredInfo(token,UserInfoModel.getInstance().getUser().getMobile(), new Callback<ResponseData<LastestRecordModel>>() {
+        healthyRecordService.getUserMeasuredInfo(token,phone, new Callback<ResponseData<LastestRecordModel>>() {
             @Override
             public void success(ResponseData<LastestRecordModel> data, Response response) {
                 int status = data.getStatus();

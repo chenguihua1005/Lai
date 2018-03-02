@@ -166,6 +166,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     private String from = "";
     private long accountId;
 
+    private String mobile;
+
     @Override
     protected void initViews() {
         rl_left.setOnClickListener(this);
@@ -203,8 +205,12 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
     @Override
     protected void initDatas() {
         tv_title.setText("健康记录录入");
+        mobile = getIntent().getStringExtra("mobile");
         setPresenter(new HealthyEntryPresenter(this));
-        getPresenter().doGetLastestRecord(UserInfoModel.getInstance().getUserId());
+        if (mobile == null){
+            mobile = UserInfoModel.getInstance().getUser().getMobile();
+        }
+        getPresenter().doGetLastestRecord(mobile);
 
         //获取当前年月日
         currentYear = DateUtil.getInstance().getCurrentYear();
@@ -499,9 +505,9 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
 
         DateTime defaultTime;
         if (currentMonth == 1) {
-            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
+            defaultTime = new DateTime(2018, currentMonth, currentDay, 0, 0);
         } else {
-            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+            defaultTime = new DateTime(2018, currentMonth - 1, currentDay, 0, 0);
         }
 //        DateTime defaultTime = new DateTime(currentYear, currentMonth - 1, currentDay, 0, 0);
         final DatePickerDialog dialog =

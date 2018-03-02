@@ -472,6 +472,11 @@
                     android:src="@drawable/expand_down" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#78BC27" />
+
             <LinearLayout
                 android:id="@+id/ll_girth"
                 android:layout_width="match_parent"
@@ -650,7 +655,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:layout_width="30dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
@@ -696,26 +701,18 @@
                         android:textSize="16sp" />
                 </RelativeLayout>
 
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#78BC27" />
-
-            <LinearLayout
-                android:id="@+id/ll_explain"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dip"
-                android:gravity="right"
-                android:orientation="horizontal">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ll_explain"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                    android:layout_marginTop="8dip"
+                    android:gravity="end"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/textView5"
@@ -723,18 +720,22 @@
                         android:layout_height="wrap_content"
                         android:text="填写说明"
                         android:textColor="#75BA2B"
+                        android:drawableEnd="@drawable/drop_arrow"
+                        android:drawablePadding="4dp"
                         android:textSize="16sp" />
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="10dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center|right"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/drop_arrow" />
                 </LinearLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:textColor="@color/history_chart_text_color"
+                android:layout_marginBottom="20dp"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_marginTop="24dp"
+                android:text="请注意，新增记录的目标时间如果早于体管赛中的初始记录诞生时间，那么不会触发体管赛复测成绩计算"
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_sure"
@@ -746,15 +747,8 @@
                 android:textColor="#ffffff"
                 android:textSize="22sp" />
 
-
-            <TextView
-                android:textColor="@color/history_chart_text_color"
-                android:layout_marginBottom="20dp"
-                android:textSize="12sp"
-                android:layout_width="match_parent"
-                android:text="请注意，新增记录的目标时间如果早于体管赛中的初始记录诞生时间，那么不会触发体管赛复测成绩计算"
-                android:layout_height="wrap_content" />
         </LinearLayout>
+
     </ScrollView>
 
 </RelativeLayout>

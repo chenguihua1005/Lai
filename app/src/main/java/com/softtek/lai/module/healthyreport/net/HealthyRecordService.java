@@ -30,7 +30,6 @@ public interface HealthyRecordService {
     @GET("/V1/HealthRecords/GetUserMeasuredInfo")
     void getUserMeasuredInfo(
             @Header("token") String token,
-//            @Query("accountId") long accountid, //学员id
             @Query("phone") String phone, //电话号码
             Callback<ResponseData<LastestRecordModel>> callback);
 
