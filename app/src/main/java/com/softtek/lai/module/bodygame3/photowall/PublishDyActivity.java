@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -316,9 +317,13 @@ public class PublishDyActivity extends BaseActivity implements AdapterView.OnIte
                 int status=listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        topicModels.addAll(listResponseData.getData());
-                        topicAdapter.notifyDataSetChanged();
-                        ListViewUtil.setListViewHeightBasedOnChildren(lv);
+                        if (listResponseData.getData() != null) {
+                            topicModels.addAll(listResponseData.getData());
+                            topicAdapter.notifyDataSetChanged();
+                            ListViewUtil.setListViewHeightBasedOnChildren(lv);
+                        }else {
+                            Toast.makeText(PublishDyActivity.this,"获取话题列表数据为空",Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

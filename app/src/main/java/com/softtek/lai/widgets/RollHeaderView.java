@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.utils.DisplayUtil;
@@ -266,9 +267,13 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
     @Override
     public void onPageSelected(int position) {
         // if(dotList.size()>position){
-        dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
-        dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
-        prePosition = position % dotList.size();
+        if (dotList.size() > 0) {
+            dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
+            dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
+            prePosition = position % dotList.size();
+        }else {
+//            Toast.makeText(mContext,"获取数据内容为空",Toast.LENGTH_SHORT).show();
+        }
 
         //}
     }

@@ -130,6 +130,8 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     EditText et_input;
     @InjectView(R.id.btn_send)
     Button btn_send;
+//    @InjectView(R.id.fl_no_message)
+//    LinearLayout mNoMessageContent;
 
     @InjectView(R.id.fat)
     DragFloatActionButton fat;
@@ -786,6 +788,13 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<YLListView> refreshView) {
+//        if (topicId == null){
+//            ptrlv.setVisibility(GONE);
+//            mNoMessageContent.setVisibility(View.VISIBLE);
+//            rl_toolbar.setVisibility(GONE);
+//            rl_send.setVisibility(GONE);
+//            return;
+//        }
         pageIndex++;
         ZillaApi.NormalRestAdapter.create(CommunityService.class)
                 .getTopicDetail(UserInfoModel.getInstance().getUserId(), topicId, pageIndex, 10, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
@@ -818,6 +827,13 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
 
     @Override
     public void onRefresh() {
+//        if (topicId == null){
+//            ptrlv.setVisibility(GONE);
+//            mNoMessageContent.setVisibility(View.VISIBLE);
+//            rl_toolbar.setVisibility(GONE);
+//            rl_send.setVisibility(GONE);
+//            return;
+//        }
         pageIndex = 1;
         pb.setVisibility(View.VISIBLE);
         ZillaApi.NormalRestAdapter.create(CommunityService.class)
@@ -912,12 +928,12 @@ public class TopicDetailActivity extends BaseActivity implements OpenComment, Se
     @Subscribe
     public void refreshList(FocusEvent event) {
 //        if(event.getWhere()!=Where.TOPIC_DETAIL_LIST){
-            for (DynamicModel model : datas) {
-                if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
-                    model.setIsFocus(event.getFocusStatus());
-                }
+        for (DynamicModel model : datas) {
+            if (model.getAccountId() == Integer.parseInt(event.getAccountId())) {
+                model.setIsFocus(event.getFocusStatus());
             }
-            adapter.notifyDataSetChanged();
+        }
+        adapter.notifyDataSetChanged();
 
 //        }
     }

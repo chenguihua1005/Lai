@@ -144,6 +144,7 @@ public class DynamicFragment extends LazyBaseFragment implements PullToRefreshBa
                     rl_hot.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             Intent intent = new Intent(getContext(), TopicDetailActivity.class);
                             intent.putExtra("topicId", info.getTopicType());
                             startActivity(intent);
