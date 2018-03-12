@@ -227,6 +227,9 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
 
     public void judgeClubAuthority() {
+        if (UserInfoModel.getInstance().getToken().equals("")){
+            return;
+        }
         CustomerService service = ZillaApi.NormalRestAdapter.create(CustomerService.class);
         service.getClubAuthority(UserInfoModel.getInstance().getToken(), new Callback<ResponseData<ClubAuthorityModel>>() {
             @Override
@@ -285,5 +288,4 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
             }
         }
     };
-
 }

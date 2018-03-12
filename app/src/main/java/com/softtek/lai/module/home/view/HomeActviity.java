@@ -336,7 +336,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-        if (customerManageFragment != null){
+        if (customerManageFragment != null && !UserInfoModel.getInstance().getToken().equals("")){
             customerManageFragment.judgeClubAuthority();
         }
     }
