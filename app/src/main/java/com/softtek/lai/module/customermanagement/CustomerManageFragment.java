@@ -222,6 +222,8 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
             Intent intent = new Intent(getContext(), CreateClubActivity.class);
             intent.putExtra("maki_isfirst", true);//是不是没有俱乐部第一次创建
             startActivity(intent);
+        }else {
+            Toast.makeText(getActivity(),"您还没有加入俱乐部, 请联系店主邀请您加入吧",Toast.LENGTH_SHORT).show();
         }
     }
 

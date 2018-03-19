@@ -747,7 +747,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             }
         });
         if (mViewPager.getCurrentItem() == 0) {
-            type = 0;
+            type = 1;
         } else {
             type = visitorFragment.getType();
         }

@@ -716,6 +716,7 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 sex = 01;
             }
 
+
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             int age = MathUtils.getAgeByBirthday(sdf.parse(user.getBirthdate()));

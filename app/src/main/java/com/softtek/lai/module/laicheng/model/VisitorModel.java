@@ -16,6 +16,15 @@ public class VisitorModel implements Parcelable {
     private long visitorId;
     private String classId;
     private int age;
+    private boolean isSuperior;
+
+    public boolean isSuperior() {
+        return isSuperior;
+    }
+
+    public void setSuperior(boolean superior) {
+        isSuperior = superior;
+    }
 
     public int getAge() {
         return age;
@@ -40,6 +49,7 @@ public class VisitorModel implements Parcelable {
         Gender = in.readInt();
         PhoneNo = in.readString();
         visitorId = in.readLong();
+        isSuperior = in.readByte() != 0;
     }
 
     public static final Creator<VisitorModel> CREATOR = new Creator<VisitorModel>() {
@@ -142,5 +152,6 @@ public class VisitorModel implements Parcelable {
         parcel.writeInt(Gender);//性别
         parcel.writeString(PhoneNo);//
         parcel.writeLong(visitorId);
+        parcel.writeByte((byte)(isSuperior ? 1 : 0));
     }
 }

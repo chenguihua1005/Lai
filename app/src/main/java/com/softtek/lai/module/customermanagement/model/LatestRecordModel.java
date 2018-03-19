@@ -16,6 +16,15 @@ public class LatestRecordModel {
     private String bodyTypeTitle;
     private String bodyTypeDesc;
     private List<HealthyItem> itemList;
+    private List<BodyDimensionsModel> bodyDimensions;
+
+    public List<BodyDimensionsModel> getBodyDimensions() {
+        return bodyDimensions;
+    }
+
+    public void setBodyDimensions(List<BodyDimensionsModel> bodyDimensions) {
+        this.bodyDimensions = bodyDimensions;
+    }
 
     public long getAccountId() {
         return accountId;

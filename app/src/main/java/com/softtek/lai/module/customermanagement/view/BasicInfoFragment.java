@@ -24,6 +24,7 @@ import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.customermanagement.adapter.HealthyReportCustomerAdapter;
 import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.BasicModel;
+import com.softtek.lai.module.customermanagement.model.BodyDimensionsModel;
 import com.softtek.lai.module.customermanagement.model.LatestRecordModel;
 import com.softtek.lai.module.customermanagement.presenter.BasicInfoPresenter;
 import com.softtek.lai.module.healthyreport.HealthyChartActivity;
@@ -92,6 +93,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     MySwipRefreshView mRefresh;
 
     ArrayList<HealthyItem> items = new ArrayList<>();
+    ArrayList<BodyDimensionsModel> dimensionsModels = new ArrayList<>();
     HealthyReportCustomerAdapter adapter;
 
     private BasicModel basicModel;
@@ -148,7 +150,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
         list.setLayoutManager(manager);
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        adapter = new HealthyReportCustomerAdapter(items, getContext(), false);
+        adapter = new HealthyReportCustomerAdapter(items,dimensionsModels, getContext(), false);
         adapter.setListener(this);
         list.setAdapter(adapter);
         list.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -201,7 +203,11 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
             tv_name.setText(basicModel.getName());
             tv_gender.setText("性别：" + basicModel.getGender());
             tv_birthday.setText("生日： " + basicModel.getBirthDay());
-            tv_mobile.setText("手机号：" + basicModel.getMobile());
+            if (basicModel.isSuperior()) {
+                tv_mobile.setText("手机号：" + basicModel.getMobile());
+            }else {
+                tv_mobile.setText("手机号" + basicModel.getMobile().substring(0,3) + "****" + basicModel.getMobile().substring(7,11));
+            }
             tv_hight.setText("身高： " + basicModel.getHeight() + "cm");
             tv_roler.setText("职级 ： " + basicModel.getUserRole());
             tv_cn.setText("CN号：" + basicModel.getCertification());
@@ -209,6 +215,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
 
             items.clear();
+            dimensionsModels.clear();
 
             LatestRecordModel latestModel = model.getLatest();
 
@@ -222,6 +229,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
                 if (latestModel.getItemList() != null) {
                     items.addAll(latestModel.getItemList());
+                    dimensionsModels.addAll(latestModel.getBodyDimensions());
                 }
             }
             adapter.notifyDataSetChanged();
@@ -241,7 +249,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
                 break;
             case R.id.ll_more:
                 Intent intent1 = new Intent(getContext(), HealthListActivity.class);
-                intent1.putExtra("mobile",mobile);
+                intent1.putExtra("mobile", mobile);
                 intent1.putExtra("accountId", basicModel.getAccountId());
                 startActivity(intent1);
                 break;
@@ -287,7 +295,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
     @Override
     public void dialogDissmiss() {
         super.dialogDissmiss();
-        if (mRefresh.isRefreshing()){
+        if (mRefresh.isRefreshing()) {
             mRefresh.setRefreshing(false);
         }
     }

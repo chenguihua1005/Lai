@@ -26,10 +26,13 @@ public class ChooseCustomerActivity extends MakiBaseActivity implements View.OnC
     private ViewPager mViewPager;
     private TabLayout.Tab mTabOne;
     private TabLayout.Tab mTabTwo;
+    private TabLayout.Tab mTabThree;
     private FrameLayout mBack;
     List<Fragment> fragments = new ArrayList<>();
     CustomerIntentionFragment intentionFragment;
     StaffFragment staffFragment;
+    BodyGameListFragment bodyGameListFragment;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,17 +49,21 @@ public class ChooseCustomerActivity extends MakiBaseActivity implements View.OnC
         mBack.setOnClickListener(this);
         fragments.add(intentionFragment);
         fragments.add(staffFragment);
+        fragments.add(bodyGameListFragment);
         mViewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager(),fragments));
         mTab.setupWithViewPager(mViewPager);
         mTabOne = mTab.getTabAt(0);
         mTabTwo = mTab.getTabAt(1);
+        mTabThree = mTab.getTabAt(2);
         mTabOne.setText("意向客户");
         mTabTwo.setText("市场人员");
+        mTabThree.setText("体管班");
     }
 
     private void initData(){
         intentionFragment = new CustomerIntentionFragment();
         staffFragment = new StaffFragment();
+        bodyGameListFragment = new BodyGameListFragment();
     }
 
     @Override

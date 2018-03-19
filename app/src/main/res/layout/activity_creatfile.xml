@@ -208,50 +208,50 @@
             android:layout_height="1dp"
             android:background="#78BC27" />
 
-        <LinearLayout
+        <!--<LinearLayout-->
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center">-->
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/weight_h" />
+            <!--<ImageView-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:src="@drawable/weight_h" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:text="体重"
-                android:textColor="#000"
-                android:textSize="16sp" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="体重"-->
+                <!--android:textColor="#000"-->
+                <!--android:textSize="16sp" />-->
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
-                <EditText
-                    android:id="@+id/tv_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@null"
-                    android:editable="false"
-                    android:gravity="right"
-                    android:hint="必填（一旦保存,则无法修改）"
-                    android:singleLine="true"
-                    android:textColor="#808080"
-                    android:textSize="15sp" />
+                <!--<EditText-->
+                    <!--android:id="@+id/tv_weight"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@null"-->
+                    <!--android:editable="false"-->
+                    <!--android:gravity="right"-->
+                    <!--android:hint="必填（一旦保存,则无法修改）"-->
+                    <!--android:singleLine="true"-->
+                    <!--android:textColor="#808080"-->
+                    <!--android:textSize="15sp" />-->
 
-                <FrameLayout
-                    android:id="@+id/ll_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></FrameLayout>
-            </FrameLayout>
-        </LinearLayout>
+                <!--<FrameLayout-->
+                    <!--android:id="@+id/ll_weight"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"></FrameLayout>-->
+            <!--</FrameLayout>-->
+        <!--</LinearLayout>-->
 
         <View
             android:layout_width="match_parent"

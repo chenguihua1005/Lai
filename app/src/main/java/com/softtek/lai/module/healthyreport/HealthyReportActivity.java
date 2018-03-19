@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.healthyreport.adapter.HealthyReportAdapter;
+import com.softtek.lai.module.healthyreport.model.BodyDimensions;
 import com.softtek.lai.module.healthyreport.model.HealthyItem;
 import com.softtek.lai.module.healthyreport.model.HealthyReport;
 import com.softtek.lai.module.healthyreport.model.HealthyShareData;
@@ -82,6 +83,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
     FrameLayout fl_share;
 
     ArrayList<HealthyItem> items = new ArrayList<>();
+    ArrayList<BodyDimensions> bodyList = new ArrayList<>();
     HealthyReportAdapter adapter;
     String reportId;
     int since;
@@ -112,7 +114,12 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        adapter = new HealthyReportAdapter(items, this,isVisitor==1);
+        adapter = new HealthyReportAdapter(reportId,items,bodyList,this, isVisitor == 1, new HealthyReportAdapter.OnScrollListener() {
+            @Override
+            public void doScrollListener(int position) {
+                list.scrollToPosition(position);
+            }
+        });
         adapter.setListener(this);
         list.setAdapter(adapter);
         scrollView.post(new Runnable() {
@@ -219,6 +226,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
             });
         }
         items.addAll(data.getItemList());
+        bodyList.addAll(data.getBodyDimensions());
         adapter.notifyDataSetChanged();
 
     }

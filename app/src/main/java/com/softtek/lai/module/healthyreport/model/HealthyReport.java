@@ -24,6 +24,16 @@ public class HealthyReport {
     private String bodyTypeDesc;
     List<HealthyItem> itemList;
 
+    public List<BodyDimensions> getBodyDimensions() {
+        return bodyDimensions;
+    }
+
+    public void setBodyDimensions(List<BodyDimensions> bodyDimensions) {
+        this.bodyDimensions = bodyDimensions;
+    }
+
+    List<BodyDimensions> bodyDimensions;
+
     public String getAccountId() {
         return accountId;
     }

@@ -20,7 +20,15 @@ public class BasicModel implements Parcelable {
     private float Height;
     private float Weight;
     private int Age;
+    private boolean IsSuperior;
 
+    public boolean isSuperior() {
+        return IsSuperior;
+    }
+
+    public void setSuperior(boolean superior) {
+        IsSuperior = superior;
+    }
 
     public int getAge() {
         return Age;
@@ -43,6 +51,7 @@ public class BasicModel implements Parcelable {
         Height = in.readFloat();
         Weight = in.readFloat();
         Age = in.readInt();
+        IsSuperior = in.readByte() != 0;
     }
 
     public static final Creator<BasicModel> CREATOR = new Creator<BasicModel>() {
@@ -182,5 +191,6 @@ public class BasicModel implements Parcelable {
         parcel.writeFloat(Height);
         parcel.writeFloat(Weight);
         parcel.writeInt(Age);
+        parcel.writeByte((byte) (IsSuperior ? 1 : 0));
     }
 }

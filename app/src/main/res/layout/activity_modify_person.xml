@@ -209,31 +209,31 @@
 
 
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="44dip"
-        android:layout_marginTop="1dip"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="体重"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin"
-            android:textColor="@color/word"
-            android:textSize="@dimen/textSize1"/>
-        <TextView
-            android:id="@+id/tv_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin"
-            android:textColor="@color/word"
-            android:textSize="@dimen/textSize1"
-            />
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="44dip"-->
+        <!--android:layout_marginTop="1dip"-->
+        <!--android:background="@color/white">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="体重"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="@dimen/margin"-->
+            <!--android:textColor="@color/word"-->
+            <!--android:textSize="@dimen/textSize1"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_weight"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="@dimen/margin"-->
+            <!--android:textColor="@color/word"-->
+            <!--android:textSize="@dimen/textSize1"-->
+            <!--/>-->
 
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
 </LinearLayout>

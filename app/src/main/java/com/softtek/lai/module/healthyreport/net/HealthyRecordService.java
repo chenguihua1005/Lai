@@ -1,6 +1,7 @@
 package com.softtek.lai.module.healthyreport.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.healthyreport.model.BodyDimensionPost;
 import com.softtek.lai.module.healthyreport.model.HealthModel;
 import com.softtek.lai.module.healthyreport.model.HealthyChartModel;
 import com.softtek.lai.module.healthyreport.model.HealthyReport;
@@ -61,4 +62,8 @@ public interface HealthyRecordService {
                       @Query("recordId")String recordId,
                       RequestCallback<ResponseData<HealthyShareData>> callback);
 
+    @POST("/v1/DataSync/SaveBodyDimension")
+    void saveBodyDimension(@Header("token")String token,
+                           @Body BodyDimensionPost postData,
+                           RequestCallback<ResponseData> callback);
 }

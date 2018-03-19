@@ -99,16 +99,15 @@ public class ChooseCustomerRecyclerViewAdapter extends RecyclerView.Adapter<Choo
 
             builder.append("添加");
             mCreateTime.setText(builder);
-
-            mUsername.setText(item.getName() + "(" + item.getMobile() + ")");
+            String name = item.getName();
+            String mobile;
+            if (item.isSuperior()){
+                mobile = item.getMobile();
+            }else {
+                mobile = item.getMobile().substring(0,3) + "****" + item.getMobile().substring(7,11);
+            }
+            mUsername.setText(name + "(" + mobile + ")");
             mState.setText(item.getTagName());
-//            if (item.getTagName().equals("已注册")) {
-//                mState.setBackground(mContext.getResources().getDrawable(R.drawable.transparent));
-//                mState.setTextColor(mContext.getResources().getColor(R.color.history_chart_text_color));
-//            } else {
-//                mState.setBackground(mContext.getResources().getDrawable(R.drawable.bg_registered));
-//                mState.setTextColor(mContext.getResources().getColor(R.color.white));
-//            }
         }
 
         @Override

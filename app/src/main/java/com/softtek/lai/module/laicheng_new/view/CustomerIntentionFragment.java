@@ -62,6 +62,7 @@ public class CustomerIntentionFragment extends Fragment {
                 model.setPhoneNo(item.getMobile());
                 model.setHeight(item.getHeight());
                 model.setAge(item.getAge());
+                model.setSuperior(item.isSuperior());
                 model.setVisitorId(Long.parseLong(item.getAccountId()));
                 LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
                         sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", model));
@@ -74,6 +75,7 @@ public class CustomerIntentionFragment extends Fragment {
     }
 
     private void initData(){
+        customerDataList.clear();
         ZillaApi.NormalRestAdapter.create(CustomerService.class)
                 .getCustomer(UserInfoModel.getInstance().getToken(), 1, 999, new RequestCallback<ResponseData<CustomerData>>() {
                     @Override
@@ -93,7 +95,6 @@ public class CustomerIntentionFragment extends Fragment {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Toast.makeText(getActivity(),error.toString(),Toast.LENGTH_SHORT).show();
                         super.failure(error);
                     }
                 });

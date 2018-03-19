@@ -219,7 +219,11 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
             model.setBirthDate(basicModel.getBirthDay());
             model.setGender(basicModel.getGender().equals("女") ? 1 : 0);//0男1女
             model.setHeight(basicModel.getHeight());
-            model.setPhoneNo(basicModel.getMobile());
+            if (basicModel.isSuperior()) {
+                model.setPhoneNo(basicModel.getMobile());
+            } else {
+                model.setPhoneNo(basicModel.getMobile().substring(0, 3) + "****" + basicModel.getMobile().substring(7, 11));
+            }
             model.setVisitorId(basicModel.getAccountId());
             model.setAge(basicModel.getAge());
 
@@ -239,6 +243,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 } else {
                     tv_gender.setText("女");
                 }
+
                 tv_height.setText(String.valueOf(model.getHeight()));
 
                 tv_weight.setText(String.valueOf(0.0));
@@ -493,7 +498,11 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                     }else {
                         tv_phoneNo.setVisibility(View.VISIBLE);
                     }
-                    tv_phoneNo.setText(model.getPhoneNo());
+                    if (model.isSuperior()) {
+                        tv_phoneNo.setText(model.getPhoneNo());
+                    }else {
+                        tv_phoneNo.setText(model.getPhoneNo().substring(0,3) + "****" + model.getPhoneNo().substring(7,11));
+                    }
                     if (model.getAge() == 0) {
                         tv_age.setText((NowYear - choose_year) + "");
                     }else {

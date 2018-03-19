@@ -56,6 +56,15 @@ public class CustomerData {
         private String Creator;
         private String CreatedTime;
         private String AccountId;
+        private boolean IsSuperior;
+
+        public boolean isSuperior() {
+            return IsSuperior;
+        }
+
+        public void setSuperior(boolean superior) {
+            IsSuperior = superior;
+        }
 
         public String getAccountId() {
             return AccountId;

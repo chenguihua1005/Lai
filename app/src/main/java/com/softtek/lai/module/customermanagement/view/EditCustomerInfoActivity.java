@@ -77,8 +77,8 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     EditText tv_height;
 
     @Required(order = 5, message = "请选择体重")
-    @InjectView(R.id.tv_weight)
-    EditText tv_weight;
+//    @InjectView(R.id.tv_weight)
+//    EditText tv_weight;
 
     @InjectView(R.id.remark_et)   //备注
             EditText remark_et;
@@ -103,8 +103,8 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     @InjectView(R.id.ll_height)
     ViewGroup ll_height;
 
-    @InjectView(R.id.ll_weight)
-    ViewGroup ll_weight;
+//    @InjectView(R.id.ll_weight)
+//    ViewGroup ll_weight;
     @InjectView(R.id.ll_remark)
     ViewGroup ll_remark;
 
@@ -153,7 +153,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         ll_birth.setOnTouchListener(this);
         ll_sex.setOnTouchListener(this);
         ll_height.setOnTouchListener(this);
-        ll_weight.setOnTouchListener(this);
+//        ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
 
         ll_left.setOnClickListener(this);
@@ -180,13 +180,13 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
             ll_birth.setEnabled(false);
             ll_sex.setEnabled(false);
             ll_height.setEnabled(false);
-            ll_weight.setEnabled(false);
+//            ll_weight.setEnabled(false);
 
             et_nickname.setEnabled(false);
             tv_birth.setEnabled(false);
             tv_sex.setEnabled(false);
             tv_height.setEnabled(false);
-            tv_weight.setEnabled(false);
+//            tv_weight.setEnabled(false);
         } else {
             fl_right.setVisibility(View.VISIBLE);
         }
@@ -282,10 +282,10 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
                 case R.id.tv_height:
                     show_height_dialog();
                     break;
-                case R.id.ll_weight:
-                case R.id.tv_weight:
-                    show_weight_dialog();
-                    break;
+//                case R.id.ll_weight:
+//                case R.id.tv_weight:
+//                    show_weight_dialog();
+//                    break;
             }
         }
         return true;
@@ -316,7 +316,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         String birthday = tv_birth.getText().toString();
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
-        String weight = tv_weight.getText().toString();
+//        String weight = tv_weight.getText().toString();
 //        String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
@@ -332,8 +332,8 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
 
             String heights = height.split("cm")[0];
             file.setHeight(Double.parseDouble(heights));
-            String weights = weight.split("斤")[0];
-            file.setWeight(Double.parseDouble(weights));
+//            String weights = weight.split("斤")[0];
+            file.setWeight(0.0f);
 
 //            file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
@@ -486,41 +486,41 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
-        birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (np1.getValue() < 80) {
-                    Dialog dialog1 = new AlertDialog.Builder(EditCustomerInfoActivity.this)
-                            .setMessage("体重单位为斤,是否确认数值?")
-                            .setPositiveButton("确定",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int which) {
-                                            tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
-                                            tv_weight.setError(null);
-                                        }
-                                    })
-
-                            .setNegativeButton("取消",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            show_weight_dialog();
-                                        }
-                                    }).create();
-                    dialog1.show();
-                    dialog1.setCanceledOnTouchOutside(false);
-                } else {
-                    tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
-                    tv_weight.setError(null);
-                }
-                dialog.dismiss();
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).create().show();
+//        birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (np1.getValue() < 80) {
+//                    Dialog dialog1 = new AlertDialog.Builder(EditCustomerInfoActivity.this)
+//                            .setMessage("体重单位为斤,是否确认数值?")
+//                            .setPositiveButton("确定",
+//                                    new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialogInterface, int which) {
+//                                            tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
+//                                            tv_weight.setError(null);
+//                                        }
+//                                    })
+//
+//                            .setNegativeButton("取消",
+//                                    new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface arg0, int arg1) {
+//                                            show_weight_dialog();
+//                                        }
+//                                    }).create();
+//                    dialog1.show();
+//                    dialog1.setCanceledOnTouchOutside(false);
+//                } else {
+//                    tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
+//                    tv_weight.setError(null);
+//                }
+//                dialog.dismiss();
+//            }
+//        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//            }
+//        }).create().show();
     }
 
     private void addGrade() {
@@ -582,7 +582,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
             tv_sex.setText(basicModel.getGender().equals("0") ? "男" : "女");
             tv_birth.setText(basicModel.getBirthDay());
             tv_height.setText(basicModel.getHeight() + "cm");
-            tv_weight.setText(basicModel.getWeight() + "斤");
+//            tv_weight.setText(basicModel.getWeight() + "斤");
         }
     }
 

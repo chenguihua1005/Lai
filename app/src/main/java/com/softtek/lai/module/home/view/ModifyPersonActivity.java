@@ -75,8 +75,8 @@ import zilla.libcore.util.Util;
     @InjectView(R.id.tv_height)
     TextView tv_height;
 
-    @InjectView(R.id.tv_weight)
-    TextView tv_weight;
+//    @InjectView(R.id.tv_weight)
+//    TextView tv_weight;
 
     @InjectView(R.id.img)
     ImageView img;
@@ -184,7 +184,7 @@ import zilla.libcore.util.Util;
         {
             tv_height.setText(model.getHight()+"cm");
         }
-        tv_weight.setText(model.getWeight()+"斤");
+//        tv_weight.setText(model.getWeight()+"斤");
 
     }
 
