@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@drawable/ll_selector_grey"
@@ -46,7 +47,7 @@
                     android:id="@+id/label_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/bg_tip"
                     android:gravity="center"
                     android:paddingBottom="2dp"
@@ -54,6 +55,20 @@
                     android:paddingRight="5dp"
                     android:paddingTop="2dp"
                     android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_staff_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_staff_tip"
+                    android:gravity="center"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="2dp"
+                    android:text="市场人员"
+                    android:textColor="@color/red" />
 
 
             </LinearLayout>

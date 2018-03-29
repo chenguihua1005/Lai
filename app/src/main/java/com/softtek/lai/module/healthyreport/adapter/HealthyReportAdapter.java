@@ -56,6 +56,15 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int TYPE_MAIN = 1;
     private static final int TYPE_FEET = 2;
     private String reportId;
+    private int sourceType;
+
+    public int getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(int sourceType) {
+        this.sourceType = sourceType;
+    }
 
     public HealthyReportAdapter(String reportId, List<HealthyItem> items, List<BodyDimensions> bodyDimensions, Context context, boolean isVisitor, OnScrollListener onScrollListener) {
         this.items = items;
@@ -116,6 +125,11 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
+            if (items.get(position).getTitle().equals("身体年龄") && getSourceType() == 6) {
+                ((HealthyReportHolder) holder).mRemark.setVisibility(View.VISIBLE);
+            }else {
+                ((HealthyReportHolder) holder).mRemark.setVisibility(View.GONE);
+            }
         } else if (holder instanceof HealthyReportAdapter.GirthHolder) {
             final GirthHolder girthHolder = (GirthHolder) holder;
             for (int i = 0; i < bodyDimensions.size(); i++) {
@@ -187,6 +201,7 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tv_num;
         TextView tv_standard;
         RelativeLayout rl_item;
+        TextView mRemark;
 
 
         public HealthyReportHolder(View itemView) {
@@ -195,6 +210,7 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<RecyclerView.View
             tv_num = itemView.findViewById(R.id.num);
             tv_standard = itemView.findViewById(R.id.tv_standard);
             rl_item = itemView.findViewById(R.id.rl_item);
+            mRemark = itemView.findViewById(R.id.tv_remark);
         }
 
 

@@ -226,7 +226,7 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
         if (hasInClub) {//已经是意向客户
 //            Util.toastMsg("该客户已注册，且已经是意向客户！");
 
-            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("该客户已经是您的意向客户了哦")
+            new AlertDialog.Builder(this).setMessage("该客户已注册并且是您的意向客户了哦，点“确定”去看看客户的详情信息吧")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

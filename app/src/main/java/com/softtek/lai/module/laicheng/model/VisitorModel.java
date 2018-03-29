@@ -17,6 +17,15 @@ public class VisitorModel implements Parcelable {
     private String classId;
     private int age;
     private boolean isSuperior;
+    private int source = -1;//从哪个tab页面来的：-1没有，0意向客户，1市场人员，2体管班
+
+    public int getSource() {
+        return source;
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+    }
 
     public boolean isSuperior() {
         return isSuperior;

@@ -111,6 +111,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
 
     private boolean isNeedReconnect = false;
     private int type = 5;
+    private int source = -1;
 
     public boolean isNeedReconnect() {
         return isNeedReconnect;
@@ -297,7 +298,9 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
                 styleListener.onVisitorStyleTypeListener();
                 break;
 			case R.id.bt_choose_customer:
-                startActivity(new Intent(getActivity(),ChooseCustomerActivity.class));
+			    Intent intentChoose = new Intent(getActivity(),ChooseCustomerActivity.class);
+			    intentChoose.putExtra("source",source);
+                startActivity(intentChoose);
                 break;
         }
     }
@@ -487,6 +490,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("visitorinfo")) {
                 model = intent.getParcelableExtra("visitorModel");
+                source = model.getSource();
                 type = intent.getIntExtra("type",5);
                 choose_year = intent.getExtras().getInt("choose");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {

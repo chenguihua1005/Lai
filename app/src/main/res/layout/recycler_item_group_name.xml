@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_name"
+    <RelativeLayout
+        android:id="@+id/rl_class_content"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:paddingStart="16dp"
-        android:background="#E5E5E5"
-        tools:ignore="RtlSymmetry" />
+        android:background="#E5E5E5">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical" />
+
+        <Button
+            android:id="@+id/btn_clubs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:text="俱乐部"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_club_name"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_clubs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_content"

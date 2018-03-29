@@ -127,6 +127,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private boolean isReceiveData = true;//重命名对话框弹出的时候是不接受数据的开关
     private BasicModel basicModel;
     private boolean isJump = false;
+    private boolean isFailDismiss = true;//测量失败对话框是否消失
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -237,6 +238,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            isFailDismiss = true;
                         }
                     });
             builder.setMessage("测量失败，请重新测量");
@@ -245,6 +247,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         if (!testFailDialog.isShowing()) {
             testFailDialog.setMessage("测量失败，请重新测量");
             testFailDialog.show();
+            isFailDismiss = false;
         }
     }
 
@@ -314,9 +317,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                         connectTimeout.dispose();
                     }
                 }
+                //有重命名时候上秤，直接return
                 if (!isReceiveData) {
                     return;
                 }
+                //测量失败对话框没有dismiss的时候直接return
+                if (!isFailDismiss){
+                    return;
+                }
+                //体重小于10.直接return
                 if (v <= 10) {
                     return;
                 }

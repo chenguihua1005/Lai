@@ -2,37 +2,54 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:id="@+id/rl_item"
     android:background="@drawable/ll_selector_grey">
 
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="14sp"
+            android:textColor="#666666" />
+
+
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#333333"
+            android:textSize="19sp"/>
+
+
+        <TextView
+            android:id="@+id/tv_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:drawablePadding="10dp"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
     <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_remark"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:textSize="14sp"
-        android:textColor="#666666" />
-
-
-    <TextView
-        android:id="@+id/num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textColor="#333333"
-        android:textSize="19sp"/>
-
-
-    <TextView
-        android:id="@+id/tv_standard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:drawablePadding="10dp"
-        android:textSize="14sp" />
+        android:text="新莱秤的身体年龄很严谨，有经常锻炼健身的人群，在新莱秤上的身体年龄会低于实际年龄，日常注意保养但是锻炼较少的人群在新莱秤的身体年龄会接近实际年龄（正负3岁左右），不注意健康生活方式，过胖过瘦的人群在新莱秤上的身体年龄必然高于实际年龄。绝对不会有越瘦越年轻的现象。"
+        android:layout_below="@+id/rl_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="11sp"/>
 </RelativeLayout>

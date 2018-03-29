@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.LaiApplication;
@@ -16,7 +18,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng_new.model.GroupModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -58,16 +59,24 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         public GroupModel item;
         private TextView mGroupName;
         private View mSpace;
-        private RecyclerView mRecyclerView;
+        private RecyclerView mMumbers;
+        private RecyclerView mClubs;
         private GroupNumberAdapter numberAdapter;
+        private ClubRecyclerViewAdapter clubAdapter;
+        private Button mShowClub;
+        private RelativeLayout mClassContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mGroupName = itemView.findViewById(R.id.tv_name);
             mSpace = itemView.findViewById(R.id.space);
-            mRecyclerView = itemView.findViewById(R.id.rcv_content);
+            mMumbers = itemView.findViewById(R.id.rcv_content);
+            mClubs = itemView.findViewById(R.id.rcv_clubs);
+            mShowClub = itemView.findViewById(R.id.btn_clubs);
+            mClassContent = itemView.findViewById(R.id.rl_class_content);
             itemView.setOnClickListener(this);
-            mGroupName.setOnClickListener(this);
+            mClassContent.setOnClickListener(this);
+            mShowClub.setOnClickListener(this);
             // TODO instantiate/assign view members
         }
 
@@ -78,8 +87,10 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             }
             mGroupName.setText(item.getClassName());
             RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext);
-            mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.setVisibility(View.GONE);
+            mMumbers.setLayoutManager(manager);
+            mMumbers.setVisibility(View.GONE);
+            RecyclerView.LayoutManager clubManager = new LinearLayoutManager(mContext);
+            mClubs.setLayoutManager(clubManager);
             numberAdapter = new GroupNumberAdapter(item.getMembers(), new GroupNumberAdapter.ItemListener() {
                 @Override
                 public void onItemClick(GroupModel.MembersBean item) {
@@ -92,30 +103,49 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                     model.setAge(item.getAge());
                     model.setSuperior(false);
                     model.setVisitorId(item.getAccountId());
+                    model.setSource(2);//从体管班进入
                     LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
                             sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", model));
                     myListener.setOnFinishListener();
                 }
             }, mContext);
-            mRecyclerView.setAdapter(numberAdapter);
+            mMumbers.setAdapter(numberAdapter);
+
+            clubAdapter = new ClubRecyclerViewAdapter(item.getClubs(), new ClubRecyclerViewAdapter.ItemListener() {
+                @Override
+                public void onItemClick(GroupModel.ClubsBean item) {
+
+                }
+            });
+            mClubs.setAdapter(clubAdapter);
+            mClubs.setVisibility(View.GONE);
             // TODO set data to view
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.tv_name:
-                    if (mRecyclerView.getVisibility() == View.GONE){
-                        mRecyclerView.setVisibility(View.VISIBLE);
+                case R.id.rl_class_content:
+                    if (mMumbers.getVisibility() == View.GONE){
+                        mMumbers.setVisibility(View.VISIBLE);
                         mSpace.setVisibility(View.GONE);
                     }else {
-                        mRecyclerView.setVisibility(View.GONE);
+                        mMumbers.setVisibility(View.GONE);
+                        mClubs.setVisibility(View.GONE);
                         if (getAdapterPosition() == myItems.size() - 1){
                             mSpace.setVisibility(View.GONE);
                         }else {
                             mSpace.setVisibility(View.VISIBLE);
                         }
                     }
+                    break;
+                case R.id.btn_clubs:
+                    if (mClubs.getVisibility() == View.GONE) {
+                        mClubs.setVisibility(View.VISIBLE);
+                    }else {
+                        mClubs.setVisibility(View.GONE);
+                    }
+                    break;
             }
         }
 

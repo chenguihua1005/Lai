@@ -20,6 +20,15 @@ public class CustomerModel {
     private String Creator;//添加人姓名
     private String CreatedTime;//添加时间
     private String Description;//描述
+    private boolean IsMarketingStaff;//是否是市场人员
+
+    public boolean isMarketingStaff() {
+        return IsMarketingStaff;
+    }
+
+    public void setMarketingStaff(boolean marketingStaff) {
+        IsMarketingStaff = marketingStaff;
+    }
 
     public String getDescription() {
         return Description;

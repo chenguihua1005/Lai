@@ -17,6 +17,15 @@ public class GroupModel {
     private String classId;
     private String className;
     private List<MembersBean> members;
+    private List<ClubsBean> clubs;
+
+    public List<ClubsBean> getClubs() {
+        return clubs;
+    }
+
+    public void setClubs(List<ClubsBean> clubs) {
+        this.clubs = clubs;
+    }
 
     public String getClassId() {
         return classId;
@@ -145,6 +154,27 @@ public class GroupModel {
 
         public void setClassName(String ClassName) {
             this.ClassName = ClassName;
+        }
+    }
+
+    public static class ClubsBean{
+        private String clubId;
+        private String clubName;
+
+        public String getClubId() {
+            return clubId;
+        }
+
+        public void setClubId(String clubId) {
+            this.clubId = clubId;
+        }
+
+        public String getClubName() {
+            return clubName;
+        }
+
+        public void setClubName(String clubName) {
+            this.clubName = clubName;
         }
     }
 }

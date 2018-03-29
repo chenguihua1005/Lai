@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +21,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygame3.conversation.view.RefreshableView;
 import com.softtek.lai.module.healthyreport.HealthyReportActivity;
 import com.softtek.lai.module.laicheng.adapter.HistoryTestRecyclerView;
 import com.softtek.lai.module.laicheng.model.HistoryModel;
@@ -33,7 +31,6 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_visithistory)
 public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> implements View.OnClickListener, HistoryVisitorPresenter.HistoryVisitorView, PullToRefreshBase.OnRefreshListener {
@@ -87,15 +84,16 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                     if (TextUtils.isEmpty(et_input.getText())) {
                         getPresenter().GetData();
                     } else {
-                        historyNewmodels.clear();
-                        for (HistoryModel model : historyModelList) {
+//                        historyNewmodels.clear();
+                        historyModelList.clear();
+                        for (HistoryModel model : historyNewmodels) {
                             if (model.getVisitor().getName().contains(et_input.getText().toString()) ||
                                     model.getVisitor().getPhoneNo().contains(et_input.getText().toString())) {
-                                historyNewmodels.add(model);
+//                                historyNewmodels.add(model);
+                                historyModelList.add(model);
                             }
                         }
-                        historyModelList.clear();
-                        historyModelList.addAll(historyNewmodels);
+//                        historyModelList.addAll(historyNewmodels);
                         historyAdapter.notifyDataSetChanged();// 设置adapt的过滤关键词
                     }
                     return true;
@@ -122,26 +120,29 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                     getPresenter().GetData();
                     return;
                 } else {
-                    historyNewmodels.clear();
+//                    historyNewmodels.clear();
+                    historyModelList.clear();
 //                    adapter.getFilter().filter(et_input.getText().toString().trim()); // 设置ListView的过滤关键词
-                    for (HistoryModel model : historyModelList) {
+                    for (HistoryModel model : historyNewmodels) {
                         if (model.getVisitor().getName() != null && model.getVisitor().getPhoneNo() != null) {
                             if (model.getVisitor().getName().contains(text) ||
                                     model.getVisitor().getPhoneNo().contains(text)) {
-                                historyNewmodels.add(model);
+                                historyModelList.add(model);
+//                                historyNewmodels.add(model);
                             }
                         }else if (model.getVisitor().getPhoneNo() == null && model.getVisitor().getName() != null){
                             if (model.getVisitor().getName().contains(text)){
-                                historyNewmodels.add(model);
+//                                historyNewmodels.add(model);
+                                historyModelList.add(model);
                             }
                         }else if (model.getVisitor().getPhoneNo() != null && model.getVisitor().getName() == null){
                             if (model.getVisitor().getPhoneNo().contains(text)){
-                                historyNewmodels.add(model);
+//                                historyNewmodels.add(model);
+                                historyModelList.add(model);
                             }
                         }
                     }
-                    historyModelList.clear();
-                    historyModelList.addAll(historyNewmodels);
+//                    historyModelList.addAll(historyNewmodels);
                     historyAdapter.notifyDataSetChanged();
                 }
 
@@ -205,15 +206,17 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                 if (TextUtils.isEmpty(et_input.getText())) {
                     getPresenter().GetData();
                 } else {
-                    historyNewmodels.clear();
-                    for (HistoryModel model : historyModelList) {
-                        if (model.getVisitor().getName().contains(et_input.getText().toString()) ||
+//                    historyNewmodels.clear();
+                    historyModelList.clear();
+                    for (HistoryModel model : historyNewmodels) {
+                        if (
+                                model.getVisitor().getName().contains(et_input.getText().toString()) ||
                                 model.getVisitor().getPhoneNo().contains(et_input.getText().toString())) {
-                            historyNewmodels.add(model);
+//                            historyNewmodels.add(model);
+                            historyModelList.add(model);
                         }
                     }
-                    historyModelList.clear();
-                    historyModelList.addAll(historyNewmodels);
+//                    historyModelList.addAll(historyNewmodels);
                     historyAdapter.notifyDataSetChanged();
                 }
                 break;
@@ -230,7 +233,9 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
 
         } else {
             historyModelList.clear();
+            historyNewmodels.clear();
             historyModelList.addAll(historyModels);
+            historyNewmodels.addAll(historyModels);
             historyAdapter.notifyDataSetChanged();
             Log.i("ddd", historyModelList.toString());
             rl_search.setVisibility(View.VISIBLE);

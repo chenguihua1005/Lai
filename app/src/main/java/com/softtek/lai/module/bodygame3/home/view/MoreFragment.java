@@ -196,7 +196,11 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
 
     @Override
     protected void initDatas() {
-        iv_left.setImageResource(R.drawable.back_home);
+        if (classId == null) {
+            iv_left.setImageResource(R.drawable.back_home);
+        }else {
+            iv_left.setImageResource(R.drawable.back);
+        }
         EventBus.getDefault().register(this);
     }
 

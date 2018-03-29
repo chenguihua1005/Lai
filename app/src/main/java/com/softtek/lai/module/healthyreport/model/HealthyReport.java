@@ -22,7 +22,17 @@ public class HealthyReport {
     private int bodyType;
     private String bodyTypeTitle;
     private String bodyTypeDesc;
-    List<HealthyItem> itemList;
+    private List<HealthyItem> itemList;
+    private List<BodyDimensions> bodyDimensions;
+    private int sourceType;//0-四海华辰推送 1-复测记录 2-健康记录 3-创建档案 4-复测确认记录 5-四海华辰测量 6-云康宝测量 7-复测初始记录
+
+    public int getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(int sourceType) {
+        this.sourceType = sourceType;
+    }
 
     public List<BodyDimensions> getBodyDimensions() {
         return bodyDimensions;
@@ -32,7 +42,6 @@ public class HealthyReport {
         this.bodyDimensions = bodyDimensions;
     }
 
-    List<BodyDimensions> bodyDimensions;
 
     public String getAccountId() {
         return accountId;

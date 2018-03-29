@@ -227,6 +227,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         }
         items.addAll(data.getItemList());
         bodyList.addAll(data.getBodyDimensions());
+        adapter.setSourceType(data.getSourceType());
         adapter.notifyDataSetChanged();
 
     }

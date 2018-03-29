@@ -28,16 +28,17 @@ public class ChooseCustomerActivity extends MakiBaseActivity implements View.OnC
     private TabLayout.Tab mTabTwo;
     private TabLayout.Tab mTabThree;
     private FrameLayout mBack;
-    List<Fragment> fragments = new ArrayList<>();
-    CustomerIntentionFragment intentionFragment;
-    StaffFragment staffFragment;
-    BodyGameListFragment bodyGameListFragment;
-
+    private List<Fragment> fragments = new ArrayList<>();
+    private CustomerIntentionFragment intentionFragment;
+    private StaffFragment staffFragment;
+    private BodyGameListFragment bodyGameListFragment;
+    private int source;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_customer);
+        source = getIntent().getIntExtra("source",0);
         initData();
         initView();
     }
@@ -58,6 +59,13 @@ public class ChooseCustomerActivity extends MakiBaseActivity implements View.OnC
         mTabOne.setText("意向客户");
         mTabTwo.setText("市场人员");
         mTabThree.setText("体管班");
+        if (source == 1){
+            mViewPager.setCurrentItem(1);
+        }else if (source == 2){
+            mViewPager.setCurrentItem(2);
+        }else {
+            mViewPager.setCurrentItem(0);
+        }
     }
 
     private void initData(){
@@ -77,7 +85,7 @@ public class ChooseCustomerActivity extends MakiBaseActivity implements View.OnC
     private class MyViewPagerAdapter extends FragmentPagerAdapter{
         private List<Fragment> fragments;
 
-        public MyViewPagerAdapter(FragmentManager fm,List<Fragment> fragmentList) {
+        MyViewPagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             fragments = fragmentList;
         }

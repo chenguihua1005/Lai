@@ -64,6 +64,7 @@ public class CustomerIntentionFragment extends Fragment {
                 model.setAge(item.getAge());
                 model.setSuperior(item.isSuperior());
                 model.setVisitorId(Long.parseLong(item.getAccountId()));
+                model.setSource(0);//从意向客户进入
                 LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
                         sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", model));
                 getActivity().finish();

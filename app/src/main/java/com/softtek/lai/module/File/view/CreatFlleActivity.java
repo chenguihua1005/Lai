@@ -269,22 +269,19 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
         }
     }
+
     int currentMonth;
     int currentDay;
 
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_YEAR, 1);
-        DateTime minTime=new DateTime(1900,1,1,0,0);
-        DateTime maxTime=new DateTime();
+        DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
+        DateTime maxTime = new DateTime();
         DateTime defaultTime;
-        if (currentMonth == 1) {
-            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
-        } else {
-            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
-        }
+        defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
         final DatePickerDialog dialog =
-                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(),defaultTime.getDayOfMonth());
+                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get() - 1, defaultTime.getDayOfMonth());
         dialog.getDatePicker().setMinDate(minTime.getMillis());
         dialog.getDatePicker().setMaxDate(maxTime.getMillis());
         dialog.setTitle("选择生日(年-月-日)");
@@ -303,8 +300,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 String date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
-                int compare=DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date,DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-                if(compare==1){
+                int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date, DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+                if (compare == 1) {
                     show_warn_dialog();
                     return;
                 }

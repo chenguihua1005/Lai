@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -21,10 +22,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
-
-import static android.R.attr.data;
-import static android.R.attr.id;
-import static android.R.attr.mode;
 
 /**
  * Created by jessica.zhang on 11/16/2017.
@@ -79,22 +76,37 @@ public class CustomerAdapter extends BaseAdapter {
         boolean tag = model.isTag();
         holder.label_tv.setText(model.getTagName());
         if (tag) {//已注册
-            holder.label_tv.setTextColor(context.getResources().getColor(R.color.history_chart_text_color));
-            holder.label_tv.setBackground(null);
+            if (model.isMarketingStaff()) {
+                holder.label_tv.setTextColor(context.getResources().getColor(R.color.red));
+                holder.label_tv.setBackground(context.getResources().getDrawable(R.drawable.bg_staff_tip));
+                holder.mStaffState.setVisibility(View.VISIBLE);
+            } else {
+                holder.label_tv.setTextColor(context.getResources().getColor(R.color.history_chart_text_color));
+                holder.label_tv.setBackground(null);
+                holder.mStaffState.setVisibility(View.GONE);
+            }
         } else {//未注册
             holder.label_tv.setTextColor(context.getResources().getColor(R.color.white));
             holder.label_tv.setBackground(context.getResources().getDrawable(R.drawable.bg_tip));
+            holder.mStaffState.setVisibility(View.GONE);
         }
 
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append("由 ");
         SpannableString str1 = new SpannableString(model.getCreator());
-        str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        int colorStaff;
+        if (model.isMarketingStaff()) {
+            colorStaff = R.color.black;
+            holder.mContent.setBackground(context.getResources().getDrawable(R.color.colorStaff));
+        } else {
+            colorStaff = R.color.colorPrimary;
+        }
+        str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorStaff)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(str1);
         builder.append(" 于 ");
         SpannableString str2 = new SpannableString(model.getCreatedTime());
-        str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        str2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorStaff)), 0, str2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(str2);
 
         if (!TextUtils.isEmpty(model.getDescription())) {
@@ -112,11 +124,15 @@ public class CustomerAdapter extends BaseAdapter {
             name_tv = view.findViewById(R.id.name_tv);
             label_tv = view.findViewById(R.id.label_tv);
             desc_tv = view.findViewById(R.id.desc_tv);
+            mContent = view.findViewById(R.id.rl_content);
+            mStaffState = view.findViewById(R.id.tv_staff_state);
         }
 
         CircleImageView head_image;
         TextView name_tv;
         TextView label_tv;
         TextView desc_tv;
+        RelativeLayout mContent;
+        TextView mStaffState;
     }
 }

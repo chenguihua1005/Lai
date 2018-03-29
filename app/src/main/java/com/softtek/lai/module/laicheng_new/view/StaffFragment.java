@@ -61,6 +61,7 @@ public class StaffFragment extends Fragment {
                 model.setHeight(item.getHeight());
                 model.setAge(item.getAge());
                 model.setVisitorId(Long.parseLong(item.getAccountId()));
+                model.setSource(1);//从市场人员进入
                 LocalBroadcastManager.getInstance(LaiApplication.getInstance().getApplicationContext()).
                         sendBroadcast(new Intent().setAction("visitorinfo").putExtra("visitorModel", model));
                 getActivity().finish();
