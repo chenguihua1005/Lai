@@ -142,7 +142,7 @@ public class HealthyReportAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else if (bodyDimensions.get(i).getParamName().equals("臀围") && bodyDimensions.get(i).getValue() != 0) {
                     girthHolder.mHipline.setText(bodyDimensions.get(i).getValue() + bodyDimensions.get(i).getUnit());
                     postData.setHiplie(bodyDimensions.get(i).getValue());
-                } else if (bodyDimensions.get(i).getParamName().equals("上臀围") && bodyDimensions.get(i).getValue() != 0) {
+                } else if (bodyDimensions.get(i).getParamName().equals("上臂围") && bodyDimensions.get(i).getValue() != 0) {
                     girthHolder.mUparmgirth.setText(bodyDimensions.get(i).getValue() + bodyDimensions.get(i).getUnit());
                     postData.setUpArmGirth(bodyDimensions.get(i).getValue());
                 } else if (bodyDimensions.get(i).getParamName().equals("大腿围") && bodyDimensions.get(i).getValue() != 0) {

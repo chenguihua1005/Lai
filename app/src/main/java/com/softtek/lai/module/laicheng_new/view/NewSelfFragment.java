@@ -65,7 +65,6 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
     private TextView mLastTime;
     private LinearLayout mReadMore;
     private ImageView mBleIcon;
-    private ImageView mNote;
     private LinearLayout mNoteContent;
     private ImageView mStyleType;
 
@@ -136,7 +135,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_share:
                 showDialog();
                 break;
-            case R.id.iv_note:
+            case R.id.ll_note:
                 renameListener.onRenameListener();
                 break;
             case R.id.iv_style_type:
@@ -182,9 +181,8 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
         mReadMore = (LinearLayout) mView.findViewById(R.id.ll_more);
         mReadMore.setOnClickListener(this);
         mBleIcon = (ImageView) mView.findViewById(R.id.iv_ble_icon);
-        mNote = (ImageView)mView.findViewById(R.id.iv_note);
-        mNote.setOnClickListener(this);
         mNoteContent = mView.findViewById(R.id.ll_note);
+        mNoteContent.setOnClickListener(this);
         mStyleType = mView.findViewById(R.id.iv_style_type);
         mStyleType.setOnClickListener(this);
 
@@ -299,10 +297,8 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
 
     public void setRenameIcon(boolean alive){
         if (alive){
-//            mNote.setVisibility(View.VISIBLE);
             mNoteContent.setVisibility(View.VISIBLE);
         }else {
-//            mNote.setVisibility(View.INVISIBLE);
             mNoteContent.setVisibility(View.INVISIBLE);
         }
     }

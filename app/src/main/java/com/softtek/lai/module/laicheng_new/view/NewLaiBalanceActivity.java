@@ -21,6 +21,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -903,9 +904,12 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         mRename.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (TextUtils.isEmpty(mInput.getText().toString().trim())){
+                    Toast.makeText(NewLaiBalanceActivity.this,"输入内容不能为空",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 renameDialog.dismiss();
                 isReceiveData = true;
-
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (connectedDevice != null && !mInput.getText().toString().equals("")) {
                     editor.putString(connectedDevice.getMac(), mInput.getText().toString());

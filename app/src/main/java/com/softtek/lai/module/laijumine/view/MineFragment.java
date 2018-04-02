@@ -244,13 +244,13 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
             tv_username.setText(model.getNickname() + "");
         }
 
-        if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
-            tv_renzh.setText("已认证");
-            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-        } else {
-            tv_renzh.setText("未认证");
-            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
-        }
+//        if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
+//            tv_renzh.setText("已认证");
+//            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+//        } else {
+//            tv_renzh.setText("未认证");
+//            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
+//        }
         getPresenter().getMyInfo();
     }
 
@@ -473,14 +473,13 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
             tv_username.setText(model.getNickname() + "");
         }
 
-        if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
-            tv_renzh.setText("已认证");
-            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-        } else {
-            tv_renzh.setText("未认证");
-            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
-        }
-
+//        if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
+//            tv_renzh.setText("已认证");
+//            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+//        } else {
+//            tv_renzh.setText("未认证");
+//            tv_renzh.setTextColor(ContextCompat.getColor(getContext(), R.color.grey_font));
+//        }
         getPresenter().getMyInfo();
         srl_refresh.setRefreshing(false);
     }
@@ -525,6 +524,15 @@ public class MineFragment extends LazyBaseFragment<MineFragmentPresenter> implem
             tv_news.setText(style);
         }
 
+        if (myinfomodel.getCertification() != null){
+            if (!myinfomodel.getCertification().equals("")){
+                tv_renzh.setText(myinfomodel.getCertification());
+            }else {
+                tv_renzh.setText("未认证");
+            }
+        }else {
+            tv_renzh.setText("未认证");
+        }
 
     }
 }
