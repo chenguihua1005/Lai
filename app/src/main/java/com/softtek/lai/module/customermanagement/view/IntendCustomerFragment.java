@@ -47,11 +47,13 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     private List<CustomerModel> modelList = new ArrayList<CustomerModel>();
     private int pageindex = 1;
     private int pageSize = 10;
+    private static LoadCompleteListener  mLoadCompleteListener;
 
-    public static Fragment getInstance() {
+    public static Fragment getInstance(LoadCompleteListener loadCompleteListener) {
         Fragment fragment = new IntendCustomerFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
+        mLoadCompleteListener = loadCompleteListener;
         return fragment;
     }
 
@@ -65,10 +67,11 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 //
 //        }, 300);
         Log.i("IntendCustomerFragment", "lazyLoad() is running...");
-        dialogShow("加载中...");
-        pageindex = 1;
-        modelList.clear();
-        getPresenter().getIntentCustomerList(pageindex, pageSize);
+
+    }
+
+    public interface LoadCompleteListener {
+        void onLoadCompleteListener(int count);
     }
 
     @Override
@@ -90,6 +93,10 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     @Override
     protected void initDatas() {
         setPresenter(new IntendCustomerPresenter(this));
+        dialogShow("加载中...");
+        pageindex = 1;
+        modelList.clear();
+        getPresenter().getIntentCustomerList(pageindex, pageSize);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(UPDATE_INTENTCUSTOMER_LIST));
 
         customerAdapter = new CustomerAdapter(getContext(), modelList);
@@ -124,6 +131,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     public void getIntentCustomerList(CustomerListModel model) {
         if (model.getItems() != null) {
             modelList.addAll(model.getItems());
+            mLoadCompleteListener.onLoadCompleteListener(model.getItems().size());
         }
         customerAdapter.notifyDataSetChanged();
     }

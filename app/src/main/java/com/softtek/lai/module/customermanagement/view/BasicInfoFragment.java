@@ -244,6 +244,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
                 break;
             case R.id.btn_register:
                 Intent intent = new Intent(getContext(), RegistForCustomerActivity.class);
+                intent.putExtra("mobile", mobile);
                 startActivity(intent);
                 getActivity().finish();
                 break;

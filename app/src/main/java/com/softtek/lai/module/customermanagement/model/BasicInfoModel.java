@@ -8,6 +8,15 @@ public class BasicInfoModel {
     private BasicModel Basics;//基本信息
     private LatestRecordModel Latest;//最新测量记录
     private HealthRecordModel Record;
+    private boolean IsMarketingStaff;
+
+    public boolean isMarketingStaff() {
+        return IsMarketingStaff;
+    }
+
+    public void setMarketingStaff(boolean marketingStaff) {
+        IsMarketingStaff = marketingStaff;
+    }
 
     public BasicModel getBasics() {
         return Basics;

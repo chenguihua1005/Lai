@@ -113,6 +113,15 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     public void userEventBus(BasicInfoModel model) {
         this.model = model;
         tv_title.setText(model.getBasics().getName());
+        if (model.isMarketingStaff()){
+            addremark_tv.setEnabled(true);
+            addremark_tv.setBackground(null);
+            addremark_tv.setTextColor(getResources().getColor(R.color.white));
+        }else {
+            addremark_tv.setEnabled(false);
+            addremark_tv.setBackground(getResources().getDrawable(R.drawable.bg_basic_unable));
+            addremark_tv.setTextColor(getResources().getColor(R.color.basic_unable_text));
+        }
     }
 
 

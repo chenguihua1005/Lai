@@ -88,9 +88,15 @@ public class RegistForCustomerActivity extends BaseActivity<RegistCustomerPresen
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    private String mobile = "";
+
 
     @Override
     protected void initViews() {
+        mobile = getIntent().getStringExtra("mobile");
+        if (!"".equals(mobile)) {
+            et_phone.setText(mobile);
+        }
         tv_title.setText("注册");
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);

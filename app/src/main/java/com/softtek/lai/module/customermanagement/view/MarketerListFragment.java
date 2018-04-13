@@ -40,8 +40,10 @@ public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter
     private List<CustomerModel> modelList = new ArrayList<CustomerModel>();
     private int pageindex = 1;
     private int pageSize = 10;
+    private static LoadCompleteListener mLoadCompleteListener;
 
-    public static Fragment getInstance() {
+    public static Fragment getInstance(LoadCompleteListener loadCompleteListener) {
+        mLoadCompleteListener = loadCompleteListener;
         Fragment fragment = new MarketerListFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
@@ -61,6 +63,10 @@ public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter
         pageindex = 1;
         modelList.clear();
         getPresenter().getMarketingStaffList(pageindex, pageSize);
+    }
+
+    public interface LoadCompleteListener {
+        void onLoadCompleteListener(int count);
     }
 
     @Override
@@ -118,6 +124,7 @@ public class MarketerListFragment extends LazyBaseFragment<MarketerListPresenter
     public void getMarketingStaffList(CustomerListModel model) {
         if (model.getItems() != null) {
             modelList.addAll(model.getItems());
+            mLoadCompleteListener.onLoadCompleteListener(model.getItems().size());
         }
         customerAdapter.notifyDataSetChanged();
     }

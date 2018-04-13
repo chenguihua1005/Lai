@@ -103,6 +103,10 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
     boolean HasClub;
     boolean HasAuthorityOfCreate;
     private boolean isGoToClub = false;
+    IntendCustomerFragment intendCustomerFragment;
+    MarketerListFragment marketerListFragment;
+    private TabLayout.Tab mTabOne;
+    private TabLayout.Tab mTabTwo;
 
     @Override
     protected void initViews() {
@@ -133,13 +137,29 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 
             iv_email.setBackgroundResource(R.drawable.club);
 
+            intendCustomerFragment = (IntendCustomerFragment)IntendCustomerFragment.getInstance(new IntendCustomerFragment.LoadCompleteListener() {
+                @Override
+                public void onLoadCompleteListener(int count) {
+                    mTabOne.setText("意向客户(" + count + ")");
+                }
+            });
+            marketerListFragment = (MarketerListFragment)MarketerListFragment.getInstance(new MarketerListFragment.LoadCompleteListener() {
+                @Override
+                public void onLoadCompleteListener(int count) {
+                    mTabTwo.setText("市场人员(" + count + ")");
+                }
+            });
 
-            fragments.add(IntendCustomerFragment.getInstance());
-            fragments.add(MarketerListFragment.getInstance());
+            fragments.add(intendCustomerFragment);
+            fragments.add(marketerListFragment);
 
             adapter = new TypeFragmentAdapter(getChildFragmentManager(), fragments);
             container.setAdapter(adapter);
             tab.setupWithViewPager(container);
+            mTabOne = tab.getTabAt(0);
+            mTabTwo = tab.getTabAt(1);
+            mTabOne.setText("意向客户");
+            mTabTwo.setText("市场人员");
         }
 
         ll_search.setOnClickListener(this);
@@ -280,13 +300,12 @@ public class CustomerManageFragment extends LazyBaseFragment implements View.OnC
 //                ll_search.setOnClickListener(this);
 //                fl_right.setOnClickListener(this);
 
-                fragments.add(IntendCustomerFragment.getInstance());
-                fragments.add(MarketerListFragment.getInstance());
+                fragments.add(intendCustomerFragment);
+                fragments.add(marketerListFragment);
 
                 adapter = new TypeFragmentAdapter(getChildFragmentManager(), fragments);
                 container.setAdapter(adapter);
                 tab.setupWithViewPager(container);
-
             }
         }
     };

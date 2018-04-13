@@ -343,18 +343,18 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_YEAR, 1);
+//        c.add(Calendar.DAY_OF_YEAR, 1);
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
 
-        DateTime defaultTime;
-        if (currentMonth == 1) {
-            defaultTime = new DateTime(1990, 1, currentDay, 0, 0);
-        } else {
-            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
-        }
+//        DateTime defaultTime;
+//        if (currentMonth == 1) {
+//            defaultTime = new DateTime(1990, 1, currentDay, 0, 0);
+//        } else {
+//            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+//        }
         final DatePickerDialog dialog =
-                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
+                new DatePickerDialog(this, null, 1990, c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMinDate(minTime.getMillis());
         dialog.getDatePicker().setMaxDate(maxTime.getMillis());
         dialog.setTitle("选择生日(年-月-日)");

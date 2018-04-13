@@ -367,7 +367,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         Calendar c = Calendar.getInstance();
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
-        DateTime defaultTime;
+//        DateTime defaultTime;
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, 1990, c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMinDate(minTime.getMillis());

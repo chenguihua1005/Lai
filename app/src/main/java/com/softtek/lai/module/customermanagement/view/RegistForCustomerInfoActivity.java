@@ -20,15 +20,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.customermanagement.model.BasicInfoModel;
 import com.softtek.lai.module.customermanagement.model.CustomerInfoModel;
 import com.softtek.lai.module.customermanagement.model.FindCustomerModel;
 import com.softtek.lai.module.customermanagement.presenter.RegistCustomerInfoPresenter;
+import com.softtek.lai.module.customermanagement.service.CustomerService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
@@ -40,6 +45,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -75,9 +84,9 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
     @InjectView(R.id.tv_height)
     EditText tv_height;
 
-    @Required(order = 5, message = "请选择体重")
-    @InjectView(R.id.tv_weight)
-    EditText tv_weight;
+//    @Required(order = 5, message = "请选择体重")
+//    @InjectView(R.id.tv_weight)
+//    EditText tv_weight;
 
     @InjectView(R.id.remark_et)   //备注
             EditText remark_et;
@@ -105,8 +114,8 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
     @InjectView(R.id.ll_height)
     ViewGroup ll_height;
 
-    @InjectView(R.id.ll_weight)
-    ViewGroup ll_weight;
+//    @InjectView(R.id.ll_weight)
+//    ViewGroup ll_weight;
 
     //toolbar
     //标题
@@ -141,7 +150,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         ll_birth.setOnTouchListener(this);
         ll_sex.setOnTouchListener(this);
         ll_height.setOnTouchListener(this);
-        ll_weight.setOnTouchListener(this);
+//        ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
 
         linear_remark.setVisibility(View.GONE);
@@ -180,6 +189,25 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         tv_title.setText("创建新客户");
         file = new CustomerInfoModel();
         addGrade();
+        if (!mobile.equals(""))
+            ZillaApi.NormalRestAdapter.create(CustomerService.class).getBasicsOfCustomer(UserInfoModel.getInstance().getToken(), mobile, new Callback<ResponseData<BasicInfoModel>>() {
+                @Override
+                public void success(ResponseData<BasicInfoModel> responseData, Response response) {
+                    if (responseData.getStatus() == 200) {
+                        et_nickname.setText(responseData.getData().getBasics().getName());
+                        tv_sex.setText(responseData.getData().getBasics().getGender().equals("0") ? "男" : "女");
+                        tv_birth.setText(responseData.getData().getBasics().getBirthDay());
+                        tv_height.setText(responseData.getData().getBasics().getHeight() + "cm");
+                    } else {
+                        Toast.makeText(RegistForCustomerInfoActivity.this, responseData.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError retrofitError) {
+                    ZillaApi.dealNetError(retrofitError);
+                }
+            });
     }
 
     @Override
@@ -219,10 +247,10 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
                 case R.id.tv_height:
                     show_height_dialog();
                     break;
-                case R.id.ll_weight:
-                case R.id.tv_weight:
-                    show_weight_dialog();
-                    break;
+//                case R.id.ll_weight:
+//                case R.id.tv_weight:
+//                    show_weight_dialog();
+//                    break;
             }
         }
         return true;
@@ -253,7 +281,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         String birthday = tv_birth.getText().toString();
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
-        String weight = tv_weight.getText().toString();
+//        String weight = tv_weight.getText().toString();
         String remark = remark_et.getText().toString();
 
         if (length(nick) > 12) {
@@ -269,8 +297,8 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
 
             String heights = height.split("cm")[0];
             file.setHeight(Double.parseDouble(heights));
-            String weights = weight.split("斤")[0];
-            file.setWeight(Double.parseDouble(weights));
+//            String weights = weight.split("斤")[0];
+            file.setWeight(0.1f);
 
             file.setRemark(remark);
             if (!TextUtils.isEmpty(mobile)) {
@@ -302,18 +330,18 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
 
     private void showDateDialog() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_YEAR, 1);
+//        c.add(Calendar.DAY_OF_YEAR, 1);
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
 //        DateTime defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
-        DateTime defaultTime;
-        if (currentMonth == 1) {
-            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
-        } else {
-            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
-        }
+//        DateTime defaultTime;
+//        if (currentMonth == 1) {
+//            defaultTime = new DateTime(1990, currentMonth, currentDay, 0, 0);
+//        } else {
+//            defaultTime = new DateTime(1990, currentMonth - 1, currentDay, 0, 0);
+//        }
         final DatePickerDialog dialog =
-                new DatePickerDialog(this, null, defaultTime.year().get(), defaultTime.monthOfYear().get(), defaultTime.getDayOfMonth());
+                new DatePickerDialog(this, null, 1990, c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMinDate(minTime.getMillis());
         dialog.getDatePicker().setMaxDate(maxTime.getMillis());
         dialog.setTitle("选择生日(年-月-日)");
@@ -424,41 +452,41 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
-        birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (np1.getValue() < 80) {
-                    Dialog dialog1 = new AlertDialog.Builder(RegistForCustomerInfoActivity.this)
-                            .setMessage("体重单位为斤,是否确认数值?")
-                            .setPositiveButton("确定",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int which) {
-                                            tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
-                                            tv_weight.setError(null);
-                                        }
-                                    })
-
-                            .setNegativeButton("取消",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            show_weight_dialog();
-                                        }
-                                    }).create();
-                    dialog1.show();
-                    dialog1.setCanceledOnTouchOutside(false);
-                } else {
-                    tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
-                    tv_weight.setError(null);
-                }
-                dialog.dismiss();
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).create().show();
+//        birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (np1.getValue() < 80) {
+//                    Dialog dialog1 = new AlertDialog.Builder(RegistForCustomerInfoActivity.this)
+//                            .setMessage("体重单位为斤,是否确认数值?")
+//                            .setPositiveButton("确定",
+//                                    new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialogInterface, int which) {
+//                                            tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
+//                                            tv_weight.setError(null);
+//                                        }
+//                                    })
+//
+//                            .setNegativeButton("取消",
+//                                    new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface arg0, int arg1) {
+//                                            show_weight_dialog();
+//                                        }
+//                                    }).create();
+//                    dialog1.show();
+//                    dialog1.setCanceledOnTouchOutside(false);
+//                } else {
+//                    tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
+//                    tv_weight.setError(null);
+//                }
+//                dialog.dismiss();
+//            }
+//        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//            }
+//        }).create().show();
     }
 
     private void addGrade() {
