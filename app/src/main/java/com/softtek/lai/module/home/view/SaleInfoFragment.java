@@ -105,6 +105,7 @@ public class SaleInfoFragment extends BaseFragment{
                 startActivity(intent);
             }
         });
+//        homeInfoPresenter.getContentByPage(page, Constants.ACTIVITY_RECORD);
     }
 
 

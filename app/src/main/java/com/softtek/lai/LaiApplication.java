@@ -114,7 +114,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         return laiApplication;
     }
 
-
     public WeakReference<Context> getContext() {
         return context;
     }

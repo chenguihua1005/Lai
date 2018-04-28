@@ -103,7 +103,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     @InjectView(R.id.ll_height)
     ViewGroup ll_height;
 
-//    @InjectView(R.id.ll_weight)
+    //    @InjectView(R.id.ll_weight)
 //    ViewGroup ll_weight;
     @InjectView(R.id.ll_remark)
     ViewGroup ll_remark;
@@ -143,7 +143,6 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
 
     //    private FindCustomerModel model = null;
     private String mobile = "";
-    private boolean needQuery;
     private boolean isRegistered;//是否已注册
 
 
@@ -158,7 +157,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
 
         ll_left.setOnClickListener(this);
         //        iv_left.setVisibility(View.GONE);
-        tv_right.setText("下一步");
+        tv_right.setText("保存");
 
         fl_right.setOnClickListener(this);
         btn_delete.setOnClickListener(this);
@@ -169,7 +168,6 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
     @Override
     protected void initViews() {
         mobile = getIntent().getStringExtra("mobile");
-        needQuery = getIntent().getBooleanExtra("needQuery", false);
         isRegistered = getIntent().getBooleanExtra("isRegistered", false);
         tv_tip.setVisibility(View.GONE);
 
@@ -187,6 +185,7 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
             tv_sex.setEnabled(false);
             tv_height.setEnabled(false);
 //            tv_weight.setEnabled(false);
+
         } else {
             fl_right.setVisibility(View.VISIBLE);
         }
@@ -224,22 +223,8 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         btn_delete.setVisibility(View.VISIBLE);
         file = new CustomerInfoModel();
         addGrade();
-        if (needQuery) {
-//            ll_nickname.setEnabled(false);
-//            ll_birth.setEnabled(false);
-//            ll_sex.setEnabled(false);
-//            ll_height.setEnabled(false);
-//            ll_weight.setEnabled(false);
-//
-//            et_nickname.setEnabled(false);
-//            tv_birth.setEnabled(false);
-//            tv_sex.setEnabled(false);
-//            tv_height.setEnabled(false);
-//            tv_weight.setEnabled(false);
-
-            dialogShow(getResources().getString(R.string.loading));
-            getPresenter().getCustomerBasicInfo(mobile);
-        }
+        dialogShow(getResources().getString(R.string.loading));
+        getPresenter().getCustomerBasicInfo(mobile);
     }
 
     @Override
@@ -573,10 +558,23 @@ public class EditCustomerInfoActivity extends BaseActivity<EditCustomerPresenter
         if (model != null) {
             BasicModel basicModel = model.getBasics();
             et_nickname.setText(basicModel.getName());
-            tv_sex.setText(basicModel.getGender().equals("0") ? "男" : "女");
+            tv_sex.setText(basicModel.getGender());
             tv_birth.setText(basicModel.getBirthDay());
             tv_height.setText(basicModel.getHeight() + "cm");
 //            tv_weight.setText(basicModel.getWeight() + "斤");
+            if (et_nickname.getText().toString().equals("")){
+                et_nickname.setEnabled(true);
+                fl_right.setVisibility(View.VISIBLE);
+            }
+            if (tv_sex.getText().toString().equals("")){
+                ll_sex.setEnabled(true);
+            }
+            if (tv_birth.getText().toString().equals("")){
+                tv_birth.setEnabled(true);
+            }
+            if (tv_height.getText().toString().equals("")){
+                ll_height.setEnabled(true);
+            }
         }
     }
 

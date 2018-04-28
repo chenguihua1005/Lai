@@ -93,6 +93,11 @@ public class HealthyReportCustomerAdapter extends RecyclerView.Adapter<RecyclerV
                     }
                 }
             });
+            if (!item.getTitle().equals("身体年龄")){
+                reportHolder.mRemark.setVisibility(View.GONE);
+            }else {
+                reportHolder.mRemark.setVisibility(View.VISIBLE);
+            }
         }else if (getItemViewType(position) == TYPE_DIMEN){
             DimensionsHolder dimensionsHolder = (DimensionsHolder)holder;
             dimensionsHolder.mName.setText(dimensionsModels.get(position - items.size()).getParamName());
@@ -126,12 +131,14 @@ public class HealthyReportCustomerAdapter extends RecyclerView.Adapter<RecyclerV
         TextView tv_name;
         TextView tv_num;
         TextView tv_standard;
+        TextView mRemark;
         RelativeLayout rl_item;
 
         public HealthyReportHolder(View itemView) {
             super(itemView);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_num = (TextView) itemView.findViewById(R.id.num);
+            mRemark = itemView.findViewById(R.id.tv_remark);
             tv_standard = (TextView) itemView.findViewById(R.id.tv_standard);
             rl_item = (RelativeLayout) itemView.findViewById(R.id.rl_item);
         }

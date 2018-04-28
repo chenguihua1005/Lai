@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ggx.widgets.adapter.EasyAdapter;
 import com.ggx.widgets.adapter.ViewHolder;
@@ -217,6 +218,9 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
                         }
                     }
 //                    historyModelList.addAll(historyNewmodels);
+                    if (historyModelList.size() == 0){
+                        Toast.makeText(this,"未查找到相对应的记录",Toast.LENGTH_SHORT).show();
+                    }
                     historyAdapter.notifyDataSetChanged();
                 }
                 break;
@@ -230,7 +234,7 @@ public class VisithistoryActivity extends BaseActivity<HistoryVisitorPresenter> 
         if (historyModels.isEmpty()) {
             im_nomessage.setVisibility(View.VISIBLE);
             ptrlv.setVisibility(View.GONE);
-
+            Toast.makeText(this,"未查找到相对应的记录",Toast.LENGTH_SHORT).show();
         } else {
             historyModelList.clear();
             historyNewmodels.clear();

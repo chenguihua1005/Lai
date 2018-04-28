@@ -105,6 +105,7 @@ public class ActivityRecordFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+//        homeInfoPresenter.getContentByPage(page, Constants.ACTIVITY_RECORD);
 
     }
 

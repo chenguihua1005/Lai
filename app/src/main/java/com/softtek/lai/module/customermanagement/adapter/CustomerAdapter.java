@@ -101,6 +101,7 @@ public class CustomerAdapter extends BaseAdapter {
             holder.mContent.setBackground(context.getResources().getDrawable(R.color.colorStaff));
         } else {
             colorStaff = R.color.colorPrimary;
+            holder.mContent.setBackground(null);
         }
         str1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorStaff)), 0, str1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(str1);

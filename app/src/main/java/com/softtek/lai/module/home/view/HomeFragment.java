@@ -185,6 +185,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             }
         });
 
+
     }
 
     private ModelAdapter modelAdapter;
@@ -203,7 +204,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
         mSharedPreferences = getActivity().getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
-
     }
 
 
@@ -317,7 +317,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         //第一次加载自动刷新
         pull.setRefreshing(true);
         homeInfoPresenter.getHomeInfoData(pull);
-
+        homeInfoPresenter.getContentByPage(1,0);
+        homeInfoPresenter.getContentByPage(1,1);
+        homeInfoPresenter.getContentByPage(1,2);
+        homeInfoPresenter.getContentByPage(1,6);
     }
 
     private int laiNum;
@@ -373,7 +376,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 //                EMClient.getInstance().chatManager().addMessageListener(messageListener);
 //                int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
 //                updateMessage(unreadNum);
-//            }
+//
         }
     }
 
@@ -421,6 +424,10 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         homeInfoPresenter.getHomeInfoData(pull);
+        homeInfoPresenter.getContentByPage(1,0);
+        homeInfoPresenter.getContentByPage(1,1);
+        homeInfoPresenter.getContentByPage(1,2);
+        homeInfoPresenter.getContentByPage(1,6);
     }
 
     /**

@@ -18,9 +18,18 @@ public class BasicModel implements Parcelable {
     private String Gender;
     private String Angel;//爱心天使
     private float Height;
-    private float Weight;
+    private String Weight;
     private int Age;
     private boolean IsSuperior;
+    private boolean IsMarketingStaff;
+
+    public boolean isMarketingStaff() {
+        return IsMarketingStaff;
+    }
+
+    public void setMarketingStaff(boolean marketingStaff) {
+        IsMarketingStaff = marketingStaff;
+    }
 
     public boolean isSuperior() {
         return IsSuperior;
@@ -49,7 +58,7 @@ public class BasicModel implements Parcelable {
         Gender = in.readString();
         Angel = in.readString();
         Height = in.readFloat();
-        Weight = in.readFloat();
+        Weight = in.readString();
         Age = in.readInt();
         IsSuperior = in.readByte() != 0;
     }
@@ -146,11 +155,11 @@ public class BasicModel implements Parcelable {
         Height = height;
     }
 
-    public float getWeight() {
+    public String getWeight() {
         return Weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(String weight) {
         Weight = weight;
     }
 
@@ -189,7 +198,7 @@ public class BasicModel implements Parcelable {
         parcel.writeString(Gender);
         parcel.writeString(Angel);
         parcel.writeFloat(Height);
-        parcel.writeFloat(Weight);
+        parcel.writeString(Weight);
         parcel.writeInt(Age);
         parcel.writeByte((byte) (IsSuperior ? 1 : 0));
     }

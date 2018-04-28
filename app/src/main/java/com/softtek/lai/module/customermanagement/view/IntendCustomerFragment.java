@@ -46,8 +46,9 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     private CustomerAdapter customerAdapter;
     private List<CustomerModel> modelList = new ArrayList<CustomerModel>();
     private int pageindex = 1;
-    private int pageSize = 10;
+    private int pageSize = 10000;
     private static LoadCompleteListener  mLoadCompleteListener;
+    private boolean isFresh = true;
 
     public static Fragment getInstance(LoadCompleteListener loadCompleteListener) {
         Fragment fragment = new IntendCustomerFragment();
@@ -114,6 +115,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        isFresh = true;
         Log.i("IntendCustomerFragment", "onPullDownToRefresh() is running...");
         pageindex = 1;
         modelList.clear();
@@ -122,6 +124,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        isFresh = false;
         Log.i("IntendCustomerFragment", "onPullUpToRefresh() is running...");
         pageindex++;
         getPresenter().getIntentCustomerList(pageindex, pageSize);
@@ -131,7 +134,9 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
     public void getIntentCustomerList(CustomerListModel model) {
         if (model.getItems() != null) {
             modelList.addAll(model.getItems());
-            mLoadCompleteListener.onLoadCompleteListener(model.getItems().size());
+            if (isFresh) {
+                mLoadCompleteListener.onLoadCompleteListener(model.getItems().size());
+            }
         }
         customerAdapter.notifyDataSetChanged();
     }
@@ -158,4 +163,7 @@ public class IntendCustomerFragment extends LazyBaseFragment<IntendCustomerPrese
             }
         }
     };
+    private boolean hasName(String name){
+        return name.equals("123");
+    }
 }

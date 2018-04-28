@@ -106,24 +106,24 @@
             android:value="developer-default" />
 
         <!--正式 -->
-        <!--<meta-data-->
-        <!--android:name="UMENG_APPKEY"-->
-        <!--android:value="5728545a67e58ea7cf001701" />-->
-        <!--<meta-data-->
-        <!--android:name="JPUSH_APPKEY"-->
-        <!--android:value="1a3bbb691bfbfca0d0676e9f" />-->
+        <meta-data
+        android:name="UMENG_APPKEY"
+        android:value="5728545a67e58ea7cf001701" />
+        <meta-data
+        android:name="JPUSH_APPKEY"
+        android:value="1a3bbb691bfbfca0d0676e9f" />
 
 <!--        <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalife#laiju" />-->
 
         <!-- 测试 -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="57d60ab167e58ec4f60000cb" />
-        <meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="f04fa77453f2b3894d05b894" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="57d60ab167e58ec4f60000cb" />-->
+        <!--<meta-data-->
+            <!--android:name="JPUSH_APPKEY"-->
+            <!--android:value="f04fa77453f2b3894d05b894" />-->
         <!--        <meta-data
                     android:name="EASEMOB_APPKEY"
                     android:value="herbalifeuat#laiapp" />-->

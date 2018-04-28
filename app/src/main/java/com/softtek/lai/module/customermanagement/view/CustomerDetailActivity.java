@@ -113,7 +113,19 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
     public void userEventBus(BasicInfoModel model) {
         this.model = model;
         tv_title.setText(model.getBasics().getName());
-        if (model.isMarketingStaff()){
+        if (model.getBasics().isMarketingStaff()){
+            if (model.getBasics().isSuperior()){
+                setRemarkState(true);
+            }else {
+                setRemarkState(false);
+            }
+        }else {
+            setRemarkState(false);
+        }
+    }
+
+    private void setRemarkState(boolean can){
+        if (can){
             addremark_tv.setEnabled(true);
             addremark_tv.setBackground(null);
             addremark_tv.setTextColor(getResources().getColor(R.color.white));
@@ -124,7 +136,6 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
         }
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -134,7 +145,6 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
             case R.id.fl_right:
                 Intent intent1 = new Intent(CustomerDetailActivity.this, EditCustomerInfoActivity.class);
                 intent1.putExtra("mobile", mobile);
-                intent1.putExtra("needQuery", true);//需要查询基础数据
                 intent1.putExtra("isRegistered", isRegistered);
                 startActivity(intent1);
                 break;

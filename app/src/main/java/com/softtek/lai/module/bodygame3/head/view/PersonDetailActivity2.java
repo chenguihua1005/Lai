@@ -292,9 +292,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     }
                 }
 
-//                if (!"4".equals(memberInfoModel.getClassRole())) {
-//                    fl_right.setVisibility(View.INVISIBLE);
-//                } else
                 {
                     tv_love.setVisibility(View.VISIBLE);
                     tv_love.setText((TextUtils.isEmpty(memberInfoModel.getIntroducer()) ? "暂无爱心学员" : "爱心学员：" + memberInfoModel.getIntroducer()));
@@ -305,23 +302,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
 
                         }
                     }
-//                    ll_weigh.setVisibility(View.VISIBLE);
-//                    if (Float.parseFloat(memberInfoModel.getTotalLossWeight()) < 0) {
-//                        String lossweight[] = memberInfoModel.getTotalLossWeight().split("-");
-//                        tv_Lossweight.setText("增重  " + lossweight[1] + "斤");//减重d
-//                    } else {
-//                        tv_Lossweight.setText("减重  " + memberInfoModel.getTotalLossWeight() + "斤");//减重
-//                    }
-//                    tv_initWeit.setText("0".equals(memberInfoModel.getInitWeight()) ? "暂无数据" : "初始体重 " + memberInfoModel.getInitWeight() + "斤");//初始体重
-//                    tv_currenweight.setText("0".equals(memberInfoModel.getCurrentWeight()) ? "尚未复测" : "当前体重 " + memberInfoModel.getCurrentWeight() + "斤");//现在体重
-
-//                    if (!TextUtils.isEmpty(memberInfoModel.getInitThImg()))//初始体重图片
-//                    {
-//                        Picasso.with(PersonDetailActivity2.this).load(url + memberInfoModel.getInitThImg()).fit().into(im_InitImage);
-//                    }
-//                    if (!TextUtils.isEmpty(memberInfoModel.getCurttentThImg())) {   //现在体重图片
-//                        Picasso.with(PersonDetailActivity2.this).load(url + memberInfoModel.getCurttentThImg()).fit().into(im_currenimWeight);
-//                    }
                 }
 
                 className_tv.setText(memberInfoModel.getClassName());
@@ -340,12 +320,6 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                         tv_personlityName.setVisibility(View.VISIBLE);//显示编辑签名
                     }
 
-
-                    //刚去掉
-//                    if ("4".equals(memberInfoModel.getClassRole())) {
-//                        Log.i(TAG, "本人且 身份是学员......");
-//                        ll_chart.setVisibility(View.VISIBLE);
-//                    }
                 } else {
                     tv_personlityName.setVisibility(View.VISIBLE);
                     im_guanzhu.setVisibility(View.VISIBLE);
@@ -356,60 +330,7 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     } else {
                         tv_personlityName.setText("暂无个性签名");
                     }
-//                    if ((memberInfoModel.getIntroducerId()).equals(userid + ""))//如果是登陆id是该学员的爱心学员，显示查看曲线图
-//                    {
-//                        ll_chart.setVisibility(View.VISIBLE);
-//                    }
 
-//                    issendFriend = memberInfoModel.getIsSendFriend();
-//                    IsFriend = memberInfoModel.getIsFriend();
-
-                    //如果是好友的话，并且对方是学员时候，可查看当前班级 曲线图放开
-//                    if ("4".equals(memberInfoModel.getClassRole())) {
-//                        ClassId = memberInfoModel.getClassId();
-//                        if (!TextUtils.isEmpty(memberInfoModel.getClassId())) {
-//                            ll_chart.setVisibility(View.VISIBLE);
-//                        }
-//
-//                        if (Constants.FROM_CONTACT == comeFromClass) {
-//                            if (memberInfoModel.getIsCurrClass() == 1) {
-//                                ll_chart.setVisibility(View.VISIBLE);
-//                                ClassId = memberInfoModel.getClassId();
-//                            } else {
-//                                ll_chart.setVisibility(View.GONE);
-//                            }
-//                        }
-//                    }
-
-
-/*                    if ("1".equals(IsFriend))//如果是好友，显示发起聊天
-                    {
-//                        btn_chat.setVisibility(View.VISIBLE);
-//                        titlePopup.addAction(new ActionItem(PersonDetailActivity2.this, "删除好友", R.drawable.deletefriend));
-//                        fl_right.setVisibility(View.VISIBLE);
-
-
-                    } else {//不是好友，可发起临时会话，显示添加好友
-                        if (issendFriend > 0) {//如果大于0，则为已发送过该好友请求
-//                            btn_chat.setVisibility(View.VISIBLE);
-//                            btn_chat.setText("发起临时会话");
-//                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
-//                            btn_addguy.setText("待确认");
-//                            btn_addguy.setTextColor(ContextCompat.getColor(PersonDetailActivity2.this, R.color.white));
-//                            btn_addguy.setBackground(ContextCompat.getDrawable(PersonDetailActivity2.this, R.drawable.bg_assistant_refuse));
-                            iv_email.setVisibility(View.INVISIBLE);
-                        } else {
-//                            btn_chat.setVisibility(View.VISIBLE);
-//                            btn_chat.setText("发起临时会话");
-//                            btn_addguy.setVisibility(View.VISIBLE);//添加好友
-                            iv_email.setVisibility(View.INVISIBLE);
-
-                        }
-
-                        //如果不是好友的话，曲线图隐藏
-//                        ll_chart.setVisibility(View.GONE);
-
-                    }*/
                     if ("false".equals(memberInfoModel.getIsFocus()))//没有关注
                     {
                         im_guanzhu.setChecked(false);
@@ -443,13 +364,15 @@ public class PersonDetailActivity2 extends BaseActivity<PersonDetailPresenter> i
                     tv_choose_type.setText("减重");
                 }
 
-
+                if (1 != memberInfoModel.getIsCurrClass() ){
+                    fl_right.setVisibility(View.GONE);
+                }
                 doGetPhotoView();//展示图片
             }
 
-
             btn_chat.setVisibility(View.GONE);
             btn_addguy.setVisibility(View.GONE);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

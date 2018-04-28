@@ -205,16 +205,16 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         file = new CustomerInfoModel();
         addGrade();
         if (needQuery) {
-            ll_nickname.setEnabled(false);
-            ll_birth.setEnabled(false);
-            ll_sex.setEnabled(false);
-            ll_height.setEnabled(false);
-//            ll_weight.setEnabled(false);
-
-            et_nickname.setEnabled(false);
-            tv_birth.setEnabled(false);
-            tv_sex.setEnabled(false);
-            tv_height.setEnabled(false);
+//            ll_nickname.setEnabled(false);
+//            ll_birth.setEnabled(false);
+//            ll_sex.setEnabled(false);
+//            ll_height.setEnabled(false);
+////            ll_weight.setEnabled(false);
+//
+//            et_nickname.setEnabled(false);
+//            tv_birth.setEnabled(false);
+//            tv_sex.setEnabled(false);
+//            tv_height.setEnabled(false);
 //            tv_weight.setEnabled(false);
 
             dialogShow(getResources().getString(R.string.loading));

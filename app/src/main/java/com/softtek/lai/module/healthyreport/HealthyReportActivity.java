@@ -41,6 +41,9 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -130,6 +133,7 @@ public class HealthyReportActivity extends BaseActivity<HealthyReportPresenter> 
         });
         setPresenter(new HealthyReportPresenter(this));
         getPresenter().healthyReport(reportId);
+        Map<String,List<String>> map = new HashMap<>();
     }
 
     private void animateArrow(boolean shouldRotateUp) {
