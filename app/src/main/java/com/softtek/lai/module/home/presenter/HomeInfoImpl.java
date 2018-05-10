@@ -73,13 +73,11 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
                 switch (homeInfoResponseData.getStatus()) {
                     case 200:
                         if (img_type == Constants.ACTIVITY_RECORD) {
-                            EventBus.getDefault().postSticky(new ActivityEvent(homeInfoResponseData.getData()));
+                            EventBus.getDefault().post(new ActivityEvent( homeInfoResponseData.getData()));
                         } else if (img_type == Constants.PRODUCT_INFO) {
-                            EventBus.getDefault().postSticky(new ProductEvent(homeInfoResponseData.getData()));
+                            EventBus.getDefault().post(new ProductEvent( homeInfoResponseData.getData()));
                         } else if (img_type == Constants.SALE_INFO) {
-                            EventBus.getDefault().postSticky(new SaleEvent(homeInfoResponseData.getData()));
-                        } else if (img_type == 0) {
-                            EventBus.getDefault().postSticky(new HomeEvent(homeInfoResponseData.getData()));
+                            EventBus.getDefault().post(new SaleEvent( homeInfoResponseData.getData()));
                         }
                         break;
                     default:
@@ -89,8 +87,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
                             EventBus.getDefault().post(new ProductEvent( null));
                         } else if (img_type == Constants.SALE_INFO) {
                             EventBus.getDefault().post(new SaleEvent( null));
-                        } else if (img_type == 0) {
-                            EventBus.getDefault().post(new HomeEvent(null));
                         }
                         Util.toastMsg(homeInfoResponseData.getMsg());
                         break;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame3.history.view.ClassInfoActivity;
-import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameNewActivity;
 import com.softtek.lai.module.bodygame3.more.model.HistoryClassModel;
 import com.softtek.lai.module.customermanagement.model.GymModel;
 import com.softtek.lai.widgets.CircleImageView;
@@ -111,7 +111,8 @@ public class GymRecyclerViewAdapter extends RecyclerView.Adapter<GymRecyclerView
                 mMoreInfo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(mContext, BodyGameActivity.class);
+//                        Intent intent = new Intent(mContext, BodyGameActivity.class);
+                        Intent intent = new Intent(mContext, BodyGameNewActivity.class);
                         intent.putExtra("classId",item.getClassId());
                         intent.putExtra("type",3);
                         mContext.startActivity(intent);

@@ -57,7 +57,7 @@ public class HistoryDataPKAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.history_data_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.history_pkdata_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

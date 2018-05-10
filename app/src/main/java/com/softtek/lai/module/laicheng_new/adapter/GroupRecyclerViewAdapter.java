@@ -1,6 +1,7 @@
 
 package com.softtek.lai.module.laicheng_new.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -60,10 +61,10 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         private TextView mGroupName;
         private View mSpace;
         private RecyclerView mMumbers;
-        private RecyclerView mClubs;
+//        private RecyclerView mClubs;
         private GroupNumberAdapter numberAdapter;
         private ClubRecyclerViewAdapter clubAdapter;
-        private Button mShowClub;
+//        private Button mShowClub;
         private RelativeLayout mClassContent;
 
         public ViewHolder(View itemView) {
@@ -71,26 +72,27 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             mGroupName = itemView.findViewById(R.id.tv_name);
             mSpace = itemView.findViewById(R.id.space);
             mMumbers = itemView.findViewById(R.id.rcv_content);
-            mClubs = itemView.findViewById(R.id.rcv_clubs);
-            mShowClub = itemView.findViewById(R.id.btn_clubs);
+//            mClubs = itemView.findViewById(R.id.rcv_clubs);
+//            mShowClub = itemView.findViewById(R.id.btn_clubs);
             mClassContent = itemView.findViewById(R.id.rl_class_content);
             itemView.setOnClickListener(this);
             mClassContent.setOnClickListener(this);
-            mShowClub.setOnClickListener(this);
+//            mShowClub.setOnClickListener(this);
             // TODO instantiate/assign view members
         }
 
+        @SuppressLint("SetTextI18n")
         public void setData(GroupModel item) {
             this.item = item;
             if (getAdapterPosition() == myItems.size() - 1){
                 mSpace.setVisibility(View.GONE);
             }
-            mGroupName.setText(item.getClassName());
+            mGroupName.setText(item.getClassName() + "   "+ item.getClassCode());
             RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext);
             mMumbers.setLayoutManager(manager);
             mMumbers.setVisibility(View.GONE);
             RecyclerView.LayoutManager clubManager = new LinearLayoutManager(mContext);
-            mClubs.setLayoutManager(clubManager);
+//            mClubs.setLayoutManager(clubManager);
             numberAdapter = new GroupNumberAdapter(item.getMembers(), new GroupNumberAdapter.ItemListener() {
                 @Override
                 public void onItemClick(GroupModel.MembersBean item) {
@@ -111,14 +113,14 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             }, mContext);
             mMumbers.setAdapter(numberAdapter);
 
-            clubAdapter = new ClubRecyclerViewAdapter(item.getClubs(), new ClubRecyclerViewAdapter.ItemListener() {
-                @Override
-                public void onItemClick(GroupModel.ClubsBean item) {
-
-                }
-            });
-            mClubs.setAdapter(clubAdapter);
-            mClubs.setVisibility(View.GONE);
+//            clubAdapter = new ClubRecyclerViewAdapter(item.getClubs(), new ClubRecyclerViewAdapter.ItemListener() {
+//                @Override
+//                public void onItemClick(GroupModel.ClubsBean item) {
+//
+//                }
+//            });
+//            mClubs.setAdapter(clubAdapter);
+//            mClubs.setVisibility(View.GONE);
             // TODO set data to view
         }
 
@@ -131,7 +133,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                         mSpace.setVisibility(View.GONE);
                     }else {
                         mMumbers.setVisibility(View.GONE);
-                        mClubs.setVisibility(View.GONE);
+//                        mClubs.setVisibility(View.GONE);
                         if (getAdapterPosition() == myItems.size() - 1){
                             mSpace.setVisibility(View.GONE);
                         }else {
@@ -139,13 +141,13 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                         }
                     }
                     break;
-                case R.id.btn_clubs:
-                    if (mClubs.getVisibility() == View.GONE) {
-                        mClubs.setVisibility(View.VISIBLE);
-                    }else {
-                        mClubs.setVisibility(View.GONE);
-                    }
-                    break;
+//                case R.id.btn_clubs:
+//                    if (mClubs.getVisibility() == View.GONE) {
+//                        mClubs.setVisibility(View.VISIBLE);
+//                    }else {
+//                        mClubs.setVisibility(View.GONE);
+//                    }
+//                    break;
             }
         }
 

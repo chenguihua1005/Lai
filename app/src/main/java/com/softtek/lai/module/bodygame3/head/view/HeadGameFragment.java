@@ -26,7 +26,6 @@ import com.softtek.lai.module.bodygame3.head.model.HeadModel2;
 import com.softtek.lai.module.bodygame3.head.model.NewsModel;
 import com.softtek.lai.module.bodygame3.head.net.HeadService;
 import com.softtek.lai.module.bodygame3.home.event.UpdateClass;
-import com.softtek.lai.module.bodygame3.more.view.CreateClassActivity;
 import com.softtek.lai.module.customermanagement.view.GymClubActivity;
 import com.softtek.lai.module.message2.view.Message2Activity;
 import com.softtek.lai.utils.DisplayUtil;
@@ -84,6 +83,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
     LinearLayout lin_nostart;
     @InjectView(R.id.fl)
     FrameLayout fl;
+    @InjectView(R.id.imageView5)
+    ImageView picIcon;
     Animation roate;
     HeadService service;
 
@@ -139,6 +140,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
         ivhead2_refresh.setOnClickListener(this);
         searchContent.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        picIcon.setImageDrawable(getResources().getDrawable(R.drawable.noinfor));
     }
 
 

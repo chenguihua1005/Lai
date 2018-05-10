@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_bodygame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_bodygame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/home"/>
+            <TextView
+                android:id="@+id/tv_bodygame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:text="首页"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_honor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_honor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_honor"/>
+            <TextView
+                android:id="@+id/tv_honor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="荣誉榜"
+                android:textColor="@color/gray_pressed"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_fuce"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_fuce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sport2_huodong"/>
+            <TextView
+                android:id="@+id/tv_fuce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="复测"
+                android:textColor="@color/gray_pressed"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_more"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_more"/>
+            <TextView
+                android:id="@+id/tv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更多"
+                android:textColor="@color/gray_pressed"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+        <!--<com.softtek.lai.widgets.SimpleButton-->
+            <!--android:id="@+id/btn_bodygame"-->
+            <!--android:layout_width="55dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--app:normalBitmap="@drawable/rehome"-->
+            <!--app:pitchBitmap="@drawable/home"-->
+            <!--app:text="首页"-->
+            <!--app:wx_alpha="true" />-->
+
+        <!--<com.softtek.lai.widgets.SimpleButton-->
+            <!--android:id="@+id/btn_honorroll"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--app:normalBitmap="@drawable/bg_honor"-->
+            <!--app:pitchBitmap="@drawable/bg_rehonor"-->
+            <!--app:text="荣誉榜"-->
+            <!--app:wx_alpha="true" />-->
+
+        <!--<com.softtek.lai.widgets.SimpleButton-->
+            <!--android:id="@+id/btn_fuce"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--app:normalBitmap="@drawable/sport2_huodong"-->
+            <!--app:pitchBitmap="@drawable/sport2_huodong_re"-->
+            <!--app:text="复测"-->
+            <!--app:wx_alpha="true" />-->
+
+        <!--<com.softtek.lai.widgets.SimpleButton-->
+            <!--android:id="@+id/btn_more"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--app:normalBitmap="@drawable/bg_more"-->
+            <!--app:pitchBitmap="@drawable/bg_remore"-->
+            <!--app:text="更多"-->
+            <!--app:wx_alpha="true" />-->
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignTop="@id/ll"
+        android:background="#c0c0c0" />
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll"
+        android:fitsSystemWindows="true" />
+
+</RelativeLayout>

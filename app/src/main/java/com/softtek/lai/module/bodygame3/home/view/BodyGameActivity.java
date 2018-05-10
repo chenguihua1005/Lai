@@ -66,7 +66,6 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     private boolean isClick = false;
 
     private String classId;
-    private int type;
     MoreFragment moreFragment ;
     BodyGameFragment gameFragment;
     HonorTabFragment honorTabFragment ;

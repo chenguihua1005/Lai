@@ -15,7 +15,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameNewActivity;
 import com.softtek.lai.module.bodygame3.more.adapter.ContactExpandableAdapter;
 import com.softtek.lai.module.bodygame3.more.model.Contact;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -212,9 +212,10 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             }
             break;
             case R.id.fl_right: {
-                Intent intent = new Intent(this, BodyGameActivity.class);
+//                Intent intent = new Intent(this, BodyGameActivity.class);
+                Intent intent = new Intent(this, BodyGameNewActivity.class);
                 intent.putExtra("classId", getIntent().getStringExtra("classId"));
-                intent.putExtra("type", 4);
+                intent.putExtra("type", 3);
                 finish();
                 startActivity(intent);
             }

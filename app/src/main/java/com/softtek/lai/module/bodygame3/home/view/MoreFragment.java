@@ -101,19 +101,19 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         }
     }
 
-    @Override
-    protected void onVisible() {
-        if (!classModels.isEmpty() && isSelector) {
-            for (ClassModel classModel : classModels) {
-                if (classModel.getClassId().equals(classId)) {
-                    model = classModel;
-                    isPrepared = false;
-                    break;
-                }
-            }
-        }
-        super.onVisible();
-    }
+//    @Override
+//    protected void onVisible() {
+//        if (!classModels.isEmpty() && isSelector) {
+//            for (ClassModel classModel : classModels) {
+//                if (classModel.getClassId().equals(classId)) {
+//                    model = classModel;
+//                    isPrepared = false;
+//                    break;
+//                }
+//            }
+//        }
+//        super.onVisible();
+//    }
 
     @Override
     protected void initViews() {
@@ -168,6 +168,10 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (getArguments() == null){
+                    getActivity().finish();
+                    return;
+                }
                 if (getArguments().getString("classId") != null) {
                     startActivity(new Intent(getActivity(), GymClubActivity.class));
                 }
@@ -202,6 +206,7 @@ public class MoreFragment extends LazyBaseFragment implements MoreHasFragment.De
             iv_left.setImageResource(R.drawable.back);
         }
         EventBus.getDefault().register(this);
+        lazyLoad();
     }
 
     @Override

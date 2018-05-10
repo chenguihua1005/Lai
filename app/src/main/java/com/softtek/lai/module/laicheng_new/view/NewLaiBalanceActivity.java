@@ -110,7 +110,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private Disposable voiceOfTesting;
     private Disposable dialogLag;
     private Disposable dialogDismissLag;
-    private boolean isStartTesting = true;//是否开始测量
+    private boolean isStartTesting = true;//是否正在测量
     private boolean isFindDevice = false;
     private AlertDialog testFailDialog;
     private AlertDialog.Builder noVisitorBuilder;
@@ -129,6 +129,9 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private BasicModel basicModel;
     private boolean isJump = false;
     private boolean isFailDismiss = true;//测量失败对话框是否消失
+    private Date birthday = null;
+    private int height;
+    private TextView tv_tab;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -190,8 +193,6 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     private QNUser createUser() {
         int gender;
         String birthdayString;
-        Date birthday = null;
-        int height;
         String userID;
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
@@ -231,7 +232,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
     /***
      * 测量超时对话框
      */
-    private void createTimeoutDialog() {
+    private void createTimeoutDialog(String message) {
         if (testFailDialog == null) {
             Log.d("maki", "dialogNULL");
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.whiteDialog).setTitle("提示")
@@ -242,11 +243,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                             isFailDismiss = true;
                         }
                     });
-            builder.setMessage("测量失败，请重新测量");
+            builder.setMessage(message);
             testFailDialog = builder.create();
         }
         if (!testFailDialog.isShowing()) {
-            testFailDialog.setMessage("测量失败，请重新测量");
+            testFailDialog.setMessage(message);
             testFailDialog.show();
             isFailDismiss = false;
         }
@@ -303,7 +304,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                 }
                 Log.d("maki", "isStartTesting " + String.valueOf(isStartTesting));
                 if (!isStartTesting) {
-                    testFail();
+                    testFail("设备连接断开，请重新连接");
                     if (testingTimeout != null) {
                         testingTimeout.dispose();
                     }
@@ -349,7 +350,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                             .subscribe(new Consumer<Long>() {
                                 @Override
                                 public void accept(Long aLong) throws Exception {
-                                    testFail();
+                                    testFail("测量超时");
                                 }
                             });
                 }
@@ -357,6 +358,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
 
             @Override
             public void onReceivedData(QNBleDevice qnBleDevice, QNData qnData) {
+                dialogDismiss();
+                dialogShow("测量完成,数据上传中...");
                 if (connectTimeout != null){
                     if (!connectTimeout.isDisposed()) {
                         connectTimeout.dispose();
@@ -366,7 +369,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                     return;
                 }
                 if (qnData.getAll().size() < 3) {
-                    testFail();
+                    testFail("测量指标为空,请重新测量");
                     if (testingTimeout != null) {
                         testingTimeout.dispose();
                     }
@@ -411,7 +414,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             selfFragment.setStateTip("测量完成");
                                             visitorFragment.setStateTip("测量完成");
                                         } else {
-                                            testFail();
+                                            testFail(bleResponseData.getMsg());
                                             if (testingTimeout != null) {
                                                 testingTimeout.dispose();
                                             }
@@ -427,7 +430,7 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
                                             voiceOfTesting.dispose();
                                         }
                                         dialogDismiss();
-                                        testFail();
+                                        testFail("上传数据失败,请重新测量");
                                     }
                                 });
 
@@ -457,8 +460,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         });
     }
 
-    private void testFail() {
-        createTimeoutDialog();
+    private void testFail(String message) {
+        createTimeoutDialog(message);
         dialogDismiss();
         isStartTesting = true;
         if (voiceOfTesting != null) {
@@ -572,6 +575,8 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         } else {
             postQnData.setBirthdate(visitorFragment.getVisitorModel().getBirthDate());
         }
+//        qnBleApi.getStandBmr(birthday,)
+
         return postQnData;
     }
 
@@ -722,10 +727,15 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
         final TabLayout.Tab tab = mTab.getTabAt(0);
         if (tab != null) {
             tab.setCustomView(R.layout.self_tab);
-            TextView tv_tab = (TextView) tab.getCustomView().findViewById(R.id.tab_title);
+            tv_tab = tab.getCustomView().findViewById(R.id.tab_title);
             tv_tab.setText("给自己测");
+            if (mViewPager.getCurrentItem() == 0){
+                tv_tab.setTextColor(getResources().getColor(R.color.green));
+            }else {
+                tv_tab.setTextColor(getResources().getColor(R.color.gray_pressed));
+            }
             @SuppressLint("WrongViewCast")
-            CircleImageView civ = (CircleImageView) tab.getCustomView().findViewById(R.id.iv_head);
+            CircleImageView civ = tab.getCustomView().findViewById(R.id.iv_head);
             Picasso.with(this).load(AddressManager.get("photoHost") + UserInfoModel.getInstance().getUser().getPhoto())
                     .fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ);
         }
@@ -740,9 +750,11 @@ public class NewLaiBalanceActivity extends FragmentActivity implements View.OnCl
             public void onPageSelected(int position) {
                 pageIndex = position;
                 if (position == 0) {
+                    tv_tab.setTextColor(getResources().getColor(R.color.green));
                     selfFragment.refreshVoiceIcon();
                     type = 1;
                 } else {
+                    tv_tab.setTextColor(getResources().getColor(R.color.gray_pressed));
                     type = visitorFragment.getType();
                     visitorFragment.refreshVoiceIcon();
                 }

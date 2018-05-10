@@ -72,6 +72,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
     private BasicModel basicModel;
     private boolean isJump = false;
+    private TextView tv_tab;
 
     @OnClick(R.id.fl_left)
     public void doBack() {
@@ -131,8 +132,13 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
         final TabLayout.Tab self = tab_balance.getTabAt(0);
         if (self != null) {
             self.setCustomView(R.layout.self_tab);
-            TextView tv_tab = (TextView) self.getCustomView().findViewById(R.id.tab_title);
+            tv_tab = self.getCustomView().findViewById(R.id.tab_title);
             tv_tab.setText("给自己测");
+            if (content.getCurrentItem() == 0){
+                tv_tab.setTextColor(getResources().getColor(R.color.colorPrimary2));
+            }else {
+                tv_tab.setTextColor(getResources().getColor(R.color.gray_pressed));
+            }
             @SuppressLint("WrongViewCast")
             CircleImageView civ = (CircleImageView) self.getCustomView().findViewById(R.id.iv_head);
             Picasso.with(this).load(AddressManager.get("photoHost") + UserInfoModel.getInstance().getUser().getPhoto())
@@ -149,6 +155,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
                 pageIndex = position;
                 if (pageIndex == 0) {
                     setType(1);
+                    tv_tab.setTextColor(getResources().getColor(R.color.colorPrimary2));
 //                    mShakeListener.start();
                     if (!isDestroyed()) {
                         selftestFragment.refreshVoiceIcon();
@@ -158,6 +165,7 @@ public class LaibalanceActivity extends MainBaseActivity implements SelftestFrag
 
                 } else {
                     setType(visitortestFragment.getType());
+                    tv_tab.setTextColor(getResources().getColor(R.color.gray_pressed));
                     if (!isDestroyed()) {
                         visitortestFragment.refreshVoiceIcon();
 //                        visitortestFragment.setStateTip("摇一摇，连接莱秤");

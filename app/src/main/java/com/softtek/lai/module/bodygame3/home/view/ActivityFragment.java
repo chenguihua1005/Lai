@@ -129,24 +129,26 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @Override
     protected void lazyLoad() {
         isSelector = false;
+        pull.setRefreshing(true);
+        onRefresh();
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (pull != null && isVisibleToUser) {
-            pull.setRefreshing(true);
-            onRefresh();
-        }
-    }
-
-    @Override
-    protected void onVisible() {
-        if (isSelector) {
-            isPrepared = false;
-        }
-        super.onVisible();
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (pull != null && isVisibleToUser) {
+//            pull.setRefreshing(true);
+//            onRefresh();
+//        }
+//    }
+//
+//    @Override
+//    protected void onVisible() {
+//        if (isSelector) {
+//            isPrepared = false;
+//        }
+//        super.onVisible();
+//    }
 
     @Override
     protected void initViews() {
@@ -255,6 +257,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
             }
         });
         EventBus.getDefault().register(this);
+        lazyLoad();
+
     }
 
     @Override

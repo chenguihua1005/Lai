@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,7 +32,7 @@ import com.softtek.lai.module.bodygame3.conversation.database.GroupModel;
 import com.softtek.lai.module.bodygame3.conversation.database.GroupTable;
 import com.softtek.lai.module.bodygame3.conversation.model.ContactClassModel;
 import com.softtek.lai.module.bodygame3.conversation.view.ClassDetailActivity;
-import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameNewActivity;
 import com.softtek.lai.runtimepermissions.PermissionsManager;
 
 import butterknife.InjectView;
@@ -178,7 +176,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                Intent intent1 = new Intent(this, BodyGameActivity.class);
+//                Intent intent1 = new Intent(this, BodyGameActivity.class);
+                Intent intent1 = new Intent(this, BodyGameNewActivity.class);
                 intent1.putExtra("type", 1);
                 startActivity(intent1);
                 break;
@@ -201,7 +200,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(this, BodyGameActivity.class);
+//            Intent intent = new Intent(this, BodyGameActivity.class);
+            Intent intent = new Intent(this, BodyGameNewActivity.class);
             intent.putExtra("type", 1);
             startActivity(intent);
             return true;

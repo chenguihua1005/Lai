@@ -19,7 +19,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.adapter.LoadMoreRecyclerViewAdapter;
 import com.softtek.lai.module.home.eventModel.SaleEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
-import com.softtek.lai.module.home.presenter.HomeInfoImpl;
+import com.softtek.lai.module.home.presenter.   HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 
 import org.greenrobot.eventbus.EventBus;

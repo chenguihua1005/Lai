@@ -18,7 +18,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameNewActivity;
 import com.softtek.lai.module.bodygame3.more.adapter.InvitatedExpandableAdapter;
 import com.softtek.lai.module.bodygame3.more.model.InvitatedContact;
 import com.softtek.lai.module.bodygame3.more.net.MoreService;
@@ -105,8 +105,9 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ll_left:{
-                Intent intent=new Intent(this, BodyGameActivity.class);
-                intent.putExtra("type",4);
+//                Intent intent=new Intent(this, BodyGameActivity.class);
+                Intent intent=new Intent(this, BodyGameNewActivity.class);
+                intent.putExtra("type",3);
                 intent.putExtra("classId",classId);
                 startActivity(intent);
                 finish();
@@ -125,8 +126,9 @@ public class InvitationListActivity extends BaseActivity implements View.OnClick
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
-            Intent intent=new Intent(this, BodyGameActivity.class);
-            intent.putExtra("type",4);
+//            Intent intent=new Intent(this, BodyGameActivity.class);
+            Intent intent=new Intent(this, BodyGameNewActivity.class);
+            intent.putExtra("type",3);
             intent.putExtra("classId",classId);
             startActivity(intent);
             return true;

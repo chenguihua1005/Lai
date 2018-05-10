@@ -35,16 +35,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hyphenate.EMMessageListener;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame3.home.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame3.home.view.BodyGameNewActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
@@ -84,7 +80,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 
 /**
@@ -185,7 +180,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             }
         });
 
-
     }
 
     private ModelAdapter modelAdapter;
@@ -204,6 +198,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
         mSharedPreferences = getActivity().getSharedPreferences(Contacts.SHARE_NAME, Activity.MODE_PRIVATE);
+
     }
 
 
@@ -224,7 +219,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         if (v_code < version.getAppVisionCode()) {
             String str = "莱聚+ v " + version.getAppVisionNum() + "版本\n最新的版本！请前去下载。\n更新于：" + version.getUpdateTime();
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            if (!version.isIsImperious()) {
+            if (!version.isIsImperious()){
                 builder.setNegativeButton("稍后更新", null);
             }
             builder.setTitle("版本有更新")
@@ -294,7 +289,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     protected void lazyLoad() {
         //检查新版本更新
         ZillaApi.NormalRestAdapter.create(HomeService.class)
-                .checkNew(vName, new RequestCallback<ResponseData<Version>>() {
+                .checkNew(vName,new RequestCallback<ResponseData<Version>>() {
                     @Override
                     public void success(ResponseData<Version> versionResponseData, Response response) {
                         dialogDissmiss();
@@ -317,10 +312,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         //第一次加载自动刷新
         pull.setRefreshing(true);
         homeInfoPresenter.getHomeInfoData(pull);
-        homeInfoPresenter.getContentByPage(1,0);
-        homeInfoPresenter.getContentByPage(1,1);
-        homeInfoPresenter.getContentByPage(1,2);
-        homeInfoPresenter.getContentByPage(1,6);
+
     }
 
     private int laiNum;
@@ -376,7 +368,7 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
 //                EMClient.getInstance().chatManager().addMessageListener(messageListener);
 //                int unreadNum = EMClient.getInstance().chatManager().getUnreadMsgsCount();
 //                updateMessage(unreadNum);
-//
+//            }
         }
     }
 
@@ -424,10 +416,6 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         homeInfoPresenter.getHomeInfoData(pull);
-        homeInfoPresenter.getContentByPage(1,0);
-        homeInfoPresenter.getContentByPage(1,1);
-        homeInfoPresenter.getContentByPage(1,2);
-        homeInfoPresenter.getContentByPage(1,6);
     }
 
     /**
@@ -442,7 +430,8 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
             //如果有则判断更具具体角色进入相应的页面
             switch (position) {
                 case Constants.BODY_GAME:
-                    startActivity(new Intent(getContext(), BodyGameActivity.class));
+//                    startActivity(new Intent(getContext(), BodyGameActivity.class));
+                    startActivity(new Intent(getContext(), BodyGameNewActivity.class));
                     MobclickAgent.onEvent(getContext(), "BodyGameEvent");
                     break;
                 case Constants.LAI_YUNDONG:
@@ -512,35 +501,31 @@ public class HomeFragment extends LazyBaseFragment implements SwipeRefreshLayout
         } else {
             //如果本身没有该按钮权限则根据不同身份提示用户，进行下一步操作
             AlertDialog.Builder information_dialog;
-            if (!TextUtils.isEmpty(userInfoModel.getUser().getUserrole())) {
-                switch (Integer.parseInt(userInfoModel.getUser().getUserrole())) {
-                    case Constants.VR:
-                        //游客若没有此功能，可能是未登录，提示请先登录
-                        information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent login = new Intent(getContext(), LoginActivity.class);
-                                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(login);
-                            }
-                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).create().show();
-                        break;
-                    case Constants.NC:
-                    case Constants.INC:
-                    case Constants.PC:
-                    case Constants.SR:
-                    case Constants.SP:
-                        break;
-                }
+            switch (Integer.parseInt(userInfoModel.getUser().getUserrole())) {
+                case Constants.VR:
+                    //游客若没有此功能，可能是未登录，提示请先登录
+                    information_dialog = new AlertDialog.Builder(getContext());
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(getContext(), LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+                    break;
+                case Constants.NC:
+                case Constants.INC:
+                case Constants.PC:
+                case Constants.SR:
+                case Constants.SP:
+                    break;
             }
-
-
         }
 
     }

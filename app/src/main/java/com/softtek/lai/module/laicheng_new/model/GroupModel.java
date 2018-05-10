@@ -16,8 +16,17 @@ public class GroupModel {
 
     private String classId;
     private String className;
+    private String classCode;
     private List<MembersBean> members;
     private List<ClubsBean> clubs;
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String clossCode) {
+        this.classCode = clossCode;
+    }
 
     public List<ClubsBean> getClubs() {
         return clubs;

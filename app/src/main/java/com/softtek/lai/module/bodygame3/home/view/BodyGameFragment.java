@@ -44,6 +44,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void lazyLoad() {
+//        getChildFragmentManager().beginTransaction().replace(R.id.contain_frg, HeadGameFragment.getInstance(BodyGameFragment.this,classId)).commitAllowingStateLoss();
         setPrepared(false);
         dialogShow("数据载入...");
         ZillaApi.NormalRestAdapter.create(HeadService.class).getclass(UserInfoModel.getInstance().getToken(), UserInfoModel.getInstance().getUserId(), new RequestCallback<ResponseData<ClassdataModel>>() {
@@ -93,7 +94,10 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
         ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (classId != null){
+                if (classId == null){
+                    classId = "";
+                }
+                if (!classId.equals("")){
                     startActivity(new Intent(getActivity(), GymClubActivity.class));
                 }else {
                     getActivity().finish();
@@ -141,7 +145,7 @@ public class BodyGameFragment extends LazyBaseFragment implements HeadGameFragme
 
     @Override
     protected void initDatas() {
-
+        lazyLoad();
 
     }
 

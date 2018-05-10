@@ -449,7 +449,8 @@
                 android:id="@+id/rl_girth"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:background="@color/grey2">
 
                 <TextView
                     android:layout_width="wrap_content"

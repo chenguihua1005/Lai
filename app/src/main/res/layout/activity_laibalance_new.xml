@@ -98,13 +98,16 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_balance"
-        style="@style/myTabLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@color/green1"
+        app:tabTextColor="@color/gray_pressed"/>
+        <!--style="@style/myTabLayout2"-->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#EEEEEE"/>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_content"
         android:layout_width="match_parent"
