@@ -64,7 +64,8 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
     private int radioType;
 
 
-    private String requestDate;//请求时需要的日期
+    private String requestDateRight;//请求时需要的日期
+    private String requestDateLeft;//请求时需要的日期
 
 
     private SimpleDateFormat sdf;//日期格式化
@@ -87,12 +88,12 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
 
     @OnClick(R.id.bt_left)
     public void doLeftButton() {
-        getPresenter().getLBLineChart(accountId, type, radioType, requestDate, DIRECTION_LEFT);
+        getPresenter().getLBLineChart(accountId, type, radioType, requestDateLeft, DIRECTION_LEFT);
     }
 
     @OnClick(R.id.bt_right)
     public void doRightButton() {
-        getPresenter().getLBLineChart(accountId, type, radioType, requestDate, DIRECTION_RIGHT);
+        getPresenter().getLBLineChart(accountId, type, radioType, requestDateRight, DIRECTION_RIGHT);
     }
 
     @Override
@@ -153,8 +154,7 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
             sdf = new SimpleDateFormat("MM/dd");
         }
         if (isChange) {
-            requestDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-            getPresenter().getLBLineChart(accountId, type, radioType, requestDate, DIRECTION_ORGIN);
+            getPresenter().getLBLineChart(accountId, type, radioType, "", DIRECTION_ORGIN);
         }
 
     }
@@ -213,7 +213,8 @@ public class HealthyChartFragment extends LazyBaseFragment<HealthyChartPresenter
         //获取最早的一天
         String leftDate = valueLists.get(0).getDate();
         String rightDate = valueLists.get(valueLists.size() - 1).getDate();
-        requestDate = rightDate;
+        requestDateLeft = leftDate;
+        requestDateRight = rightDate;
         if (leftDate.compareToIgnoreCase(startDate) > 0) {
             bt_left.setVisibility(View.VISIBLE);
         } else {

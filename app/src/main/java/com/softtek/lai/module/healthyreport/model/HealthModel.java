@@ -27,6 +27,15 @@ public class HealthModel {
     private String BasalMetabolism;//基础代谢
     private String PhysicalAge;//身体年龄
     private String MeasuredTime;//测量时间
+    private String ViscusFatIndex;
+
+    public String getViscusFatIndex() {
+        return ViscusFatIndex;
+    }
+
+    public void setViscusFatIndex(String viscusFatIndex) {
+        ViscusFatIndex = viscusFatIndex;
+    }
 
     public String getMeasuredTime() {
         return MeasuredTime;

@@ -10,12 +10,59 @@
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFB83E"
-            android:orientation="vertical">
+            android:layout_height="96dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#F5F5F5">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="参加体管赛"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_join_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/green1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="次"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="总体重变化"/>
+                <TextView
+                    android:id="@+id/tv_loss_weight_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:textSize="20sp"
+                    android:text="0"
+                    android:textColor="@color/green1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="斤"/>
+            </LinearLayout>
 
         </LinearLayout>
 

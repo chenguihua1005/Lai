@@ -5,7 +5,10 @@ import com.softtek.lai.module.bodygame3.activity.model.ActdetailModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivityModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActivitydataModel;
 import com.softtek.lai.module.bodygame3.activity.model.ActtypeModel;
+import com.softtek.lai.module.bodygame3.activity.model.InitialDataModel;
+import com.softtek.lai.module.bodygame3.activity.model.PostInitialData;
 import com.softtek.lai.module.bodygame3.activity.model.TodaysModel;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
@@ -96,5 +99,19 @@ public interface ActivityService {
             @Header("token") String token,
             @Body ActivityModel activityModel,
             Callback<ResponseData> callback
+    );
+
+    @GET("/v1/HerbalifeClass/GetClassMembersWithoutInitData")
+    void getInitialData(
+            @Header("token") String token,
+            @Query("classid") String classId,
+            RequestCallback<ResponseData<List<InitialDataModel>>> callback
+    );
+
+    @POST("/v1/HealthRecords/SaveClassInitHealthRecord")
+    void saveClassInitHealthRecord(
+            @Header("token") String token,
+            @Body PostInitialData postInitialData,
+            RequestCallback<ResponseData> callback
     );
 }

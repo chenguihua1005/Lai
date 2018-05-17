@@ -9,6 +9,24 @@ import java.util.List;
 public class TimeAxisModel {
     private int PageCount;
     private List<TimeAxisItemModel> Items;
+    private int JoinClassTimes;
+    private float TotalWeightChange;
+
+    public int getJoinClassTimes() {
+        return JoinClassTimes;
+    }
+
+    public void setJoinClassTimes(int joinClassTimes) {
+        JoinClassTimes = joinClassTimes;
+    }
+
+    public float getTotalWeightChange() {
+        return TotalWeightChange;
+    }
+
+    public void setTotalWeightChange(float totalWeightChange) {
+        TotalWeightChange = totalWeightChange;
+    }
 
     public int getPageCount() {
         return PageCount;

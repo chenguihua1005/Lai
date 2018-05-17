@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
@@ -29,6 +30,10 @@ public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> impl
     ListView lv;
     @InjectView(R.id.srl_refresh)
     SwipeRefreshLayout mRefresh;
+    @InjectView(R.id.tv_join_count)
+    TextView mJoinCount;
+    @InjectView(R.id.tv_loss_weight_value)
+    TextView mLossWeightValue;
 
     private List<TimeAxisItemModel> modelList = new ArrayList<TimeAxisItemModel>();
     private StatisAdapter adapter;
@@ -78,6 +83,8 @@ public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> impl
             modelList.clear();
             modelList.addAll(model.getItems());
             adapter.notifyDataSetChanged();
+            mJoinCount.setText(model.getJoinClassTimes());
+            mLossWeightValue.setText(model.getTotalWeightChange()+"");
         }
     }
 

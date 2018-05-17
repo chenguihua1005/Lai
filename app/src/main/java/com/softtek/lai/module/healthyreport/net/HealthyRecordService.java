@@ -27,7 +27,7 @@ public interface HealthyRecordService {
                            Callback<ResponseData> callback);
 
 
-    // //获取最新健康记录
+     //获取最新健康记录
     @GET("/V1/HealthRecords/GetUserMeasuredInfo")
     void getUserMeasuredInfo(
             @Header("token") String token,

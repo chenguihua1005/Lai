@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame3.head.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -1000,7 +1001,7 @@ public class HeadGameFragment2 extends Fragment implements View.OnClickListener,
                         intent.putExtras(bundle);
                         intent.putExtra(LookBigPicActivity.CURRENTITEM, position);
                         startActivity(intent);
-                        ((AppCompatActivity) getContext()).overridePendingTransition(0, 0);
+                        ((Activity) getContext()).overridePendingTransition(0, 0);
                     }
                 });
                 container.addView(imageView);

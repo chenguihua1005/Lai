@@ -107,6 +107,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     @InjectView(R.id.ll_change_date)
     LinearLayout mChangedDate;
 
+    @InjectView(R.id.ll_first_data)
+    LinearLayout mFirstData;
     private SaveclassModel saveclassModel;
 
     private List<ActCalendarModel> calendarModels = new ArrayList<>();
@@ -121,6 +123,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
     private ClassModel classModel;
     private int HasInitMeasuredData;//是否有初录入数据 0：没有 1：有
     private String classId;
+    private boolean isWorker;
+    private int index = 0;
 
     public ActivityFragment() {
 
@@ -190,6 +194,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 .commit();
 
         material_calendar.setShowOtherDates(0);
+        mFirstData.setOnClickListener(this);
     }
 
     @Override
@@ -201,7 +206,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 ImageView iv_icon = holder.getView(R.id.iv_icon);
                 boolean selected = tv_title.getSelectedIndex() == position;
                 int icon = R.drawable.class_xueyuan;
-                boolean isWorker = data.isWorker();//是否是俱乐部工作人员，true-是，false-否
+                isWorker = data.isWorker();//是否是俱乐部工作人员，true-是，false-否
                 if (isWorker) {
                     icon = R.drawable.worker;
                 }
@@ -242,6 +247,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         tv_title.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                index = i;
                 classid = classModels.get(i).getClassId();
                 classrole = classModels.get(i).getClassRole();
                 material_calendar.invalidateDecorators();
@@ -258,7 +264,6 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
         });
         EventBus.getDefault().register(this);
         lazyLoad();
-
     }
 
     @Override
@@ -367,6 +372,20 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 Intent dateIntent = new Intent(getActivity(), UpdateFuceTimeActivity.class);
                 dateIntent.putExtra("classId", classid);
                 startActivityForResult(dateIntent, UpdateFuceTimeActivity.REQUEST_CODE);
+                break;
+            case R.id.ll_first_data:
+                Intent firstIntent;
+                if (!isWorker && classrole != 1) {
+                    firstIntent = new Intent(getActivity(), InitialDetailActivity.class);
+                    firstIntent.putExtra("phone",UserInfoModel.getInstance().getUser().getMobile());
+                    firstIntent.putExtra("accountId",UserInfoModel.getInstance().getUserId());
+                    firstIntent.putExtra("userName",UserInfoModel.getInstance().getUser().getNickname());
+                } else {
+                    firstIntent = new Intent(getActivity(), InitialDataActivity.class);
+                }
+                firstIntent.putExtra("classId", classid);
+                startActivity(firstIntent);
+                break;
         }
     }
 
@@ -454,6 +473,8 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 ActivitydataModel activitydataModel = data.getData();
                                 HasInitMeasuredData = activitydataModel.getHasInitMeasuredData();
                                 classrole = activitydataModel.getClassRole();
+                                classrole = activitydataModel.getList_Class().get(index).getClassRole();
+                                isWorker = activitydataModel.getList_Class().get(index).isWorker();
                                 if (Constants.HEADCOACH == classrole) {
                                     fl_right.setVisibility(View.VISIBLE);
                                 } else {
@@ -584,7 +605,11 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
+                        if (!isWorker && classrole != 1) {
+                            mChangedDate.setVisibility(View.GONE);
+                        }else {
+                            mChangedDate.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override

@@ -597,7 +597,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         healthModele = new HealthModel();
         healthModele.setWeight(weight);
         healthModele.setPysical(pysical);
-        healthModele.setFat(fat);
+        healthModele.setViscusFatIndex(fat);
         healthModele.setCircum(circum);
         healthModele.setWaistline(waistline);
         healthModele.setHiplie(hiplie);
