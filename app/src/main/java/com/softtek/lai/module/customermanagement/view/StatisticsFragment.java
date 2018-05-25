@@ -83,7 +83,7 @@ public class StatisticsFragment extends LazyBaseFragment<TimeAxisPresenter> impl
             modelList.clear();
             modelList.addAll(model.getItems());
             adapter.notifyDataSetChanged();
-            mJoinCount.setText(model.getJoinClassTimes());
+            mJoinCount.setText(model.getJoinClassTimes() + "");
             mLossWeightValue.setText(model.getTotalWeightChange()+"");
         }
     }

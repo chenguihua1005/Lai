@@ -200,7 +200,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="12dp"
-            android:text="请确认上述参赛邀请信息无误之后,点击下方按钮,并填写客户收到的短信验证码,进行确认." />
+            android:text="请确认上述参赛邀请信息无误之后，点击下方按钮，并填写客户收到的短信验证码，进行确认。" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -629,7 +629,8 @@ public abstract class MainBaseActivity extends BleBaseActivity implements BleBas
                 state_current = CONNECTED_STATE_SUCCESS;
                 if (voiceIndex != 5) {
                     voiceIndex = 5;
-//                    soundHelper.play("five");
+//
+//        soundHelper.play("five");
                     if (isVoiceHelp) {
                         SoundPlay.getInstance().playAndStop(R.raw.help_five);
                     }

@@ -10,7 +10,7 @@ public class HeadModel2 {
 //            "ThemePic": "tgs_banner.png"
 
     private int TotalPerson;//总人数
-    private int TotalLossWeight;//总减重
+    private float TotalLossWeight;//总减重
     private String ThemePic;//背景图
 
     public HeadModel2(int totalPerson, int totalLossWeight, String themePic) {
@@ -27,11 +27,11 @@ public class HeadModel2 {
         TotalPerson = totalPerson;
     }
 
-    public int getTotalLossWeight() {
+    public float getTotalLossWeight() {
         return TotalLossWeight;
     }
 
-    public void setTotalLossWeight(int totalLossWeight) {
+    public void setTotalLossWeight(float totalLossWeight) {
         TotalLossWeight = totalLossWeight;
     }
 

@@ -144,6 +144,7 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
     private boolean needQuery;
     private boolean fromRegistPage;//
     private boolean fromAddCustomer;//从AddCustomerActivity页面跳转过来
+    private boolean isRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +170,18 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
         needQuery = getIntent().getBooleanExtra("needQuery", false);
         fromRegistPage = getIntent().getBooleanExtra("fromRegistPage", false);
         fromAddCustomer = getIntent().getBooleanExtra("fromAddCustomer", false);
+        isRegistered = getIntent().getBooleanExtra("isRegistered",false);
+        if (isRegistered){
+            et_nickname.setEnabled(false);
+            tv_birth.setEnabled(false);
+            tv_sex.setEnabled(false);
+            tv_height.setEnabled(false);
+        }else {
+            et_nickname.setEnabled(true);
+            tv_birth.setEnabled(true);
+            tv_sex.setEnabled(true);
+            tv_height.setEnabled(true);
+        }
 
         linear_remark.setVisibility(View.VISIBLE);
         if (fromRegistPage) {
@@ -249,15 +262,21 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 //                    w = false;
 //                    break;
                 case R.id.ll_birth:
-                    showDateDialog();
+                    if (!isRegistered) {
+                        showDateDialog();
+                    }
                     break;
                 case R.id.ll_sex:
                 case R.id.tv_sex:
-                    showGradeDialog();
+                    if (!isRegistered) {
+                        showGradeDialog();
+                    }
                     break;
                 case R.id.ll_height:
                 case R.id.tv_height:
-                    show_height_dialog();
+                    if (!isRegistered) {
+                        show_height_dialog();
+                    }
                     break;
 //                case R.id.ll_weight:
 //                case R.id.tv_weight:
@@ -555,11 +574,10 @@ public class NewCustomerActivity extends BaseActivity<SaveCustomerPresenter> imp
 
     @Override
     public void getBasicInfo(BasicInfoModel model) {
-        Util.toastMsg("查询数据成功！");
         if (model != null) {
             BasicModel basicModel = model.getBasics();
             et_nickname.setText(basicModel.getName());
-            tv_sex.setText(basicModel.getGender().equals("0") ? "男" : "女");
+            tv_sex.setText(basicModel.getGender().equals("男") ? "男" : "女");
             tv_birth.setText(basicModel.getBirthDay());
             tv_height.setText(basicModel.getHeight() + "cm");
 //            tv_weight.setText(basicModel.getWeight() + "斤");

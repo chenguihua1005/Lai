@@ -195,7 +195,7 @@ public class RegistForCustomerInfoActivity extends BaseActivity<RegistCustomerIn
                 public void success(ResponseData<BasicInfoModel> responseData, Response response) {
                     if (responseData.getStatus() == 200) {
                         et_nickname.setText(responseData.getData().getBasics().getName());
-                        tv_sex.setText(responseData.getData().getBasics().getGender().equals("0") ? "男" : "女");
+                        tv_sex.setText(responseData.getData().getBasics().getGender().equals("男") ? "男" : "女");
                         tv_birth.setText(responseData.getData().getBasics().getBirthDay());
                         tv_height.setText(responseData.getData().getBasics().getHeight() + "cm");
                     } else {

@@ -125,6 +125,7 @@ public class AddCustomerActivity extends BaseActivity implements View.OnClickLis
                         intent.putExtra("mobile", phoneNum);
                         intent.putExtra("needQuery", true);//需要查询基础数据
                         intent.putExtra("fromAddCustomer", true);
+                        intent.putExtra("isRegistered",true);
                         startActivity(intent);
                     } else if (!IsRegistered) {//如果没有注册跳转到新客户页面
                         Intent intent = new Intent(AddCustomerActivity.this, NewCustomerActivity.class);

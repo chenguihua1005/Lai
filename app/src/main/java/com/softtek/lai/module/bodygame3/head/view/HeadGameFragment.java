@@ -290,8 +290,7 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                             text, new RequestCallback<ResponseData<List<ClasslistModel>>>() {
                                 @Override
                                 public void success(ResponseData<List<ClasslistModel>> data, Response response) {
-
-
+                                    dialogDissmiss();
                                     if (data.getStatus() == 200) {
                                         if (data.getData() != null && !data.getData().isEmpty()) {
                                             Intent intent = new Intent(getContext(), SearchClassActivity.class);
@@ -299,12 +298,10 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                             bundle.putParcelableArrayList("class", (ArrayList<ClasslistModel>) data.getData());
                                             intent.putExtras(bundle);
                                             startActivity(intent);
-                                            dialogDissmiss();
 
                                         }
 
                                     } else if (data.getStatus() == 100) {
-                                        dialogDissmiss();
                                         Util.toastMsg(data.getMsg());
                                     }
                                 }

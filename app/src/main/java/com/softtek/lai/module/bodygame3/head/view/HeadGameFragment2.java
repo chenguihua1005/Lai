@@ -354,7 +354,8 @@ public class HeadGameFragment2 extends Fragment implements View.OnClickListener,
                 saveclassModel.setClassWeek(classModels.get(i).getClassWeek());
                 saveclassModel.setClassRole(classModels.get(i).getClassRole());
                 page = 1;
-                classinfo(classId_first, classnum);
+                getAllfirst(classId_first);
+//                classinfo(classId_first, classnum);
                 SaveClassModel saveClassModel = new SaveClassModel();
                 saveClassModel.classId = classId_first;
                 saveClassModel.classWeek = classnum;

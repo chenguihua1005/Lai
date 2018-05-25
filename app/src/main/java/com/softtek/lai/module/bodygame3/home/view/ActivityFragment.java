@@ -378,7 +378,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 if (!isWorker && classrole != 1) {
                     firstIntent = new Intent(getActivity(), InitialDetailActivity.class);
                     firstIntent.putExtra("phone",UserInfoModel.getInstance().getUser().getMobile());
-                    firstIntent.putExtra("accountId",UserInfoModel.getInstance().getUserId());
+                    firstIntent.putExtra("accountId",(int)UserInfoModel.getInstance().getUserId());
                     firstIntent.putExtra("userName",UserInfoModel.getInstance().getUser().getNickname());
                 } else {
                     firstIntent = new Intent(getActivity(), InitialDataActivity.class);

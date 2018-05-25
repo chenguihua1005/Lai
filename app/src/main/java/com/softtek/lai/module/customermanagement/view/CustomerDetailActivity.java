@@ -120,7 +120,7 @@ public class CustomerDetailActivity extends BaseActivity implements View.OnClick
                 setRemarkState(false);
             }
         }else {
-            setRemarkState(false);
+            setRemarkState(true);
         }
     }
 

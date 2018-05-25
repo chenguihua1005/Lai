@@ -1,5 +1,9 @@
 package com.softtek.lai.module.bodygame3.home.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame3.head.view.HeadGameFragment;
 import com.softtek.lai.module.customermanagement.view.MakiBaseActivity;
 
@@ -94,6 +100,7 @@ public class BodyGameNewActivity extends MakiBaseActivity implements View.OnClic
             gameFragment.setArguments(bundle);
             honorTabFragment.setArguments(bundle);
             activityFragment.setArguments(bundle);
+            moreFragment.setArguments(bundle);
         }
         fragmentLists.add(gameFragment);
         fragmentLists.add(honorTabFragment);

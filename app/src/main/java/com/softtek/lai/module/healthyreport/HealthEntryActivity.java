@@ -503,15 +503,8 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
         DateTime minTime = new DateTime(1900, 1, 1, 0, 0);
         DateTime maxTime = new DateTime();
 
-//        DateTime defaultTime;
-//        if (currentMonth == 1) {
-//            defaultTime = new DateTime(2018, currentMonth, currentDay, 0, 0);
-//        } else {
-//            defaultTime = new DateTime(2018, currentMonth - 1, currentDay, 0, 0);
-//        }
-//        DateTime defaultTime = new DateTime(currentYear, currentMonth - 1, currentDay, 0, 0);
         final DatePickerDialog dialog =
-                new DatePickerDialog(this, null, 1990, c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+                new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMinDate(minTime.getMillis());
         dialog.getDatePicker().setMaxDate(maxTime.getMillis());
         dialog.setTitle("选择测量日期(年-月-日)");
@@ -529,7 +522,7 @@ public class HealthEntryActivity extends BaseActivity<HealthyEntryPresenter> imp
                 int year = datePicker.getYear();
                 int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
-                String date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
+                 String date = year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day);
                 int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(date, DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
                 if (compare == 1) {
 //                    show_warn_dialog();
