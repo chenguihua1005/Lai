@@ -31,7 +31,6 @@ import com.softtek.lai.module.laicheng.model.LastInfoData;
 import com.softtek.lai.module.laicheng.model.VisitorModel;
 import com.softtek.lai.module.laicheng.presenter.VisitGetPresenter;
 import com.softtek.lai.module.laicheng_new.view.ChooseCustomerActivity;
-import com.softtek.lai.module.laicheng_new.view.CustomerIntentionFragment;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -49,7 +48,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     private VisitortestFragment.VisitorVoiceListener listener;
     private ShakeSwitch shakeOFF;
 
-//    @InjectView(R.id.bt_again)
+    //    @InjectView(R.id.bt_again)
 //    Button bt_again;
     private LinearLayout.LayoutParams parm;
     private StartVisitorLinkListener linkListener;
@@ -128,8 +127,8 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
     protected void lazyLoad() {
         if (!isJump) {
             presenter.GetData(UserInfoModel.getInstance().getToken(), 0);
-        }else {
-            if (basicModel!= null) {
+        } else {
+            if (basicModel != null) {
                 model = new VisitorModel();
                 model.setName(basicModel.getName());
                 model.setBirthDate(basicModel.getBirthDay());
@@ -142,15 +141,15 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
                     ll_visitor.setVisibility(View.VISIBLE);
                     visitorId = model.getVisitorId();
                     tv_name.setText(model.getName());
-                    if (model.getPhoneNo().equals("")){
+                    if (model.getPhoneNo().equals("")) {
                         tv_phoneNo.setVisibility(View.INVISIBLE);
-                    }else {
+                    } else {
                         tv_phoneNo.setVisibility(View.VISIBLE);
                     }
                     tv_phoneNo.setText(model.getPhoneNo());
                     if (model.getAge() == 0) {
                         tv_age.setText((NowYear - choose_year) + "");
-                    }else {
+                    } else {
                         tv_age.setText(model.getAge() + "");
                     }
 
@@ -191,7 +190,12 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
             bodyFatRate = data.getBodyFatRate();
             bodyAge = data.getPhysicalAge();
             tv_weight.setText(data.getWeight() + "");//体重
-            tv_weight_caption.setText(data.getBodyTypeTitle());//状态
+
+            if (data.getBodyTypeTitle() != null && "".equals(data.getBodyTypeTitle())) {
+                tv_weight_caption.setText(data.getBodyTypeTitle());//状态
+            } else {
+                tv_weight_caption.setVisibility(View.INVISIBLE);
+            }
             tv_body_fat_rate.setText(data.getBodyFatRate() + "%");
             tv_bmi.setText(data.getBMI());
             tv_internal_fat_rate.setText(data.getViscusFatIndex());
@@ -239,7 +243,7 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 
     }
 
-    public interface  SetTypeListener{
+    public interface SetTypeListener {
         void onSetType(int type);
     }
 
@@ -253,15 +257,15 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         if (context instanceof StartVisitorLinkListener) {
             linkListener = (StartVisitorLinkListener) context;
         }
-        if (context instanceof SetTypeListener){
-            setTypeListener = (SetTypeListener)context;
+        if (context instanceof SetTypeListener) {
+            setTypeListener = (SetTypeListener) context;
         }
     }
 
     @Override
     protected void initViews() {
         Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             isJump = bundle.getBoolean("isJump");
             basicModel = bundle.getParcelable("model");
         }
@@ -447,8 +451,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
 //            tv_bmi.setText(data.getBMI());
 //            tv_internal_fat_rate.setText(data.getViscusFatIndex());//内脂
             tv_weight.setText(data.getWeight() + "");
-            if (data.getBodyTypeTitle() != null) {
+            if (!data.getBodyTypeTitle().isEmpty()) {
                 tv_weight_caption.setText(data.getBodyTypeTitle());
+            } else {
+                tv_weight_caption.setVisibility(View.INVISIBLE);
             }
             if (data.getBodyTypeColor() != null) {
                 tv_weight_caption.setTextColor(Color.parseColor("#" + data.getBodyTypeColor()));
@@ -483,10 +489,10 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         }
     }
 
-    public void setBleIcon(boolean alive){
-        if (alive){
+    public void setBleIcon(boolean alive) {
+        if (alive) {
             mBleIcon.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mBleIcon.setVisibility(View.GONE);
         }
     }
@@ -508,21 +514,21 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("visitorinfo")) {
                 model = (VisitorModel) intent.getParcelableExtra("visitorModel");
-                type = intent.getIntExtra("type",5);
+                type = intent.getIntExtra("type", 5);
                 choose_year = intent.getExtras().getInt("choose");
                 if (model != null && !TextUtils.isEmpty(model.getName())) {
                     ll_visitor.setVisibility(View.VISIBLE);
                     visitorId = model.getVisitorId();
                     tv_name.setText(model.getName());
-                    if (model.getPhoneNo().equals("")){
+                    if (model.getPhoneNo().equals("")) {
                         tv_phoneNo.setVisibility(View.INVISIBLE);
-                    }else {
+                    } else {
                         tv_phoneNo.setVisibility(View.VISIBLE);
                     }
                     tv_phoneNo.setText(model.getPhoneNo());
                     if (model.getAge() == 0) {
                         tv_age.setText((NowYear - choose_year) + "");
-                    }else {
+                    } else {
                         tv_age.setText(model.getAge() + "");
                     }
                     if (0 == model.getGender()) {
@@ -545,15 +551,15 @@ public class VisitortestFragment extends LazyBaseFragment<VisitGetPresenter> imp
         }
     }
 
-    public void setClickable(boolean available){
-        if (available){
+    public void setClickable(boolean available) {
+        if (available) {
             mBleState.setEnabled(true);
-        }else {
+        } else {
             mBleState.setEnabled(false);
         }
     }
 
-    public int getType(){
+    public int getType() {
         return type;
     }
 }
