@@ -377,9 +377,9 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                 Intent firstIntent;
                 if (!isWorker && classrole != 1) {
                     firstIntent = new Intent(getActivity(), InitialDetailActivity.class);
-                    firstIntent.putExtra("phone",UserInfoModel.getInstance().getUser().getMobile());
-                    firstIntent.putExtra("accountId",(int)UserInfoModel.getInstance().getUserId());
-                    firstIntent.putExtra("userName",UserInfoModel.getInstance().getUser().getNickname());
+                    firstIntent.putExtra("phone", UserInfoModel.getInstance().getUser().getMobile());
+                    firstIntent.putExtra("accountId", (int) UserInfoModel.getInstance().getUserId());
+                    firstIntent.putExtra("userName", UserInfoModel.getInstance().getUser().getNickname());
                 } else {
                     firstIntent = new Intent(getActivity(), InitialDataActivity.class);
                 }
@@ -473,6 +473,14 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                 ActivitydataModel activitydataModel = data.getData();
                                 HasInitMeasuredData = activitydataModel.getHasInitMeasuredData();
                                 classrole = activitydataModel.getClassRole();
+
+                                // 如果没有班级，则隐藏初始数据界面显示
+                                if (activitydataModel.getList_Class() == null || 0 == activitydataModel.getList_Class().size()) {
+                                    mFirstData.setVisibility(View.GONE);
+                                } else {
+                                    mFirstData.setVisibility(View.VISIBLE);
+                                }
+
                                 classrole = activitydataModel.getList_Class().get(index).getClassRole();
                                 isWorker = activitydataModel.getList_Class().get(index).isWorker();
                                 if (Constants.HEADCOACH == classrole) {
@@ -500,9 +508,12 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                                             }
                                         }
                                     }
+
+                                    mFirstData.setVisibility(View.VISIBLE);
                                 } else {
                                     //如果班级是空
                                     tv_title.setText("暂无班级");
+                                    mFirstData.setVisibility(View.GONE);
                                     return;
                                 }
                                 //标记日历中的活动/复测等标记
@@ -607,7 +618,7 @@ public class ActivityFragment extends LazyBaseFragment implements OnDateSelected
                         }
                         if (!isWorker && classrole != 1) {
                             mChangedDate.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             mChangedDate.setVisibility(View.VISIBLE);
                         }
                     }

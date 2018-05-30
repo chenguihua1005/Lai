@@ -26,13 +26,7 @@ import com.softtek.lai.module.login.model.RefreshCertificationModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
-import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.SoftInputUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.InjectView;
 import retrofit.Callback;

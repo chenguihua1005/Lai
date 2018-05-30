@@ -2,7 +2,7 @@ package com.softtek.lai.module.bodygame3.more.view;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -35,8 +35,6 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
-
-import static com.softtek.lai.R.id.tv_lable;
 
 @InjectLayout(R.layout.activity_update_fuce_time)
 public class UpdateFuceTimeActivity extends BaseActivity {
@@ -188,6 +186,7 @@ public class UpdateFuceTimeActivity extends BaseActivity {
         if (position > 0) {
             String fuceDate = dates.get(position - 1).getMeasureDate();
             String currentDate = DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+            Log.i("123456", "fuceDate= " + fuceDate + " currentDate= " + currentDate);
             int compare = DateUtil.getInstance(DateUtil.yyyy_MM_dd).compare(fuceDate, currentDate);
             if (compare < 1) {//表示上一次的复测日其是小于或者等于今天的则取今日
                 c.setTime(DateUtil.getInstance(DateUtil.yyyy_MM_dd).convert2Date(currentDate));
@@ -196,7 +195,7 @@ public class UpdateFuceTimeActivity extends BaseActivity {
             }
         }
         //天数加1
-        c.add(Calendar.DAY_OF_YEAR, 1);
+//        c.add(Calendar.DAY_OF_YEAR, 1);
         final DatePickerDialog dialog =
                 new DatePickerDialog(this, null, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMinDate(c.getTime().getTime());

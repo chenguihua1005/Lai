@@ -78,7 +78,7 @@ public class GroupModel {
         private String Mobile;
         private String UserName;
         private int Gender;
-        private int Height;
+        private float Height;
         private String BirthDay;
         private int Age;
         private String Photo;
@@ -117,11 +117,11 @@ public class GroupModel {
             this.Gender = Gender;
         }
 
-        public int getHeight() {
+        public float getHeight() {
             return Height;
         }
 
-        public void setHeight(int Height) {
+        public void setHeight(float Height) {
             this.Height = Height;
         }
 

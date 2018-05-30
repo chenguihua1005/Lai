@@ -138,20 +138,18 @@
                 android:orientation="vertical">
 
 
-                    <TextView
-                        android:id="@+id/week_stu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:drawableLeft="@drawable/weeks_one"
-                        android:drawablePadding="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="9dp"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="11sp" />
-
-
+                <TextView
+                    android:id="@+id/week_stu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:drawableLeft="@drawable/weeks_one"
+                    android:drawablePadding="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="9dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
 
 
                 <LinearLayout
@@ -231,7 +229,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                app:srcCompat="@drawable/bodygame3_arrow" />
+                android:src="@drawable/bodygame3_arrow" />
 
         </RelativeLayout>
 
@@ -261,8 +259,7 @@
                     android:id="@+id/iv_video1_bg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    />
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/video_type1"
@@ -291,8 +288,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-               >
+                android:layout_weight="1">
 
                 <com.softtek.lai.widgets.RoundImageView
                     android:id="@+id/iv_video2_bg"
@@ -331,9 +327,9 @@
             android:background="#EFECED"
             android:gravity="center"
             android:paddingLeft="10dp"
-            android:visibility="gone"
             android:paddingRight="10dp"
-            android:text="暂无推荐" />
+            android:text="暂无推荐"
+            android:visibility="gone" />
 
         <!--照片墙-->
         <RelativeLayout
@@ -360,8 +356,8 @@
                 android:id="@+id/iv_zhaopianqiang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/bodygame3_arrow" />
 
         </RelativeLayout>

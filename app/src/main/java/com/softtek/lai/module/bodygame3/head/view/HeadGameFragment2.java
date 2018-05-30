@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,7 +32,6 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
-import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame3.head.model.ChooseModel;
@@ -138,6 +136,9 @@ public class HeadGameFragment2 extends Fragment implements View.OnClickListener,
     private String classId_first = "";
     String path = AddressManager.get("photoHost");
     private ArrayList<String> photos = new ArrayList<>();
+
+    private ArrayList<String> photos_clear = new ArrayList<>();
+
     HeadService service;
 
     EasyTypeAdapter<PartnersModel> adapter;
@@ -570,6 +571,11 @@ public class HeadGameFragment2 extends Fragment implements View.OnClickListener,
                                         photos.clear();
                                         viewPager.removeAllViews();
                                         photos.addAll(zhaopianModel.getPhotoThumbnailList());
+
+                                        //存储大图的链接
+                                        photos_clear.clear();
+                                        photos_clear.addAll(zhaopianModel.getPhotoNameList());
+
                                         adapterData();
                                     } else {
                                         rl_container.setVisibility(View.GONE);
@@ -929,6 +935,10 @@ public class HeadGameFragment2 extends Fragment implements View.OnClickListener,
                                 photos.clear();
                                 photos.addAll(zhaopianModel.getPhotoThumbnailList());
 
+                                //存储大图的链接
+                                photos_clear.clear();
+                                photos_clear.addAll(zhaopianModel.getPhotoNameList());
+
                                 adapterData();
                             } else {
                                 rl_container.setVisibility(View.GONE);
@@ -997,7 +1007,7 @@ public class HeadGameFragment2 extends Fragment implements View.OnClickListener,
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), LookBigPicActivity.class);
                         Bundle bundle = new Bundle();
-                        List<EaluationPicBean> list = EvaluateUtil.setupCoords4(getContext(), (ImageView) v, photos, position);
+                        List<EaluationPicBean> list = EvaluateUtil.setupCoords4(getContext(), (ImageView) v, photos_clear, position);
                         bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable) list);
                         intent.putExtras(bundle);
                         intent.putExtra(LookBigPicActivity.CURRENTITEM, position);

@@ -299,6 +299,8 @@ public class HeadGameFragment extends LazyBaseFragment implements SwipeRefreshLa
                                             intent.putExtras(bundle);
                                             startActivity(intent);
 
+                                        }else if (data.getData().isEmpty()){
+                                            Util.toastMsg("未搜索到对应的班级");
                                         }
 
                                     } else if (data.getStatus() == 100) {
