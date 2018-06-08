@@ -102,6 +102,7 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
 
     private static String mobile = "";
     private static boolean isRegistered;//是否已注册
+    public static boolean isPhoneVisible = true;
 
 
     public static Fragment getInstance(String mobileNum, boolean isRegister) {
@@ -205,8 +206,10 @@ public class BasicInfoFragment extends LazyBaseFragment<BasicInfoPresenter> impl
             tv_birthday.setText("生日： " + basicModel.getBirthDay());
             if (basicModel.isSuperior()) {
                 tv_mobile.setText("手机号：" + basicModel.getMobile());
+                isPhoneVisible = true;
             }else {
                 tv_mobile.setText("手机号" + basicModel.getMobile().substring(0,3) + "****" + basicModel.getMobile().substring(7,11));
+                isPhoneVisible = false;
             }
             tv_hight.setText("身高： " + basicModel.getHeight() + "cm");
             tv_roler.setText("职级 ： " + basicModel.getUserRole());
