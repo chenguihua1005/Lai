@@ -51,7 +51,6 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
-import static android.R.attr.value;
 import static com.softtek.lai.R.id.tv_role;
 
 public class MoreHasFragment extends Fragment implements View.OnClickListener {
@@ -106,6 +105,7 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
 
 
         rl_change_role.setOnClickListener(this);
+        EventBus.getDefault().register(this);
 
         //初始当前角色
         if (model != null) {
@@ -240,7 +240,7 @@ public class MoreHasFragment extends Fragment implements View.OnClickListener {
         if (model != null) {
             arrow.setSelected(selected);
         }
-        EventBus.getDefault().register(this);
+
     }
 
     @Override

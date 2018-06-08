@@ -52,6 +52,16 @@ public class BleBasePresenter extends BasePresenter<BleBasePresenter.BleBaseView
                 });
     }
 
+//    public static RestAdapter getRESTAdapter(String host) {
+//        RestAdapter restAdapter = new RestAdapter.Builder()
+//                .setLogLevel(RestAdapter.LogLevel.FULL)
+//                .setEndpoint(host)
+//                .setClient(new MyOkClient())
+//                .build();
+//        return setLog(restAdapter);
+//    }
+
+
     public void checkMac(String token, String mac) {
         LaiApplication.getRESTAdapter(BASE_URL+"DataSync/ExistEquipment/").create(BleService.class)
                 .checkMac(token, mac, new RequestCallback<Response>() {

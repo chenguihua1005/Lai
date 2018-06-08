@@ -20,6 +20,7 @@ import com.softtek.lai.utils.RequestCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
@@ -52,6 +53,11 @@ public class BodyGameListFragment extends Fragment {
                             groupList.addAll(responseData.getData());
                             groupAdapter.notifyDataSetChanged();
                         }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
                     }
                 });
     }
