@@ -235,7 +235,7 @@ public class NewSelfFragment extends Fragment implements View.OnClickListener {
             mLastTime.setText("上次测量：");
         } else {
             mWeightBottom.setText(data.getWeight() + "斤");
-            if (data.getBodyFat() != null) {
+            if (data.getBodyFatRate() != null) {
                 mBodyFatBottom.setText(data.getBodyFatRate() + "%");
             } else {
                 mBodyFatBottom.setText("- -");

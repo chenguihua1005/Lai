@@ -417,7 +417,7 @@ public class NewVisitorFragment extends Fragment implements View.OnClickListener
     String title_value = "莱聚+体测，精彩人生";
     //分享对话框
     private void showDialog() {
-        url = AddressManager.get("shareHost") + "ShareLastRecord?type=0&accountId=" + visitorId;
+        url = AddressManager.get("shareHost") + "ShareLastRecord?type=1&accountId=" + visitorId;
         value = "体重 " + "+" + weight + "斤" + "\n" + "体脂率 " + "+" + bodyFatRate + "\n" + "身体年龄 " + "+" + bodyAge;
         if (dialog == null) {
             dialog = new Dialog(getActivity(), R.style.custom_dialog);
