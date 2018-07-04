@@ -42,7 +42,7 @@ public class HonorAdapter extends BaseExpandableListAdapter {
 
     private final int TYPE_1 = 1;//小组
     private final int TYPE_2 = 2;//班级
-    private boolean isMore = false;
+//    private boolean isMore = false;
 
     public HonorAdapter(Context context, List<String> titiesList, List<List<ListGroupModel>> son_List, String ByWhichRatio) {
         this.context = context;
@@ -66,9 +66,10 @@ public class HonorAdapter extends BaseExpandableListAdapter {
         if (groupPosition >= parents.size()) {
             return 0;
         }
-        if (submit3.size() != 0) {
-            return submit3.size();
-        }
+        //Bugfix，解决只返回三个item的问题
+//        if (submit3.size() != 0) {
+//            return submit3.size();
+//        }
         return son_List != null ? son_List.get(groupPosition).size() : 0;
     }
 
@@ -132,24 +133,25 @@ public class HonorAdapter extends BaseExpandableListAdapter {
 
         if (parentPos < parents.size()) {
             viewHolderFather.tvFather.setText(parents.get(parentPos));
-            if (parentPos == 0 && son_List.get(0).size() > 3 && !isMore) {
-                viewHolderFather.tv_more.setVisibility(View.VISIBLE);
-                viewHolderFather.tv_more.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        isMore = true;
-                        viewHolderFather.tv_more.setVisibility(View.GONE);
-                        List<ListGroupModel> other = new ArrayList<>();
-                        for (ListGroupModel model : son_List.get(0)) {
-                            other.add(model);
-                        }
-                        submit3.addAll(other.subList(3, other.size()));
-                        notifyDataSetChanged();
-                    }
-                });
-            } else {
-                viewHolderFather.tv_more.setVisibility(View.GONE);
-            }
+            viewHolderFather.tv_more.setVisibility(View.GONE);
+//            if (parentPos == 0 && son_List.get(0).size() > 3 && !isMore) {
+//                viewHolderFather.tv_more.setVisibility(View.VISIBLE);
+//                viewHolderFather.tv_more.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        isMore = true;
+//                        viewHolderFather.tv_more.setVisibility(View.GONE);
+//                        List<ListGroupModel> other = new ArrayList<>();
+//                        for (ListGroupModel model : son_List.get(0)) {
+//                            other.add(model);
+//                        }
+//                        submit3.addAll(other.subList(3, other.size()));
+//                        notifyDataSetChanged();
+//                    }
+//                });
+//            } else {
+//                viewHolderFather.tv_more.setVisibility(View.GONE);
+//            }
         }
 
         return view;
